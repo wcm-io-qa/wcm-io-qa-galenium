@@ -22,7 +22,7 @@ Project Specific Non-Test Things
 
 ### Test Device Provider
 
-[TestDeviceProvider](example-project/src/main/io/wcm/qa/galenium/example/TestDeviceProvider.java) is a TestNG data provider supplying the tests with browsers and sizes to be used in tests. 
+[TestDeviceProvider](src/main/io/wcm/qa/galenium/example/TestDeviceProvider.java) is a TestNG data provider supplying the tests with browsers and sizes to be used in tests. 
 
 
 Test Examples
@@ -30,12 +30,12 @@ Test Examples
 
 ### Running a Galen Specification
 
-[GalenSpecIT](example-project/src/test/io/wcm/qa/galenium/example/GalenSpecIT.java) is a simple test demonstrating how to run Galen specifications defined in gspec files. It is as easy as a call to *checkLayout()*.
+[GalenSpecIT](src/test/io/wcm/qa/galenium/example/GalenSpecIT.java) is a simple test demonstrating how to run Galen specifications defined in gspec files. It is as easy as a call to *checkLayout()*.
 
 ### Using Image Comparison Specification Factory
 
-[ImageComparisonExampleIT](example-project/src/test/io/wcm/qa/galenium/example/ImageComparisonExampleIT.java) shows how to use a factory to programmatically create Galen specifications doing image comparison on individual web page elements. The *galenium.imageComparison.save* can be set to *true* to have deviations from expected images or missing expected images trigger saving of actual sampled image. This is useful for initially seeding the test data, but also for quickly establishing a new expected state.  
+[ImageComparisonExampleIT](src/test/io/wcm/qa/galenium/example/ImageComparisonExampleIT.java) shows how to use a factory to programmatically create Galen specifications doing image comparison on individual web page elements. The *galenium.imageComparison.save* can be set to *true* to have deviations from expected images or missing expected images trigger saving of actual sampled image. This is useful for initially seeding the test data, but also for quickly establishing a new expected state.  
 
 ### Selenium Only Navigation
 
-[NavigationExampleIT](example-project/src/test/io/wcm/qa/galenium/example/NavigationExampleIT.java) is just pure Selenium based testing of a web page. Navigates using a link and verifies the URL after clicking.
+[NavigationExampleIT](src/test/io/wcm/qa/galenium/example/NavigationExampleIT.java) is just pure Selenium based testing of a web page. Navigates using a link and verifies the URL after clicking.
