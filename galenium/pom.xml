@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2017 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
+  </parent>
+  
+  <name>Galenium Integration</name>
+  <groupId>io.wcm.qa</groupId>
+  <artifactId>io.wcm.qa.galenium.galenium</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <organization>
+    <name>wcm.io</name>
+    <url>http://wcm.io</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <name>wcm.io</name>
+      <organization>wcm.io</organization>
+      <organizationUrl>http://wcm.io</organizationUrl>
+    </developer>
+  </developers>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.relevantcodes</groupId>
+      <artifactId>extentreports</artifactId>
+  	</dependency>
+  	
+  </dependencies>
+    
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <skip>${integrationtests-skip}</skip>
+            <properties>
+              <property>
+                <name>usedefaultlisteners</name>
+                <value>true</value>
+              </property>
+            </properties>
+            <systemPropertyVariables>
+              <galenium.reportDirectory>${project.build.directory}/galen-reports</galenium.reportDirectory>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
+

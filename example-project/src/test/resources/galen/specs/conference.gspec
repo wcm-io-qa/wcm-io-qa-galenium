@@ -1,0 +1,30 @@
+@objects
+    page                    #page
+    site-header             header.header-site
+    navigation              #nav-main
+    nav-link-*              #nav-main ul.navlist > li.navlink
+    article                 #main article
+    footer                  footer.footer-site
+
+
+= Positioning =
+    = Relative =
+        site-header:
+            above navigation
+            above article
+            above footer
+        navigation:
+            above footer
+            above article
+        article:
+            above footer
+    = Containment =
+        site-header, navigation, article, footer:
+            inside page
+        nav-link-*:
+            inside navigation
+    = Alignment =
+        site-header:
+            aligned horizontally top page
+        footer:
+            aligned horizontally bottom page 1px

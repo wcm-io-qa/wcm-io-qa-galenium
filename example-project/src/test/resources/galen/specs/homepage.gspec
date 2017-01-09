@@ -1,0 +1,43 @@
+@objects
+    page                    #page
+    site-header             header.header-site
+    navigation              #nav-main
+    nav-link-*              #nav-main ul.navlist > li.navlink
+    stage                   #stage
+        image               img
+        overlay             div.stage-overlay
+        title               div.stage-title
+        cta-link-*          div.stageheaderLinkItem
+    article                 #main article
+    teaserbar               #teaserbar
+    footer                  footer.footer-site
+
+@groups
+    content                 article, teaserbar
+
+= Positioning =
+    = Relative =
+        site-header:
+            above navigation
+            above stage
+            above footer
+        navigation:
+            above stage
+            above footer
+        &content:
+            below stage
+            below navigation
+            below site-header
+            above footer
+        teaserbar:
+            above footer
+    = Containment =
+        site-header, navigation, stage, &content, teaserbar, footer:
+            inside page
+        nav-link-*:
+            inside navigation
+    = Alignment =
+        site-header:
+            aligned horizontally top page
+        footer:
+            aligned horizontally bottom page 1px

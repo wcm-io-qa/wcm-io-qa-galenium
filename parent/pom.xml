@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2017 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.maven</groupId>
+    <artifactId>io.wcm.maven.global-parent</artifactId>
+    <version>13</version>
+    <relativePath />
+  </parent>
+
+  <name>Galenium Integration Parent</name>
+  <groupId>io.wcm.qa</groupId>
+  <artifactId>io.wcm.qa.galenium.parent</artifactId>
+  <packaging>pom</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <description>Test automation module. Enabling Galen and Selenium</description>
+  <inceptionYear>2017</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <properties>
+
+    <integrationtests.skip>false</integrationtests.skip>
+    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+
+    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
+    http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
+    <testNG.groups></testNG.groups>
+    <selenium.browser>firefox</selenium.browser>
+    <galen.device></galen.device>
+    <selenium.chromeEmulator>Google Nexus 7, Apple iPhone 6, Apple iPad, Laptop with HiDPI screen, Amazon Kindle Fire HDX</selenium.chromeEmulator>
+
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+    
+      <!-- Testing frameworks -->
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.9.10</version>
+      </dependency>
+  
+      <dependency>
+        <groupId>com.galenframework</groupId>
+        <artifactId>galen-java-support</artifactId>
+        <version>2.3.1</version>
+      </dependency>
+  
+      <!-- Reporting -->
+      <dependency>
+        <groupId>com.relevantcodes</groupId>
+        <artifactId>extentreports</artifactId>
+        <version>2.41.2</version>
+      </dependency>
+  
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <groups>${testNG.groups}</groups>
+          <systemPropertyVariables>
+
+            <io.wcm.qa.baseUrl>NEED_TO_CONFIGURE_io.wcm.qa.baseUrl</io.wcm.qa.baseUrl>
+
+            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+
+            <!-- Selenium -->
+            <selenium.browser>${selenium.browser}</selenium.browser>
+            <galen.device>${galen.device}</galen.device>
+            <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+            <selenium.runmode>local</selenium.runmode>
+
+          </systemPropertyVariables>
+          <properties>
+            <property>
+              <name>reporter</name>
+              <value>io.wcm.qa.galenium.GaleniumReporter</value>
+            </property>
+          </properties>
+          <includes>
+            <include>**/*IT.java</include>
+            <include>**/*GalenSuiteRunner.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.19</version>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <configuration>
+            <licenseName>apache_v2</licenseName>
+            <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+            <projectName>wcm.io.qa.galenium</projectName>
+            <excludes>
+              <exclude>**/*.json</exclude>
+              <exclude>**/*.html</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>remote-grid</id>
+      <activation>
+        <property>
+          <name>remote-grid profile</name>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+
+              <parallel>methods</parallel>
+              <threadCount>2</threadCount>
+
+              <systemPropertyVariables>
+
+                <selenium.host>NEED_TO_CONFIGURE_selenium.host</selenium.host>
+                <selenium.port>4444</selenium.port>
+                <selenium.runmode>remote</selenium.runmode>
+
+              </systemPropertyVariables>
+              <properties>
+                <property>
+                  <name>reporter</name>
+                  <value>io.wcm.qa.galenium.GaleniumReporter</value>
+                </property>
+              </properties>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>local-dev</id>
+      <activation>
+        <property>
+          <name>galenium-dev</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <selenium.runmode>dev</selenium.runmode>
+                <frontend.baseUrl>http://localhost</frontend.baseUrl>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+
+        </plugins>
+
+      </build>
+    </profile>
+  </profiles>
+
+</project>
