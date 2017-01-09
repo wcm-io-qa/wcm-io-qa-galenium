@@ -1,4 +1,4 @@
-<img src="http://wcm.io/images/favicon-16@2x.png"/> Selenium-Galen-Integration
+<img src="http://wcm.io/images/favicon-16@2x.png"/> Selenium Galen Integration
 ==========================
 [![Build Status](https://travis-ci.org/wcm-io-qa/wcm-io-qa-galenium.png?branch=develop)](https://travis-ci.org/wcm-io-qa/wcm-io-qa-galenium) 
 
