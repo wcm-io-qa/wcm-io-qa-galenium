@@ -115,31 +115,14 @@
             <!-- Copy ChromeDriver to project root or set this property to the path to your ChromeDriver -->
             <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
             
+            <!-- TestNG -->
+            <integrationtests.skip>true</integrationtests.skip>
+            
           </systemPropertyVariables>
           <includes>
             <include>**/*IT.java</include>
           </includes>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.lazerycode.selenium</groupId>
-        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-        <version>1.0.10</version>
-        <configuration>
-          <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-          <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-          <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-          <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
-          <checkFileHashes>false</checkFileHashes>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>selenium</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
       <plugin>
@@ -157,5 +140,36 @@
       </plugin>
     </plugins>
   </build>
+	<profiles>
+		<profile>
+			<id>example</id>
+			<properties>
+				<integrationtests.skip>false</integrationtests.skip>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.lazerycode.selenium</groupId>
+						<artifactId>driver-binary-downloader-maven-plugin</artifactId>
+						<version>1.0.10</version>
+						<configuration>
+							<rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
+							<downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
+							<onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+							<customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
+							<checkFileHashes>false</checkFileHashes>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>selenium</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
