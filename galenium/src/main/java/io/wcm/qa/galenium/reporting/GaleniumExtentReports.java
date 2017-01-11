@@ -19,7 +19,9 @@
  */
 package io.wcm.qa.galenium.reporting;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +31,14 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.NetworkMode;
 import com.relevantcodes.extentreports.model.Test;
 
-
+/**
+ * Handles closing of reports a little more gracefully than the original.
+ */
 class GaleniumExtentReports extends ExtentReports {
 
   private static final long serialVersionUID = 1L;
   private boolean closed;
+  private Map<String, ExtentTest> map = new HashMap<String, ExtentTest>();
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GaleniumExtentReports.class);
@@ -54,6 +59,7 @@ class GaleniumExtentReports extends ExtentReports {
       log.error("attempting to close closed ExtentReports:\n" + stacktraceString.toString());
     }
     closeAllTests();
+    map.clear();
     super.close();
   }
 
@@ -70,4 +76,24 @@ class GaleniumExtentReports extends ExtentReports {
       }
     }
   }
+
+  @Override
+  protected void updateTestQueue(ExtentTest extentTest) {
+    addExtentTest(extentTest);
+    super.updateTestQueue(extentTest);
+  }
+
+  private ExtentTest addExtentTest(ExtentTest extentTest) {
+    return map.put(extentTest.getTest().getName(), extentTest);
+  }
+
+  public ExtentTest getExtentTest(String name) {
+    if (!map.containsKey(name)) {
+      ExtentTest extentTest = new ExtentTest(name, "");
+      addExtentTest(extentTest);
+      return extentTest;
+    }
+    return map.get(name);
+  }
+
 }

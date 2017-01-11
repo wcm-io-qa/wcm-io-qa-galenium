@@ -39,6 +39,7 @@
     <module>parent</module>
     <module>galenium</module>
     <module>example-project</module>
+    <module>log4j-extent</module>
   </modules>
 
   <build>

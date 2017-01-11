@@ -36,6 +36,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
@@ -52,6 +54,15 @@ import com.relevantcodes.extentreports.ReporterType;
  * Utility class containing methods handling reporting.
  */
 public final class GalenReportUtil {
+
+  /** For all special ExtentReports events. */
+  public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
+  /** For special FAIL log status. */
+  public static final Marker MARKER_FAIL = MarkerFactory.getMarker("FAIL");
+  /** For special PASS log status. */
+  public static final Marker MARKER_PASS = MarkerFactory.getMarker("PASS");
+  /** For special SKIP log status. */
+  public static final Marker MARKER_SKIP = MarkerFactory.getMarker("SKIP");
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GalenReportUtil.class);
@@ -82,6 +93,10 @@ public final class GalenReportUtil {
     }
 
     EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
+
+    MARKER_FAIL.add(MARKER_EXTENT_REPORT);
+    MARKER_SKIP.add(MARKER_EXTENT_REPORT);
+    MARKER_PASS.add(MARKER_EXTENT_REPORT);
   }
 
   // Galen
@@ -200,6 +215,14 @@ public final class GalenReportUtil {
       extentTest = reportable.getExtentTest();
     }
     return extentTest;
+  }
+
+  /**
+   * @param name test name to retrieve test
+   * @return test report associated with result
+   */
+  public static ExtentTest getExtentTest(String name) {
+    return EXTENT_REPORTS.getExtentTest(name);
   }
 
   private static ExtentReports getExtentReport(ITestResult result) {
