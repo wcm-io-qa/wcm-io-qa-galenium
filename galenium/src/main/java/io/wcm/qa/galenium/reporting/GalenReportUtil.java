@@ -57,12 +57,14 @@ public final class GalenReportUtil {
 
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
+  /** For special FATAL log status. */
+  public static final Marker MARKER_FATAL = getMarker(LogStatus.FATAL);
   /** For special FAIL log status. */
-  public static final Marker MARKER_FAIL = MarkerFactory.getMarker("FAIL");
+  public static final Marker MARKER_FAIL = getMarker(LogStatus.FAIL);
   /** For special PASS log status. */
-  public static final Marker MARKER_PASS = MarkerFactory.getMarker("PASS");
+  public static final Marker MARKER_PASS = getMarker(LogStatus.PASS);
   /** For special SKIP log status. */
-  public static final Marker MARKER_SKIP = MarkerFactory.getMarker("SKIP");
+  public static final Marker MARKER_SKIP = getMarker(LogStatus.SKIP);
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GalenReportUtil.class);
@@ -93,10 +95,6 @@ public final class GalenReportUtil {
     }
 
     EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
-
-    MARKER_FAIL.add(MARKER_EXTENT_REPORT);
-    MARKER_SKIP.add(MARKER_EXTENT_REPORT);
-    MARKER_PASS.add(MARKER_EXTENT_REPORT);
   }
 
   // Galen
@@ -182,7 +180,7 @@ public final class GalenReportUtil {
         File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
         FileUtils.copyFile(screenshotFile, destFile);
         destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
-        ExtentTest extentTest = GalenReportUtil.getExtentTest(result);
+        ExtentTest extentTest = getExtentTest(result);
         String screenCapture = extentTest.addScreenCapture(destScreenshotFilePath);
         extentTest.log(LogStatus.INFO, screenCapture);
       }
@@ -205,16 +203,10 @@ public final class GalenReportUtil {
   }
 
   /**
-   * @param result source for {@link ExtentReportable}
    * @return test report associated with result
    */
   public static ExtentTest getExtentTest(ITestResult result) {
-    ExtentTest extentTest = null;
-    ExtentReportable reportable = getReportableFromResult(result);
-    if (reportable != null) {
-      extentTest = reportable.getExtentTest();
-    }
-    return extentTest;
+    return getExtentTest(result.getTestName());
   }
 
   /**
@@ -225,29 +217,7 @@ public final class GalenReportUtil {
     return EXTENT_REPORTS.getExtentTest(name);
   }
 
-  private static ExtentReports getExtentReport(ITestResult result) {
-    ExtentReports extentReport = null;
-    ExtentReportable reportable = getReportableFromResult(result);
-    if (reportable != null) {
-      extentReport = reportable.getExtentReport();
-    }
-    return extentReport;
-  }
-
-  private static ExtentReportable getReportableFromResult(ITestResult result) {
-    Object instance = result.getInstance();
-    ExtentReportable reportable = null;
-    if (instance instanceof HasReportable) {
-      reportable = ((HasReportable)instance).getReportable();
-    }
-    else if (instance instanceof ExtentReportable) {
-      reportable = (ExtentReportable)instance;
-    }
-    return reportable;
-  }
-
   /**
-   * @param result to retrieve {@link ExtentReportable}
    * @param status status to use for final message
    * @param details final message
    */
@@ -255,8 +225,12 @@ public final class GalenReportUtil {
     ExtentTest extentTest = getExtentTest(result);
     extentTest.log(status, details);
     TestInfoUtil.assignCategories(extentTest, result);
-    ExtentReports extentReport = getExtentReport(result);
-    extentReport.endTest(extentTest);
+    EXTENT_REPORTS.endTest(extentTest);
   }
 
+  private static Marker getMarker(LogStatus logStatus) {
+    Marker marker = MarkerFactory.getMarker(logStatus.name());
+    marker.add(MARKER_EXTENT_REPORT);
+    return marker;
+  }
 }

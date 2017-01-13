@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium;
 
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
+import io.wcm.qa.galenium.reporting.GalenReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.InteractionUtil;
@@ -54,7 +55,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   protected WebElement getElementVisible(Selector selector, int howLong) {
     WebElement elementVisible = InteractionUtil.getElementVisible(getDriver(), selector, howLong);
     if (elementVisible != null) {
-      debugPassed("found '" + selector.elementName() + "'");
+      getLogger().debug(GalenReportUtil.MARKER_PASS, "found '" + selector.elementName() + "'");
     }
     return elementVisible;
   }
@@ -62,23 +63,23 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   protected void assertElementVisible(String message, Selector selector) {
     WebDriver driver = getDriver();
     assertNotNull(InteractionUtil.getElementVisible(driver, selector, 10), message);
-    debugPassed("visible: " + selector.elementName());
+    getLogger().debug(GalenReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 
   protected void assertElementNotVisible(String message, Selector selector) {
     assertNull(getElementVisible(selector), message);
-    debugPassed("not visible: " + selector.elementName());
+    getLogger().debug(GalenReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
   }
 
   protected void clickByPartialText(String searchStr, Selector selector) {
-    debugInfo("looking for pattern: " + searchStr);
+    getLogger().debug("looking for pattern: " + searchStr);
     WebElement element = findByPartialText(searchStr, selector);
     if (element != null) {
-      debugInfo("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
+      getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
       element.click();
     }
     else {
-      debugInfo("did not find anything for: " + searchStr + " AND " + selector.elementName());
+      getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
     }
   }
 
@@ -89,26 +90,26 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   protected WebElement getElementOrFail(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
     if (element == null) {
-      debugFailed("could not find '" + selector.elementName() + "'");
+      getLogger().debug(GalenReportUtil.MARKER_FAIL, "could not find '" + selector.elementName() + "'");
     }
     assertNotNull(element, "Visibility: '" + selector.elementName() + "'");
     return element;
   }
 
   protected void mouseOver(Selector selector) {
-    debugInfo("attempting mouse over: " + selector.elementName());
+    getLogger().debug("attempting mouse over: " + selector.elementName());
     WebDriver driver = getDriver();
     List<WebElement> mouseOverElements = driver.findElements(selector.asBy());
     if (!mouseOverElements.isEmpty()) {
       WebElement mouseOverElement = mouseOverElements.get(0);
       if (mouseOverElement.isDisplayed()) {
-        debugInfo("Moving to element: " + mouseOverElement);
+        getLogger().debug("Moving to element: " + mouseOverElement);
         Actions actions = new Actions(driver);
         actions.moveToElement(mouseOverElement).perform();
       }
     }
     else {
-      debugInfo("no elements found.");
+      getLogger().debug("no elements found.");
     }
   }
 
@@ -116,9 +117,9 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     List<WebElement> elements = findElements(selector);
 
     for (WebElement element : elements) {
-      debugInfo("found element with " + selector.elementName() + ": " + element);
+      getLogger().debug("found element with " + selector.elementName() + ": " + element);
       if (element.isDisplayed()) {
-        debugInfo("clicking element: " + element);
+        getLogger().debug("clicking element: " + element);
         element.click();
         return;
       }
@@ -127,17 +128,17 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
 
   protected void click(Selector selector) {
     getElementOrFail(selector).click();
-    debugPassed("clicked '" + selector.elementName() + "'");
+    getLogger().debug(GalenReportUtil.MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }
 
   protected void clickIfVisible(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
     if (element != null) {
       element.click();
-      debugPassed("clicked optional '" + selector.elementName() + "'");
+      getLogger().debug(GalenReportUtil.MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
     }
     else {
-      debugInfo("did not click optional '" + selector.elementName() + "'");
+      getLogger().debug("did not click optional '" + selector.elementName() + "'");
     }
   }
 
@@ -154,7 +155,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected void checkLayout(String testName, String specPath) {
-    debugInfo("checking layout: " + specPath);
+    getLogger().debug("checking layout: " + specPath);
     LayoutReport layoutReport = GalenLayoutChecker.checkLayout(testName, specPath, getDevice(), getValidationListener());
     handleLayoutReport(specPath, layoutReport);
   }
@@ -171,7 +172,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected ValidationListener getValidationListener() {
-    return new ImageComparisonValidationListener(getLogging());
+    return new ImageComparisonValidationListener(getLogger());
   }
 
   protected void loadUrlExactly(String url) {
@@ -181,14 +182,14 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
 
   protected void loadUrl(String url) {
     WebDriver driver = getDriver();
-    debugInfo("loading URL: <a href=\"" + url + "\">" + url + "</a>");
+    getLogger().debug("loading URL: <a href=\"" + url + "\">" + url + "</a>");
     driver.get(url);
     if (!isCurrentUrl(url)) {
       String currentUrl = getDriver().getCurrentUrl();
-      debugUnknown("landed on URL: <a href=\"" + currentUrl + "\">" + currentUrl + "</a>");
+      getLogger().debug("landed on URL: <a href=\"" + currentUrl + "\">" + currentUrl + "</a>");
     }
     else {
-      debugPassed("landed on URL: <a href=\"" + url + "\">" + url + "</a>");
+      getLogger().debug(GalenReportUtil.MARKER_PASS, "landed on URL: <a href=\"" + url + "\">" + url + "</a>");
     }
   }
 

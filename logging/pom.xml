@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>io.wcm.qa.galenium.logging</artifactId>
+  <groupId>io.wcm.qa</groupId>
+  <packaging>jar</packaging>
+  <name>SLF4J ExtentReports Binding</name>
+  <description>SLF4J ExtentReports Binding</description>
+
+  <properties>
+    <galenium.version>0.0.1-SNAPSHOT</galenium.version>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.relevantcodes</groupId>
+      <artifactId>extentreports</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galenium</artifactId>
+      <version>${galenium.version}</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

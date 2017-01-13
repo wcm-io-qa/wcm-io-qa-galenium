@@ -19,8 +19,9 @@
  */
 package io.wcm.qa.galenium;
 
-import io.wcm.qa.galenium.reporting.GaleniumLogging;
+import io.wcm.qa.galenium.reporting.GalenReportUtil;
 
+import org.slf4j.Logger;
 import org.testng.asserts.IAssert;
 import org.testng.asserts.SoftAssert;
 
@@ -29,41 +30,35 @@ import org.testng.asserts.SoftAssert;
  */
 public class GaleniumSoftAssertion extends SoftAssert {
 
-  private GaleniumLogging logging;
+  private Logger logger;
 
   /**
-   * @param logging reporting delegate
+   * @param logger reporting delegate
    */
-  public GaleniumSoftAssertion(GaleniumLogging logging) {
-    this.setLogging(logging);
+  public GaleniumSoftAssertion(Logger logger) {
+    this.setLogger(logger);
   }
 
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
-    if (getLogging().isDebugging()) {
-      StringBuilder message = new StringBuilder();
-      message.append("PASSED: ");
-      message.append(assertCommand.getMessage());
-      message.append(" (actual: ");
-      message.append(assertCommand.getActual());
-      message.append(")");
-      getLogging().debugPassed(message.toString());
+    if (getLogger().isDebugEnabled()) {
+      getLogger().debug(GalenReportUtil.MARKER_PASS, "PASSED: {0} (actual: {1})", assertCommand.getMessage(), assertCommand.getActual());
     }
     super.onAssertSuccess(assertCommand);
   }
 
   @Override
   public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
-    getLogging().reportFailed(assertCommand.getMessage());
+    getLogger().error(GalenReportUtil.MARKER_FAIL, assertCommand.getMessage());
     super.onAssertFailure(assertCommand, ex);
   }
 
-  private GaleniumLogging getLogging() {
-    return logging;
+  public Logger getLogger() {
+    return logger;
   }
 
-  private void setLogging(GaleniumLogging logging) {
-    this.logging = logging;
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 
 }

@@ -19,11 +19,7 @@
  */
 package io.wcm.qa.galenium;
 
-import io.wcm.qa.galenium.reporting.ExtentReportable;
-import io.wcm.qa.galenium.reporting.GaleniumLogging;
-import io.wcm.qa.galenium.reporting.GaleniumLoggingAdapter;
-import io.wcm.qa.galenium.reporting.GaleniumReportable;
-import io.wcm.qa.galenium.reporting.HasReportable;
+import io.wcm.qa.galenium.reporting.GalenReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GridHostExtractor;
 import io.wcm.qa.galenium.util.TestDevice;
@@ -35,6 +31,8 @@ import java.util.Set;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
 import org.testng.asserts.Assertion;
@@ -42,12 +40,11 @@ import org.testng.asserts.Assertion;
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
  */
-public abstract class AbstractGaleniumBase implements ITest, GaleniumLogging, HasReportable {
+public abstract class AbstractGaleniumBase implements ITest {
 
   private Assertion assertion;
   private TestDevice device;
-  private GaleniumLogging logging;
-  private ExtentReportable reportable;
+  private Logger logger;
 
   /**
    * Constructor.
@@ -55,8 +52,7 @@ public abstract class AbstractGaleniumBase implements ITest, GaleniumLogging, Ha
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
-    setReportable(new GaleniumReportable(getTestName()));
-    setLogging(new GaleniumLoggingAdapter(getReportable()));
+    setLogger(LoggerFactory.getLogger(getTestName()));
   }
 
   protected void assertEquals(boolean actual, boolean expected) {
@@ -255,69 +251,23 @@ public abstract class AbstractGaleniumBase implements ITest, GaleniumLogging, Ha
     getAssertion().assertTrue(condition, message);
   }
 
-  @Override
-  public void assignCategory(String category) {
-    getLogging().assignCategory(category);
-  }
-
-  @Override
-  public void debugAndIgnoreException(Throwable ex) {
-    getLogging().debugAndIgnoreException(ex);
-  }
-
-  @Override
-  public void debugException(Throwable ex) {
-    getLogging().debugException(ex);
-  }
-
-  @Override
-  public void debugFailed(String msg) {
-    getLogging().debugFailed(msg);
-  }
-
-  @Override
-  public void debugInfo(String msg) {
-    getLogging().debugInfo(msg);
-  }
-
-  @Override
-  public void debugPassed(String msg) {
-    getLogging().debugPassed(msg);
-  }
-
-  @Override
-  public void debugSkip(String msg) {
-    getLogging().debugSkip(msg);
-  }
-
-  @Override
-  public void debugUnknown(String msg) {
-    getLogging().debugUnknown(msg);
-  }
-
-  @Override
-  public void debugWarning(String msg) {
-    getLogging().debugWarning(msg);
-  }
-
   protected void fail() {
-    reportFailed("Failed without message.");
-    getAssertion().fail();
+    fail("Failed without message.");
   }
 
   protected void fail(String message) {
-    reportFailed(message);
+    getLogger().error(GalenReportUtil.MARKER_FAIL, message);
     getAssertion().fail(message);
   }
 
   protected void fail(String message, Throwable realCause) {
-    reportException(realCause);
+    getLogger().error(GalenReportUtil.MARKER_FAIL, message, realCause);
     getAssertion().fail(message, realCause);
   }
 
   protected Assertion getAssertion() {
     if (assertion == null) {
-      assertion = new GaleniumAssertion(getLogging());
+      assertion = new GaleniumAssertion(getLogger());
     }
     return assertion;
   }
@@ -346,63 +296,9 @@ public abstract class AbstractGaleniumBase implements ITest, GaleniumLogging, Ha
     return "NOT_REMOTE";
   }
 
-  protected GaleniumLogging getLogging() {
-    return logging;
-  }
-
-  @Override
-  public ExtentReportable getReportable() {
-    return reportable;
-  }
-
   @Override
   public String getTestName() {
     return getClass().getSimpleName() + "/" + getDevice();
-  }
-
-  @Override
-  public boolean isDebugging() {
-    return !GaleniumConfiguration.isSparseReporting();
-  }
-
-  @Override
-  public void reportException(Throwable ex) {
-    getLogging().reportException(ex);
-  }
-
-  @Override
-  public void reportFailed(String msg) {
-    getLogging().reportFailed(msg);
-  }
-
-  @Override
-  public void reportFatal(String msg) {
-    getLogging().reportFatal(msg);
-  }
-
-  @Override
-  public void reportFatalException(Throwable ex) {
-    getLogging().reportFatalException(ex);
-  }
-
-  @Override
-  public void reportInfo(String msg) {
-    getLogging().reportInfo(msg);
-  }
-
-  @Override
-  public void reportPassed(String msg) {
-    getLogging().reportPassed(msg);
-  }
-
-  @Override
-  public void reportSkip(String msg) {
-    getLogging().reportSkip(msg);
-  }
-
-  @Override
-  public void reportWarning(String msg) {
-    getLogging().reportWarning(msg);
   }
 
   protected void setAssertion(Assertion assertion) {
@@ -413,23 +309,22 @@ public abstract class AbstractGaleniumBase implements ITest, GaleniumLogging, Ha
     this.device = device;
   }
 
-  protected void setLogging(GaleniumLogging logging) {
-    this.logging = logging;
-  }
-
-  public void setReportable(ExtentReportable reportable) {
-    this.reportable = reportable;
-  }
-
   protected void skipTest(String skipMessage) {
-    reportSkip("Skipping: " + skipMessage);
+    getLogger().info(GalenReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
     throw new SkipException(skipMessage);
   }
 
   protected void skipTest(String skipMessage, Throwable ex) {
-    debugAndIgnoreException(ex);
-    reportSkip("Skipping: " + getTestName());
+    getLogger().info(GalenReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
+  }
+
+  public Logger getLogger() {
+    return logger;
+  }
+
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 
 }
