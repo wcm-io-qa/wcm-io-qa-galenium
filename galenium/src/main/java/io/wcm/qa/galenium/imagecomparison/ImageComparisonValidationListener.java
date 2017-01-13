@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.galenium.imagecomparison;
 
-import io.wcm.qa.galenium.reporting.GaleniumLogging;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 import java.awt.image.BufferedImage;
@@ -56,14 +55,14 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
-  private GaleniumLogging logging;
+  private Logger logger;
 
   /**
    * Constructor.
-   * @param galeniumLogging delegate for reporting
+   * @param logger delegate for reporting
    */
-  public ImageComparisonValidationListener(GaleniumLogging galeniumLogging) {
-    setLogging(galeniumLogging);
+  public ImageComparisonValidationListener(Logger logger) {
+    setLogger(logger);
   }
 
   @Override
@@ -83,7 +82,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
               actualImage = pageElementImage;
             }
           }
-          debugUnknown("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
+          getLogger().debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
           try {
             File imageFile = getImageFile(imagePath);
             ImageIO.write(actualImage, "png", imageFile);
@@ -91,13 +90,13 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
           catch (IOException ex) {
             String msg = "could not write image: " + imagePath;
             log.error(msg, ex);
-            debugUnknown(msg);
+            getLogger().error(msg, ex);
           }
         }
         else {
           String msg = "could not extract image name from: " + text;
           log.warn(msg);
-          debugUnknown(msg);
+          getLogger().warn(msg);
         }
       }
     }
@@ -134,7 +133,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     File imageFile = new File(path);
     File parentFile = imageFile.getParentFile();
     if (!parentFile.isDirectory()) {
-      debugUnknown("creating directory: " + parentFile.getPath());
+      getLogger().debug("creating directory: " + parentFile.getPath());
       FileUtils.forceMkdir(parentFile);
     }
     return imageFile;
@@ -161,19 +160,15 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   }
 
   protected void logSpec(Spec spec) {
-    debugUnknown("checking failed spec for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
+    getLogger().debug("checking failed spec for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
   }
 
-  protected void debugUnknown(String msg) {
-    logging.debugUnknown(msg);
+  public Logger getLogger() {
+    return logger;
   }
 
-  private void setLogging(GaleniumLogging galeniumLogging) {
-    logging = galeniumLogging;
-  }
-
-  public GaleniumLogging getLogging() {
-    return this.logging;
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 
 }

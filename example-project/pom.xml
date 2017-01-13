@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  #%L
-  wcm.io
-  %%
-  Copyright (C) 2017 wcm.io
-  %%
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-       http://www.apache.org/licenses/LICENSE-2.0
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-  #L%
-  -->
+<!-- #%L wcm.io %% Copyright (C) 2017 wcm.io %% Licensed under the Apache 
+  License, Version 2.0 (the "License"); you may not use this file except in 
+  compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+  Unless required by applicable law or agreed to in writing, software distributed 
+  under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+  OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+  the specific language governing permissions and limitations under the License. 
+  #L% -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -43,18 +35,19 @@
     <selenium.runmode>local</selenium.runmode>
 
     <!-- TestNG configuration -->
-    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG  http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
-    <testng.groups/>
-    
+    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
+      http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
+    <testng.groups />
+
     <integrationtests.skip>true</integrationtests.skip>
-    
+
     <!-- compiler settings -->
     <build.compiler.source>1.8</build.compiler.source>
     <build.compiler.target>1.8</build.compiler.target>
-    
+
     <!-- needed by the maven-failsafe-plugin -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    
+
     <!-- Galenium -->
     <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
     <galenium.retryMax>0</galenium.retryMax>
@@ -68,6 +61,17 @@
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
       <version>${galenium.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.logging</artifactId>
+      <version>${galenium.version}</version>
     </dependency>
 
   </dependencies>
@@ -77,97 +81,97 @@
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-          <artifactId>license-maven-plugin</artifactId>
-          <configuration>
-            <licenseName>apache_v2</licenseName>
-            <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-            <projectName>wcm.io.qa.galenium.example</projectName>
-            <excludes>
-              <exclude>**/*.json</exclude>
-              <exclude>**/*.html</exclude>
-            </excludes>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <licenseName>apache_v2</licenseName>
+          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+          <projectName>wcm.io.qa.galenium.example</projectName>
+          <excludes>
+            <exclude>**/*.json</exclude>
+            <exclude>**/*.html</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
   </build>
-	<profiles>
-		<profile>
-			<id>example</id>
-			<properties>
-				<integrationtests.skip>false</integrationtests.skip>
-			</properties>
-			<build>
-				<plugins>
+  <profiles>
+    <profile>
+      <id>example</id>
+      <properties>
+        <integrationtests.skip>false</integrationtests.skip>
+      </properties>
+      <build>
+        <plugins>
 
-		      <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-failsafe-plugin</artifactId>
-		        <configuration>
-		          <groups>${testNG.groups}</groups>
-		          <properties>
-		            <property>
-		              <name>usedefaultlisteners</name>
-		              <value>false</value>
-		            </property>
-		            <property>
-		              <name>listener</name>
-		              <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
-		            </property>
-		          </properties>
-		          <systemPropertyVariables>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <groups>${testNG.groups}</groups>
+              <properties>
+                <property>
+                  <name>usedefaultlisteners</name>
+                  <value>false</value>
+                </property>
+                <property>
+                  <name>listener</name>
+                  <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+                </property>
+              </properties>
+              <systemPropertyVariables>
 
-		            <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
-		
-		            <!-- Galenium -->
-		            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-		            <galenium.specPath>${galenium.specPath}</galenium.specPath>
-		            <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
-		            <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
-		            <galenium.imageComparison.save>true</galenium.imageComparison.save>
-		            <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
-		            <galenium.textComparison.save>true</galenium.textComparison.save>
-		            <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
-		
-		            <!-- Galen -->
-		            <galen.device>${galen.device}</galen.device>
-		            <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
-		            
-		            <!-- Selenium -->
-		            <selenium.browser>${selenium.browser}</selenium.browser>
-		            <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-		            <selenium.runmode>${selenium.runmode}</selenium.runmode>
-		
-		            <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-		          </systemPropertyVariables>
-		          <includes>
-		            <include>**/*IT.java</include>
-		          </includes>
-		        </configuration>
-		      </plugin>
+                <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
 
-					<plugin>
-						<groupId>com.lazerycode.selenium</groupId>
-						<artifactId>driver-binary-downloader-maven-plugin</artifactId>
-						<version>1.0.10</version>
-						<configuration>
-							<rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-							<downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-							<onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-							<customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
-							<checkFileHashes>false</checkFileHashes>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>selenium</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
+                <!-- Galenium -->
+                <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+                <galenium.specPath>${galenium.specPath}</galenium.specPath>
+                <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
+                <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
+                <galenium.imageComparison.save>true</galenium.imageComparison.save>
+                <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
+                <galenium.textComparison.save>true</galenium.textComparison.save>
+                <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
 
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+                <!-- Galen -->
+                <galen.device>${galen.device}</galen.device>
+                <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
+
+                <!-- Selenium -->
+                <selenium.browser>${selenium.browser}</selenium.browser>
+                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+                <selenium.runmode>${selenium.runmode}</selenium.runmode>
+
+                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+              </systemPropertyVariables>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>com.lazerycode.selenium</groupId>
+            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+            <version>1.0.10</version>
+            <configuration>
+              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
+              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
+              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
+              <checkFileHashes>false</checkFileHashes>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>selenium</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

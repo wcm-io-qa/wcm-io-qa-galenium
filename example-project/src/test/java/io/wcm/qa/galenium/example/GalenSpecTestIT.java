@@ -46,20 +46,18 @@ public class GalenSpecTestIT extends AbstractExampleBase {
 
   @Test
   public void checkHomepageWithGalenSpec() {
-    reportInfo("Testing Homepage");
+    getLogger().info("Testing Homepage");
     loadStartUrl();
     checkLayout("Homepage", SPEC_PATH_FOR_HOMEPAGE);
   }
 
-
   @Test
   public void checkConferencePageWithNavigationAndGalenSpec() {
-    reportInfo("Testing Conference Page");
+    getLogger().info("Testing Conference Page");
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
     checkLayout("Conference Page", SPEC_PATH_FOR_CONFERENCE_PAGE);
   }
-
 
 }

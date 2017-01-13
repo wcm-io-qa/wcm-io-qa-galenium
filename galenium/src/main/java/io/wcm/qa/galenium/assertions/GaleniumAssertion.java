@@ -17,53 +17,48 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
+package io.wcm.qa.galenium.assertions;
 
-import io.wcm.qa.galenium.reporting.GaleniumLogging;
+import io.wcm.qa.galenium.reporting.GalenReportUtil;
 
+import org.slf4j.Logger;
+import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;
-import org.testng.asserts.SoftAssert;
 
 /**
- * Soft assertion with Galenium reporting integration.
+ * Assertion with Galenium reporting integration.
  */
-public class GaleniumSoftAssertion extends SoftAssert {
+public class GaleniumAssertion extends Assertion {
 
-  private GaleniumLogging logging;
+  private Logger logger;
 
   /**
-   * @param logging reporting delegate
+   * @param logger logger
    */
-  public GaleniumSoftAssertion(GaleniumLogging logging) {
-    this.setLogging(logging);
+  public GaleniumAssertion(Logger logger) {
+    setLogger(logger);
   }
 
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
-    if (getLogging().isDebugging()) {
-      StringBuilder message = new StringBuilder();
-      message.append("PASSED: ");
-      message.append(assertCommand.getMessage());
-      message.append(" (actual: ");
-      message.append(assertCommand.getActual());
-      message.append(")");
-      getLogging().debugPassed(message.toString());
+    if (getLogger().isDebugEnabled()) {
+      getLogger().debug(GalenReportUtil.MARKER_PASS, "PASSED: {} (actual: {})", assertCommand.getMessage(), assertCommand.getActual());
     }
     super.onAssertSuccess(assertCommand);
   }
 
   @Override
   public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
-    getLogging().reportFailed(assertCommand.getMessage());
+    getLogger().error(GalenReportUtil.MARKER_FAIL, assertCommand.getMessage());
     super.onAssertFailure(assertCommand, ex);
   }
 
-  private GaleniumLogging getLogging() {
-    return logging;
+  public Logger getLogger() {
+    return logger;
   }
 
-  private void setLogging(GaleniumLogging logging) {
-    this.logging = logging;
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 
 }

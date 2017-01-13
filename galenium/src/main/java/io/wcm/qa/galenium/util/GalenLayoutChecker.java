@@ -100,10 +100,10 @@ public final class GalenLayoutChecker {
     }
 
     // Creating an object that will contain the information about the test
-    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.getFullInfo());
+    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.toString());
 
     // Adding layout report to the test report
-    test.getReport().layout(layoutReport, "check layout on " + getDriver(device).getCurrentUrl() + " with device: " + device.getFullInfo());
+    test.getReport().layout(layoutReport, "check layout on " + getDriver(device).getCurrentUrl() + " with device: " + device.toString());
 
     GalenReportUtil.addGalenResult(test);
 
@@ -116,7 +116,7 @@ public final class GalenLayoutChecker {
         prettyStringResult = "____NPE____";
       }
       String msg = "FAILED: Layoutcheck " + prettyStringResult + " with device "
-          + device.getFullInfo();
+          + device.toString();
       log.error(msg);
     }
 

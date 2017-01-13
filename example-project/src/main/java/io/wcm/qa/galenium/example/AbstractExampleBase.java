@@ -71,7 +71,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
 
   protected void loginToAuthor() {
     if (isAuthorLogin()) {
-      reportInfo("Logging in to author instance");
+      getLogger().info("Logging in to author instance");
       enterText(SELECTOR_AUTHOR_INPUT_USERNAME, LOGIN_AUTHOR_NAME);
       enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, LOGIN_AUTHOR_PASS);
       click(SELECTOR_AUTHOR_LOGIN_BUTTON);

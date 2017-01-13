@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium;
 
-import io.wcm.qa.galenium.reporting.GaleniumLogging;
-import io.wcm.qa.galenium.reporting.NullableLoggingWrapper;
 import io.wcm.qa.galenium.util.RunMode;
 import io.wcm.qa.galenium.util.TestDevice;
 
@@ -62,7 +60,7 @@ public final class WebDriverManager {
 
   private static final ThreadLocal<WebDriverManager> THREAD_LOCAL_MANAGER = new ThreadLocal<WebDriverManager>();
 
-  private GaleniumLogging logging;
+  private Logger logger;
   private WebDriver driver;
   private FirefoxProfile firefoxProfile;
 
@@ -81,10 +79,10 @@ public final class WebDriverManager {
   /**
    * @return WebDriverManager for current thread.
    */
-  public static WebDriverManager get(GaleniumLogging logging) {
+  public static WebDriverManager get(Logger logger) {
     WebDriverManager context = THREAD_LOCAL_MANAGER.get();
     if (context == null) {
-      context = new WebDriverManager(logging);
+      context = new WebDriverManager(logger);
       THREAD_LOCAL_MANAGER.set(context);
     }
     return context;
@@ -94,11 +92,11 @@ public final class WebDriverManager {
     this(null);
   }
 
-  private WebDriverManager(GaleniumLogging logging) {
+  private WebDriverManager(Logger logger) {
     runMode = RunMode.valueOf(System.getProperty("selenium.runmode").toUpperCase());
     host = System.getProperty("selenium.host");
     port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
-    setLogging(logging);
+    setLogger(logger);
   }
 
   /**
@@ -121,7 +119,7 @@ public final class WebDriverManager {
         || (newTestDevice.getChromeEmulator() != null && !newTestDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
 
     if (needsNewDevice) {
-      debugInfo("Needs new device: " + newTestDevice.getFullInfo());
+      getLogger().info("Needs new device: " + newTestDevice.toString());
       if (driver != null) {
         closeDriver();
       }
@@ -138,10 +136,10 @@ public final class WebDriverManager {
       catch (WebDriverException ex) {
         String msg = "Exception when resizing browser";
         log.info(msg, ex);
-        debugAndIgnoreException(msg, ex);
+        getLogger().debug(msg, ex);
       }
       driver.manage().deleteAllCookies();
-      debugInfo("Deleted all cookies.");
+      getLogger().info("Deleted all cookies.");
       setTestDevice(newTestDevice);
     }
     return driver;
@@ -158,38 +156,36 @@ public final class WebDriverManager {
       catch (WebDriverException ex) {
         if (ex.getCause() instanceof InterruptedException) {
           logInfo("attempting to close driver again after InterruptedException.");
-          debugAndIgnoreException("attempting to close driver after InterruptedException.", ex);
+          getLogger().debug("attempting to close driver after InterruptedException.", ex);
           quitDriver();
         }
         else {
-          logError("Probably a 'Session was terminated due to TIMEOUT'-Error on remote-grid", ex);
-          debugException("Exception when closing driver.", ex);
+          logError("Exception when closing driver.", ex);
           throw new SkipException("Skipping test because of driver problems. ", ex);
         }
       }
       finally {
         driver = null;
         setTestDevice(null);
-        debugInfo("Driver and Device set to null");
+        getLogger().info("Driver and Device set to null");
       }
     }
     else {
       RuntimeException ex = new RuntimeException("Attempting to close non existent driver.");
-      String msg = "Unnecessary call to close driver.";
-      debugAndIgnoreException(msg, ex);
+      getLogger().debug("Unnecessary call to close driver.", ex);
     }
   }
 
   protected void quitDriver() {
-    debugInfo("Attempting to close driver");
+    getLogger().info("Attempting to close driver");
     driver.quit();
-    debugInfo("Closed driver");
+    getLogger().info("Closed driver");
   }
 
   private DesiredCapabilities getDesiredCapabilities(TestDevice newTestDevice) {
     DesiredCapabilities capabilities;
 
-    debugInfo("Getting capabilities for " + newTestDevice.getBrowserType());
+    getLogger().info("Getting capabilities for " + newTestDevice.getBrowserType());
     switch (newTestDevice.getBrowserType()) {
       case CHROME:
         capabilities = DesiredCapabilities.chrome();
@@ -239,7 +235,7 @@ public final class WebDriverManager {
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-    debugInfo("Done generating capabilities");
+    getLogger().info("Done generating capabilities");
     return capabilities;
   }
 
@@ -249,7 +245,7 @@ public final class WebDriverManager {
 
     DesiredCapabilities capabilities = getDesiredCapabilities(newTestDevice);
 
-    debugInfo("Getting driver for runmode '" + runMode + "'");
+    getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
       case REMOTE:
         logInfo("Connecting to grid at " + host + ":" + port + "...");
@@ -301,33 +297,27 @@ public final class WebDriverManager {
     this.testDevice = testDevice;
   }
 
-  public GaleniumLogging getLogging() {
-    return logging;
-  }
-
-  public void setLogging(GaleniumLogging logging) {
-    this.logging = new NullableLoggingWrapper(logging);
-  }
-
   protected void logInfo(String msg) {
     log.info(msg);
-    debugInfo(msg);
-  }
-
-  protected void debugException(String msg, RuntimeException ex) {
-      getLogging().debugException(ex);
+    getLogger().info(msg);
   }
 
   protected void logError(String msg, WebDriverException ex) {
     log.error(msg, ex);
-      getLogging().debugException(ex);
+    getLogger().error(msg, ex);
   }
 
-  protected void debugInfo(String msg) {
-      getLogging().debugInfo(msg);
+  /**
+   * @return logger of current test or generic logger for this class.
+   */
+  public Logger getLogger() {
+    if (logger == null) {
+      return log;
+    }
+    return logger;
   }
 
-  protected void debugAndIgnoreException(String msg, Throwable ex) {
-    getLogging().debugAndIgnoreException(ex);
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 }

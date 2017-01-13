@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,6 @@ public class TestDevice {
   private String chromeEmulator;
 
   /**
-   *
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
@@ -62,10 +61,6 @@ public class TestDevice {
     this.chromeEmulator = chromeEmulator;
   }
 
-  public String getFullInfo() {
-    return "TestDevice{" + browserType + " " + name + " " + screenSize + " " + tags + "}";
-  }
-
   public String getName() {
     return name;
   }
@@ -80,7 +75,21 @@ public class TestDevice {
 
   @Override
   public String toString() {
-    return "TestDevice{" + "name=" + name + ", screenSize=" + screenSize + ", tags=" + tags + ", browserType=" + browserType + ", chromeEmulator=" + chromeEmulator + '}';
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("TestDevice{");
+    stringBuilder.append(name);
+    stringBuilder.append("_");
+    stringBuilder.append(screenSize);
+    stringBuilder.append("_");
+    stringBuilder.append(tags);
+    stringBuilder.append("_");
+    stringBuilder.append(browserType);
+    if (chromeEmulator != null) {
+      stringBuilder.append("_");
+      stringBuilder.append(chromeEmulator);
+    }
+    stringBuilder.append('}');
+    return stringBuilder.toString();
   }
 
 }
