@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.listeners;
 
+import io.wcm.qa.galenium.WebDriverManager;
 import io.wcm.qa.galenium.reporting.GalenReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
@@ -112,7 +113,7 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
   @Override
   public void onTestStart(ITestResult result) {
     log.debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
-
+    WebDriverManager.get().setLogger(LoggerFactory.getLogger(result.getTestName()));
     GalenReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
     super.onTestStart(result);
   }
