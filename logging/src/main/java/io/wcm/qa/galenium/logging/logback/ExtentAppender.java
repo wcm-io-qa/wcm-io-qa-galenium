@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.appender.logback;
+package io.wcm.qa.galenium.logging.logback;
 
 import io.wcm.qa.galenium.reporting.GalenReportUtil;
 
