@@ -27,12 +27,13 @@
     <relativePath/>
   </parent>
 
-  <name>Galenium Root</name>
-  <description>Test automation root. Enabling Galen and Selenium.</description>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.root</artifactId>
   <packaging>pom</packaging>
   <version>1.0.0-SNAPSHOT</version>
+
+  <name>Galenium</name>
+  <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io-qa/wcm-io-qa-galenium.git</connection>
@@ -40,6 +41,10 @@
     <url>https://github.com/wcm-io-qa/wcm-io-qa-galenium</url>
     <tag>HEAD</tag>
   </scm>
+  
+  <properties>
+    <site.url.module.prefix>galenium</site.url.module.prefix>
+  </properties>
 
   <modules>
     <module>parent</module>
@@ -60,17 +65,14 @@
         </configuration>
       </plugin>
 
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
-      </plugin>
-
     </plugins>
   </build>
 
-</project>
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
+</project>
