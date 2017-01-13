@@ -21,19 +21,30 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>13</version>
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.parent_toplevel</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
-  <name>Galenium Root</name>
-  <description>Test automation root. Enabling Galen and Selenium.</description>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.root</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
 
+  <name>Galenium</name>
+  <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
+
+  <scm>
+    <connection>scm:git:https://github.com/wcm-io-qa/wcm-io-qa-galenium.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io-qa/wcm-io-qa-galenium.git</developerConnection>
+    <url>https://github.com/wcm-io-qa/wcm-io-qa-galenium</url>
+    <tag>HEAD</tag>
+  </scm>
+  
+  <properties>
+    <site.url.module.prefix>galenium</site.url.module.prefix>
+  </properties>
 
   <modules>
     <module>parent</module>
@@ -54,32 +65,14 @@
         </configuration>
       </plugin>
 
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <configuration>
-          <licenseName>apache_v2</licenseName>
-          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-          <projectName>wcm.io.qa.galenium</projectName>
-          <excludes>
-            <exclude>**/*.json</exclude>
-            <exclude>**/*.html</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      
-
     </plugins>
   </build>
 
-</project>
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
+</project>
