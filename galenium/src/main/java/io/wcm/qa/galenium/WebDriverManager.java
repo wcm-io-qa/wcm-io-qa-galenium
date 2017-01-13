@@ -119,7 +119,7 @@ public final class WebDriverManager {
         || (newTestDevice.getChromeEmulator() != null && !newTestDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
 
     if (needsNewDevice) {
-      getLogger().info("Needs new device: " + newTestDevice.getFullInfo());
+      getLogger().info("Needs new device: " + newTestDevice.toString());
       if (driver != null) {
         closeDriver();
       }

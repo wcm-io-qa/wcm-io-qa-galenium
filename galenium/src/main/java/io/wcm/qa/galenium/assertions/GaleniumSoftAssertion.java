@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
+package io.wcm.qa.galenium.assertions;
 
 import io.wcm.qa.galenium.reporting.GalenReportUtil;
 
@@ -42,7 +42,7 @@ public class GaleniumSoftAssertion extends SoftAssert {
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
     if (getLogger().isDebugEnabled()) {
-      getLogger().debug(GalenReportUtil.MARKER_PASS, "PASSED: {0} (actual: {1})", assertCommand.getMessage(), assertCommand.getActual());
+      getLogger().debug(GalenReportUtil.MARKER_PASS, "PASSED: {} (actual: {})", assertCommand.getMessage(), assertCommand.getActual());
     }
     super.onAssertSuccess(assertCommand);
   }

@@ -19,10 +19,12 @@
  */
 package io.wcm.qa.galenium.reporting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +51,7 @@ class GaleniumExtentReports extends ExtentReports {
 
   @Override
   public synchronized void close() {
-    if (closed) {
+    if (isClosed()) {
       StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
       StringBuilder stacktraceString = new StringBuilder();
       for (StackTraceElement stackTraceElement : stackTrace) {
@@ -61,11 +63,21 @@ class GaleniumExtentReports extends ExtentReports {
     closeAllTests();
     map.clear();
     super.close();
+    setClosed(true);
   }
 
   private void closeAllTests() {
-    List<ExtentTest> tests = getTestList();
+    List<ExtentTest> tests = new ArrayList<ExtentTest>();
+    tests.addAll(getTestList());
 
+    closeTests(tests);
+    if (!ListUtils.isEqualList(tests, getTestList())) {
+      tests = getTestList();
+      closeTests(tests);
+    }
+  }
+
+  private void closeTests(List<ExtentTest> tests) {
     for (ExtentTest extentTest : tests) {
       Test test = (Test)extentTest.getTest();
 
@@ -87,13 +99,26 @@ class GaleniumExtentReports extends ExtentReports {
     return map.put(extentTest.getTest().getName(), extentTest);
   }
 
+  @Override
+  public synchronized ExtentTest startTest(String testName, String description) {
+    ExtentTest extentTest = super.startTest(testName, description);
+    addExtentTest(extentTest);
+    return extentTest;
+  }
+
   public ExtentTest getExtentTest(String name) {
-    if (!map.containsKey(name)) {
-      ExtentTest extentTest = new ExtentTest(name, "");
-      addExtentTest(extentTest);
-      return extentTest;
+    if (map.containsKey(name)) {
+      return map.get(name);
     }
-    return map.get(name);
+    return startTest(name, "");
+  }
+
+  private boolean isClosed() {
+    return closed;
+  }
+
+  private void setClosed(boolean closed) {
+    this.closed = closed;
   }
 
 }

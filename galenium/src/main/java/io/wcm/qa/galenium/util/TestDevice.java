@@ -61,10 +61,20 @@ public class TestDevice {
     this.chromeEmulator = chromeEmulator;
   }
 
-  /**
-   * @return
-   */
-  public String getFullInfo() {
+  public String getName() {
+    return name;
+  }
+
+  public Dimension getScreenSize() {
+    return screenSize;
+  }
+
+  public List<String> getTags() {
+    return tags;
+  }
+
+  @Override
+  public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("TestDevice{");
     stringBuilder.append(name);
@@ -80,23 +90,6 @@ public class TestDevice {
     }
     stringBuilder.append('}');
     return stringBuilder.toString();
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Dimension getScreenSize() {
-    return screenSize;
-  }
-
-  public List<String> getTags() {
-    return tags;
-  }
-
-  @Override
-  public String toString() {
-    return getFullInfo();
   }
 
 }

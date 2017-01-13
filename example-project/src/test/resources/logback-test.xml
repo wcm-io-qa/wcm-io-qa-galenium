@@ -5,8 +5,7 @@
     <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
       by default -->
     <encoder>
-      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n
-      </pattern>
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
     </encoder>
   </appender>
 
@@ -14,12 +13,14 @@
     <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
       by default -->
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-      </pattern>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
 
-  <root level="DEBUG">
+  <logger name="io.wcm.qa.galenium.example" level="TRACE" />
+  <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
+
+  <root level="INFO">
     <appender-ref ref="EXTENT" />
     <appender-ref ref="STDOUT" />
   </root>

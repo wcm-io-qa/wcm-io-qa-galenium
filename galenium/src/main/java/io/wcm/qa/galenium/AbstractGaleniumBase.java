@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium;
 
+import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.reporting.GalenReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GridHostExtractor;

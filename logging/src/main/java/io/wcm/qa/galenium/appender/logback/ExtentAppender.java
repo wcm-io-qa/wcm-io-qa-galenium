@@ -39,7 +39,8 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   @Override
   protected void append(ILoggingEvent event) {
     ExtentTest extentTest = GalenReportUtil.getExtentTest(event.getLoggerName());
-    extentTest.log(extractLogStatus(event), event.getFormattedMessage());
+    String formattedMessage = event.getFormattedMessage();
+    extentTest.log(extractLogStatus(event), formattedMessage);
   }
 
   private LogStatus extractLogStatus(ILoggingEvent event) {
