@@ -2,8 +2,6 @@
 
   <appender name="EXTENT"
     class="io.wcm.qa.galenium.appender.logback.ExtentAppender">
-    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
-      by default -->
     <encoder>
       <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
     </encoder>
@@ -20,7 +18,7 @@
   <logger name="io.wcm.qa.galenium.example" level="TRACE" />
   <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
 
-  <root level="INFO">
+  <root level="DEBUG">
     <appender-ref ref="EXTENT" />
     <appender-ref ref="STDOUT" />
   </root>
