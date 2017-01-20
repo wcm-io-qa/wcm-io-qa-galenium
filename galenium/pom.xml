@@ -23,28 +23,19 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
   
   <name>Galenium Integration</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
-  <organization>
-    <name>wcm.io</name>
-    <url>http://wcm.io</url>
-  </organization>
-
-  <developers>
-    <developer>
-      <name>wcm.io</name>
-      <organization>wcm.io</organization>
-      <organizationUrl>http://wcm.io</organizationUrl>
-    </developer>
-  </developers>
+  <properties>
+    <site.url.module.prefix>galenium/galenium</site.url.module.prefix>
+  </properties>
 
   <dependencies>
 
@@ -66,8 +57,21 @@
   </dependencies>
     
   <build>
+    <plugins>
+    
+      <!-- generate site for this project -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <skipDeploy>false</skipDeploy>
+        </configuration>
+      </plugin>
+
+    </plugins>
     <pluginManagement>
       <plugins>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
@@ -84,9 +88,16 @@
             </systemPropertyVariables>
           </configuration>
         </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
 
-</project>
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
+</project>

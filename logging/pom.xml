@@ -22,57 +22,50 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.parent_toplevel</artifactId>
-    <version>1.0.0</version>
-    <relativePath />
+    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <version>0.1.0</version>
+    <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
+  <artifactId>io.wcm.qa.galenium.logging</artifactId>
   <groupId>io.wcm.qa</groupId>
-  <artifactId>io.wcm.qa.galenium.root</artifactId>
-  <packaging>pom</packaging>
-  <version>0.1.0</version>
+  <packaging>jar</packaging>
+  <name>Galenium Logging</name>
+  <description>Galenium SLF4J ExtentReports Binding</description>
 
-  <name>Galenium</name>
-  <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
+  <dependencies>
 
-  <scm>
-    <connection>scm:git:https://github.com/wcm-io-qa/wcm-io-qa-galenium.git</connection>
-    <developerConnection>scm:git:https://github.com/wcm-io-qa/wcm-io-qa-galenium.git</developerConnection>
-    <url>https://github.com/wcm-io-qa/wcm-io-qa-galenium</url>
-    <tag>HEAD</tag>
-  </scm>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.relevantcodes</groupId>
+      <artifactId>extentreports</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galenium</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+
+  </dependencies>
   
-  <properties>
-    <site.url.module.prefix>galenium</site.url.module.prefix>
-  </properties>
-
-  <modules>
-    <module>parent</module>
-    <module>galenium</module>
-    <module>example-project</module>
-    <module>logging</module>
-  </modules>
-
   <build>
     <plugins>
 
-      <!-- do not deploy this hierarchy pom into maven repository -->
+      <!-- do not generate site for this project -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
+        <artifactId>maven-site-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
+          <skipDeploy>true</skipDeploy>
         </configuration>
       </plugin>
 
     </plugins>
   </build>
-
-  <distributionManagement>
-    <site>
-      <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}${site.url.module.prefix}</url>
-    </site>
-  </distributionManagement>
 
 </project>

@@ -31,30 +31,29 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.example</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0</version>
   <description>Test automation example.</description>
 
   <properties>
-    <!-- Dependency versions -->
-    <galenium.version>0.0.1-SNAPSHOT</galenium.version>
 
     <!-- Selenium configuration -->
     <selenium.browser>chrome</selenium.browser>
     <selenium.runmode>local</selenium.runmode>
 
     <!-- TestNG configuration -->
-    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG  http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
-    <testng.groups/>
-    
-    <integrationtests.skip>false</integrationtests.skip>
-    
+    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
+      http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
+    <testng.groups />
+
+    <integrationtests.skip>true</integrationtests.skip>
+
     <!-- compiler settings -->
     <build.compiler.source>1.8</build.compiler.source>
     <build.compiler.target>1.8</build.compiler.target>
-    
+
     <!-- needed by the maven-failsafe-plugin -->
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    
+
     <!-- Galenium -->
     <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
     <galenium.retryMax>0</galenium.retryMax>
@@ -67,95 +66,137 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>${galenium.version}</version>
+      <version>0.1.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.logging</artifactId>
+      <version>0.1.0</version>
     </dependency>
 
   </dependencies>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <groups>${testNG.groups}</groups>
-          <properties>
-            <property>
-              <name>usedefaultlisteners</name>
-              <value>false</value>
-            </property>
-            <property>
-              <name>listener</name>
-              <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
-            </property>
-          </properties>
-          <systemPropertyVariables>
-
-            <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
-
-            <!-- Galenium -->
-            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-            <galenium.specPath>${galenium.specPath}</galenium.specPath>
-            <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
-            <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
-            <galenium.imageComparison.save>true</galenium.imageComparison.save>
-            <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
-            <galenium.textComparison.save>true</galenium.textComparison.save>
-            <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
-
-            <!-- Galen -->
-            <galen.device>${galen.device}</galen.device>
-            <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
-            
-            <!-- Selenium -->
-            <selenium.browser>${selenium.browser}</selenium.browser>
-            <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-            <selenium.runmode>${selenium.runmode}</selenium.runmode>
-
-            <!-- Copy ChromeDriver to project root or set this property to the path to your ChromeDriver -->
-            <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-            
-          </systemPropertyVariables>
-          <includes>
-            <include>**/*IT.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.lazerycode.selenium</groupId>
-        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-        <version>1.0.10</version>
-        <configuration>
-          <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-          <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-          <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-          <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
-          <checkFileHashes>false</checkFileHashes>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>selenium</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-          <artifactId>license-maven-plugin</artifactId>
-          <configuration>
-            <licenseName>apache_v2</licenseName>
-            <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-            <projectName>wcm.io.qa.galenium.example</projectName>
-            <excludes>
-              <exclude>**/*.json</exclude>
-              <exclude>**/*.html</exclude>
-            </excludes>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <licenseName>apache_v2</licenseName>
+          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+          <projectName>wcm.io.qa.galenium.example</projectName>
+          <excludes>
+            <exclude>**/*.json</exclude>
+            <exclude>**/*.html</exclude>
+          </excludes>
         </configuration>
       </plugin>
+      
+      <!-- do not deploy this example into maven repository -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <!-- do not generate site for this project -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+      
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>example</id>
+      <properties>
+        <integrationtests.skip>false</integrationtests.skip>
+      </properties>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <groups>${testNG.groups}</groups>
+              <properties>
+                <property>
+                  <name>usedefaultlisteners</name>
+                  <value>false</value>
+                </property>
+                <property>
+                  <name>listener</name>
+                  <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+                </property>
+              </properties>
+              <systemPropertyVariables>
+
+                <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
+
+                <!-- Galenium -->
+                <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+                <galenium.specPath>${galenium.specPath}</galenium.specPath>
+                <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
+                <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
+                <galenium.imageComparison.save>true</galenium.imageComparison.save>
+                <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
+                <galenium.textComparison.save>true</galenium.textComparison.save>
+                <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
+
+                <!-- Galen -->
+                <galen.device>${galen.device}</galen.device>
+                <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
+
+                <!-- Selenium -->
+                <selenium.browser>${selenium.browser}</selenium.browser>
+                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+                <selenium.runmode>${selenium.runmode}</selenium.runmode>
+
+                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+              </systemPropertyVariables>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>com.lazerycode.selenium</groupId>
+            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+            <version>1.0.10</version>
+            <configuration>
+              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
+              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
+              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
+              <checkFileHashes>false</checkFileHashes>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>selenium</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

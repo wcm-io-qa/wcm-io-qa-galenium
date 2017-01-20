@@ -221,7 +221,7 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
     String additionalInfo = "no additional info";
     TestDevice testDevice = getTestDevice();
     if (testDevice != null) {
-      additionalInfo = " [" + testDevice.getFullInfo() + "] ";
+      additionalInfo = " [" + testDevice.toString() + "] ";
     }
     return additionalInfo;
   }
