@@ -17,8 +17,7 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -43,9 +42,9 @@
 
     <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
       http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
-    <testNG.groups></testNG.groups>
+    <testNG.groups />
     <selenium.browser>firefox</selenium.browser>
-    <galen.device></galen.device>
+    <galen.device />
     <selenium.chromeEmulator>Google Nexus 7, Apple iPhone 6, Apple iPad,
       Laptop with HiDPI screen, Amazon Kindle Fire HDX</selenium.chromeEmulator>
 
