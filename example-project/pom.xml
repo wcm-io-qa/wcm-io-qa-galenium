@@ -36,8 +36,6 @@
   <description>Test automation example.</description>
 
   <properties>
-    <!-- Dependency versions -->
-    <galenium.version>0.1.0-SNAPSHOT</galenium.version>
 
     <!-- Selenium configuration -->
     <selenium.browser>chrome</selenium.browser>
@@ -69,7 +67,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>${galenium.version}</version>
+      <version>0.1.0-SNAPSHOT</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -80,7 +78,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>${galenium.version}</version>
+      <version>0.1.0-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

@@ -31,12 +31,8 @@
   <artifactId>io.wcm.qa.galenium.logging</artifactId>
   <groupId>io.wcm.qa</groupId>
   <packaging>jar</packaging>
-  <name>SLF4J ExtentReports Binding</name>
-  <description>SLF4J ExtentReports Binding</description>
-
-  <properties>
-    <galenium.version>0.1.0-SNAPSHOT</galenium.version>
-  </properties>
+  <name>Galenium Logging</name>
+  <description>Galenium SLF4J ExtentReports Binding</description>
 
   <dependencies>
 
@@ -53,7 +49,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>${galenium.version}</version>
+      <version>0.1.0-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
