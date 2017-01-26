@@ -17,19 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.appender.logback;
-
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+package io.wcm.qa.galenium.logging.logback;
 
 import org.slf4j.Marker;
-
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.AppenderBase;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.AppenderBase;
+import io.wcm.qa.galenium.reporting.GalenReportUtil;
 
 /**
  * Logback appender for writing to {@link ExtentReports}.
@@ -39,8 +38,7 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   @Override
   protected void append(ILoggingEvent event) {
     ExtentTest extentTest = GalenReportUtil.getExtentTest(event.getLoggerName());
-    String formattedMessage = event.getFormattedMessage();
-    extentTest.log(extractLogStatus(event), formattedMessage);
+    extentTest.log(extractLogStatus(event), event.getFormattedMessage());
   }
 
   private LogStatus extractLogStatus(ILoggingEvent event) {
@@ -71,7 +69,10 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   }
 
   private boolean hasMarker(ILoggingEvent event, Marker marker) {
-    return event.getMarker().contains(marker);
+    if (event.getMarker() != null) {
+      return event.getMarker().contains(marker);
+    }
+    return false;
   }
 
   private boolean isError(ILoggingEvent event) {
@@ -94,8 +95,11 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
     return isLevel(event, Level.INFO);
   }
 
-  private boolean isLevel(ILoggingEvent event, Level info) {
-    return event.getLevel().isGreaterOrEqual(info);
+  private boolean isLevel(ILoggingEvent event, Level level) {
+    if (event.getLevel() != null) {
+      return event.getLevel().isGreaterOrEqual(level);
+    }
+    return false;
   }
 
   private boolean isPass(ILoggingEvent event) {
