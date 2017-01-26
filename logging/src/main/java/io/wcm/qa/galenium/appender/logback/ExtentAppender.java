@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.logging.logback;
+package io.wcm.qa.galenium.appender.logback;
 
 import org.slf4j.Marker;
 
