@@ -19,14 +19,14 @@
  */
 package io.wcm.qa.galenium.example;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.AbstractGaleniumInteractiveBaseTestCase;
 import io.wcm.qa.galenium.WebDriverManager;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.TestDevice;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 /**
  * Abstract base class for common functionality needed by multiple tests.
@@ -106,6 +106,11 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
 
   private void navShouldBeVisible() {
     getElementOrFail(SELECTOR_NAV);
+  }
+
+  @Override
+  public String getTestName() {
+    return "Example." + super.getTestName();
   }
 
 }
