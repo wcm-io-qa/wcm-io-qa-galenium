@@ -19,12 +19,6 @@
  */
 package io.wcm.qa.galenium;
 
-import io.wcm.qa.galenium.assertions.GaleniumAssertion;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.GridHostExtractor;
-import io.wcm.qa.galenium.util.TestDevice;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -33,10 +27,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
 import org.testng.asserts.Assertion;
+
+import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.GridHostExtractor;
+import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
@@ -45,7 +44,6 @@ public abstract class AbstractGaleniumBase implements ITest {
 
   private Assertion assertion;
   private TestDevice device;
-  private Logger logger;
 
   /**
    * Constructor.
@@ -53,7 +51,6 @@ public abstract class AbstractGaleniumBase implements ITest {
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
-    setLogger(LoggerFactory.getLogger(getTestName()));
   }
 
   protected void assertEquals(boolean actual, boolean expected) {
@@ -268,7 +265,7 @@ public abstract class AbstractGaleniumBase implements ITest {
 
   protected Assertion getAssertion() {
     if (assertion == null) {
-      assertion = new GaleniumAssertion(getLogger());
+      assertion = new GaleniumAssertion();
     }
     return assertion;
   }
@@ -321,11 +318,7 @@ public abstract class AbstractGaleniumBase implements ITest {
   }
 
   public Logger getLogger() {
-    return logger;
-  }
-
-  public void setLogger(Logger logger) {
-    this.logger = logger;
+    return GaleniumReportUtil.getLogger();
   }
 
 }

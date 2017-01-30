@@ -20,11 +20,6 @@
 /* Copyright (c) wcm.io. All rights reserved. */
 package io.wcm.qa.galenium.reporting;
 
-import freemarker.template.TemplateException;
-import io.wcm.qa.galenium.util.GalenLayoutChecker;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestInfoUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +44,12 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.NetworkMode;
 import com.relevantcodes.extentreports.ReporterType;
+import com.relevantcodes.extentreports.model.ITest;
+
+import freemarker.template.TemplateException;
+import io.wcm.qa.galenium.util.GalenLayoutChecker;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.TestInfoUtil;
 
 /**
  * Utility class containing methods handling reporting.
@@ -82,6 +83,7 @@ public final class GaleniumReportUtil {
   private static final String PATH_TESTNG_REPORT_XML = PATH_REPORT_ROOT + "/testng.xml";
 
   // ExtentReports
+  private static final ThreadLocal<ExtentTest> reportForCurrentThread = new ThreadLocal<ExtentTest>();
   private static final String PATH_EXTENT_REPORTS_ROOT = PATH_REPORT_ROOT + "/extentreports";
   private static final String PATH_EXTENT_REPORTS_DB = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
   private static final String PATH_EXTENT_REPORTS_REPORT = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.html";
@@ -180,9 +182,8 @@ public final class GaleniumReportUtil {
         File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
         FileUtils.copyFile(screenshotFile, destFile);
         destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
-        ExtentTest extentTest = getExtentTest(result);
-        String screenCapture = extentTest.addScreenCapture(destScreenshotFilePath);
-        extentTest.log(LogStatus.INFO, screenCapture);
+        String screenCapture = getExtentTest().addScreenCapture(destScreenshotFilePath);
+        getLogger().info(screenCapture);
       }
       catch (IOException ex) {
         log.error("Cannot copy screenshot.", ex);
@@ -214,7 +215,35 @@ public final class GaleniumReportUtil {
    * @return test report associated with result
    */
   public static ExtentTest getExtentTest(String name) {
-    return EXTENT_REPORTS.getExtentTest(name);
+    ExtentTest currentReport = getExtentTest();
+    if (currentReport == null
+        || currentReport.getTest() == null
+        || currentReport.getTest().getName() == null
+        || !currentReport.getTest().getName().equals(name)) {
+      currentReport = EXTENT_REPORTS.getExtentTest(name);
+      setExtentTest(currentReport);
+    }
+    return currentReport;
+  }
+
+  private static void setExtentTest(ExtentTest extentTest) {
+    reportForCurrentThread.set(extentTest);
+  }
+
+  public static ExtentTest getExtentTest() {
+    return reportForCurrentThread.get();
+  }
+
+  public static Logger getLogger() {
+    String name = "NO_TEST_NAME_SET";
+    ExtentTest extentTest = getExtentTest();
+    if (extentTest != null) {
+      ITest test = extentTest.getTest();
+      if (test != null) {
+        name = test.getName();
+      }
+    }
+    return LoggerFactory.getLogger(name);
   }
 
   /**

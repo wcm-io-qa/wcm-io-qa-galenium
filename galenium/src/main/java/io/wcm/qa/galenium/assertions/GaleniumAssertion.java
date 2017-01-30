@@ -19,25 +19,16 @@
  */
 package io.wcm.qa.galenium.assertions;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-
 import org.slf4j.Logger;
 import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Assertion with Galenium reporting integration.
  */
 public class GaleniumAssertion extends Assertion {
-
-  private Logger logger;
-
-  /**
-   * @param logger logger
-   */
-  public GaleniumAssertion(Logger logger) {
-    setLogger(logger);
-  }
 
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
@@ -54,11 +45,7 @@ public class GaleniumAssertion extends Assertion {
   }
 
   public Logger getLogger() {
-    return logger;
-  }
-
-  public void setLogger(Logger logger) {
-    this.logger = logger;
+    return GaleniumReportUtil.getLogger();
   }
 
 }

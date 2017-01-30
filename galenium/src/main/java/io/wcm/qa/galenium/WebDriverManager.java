@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.galenium;
 
-import io.wcm.qa.galenium.util.RunMode;
-import io.wcm.qa.galenium.util.TestDevice;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -51,6 +48,10 @@ import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.RunMode;
+import io.wcm.qa.galenium.util.TestDevice;
+
 /**
  * Utility class to manage thread safe WebDriver instances.
  */
@@ -60,7 +61,6 @@ public final class WebDriverManager {
 
   private static final ThreadLocal<WebDriverManager> THREAD_LOCAL_MANAGER = new ThreadLocal<WebDriverManager>();
 
-  private Logger logger;
   private WebDriver driver;
   private FirefoxProfile firefoxProfile;
 
@@ -73,30 +73,18 @@ public final class WebDriverManager {
    * @return WebDriverManager for current thread.
    */
   public static WebDriverManager get() {
-    return get(null);
-  }
-
-  /**
-   * @return WebDriverManager for current thread.
-   */
-  public static WebDriverManager get(Logger logger) {
     WebDriverManager context = THREAD_LOCAL_MANAGER.get();
     if (context == null) {
-      context = new WebDriverManager(logger);
+      context = new WebDriverManager();
       THREAD_LOCAL_MANAGER.set(context);
     }
     return context;
   }
 
   private WebDriverManager() {
-    this(null);
-  }
-
-  private WebDriverManager(Logger logger) {
     runMode = RunMode.valueOf(System.getProperty("selenium.runmode").toUpperCase());
     host = System.getProperty("selenium.host");
     port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
-    setLogger(logger);
   }
 
   /**
@@ -311,13 +299,7 @@ public final class WebDriverManager {
    * @return logger of current test or generic logger for this class.
    */
   public Logger getLogger() {
-    if (logger == null) {
-      return log;
-    }
-    return logger;
+    return GaleniumReportUtil.getLogger();
   }
 
-  public void setLogger(Logger logger) {
-    this.logger = logger;
-  }
 }

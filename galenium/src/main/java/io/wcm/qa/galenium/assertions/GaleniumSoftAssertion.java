@@ -19,25 +19,16 @@
  */
 package io.wcm.qa.galenium.assertions;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-
 import org.slf4j.Logger;
 import org.testng.asserts.IAssert;
 import org.testng.asserts.SoftAssert;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Soft assertion with Galenium reporting integration.
  */
 public class GaleniumSoftAssertion extends SoftAssert {
-
-  private Logger logger;
-
-  /**
-   * @param logger reporting delegate
-   */
-  public GaleniumSoftAssertion(Logger logger) {
-    this.setLogger(logger);
-  }
 
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
@@ -54,11 +45,7 @@ public class GaleniumSoftAssertion extends SoftAssert {
   }
 
   public Logger getLogger() {
-    return logger;
-  }
-
-  public void setLogger(Logger logger) {
-    this.logger = logger;
+    return GaleniumReportUtil.getLogger();
   }
 
 }
