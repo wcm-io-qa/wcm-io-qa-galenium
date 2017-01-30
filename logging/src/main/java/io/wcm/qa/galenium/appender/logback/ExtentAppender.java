@@ -27,8 +27,11 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.IThrowableProxy;
+import ch.qos.logback.classic.spi.ThrowableProxyUtil;
 import ch.qos.logback.core.AppenderBase;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import ch.qos.logback.core.CoreConstants;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Logback appender for writing to {@link ExtentReports}.
@@ -37,8 +40,18 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
 
   @Override
   protected void append(ILoggingEvent event) {
-    ExtentTest extentTest = GalenReportUtil.getExtentTest(event.getLoggerName());
-    extentTest.log(extractLogStatus(event), event.getFormattedMessage());
+    ExtentTest extentTest = GaleniumReportUtil.getExtentTest(event.getLoggerName());
+    String formattedMessage = event.getFormattedMessage();
+    IThrowableProxy throwableProxy = event.getThrowableProxy();
+    if (throwableProxy != null) {
+      StringBuilder sb = new StringBuilder();
+      ThrowableProxyUtil.subjoinFirstLineRootCauseFirst(sb, throwableProxy);
+      sb.append(CoreConstants.LINE_SEPARATOR);
+      ThrowableProxyUtil.subjoinSTEPArray(sb, 2, throwableProxy);
+      String stacktrace = sb.toString();
+      formattedMessage += "<pre>" + stacktrace + "</pre>";
+    }
+    extentTest.log(extractLogStatus(event), formattedMessage);
   }
 
   private LogStatus extractLogStatus(ILoggingEvent event) {
@@ -80,15 +93,15 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   }
 
   private boolean isExtentReportSpecial(ILoggingEvent event) {
-    return hasMarker(event, GalenReportUtil.MARKER_EXTENT_REPORT);
+    return hasMarker(event, GaleniumReportUtil.MARKER_EXTENT_REPORT);
   }
 
   private boolean isFail(ILoggingEvent event) {
-    return hasMarker(event, GalenReportUtil.MARKER_FAIL);
+    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
   }
 
   private boolean isFatal(ILoggingEvent event) {
-    return hasMarker(event, GalenReportUtil.MARKER_FAIL);
+    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
   }
 
   private boolean isInfo(ILoggingEvent event) {
@@ -103,11 +116,11 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   }
 
   private boolean isPass(ILoggingEvent event) {
-    return hasMarker(event, GalenReportUtil.MARKER_PASS);
+    return hasMarker(event, GaleniumReportUtil.MARKER_PASS);
   }
 
   private boolean isSkip(ILoggingEvent event) {
-    return hasMarker(event, GalenReportUtil.MARKER_SKIP);
+    return hasMarker(event, GaleniumReportUtil.MARKER_SKIP);
   }
 
   private boolean isWarn(ILoggingEvent event) {
