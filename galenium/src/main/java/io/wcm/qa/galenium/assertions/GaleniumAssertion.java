@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.assertions;
 
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 import org.slf4j.Logger;
 import org.testng.asserts.Assertion;
@@ -42,14 +42,14 @@ public class GaleniumAssertion extends Assertion {
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
     if (getLogger().isDebugEnabled()) {
-      getLogger().debug(GalenReportUtil.MARKER_PASS, "PASSED: {} (actual: {})", assertCommand.getMessage(), assertCommand.getActual());
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "PASSED: {} (actual: {})", assertCommand.getMessage(), assertCommand.getActual());
     }
     super.onAssertSuccess(assertCommand);
   }
 
   @Override
   public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
-    getLogger().error(GalenReportUtil.MARKER_FAIL, assertCommand.getMessage());
+    getLogger().error(GaleniumReportUtil.MARKER_FAIL, assertCommand.getMessage());
     super.onAssertFailure(assertCommand, ex);
   }
 

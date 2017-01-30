@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 import java.util.Hashtable;
@@ -61,7 +61,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
 
   protected void logToExtent(LogStatus logStatus, ITestResult result, String message) {
-    ExtentTest extentTest = GalenReportUtil.getExtentTest(result);
+    ExtentTest extentTest = GaleniumReportUtil.getExtentTest(result);
     if (extentTest != null) {
       extentTest.log(logStatus, message);
     }

@@ -20,7 +20,7 @@
 package io.wcm.qa.galenium;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GridHostExtractor;
 import io.wcm.qa.galenium.util.TestDevice;
@@ -257,12 +257,12 @@ public abstract class AbstractGaleniumBase implements ITest {
   }
 
   protected void fail(String message) {
-    getLogger().error(GalenReportUtil.MARKER_FAIL, message);
+    getLogger().error(GaleniumReportUtil.MARKER_FAIL, message);
     getAssertion().fail(message);
   }
 
   protected void fail(String message, Throwable realCause) {
-    getLogger().error(GalenReportUtil.MARKER_FAIL, message, realCause);
+    getLogger().error(GaleniumReportUtil.MARKER_FAIL, message, realCause);
     getAssertion().fail(message, realCause);
   }
 
@@ -311,12 +311,12 @@ public abstract class AbstractGaleniumBase implements ITest {
   }
 
   protected void skipTest(String skipMessage) {
-    getLogger().info(GalenReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
+    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
     throw new SkipException(skipMessage);
   }
 
   protected void skipTest(String skipMessage, Throwable ex) {
-    getLogger().info(GalenReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
+    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
   }
 

@@ -53,7 +53,7 @@ import com.relevantcodes.extentreports.ReporterType;
 /**
  * Utility class containing methods handling reporting.
  */
-public final class GalenReportUtil {
+public final class GaleniumReportUtil {
 
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
@@ -67,7 +67,7 @@ public final class GalenReportUtil {
   public static final Marker MARKER_SKIP = getMarker(LogStatus.SKIP);
 
   // Logger
-  private static final Logger log = LoggerFactory.getLogger(GalenReportUtil.class);
+  private static final Logger log = LoggerFactory.getLogger(GaleniumReportUtil.class);
 
   // Root folder for reports
   private static final String PATH_REPORT_ROOT = GaleniumConfiguration.getReportDirectory();
@@ -100,7 +100,7 @@ public final class GalenReportUtil {
   // Galen
   private static final List<GalenTestInfo> GALEN_RESULTS = new ArrayList<GalenTestInfo>();
 
-  private GalenReportUtil() {
+  private GaleniumReportUtil() {
     // do not instantiate
   }
 

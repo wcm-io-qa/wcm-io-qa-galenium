@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.WebDriverManager.getDriver;
 import io.wcm.qa.galenium.WebDriverManager;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -105,7 +105,7 @@ public final class GalenLayoutChecker {
     // Adding layout report to the test report
     test.getReport().layout(layoutReport, "check layout on " + getDriver(device).getCurrentUrl() + " with device: " + device.toString());
 
-    GalenReportUtil.addGalenResult(test);
+    GaleniumReportUtil.addGalenResult(test);
 
     if (layoutReport.errors() > 0) {
       String prettyStringResult;

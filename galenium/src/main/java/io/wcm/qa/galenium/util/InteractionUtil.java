@@ -20,7 +20,7 @@
 package io.wcm.qa.galenium.util;
 
 import io.wcm.qa.galenium.WebDriverManager;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 import java.util.List;
@@ -125,7 +125,7 @@ public final class InteractionUtil {
    */
   public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
     if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      getLogger().debug(GalenReportUtil.MARKER_PASS, successMessage);
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, successMessage);
     }
     else {
       List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
@@ -136,7 +136,7 @@ public final class InteractionUtil {
           getLogger().warn(errorMessages);
         }
         else {
-          getLogger().error(GalenReportUtil.MARKER_FAIL, errorMessages);
+          getLogger().error(GaleniumReportUtil.MARKER_FAIL, errorMessages);
         }
       }
       if (layoutReport.errors() > 0) {
