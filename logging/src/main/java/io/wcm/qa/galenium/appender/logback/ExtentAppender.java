@@ -68,6 +68,15 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
       if (isFatal(event)) {
         return LogStatus.FATAL;
       }
+      if (isError(event)) {
+        return LogStatus.ERROR;
+      }
+      if (isWarn(event)) {
+        return LogStatus.WARNING;
+      }
+      if (isInfo(event)) {
+        return LogStatus.INFO;
+      }
     }
     if (isError(event)) {
       return LogStatus.ERROR;
@@ -89,7 +98,7 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   }
 
   private boolean isError(ILoggingEvent event) {
-    return isLevel(event, Level.ERROR);
+    return hasMarker(event, GaleniumReportUtil.MARKER_ERROR) || isLevel(event, Level.ERROR);
   }
 
   private boolean isExtentReportSpecial(ILoggingEvent event) {
@@ -105,7 +114,7 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   }
 
   private boolean isInfo(ILoggingEvent event) {
-    return isLevel(event, Level.INFO);
+    return hasMarker(event, GaleniumReportUtil.MARKER_INFO) || isLevel(event, Level.INFO);
   }
 
   private boolean isLevel(ILoggingEvent event, Level level) {
@@ -124,7 +133,7 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   }
 
   private boolean isWarn(ILoggingEvent event) {
-    return isLevel(event, Level.WARN);
+    return hasMarker(event, GaleniumReportUtil.MARKER_WARN) || isLevel(event, Level.WARN);
   }
 
 }

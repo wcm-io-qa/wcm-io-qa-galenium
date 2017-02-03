@@ -66,6 +66,12 @@ public final class GaleniumReportUtil {
   public static final Marker MARKER_PASS = getMarker(LogStatus.PASS);
   /** For special SKIP log status. */
   public static final Marker MARKER_SKIP = getMarker(LogStatus.SKIP);
+  /** For special INFO log status. */
+  public static final Marker MARKER_INFO = getMarker(LogStatus.INFO);
+  /** For special ERROR log status. */
+  public static final Marker MARKER_ERROR = getMarker(LogStatus.ERROR);
+  /** For special WARN log status. */
+  public static final Marker MARKER_WARN = getMarker(LogStatus.WARNING);
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GaleniumReportUtil.class);
