@@ -19,10 +19,7 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import io.wcm.qa.galenium.WebDriverManager;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -37,6 +34,10 @@ import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * This listener is also responsible for closing the WebDriver instances. If
@@ -62,12 +63,13 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
       StringBuilder logMsg = new StringBuilder().append(System.lineSeparator()).append(System.lineSeparator());
       logMsg.append("+++++++++++++++Failed Test++++++++++++++++").append(System.lineSeparator());
       logMsg.append("Testcase: ").append(getTestName(result)).append(System.lineSeparator());
-      logMsg.append("Location: ").append(getLineThatThrew(result.getThrowable())).append(System.lineSeparator());
-      logMsg.append("Error: ").append(result.getThrowable().getMessage()).append(System.lineSeparator());
+      Throwable throwable = result.getThrowable();
+      logMsg.append("Location: ").append(getLineThatThrew(throwable)).append(System.lineSeparator());
+      logMsg.append("Error: ").append(throwable.getMessage()).append(System.lineSeparator());
 
       WebDriver driver = getDriver();
       if (driver != null) {
-        logMsg.append(GalenReportUtil.takeScreenshot(result, driver));
+        logMsg.append(GaleniumReportUtil.takeScreenshot(result, driver));
         logMsg.append("URL: ").append(driver.getCurrentUrl()).append(System.lineSeparator());
       }
       if (getTestDevice() != null) {
@@ -75,26 +77,24 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
       }
       logMsg.append("Duration: ").append(getTestDuration(result)).append(System.lineSeparator());
 
-      if (!GaleniumConfiguration.isSparseReporting()) {
-        GalenReportUtil.getExtentTest(result).log(LogStatus.FAIL, "Full stacktrace", result.getThrowable());
-      }
+      GaleniumReportUtil.getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "Full stacktrace", throwable);
 
       logMsg.append("++++++++++++++++++++++++++++++++++++++++++").append(System.lineSeparator());
 
       logMsgHtml = logMsg.toString().replace(System.lineSeparator(), "<br />");
       Reporter.log(logMsgHtml, false);
-      log.error(logMsg.toString());
+      getLogger().error(logMsg.toString());
 
       closeDriverIfRunningInParallel(result);
 
     }
     catch (Throwable ex) {
-      GalenReportUtil.getExtentTest(result).log(LogStatus.ERROR, "Error during failure handling", ex);
+      GaleniumReportUtil.getLogger().error("Error during failure handling", ex);
       throw ex;
     }
     finally {
       super.onTestFailure(result);
-      GalenReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);
+      GaleniumReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);
     }
   }
 
@@ -112,9 +112,8 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
 
   @Override
   public void onTestStart(ITestResult result) {
-    log.debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
-    WebDriverManager.get().setLogger(LoggerFactory.getLogger(result.getTestName()));
-    GalenReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
+    getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
+    GaleniumReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
     super.onTestStart(result);
   }
 
@@ -125,11 +124,11 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
 
       String msg = getSuccessMessage(result);
       Reporter.log(msg + "<br />", false);
-      log.info(msg);
+      getLogger().info(msg);
       closeDriverIfRunningInParallel(result);
     }
     finally {
-      GalenReportUtil.endExtentTest(result, LogStatus.PASS, "SUCCESS");
+      GaleniumReportUtil.endExtentTest(result, LogStatus.PASS, "SUCCESS");
       super.onTestSuccess(result);
     }
   }
@@ -141,32 +140,32 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
   private void closeDriverIfRunningInParallel(ITestResult result) {
     ITestContext testContext = result.getTestContext();
     if (getDriver() == null) {
-      log.debug("No WebDriver to close for thread " + Thread.currentThread().getName());
+      getLogger().debug("No WebDriver to close for thread " + Thread.currentThread().getName());
     }
     else if (isRunningTestsInSeparateThreads(testContext)) {
-      log.info("Closing WebDriver for thread " + Thread.currentThread().getName() + " on host '" + testContext.getSuite().getHost() + "'");
+      getLogger().info("Closing WebDriver for thread " + Thread.currentThread().getName() + " on host '" + testContext.getSuite().getHost() + "'");
       closeDriver();
     }
     else {
-      log.debug("Reusing WebDriver for thread " + Thread.currentThread().getName());
+      getLogger().debug("Reusing WebDriver for thread " + Thread.currentThread().getName());
     }
   }
 
   @Override
   public void onTestSkipped(ITestResult result) {
-    log.info("Skipped test: " + getTestName(result));
+    getLogger().info("Skipped test: " + getTestName(result));
     super.onTestSkipped(result);
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
     }
-    GalenReportUtil.getExtentTest(result).log(LogStatus.SKIP, "SKIPPED");
+    GaleniumReportUtil.getLogger().info(GaleniumReportUtil.MARKER_SKIP, "SKIPPED");
     closeDriverIfRunningInParallel(result);
   }
 
   protected void takeScreenshot(ITestResult result) {
     WebDriver driver = getDriver();
     if (driver != null) {
-      GalenReportUtil.takeScreenshot(result, driver);
+      GaleniumReportUtil.takeScreenshot(result, driver);
     }
   }
 
@@ -187,16 +186,16 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
   public void onFinish(ITestContext context) {
     super.onFinish(context);
 
-    GalenReportUtil.createGalenReports();
+    GaleniumReportUtil.createGalenReports();
 
     // if not running multiple tests/method/classes in parallel, then the same WebDriver instance is
     // used for all tests methods, and we have to make sure to close the driver after all tests have finished
     if (!isRunningTestsInSeparateThreads(context)) {
-      log.debug("Closing the WebDriver driver that was used for all tests...");
+      getLogger().debug("Closing the WebDriver driver that was used for all tests...");
       closeDriver();
     }
 
-    ExtentReports extentReport = GalenReportUtil.getExtentReports();
+    ExtentReports extentReport = GaleniumReportUtil.getExtentReports();
     extentReport.setTestRunnerOutput(StringUtils.join(Reporter.getOutput(), "</br>"));
     extentReport.flush();
     extentReport.close();

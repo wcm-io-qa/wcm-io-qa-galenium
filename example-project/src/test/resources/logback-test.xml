@@ -15,11 +15,13 @@
     </encoder>
   </appender>
 
-  <logger name="io.wcm.qa.galenium.example" level="TRACE" />
+  <logger name="Example" level="TRACE">
+    <appender-ref ref="EXTENT" />
+  </logger>
+  
   <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
 
   <root level="DEBUG">
-    <appender-ref ref="EXTENT" />
     <appender-ref ref="STDOUT" />
   </root>
 
