@@ -54,7 +54,6 @@ Image comparison is a powerful way to verify correct rendering of pages or eleme
 
 ## Reporting
 
-Reporting is very important in all phases of automated testing. Different phases have different reporting requirements. During test creation you will want more information than when running trusted tests on CI. This is reflected in Galeniums reporting approach by separating between _reporting_ and _debugging_. Debugging information is used during development and can contain a lot of technical detail. Reporting information is focused on a more high level view of test steps that have passed or failed.
+Reporting is very important in all phases of automated testing. Different phases have different reporting requirements. During test creation you will want more information than when running trusted tests on CI. This is reflected in Galeniums reporting approach by using a common logger interface (SLF4J) to write to reports. This allows you to add debug or even trace level information to your tests and infrastructure, while restricting reports on CI to info level. 
 
 Another factor is that with Galen reports a lot of disk space will be used for screenshots. This can be too much when keeping the data for a lot of builds on CI. You can configure Galenium to only write Galen reports for failed validations. Especially when using a lot of image comparison, this can significantly reduce disk space requirements.
-
