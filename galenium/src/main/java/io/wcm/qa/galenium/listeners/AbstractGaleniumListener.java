@@ -23,8 +23,6 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -46,8 +44,6 @@ import io.wcm.qa.galenium.util.TestDevice;
  * WebDriver will be re-used and close after the last test case.
  */
 public abstract class AbstractGaleniumListener extends TestListenerAdapter {
-
-  private static final Logger log = LoggerFactory.getLogger(AbstractGaleniumListener.class);
 
   protected abstract void closeDriver();
 
