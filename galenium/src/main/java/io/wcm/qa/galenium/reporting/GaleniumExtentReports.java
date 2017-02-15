@@ -19,38 +19,34 @@
  */
 package io.wcm.qa.galenium.reporting;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.NetworkMode;
-import com.relevantcodes.extentreports.model.Test;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 /**
  * Handles closing of reports a little more gracefully than the original.
  */
 class GaleniumExtentReports extends ExtentReports {
 
-  private static final long serialVersionUID = 1L;
   private boolean closed;
   private Map<String, ExtentTest> map = new HashMap<String, ExtentTest>();
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GaleniumExtentReports.class);
 
-  GaleniumExtentReports(String pathExtentReportsReport, NetworkMode networkMode) {
-    super(pathExtentReportsReport, networkMode);
+  GaleniumExtentReports(String pathExtentReportsReport) {
+    ExtentHtmlReporter reporter = new ExtentHtmlReporter(pathExtentReportsReport);
+    attach(reporter);
   }
 
   @Override
-  public synchronized void close() {
+  public synchronized void end() {
     if (isClosed()) {
       StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
       StringBuilder stacktraceString = new StringBuilder();
@@ -60,48 +56,48 @@ class GaleniumExtentReports extends ExtentReports {
       }
       log.error("attempting to close closed ExtentReports:\n" + stacktraceString.toString());
     }
-    closeAllTests();
+    //    closeAllTests();
     map.clear();
-    super.close();
+    super.end();
     setClosed(true);
   }
 
-  private void closeAllTests() {
-    List<ExtentTest> tests = new ArrayList<ExtentTest>();
-    tests.addAll(getTestList());
+  //  private void closeAllTests() {
+  //    List<ExtentTest> tests = new ArrayList<ExtentTest>();
+  //    tests.addAll(getTestList());
+  //
+  //    closeTests(tests);
+  //    if (!ListUtils.isEqualList(tests, getTestList())) {
+  //      tests = getTestList();
+  //      closeTests(tests);
+  //    }
+  //  }
+  //
+  //  private void closeTests(List<ExtentTest> tests) {
+  //    for (ExtentTest extentTest : tests) {
+  //      Test test = extentTest.getModel();
+  //
+  //      // ensure the same test isn't being closed twice
+  //      if (!test.hasEnded()) {
+  //        log.debug("test not ended on close: " + test.getName());
+  //        endTest(extentTest);
+  //      }
+  //    }
+  //  }
 
-    closeTests(tests);
-    if (!ListUtils.isEqualList(tests, getTestList())) {
-      tests = getTestList();
-      closeTests(tests);
-    }
-  }
-
-  private void closeTests(List<ExtentTest> tests) {
-    for (ExtentTest extentTest : tests) {
-      Test test = (Test)extentTest.getTest();
-
-      // ensure the same test isn't being closed twice
-      if (!test.hasEnded) {
-        log.debug("test not ended on close: " + test.getName());
-        endTest(extentTest);
-      }
-    }
-  }
-
-  @Override
-  protected void updateTestQueue(ExtentTest extentTest) {
-    addExtentTest(extentTest);
-    super.updateTestQueue(extentTest);
-  }
+  //  @Override
+  //  protected void updateTestQueue(ExtentTest extentTest) {
+  //    addExtentTest(extentTest);
+  //    super.updateTestQueue(extentTest);
+  //  }
 
   private ExtentTest addExtentTest(ExtentTest extentTest) {
-    return map.put(extentTest.getTest().getName(), extentTest);
+    return map.put(extentTest.getModel().getName(), extentTest);
   }
 
   @Override
-  public synchronized ExtentTest startTest(String testName, String description) {
-    ExtentTest extentTest = super.startTest(testName, description);
+  public synchronized ExtentTest createTest(String testName, String description) {
+    ExtentTest extentTest = super.createTest(testName, description);
     addExtentTest(extentTest);
     return extentTest;
   }
@@ -110,7 +106,7 @@ class GaleniumExtentReports extends ExtentReports {
     if (map.containsKey(name)) {
       return map.get(name);
     }
-    return startTest(name, "");
+    return createTest(name, "");
   }
 
   private boolean isClosed() {

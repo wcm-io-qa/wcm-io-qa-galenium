@@ -28,10 +28,10 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.Status;
 import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -90,7 +90,7 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
     }
     finally {
       super.onTestFailure(result);
-      GaleniumReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);
+      GaleniumReportUtil.endExtentTest(result, Status.FAIL, logMsgHtml);
     }
   }
 
@@ -109,7 +109,7 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
   @Override
   public void onTestStart(ITestResult result) {
     getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
-    GaleniumReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
+    GaleniumReportUtil.getExtentTest(result).log(Status.INFO, "Start in thread " + Thread.currentThread().getName());
     super.onTestStart(result);
   }
 
@@ -124,7 +124,7 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
       closeDriverIfRunningInParallel(result);
     }
     finally {
-      GaleniumReportUtil.endExtentTest(result, LogStatus.PASS, "SUCCESS");
+      GaleniumReportUtil.endExtentTest(result, Status.PASS, "SUCCESS");
       super.onTestSuccess(result);
     }
   }
@@ -194,8 +194,6 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
     ExtentReports extentReport = GaleniumReportUtil.getExtentReports();
     extentReport.setTestRunnerOutput(StringUtils.join(Reporter.getOutput(), "</br>"));
     extentReport.flush();
-    extentReport.close();
-
   }
 
 

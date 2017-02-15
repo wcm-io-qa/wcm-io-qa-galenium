@@ -50,9 +50,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.relevantcodes</groupId>
+      <groupId>com.aventstack</groupId>
       <artifactId>extentreports</artifactId>
-  	</dependency>
+    </dependency>
   	
   </dependencies>
     
