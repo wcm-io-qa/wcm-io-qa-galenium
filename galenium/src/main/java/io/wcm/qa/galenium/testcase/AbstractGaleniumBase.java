@@ -34,6 +34,7 @@ import org.testng.asserts.Assertion;
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.GridHostExtractor;
 import io.wcm.qa.galenium.util.TestDevice;
 
@@ -43,7 +44,6 @@ import io.wcm.qa.galenium.util.TestDevice;
 public abstract class AbstractGaleniumBase implements ITest {
 
   private Assertion assertion;
-  private TestDevice device;
 
   /**
    * Constructor.
@@ -278,7 +278,7 @@ public abstract class AbstractGaleniumBase implements ITest {
    * @return the test device used for this test run.
    */
   public TestDevice getDevice() {
-    return device;
+    return GaleniumContext.getTestDevice();
   }
 
   protected abstract WebDriver getDriver();
@@ -304,7 +304,7 @@ public abstract class AbstractGaleniumBase implements ITest {
   }
 
   protected void setDevice(TestDevice device) {
-    this.device = device;
+    GaleniumContext.getContext().setTestDevice(device);
   }
 
   protected void skipTest(String skipMessage) {
