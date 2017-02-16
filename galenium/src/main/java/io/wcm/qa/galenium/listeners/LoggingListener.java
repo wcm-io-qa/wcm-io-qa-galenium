@@ -26,9 +26,9 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
-import com.aventstack.extentreports.Status;
 import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
+import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -46,7 +46,7 @@ public class LoggingListener extends TestListenerAdapter {
   @Override
   public void onTestStart(ITestResult result) {
     getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
-    GaleniumReportUtil.getExtentTest(result).log(Status.INFO, "Start in thread " + Thread.currentThread().getName());
+    GaleniumReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
   }
 
   @Override

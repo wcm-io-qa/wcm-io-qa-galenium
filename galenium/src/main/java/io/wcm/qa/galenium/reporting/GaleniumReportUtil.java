@@ -36,13 +36,15 @@ import org.slf4j.MarkerFactory;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.model.Test;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
 import com.galenframework.reports.TestNgReportBuilder;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+import com.relevantcodes.extentreports.NetworkMode;
+import com.relevantcodes.extentreports.ReporterType;
+import com.relevantcodes.extentreports.model.ITest;
 
 import freemarker.template.TemplateException;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -57,19 +59,19 @@ public final class GaleniumReportUtil {
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
   /** For special FATAL log status. */
-  public static final Marker MARKER_FATAL = getMarker(Status.FATAL);
+  public static final Marker MARKER_FATAL = getMarker(LogStatus.FATAL);
   /** For special FAIL log status. */
-  public static final Marker MARKER_FAIL = getMarker(Status.FAIL);
+  public static final Marker MARKER_FAIL = getMarker(LogStatus.FAIL);
   /** For special PASS log status. */
-  public static final Marker MARKER_PASS = getMarker(Status.PASS);
+  public static final Marker MARKER_PASS = getMarker(LogStatus.PASS);
   /** For special SKIP log status. */
-  public static final Marker MARKER_SKIP = getMarker(Status.SKIP);
+  public static final Marker MARKER_SKIP = getMarker(LogStatus.SKIP);
   /** For special INFO log status. */
-  public static final Marker MARKER_INFO = getMarker(Status.INFO);
+  public static final Marker MARKER_INFO = getMarker(LogStatus.INFO);
   /** For special ERROR log status. */
-  public static final Marker MARKER_ERROR = getMarker(Status.ERROR);
+  public static final Marker MARKER_ERROR = getMarker(LogStatus.ERROR);
   /** For special WARN log status. */
-  public static final Marker MARKER_WARN = getMarker(Status.WARNING);
+  public static final Marker MARKER_WARN = getMarker(LogStatus.WARNING);
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GaleniumReportUtil.class);
@@ -89,18 +91,18 @@ public final class GaleniumReportUtil {
   // ExtentReports
   private static final ThreadLocal<ExtentTest> reportForCurrentThread = new ThreadLocal<ExtentTest>();
   private static final String PATH_EXTENT_REPORTS_ROOT = PATH_REPORT_ROOT + "/extentreports";
-  //  private static final String PATH_EXTENT_REPORTS_DB = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
+  private static final String PATH_EXTENT_REPORTS_DB = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
   private static final String PATH_EXTENT_REPORTS_REPORT = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.html";
   private static final GaleniumExtentReports EXTENT_REPORTS;
   static {
-    EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT);
+    EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT, NetworkMode.OFFLINE);
 
     File reportConfig = GaleniumConfiguration.getReportConfig();
     if (reportConfig != null) {
-      //      EXTENT_REPORTS.loadConfig(reportConfig);
+      EXTENT_REPORTS.loadConfig(reportConfig);
     }
 
-    //    EXTENT_REPORTS.attachReporter(PATH_EXTENT_REPORTS_DB);
+    EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
   }
 
   // Galen
@@ -186,7 +188,8 @@ public final class GaleniumReportUtil {
         File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
         FileUtils.copyFile(screenshotFile, destFile);
         destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
-        getExtentTest().addScreenCaptureFromPath(destScreenshotFilePath);
+        String screenCapture = getExtentTest().addScreenCapture(destScreenshotFilePath);
+        getLogger().info(screenCapture);
       }
       catch (IOException ex) {
         log.error("Cannot copy screenshot.", ex);
@@ -220,9 +223,9 @@ public final class GaleniumReportUtil {
   public static ExtentTest getExtentTest(String name) {
     ExtentTest currentReport = getExtentTest();
     if (currentReport == null
-        || currentReport.getModel() == null
-        || currentReport.getModel().getName() == null
-        || !currentReport.getModel().getName().equals(name)) {
+        || currentReport.getTest() == null
+        || currentReport.getTest().getName() == null
+        || !currentReport.getTest().getName().equals(name)) {
       currentReport = EXTENT_REPORTS.getExtentTest(name);
       setExtentTest(currentReport);
     }
@@ -241,7 +244,7 @@ public final class GaleniumReportUtil {
     String name = "NO_TEST_NAME_SET";
     ExtentTest extentTest = getExtentTest();
     if (extentTest != null) {
-      Test test = extentTest.getModel();
+      ITest test = extentTest.getTest();
       if (test != null) {
         name = test.getName();
       }
@@ -253,15 +256,14 @@ public final class GaleniumReportUtil {
    * @param status status to use for final message
    * @param details final message
    */
-  public static void endExtentTest(ITestResult result, Status status, String details) {
+  public static void endExtentTest(ITestResult result, LogStatus status, String details) {
     ExtentTest extentTest = getExtentTest(result);
     extentTest.log(status, details);
     TestInfoUtil.assignCategories(extentTest, result);
-    extentTest.getModel().end();
-    //    EXTENT_REPORTS.endTest(extentTest.getModel());
+    EXTENT_REPORTS.endTest(extentTest);
   }
 
-  private static Marker getMarker(Status logStatus) {
+  private static Marker getMarker(LogStatus logStatus) {
     Marker marker = MarkerFactory.getMarker(logStatus.name());
     marker.add(MARKER_EXTENT_REPORT);
     return marker;

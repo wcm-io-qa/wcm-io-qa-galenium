@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.testng.ITestResult;
 
-import com.aventstack.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 

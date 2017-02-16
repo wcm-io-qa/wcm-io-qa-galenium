@@ -28,8 +28,8 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.Status;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.TestDevice;
@@ -95,7 +95,7 @@ public class ExtentReportsListener implements ITestListener {
       throw ex;
     }
     finally {
-      GaleniumReportUtil.endExtentTest(result, Status.FAIL, logMsgHtml);
+      GaleniumReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);
     }
   }
 
@@ -122,7 +122,7 @@ public class ExtentReportsListener implements ITestListener {
       getLogger().info(msg);
     }
     finally {
-      GaleniumReportUtil.endExtentTest(result, Status.PASS, "SUCCESS");
+      GaleniumReportUtil.endExtentTest(result, LogStatus.PASS, "SUCCESS");
     }
   }
 
