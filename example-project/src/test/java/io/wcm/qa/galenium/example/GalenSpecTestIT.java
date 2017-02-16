@@ -19,11 +19,11 @@
  */
 package io.wcm.qa.galenium.example;
 
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
-
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.TestDevice;
 
 
 /**

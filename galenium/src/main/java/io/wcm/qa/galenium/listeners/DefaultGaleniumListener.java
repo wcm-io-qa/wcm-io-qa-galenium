@@ -21,8 +21,8 @@ package io.wcm.qa.galenium.listeners;
 
 import org.openqa.selenium.WebDriver;
 
-import io.wcm.qa.galenium.WebDriverManager;
 import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Listener to manage WebDriver management, reporting and screenshots.

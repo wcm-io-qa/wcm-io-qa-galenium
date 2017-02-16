@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
+package io.wcm.qa.galenium.webdriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -107,7 +107,7 @@ public final class WebDriverManager {
         || (newTestDevice.getChromeEmulator() != null && !newTestDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
 
     if (needsNewDevice) {
-      getLogger().info("Needs new device: " + newTestDevice.toString());
+      GaleniumReportUtil.getLogger().info("Needs new device: " + newTestDevice.toString());
       if (driver != null) {
         closeDriver();
       }
@@ -124,10 +124,10 @@ public final class WebDriverManager {
       catch (WebDriverException ex) {
         String msg = "Exception when resizing browser";
         log.info(msg, ex);
-        getLogger().debug(msg, ex);
+        GaleniumReportUtil.getLogger().debug(msg, ex);
       }
       driver.manage().deleteAllCookies();
-      getLogger().info("Deleted all cookies.");
+      GaleniumReportUtil.getLogger().info("Deleted all cookies.");
       setTestDevice(newTestDevice);
     }
     return driver;
@@ -144,7 +144,7 @@ public final class WebDriverManager {
       catch (WebDriverException ex) {
         if (ex.getCause() instanceof InterruptedException) {
           logInfo("attempting to close driver again after InterruptedException.");
-          getLogger().debug("attempting to close driver after InterruptedException.", ex);
+          GaleniumReportUtil.getLogger().debug("attempting to close driver after InterruptedException.", ex);
           quitDriver();
         }
         else {
@@ -155,25 +155,25 @@ public final class WebDriverManager {
       finally {
         driver = null;
         setTestDevice(null);
-        getLogger().info("Driver and Device set to null");
+        GaleniumReportUtil.getLogger().info("Driver and Device set to null");
       }
     }
     else {
       RuntimeException ex = new RuntimeException("Attempting to close non existent driver.");
-      getLogger().debug("Unnecessary call to close driver.", ex);
+      GaleniumReportUtil.getLogger().debug("Unnecessary call to close driver.", ex);
     }
   }
 
   protected void quitDriver() {
-    getLogger().info("Attempting to close driver");
+    GaleniumReportUtil.getLogger().info("Attempting to close driver");
     driver.quit();
-    getLogger().info("Closed driver");
+    GaleniumReportUtil.getLogger().info("Closed driver");
   }
 
   private DesiredCapabilities getDesiredCapabilities(TestDevice newTestDevice) {
     DesiredCapabilities capabilities;
 
-    getLogger().info("Getting capabilities for " + newTestDevice.getBrowserType());
+    GaleniumReportUtil.getLogger().info("Getting capabilities for " + newTestDevice.getBrowserType());
     switch (newTestDevice.getBrowserType()) {
       case CHROME:
         capabilities = DesiredCapabilities.chrome();
@@ -223,7 +223,7 @@ public final class WebDriverManager {
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-    getLogger().info("Done generating capabilities");
+    GaleniumReportUtil.getLogger().info("Done generating capabilities");
     return capabilities;
   }
 
@@ -233,7 +233,7 @@ public final class WebDriverManager {
 
     DesiredCapabilities capabilities = getDesiredCapabilities(newTestDevice);
 
-    getLogger().info("Getting driver for runmode '" + runMode + "'");
+    GaleniumReportUtil.getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
       case REMOTE:
         logInfo("Connecting to grid at " + host + ":" + port + "...");
@@ -287,19 +287,12 @@ public final class WebDriverManager {
 
   protected void logInfo(String msg) {
     log.info(msg);
-    getLogger().info(msg);
+    GaleniumReportUtil.getLogger().info(msg);
   }
 
   protected void logError(String msg, WebDriverException ex) {
     log.error(msg, ex);
-    getLogger().error(msg, ex);
-  }
-
-  /**
-   * @return logger of current test or generic logger for this class.
-   */
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+    GaleniumReportUtil.getLogger().error(msg, ex);
   }
 
 }

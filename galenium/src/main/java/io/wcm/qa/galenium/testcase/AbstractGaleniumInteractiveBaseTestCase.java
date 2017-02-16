@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
+package io.wcm.qa.galenium.testcase;
 
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;

@@ -19,10 +19,6 @@
  */
 package io.wcm.qa.galenium.example;
 
-import io.wcm.qa.galenium.util.BrowserType;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +26,10 @@ import java.util.List;
 
 import org.openqa.selenium.Dimension;
 import org.testng.annotations.DataProvider;
+
+import io.wcm.qa.galenium.util.BrowserType;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Test device provider to be used as {@link DataProvider} for tests.

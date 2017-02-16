@@ -26,7 +26,7 @@ import org.testng.ITestResult;
 
 import com.aventstack.extentreports.ExtentTest;
 
-import io.wcm.qa.galenium.AbstractGaleniumBase;
+import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
