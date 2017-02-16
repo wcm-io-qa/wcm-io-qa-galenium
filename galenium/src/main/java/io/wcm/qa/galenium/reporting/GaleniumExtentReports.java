@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.reporting;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,12 +37,14 @@ class GaleniumExtentReports extends ExtentReports {
 
   private boolean closed;
   private Map<String, ExtentTest> map = new HashMap<String, ExtentTest>();
+  private String pathToReport;
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GaleniumExtentReports.class);
 
   GaleniumExtentReports(String pathExtentReportsReport) {
-    ExtentHtmlReporter reporter = new ExtentHtmlReporter(pathExtentReportsReport);
+    pathToReport = pathExtentReportsReport;
+    ExtentHtmlReporter reporter = new ExtentHtmlReporter(pathToReport);
     attach(reporter);
   }
 
@@ -61,35 +64,6 @@ class GaleniumExtentReports extends ExtentReports {
     super.end();
     setClosed(true);
   }
-
-  //  private void closeAllTests() {
-  //    List<ExtentTest> tests = new ArrayList<ExtentTest>();
-  //    tests.addAll(getTestList());
-  //
-  //    closeTests(tests);
-  //    if (!ListUtils.isEqualList(tests, getTestList())) {
-  //      tests = getTestList();
-  //      closeTests(tests);
-  //    }
-  //  }
-  //
-  //  private void closeTests(List<ExtentTest> tests) {
-  //    for (ExtentTest extentTest : tests) {
-  //      Test test = extentTest.getModel();
-  //
-  //      // ensure the same test isn't being closed twice
-  //      if (!test.hasEnded()) {
-  //        log.debug("test not ended on close: " + test.getName());
-  //        endTest(extentTest);
-  //      }
-  //    }
-  //  }
-
-  //  @Override
-  //  protected void updateTestQueue(ExtentTest extentTest) {
-  //    addExtentTest(extentTest);
-  //    super.updateTestQueue(extentTest);
-  //  }
 
   private ExtentTest addExtentTest(ExtentTest extentTest) {
     return map.put(extentTest.getModel().getName(), extentTest);
@@ -117,4 +91,9 @@ class GaleniumExtentReports extends ExtentReports {
     this.closed = closed;
   }
 
+  @Override
+  public synchronized void flush() {
+    new File(pathToReport).getParentFile().mkdirs();
+    super.flush();
+  }
 }

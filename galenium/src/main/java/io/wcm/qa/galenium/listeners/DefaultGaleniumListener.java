@@ -19,40 +19,79 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import org.openqa.selenium.WebDriver;
+import java.util.ArrayList;
+import java.util.List;
 
-import io.wcm.qa.galenium.util.TestDevice;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+import org.testng.TestListenerAdapter;
 
 /**
  * Listener to manage WebDriver management, reporting and screenshots.
  */
-public class DefaultGaleniumListener extends AbstractGaleniumListener {
+public class DefaultGaleniumListener extends TestListenerAdapter {
 
-  private Boolean isDriverInitialized = false;
+  private List<ITestListener> listeners = new ArrayList<ITestListener>();
 
-  @Override
-  protected void closeDriver() {
-    WebDriverManager.get().closeDriver();
-    isDriverInitialized = false;
+  public DefaultGaleniumListener() {
+    add(new LoggingListener());
+    add(new ExtentReportsListener());
+    add(new WebDriverListener());
+  }
+
+  public boolean add(ITestListener e) {
+    return listeners.add(e);
   }
 
   @Override
-  protected TestDevice getTestDevice() {
-    return WebDriverManager.get().getTestDevice();
-  }
-
-  @Override
-  protected WebDriver getDriver() {
-    WebDriver driver = null;
-    if (isDriverInitialized) {
-      driver = WebDriverManager.getCurrentDriver();
+  public void onFinish(ITestContext context) {
+    for (ITestListener listener : listeners) {
+      listener.onFinish(context);
     }
-    else if (getTestDevice() != null) {
-      driver = WebDriverManager.getDriver(getTestDevice());
-      isDriverInitialized = true;
-    }
-    return driver;
   }
+
+  @Override
+  public void onStart(ITestContext context) {
+    for (ITestListener listener : listeners) {
+      listener.onStart(context);
+    }
+  }
+
+  @Override
+  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    for (ITestListener listener : listeners) {
+      listener.onTestFailedButWithinSuccessPercentage(result);
+    }
+  }
+
+  @Override
+  public void onTestFailure(ITestResult result) {
+    for (ITestListener listener : listeners) {
+      listener.onTestFailure(result);
+    }
+  }
+
+  @Override
+  public void onTestSkipped(ITestResult result) {
+    for (ITestListener listener : listeners) {
+      listener.onTestSkipped(result);
+    }
+  }
+
+  @Override
+  public void onTestStart(ITestResult result) {
+    for (ITestListener listener : listeners) {
+      listener.onTestStart(result);
+    }
+  }
+
+  @Override
+  public void onTestSuccess(ITestResult result) {
+    for (ITestListener listener : listeners) {
+      listener.onTestSuccess(result);
+    }
+  }
+
 
 }

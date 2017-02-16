@@ -271,6 +271,7 @@ public final class WebDriverManager {
         }
         break;
     }
+
     return driver;
   }
 

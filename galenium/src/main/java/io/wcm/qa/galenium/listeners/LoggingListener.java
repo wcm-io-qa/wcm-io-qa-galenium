@@ -33,6 +33,7 @@ import com.galenframework.config.GalenProperty;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * This listener is also responsible for closing the WebDriver instances. If
@@ -40,55 +41,38 @@ import io.wcm.qa.galenium.util.TestDevice;
  * test method. If they are run sequentially in the main thread, the same
  * WebDriver will be re-used and close after the last test case.
  */
-public abstract class AbstractGaleniumListener extends TestListenerAdapter {
-
-  protected abstract void closeDriver();
-
-  protected abstract TestDevice getTestDevice();
-
-  protected abstract WebDriver getDriver();
+public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestStart(ITestResult result) {
     getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
     GaleniumReportUtil.getExtentTest(result).log(Status.INFO, "Start in thread " + Thread.currentThread().getName());
-    super.onTestStart(result);
   }
 
   @Override
   public void onTestSkipped(ITestResult result) {
     getLogger().info("Skipped test: " + getTestName(result));
-    super.onTestSkipped(result);
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
     }
     GaleniumReportUtil.getLogger().info(GaleniumReportUtil.MARKER_SKIP, "SKIPPED");
-
   }
 
   protected void takeScreenshot(ITestResult result) {
-    WebDriver driver = getDriver();
+    WebDriver driver = WebDriverManager.getCurrentDriver();
     if (driver != null) {
       GaleniumReportUtil.takeScreenshot(result, driver);
     }
   }
 
   @Override
-  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    super.onTestFailedButWithinSuccessPercentage(result);
-  }
-
-  @Override
   public void onStart(ITestContext context) {
-    super.onStart(context);
     // always executed in the main thread, so we can't initialize WebDrivers right here
     GalenConfig.getConfig().setProperty(GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE, Boolean.TRUE.toString());
   }
 
   @Override
   public void onFinish(ITestContext context) {
-    super.onFinish(context);
-
     GaleniumReportUtil.createGalenReports();
   }
 
@@ -98,7 +82,7 @@ public abstract class AbstractGaleniumListener extends TestListenerAdapter {
 
   protected String getAdditionalInfo() {
     String additionalInfo = "no additional info";
-    TestDevice testDevice = getTestDevice();
+    TestDevice testDevice = WebDriverManager.get().getTestDevice();
     if (testDevice != null) {
       additionalInfo = " [" + testDevice.toString() + "] ";
     }
