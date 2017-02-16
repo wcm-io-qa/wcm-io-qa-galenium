@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
+package io.wcm.qa.galenium.testcase;
 
 import java.util.Collection;
 import java.util.Map;

@@ -19,9 +19,7 @@
  */
 package io.wcm.qa.galenium.util;
 
-import io.wcm.qa.galenium.WebDriverManager;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.Selector;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.List;
 
@@ -31,7 +29,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
 
 import com.galenframework.browser.SeleniumBrowser;
 import com.galenframework.reports.model.LayoutReport;
@@ -39,6 +36,9 @@ import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationErrorException;
 import com.galenframework.validation.ValidationObject;
 import com.galenframework.validation.ValidationResult;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Collection of utility methods for interaction with browser. It uses {@link Selector} to be able to seamlessly use
@@ -147,10 +147,6 @@ public final class InteractionUtil {
         throw new GalenLayoutChecker.GalenLayoutException(errorMessage, ex);
       }
     }
-  }
-
-  private static Logger getLogger() {
-    return WebDriverManager.get().getLogger();
   }
 
 }

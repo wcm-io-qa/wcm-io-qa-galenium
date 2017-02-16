@@ -21,9 +21,9 @@ package io.wcm.qa.galenium.appender.logback;
 
 import org.slf4j.Marker;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -51,43 +51,45 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
       String stacktrace = sb.toString();
       formattedMessage += "<pre>" + stacktrace + "</pre>";
     }
-    extentTest.log(extractLogStatus(event), formattedMessage);
+    extentTest.log(extractStatus(event), formattedMessage);
   }
 
-  private LogStatus extractLogStatus(ILoggingEvent event) {
+  private Status extractStatus(ILoggingEvent event) {
     if (isExtentReportSpecial(event)) {
       if (isPass(event)) {
-        return LogStatus.PASS;
+        return Status.PASS;
       }
       if (isSkip(event)) {
-        return LogStatus.SKIP;
+        return Status.SKIP;
       }
       if (isFail(event)) {
-        return LogStatus.FAIL;
+        return Status.FAIL;
       }
       if (isFatal(event)) {
-        return LogStatus.FATAL;
+        return Status.FATAL;
       }
       if (isError(event)) {
-        return LogStatus.ERROR;
+        return Status.ERROR;
       }
       if (isWarn(event)) {
-        return LogStatus.WARNING;
+        return Status.WARNING;
       }
       if (isInfo(event)) {
-        return LogStatus.INFO;
+        return Status.INFO;
       }
     }
     if (isError(event)) {
-      return LogStatus.ERROR;
+      return Status.ERROR;
     }
     if (isWarn(event)) {
-      return LogStatus.WARNING;
+      return Status.WARNING;
     }
     if (isInfo(event)) {
-      return LogStatus.INFO;
+      return Status.INFO;
     }
-    return LogStatus.UNKNOWN;
+
+    // default to INFO
+    return Status.INFO;
   }
 
   private boolean hasMarker(ILoggingEvent event, Marker marker) {

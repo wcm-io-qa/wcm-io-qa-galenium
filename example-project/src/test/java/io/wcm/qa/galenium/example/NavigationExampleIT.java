@@ -19,10 +19,10 @@
  */
 package io.wcm.qa.galenium.example;
 
-import io.wcm.qa.galenium.util.TestDevice;
-
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+
+import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Example for pure Selenium test based on Galenium.

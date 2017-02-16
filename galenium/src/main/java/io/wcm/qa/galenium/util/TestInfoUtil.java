@@ -19,14 +19,14 @@
  */
 package io.wcm.qa.galenium.util;
 
-import io.wcm.qa.galenium.AbstractGaleniumBase;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.ITestResult;
 
-import com.relevantcodes.extentreports.ExtentTest;
+import com.aventstack.extentreports.ExtentTest;
+
+import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.

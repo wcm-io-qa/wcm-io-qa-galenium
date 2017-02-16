@@ -19,9 +19,7 @@
  */
 package io.wcm.qa.galenium.util;
 
-import static io.wcm.qa.galenium.WebDriverManager.getDriver;
-import io.wcm.qa.galenium.WebDriverManager;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -41,6 +39,9 @@ import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration through {@link WebDriverManager}.
@@ -153,6 +154,5 @@ public final class GalenLayoutChecker {
     }
 
   }
-
 
 }
