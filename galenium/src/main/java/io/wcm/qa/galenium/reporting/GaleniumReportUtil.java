@@ -90,7 +90,6 @@ public final class GaleniumReportUtil {
   private static final String PATH_TESTNG_REPORT_XML = PATH_REPORT_ROOT + "/testng.xml";
 
   // ExtentReports
-  //  private static final ThreadLocal<ExtentTest> reportForCurrentThread = new ThreadLocal<ExtentTest>();
   private static final String PATH_EXTENT_REPORTS_ROOT = PATH_REPORT_ROOT + "/extentreports";
   private static final String PATH_EXTENT_REPORTS_DB = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
   private static final String PATH_EXTENT_REPORTS_REPORT = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.html";
