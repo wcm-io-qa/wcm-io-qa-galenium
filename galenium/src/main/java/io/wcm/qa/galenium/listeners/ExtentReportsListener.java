@@ -48,13 +48,11 @@ public class ExtentReportsListener implements ITestListener {
   @Override
   public void onStart(ITestContext context) {
     // TODO: Auto-generated method stub
-
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     // TODO: Auto-generated method stub
-
   }
 
 
@@ -87,8 +85,6 @@ public class ExtentReportsListener implements ITestListener {
       logMsgHtml = logMsg.toString().replace(System.lineSeparator(), "<br />");
       Reporter.log(logMsgHtml, false);
       getLogger().error(logMsg.toString());
-
-
     }
     catch (Throwable ex) {
       GaleniumReportUtil.getLogger().error("Error during failure handling", ex);
@@ -102,14 +98,11 @@ public class ExtentReportsListener implements ITestListener {
   @Override
   public void onTestSkipped(ITestResult result) {
     // TODO: Auto-generated method stub
-
   }
-
 
   @Override
   public void onTestStart(ITestResult result) {
-    // TODO: Auto-generated method stub
-
+    GaleniumReportUtil.getExtentTest(result);
   }
 
   @Override
