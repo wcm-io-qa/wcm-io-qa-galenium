@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -45,6 +46,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import com.relevantcodes.extentreports.NetworkMode;
 import com.relevantcodes.extentreports.ReporterType;
 import com.relevantcodes.extentreports.model.ITest;
+import com.relevantcodes.extentreports.model.TestAttribute;
 
 import freemarker.template.TemplateException;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -238,6 +240,23 @@ public final class GaleniumReportUtil {
 
   public static ExtentTest getExtentTest() {
     return GaleniumContext.getExtentTest();
+  }
+
+  public static void assignCategories(String... categories) {
+    for (String category : categories) {
+      assignCategory(category);
+    }
+  }
+
+  public static void assignCategory(String category) {
+    ExtentTest extentTest = getExtentTest();
+    List<TestAttribute> categoryList = extentTest.getTest().getCategoryList();
+    for (TestAttribute testAttribute : categoryList) {
+      if (StringUtils.equals(testAttribute.getName(), category)) {
+        return;
+      }
+    }
+    extentTest.assignCategory(category);
   }
 
   public static Logger getLogger() {
