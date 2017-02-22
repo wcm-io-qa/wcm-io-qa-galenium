@@ -17,13 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
-
-import io.wcm.qa.galenium.assertions.GaleniumAssertion;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.GridHostExtractor;
-import io.wcm.qa.galenium.util.TestDevice;
+package io.wcm.qa.galenium.testcase;
 
 import java.util.Collection;
 import java.util.Map;
@@ -33,10 +27,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
 import org.testng.asserts.Assertion;
+
+import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.GridHostExtractor;
+import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
@@ -45,7 +44,6 @@ public abstract class AbstractGaleniumBase implements ITest {
 
   private Assertion assertion;
   private TestDevice device;
-  private Logger logger;
 
   /**
    * Constructor.
@@ -53,7 +51,6 @@ public abstract class AbstractGaleniumBase implements ITest {
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
-    setLogger(LoggerFactory.getLogger(getTestName()));
   }
 
   protected void assertEquals(boolean actual, boolean expected) {
@@ -257,18 +254,18 @@ public abstract class AbstractGaleniumBase implements ITest {
   }
 
   protected void fail(String message) {
-    getLogger().error(GalenReportUtil.MARKER_FAIL, message);
+    getLogger().error(GaleniumReportUtil.MARKER_FAIL, message);
     getAssertion().fail(message);
   }
 
   protected void fail(String message, Throwable realCause) {
-    getLogger().error(GalenReportUtil.MARKER_FAIL, message, realCause);
+    getLogger().error(GaleniumReportUtil.MARKER_FAIL, message, realCause);
     getAssertion().fail(message, realCause);
   }
 
   protected Assertion getAssertion() {
     if (assertion == null) {
-      assertion = new GaleniumAssertion(getLogger());
+      assertion = new GaleniumAssertion();
     }
     return assertion;
   }
@@ -311,21 +308,17 @@ public abstract class AbstractGaleniumBase implements ITest {
   }
 
   protected void skipTest(String skipMessage) {
-    getLogger().info(GalenReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
+    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
     throw new SkipException(skipMessage);
   }
 
   protected void skipTest(String skipMessage, Throwable ex) {
-    getLogger().info(GalenReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
+    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
   }
 
   public Logger getLogger() {
-    return logger;
-  }
-
-  public void setLogger(Logger logger) {
-    this.logger = logger;
+    return GaleniumReportUtil.getLogger();
   }
 
 }

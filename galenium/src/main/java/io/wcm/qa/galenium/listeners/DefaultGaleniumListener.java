@@ -19,40 +19,99 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import io.wcm.qa.galenium.WebDriverManager;
-import io.wcm.qa.galenium.util.TestDevice;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
-import org.openqa.selenium.WebDriver;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.testng.IConfigurationListener2;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+import org.testng.TestListenerAdapter;
 
 /**
  * Listener to manage WebDriver management, reporting and screenshots.
  */
-public class DefaultGaleniumListener extends AbstractGaleniumListener {
+public class DefaultGaleniumListener extends TestListenerAdapter {
 
-  private Boolean isDriverInitialized = false;
+  private List<ITestListener> listeners = new ArrayList<ITestListener>();
 
-  @Override
-  protected void closeDriver() {
-    WebDriverManager.get().closeDriver();
-    isDriverInitialized = false;
+  public DefaultGaleniumListener() {
+    add(new LoggingListener());
+    add(new ExtentReportsListener());
+    add(new WebDriverListener());
+  }
+
+  public boolean add(ITestListener e) {
+    return listeners.add(e);
   }
 
   @Override
-  protected TestDevice getTestDevice() {
-    return WebDriverManager.get().getTestDevice();
+  public void beforeConfiguration(ITestResult tr) {
+    getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
+    for (ITestListener listener : listeners) {
+      if (listener instanceof IConfigurationListener2) {
+        ((IConfigurationListener2)listener).beforeConfiguration(tr);
+      }
+    }
   }
 
   @Override
-  protected WebDriver getDriver() {
-    WebDriver driver = null;
-    if (isDriverInitialized) {
-      driver = WebDriverManager.getCurrentDriver();
+  public void onFinish(ITestContext context) {
+    getLogger().trace("+++LISTENER: onFinish(ITestContext context)");
+    for (ITestListener listener : listeners) {
+      listener.onFinish(context);
     }
-    else if (getTestDevice() != null) {
-      driver = WebDriverManager.getDriver(getTestDevice());
-      isDriverInitialized = true;
+  }
+
+  @Override
+  public void onStart(ITestContext context) {
+    getLogger().trace("+++LISTENER: onStart(ITestContext context)");
+    for (ITestListener listener : listeners) {
+      listener.onStart(context);
     }
-    return driver;
+  }
+
+  @Override
+  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    getLogger().trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
+    for (ITestListener listener : listeners) {
+      listener.onTestFailedButWithinSuccessPercentage(result);
+    }
+  }
+
+  @Override
+  public void onTestFailure(ITestResult result) {
+    getLogger().trace("+++LISTENER: onTestFailure(ITestResult result)");
+    for (ITestListener listener : listeners) {
+      listener.onTestFailure(result);
+    }
+  }
+
+  @Override
+  public void onTestSkipped(ITestResult result) {
+    getLogger().trace("LISTENER: onTestSkipped(ITestResult result)");
+    for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
+      listener.onTestSkipped(result);
+    }
+  }
+
+  @Override
+  public void onTestStart(ITestResult result) {
+    getLogger().trace("+++LISTENER: onTestStart(ITestResult result)");
+    for (ITestListener listener : listeners) {
+      listener.onTestStart(result);
+    }
+  }
+
+  @Override
+  public void onTestSuccess(ITestResult result) {
+    getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
+    for (ITestListener listener : listeners) {
+      listener.onTestSuccess(result);
+    }
   }
 
 }

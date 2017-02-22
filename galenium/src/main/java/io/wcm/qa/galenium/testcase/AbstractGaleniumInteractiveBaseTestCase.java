@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium;
+package io.wcm.qa.galenium.testcase;
 
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
-import io.wcm.qa.galenium.reporting.GalenReportUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.InteractionUtil;
@@ -55,7 +55,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   protected WebElement getElementVisible(Selector selector, int howLong) {
     WebElement elementVisible = InteractionUtil.getElementVisible(getDriver(), selector, howLong);
     if (elementVisible != null) {
-      getLogger().debug(GalenReportUtil.MARKER_PASS, "found '" + selector.elementName() + "'");
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "found '" + selector.elementName() + "'");
     }
     return elementVisible;
   }
@@ -63,12 +63,12 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   protected void assertElementVisible(String message, Selector selector) {
     WebDriver driver = getDriver();
     assertNotNull(InteractionUtil.getElementVisible(driver, selector, 10), message);
-    getLogger().debug(GalenReportUtil.MARKER_PASS, "visible: " + selector.elementName());
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 
   protected void assertElementNotVisible(String message, Selector selector) {
     assertNull(getElementVisible(selector), message);
-    getLogger().debug(GalenReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
   }
 
   protected void clickByPartialText(String searchStr, Selector selector) {
@@ -90,7 +90,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   protected WebElement getElementOrFail(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
     if (element == null) {
-      getLogger().debug(GalenReportUtil.MARKER_FAIL, "could not find '" + selector.elementName() + "'");
+      getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "could not find '" + selector.elementName() + "'");
     }
     assertNotNull(element, "Visibility: '" + selector.elementName() + "'");
     return element;
@@ -128,14 +128,14 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
 
   protected void click(Selector selector) {
     getElementOrFail(selector).click();
-    getLogger().debug(GalenReportUtil.MARKER_PASS, "clicked '" + selector.elementName() + "'");
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }
 
   protected void clickIfVisible(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
     if (element != null) {
       element.click();
-      getLogger().debug(GalenReportUtil.MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
     }
     else {
       getLogger().debug("did not click optional '" + selector.elementName() + "'");
@@ -189,7 +189,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
       getLogger().debug("landed on URL: <a href=\"" + currentUrl + "\">" + currentUrl + "</a>");
     }
     else {
-      getLogger().debug(GalenReportUtil.MARKER_PASS, "landed on URL: <a href=\"" + url + "\">" + url + "</a>");
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "landed on URL: <a href=\"" + url + "\">" + url + "</a>");
     }
   }
 
