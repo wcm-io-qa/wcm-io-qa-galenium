@@ -52,7 +52,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
     Reporter.log(infoMessage, true);
-    getLogger().info(infoMessage);
+    getLogger().info(GaleniumReportUtil.MARKER_SKIP, infoMessage);
 
     return true;
   }

@@ -23,6 +23,7 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.testng.IConfigurationListener2;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -36,7 +37,7 @@ import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 
-public class ExtentReportsListener implements ITestListener {
+public class ExtentReportsListener implements ITestListener, IConfigurationListener2 {
 
   @Override
   public void onFinish(ITestContext context) {
@@ -48,13 +49,11 @@ public class ExtentReportsListener implements ITestListener {
   @Override
   public void onStart(ITestContext context) {
     // TODO: Auto-generated method stub
-
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     // TODO: Auto-generated method stub
-
   }
 
 
@@ -87,8 +86,6 @@ public class ExtentReportsListener implements ITestListener {
       logMsgHtml = logMsg.toString().replace(System.lineSeparator(), "<br />");
       Reporter.log(logMsgHtml, false);
       getLogger().error(logMsg.toString());
-
-
     }
     catch (Throwable ex) {
       GaleniumReportUtil.getLogger().error("Error during failure handling", ex);
@@ -102,14 +99,11 @@ public class ExtentReportsListener implements ITestListener {
   @Override
   public void onTestSkipped(ITestResult result) {
     // TODO: Auto-generated method stub
-
   }
-
 
   @Override
   public void onTestStart(ITestResult result) {
-    // TODO: Auto-generated method stub
-
+    GaleniumReportUtil.getExtentTest(result);
   }
 
   @Override
@@ -167,6 +161,29 @@ public class ExtentReportsListener implements ITestListener {
 
   protected String getTestName(ITestResult result) {
     return result.getTestClass().getRealClass().getSimpleName() + "." + result.getName() + "(" + getAdditionalInfo() + ") ";
+  }
+
+  @Override
+  public void onConfigurationSuccess(ITestResult itr) {
+    // TODO: Auto-generated method stub
+
+  }
+
+  @Override
+  public void onConfigurationFailure(ITestResult itr) {
+    // TODO: Auto-generated method stub
+
+  }
+
+  @Override
+  public void onConfigurationSkip(ITestResult itr) {
+    // TODO: Auto-generated method stub
+
+  }
+
+  @Override
+  public void beforeConfiguration(ITestResult tr) {
+    GaleniumReportUtil.getExtentTest(tr);
   }
 
 }
