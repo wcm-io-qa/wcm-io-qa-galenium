@@ -23,6 +23,7 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.testng.IConfigurationListener2;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -36,7 +37,7 @@ import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 
-public class ExtentReportsListener implements ITestListener {
+public class ExtentReportsListener implements ITestListener, IConfigurationListener2 {
 
   @Override
   public void onFinish(ITestContext context) {
@@ -160,6 +161,29 @@ public class ExtentReportsListener implements ITestListener {
 
   protected String getTestName(ITestResult result) {
     return result.getTestClass().getRealClass().getSimpleName() + "." + result.getName() + "(" + getAdditionalInfo() + ") ";
+  }
+
+  @Override
+  public void onConfigurationSuccess(ITestResult itr) {
+    // TODO: Auto-generated method stub
+
+  }
+
+  @Override
+  public void onConfigurationFailure(ITestResult itr) {
+    // TODO: Auto-generated method stub
+
+  }
+
+  @Override
+  public void onConfigurationSkip(ITestResult itr) {
+    // TODO: Auto-generated method stub
+
+  }
+
+  @Override
+  public void beforeConfiguration(ITestResult tr) {
+    GaleniumReportUtil.getExtentTest(tr);
   }
 
 }
