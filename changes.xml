@@ -24,6 +24,12 @@
   <body>
 
     <release version="0.1.2" date="not released yet">
+      <action type="add" dev="apegam">
+        Context object to hold thread specific objects.
+      </action>
+      <action type="add" dev="apegam">
+        New listener structure.
+      </action>
       <action type="fix" dev="apegam">
         NPE in ExtentAppender.
       </action>
