@@ -32,6 +32,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class GaleniumConfiguration {
 
+  private static final String DEFAULT_GRID_PORT = "4444";
+  private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
+  private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
+  private static final String SYSTEM_PROPERTY_NAME_SELENIUM_HOST = "selenium.host";
   private static final String SYSTEM_PROPERTY_NAME_SAVE_IMAGE_COMPARISON = "galenium.imageComparison.save";
   private static final String SYSTEM_PROPERTY_NAME_SAVE_IMAGE_COMPARISON_DIRECTORY = "galenium.imageComparison.directory";
   private static final String SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON = "galenium.textComparison.save";
@@ -87,6 +91,18 @@ public final class GaleniumConfiguration {
 
   public static boolean isSaveSampledTexts() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON);
+  }
+
+  public static RunMode getRunMode() {
+    return RunMode.valueOf(System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE).toUpperCase());
+  }
+
+  public static String getGridHost() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_HOST);
+  }
+
+  public static int getGridPort() {
+    return Integer.parseInt(System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_PORT, DEFAULT_GRID_PORT));
   }
 
   /**

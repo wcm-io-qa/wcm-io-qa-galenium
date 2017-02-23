@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridHost;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridPort;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -49,6 +52,7 @@ import org.testng.SkipException;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
 import io.wcm.qa.galenium.util.TestDevice;
@@ -62,12 +66,7 @@ public final class WebDriverManager {
 
   private static final ThreadLocal<WebDriverManager> THREAD_LOCAL_MANAGER = new ThreadLocal<WebDriverManager>();
 
-  private WebDriver driver;
   private FirefoxProfile firefoxProfile;
-
-  private RunMode runMode;
-  private String host;
-  private int port;
 
   /**
    * @return WebDriverManager for current thread.
@@ -82,9 +81,6 @@ public final class WebDriverManager {
   }
 
   private WebDriverManager() {
-    runMode = RunMode.valueOf(System.getProperty("selenium.runmode").toUpperCase());
-    host = System.getProperty("selenium.host");
-    port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
   }
 
   /**
@@ -96,48 +92,48 @@ public final class WebDriverManager {
   }
 
   public static WebDriver getCurrentDriver() {
-    return get().driver;
+    return GaleniumContext.getDriver();
   }
 
   private WebDriver getDriverInstance(TestDevice newTestDevice) {
 
-    boolean needsNewDevice = driver == null
+    boolean needsNewDevice = getDriver() == null
         || getTestDevice() == null
         || newTestDevice.getBrowserType() != getTestDevice().getBrowserType()
         || (newTestDevice.getChromeEmulator() != null && !newTestDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
 
     if (needsNewDevice) {
       GaleniumReportUtil.getLogger().info("Needs new device: " + newTestDevice.toString());
-      if (driver != null) {
+      if (getDriver() != null) {
         closeDriver();
       }
       setTestDevice(newTestDevice);
-      driver = newDriver(newTestDevice);
+      setDriver(newDriver(newTestDevice));
     }
     boolean needsWindowResize = StringUtils.isEmpty(newTestDevice.getChromeEmulator()) // don't size chrome-emulator
         && (!newTestDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
     if (needsWindowResize) {
       try {
         Dimension screenSize = newTestDevice.getScreenSize();
-        GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(driver, screenSize.width, screenSize.height);
+        GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
       }
       catch (WebDriverException ex) {
         String msg = "Exception when resizing browser";
         log.info(msg, ex);
         GaleniumReportUtil.getLogger().debug(msg, ex);
       }
-      driver.manage().deleteAllCookies();
+      getDriver().manage().deleteAllCookies();
       GaleniumReportUtil.getLogger().info("Deleted all cookies.");
       setTestDevice(newTestDevice);
     }
-    return driver;
+    return getDriver();
   }
 
   /**
    * Quits Selenium WebDriver instance managed by this class.
    */
   public void closeDriver() {
-    if (driver != null) {
+    if (getDriver() != null) {
       try {
         quitDriver();
       }
@@ -153,7 +149,7 @@ public final class WebDriverManager {
         }
       }
       finally {
-        driver = null;
+        setDriver(null);
         setTestDevice(null);
         GaleniumReportUtil.getLogger().info("Driver and Device set to null");
       }
@@ -166,7 +162,7 @@ public final class WebDriverManager {
 
   protected void quitDriver() {
     GaleniumReportUtil.getLogger().info("Attempting to close driver");
-    driver.quit();
+    getDriver().quit();
     GaleniumReportUtil.getLogger().info("Closed driver");
   }
 
@@ -229,6 +225,7 @@ public final class WebDriverManager {
 
   private WebDriver newDriver(TestDevice newTestDevice) {
 
+    RunMode runMode = GaleniumConfiguration.getRunMode();
     logInfo("Creating new " + runMode + " " + newTestDevice.getBrowserType() + " WebDriver for thread " + Thread.currentThread().getName());
 
     DesiredCapabilities capabilities = getDesiredCapabilities(newTestDevice);
@@ -236,12 +233,12 @@ public final class WebDriverManager {
     GaleniumReportUtil.getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
       case REMOTE:
-        logInfo("Connecting to grid at " + host + ":" + port + "...");
+        logInfo("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
         try {
-          driver = new RemoteWebDriver(new URL("http", host, port, "/wd/hub"), capabilities);
+          setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilities));
         }
         catch (MalformedURLException ex) {
-          throw new RuntimeException("Couldn't construct valid URL using selenium.host=" + host + " and selenium.port=" + port);
+          throw new RuntimeException("Couldn't construct valid URL using selenium.host=" + getGridHost() + " and selenium.port=" + getGridPort());
         }
         break;
 
@@ -249,30 +246,30 @@ public final class WebDriverManager {
       case LOCAL:
         switch (newTestDevice.getBrowserType()) {
           case CHROME:
-            driver = new ChromeDriver(capabilities);
+            setDriver(new ChromeDriver(capabilities));
             break;
 
           case IE:
-            driver = new InternetExplorerDriver(capabilities);
+            setDriver(new InternetExplorerDriver(capabilities));
             break;
 
           case SAFARI:
-            driver = new SafariDriver(capabilities);
+            setDriver(new SafariDriver(capabilities));
             break;
 
           case PHANTOMJS:
-            driver = new PhantomJSDriver(capabilities);
+            setDriver(new PhantomJSDriver(capabilities));
             break;
 
           default:
           case FIREFOX:
-            driver = new FirefoxDriver(capabilities);
+            setDriver(new FirefoxDriver(capabilities));
             break;
         }
         break;
     }
 
-    return driver;
+    return getDriver();
   }
 
   public TestDevice getTestDevice() {
@@ -294,6 +291,14 @@ public final class WebDriverManager {
   protected void logError(String msg, WebDriverException ex) {
     log.error(msg, ex);
     GaleniumReportUtil.getLogger().error(msg, ex);
+  }
+
+  private WebDriver getDriver() {
+    return GaleniumContext.getDriver();
+  }
+
+  private void setDriver(WebDriver driver) {
+    GaleniumContext.getContext().setDriver(driver);
   }
 
 }
