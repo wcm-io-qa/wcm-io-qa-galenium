@@ -49,6 +49,7 @@ import org.testng.SkipException;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
 import io.wcm.qa.galenium.util.TestDevice;
 
@@ -64,7 +65,6 @@ public final class WebDriverManager {
   private WebDriver driver;
   private FirefoxProfile firefoxProfile;
 
-  private TestDevice testDevice;
   private RunMode runMode;
   private String host;
   private int port;
@@ -276,14 +276,14 @@ public final class WebDriverManager {
   }
 
   public TestDevice getTestDevice() {
-    return testDevice;
+    return GaleniumContext.getTestDevice();
   }
 
   /**
    * @param testDevice test device to use with this web driver
    */
   public void setTestDevice(TestDevice testDevice) {
-    this.testDevice = testDevice;
+    GaleniumContext.getContext().setTestDevice(testDevice);
   }
 
   protected void logInfo(String msg) {

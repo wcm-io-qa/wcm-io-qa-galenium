@@ -26,6 +26,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
@@ -110,15 +111,11 @@ public class WebDriverListener implements ITestListener {
     if (isDriverInitialized) {
       driver = WebDriverManager.getCurrentDriver();
     }
-    else if (getTestDevice() != null) {
-      driver = WebDriverManager.getDriver(getTestDevice());
+    else if (GaleniumContext.getTestDevice() != null) {
+      driver = WebDriverManager.getDriver(GaleniumContext.getTestDevice());
       isDriverInitialized = true;
     }
     return driver;
-  }
-
-  protected TestDevice getTestDevice() {
-    return WebDriverManager.get().getTestDevice();
   }
 
 }

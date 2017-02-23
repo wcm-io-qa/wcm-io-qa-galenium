@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -133,10 +134,6 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       }
     }
     return "??? (cannot find throwing line)";
-  }
-
-  private TestDevice getTestDevice() {
-    return WebDriverManager.get().getTestDevice();
   }
 
   private String getTestDuration(ITestResult result) {

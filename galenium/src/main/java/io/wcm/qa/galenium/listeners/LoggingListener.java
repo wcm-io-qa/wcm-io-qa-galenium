@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
@@ -82,7 +83,7 @@ public class LoggingListener extends TestListenerAdapter {
 
   protected String getAdditionalInfo() {
     String additionalInfo = "no additional info";
-    TestDevice testDevice = WebDriverManager.get().getTestDevice();
+    TestDevice testDevice = getTestDevice();
     if (testDevice != null) {
       additionalInfo = " [" + testDevice.toString() + "] ";
     }
