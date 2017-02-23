@@ -64,23 +64,8 @@ public final class WebDriverManager {
 
   private static final Logger log = LoggerFactory.getLogger(WebDriverManager.class);
 
-  private static final ThreadLocal<WebDriverManager> THREAD_LOCAL_MANAGER = new ThreadLocal<WebDriverManager>();
-
-  private FirefoxProfile firefoxProfile;
-
-  /**
-   * @return WebDriverManager for current thread.
-   */
-  public static WebDriverManager get() {
-    WebDriverManager context = THREAD_LOCAL_MANAGER.get();
-    if (context == null) {
-      context = new WebDriverManager();
-      THREAD_LOCAL_MANAGER.set(context);
-    }
-    return context;
-  }
-
   private WebDriverManager() {
+    // do not instantiate
   }
 
   /**
@@ -88,33 +73,24 @@ public final class WebDriverManager {
    * @return WebDriver for current thread.
    */
   public static WebDriver getDriver(TestDevice testDevice) {
-    return get().getDriverInstance(testDevice);
-  }
-
-  public static WebDriver getCurrentDriver() {
-    return GaleniumContext.getDriver();
-  }
-
-  private WebDriver getDriverInstance(TestDevice newTestDevice) {
-
     boolean needsNewDevice = getDriver() == null
         || getTestDevice() == null
-        || newTestDevice.getBrowserType() != getTestDevice().getBrowserType()
-        || (newTestDevice.getChromeEmulator() != null && !newTestDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
-
+        || testDevice.getBrowserType() != getTestDevice().getBrowserType()
+        || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
+    
     if (needsNewDevice) {
-      GaleniumReportUtil.getLogger().info("Needs new device: " + newTestDevice.toString());
+      GaleniumReportUtil.getLogger().info("Needs new device: " + testDevice.toString());
       if (getDriver() != null) {
         closeDriver();
       }
-      setTestDevice(newTestDevice);
-      setDriver(newDriver(newTestDevice));
+      setTestDevice(testDevice);
+      setDriver(newDriver(testDevice));
     }
-    boolean needsWindowResize = StringUtils.isEmpty(newTestDevice.getChromeEmulator()) // don't size chrome-emulator
-        && (!newTestDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
+    boolean needsWindowResize = StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
+        && (!testDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
     if (needsWindowResize) {
       try {
-        Dimension screenSize = newTestDevice.getScreenSize();
+        Dimension screenSize = testDevice.getScreenSize();
         GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
       }
       catch (WebDriverException ex) {
@@ -124,15 +100,19 @@ public final class WebDriverManager {
       }
       getDriver().manage().deleteAllCookies();
       GaleniumReportUtil.getLogger().info("Deleted all cookies.");
-      setTestDevice(newTestDevice);
+      setTestDevice(testDevice);
     }
     return getDriver();
+  }
+
+  public static WebDriver getCurrentDriver() {
+    return GaleniumContext.getDriver();
   }
 
   /**
    * Quits Selenium WebDriver instance managed by this class.
    */
-  public void closeDriver() {
+  public static void closeDriver() {
     if (getDriver() != null) {
       try {
         quitDriver();
@@ -160,13 +140,13 @@ public final class WebDriverManager {
     }
   }
 
-  protected void quitDriver() {
+  protected static void quitDriver() {
     GaleniumReportUtil.getLogger().info("Attempting to close driver");
     getDriver().quit();
     GaleniumReportUtil.getLogger().info("Closed driver");
   }
 
-  private DesiredCapabilities getDesiredCapabilities(TestDevice newTestDevice) {
+  private static DesiredCapabilities getDesiredCapabilities(TestDevice newTestDevice) {
     DesiredCapabilities capabilities;
 
     GaleniumReportUtil.getLogger().info("Getting capabilities for " + newTestDevice.getBrowserType());
@@ -202,13 +182,11 @@ public final class WebDriverManager {
       default:
       case FIREFOX:
         capabilities = DesiredCapabilities.firefox();
-        if (firefoxProfile == null) {
-          firefoxProfile = new FirefoxProfile();
-          // Workaround for click events spuriously failing in Firefox (https://code.google.com/p/selenium/issues/detail?id=6112)
-          firefoxProfile.setEnableNativeEvents(false);
-          firefoxProfile.setAcceptUntrustedCertificates(true);
-          firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
-        }
+        // Workaround for click events spuriously failing in Firefox (https://code.google.com/p/selenium/issues/detail?id=6112)
+        FirefoxProfile firefoxProfile = new FirefoxProfile();
+        firefoxProfile.setEnableNativeEvents(false);
+        firefoxProfile.setAcceptUntrustedCertificates(true);
+        firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
         capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
         break;
     }
@@ -223,7 +201,7 @@ public final class WebDriverManager {
     return capabilities;
   }
 
-  private WebDriver newDriver(TestDevice newTestDevice) {
+  private static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
     logInfo("Creating new " + runMode + " " + newTestDevice.getBrowserType() + " WebDriver for thread " + Thread.currentThread().getName());
@@ -272,32 +250,32 @@ public final class WebDriverManager {
     return getDriver();
   }
 
-  public TestDevice getTestDevice() {
+  public static TestDevice getTestDevice() {
     return GaleniumContext.getTestDevice();
   }
 
   /**
    * @param testDevice test device to use with this web driver
    */
-  public void setTestDevice(TestDevice testDevice) {
+  public static void setTestDevice(TestDevice testDevice) {
     GaleniumContext.getContext().setTestDevice(testDevice);
   }
 
-  protected void logInfo(String msg) {
+  private static void logInfo(String msg) {
     log.info(msg);
     GaleniumReportUtil.getLogger().info(msg);
   }
 
-  protected void logError(String msg, WebDriverException ex) {
+  private static void logError(String msg, WebDriverException ex) {
     log.error(msg, ex);
     GaleniumReportUtil.getLogger().error(msg, ex);
   }
 
-  private WebDriver getDriver() {
+  private static WebDriver getDriver() {
     return GaleniumContext.getDriver();
   }
 
-  private void setDriver(WebDriver driver) {
+  private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
   }
 

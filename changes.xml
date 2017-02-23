@@ -23,7 +23,10 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="0.1.3" date="not released yet">
+    <release version="0.1.4" date="not released yet">
+      <action type="fix" dev="apegam">
+        Context now holding all objects previously in WebDriverManager.
+      </action>
       <action type="add" dev="apegam">
         Category handling to report utility.
       </action>
