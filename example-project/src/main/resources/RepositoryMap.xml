@@ -51,7 +51,7 @@
         <driver id="googlechrome">
             <version id="2.25">
                 <bitrate thirtytwobit="true" sixtyfourbit="true">
-                    <filelocation>http://chromedriver.storage.googleapis.com/2.25/chromedriver_mac32.zip</filelocation>
+                    <filelocation>http://chromedriver.storage.googleapis.com/2.25/chromedriver_mac64.zip</filelocation>
                     <hash>8343cb5ed784c1c23c90ecfa86da0dc058d68c89</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
