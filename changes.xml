@@ -30,6 +30,9 @@
       <action type="add" dev="apegam">
         Category handling to report utility.
       </action>
+      <action type="fix" dev="bbaumann">
+        Fix for chromedriver_mac. Set version to 64bit.
+      </action>
     </release>
 
     <release version="0.1.2" date="2017-02-22">
