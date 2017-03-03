@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import org.openqa.selenium.WebDriver;
-
 /**
  * Homepage.
  */
@@ -28,15 +26,8 @@ public class Homepage extends AbstractPage {
 
   private static final String PATH_TO_HOMEPAGE = "/en.html";
 
-  /**
-   * @param driver web driver
-   */
-  public Homepage(WebDriver driver) {
-    super(driver);
-  }
-
   public Stage getStage() {
-    return new Stage(driver);
+    return new Stage();
   }
 
   @Override

@@ -19,14 +19,13 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.SelectorFactory;
 
 
 /**
@@ -38,13 +37,6 @@ public class Footer extends AbstractWebDriverPageObject {
   private static final Selector SELECTOR_FOOTER = SelectorFactory.fromCss("footer.footer-site");
   private List<FooterNavSection> navSections;
   private WebElement footer;
-
-  /**
-   * @param driver web driver
-   */
-  Footer(WebDriver driver) {
-    super(driver);
-  }
 
   /**
    * @return sections of meta nav

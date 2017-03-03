@@ -21,26 +21,20 @@ package io.wcm.qa.galenium.example.pageobjects;
 
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
-import org.openqa.selenium.WebDriver;
-
 
 abstract class AbstractPage extends AbstractWebDriverPageObject {
 
   private Navigation navigation;
 
-  AbstractPage(WebDriver driver) {
-    super(driver);
-  }
-
   public Navigation getNavigation() {
     if (navigation == null) {
-      navigation = new Navigation(getDriver());
+      navigation = new Navigation();
     }
     return navigation;
   }
 
   public Footer getFooter() {
-    return new Footer(driver);
+    return new Footer();
   }
 
   public void load() {

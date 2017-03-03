@@ -27,6 +27,8 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 
@@ -46,8 +48,7 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onStart(ITestContext context) {
-    // TODO: Auto-generated method stub
-
+    getLogger().trace("WebDriverListener active.");
   }
 
   @Override
@@ -67,8 +68,10 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    // TODO: Auto-generated method stub
-
+    TestDevice testDevice = TestInfoUtil.getTestDevice(result);
+    if (testDevice != null) {
+      WebDriverManager.getDriver(testDevice);
+    }
   }
 
   @Override

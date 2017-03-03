@@ -17,18 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.example.pageobjects;
+package io.wcm.qa.galenium.webdriver;
 
-/**
- * Conference page.
- */
-public class ConferencePage extends AbstractPage {
+import io.wcm.qa.galenium.util.TestDevice;
 
-  private static final String PATH_TO_CONFERENCE = "/en/conference.html";
+public interface HasDevice {
 
-  @Override
-  protected String getRelativePath() {
-    return PATH_TO_CONFERENCE;
-  }
-
+  TestDevice getDevice();
 }

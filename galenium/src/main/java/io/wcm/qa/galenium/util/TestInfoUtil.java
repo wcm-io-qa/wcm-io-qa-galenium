@@ -26,7 +26,7 @@ import org.testng.ITestResult;
 
 import com.relevantcodes.extentreports.ExtentTest;
 
-import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
+import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
@@ -67,10 +67,10 @@ public final class TestInfoUtil {
     return browser;
   }
 
-  static TestDevice getTestDevice(ITestResult result) {
+  public static TestDevice getTestDevice(ITestResult result) {
     Object testClass = result.getInstance();
-    if (testClass instanceof AbstractGaleniumBase) {
-      Object device = ((AbstractGaleniumBase)testClass).getDevice();
+    if (testClass instanceof HasDevice) {
+      Object device = ((HasDevice)testClass).getDevice();
       if (device instanceof TestDevice) {
         return (TestDevice)device;
       }

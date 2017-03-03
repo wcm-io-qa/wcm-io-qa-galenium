@@ -19,14 +19,13 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.SelectorFactory;
 
 /**
  * Stage on homepage.
@@ -39,13 +38,6 @@ public class Stage extends AbstractWebDriverPageObject {
   private static final Selector SELECTOR_STAGE_CTA_LINKS = SelectorFactory.fromCss("div.stage-cta-box > div.stageheaderLinkItem a.stage-cta");
   private WebElement stage;
   private List<LinkItem> ctaLinks;
-
-  /**
-   * @param driver web driver
-   */
-  public Stage(WebDriver driver) {
-    super(driver);
-  }
 
   public String getTitle() {
     return getStage().findElement(SELECTOR_STAGE_HEADLINE.asBy()).getText();

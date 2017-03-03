@@ -36,11 +36,12 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GridHostExtractor;
 import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
  */
-public abstract class AbstractGaleniumBase implements ITest {
+public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   private Assertion assertion;
   private TestDevice device;
