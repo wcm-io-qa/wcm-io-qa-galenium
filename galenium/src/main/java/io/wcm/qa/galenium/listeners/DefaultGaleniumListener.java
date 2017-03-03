@@ -52,6 +52,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
     for (ITestListener listener : listeners) {
       if (listener instanceof IConfigurationListener2) {
+        getLogger().trace("{}: beforeConfiguration(ITestResult tr)", listener.getClass());
         ((IConfigurationListener2)listener).beforeConfiguration(tr);
       }
     }
@@ -61,6 +62,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
   public void onFinish(ITestContext context) {
     getLogger().trace("+++LISTENER: onFinish(ITestContext context)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onFinish(ITestContext context)", listener.getClass());
       listener.onFinish(context);
     }
   }
@@ -69,6 +71,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
   public void onStart(ITestContext context) {
     getLogger().trace("+++LISTENER: onStart(ITestContext context)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onStart(ITestContext context)", listener.getClass());
       listener.onStart(context);
     }
   }
@@ -77,6 +80,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
       listener.onTestFailedButWithinSuccessPercentage(result);
     }
   }
@@ -85,6 +89,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
   public void onTestFailure(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailure(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestFailure(ITestResult result)", listener.getClass());
       listener.onTestFailure(result);
     }
   }
@@ -102,6 +107,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
   public void onTestStart(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestStart(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestStart(ITestResult result)", listener.getClass());
       listener.onTestStart(result);
     }
   }
@@ -110,6 +116,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
   public void onTestSuccess(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
       listener.onTestSuccess(result);
     }
   }
