@@ -155,4 +155,35 @@ public final class InteractionUtil {
       getLogger().debug("no elements found.");
     }
   }
+
+  public static void enterText(Selector selector, String text) {
+    WebElement input = getElementOrFail(selector);
+    input.clear();
+    input.sendKeys(text);
+  }
+
+  public static void scrollToElement(Selector selector) {
+    getLogger().debug(GaleniumReportUtil.MARKER_INFO, "Scrolling to element: '" + selector + "'");
+    WebElement elementToScrollTo = getDriver().findElement(selector.asBy());
+    scrollToElement(elementToScrollTo);
+  }
+
+  public static void scrollToElement(WebElement elementToScrollTo) {
+    Actions actions = new Actions(getDriver());
+    actions.moveToElement(elementToScrollTo);
+    actions.perform();
+  }
+
+  public static void clickByPartialText(Selector selector, String searchStr) {
+    getLogger().debug("looking for pattern: " + searchStr);
+    WebElement element = findByPartialText(selector, searchStr);
+    if (element != null) {
+      getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
+      element.click();
+    }
+    else {
+      getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
+    }
+  }
+
 }
