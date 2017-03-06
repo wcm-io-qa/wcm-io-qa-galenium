@@ -19,22 +19,20 @@
  */
 package io.wcm.qa.galenium.listeners;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 
 public class WebDriverListener implements ITestListener {
-
-  private Boolean isDriverInitialized = false;
 
   @Override
   public void onFinish(ITestContext context) {
@@ -70,7 +68,14 @@ public class WebDriverListener implements ITestListener {
   public void onTestStart(ITestResult result) {
     TestDevice testDevice = TestInfoUtil.getTestDevice(result);
     if (testDevice != null) {
+      getLogger().debug("new driver for: " + testDevice);
       WebDriverManager.getDriver(testDevice);
+      if (getDriver() == null) {
+        getLogger().warn(MARKER_ERROR, "driver not instantiated");
+      }
+    }
+    else {
+      getLogger().debug("no test device set for: " + result.getTestName());
     }
   }
 
@@ -105,19 +110,6 @@ public class WebDriverListener implements ITestListener {
 
   protected void closeDriver() {
     WebDriverManager.closeDriver();
-    isDriverInitialized = false;
-  }
-
-  protected WebDriver getDriver() {
-    if (isDriverInitialized) {
-      return GaleniumContext.getDriver();
-    }
-    else if (GaleniumContext.getTestDevice() != null) {
-      isDriverInitialized = true;
-      return WebDriverManager.getDriver(GaleniumContext.getTestDevice());
-    }
-    // no driver and no test device
-    return null;
   }
 
 }
