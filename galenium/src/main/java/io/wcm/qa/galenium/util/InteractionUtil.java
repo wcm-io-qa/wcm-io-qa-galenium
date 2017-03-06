@@ -24,6 +24,7 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -84,6 +85,24 @@ public final class InteractionUtil {
       throw new GaleniumException(msg);
     }
     return element;
+  }
+
+  public static boolean hasAttribute(Selector selector, String name, String value) {
+    WebElement element = getElementVisible(selector);
+    if (element == null) {
+      return false;
+    }
+    return StringUtils.equals(value, element.getAttribute(name));
+  }
+
+  public static boolean hasCssClass(Selector selector, String cssClass) {
+    WebElement element = getElementVisible(selector);
+    if (element == null) {
+      return false;
+    }
+    String[] split = element.getAttribute("class").split(" ");
+
+    return ArrayUtils.contains(split, cssClass);
   }
 
   /**
