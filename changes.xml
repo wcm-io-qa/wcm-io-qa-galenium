@@ -33,6 +33,9 @@
       <action type="fix" dev="bbaumann">
         Fix for chromedriver_mac. Set version to 64bit.
       </action>
+      <action type="add" dev="apegam">
+        More methods in InteractionUtil and driver from context used.
+      </action>
     </release>
 
     <release version="0.1.2" date="2017-02-22">

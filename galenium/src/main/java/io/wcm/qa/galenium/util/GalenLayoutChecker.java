@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +40,13 @@ import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.PageSpec;
+import com.galenframework.validation.ValidationError;
+import com.galenframework.validation.ValidationErrorException;
 import com.galenframework.validation.ValidationListener;
+import com.galenframework.validation.ValidationObject;
+import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
@@ -138,21 +145,34 @@ public final class GalenLayoutChecker {
   }
 
   /**
-   * Wrapper exception for Galen layout problems.
+   * @param layoutReport Galen layout report
+   * @param errorMessage message to use for errors and failures
+   * @param successMessage message to use in case of success
    */
-  public static class GalenLayoutException extends RuntimeException {
-
-    private static final long serialVersionUID = -152759653372481359L;
-
-    /**
-     * @see RuntimeException
-     * @param message message
-     * @param ex original exception
-     */
-    public GalenLayoutException(String message, Throwable ex) {
-      super(message, ex);
+  public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
+    if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, successMessage);
     }
-
+    else {
+      List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
+      for (ValidationResult validationResult : validationErrorResults) {
+        ValidationError error = validationResult.getError();
+        String errorMessages = StringUtils.join(error.getMessages(), "|");
+        if (error.isOnlyWarn()) {
+          getLogger().warn(errorMessages);
+        }
+        else {
+          getLogger().error(GaleniumReportUtil.MARKER_FAIL, errorMessages);
+        }
+      }
+      if (layoutReport.errors() > 0) {
+        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
+        List<String> messages = validationResult.getError().getMessages();
+        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
+        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
+        throw new GalenLayoutException(errorMessage, ex);
+      }
+    }
   }
 
 }

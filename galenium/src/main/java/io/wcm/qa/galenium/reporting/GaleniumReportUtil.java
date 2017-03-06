@@ -49,7 +49,7 @@ import com.relevantcodes.extentreports.model.ITest;
 import com.relevantcodes.extentreports.model.TestAttribute;
 
 import freemarker.template.TemplateException;
-import io.wcm.qa.galenium.util.GalenLayoutChecker;
+import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
@@ -147,11 +147,11 @@ public final class GaleniumReportUtil {
     }
     catch (IOException ex) {
       log.error("IOException writing report", ex);
-      throw new GalenLayoutChecker.GalenLayoutException("IOException writing report", ex);
+      throw new GalenLayoutException("IOException writing report", ex);
     }
     catch (TemplateException ex) {
       log.error("TemplateException writing report", ex);
-      throw new GalenLayoutChecker.GalenLayoutException("TemplateException writing report", ex);
+      throw new GalenLayoutException("TemplateException writing report", ex);
     }
   }
 

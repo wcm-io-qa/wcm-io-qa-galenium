@@ -19,22 +19,21 @@
  */
 package io.wcm.qa.galenium.testcase;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import com.galenframework.reports.model.LayoutReport;
+import com.galenframework.validation.ValidationListener;
+
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.util.TestDevice;
-
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
-import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.validation.ValidationListener;
 
 /**
  * Abstract base test class with methods to interact directly with browser. Uses {@link InteractionUtil}.
@@ -49,11 +48,11 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected WebElement getElementVisible(Selector selector) {
-    return InteractionUtil.getElementVisible(getDriver(), selector, 10);
+    return InteractionUtil.getElementVisible(selector, 10);
   }
 
   protected WebElement getElementVisible(Selector selector, int howLong) {
-    WebElement elementVisible = InteractionUtil.getElementVisible(getDriver(), selector, howLong);
+    WebElement elementVisible = InteractionUtil.getElementVisible(selector, howLong);
     if (elementVisible != null) {
       getLogger().debug(GaleniumReportUtil.MARKER_PASS, "found '" + selector.elementName() + "'");
     }
@@ -61,8 +60,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected void assertElementVisible(String message, Selector selector) {
-    WebDriver driver = getDriver();
-    assertNotNull(InteractionUtil.getElementVisible(driver, selector, 10), message);
+    assertNotNull(InteractionUtil.getElementVisible(selector, 10), message);
     getLogger().debug(GaleniumReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 
@@ -84,7 +82,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected WebElement findByPartialText(String searchStr, Selector selector) {
-    return InteractionUtil.findByPartialText(getDriver(), selector, searchStr);
+    return InteractionUtil.findByPartialText(selector, searchStr);
   }
 
   protected WebElement getElementOrFail(Selector selector) {
@@ -97,20 +95,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected void mouseOver(Selector selector) {
-    getLogger().debug("attempting mouse over: " + selector.elementName());
-    WebDriver driver = getDriver();
-    List<WebElement> mouseOverElements = driver.findElements(selector.asBy());
-    if (!mouseOverElements.isEmpty()) {
-      WebElement mouseOverElement = mouseOverElements.get(0);
-      if (mouseOverElement.isDisplayed()) {
-        getLogger().debug("Moving to element: " + mouseOverElement);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(mouseOverElement).perform();
-      }
-    }
-    else {
-      getLogger().debug("no elements found.");
-    }
+    InteractionUtil.mouseOver(selector);
   }
 
   protected void clickVisibleOfMany(Selector selector) {
@@ -143,11 +128,11 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected List<WebElement> findElements(Selector selector) {
-    return InteractionUtil.findElements(getDriver(), selector);
+    return InteractionUtil.findElements(selector);
   }
 
   protected Long getScrollYPosition() {
-    return InteractionUtil.getScrollYPosition(getDriver());
+    return InteractionUtil.getScrollYPosition();
   }
 
   protected List<String> getTags() {
@@ -164,7 +149,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     String errorMessage = "FAILED: Layoutcheck " + specName + " with device " + getDevice();
     String successMessage = "successfully ran spec: " + specName;
     try {
-      InteractionUtil.handleLayoutReport(layoutReport, errorMessage, successMessage);
+      GalenLayoutChecker.handleLayoutReport(layoutReport, errorMessage, successMessage);
     }
     catch (Throwable ex) {
       fail("layout check failed.", ex);

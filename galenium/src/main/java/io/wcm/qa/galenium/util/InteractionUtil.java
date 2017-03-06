@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.util.List;
 
@@ -27,16 +28,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.galenframework.browser.SeleniumBrowser;
-import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.validation.ValidationError;
-import com.galenframework.validation.ValidationErrorException;
-import com.galenframework.validation.ValidationObject;
-import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
@@ -50,12 +48,72 @@ public final class InteractionUtil {
     // Do not instantiate
   }
 
+  public static void click(Selector selector) {
+    getElementOrFail(selector).click();
+  }
+
   /**
-   * @param driver driver
+   * @param selector used to find elements
+   * @param searchStr used to filter elements that contain this text
+   * @return matching element if it is visible or null
+   */
+  public static WebElement findByPartialText(Selector selector, String searchStr) {
+    List<WebElement> elements = findElements(selector);
+    for (WebElement element : elements) {
+      String text = element.getText();
+      if (StringUtils.containsIgnoreCase(text, searchStr)) {
+        return element;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @param selector used to find elements
+   * @return list of elements matched by selector
+   */
+  public static List<WebElement> findElements(Selector selector) {
+    return getDriver().findElements(selector.asBy());
+  }
+
+  public static WebElement getElementOrFail(Selector selector) {
+    WebElement element = getElementVisible(selector, 30);
+    if (element == null) {
+      String msg = "could not find '" + selector.elementName() + "'";
+      getLogger().debug(GaleniumReportUtil.MARKER_FAIL, msg);
+      throw new GaleniumException(msg);
+    }
+    return element;
+  }
+
+  /**
+   * @param selector used to find element
+   * @return matching element if it is visible or null
+   */
+  public static WebElement getElementVisible(Selector selector) {
+    return getElementVisible(selector, 10);
+  }
+
+  /**
+   * @param selector used to find element
+   * @param howLong how long to wait for element to be visible in seconds
+   * @return matching element if it is visible or null
+   */
+  public static WebElement getElementVisible(Selector selector, int howLong) {
+    WebDriverWait wait = new WebDriverWait(getDriver(), howLong);
+    try {
+      return wait.until(ExpectedConditions.visibilityOfElementLocated(selector.asBy()));
+    }
+    catch (TimeoutException tex) {
+      return null;
+    }
+  }
+
+  /**
    * @return current vertical scroll position of browser with 0 being the very top
    */
-  public static Long getScrollYPosition(WebDriver driver) {
-    SeleniumBrowser seleniumBrowser = new SeleniumBrowser(driver);
+  public static Long getScrollYPosition() {
+    SeleniumBrowser seleniumBrowser = new SeleniumBrowser(getDriver());
     StringBuilder builder = new StringBuilder();
     builder.append("if (window.pageYOffset) ");
     builder.append("return window.pageYOffset;");
@@ -67,86 +125,34 @@ public final class InteractionUtil {
     return scrollYPosition;
   }
 
-  /**
-   * @param driver driver
-   * @param selector used to find elements
-   * @return list of elements matched by selector
-   */
-  public static List<WebElement> findElements(WebDriver driver, Selector selector) {
-    return driver.findElements(selector.asBy());
-  }
-
-  /**
-   * @param driver driver
-   * @param selector used to find element
-   * @param howLong how long to wait for element to be visible in seconds
-   * @return matching element if it is visible or null
-   */
-  public static WebElement getElementVisible(WebDriver driver, Selector selector, int howLong) {
-    WebDriverWait wait = new WebDriverWait(driver, howLong);
-    try {
-      return wait.until(ExpectedConditions.visibilityOfElementLocated(selector.asBy()));
+  public static void moveMouseHorizontally(int offsetInPixel) {
+    if (offsetInPixel > 0) {
+      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse right by " + offsetInPixel);
     }
-    catch (TimeoutException tex) {
-      return null;
+    else if (offsetInPixel < 0) {
+      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse left by " + -offsetInPixel);
     }
+    getActions().moveByOffset(offsetInPixel, 0).perform();
   }
 
-  /**
-   * @param driver driver
-   * @param selector used to find element
-   * @return matching element if it is visible or null
-   */
-  public static WebElement getElementVisible(WebDriver driver, Selector selector) {
-    return getElementVisible(driver, selector, 10);
+  private static Actions getActions() {
+    return new Actions(getDriver());
   }
 
-  /**
-   * @param driver driver
-   * @param selector used to find elements
-   * @param searchStr used to filter elements that contain this text
-   * @return matching element if it is visible or null
-   */
-  public static WebElement findByPartialText(WebDriver driver, Selector selector, String searchStr) {
-    List<WebElement> elements = findElements(driver, selector);
-    for (WebElement element : elements) {
-      String text = element.getText();
-      if (StringUtils.containsIgnoreCase(text, searchStr)) {
-        return element;
+  public static void mouseOver(Selector selector) {
+    getLogger().debug("attempting mouse over: " + selector.elementName());
+    WebDriver driver = getDriver();
+    List<WebElement> mouseOverElements = driver.findElements(selector.asBy());
+    if (!mouseOverElements.isEmpty()) {
+      WebElement mouseOverElement = mouseOverElements.get(0);
+      if (mouseOverElement.isDisplayed()) {
+        getLogger().debug("Moving to element: " + mouseOverElement);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(mouseOverElement).perform();
       }
-    }
-    return null;
-  }
-
-  /**
-   * @param layoutReport Galen layout report
-   * @param errorMessage message to use for errors and failures
-   * @param successMessage message to use in case of success
-   */
-  public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
-    if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      getLogger().debug(GaleniumReportUtil.MARKER_PASS, successMessage);
     }
     else {
-      List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
-      for (ValidationResult validationResult : validationErrorResults) {
-        ValidationError error = validationResult.getError();
-        String errorMessages = StringUtils.join(error.getMessages(), "|");
-        if (error.isOnlyWarn()) {
-          getLogger().warn(errorMessages);
-        }
-        else {
-          getLogger().error(GaleniumReportUtil.MARKER_FAIL, errorMessages);
-        }
-      }
-      if (layoutReport.errors() > 0) {
-        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
-        List<String> messages = validationResult.getError().getMessages();
-        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-        throw new GalenLayoutChecker.GalenLayoutException(errorMessage, ex);
-      }
+      getLogger().debug("no elements found.");
     }
   }
-
 }
