@@ -101,7 +101,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
   }
 
   protected void clickConferenceNavLink() {
-    clickByPartialText(SELECTOR_NAV_LINK, "conference");
+    clickByPartialText("conference", SELECTOR_NAV_LINK);
   }
 
   private void navShouldBeVisible() {

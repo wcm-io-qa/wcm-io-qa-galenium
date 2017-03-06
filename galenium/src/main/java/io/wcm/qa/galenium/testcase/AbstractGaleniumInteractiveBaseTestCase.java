@@ -69,9 +69,9 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     getLogger().debug(GaleniumReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
   }
 
-  protected void clickByPartialText(Selector selector, String searchStr) {
+  protected void clickByPartialText(String searchStr, Selector selector) {
     getLogger().debug("looking for pattern: " + searchStr);
-    WebElement element = findByPartialText(selector, searchStr);
+    WebElement element = findByPartialText(searchStr, selector);
     if (element != null) {
       getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
       element.click();
@@ -81,7 +81,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     }
   }
 
-  protected WebElement findByPartialText(Selector selector, String searchStr) {
+  protected WebElement findByPartialText(String searchStr, Selector selector) {
     return InteractionUtil.findByPartialText(selector, searchStr);
   }
 
