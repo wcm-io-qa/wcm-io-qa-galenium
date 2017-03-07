@@ -56,6 +56,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
         ((IConfigurationListener2)listener).beforeConfiguration(tr);
       }
     }
+    super.beforeConfiguration(tr);
   }
 
   @Override
@@ -65,6 +66,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onFinish(ITestContext context)", listener.getClass());
       listener.onFinish(context);
     }
+    super.onFinish(context);
   }
 
   @Override
@@ -74,6 +76,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onStart(ITestContext context)", listener.getClass());
       listener.onStart(context);
     }
+    super.onStart(context);
   }
 
   @Override
@@ -83,6 +86,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
       listener.onTestFailedButWithinSuccessPercentage(result);
     }
+    super.onTestFailedButWithinSuccessPercentage(result);
   }
 
   @Override
@@ -92,6 +96,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onTestFailure(ITestResult result)", listener.getClass());
       listener.onTestFailure(result);
     }
+    super.onTestFailure(result);
   }
 
   @Override
@@ -101,6 +106,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
       listener.onTestSkipped(result);
     }
+    super.onTestSkipped(result);
   }
 
   @Override
@@ -110,6 +116,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onTestStart(ITestResult result)", listener.getClass());
       listener.onTestStart(result);
     }
+    super.onTestStart(result);
   }
 
   @Override
@@ -119,6 +126,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
       listener.onTestSuccess(result);
     }
+    super.onTestSuccess(result);
   }
 
 }
