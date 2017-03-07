@@ -27,7 +27,8 @@ import java.net.URL;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.openqa.selenium.remote.JsonException;
 import org.openqa.selenium.remote.SessionId;
@@ -39,7 +40,6 @@ import com.google.gson.JsonParser;
 /**
  * Utility class to fetch name of Selenium Grid node.
  */
-@SuppressWarnings("deprecation")
 public final class GridHostExtractor {
 
   private GridHostExtractor() {
@@ -56,7 +56,7 @@ public final class GridHostExtractor {
 
     try {
       HttpHost host = new HttpHost(hostname, port);
-      DefaultHttpClient client = new DefaultHttpClient();
+      CloseableHttpClient client = HttpClientBuilder.create().build();
       URL sessionURL = new URL("http://" + hostname + ":" + port + "/grid/api/testsession?session=" + session);
       BasicHttpEntityEnclosingRequest r = new BasicHttpEntityEnclosingRequest("POST", sessionURL.toExternalForm());
       HttpResponse response = client.execute(host, r);
