@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.galenium.imagecomparison;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -38,6 +35,9 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.ObjectSpecs;
 import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
+
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
  * Factory for fileless image comparison specs.
@@ -160,8 +160,13 @@ public class ImageComparisonSpecFactory {
 
     // folder
     if (StringUtils.isNotBlank(folder)) {
-      specText.append(folder);
-      specText.append("/");
+      if (StringUtils.endsWith(folder, "/")) {
+        specText.append(folder);
+      }
+      else {
+        specText.append(folder);
+        specText.append("/");
+      }
     }
 
     // image file
