@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.wcm.qa.galenium.example.pageobjects.ConferencePage;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
 import io.wcm.qa.galenium.listeners.RetryAnalyzer;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
@@ -32,13 +32,23 @@ import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.verification.CssClassVerification;
+import io.wcm.qa.galenium.verification.InvisibilityVerification;
+import io.wcm.qa.galenium.verification.NoCssClassVerification;
 import io.wcm.qa.galenium.verification.Verification;
 import io.wcm.qa.galenium.verification.VisibilityVerification;
 import io.wcm.qa.galenium.verification.VisualVerification;
 
 public class VerificationIT extends AbstractExampleBase {
 
+  private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";
   private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
+  private static final Selector SELECTOR_NAV_LINK_CONFERENCE = SelectorFactory.fromCss(
+      "Navlink Conference",
+      ".navlist-main a.navlink-main[href$='" + ConferencePage.PATH_TO_CONFERENCE + "'");
+  private static final Selector SELECTOR_NAV_LINK_HOME = SelectorFactory.fromCss(
+      "Navlink Home",
+      ".navlist-main a.navlink-main[href$='" + Homepage.PATH_TO_HOMEPAGE + "'");
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
   private static final Verification VERIFICATION_STAGE_VISIBLE = new VisibilityVerification(SELECTOR_STAGE);
 
@@ -52,6 +62,14 @@ public class VerificationIT extends AbstractExampleBase {
     loadStartUrl();
     verify(new LogoVerification(SELECTOR_LOGO));
     verify(VERIFICATION_STAGE_VISIBLE);
+    if (isMobile()) {
+      verify(new InvisibilityVerification(SELECTOR_NAV_LINK_HOME));
+      verify(new InvisibilityVerification(SELECTOR_NAV_LINK_CONFERENCE));
+    }
+    else {
+      verify(new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE));
+      verify(new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
+    }
   }
 
   private void verify(Verification verification) {
@@ -59,7 +77,7 @@ public class VerificationIT extends AbstractExampleBase {
       getLogger().info(MARKER_PASS, verification.getMessage());
     }
     else {
-      getLogger().warn(MARKER_FAIL, verification.getMessage());
+      fail(verification.getMessage(), verification.getException());
     }
   }
 
@@ -74,6 +92,7 @@ public class VerificationIT extends AbstractExampleBase {
       super(selector);
       addDifference(new BrowserDifference());
       addDifference(new ScreenWidthDifference());
+      setAllowedOffset(2);
     }
   }
 }

@@ -52,4 +52,9 @@ public class CssClassVerification extends AttributeVerification {
     return getElementName() + " has CSS class '" + getExpectedValue() + "'";
   }
 
+  @Override
+  protected String getAdditionalToStringInfo() {
+    return getExpectedValue();
+  }
+
 }

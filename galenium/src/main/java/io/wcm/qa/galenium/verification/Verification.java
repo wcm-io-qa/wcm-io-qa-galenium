@@ -35,4 +35,9 @@ public interface Verification {
    */
   boolean verify();
 
+  /**
+   * @return Throwable if one occured during verification
+   */
+  Throwable getException();
+
 }

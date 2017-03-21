@@ -74,6 +74,7 @@ public class ImageComparisonSpecFactory {
     setSelector(selector);
     setElementName(elementName);
     setFilename(elementName + ".png");
+    setSectionName(DEFAULT_PAGE_SECTION_NAME + " for " + getElementName());
   }
 
   /**

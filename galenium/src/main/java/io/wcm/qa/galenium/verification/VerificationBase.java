@@ -19,10 +19,12 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 
-import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
@@ -35,6 +37,7 @@ abstract class VerificationBase implements Verification {
   private Verification preVerification;
   private Selector selector;
   private Boolean verified;
+  private Throwable exception;
 
   protected VerificationBase(Selector selector) {
     setSelector(selector);
@@ -43,7 +46,6 @@ abstract class VerificationBase implements Verification {
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
   }
-
   /**
    * @see io.wcm.qa.galenium.verification.Verification#getMessage()
    */
@@ -82,16 +84,20 @@ abstract class VerificationBase implements Verification {
    */
   @Override
   public boolean verify() {
+    getLogger().trace("verifying (" + toString() + ")");
     if (hasPreVerification()) {
+      getLogger().trace("preverifying (" + getPreVerification().toString() + ")");
       if (!getPreVerification().verify()) {
         return false;
       }
     }
     try {
       setVerified(doVerification());
+      getLogger().trace("done verifying (" + toString() + ")");
     }
-    catch (GaleniumException ex) {
-      getLogger().info(GaleniumReportUtil.MARKER_FAIL, getFailureMessage());
+    catch (Throwable ex) {
+      getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
+      setException(ex);
       setVerified(false);
     }
     return isVerified();
@@ -141,5 +147,32 @@ abstract class VerificationBase implements Verification {
 
   protected void setSelector(Selector selector) {
     this.selector = selector;
+  }
+
+  @Override
+  public Throwable getException() {
+    return exception;
+  }
+
+  public void setException(Throwable exception) {
+    this.exception = exception;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(getClass().getSimpleName());
+    stringBuilder.append("(");
+    stringBuilder.append(getElementName());
+    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
+      stringBuilder.append(", ");
+      stringBuilder.append(getAdditionalToStringInfo());
+    }
+    stringBuilder.append(")");
+    return stringBuilder.toString();
+  }
+
+  protected String getAdditionalToStringInfo() {
+    return StringUtils.EMPTY;
   }
 }

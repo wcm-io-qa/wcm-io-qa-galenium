@@ -73,4 +73,8 @@ public class AttributeVerification extends VerificationBase {
     this.expectedValue = expectedValue;
   }
 
+  @Override
+  protected String getAdditionalToStringInfo() {
+    return getAttributeName() + ": " + getExpectedValue();
+  }
 }

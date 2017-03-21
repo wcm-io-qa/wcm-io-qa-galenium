@@ -60,10 +60,14 @@ public class SelectorFromString implements Selector {
 
   @Override
   public String elementName() {
+    String nameBase;
     if (StringUtils.isNotBlank(getName())) {
-      return getName();
+      nameBase = getName();
     }
-    return asString().replaceAll("[^a-zA-Z0-9]+", "-");
+    else {
+      nameBase = asString();
+    }
+    return nameBase.replaceAll("[^a-zA-Z0-9]+", "-");
   }
 
   public String getName() {
