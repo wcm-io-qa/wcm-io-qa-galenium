@@ -36,6 +36,9 @@
       <action type="add" dev="apegam">
         More methods in InteractionUtil and driver from context used.
       </action>
+      <action type="add" dev="apegam">
+        New concept of using verification objects.
+      </action>
     </release>
 
     <release version="0.1.2" date="2017-02-22">
