@@ -26,13 +26,13 @@ public class Homepage extends AbstractPage {
 
   private static final String PATH_TO_HOMEPAGE = "/en.html";
 
-  public Stage getStage() {
-    return new Stage();
-  }
-
   @Override
   public String getRelativePath() {
     return PATH_TO_HOMEPAGE;
+  }
+
+  public Stage getStage() {
+    return new Stage();
   }
 
 }

@@ -17,28 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.example.pageobjects;
+package io.wcm.qa.galenium.verification;
 
-import org.openqa.selenium.WebElement;
+import java.util.List;
 
-/**
- * Clickable link item with title.
- */
-public class LinkItem extends AbstractWebElementPageObject {
-
-  LinkItem(WebElement webElement) {
-    super(webElement);
-  }
+public interface Verifiable {
 
   /**
-   * Clicks the {@link WebElement} backing this object.
+   * @return a list of verifications
    */
-  public void click() {
-    getWebElement().click();
-  }
-
-  public String getTitle() {
-    return getWebElement().getText();
-  }
-
+  List<Verification> getVerifications();
 }

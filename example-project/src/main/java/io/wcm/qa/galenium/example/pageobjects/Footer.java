@@ -33,10 +33,10 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
  */
 public class Footer extends AbstractWebDriverPageObject {
 
-  private static final Selector SELECTOR_METANAV_SECTION = SelectorFactory.fromCss("nav > section");
   private static final Selector SELECTOR_FOOTER = SelectorFactory.fromCss("footer.footer-site");
-  private List<FooterNavSection> navSections;
+  private static final Selector SELECTOR_METANAV_SECTION = SelectorFactory.fromCss("nav > section");
   private WebElement footer;
+  private List<FooterNavSection> navSections;
 
   /**
    * @return sections of meta nav

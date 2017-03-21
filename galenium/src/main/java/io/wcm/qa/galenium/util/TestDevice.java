@@ -28,11 +28,11 @@ import org.openqa.selenium.Dimension;
  */
 public class TestDevice {
 
+  private final BrowserType browserType;
+  private String chromeEmulator;
   private final String name;
   private final Dimension screenSize;
   private final List<String> tags;
-  private final BrowserType browserType;
-  private String chromeEmulator;
 
   /**
    * @param name for display
@@ -57,10 +57,6 @@ public class TestDevice {
     return chromeEmulator;
   }
 
-  public void setChromeEmulator(String chromeEmulator) {
-    this.chromeEmulator = chromeEmulator;
-  }
-
   public String getName() {
     return name;
   }
@@ -71,6 +67,10 @@ public class TestDevice {
 
   public List<String> getTags() {
     return tags;
+  }
+
+  public void setChromeEmulator(String chromeEmulator) {
+    this.chromeEmulator = chromeEmulator;
   }
 
   @Override

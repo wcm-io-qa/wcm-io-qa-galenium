@@ -23,16 +23,16 @@ package io.wcm.qa.galenium.util;
  * Browser types that can be used with Galenium.
  */
 public enum BrowserType {
-  /** Firefox */
-  FIREFOX("firefox"),
   /** Chrome */
   CHROME("chrome"),
+  /** Firefox */
+  FIREFOX("firefox"),
   /** Internet Explorer */
   IE("ie"),
-  /** Safari */
-  SAFARI("safari"),
   /** PhantomJS */
-  PHANTOMJS("phantomjs");
+  PHANTOMJS("phantomjs"),
+  /** Safari */
+  SAFARI("safari");
 
   private final String mBrowser;
 

@@ -38,12 +38,12 @@ import com.relevantcodes.extentreports.model.Test;
  */
 class GaleniumExtentReports extends ExtentReports {
 
-  private static final long serialVersionUID = 1L;
-  private boolean closed;
-  private Map<String, ExtentTest> map = new HashMap<String, ExtentTest>();
-
   // Logger
   private static final Logger log = LoggerFactory.getLogger(GaleniumExtentReports.class);
+  private static final long serialVersionUID = 1L;
+  private boolean closed;
+
+  private Map<String, ExtentTest> map = new HashMap<String, ExtentTest>();
 
   GaleniumExtentReports(String pathExtentReportsReport, NetworkMode networkMode) {
     super(pathExtentReportsReport, networkMode);
@@ -64,6 +64,24 @@ class GaleniumExtentReports extends ExtentReports {
     map.clear();
     super.close();
     setClosed(true);
+  }
+
+  public ExtentTest getExtentTest(String name) {
+    if (map.containsKey(name)) {
+      return map.get(name);
+    }
+    return startTest(name, "");
+  }
+
+  @Override
+  public synchronized ExtentTest startTest(String testName, String description) {
+    ExtentTest extentTest = super.startTest(testName, description);
+    addExtentTest(extentTest);
+    return extentTest;
+  }
+
+  private ExtentTest addExtentTest(ExtentTest extentTest) {
+    return map.put(extentTest.getTest().getName(), extentTest);
   }
 
   private void closeAllTests() {
@@ -89,36 +107,18 @@ class GaleniumExtentReports extends ExtentReports {
     }
   }
 
-  @Override
-  protected void updateTestQueue(ExtentTest extentTest) {
-    addExtentTest(extentTest);
-    super.updateTestQueue(extentTest);
-  }
-
-  private ExtentTest addExtentTest(ExtentTest extentTest) {
-    return map.put(extentTest.getTest().getName(), extentTest);
-  }
-
-  @Override
-  public synchronized ExtentTest startTest(String testName, String description) {
-    ExtentTest extentTest = super.startTest(testName, description);
-    addExtentTest(extentTest);
-    return extentTest;
-  }
-
-  public ExtentTest getExtentTest(String name) {
-    if (map.containsKey(name)) {
-      return map.get(name);
-    }
-    return startTest(name, "");
-  }
-
   private boolean isClosed() {
     return closed;
   }
 
   private void setClosed(boolean closed) {
     this.closed = closed;
+  }
+
+  @Override
+  protected void updateTestQueue(ExtentTest extentTest) {
+    addExtentTest(extentTest);
+    super.updateTestQueue(extentTest);
   }
 
 }

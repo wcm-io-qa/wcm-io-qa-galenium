@@ -34,17 +34,17 @@ public class NavigationExampleIT extends AbstractExampleBase {
     super(testDevice);
   }
 
+  @Override
+  public String getRelativePath() {
+    return PATH_TO_HOMEPAGE;
+  }
+
   @Test
   public void testNavigation() {
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
     assertRelativePath(PATH_TO_CONFERENCE_PAGE);
-  }
-
-  @Override
-  public String getRelativePath() {
-    return PATH_TO_HOMEPAGE;
   }
 
 }

@@ -47,16 +47,9 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     super(testDevice);
   }
 
-  protected WebElement getElementVisible(Selector selector) {
-    return InteractionUtil.getElementVisible(selector, 10);
-  }
-
-  protected WebElement getElementVisible(Selector selector, int howLong) {
-    WebElement elementVisible = InteractionUtil.getElementVisible(selector, howLong);
-    if (elementVisible != null) {
-      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "found '" + selector.elementName() + "'");
-    }
-    return elementVisible;
+  protected void assertElementNotVisible(String message, Selector selector) {
+    assertNull(getElementVisible(selector), message);
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
   }
 
   protected void assertElementVisible(String message, Selector selector) {
@@ -64,9 +57,15 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     getLogger().debug(GaleniumReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 
-  protected void assertElementNotVisible(String message, Selector selector) {
-    assertNull(getElementVisible(selector), message);
-    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
+  protected void checkLayout(String testName, String specPath) {
+    getLogger().debug("checking layout: " + specPath);
+    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(testName, specPath, getDevice(), getValidationListener());
+    handleLayoutReport(specPath, layoutReport);
+  }
+
+  protected void click(Selector selector) {
+    getElementOrFail(selector).click();
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }
 
   protected void clickByPartialText(Selector selector, String searchStr) {
@@ -81,21 +80,15 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     }
   }
 
-  protected WebElement findByPartialText(Selector selector, String searchStr) {
-    return InteractionUtil.findByPartialText(selector, searchStr);
-  }
-
-  protected WebElement getElementOrFail(Selector selector) {
+  protected void clickIfVisible(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
-    if (element == null) {
-      getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "could not find '" + selector.elementName() + "'");
+    if (element != null) {
+      element.click();
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
     }
-    assertNotNull(element, "Visibility: '" + selector.elementName() + "'");
-    return element;
-  }
-
-  protected void mouseOver(Selector selector) {
-    InteractionUtil.mouseOver(selector);
+    else {
+      getLogger().debug("did not click optional '" + selector.elementName() + "'");
+    }
   }
 
   protected void clickVisibleOfMany(Selector selector) {
@@ -111,24 +104,33 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     }
   }
 
-  protected void click(Selector selector) {
-    getElementOrFail(selector).click();
-    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "clicked '" + selector.elementName() + "'");
-  }
-
-  protected void clickIfVisible(Selector selector) {
-    WebElement element = getElementVisible(selector, 30);
-    if (element != null) {
-      element.click();
-      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
-    }
-    else {
-      getLogger().debug("did not click optional '" + selector.elementName() + "'");
-    }
+  protected WebElement findByPartialText(Selector selector, String searchStr) {
+    return InteractionUtil.findByPartialText(selector, searchStr);
   }
 
   protected List<WebElement> findElements(Selector selector) {
     return InteractionUtil.findElements(selector);
+  }
+
+  protected WebElement getElementOrFail(Selector selector) {
+    WebElement element = getElementVisible(selector, 30);
+    if (element == null) {
+      getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "could not find '" + selector.elementName() + "'");
+    }
+    assertNotNull(element, "Visibility: '" + selector.elementName() + "'");
+    return element;
+  }
+
+  protected WebElement getElementVisible(Selector selector) {
+    return InteractionUtil.getElementVisible(selector, 10);
+  }
+
+  protected WebElement getElementVisible(Selector selector, int howLong) {
+    WebElement elementVisible = InteractionUtil.getElementVisible(selector, howLong);
+    if (elementVisible != null) {
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "found '" + selector.elementName() + "'");
+    }
+    return elementVisible;
   }
 
   protected Long getScrollYPosition() {
@@ -139,10 +141,8 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     return getDevice().getTags();
   }
 
-  protected void checkLayout(String testName, String specPath) {
-    getLogger().debug("checking layout: " + specPath);
-    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(testName, specPath, getDevice(), getValidationListener());
-    handleLayoutReport(specPath, layoutReport);
+  protected ValidationListener getValidationListener() {
+    return new ImageComparisonValidationListener(getLogger());
   }
 
   protected void handleLayoutReport(String specName, LayoutReport layoutReport) {
@@ -156,13 +156,8 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     }
   }
 
-  protected ValidationListener getValidationListener() {
-    return new ImageComparisonValidationListener(getLogger());
-  }
-
-  protected void loadUrlExactly(String url) {
-    loadUrl(url);
-    assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
+  protected boolean isCurrentUrl(String url) {
+    return StringUtils.equals(url, getDriver().getCurrentUrl());
   }
 
   protected void loadUrl(String url) {
@@ -178,8 +173,13 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
     }
   }
 
-  protected boolean isCurrentUrl(String url) {
-    return StringUtils.equals(url, getDriver().getCurrentUrl());
+  protected void loadUrlExactly(String url) {
+    loadUrl(url);
+    assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
+  }
+
+  protected void mouseOver(Selector selector) {
+    InteractionUtil.mouseOver(selector);
   }
 
 }

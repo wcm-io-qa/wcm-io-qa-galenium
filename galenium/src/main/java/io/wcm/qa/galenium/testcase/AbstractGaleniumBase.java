@@ -54,6 +54,22 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     setDevice(testDevice);
   }
 
+  /**
+   * @return the test device used for this test run.
+   */
+  public TestDevice getDevice() {
+    return device;
+  }
+
+  public Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
+  }
+
+  @Override
+  public String getTestName() {
+    return getClass().getSimpleName() + "/" + getDevice();
+  }
+
   protected void assertEquals(boolean actual, boolean expected) {
     getAssertion().assertEquals(actual, expected);
   }
@@ -275,13 +291,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     return GaleniumConfiguration.getBaseUrl();
   }
 
-  /**
-   * @return the test device used for this test run.
-   */
-  public TestDevice getDevice() {
-    return device;
-  }
-
   protected abstract WebDriver getDriver();
 
   protected String getGridNodeHostname() {
@@ -293,11 +302,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
       return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
     }
     return "NOT_REMOTE";
-  }
-
-  @Override
-  public String getTestName() {
-    return getClass().getSimpleName() + "/" + getDevice();
   }
 
   protected void setAssertion(Assertion assertion) {
@@ -316,10 +320,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   protected void skipTest(String skipMessage, Throwable ex) {
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
-  }
-
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
 }

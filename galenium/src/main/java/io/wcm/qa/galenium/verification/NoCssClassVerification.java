@@ -23,7 +23,7 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public class NoCssClassVerification extends CssClassVerification {
 
-  protected NoCssClassVerification(Selector selector, String cssClass) {
+  public NoCssClassVerification(Selector selector, String cssClass) {
     super(selector, cssClass);
   }
 

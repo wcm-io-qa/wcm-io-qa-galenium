@@ -19,12 +19,20 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * {@link TestDevice} based {@link Difference}.
  */
 public class ScreenWidthDifference extends StringDifference {
+
+  /**
+   * Uses test device from context.
+   */
+  public ScreenWidthDifference() {
+    this(GaleniumContext.getTestDevice());
+  }
 
   /**
    * @param device defines screen width

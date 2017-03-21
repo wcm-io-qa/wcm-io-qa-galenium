@@ -21,12 +21,14 @@ package io.wcm.qa.galenium.verification;
 
 import java.util.List;
 
+import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.specs.page.CorrectionsRect;
 
 import io.wcm.qa.galenium.imagecomparison.DifferenceAwareIcsFactory;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.util.GalenLayoutChecker;
 
 public class VisualVerification extends VerificationBase {
 
@@ -45,16 +47,6 @@ public class VisualVerification extends VerificationBase {
 
     // handle self
     super.addDifference(difference);
-  }
-
-  @Override
-  protected void setDifferences(MutableDifferences differences) {
-    // handle factory
-    getSpecFactory().clearDifferences();
-    getSpecFactory().addAll(differences.getDifferences());
-
-    // handle self
-    super.setDifferences(differences);
   }
 
   public void addObjectToIgnore(Selector selectorToIgnore) {
@@ -139,7 +131,14 @@ public class VisualVerification extends VerificationBase {
 
   @Override
   protected Boolean doVerification() {
-    return null;
+    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
+    try {
+      GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
+    }
+    catch (Exception ex) {
+      return false;
+    }
+    return true;
   }
 
   @Override
@@ -150,6 +149,16 @@ public class VisualVerification extends VerificationBase {
   @Override
   protected String getSuccessMessage() {
     return getElementName() + ": Image comparison successful";
+  }
+
+  @Override
+  protected void setDifferences(MutableDifferences differences) {
+    // handle factory
+    getSpecFactory().clearDifferences();
+    getSpecFactory().addAll(differences.getDifferences());
+
+    // handle self
+    super.setDifferences(differences);
   }
 
 }

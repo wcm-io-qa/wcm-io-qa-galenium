@@ -20,18 +20,21 @@
 package io.wcm.qa.galenium.verification;
 
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
 
-public abstract class VerificationBase {
+abstract class VerificationBase implements Verification {
 
   private MutableDifferences differences;
+  private Verification preVerification;
   private Selector selector;
   private Boolean verified;
-  private VerificationBase preVerification;
 
   protected VerificationBase(Selector selector) {
     setSelector(selector);
@@ -41,6 +44,10 @@ public abstract class VerificationBase {
     getDifferences().add(difference);
   }
 
+  /**
+   * @see io.wcm.qa.galenium.verification.Verification#getMessage()
+   */
+  @Override
   public String getMessage() {
     if (isVerified() == null) {
       if (hasPreVerification()) {
@@ -54,39 +61,48 @@ public abstract class VerificationBase {
     return getFailureMessage();
   }
 
-  protected String getNotVerifiedMessage() {
-    return "NOT VERIFIED: " + getElementName();
-  }
-
-  protected String getElementName() {
-    return getSelector().elementName();
+  public Verification getPreVerification() {
+    return preVerification;
   }
 
   public Boolean isVerified() {
     return verified;
   }
 
+  public void setPreVerification(Verification preVerification) {
+    this.preVerification = preVerification;
+  }
+
   public void setVerified(Boolean verified) {
     this.verified = verified;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.verification.Verification#verify()
+   */
+  @Override
   public boolean verify() {
     if (hasPreVerification()) {
       if (!getPreVerification().verify()) {
         return false;
       }
     }
-    setVerified(doVerification());
+    try {
+      setVerified(doVerification());
+    }
+    catch (GaleniumException ex) {
+      getLogger().info(GaleniumReportUtil.MARKER_FAIL, getFailureMessage());
+      setVerified(false);
+    }
     return isVerified();
-  }
-
-  protected boolean hasPreVerification() {
-    return getPreVerification() != null;
   }
 
   protected abstract Boolean doVerification();
 
   protected MutableDifferences getDifferences() {
+    if (differences == null) {
+      differences = new MutableDifferences();
+    }
     return differences;
   }
 
@@ -94,8 +110,20 @@ public abstract class VerificationBase {
     return InteractionUtil.getElementVisible(getSelector());
   }
 
+  protected String getElementName() {
+    return getSelector().elementName();
+  }
 
   protected abstract String getFailureMessage();
+
+
+  protected Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
+  }
+
+  protected String getNotVerifiedMessage() {
+    return "NOT VERIFIED: " + getElementName();
+  }
 
   protected Selector getSelector() {
     return selector;
@@ -103,19 +131,15 @@ public abstract class VerificationBase {
 
   protected abstract String getSuccessMessage();
 
+  protected boolean hasPreVerification() {
+    return getPreVerification() != null;
+  }
+
   protected void setDifferences(MutableDifferences differences) {
     this.differences = differences;
   }
 
   protected void setSelector(Selector selector) {
     this.selector = selector;
-  }
-
-  public VerificationBase getPreVerification() {
-    return preVerification;
-  }
-
-  public void setPreVerification(VerificationBase preVerification) {
-    this.preVerification = preVerification;
   }
 }

@@ -26,7 +26,7 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public class CssClassVerification extends AttributeVerification {
 
-  protected CssClassVerification(Selector selector, String cssClass) {
+  public CssClassVerification(Selector selector, String cssClass) {
     super(selector, "class", cssClass);
     setExpectedValue(cssClass);
     setPreVerification(new VisibilityVerification(getSelector()));

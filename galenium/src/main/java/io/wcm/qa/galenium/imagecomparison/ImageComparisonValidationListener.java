@@ -51,10 +51,10 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
   private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
 
-  private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
-
   // Logger
   private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
+
+  private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
   private Logger logger;
 
   /**
@@ -63,6 +63,10 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
    */
   public ImageComparisonValidationListener(Logger logger) {
     setLogger(logger);
+  }
+
+  public Logger getLogger() {
+    return logger;
   }
 
   @Override
@@ -102,6 +106,10 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     }
   }
 
+  public void setLogger(Logger logger) {
+    this.logger = logger;
+  }
+
   private BufferedImage getPageElementScreenshot(PageValidation pageValidation, String objectName) {
     BufferedImage wholePageImage = pageValidation.getPage().getScreenshotImage();
     PageElement element = pageValidation.findPageElement(objectName);
@@ -113,8 +121,24 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     return null;
   }
 
-  protected Pattern getImagePathExtractionRegEx() {
-    return Pattern.compile(REGEX_IMAGE_FILENAME);
+  protected BufferedImage getActualImage(ValidationResult result) {
+
+    ValidationError error = result.getError();
+    if (error != null) {
+      ImageComparison imageComparison = error.getImageComparison();
+      if (imageComparison != null) {
+        BufferedImage actualImage = imageComparison.getOriginalFilteredImage();
+        if (actualImage != null) {
+          return actualImage;
+        }
+      }
+    }
+
+    return DUMMY_IMAGE;
+  }
+
+  protected File getDirectoryToRelativizeImageSavePathTo() {
+    return new File(GaleniumConfiguration.getImageComparisonDirectory());
   }
 
   protected File getImageFile(String imagePath) throws IOException {
@@ -139,36 +163,12 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     return imageFile;
   }
 
-  protected File getDirectoryToRelativizeImageSavePathTo() {
-    return new File(GaleniumConfiguration.getImageComparisonDirectory());
-  }
-
-  protected BufferedImage getActualImage(ValidationResult result) {
-
-    ValidationError error = result.getError();
-    if (error != null) {
-      ImageComparison imageComparison = error.getImageComparison();
-      if (imageComparison != null) {
-        BufferedImage actualImage = imageComparison.getOriginalFilteredImage();
-        if (actualImage != null) {
-          return actualImage;
-        }
-      }
-    }
-
-    return DUMMY_IMAGE;
+  protected Pattern getImagePathExtractionRegEx() {
+    return Pattern.compile(REGEX_IMAGE_FILENAME);
   }
 
   protected void logSpec(Spec spec) {
     getLogger().debug("checking failed spec for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
-  }
-
-  public Logger getLogger() {
-    return logger;
-  }
-
-  public void setLogger(Logger logger) {
-    this.logger = logger;
   }
 
 }

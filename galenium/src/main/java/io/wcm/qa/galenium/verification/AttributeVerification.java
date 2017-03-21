@@ -28,7 +28,8 @@ public class AttributeVerification extends VerificationBase {
   private String actualValue;
   private String attributeName;
   protected String expectedValue;
-  protected AttributeVerification(Selector selector, String attributeName, String expectedValue) {
+
+  public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     super(selector);
     setAttributeName(attributeName);
     setExpectedValue(expectedValue);

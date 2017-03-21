@@ -32,8 +32,8 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
  */
 public class Navigation extends AbstractWebDriverPageObject {
 
-  private static final Selector SELECTOR_TOP_LEVEL_ITEMS = SelectorFactory.fromCss("ul.navlist-main > li");
   private static final Selector SELECTOR_NAV_MENU_OPENER = SelectorFactory.fromCss("a.menu-opener");
+  private static final Selector SELECTOR_TOP_LEVEL_ITEMS = SelectorFactory.fromCss("ul.navlist-main > li");
   private List<NavigationTopLevelEntry> navItems;
 
   /**

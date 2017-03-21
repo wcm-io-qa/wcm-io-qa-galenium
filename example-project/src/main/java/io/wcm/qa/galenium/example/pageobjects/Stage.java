@@ -33,19 +33,11 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
 public class Stage extends AbstractWebDriverPageObject {
 
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("#stage");
-  private static final Selector SELECTOR_STAGE_HEADLINE = SelectorFactory.fromCss("div.stage-title > h2");
-  private static final Selector SELECTOR_STAGE_DESCRIPTION = SelectorFactory.fromCss("div.stage-overlay div.stage-title > p");
   private static final Selector SELECTOR_STAGE_CTA_LINKS = SelectorFactory.fromCss("div.stage-cta-box > div.stageheaderLinkItem a.stage-cta");
-  private WebElement stage;
+  private static final Selector SELECTOR_STAGE_DESCRIPTION = SelectorFactory.fromCss("div.stage-overlay div.stage-title > p");
+  private static final Selector SELECTOR_STAGE_HEADLINE = SelectorFactory.fromCss("div.stage-title > h2");
   private List<LinkItem> ctaLinks;
-
-  public String getTitle() {
-    return getStage().findElement(SELECTOR_STAGE_HEADLINE.asBy()).getText();
-  }
-
-  public String getDescription() {
-    return getStage().findElement(SELECTOR_STAGE_DESCRIPTION.asBy()).getText();
-  }
+  private WebElement stage;
 
   /**
    * @return a list containing all CTA links from stage or empty list if none exist
@@ -59,6 +51,14 @@ public class Stage extends AbstractWebDriverPageObject {
       }
     }
     return ctaLinks;
+  }
+
+  public String getDescription() {
+    return getStage().findElement(SELECTOR_STAGE_DESCRIPTION.asBy()).getText();
+  }
+
+  public String getTitle() {
+    return getStage().findElement(SELECTOR_STAGE_HEADLINE.asBy()).getText();
   }
 
   private WebElement getStage() {

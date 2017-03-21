@@ -23,7 +23,7 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public class VisibilityVerification extends VerificationBase {
 
-  protected VisibilityVerification(Selector selector) {
+  public VisibilityVerification(Selector selector) {
     super(selector);
   }
 

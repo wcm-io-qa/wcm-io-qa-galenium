@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.sampling.differences;
 
 import io.wcm.qa.galenium.util.BrowserType;
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestDevice;
 
 /**
@@ -27,11 +28,8 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public class BrowserDifference extends StringDifference {
 
-  /**
-   * @param device
-   */
-  public BrowserDifference(TestDevice device) {
-    this(device.getBrowserType());
+  public BrowserDifference() {
+    this(GaleniumContext.getTestDevice());
   }
 
   /**
@@ -39,6 +37,13 @@ public class BrowserDifference extends StringDifference {
    */
   public BrowserDifference(BrowserType browser) {
     super(browser.getBrowser());
+  }
+
+  /**
+   * @param device
+   */
+  public BrowserDifference(TestDevice device) {
+    this(device.getBrowserType());
   }
 
 }
