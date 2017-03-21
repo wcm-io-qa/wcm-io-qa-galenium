@@ -19,25 +19,12 @@
  */
 package io.wcm.qa.galenium.verification;
 
-/**
- * Unifies different kinds of verification done while UI testing.
- */
-public interface Verification {
+import io.wcm.qa.galenium.selectors.Selector;
 
-  /**
-   * @return Throwable if one occured during verification
-   */
-  Throwable getException();
+public class LinkTargetVerification extends AttributeVerification {
 
-  /**
-   * @return verification message
-   */
-  String getMessage();
-
-  /**
-   * Execute verification.
-   * @return whether verification was successful
-   */
-  boolean verify();
+  public LinkTargetVerification(Selector selector, String expectedValue) {
+    super(selector, "href", expectedValue);
+  }
 
 }

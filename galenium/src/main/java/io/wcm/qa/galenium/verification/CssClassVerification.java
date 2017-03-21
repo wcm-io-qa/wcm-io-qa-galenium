@@ -43,6 +43,11 @@ public class CssClassVerification extends AttributeVerification {
   }
 
   @Override
+  protected String getAdditionalToStringInfo() {
+    return getExpectedValue();
+  }
+
+  @Override
   protected String getFailureMessage() {
     return getElementName() + " should have CSS class '" + getExpectedValue() + "', but only found '" + getActualValue() + "'";
   }
@@ -50,11 +55,6 @@ public class CssClassVerification extends AttributeVerification {
   @Override
   protected String getSuccessMessage() {
     return getElementName() + " has CSS class '" + getExpectedValue() + "'";
-  }
-
-  @Override
-  protected String getAdditionalToStringInfo() {
-    return getExpectedValue();
   }
 
 }

@@ -34,6 +34,7 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.verification.CssClassVerification;
 import io.wcm.qa.galenium.verification.InvisibilityVerification;
+import io.wcm.qa.galenium.verification.LinkTargetVerification;
 import io.wcm.qa.galenium.verification.NoCssClassVerification;
 import io.wcm.qa.galenium.verification.Verification;
 import io.wcm.qa.galenium.verification.VisibilityVerification;
@@ -50,7 +51,6 @@ public class VerificationIT extends AbstractExampleBase {
       "Navlink Home",
       ".navlist-main a.navlink-main[href$='" + Homepage.PATH_TO_HOMEPAGE + "'");
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
-  private static final Verification VERIFICATION_STAGE_VISIBLE = new VisibilityVerification(SELECTOR_STAGE);
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
   public VerificationIT(TestDevice testDevice) {
@@ -61,7 +61,7 @@ public class VerificationIT extends AbstractExampleBase {
   public void verificationTest() {
     loadStartUrl();
     verify(new LogoVerification(SELECTOR_LOGO));
-    verify(VERIFICATION_STAGE_VISIBLE);
+    verify(new VisibilityVerification(SELECTOR_STAGE));
     if (isMobile()) {
       verify(new InvisibilityVerification(SELECTOR_NAV_LINK_HOME));
       verify(new InvisibilityVerification(SELECTOR_NAV_LINK_CONFERENCE));
@@ -70,6 +70,7 @@ public class VerificationIT extends AbstractExampleBase {
       verify(new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE));
       verify(new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
+    verify(new LinkTargetVerification(SELECTOR_LOGO, getDriver().getCurrentUrl()));
   }
 
   private void verify(Verification verification) {

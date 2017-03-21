@@ -34,10 +34,10 @@ import io.wcm.qa.galenium.util.InteractionUtil;
 abstract class VerificationBase implements Verification {
 
   private MutableDifferences differences;
+  private Throwable exception;
   private Verification preVerification;
   private Selector selector;
   private Boolean verified;
-  private Throwable exception;
 
   protected VerificationBase(Selector selector) {
     setSelector(selector);
@@ -46,6 +46,11 @@ abstract class VerificationBase implements Verification {
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
   }
+  @Override
+  public Throwable getException() {
+    return exception;
+  }
+
   /**
    * @see io.wcm.qa.galenium.verification.Verification#getMessage()
    */
@@ -71,12 +76,30 @@ abstract class VerificationBase implements Verification {
     return verified;
   }
 
+  public void setException(Throwable exception) {
+    this.exception = exception;
+  }
+
   public void setPreVerification(Verification preVerification) {
     this.preVerification = preVerification;
   }
 
   public void setVerified(Boolean verified) {
     this.verified = verified;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(getClass().getSimpleName());
+    stringBuilder.append("(");
+    stringBuilder.append(getElementName());
+    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
+      stringBuilder.append(", ");
+      stringBuilder.append(getAdditionalToStringInfo());
+    }
+    stringBuilder.append(")");
+    return stringBuilder.toString();
   }
 
   /* (non-Javadoc)
@@ -105,6 +128,11 @@ abstract class VerificationBase implements Verification {
 
   protected abstract Boolean doVerification();
 
+  protected String getAdditionalToStringInfo() {
+    return StringUtils.EMPTY;
+  }
+
+
   protected MutableDifferences getDifferences() {
     if (differences == null) {
       differences = new MutableDifferences();
@@ -121,7 +149,6 @@ abstract class VerificationBase implements Verification {
   }
 
   protected abstract String getFailureMessage();
-
 
   protected Logger getLogger() {
     return GaleniumReportUtil.getLogger();
@@ -147,32 +174,5 @@ abstract class VerificationBase implements Verification {
 
   protected void setSelector(Selector selector) {
     this.selector = selector;
-  }
-
-  @Override
-  public Throwable getException() {
-    return exception;
-  }
-
-  public void setException(Throwable exception) {
-    this.exception = exception;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(getClass().getSimpleName());
-    stringBuilder.append("(");
-    stringBuilder.append(getElementName());
-    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append(", ");
-      stringBuilder.append(getAdditionalToStringInfo());
-    }
-    stringBuilder.append(")");
-    return stringBuilder.toString();
-  }
-
-  protected String getAdditionalToStringInfo() {
-    return StringUtils.EMPTY;
   }
 }

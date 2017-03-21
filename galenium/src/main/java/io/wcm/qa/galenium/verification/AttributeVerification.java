@@ -47,6 +47,11 @@ public class AttributeVerification extends VerificationBase {
     return actualValue;
   }
 
+  @Override
+  protected String getAdditionalToStringInfo() {
+    return getAttributeName() + ": '" + getExpectedValue() + "'";
+  }
+
   protected String getAttributeName() {
     return attributeName;
   }
@@ -57,12 +62,12 @@ public class AttributeVerification extends VerificationBase {
 
   @Override
   protected String getFailureMessage() {
-    return getElementName() + " attribute should be '" + getExpectedValue() + "', but was '" + getActualValue() + "'";
+    return getElementName() + "[" + getAttributeName() + "] should be '" + getExpectedValue() + "', but was '" + getActualValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return getElementName() + " was '" + getActualValue() + "' as expected";
+    return getElementName() + "[" + getAttributeName() + "] was '" + getActualValue() + "' as expected";
   }
 
   protected void setAttributeName(String attributeName) {
@@ -73,8 +78,4 @@ public class AttributeVerification extends VerificationBase {
     this.expectedValue = expectedValue;
   }
 
-  @Override
-  protected String getAdditionalToStringInfo() {
-    return getAttributeName() + ": " + getExpectedValue();
-  }
 }
