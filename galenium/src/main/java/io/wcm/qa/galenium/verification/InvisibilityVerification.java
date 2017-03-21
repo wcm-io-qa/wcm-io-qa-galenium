@@ -19,37 +19,26 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.galenium.selectors.Selector;
 
-public class CssClassVerification extends AttributeVerification {
+public class InvisibilityVerification extends VisibilityVerification {
 
-  protected CssClassVerification(Selector selector, String cssClass) {
-    super(selector, "class", cssClass);
-    setExpectedValue(cssClass);
-    setPreVerification(new VisibilityVerification(getSelector()));
+  protected InvisibilityVerification(Selector selector) {
+    super(selector);
   }
 
   @Override
   protected Boolean doVerification() {
-    String cssClasses = getActualValue();
-    if (StringUtils.isBlank(cssClasses)) {
-      return false;
-    }
-    String[] splitCssClasses = cssClasses.split(" ");
-    return ArrayUtils.contains(splitCssClasses, getExpectedValue());
+    return !super.doVerification();
   }
 
   @Override
   protected String getFailureMessage() {
-    return getElementName() + " should have CSS class '" + getExpectedValue() + "', but only found '" + getActualValue() + "'";
+    return super.getSuccessMessage();
   }
 
   @Override
   protected String getSuccessMessage() {
-    return getElementName() + " has CSS class '" + getExpectedValue() + "'";
+    return super.getFailureMessage();
   }
-
 }

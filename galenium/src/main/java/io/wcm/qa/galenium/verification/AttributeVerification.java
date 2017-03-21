@@ -25,9 +25,9 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public class AttributeVerification extends VerificationBase {
 
+  private String actualValue;
   private String attributeName;
   protected String expectedValue;
-  private String actualValue;
   protected AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     super(selector);
     setAttributeName(attributeName);
@@ -50,16 +50,8 @@ public class AttributeVerification extends VerificationBase {
     return attributeName;
   }
 
-  protected void setAttributeName(String attributeName) {
-    this.attributeName = attributeName;
-  }
-
   protected String getExpectedValue() {
     return expectedValue;
-  }
-
-  protected void setExpectedValue(String expectedValue) {
-    this.expectedValue = expectedValue;
   }
 
   @Override
@@ -70,6 +62,14 @@ public class AttributeVerification extends VerificationBase {
   @Override
   protected String getSuccessMessage() {
     return getElementName() + " was '" + getActualValue() + "' as expected";
+  }
+
+  protected void setAttributeName(String attributeName) {
+    this.attributeName = attributeName;
+  }
+
+  protected void setExpectedValue(String expectedValue) {
+    this.expectedValue = expectedValue;
   }
 
 }

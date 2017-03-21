@@ -56,7 +56,7 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
    * @return true if this list changed as a result of the call
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
-    return this.differences.addAll(toBeAppended);
+    return differences.addAll(toBeAppended);
   }
 
   /**
@@ -64,6 +64,13 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
    */
   public void addDifference(Difference difference) {
     differences.add(difference);
+  }
+
+  /**
+   * Removes all differences added to this factory.
+   */
+  public void clearDifferences() {
+    differences.clear();
   }
 
   @Override

@@ -31,6 +31,7 @@ public abstract class VerificationBase {
   private MutableDifferences differences;
   private Selector selector;
   private Boolean verified;
+  private VerificationBase preVerification;
 
   protected VerificationBase(Selector selector) {
     setSelector(selector);
@@ -42,6 +43,9 @@ public abstract class VerificationBase {
 
   public String getMessage() {
     if (isVerified() == null) {
+      if (hasPreVerification()) {
+        return getPreVerification().getMessage();
+      }
       return getNotVerifiedMessage();
     }
     if (isVerified()) {
@@ -67,8 +71,17 @@ public abstract class VerificationBase {
   }
 
   public boolean verify() {
+    if (hasPreVerification()) {
+      if (!getPreVerification().verify()) {
+        return false;
+      }
+    }
     setVerified(doVerification());
     return isVerified();
+  }
+
+  protected boolean hasPreVerification() {
+    return getPreVerification() != null;
   }
 
   protected abstract Boolean doVerification();
@@ -96,5 +109,13 @@ public abstract class VerificationBase {
 
   protected void setSelector(Selector selector) {
     this.selector = selector;
+  }
+
+  public VerificationBase getPreVerification() {
+    return preVerification;
+  }
+
+  public void setPreVerification(VerificationBase preVerification) {
+    this.preVerification = preVerification;
   }
 }
