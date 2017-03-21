@@ -38,10 +38,6 @@ public class FooterNavSection extends AbstractWebElementPageObject {
     super(webElement);
   }
 
-  public String getTitle() {
-    return getHeadline().getText();
-  }
-
   /**
    * @return list of navigation links in this section or empty list if none exist
    */
@@ -54,6 +50,10 @@ public class FooterNavSection extends AbstractWebElementPageObject {
       }
     }
     return navLinks;
+  }
+
+  public String getTitle() {
+    return getHeadline().getText();
   }
 
   private WebElement getHeadline() {

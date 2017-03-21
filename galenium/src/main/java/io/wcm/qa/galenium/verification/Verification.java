@@ -17,28 +17,27 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.example.pageobjects;
-
-import org.openqa.selenium.WebElement;
+package io.wcm.qa.galenium.verification;
 
 /**
- * Clickable link item with title.
+ * Unifies different kinds of verification done while UI testing.
  */
-public class LinkItem extends AbstractWebElementPageObject {
-
-  LinkItem(WebElement webElement) {
-    super(webElement);
-  }
+public interface Verification {
 
   /**
-   * Clicks the {@link WebElement} backing this object.
+   * @return Throwable if one occured during verification
    */
-  public void click() {
-    getWebElement().click();
-  }
+  Throwable getException();
 
-  public String getTitle() {
-    return getWebElement().getText();
-  }
+  /**
+   * @return verification message
+   */
+  String getMessage();
+
+  /**
+   * Execute verification.
+   * @return whether verification was successful
+   */
+  boolean verify();
 
 }

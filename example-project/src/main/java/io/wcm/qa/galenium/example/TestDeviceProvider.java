@@ -36,8 +36,8 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public final class TestDeviceProvider {
 
-  private static final Dimension DIMENSION_MOBILE = new Dimension(400, 1000);
   private static final Dimension DIMENSION_DESKTOP = new Dimension(1400, 1000);
+  private static final Dimension DIMENSION_MOBILE = new Dimension(400, 1000);
   private static final List<String> TAGS = Collections.emptyList();
 
   private TestDeviceProvider() {

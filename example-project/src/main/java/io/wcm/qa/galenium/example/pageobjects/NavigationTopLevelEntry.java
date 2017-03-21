@@ -32,12 +32,17 @@ import org.openqa.selenium.WebElement;
  */
 public class NavigationTopLevelEntry extends LinkItem {
 
-  private static final Selector SELECTOR_SUB_LINKS = SelectorFactory.fromCss("ul > li > a");
   private static final Selector SELECTOR_MAIN_LINK = SelectorFactory.fromCss("a.navlink-main");
+  private static final Selector SELECTOR_SUB_LINKS = SelectorFactory.fromCss("ul > li > a");
   private List<LinkItem> subEntries;
 
   NavigationTopLevelEntry(WebElement webElement) {
     super(webElement);
+  }
+
+  @Override
+  public void click() {
+    getNavLink().click();
   }
 
   /**
@@ -57,11 +62,6 @@ public class NavigationTopLevelEntry extends LinkItem {
   @Override
   public String getTitle() {
     return getNavLink().getText();
-  }
-
-  @Override
-  public void click() {
-    getNavLink().click();
   }
 
   private WebElement getNavLink() {

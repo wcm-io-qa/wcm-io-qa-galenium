@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.selectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
@@ -28,9 +29,10 @@ import com.galenframework.specs.page.Locator;
  */
 public class SelectorFromString implements Selector {
 
-  private final String string;
-  private final Locator locator;
   private final By by;
+  private final Locator locator;
+  private String name;
+  private final String string;
 
   /**
    * @param selectorString CSS selector
@@ -42,8 +44,8 @@ public class SelectorFromString implements Selector {
   }
 
   @Override
-  public String asString() {
-    return this.string;
+  public By asBy() {
+    return by;
   }
 
   @Override
@@ -52,12 +54,27 @@ public class SelectorFromString implements Selector {
   }
 
   @Override
-  public By asBy() {
-    return by;
+  public String asString() {
+    return this.string;
   }
 
   @Override
   public String elementName() {
-    return asString().replaceAll("[^a-zA-Z0-9]+", "-");
+    String nameBase;
+    if (StringUtils.isNotBlank(getName())) {
+      nameBase = getName();
+    }
+    else {
+      nameBase = asString();
+    }
+    return nameBase.replaceAll("[^a-zA-Z0-9]+", "-");
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

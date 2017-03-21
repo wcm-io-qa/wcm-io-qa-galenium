@@ -40,6 +40,30 @@ public class GaleniumContext {
   private TestDevice testDevice;
   private String testName;
 
+  public void setAssertion(Assertion assertion) {
+    this.assertion = assertion;
+  }
+
+  public void setDriver(WebDriver driver) {
+    this.driver = driver;
+  }
+
+  public void setExtentTest(ExtentTest extentTest) {
+    this.extentTest = extentTest;
+  }
+
+  public void setTestDescription(String testDescription) {
+    this.testDescription = testDescription;
+  }
+
+  public void setTestDevice(TestDevice testDevice) {
+    this.testDevice = testDevice;
+  }
+
+  public void setTestName(String testName) {
+    this.testName = testName;
+  }
+
   public static Assertion getAssertion() {
     return THREAD_LOCAL_CONTEXT.get().assertion;
   }
@@ -66,30 +90,6 @@ public class GaleniumContext {
 
   public static String getTestName() {
     return THREAD_LOCAL_CONTEXT.get().testName;
-  }
-
-  public void setAssertion(Assertion assertion) {
-    this.assertion = assertion;
-  }
-
-  public void setDriver(WebDriver driver) {
-    this.driver = driver;
-  }
-
-  public void setExtentTest(ExtentTest extentTest) {
-    this.extentTest = extentTest;
-  }
-
-  public void setTestDescription(String testDescription) {
-    this.testDescription = testDescription;
-  }
-
-  public void setTestDevice(TestDevice testDevice) {
-    this.testDevice = testDevice;
-  }
-
-  public void setTestName(String testName) {
-    this.testName = testName;
   }
 
 }

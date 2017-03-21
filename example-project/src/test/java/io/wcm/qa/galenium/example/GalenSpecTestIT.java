@@ -31,24 +31,12 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
 
-  private static final String SPEC_PATH_FOR_HOMEPAGE = GaleniumConfiguration.getGalenSpecPath() + "/homepage.gspec";
   private static final String SPEC_PATH_FOR_CONFERENCE_PAGE = GaleniumConfiguration.getGalenSpecPath() + "/conference.gspec";
+  private static final String SPEC_PATH_FOR_HOMEPAGE = GaleniumConfiguration.getGalenSpecPath() + "/homepage.gspec";
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
-  }
-
-  @Override
-  protected String getRelativePath() {
-    return PATH_TO_HOMEPAGE;
-  }
-
-  @Test
-  public void checkHomepageWithGalenSpec() {
-    getLogger().info("Testing Homepage");
-    loadStartUrl();
-    checkLayout("Homepage", SPEC_PATH_FOR_HOMEPAGE);
   }
 
   @Test
@@ -58,6 +46,18 @@ public class GalenSpecTestIT extends AbstractExampleBase {
     openNav();
     clickConferenceNavLink();
     checkLayout("Conference Page", SPEC_PATH_FOR_CONFERENCE_PAGE);
+  }
+
+  @Test
+  public void checkHomepageWithGalenSpec() {
+    getLogger().info("Testing Homepage");
+    loadStartUrl();
+    checkLayout("Homepage", SPEC_PATH_FOR_HOMEPAGE);
+  }
+
+  @Override
+  protected String getRelativePath() {
+    return PATH_TO_HOMEPAGE;
   }
 
 }

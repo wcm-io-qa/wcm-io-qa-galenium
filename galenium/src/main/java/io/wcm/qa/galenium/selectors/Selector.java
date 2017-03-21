@@ -29,11 +29,6 @@ import com.galenframework.specs.page.Locator;
 public interface Selector {
 
   /**
-   * @return String representing a CSS selector
-   */
-  String asString();
-
-  /**
    * @return Selenium By object representing this selector
    */
   By asBy();
@@ -42,6 +37,11 @@ public interface Selector {
    * @return Galen Locator representing this selector
    */
   Locator asLocator();
+
+  /**
+   * @return String representing a CSS selector
+   */
+  String asString();
 
   /**
    * @return string representation that can be used as object name in Galen

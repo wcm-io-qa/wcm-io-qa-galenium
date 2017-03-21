@@ -53,7 +53,7 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     }
   }
 
-  @Test(groups = "dev", retryAnalyzer = RetryAnalyzer.class)
+  @Test(retryAnalyzer = RetryAnalyzer.class)
   public void testWithPageObjects() {
     getHomepage().load();
     loginToAuthor();
@@ -77,14 +77,6 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     assertEquals(archiveSection.getNavLinks().size(), 2, "archive section link count");
   }
 
-  private void checkStage() {
-    Stage stage = getHomepage().getStage();
-    assertEquals(stage.getTitle(), "adaptTo() 2013", "stage title");
-    assertEquals(stage.getDescription(), "23.–25. September 2013 Kulturbrauerei Berlin", "stage description");
-    List<LinkItem> ctaLinks = stage.getCtaLinks();
-    assertEquals(ctaLinks.size(), 2, "two CTA links");
-  }
-
   private void checkNavigation() {
     Navigation navigation = getHomepage().getNavigation();
     List<NavigationTopLevelEntry> topLevelItems = navigation.getTopLevelItems();
@@ -95,10 +87,12 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     assertEquals(navConference.getTitle(), "CONFERENCE", "Main navigation conference");
   }
 
-  @Override
-  protected String getRelativePath() {
-    // not used
-    return getHomepage().getRelativePath();
+  private void checkStage() {
+    Stage stage = getHomepage().getStage();
+    assertEquals(stage.getTitle(), "adaptTo() 2013", "stage title");
+    assertEquals(stage.getDescription(), "23.–25. September 2013 Kulturbrauerei Berlin", "stage description");
+    List<LinkItem> ctaLinks = stage.getCtaLinks();
+    assertEquals(ctaLinks.size(), 2, "two CTA links");
   }
 
   private Homepage getHomepage() {
@@ -107,6 +101,12 @@ public class PageObjectExampleIT extends AbstractExampleBase {
       homepage = new Homepage();
     }
     return homepage;
+  }
+
+  @Override
+  protected String getRelativePath() {
+    // not used
+    return getHomepage().getRelativePath();
   }
 
 }

@@ -47,17 +47,17 @@ public class ImageComparisonSpecFactory {
   private static final String DEFAULT_PAGE_SECTION_NAME = "Image Comparison";
   private static final Correction NO_CORRECTION = new Correction(0, CorrectionsRect.Type.PLUS);
 
-  private Selector selector;
-  private String elementName;
   private String allowedError;
   private int allowedOffset;
+  private CorrectionsRect corrections;
+  private String elementName;
   private String filename;
   private String foldername;
-  private boolean zeroToleranceWarning;
-  private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
+  private String sectionName = DEFAULT_PAGE_SECTION_NAME;
+  private Selector selector;
 
-  private CorrectionsRect corrections;
+  private boolean zeroToleranceWarning;
 
   /**
    * @param selector selector for main object
@@ -74,6 +74,53 @@ public class ImageComparisonSpecFactory {
     setSelector(selector);
     setElementName(elementName);
     setFilename(elementName + ".png");
+    setSectionName(DEFAULT_PAGE_SECTION_NAME + " for " + getElementName());
+  }
+
+  /**
+   * @param selectorToIgnore the area of this object will be ignored in image comparison
+   */
+  public void addObjectToIgnore(Selector selectorToIgnore) {
+    getObjectsToIgnore().add(selectorToIgnore);
+  }
+
+  /**
+   * @param yCorrection amount of scrolling
+   */
+  public void correctForSrollPosition(int yCorrection) {
+    Correction top = new Correction(yCorrection, Type.MINUS);
+    CorrectionsRect correctionsRect = new CorrectionsRect(NO_CORRECTION, top, NO_CORRECTION, NO_CORRECTION);
+    setCorrections(correctionsRect);
+  }
+
+  /**
+   * @return allowed error string
+   */
+  public String getAllowedError() {
+    return allowedError;
+  }
+
+  /**
+   * @return offset to analyse
+   */
+  public int getAllowedOffset() {
+    return allowedOffset;
+  }
+
+  public String getElementName() {
+    return elementName;
+  }
+
+  public String getFilename() {
+    return filename;
+  }
+
+  public String getFoldername() {
+    return foldername;
+  }
+
+  public List<Selector> getObjectsToIgnore() {
+    return objectsToIgnore;
   }
 
   /**
@@ -115,16 +162,88 @@ public class ImageComparisonSpecFactory {
     return pageSpec;
   }
 
-  protected Locator getLocator() {
-    Locator locator = getSelector().asLocator();
-    if (hasCorrections()) {
-      locator.withCorrections(getCorrections());
+  public String getSectionName() {
+    return sectionName;
+  }
+
+  public Selector getSelector() {
+    return selector;
+  }
+
+  public boolean isZeroToleranceWarning() {
+    return zeroToleranceWarning;
+  }
+
+  /**
+   * @param allowedErrorPercentage zero or negative will result in zero tolerance
+   */
+  public void setAllowedErrorPercent(Double allowedErrorPercentage) {
+    if (allowedErrorPercentage > 0) {
+      this.allowedError = allowedErrorPercentage + "%";
     }
-    return locator;
+    else {
+      this.allowedError = StringUtils.EMPTY;
+    }
+  }
+
+  /**
+   * @param allowedErrorPixels zero or negative will result in zero tolerance
+   */
+  public void setAllowedErrorPixel(Integer allowedErrorPixels) {
+    if (allowedErrorPixels > 0) {
+      this.allowedError = allowedErrorPixels + "px";
+    }
+    else {
+      this.allowedError = StringUtils.EMPTY;
+    }
+  }
+
+  public void setAllowedOffset(int allowedOffset) {
+    this.allowedOffset = allowedOffset;
+  }
+
+  public void setCorrections(CorrectionsRect corrections) {
+    this.corrections = corrections;
+  }
+
+  public void setElementName(String elementName) {
+    this.elementName = elementName;
+  }
+
+  public void setFilename(String filename) {
+    this.filename = filename;
+  }
+
+  public void setFoldername(String foldername) {
+    this.foldername = foldername;
+  }
+
+  public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
+    this.objectsToIgnore = objectsToIgnore;
+  }
+
+  public void setSectionName(String sectionName) {
+    this.sectionName = sectionName;
+  }
+
+  public void setSelector(Selector selector) {
+    this.selector = selector;
+  }
+
+  public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
+    this.zeroToleranceWarning = zeroToleranceWarning;
   }
 
   private Spec getSpecForText(String specText) {
     return new SpecReader().read(specText);
+  }
+
+  private boolean hasCorrections() {
+    return getCorrections() != null;
+  }
+
+  protected CorrectionsRect getCorrections() {
+    return corrections;
   }
 
   protected String getImageComparisonSpecText() {
@@ -139,19 +258,6 @@ public class ImageComparisonSpecFactory {
       offset = getAllowedOffset();
     }
     return getImageComparisonSpecText(getFoldername(), getFilename(), error, offset);
-  }
-
-  protected String getZeroToleranceImageComparisonSpecText() {
-    return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0);
-  }
-
-  /**
-   * @param yCorrection amount of scrolling
-   */
-  public void correctForSrollPosition(int yCorrection) {
-    Correction top = new Correction(yCorrection, Type.MINUS);
-    CorrectionsRect correctionsRect = new CorrectionsRect(NO_CORRECTION, top, NO_CORRECTION, NO_CORRECTION);
-    setCorrections(correctionsRect);
   }
 
   protected String getImageComparisonSpecText(String folder, String file, String error, int offset) {
@@ -203,121 +309,16 @@ public class ImageComparisonSpecFactory {
     return specText.toString();
   }
 
-  public Selector getSelector() {
-    return selector;
-  }
-
-  public void setSelector(Selector selector) {
-    this.selector = selector;
-  }
-
-  /**
-   * @return allowed error string
-   */
-  public String getAllowedError() {
-    return allowedError;
-  }
-
-  /**
-   * @param allowedErrorPercentage zero or negative will result in zero tolerance
-   */
-  public void setAllowedErrorPercent(Double allowedErrorPercentage) {
-    if (allowedErrorPercentage > 0) {
-      this.allowedError = allowedErrorPercentage + "%";
+  protected Locator getLocator() {
+    Locator locator = getSelector().asLocator();
+    if (hasCorrections()) {
+      locator.withCorrections(getCorrections());
     }
-    else {
-      this.allowedError = StringUtils.EMPTY;
-    }
+    return locator;
   }
 
-  /**
-   * @param allowedErrorPixels zero or negative will result in zero tolerance
-   */
-  public void setAllowedErrorPixel(Integer allowedErrorPixels) {
-    if (allowedErrorPixels > 0) {
-      this.allowedError = allowedErrorPixels + "px";
-    }
-    else {
-      this.allowedError = StringUtils.EMPTY;
-    }
-  }
-
-  /**
-   * @return offset to analyse
-   */
-  public int getAllowedOffset() {
-    return allowedOffset;
-  }
-
-  public void setAllowedOffset(int allowedOffset) {
-    this.allowedOffset = allowedOffset;
-  }
-
-  public String getElementName() {
-    return elementName;
-  }
-
-  public void setElementName(String elementName) {
-    this.elementName = elementName;
-  }
-
-  public String getFilename() {
-    return filename;
-  }
-
-  public void setFilename(String filename) {
-    this.filename = filename;
-  }
-
-  public String getFoldername() {
-    return foldername;
-  }
-
-  public void setFoldername(String foldername) {
-    this.foldername = foldername;
-  }
-
-  public boolean isZeroToleranceWarning() {
-    return zeroToleranceWarning;
-  }
-
-  public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
-    this.zeroToleranceWarning = zeroToleranceWarning;
-  }
-
-  public String getSectionName() {
-    return sectionName;
-  }
-
-  public void setSectionName(String sectionName) {
-    this.sectionName = sectionName;
-  }
-
-  private boolean hasCorrections() {
-    return getCorrections() != null;
-  }
-
-  public void setCorrections(CorrectionsRect corrections) {
-    this.corrections = corrections;
-  }
-
-  protected CorrectionsRect getCorrections() {
-    return corrections;
-  }
-
-  /**
-   * @param selectorToIgnore the area of this object will be ignored in image comparison
-   */
-  public void addObjectToIgnore(Selector selectorToIgnore) {
-    getObjectsToIgnore().add(selectorToIgnore);
-  }
-
-  public List<Selector> getObjectsToIgnore() {
-    return objectsToIgnore;
-  }
-
-  public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
-    this.objectsToIgnore = objectsToIgnore;
+  protected String getZeroToleranceImageComparisonSpecText() {
+    return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0);
   }
 
 }

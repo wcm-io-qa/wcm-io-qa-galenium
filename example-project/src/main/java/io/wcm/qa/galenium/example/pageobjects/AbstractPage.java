@@ -26,15 +26,15 @@ abstract class AbstractPage extends AbstractWebDriverPageObject {
 
   private Navigation navigation;
 
+  public Footer getFooter() {
+    return new Footer();
+  }
+
   public Navigation getNavigation() {
     if (navigation == null) {
       navigation = new Navigation();
     }
     return navigation;
-  }
-
-  public Footer getFooter() {
-    return new Footer();
   }
 
   public void load() {

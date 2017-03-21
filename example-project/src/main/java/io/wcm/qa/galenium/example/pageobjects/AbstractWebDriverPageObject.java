@@ -34,13 +34,13 @@ class AbstractWebDriverPageObject {
     return GaleniumContext.getDriver();
   }
 
-  protected boolean isMobile() {
-    return getDriver().manage().window().getSize().getWidth() < APPROXIMATE_WINDOW_SIZE_FOR_MOBILE_CUTOFF;
+  protected Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
 
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+  protected boolean isMobile() {
+    return getDriver().manage().window().getSize().getWidth() < APPROXIMATE_WINDOW_SIZE_FOR_MOBILE_CUTOFF;
   }
 
 }

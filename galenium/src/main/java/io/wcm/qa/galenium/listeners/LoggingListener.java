@@ -45,9 +45,14 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 public class LoggingListener extends TestListenerAdapter {
 
   @Override
-  public void onTestStart(ITestResult result) {
-    getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
-    GaleniumReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
+  public void onFinish(ITestContext context) {
+    GaleniumReportUtil.createGalenReports();
+  }
+
+  @Override
+  public void onStart(ITestContext context) {
+    // always executed in the main thread, so we can't initialize WebDrivers right here
+    GalenConfig.getConfig().setProperty(GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE, Boolean.TRUE.toString());
   }
 
   @Override
@@ -59,22 +64,10 @@ public class LoggingListener extends TestListenerAdapter {
     GaleniumReportUtil.getLogger().info(GaleniumReportUtil.MARKER_SKIP, "SKIPPED");
   }
 
-  protected void takeScreenshot(ITestResult result) {
-    WebDriver driver = WebDriverManager.getCurrentDriver();
-    if (driver != null) {
-      GaleniumReportUtil.takeScreenshot(result, driver);
-    }
-  }
-
   @Override
-  public void onStart(ITestContext context) {
-    // always executed in the main thread, so we can't initialize WebDrivers right here
-    GalenConfig.getConfig().setProperty(GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE, Boolean.TRUE.toString());
-  }
-
-  @Override
-  public void onFinish(ITestContext context) {
-    GaleniumReportUtil.createGalenReports();
+  public void onTestStart(ITestResult result) {
+    getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
+    GaleniumReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
   }
 
   private String getTestName(ITestResult result) {
@@ -88,6 +81,13 @@ public class LoggingListener extends TestListenerAdapter {
       additionalInfo = " [" + testDevice.toString() + "] ";
     }
     return additionalInfo;
+  }
+
+  protected void takeScreenshot(ITestResult result) {
+    WebDriver driver = WebDriverManager.getCurrentDriver();
+    if (driver != null) {
+      GaleniumReportUtil.takeScreenshot(result, driver);
+    }
   }
 
 }

@@ -17,28 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.example.pageobjects;
+package io.wcm.qa.galenium.verification;
 
-import org.openqa.selenium.WebElement;
+import io.wcm.qa.galenium.selectors.Selector;
 
-/**
- * Clickable link item with title.
- */
-public class LinkItem extends AbstractWebElementPageObject {
+public class NoCssClassVerification extends CssClassVerification {
 
-  LinkItem(WebElement webElement) {
-    super(webElement);
+  public NoCssClassVerification(Selector selector, String cssClass) {
+    super(selector, cssClass);
   }
 
-  /**
-   * Clicks the {@link WebElement} backing this object.
-   */
-  public void click() {
-    getWebElement().click();
-  }
-
-  public String getTitle() {
-    return getWebElement().getText();
+  @Override
+  protected Boolean doVerification() {
+    return !super.doVerification();
   }
 
 }

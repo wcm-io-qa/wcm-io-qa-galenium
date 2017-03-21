@@ -24,7 +24,7 @@ package io.wcm.qa.galenium.example.pageobjects;
  */
 public class ConferencePage extends AbstractPage {
 
-  private static final String PATH_TO_CONFERENCE = "/en/conference.html";
+  public static final String PATH_TO_CONFERENCE = "/en/conference.html";
 
   @Override
   protected String getRelativePath() {

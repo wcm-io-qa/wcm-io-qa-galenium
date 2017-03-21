@@ -17,28 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.example.pageobjects;
+package io.wcm.qa.galenium.verification;
 
-import org.openqa.selenium.WebElement;
+import io.wcm.qa.galenium.selectors.Selector;
 
-/**
- * Clickable link item with title.
- */
-public class LinkItem extends AbstractWebElementPageObject {
+public class VisibilityVerification extends VerificationBase {
 
-  LinkItem(WebElement webElement) {
-    super(webElement);
+  public VisibilityVerification(Selector selector) {
+    super(selector);
   }
 
-  /**
-   * Clicks the {@link WebElement} backing this object.
-   */
-  public void click() {
-    getWebElement().click();
+  @Override
+  protected Boolean doVerification() {
+    return getElement() != null;
   }
 
-  public String getTitle() {
-    return getWebElement().getText();
+  @Override
+  protected String getFailureMessage() {
+    return getElementName() + " is not visible";
+  }
+
+  @Override
+  protected String getSuccessMessage() {
+    return getElementName() + " is visible";
   }
 
 }

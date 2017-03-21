@@ -53,6 +53,24 @@ public final class InteractionUtil {
     getElementOrFail(selector).click();
   }
 
+  public static void clickByPartialText(Selector selector, String searchStr) {
+    getLogger().debug("looking for pattern: " + searchStr);
+    WebElement element = findByPartialText(selector, searchStr);
+    if (element != null) {
+      getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
+      element.click();
+    }
+    else {
+      getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
+    }
+  }
+
+  public static void enterText(Selector selector, String text) {
+    WebElement input = getElementOrFail(selector);
+    input.clear();
+    input.sendKeys(text);
+  }
+
   /**
    * @param selector used to find elements
    * @param searchStr used to filter elements that contain this text
@@ -85,24 +103,6 @@ public final class InteractionUtil {
       throw new GaleniumException(msg);
     }
     return element;
-  }
-
-  public static boolean hasAttribute(Selector selector, String name, String value) {
-    WebElement element = getElementVisible(selector);
-    if (element == null) {
-      return false;
-    }
-    return StringUtils.equals(value, element.getAttribute(name));
-  }
-
-  public static boolean hasCssClass(Selector selector, String cssClass) {
-    WebElement element = getElementVisible(selector);
-    if (element == null) {
-      return false;
-    }
-    String[] split = element.getAttribute("class").split(" ");
-
-    return ArrayUtils.contains(split, cssClass);
   }
 
   /**
@@ -144,18 +144,22 @@ public final class InteractionUtil {
     return scrollYPosition;
   }
 
-  public static void moveMouseHorizontally(int offsetInPixel) {
-    if (offsetInPixel > 0) {
-      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse right by " + offsetInPixel);
+  public static boolean hasAttribute(Selector selector, String name, String value) {
+    WebElement element = getElementVisible(selector);
+    if (element == null) {
+      return false;
     }
-    else if (offsetInPixel < 0) {
-      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse left by " + -offsetInPixel);
-    }
-    getActions().moveByOffset(offsetInPixel, 0).perform();
+    return StringUtils.equals(value, element.getAttribute(name));
   }
 
-  private static Actions getActions() {
-    return new Actions(getDriver());
+  public static boolean hasCssClass(Selector selector, String cssClass) {
+    WebElement element = getElementVisible(selector);
+    if (element == null) {
+      return false;
+    }
+    String[] split = element.getAttribute("class").split(" ");
+
+    return ArrayUtils.contains(split, cssClass);
   }
 
   public static void mouseOver(Selector selector) {
@@ -175,10 +179,14 @@ public final class InteractionUtil {
     }
   }
 
-  public static void enterText(Selector selector, String text) {
-    WebElement input = getElementOrFail(selector);
-    input.clear();
-    input.sendKeys(text);
+  public static void moveMouseHorizontally(int offsetInPixel) {
+    if (offsetInPixel > 0) {
+      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse right by " + offsetInPixel);
+    }
+    else if (offsetInPixel < 0) {
+      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse left by " + -offsetInPixel);
+    }
+    getActions().moveByOffset(offsetInPixel, 0).perform();
   }
 
   public static void scrollToElement(Selector selector) {
@@ -193,16 +201,8 @@ public final class InteractionUtil {
     actions.perform();
   }
 
-  public static void clickByPartialText(Selector selector, String searchStr) {
-    getLogger().debug("looking for pattern: " + searchStr);
-    WebElement element = findByPartialText(selector, searchStr);
-    if (element != null) {
-      getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
-      element.click();
-    }
-    else {
-      getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
-    }
+  private static Actions getActions() {
+    return new Actions(getDriver());
   }
 
 }

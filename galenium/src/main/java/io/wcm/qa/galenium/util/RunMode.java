@@ -24,13 +24,13 @@ package io.wcm.qa.galenium.util;
  */
 public enum RunMode {
   /**
-   * Run tests locally.
-   */
-  LOCAL("local"),
-  /**
    * Run a subset of tests to facilitate fast turnover during development.
    */
   DEV("dev"),
+  /**
+   * Run tests locally.
+   */
+  LOCAL("local"),
   /**
    * Run tests on remote grid.
    */

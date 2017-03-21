@@ -30,9 +30,8 @@ import com.galenframework.specs.page.Locator;
  */
 public class SelectorCorrectionsWrapper implements Selector {
 
-
-  private Selector delegate;
   private CorrectionsRect correctionsRect;
+  private Selector delegate;
 
   /**
    * @param selector Selector to wrap
@@ -44,11 +43,6 @@ public class SelectorCorrectionsWrapper implements Selector {
   }
 
   @Override
-  public String asString() {
-    return delegate.asString();
-  }
-
-  @Override
   public By asBy() {
     return delegate.asBy();
   }
@@ -56,6 +50,11 @@ public class SelectorCorrectionsWrapper implements Selector {
   @Override
   public Locator asLocator() {
     return new LocatorCorrectionsWrapper(delegate.asLocator(), correctionsRect);
+  }
+
+  @Override
+  public String asString() {
+    return delegate.asString();
   }
 
   @Override
