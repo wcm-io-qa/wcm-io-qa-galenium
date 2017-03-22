@@ -28,8 +28,8 @@ import org.openqa.selenium.WebElement;
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.validation.ValidationListener;
 
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.InteractionUtil;

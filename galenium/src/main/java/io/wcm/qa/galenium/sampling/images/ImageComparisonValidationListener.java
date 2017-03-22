@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.imagecomparison;
+package io.wcm.qa.galenium.sampling.images;
 
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 

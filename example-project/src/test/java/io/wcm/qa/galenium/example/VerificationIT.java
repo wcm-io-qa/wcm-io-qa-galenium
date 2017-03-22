@@ -74,7 +74,7 @@ public class VerificationIT extends AbstractExampleBase {
       verify(new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE));
       verify(new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
-    verify(new LinkTargetVerification(SELECTOR_LOGO, getDriver().getCurrentUrl()));
+    verify(new LinkTargetVerification(SELECTOR_LOGO, getStartUrl()));
   }
 
   private void verify(Verification verification) {

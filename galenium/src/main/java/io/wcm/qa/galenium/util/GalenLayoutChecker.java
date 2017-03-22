@@ -48,9 +48,9 @@ import com.galenframework.validation.ValidationObject;
 import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
+import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**

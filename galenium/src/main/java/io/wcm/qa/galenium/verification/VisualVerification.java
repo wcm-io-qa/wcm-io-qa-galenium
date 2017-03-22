@@ -24,9 +24,9 @@ import java.util.List;
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.specs.page.CorrectionsRect;
 
-import io.wcm.qa.galenium.imagecomparison.DifferenceAwareIcsFactory;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
+import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 
