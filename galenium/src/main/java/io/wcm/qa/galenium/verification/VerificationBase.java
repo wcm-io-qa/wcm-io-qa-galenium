@@ -22,30 +22,27 @@ package io.wcm.qa.galenium.verification;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.InteractionUtil;
 
-abstract class VerificationBase implements Verification {
+public abstract class VerificationBase implements Verification {
 
   private MutableDifferences differences;
   private Throwable exception;
   private Verification preVerification;
-  private Selector selector;
   private Boolean verified;
 
-  protected VerificationBase(Selector selector) {
-    setSelector(selector);
+  public VerificationBase() {
+    super();
   }
 
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
   }
+
   @Override
   public Throwable getException() {
     return exception;
@@ -92,19 +89,14 @@ abstract class VerificationBase implements Verification {
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(getClass().getSimpleName());
-    stringBuilder.append("(");
-    stringBuilder.append(getElementName());
     if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append(", ");
+      stringBuilder.append("(");
       stringBuilder.append(getAdditionalToStringInfo());
+      stringBuilder.append(")");
     }
-    stringBuilder.append(")");
     return stringBuilder.toString();
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.verification.Verification#verify()
-   */
   @Override
   public boolean verify() {
     getLogger().trace("verifying (" + toString() + ")");
@@ -132,20 +124,11 @@ abstract class VerificationBase implements Verification {
     return StringUtils.EMPTY;
   }
 
-
   protected MutableDifferences getDifferences() {
     if (differences == null) {
       differences = new MutableDifferences();
     }
     return differences;
-  }
-
-  protected WebElement getElement() {
-    return InteractionUtil.getElementVisible(getSelector());
-  }
-
-  protected String getElementName() {
-    return getSelector().elementName();
   }
 
   protected abstract String getFailureMessage();
@@ -155,11 +138,7 @@ abstract class VerificationBase implements Verification {
   }
 
   protected String getNotVerifiedMessage() {
-    return "NOT VERIFIED: " + getElementName();
-  }
-
-  protected Selector getSelector() {
-    return selector;
+    return "NOT VERIFIED";
   }
 
   protected abstract String getSuccessMessage();
@@ -172,7 +151,4 @@ abstract class VerificationBase implements Verification {
     this.differences = differences;
   }
 
-  protected void setSelector(Selector selector) {
-    this.selector = selector;
-  }
 }

@@ -223,6 +223,10 @@ public final class GaleniumReportUtil {
     return currentReport;
   }
 
+  public static Logger getMarkedLogger(Marker marker) {
+    return new MarkedLogger(getLogger(), marker);
+  }
+
   public static Logger getLogger() {
     String name = "NO_TEST_NAME_SET";
     ExtentTest extentTest = getExtentTest();

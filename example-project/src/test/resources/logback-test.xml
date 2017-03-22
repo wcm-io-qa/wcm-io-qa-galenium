@@ -1,5 +1,13 @@
 <configuration>
 
+<!-- Example filter to use with marked loggers 
+	<turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+		<Name>WEBDRIVER_FILTER</Name>
+		<Marker>webdriver</Marker>
+		<OnMatch>DENY</OnMatch>
+	</turboFilter> 
+ -->
+
   <appender name="EXTENT"
     class="io.wcm.qa.galenium.appender.logback.ExtentAppender">
     <encoder>
