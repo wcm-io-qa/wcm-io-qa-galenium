@@ -19,16 +19,12 @@
  */
 package io.wcm.qa.galenium.reporting;
 
-import java.util.List;
-
-import org.apache.commons.collections.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 public class MarkedLogger {
 
-  private static final Marker COMBINING_MARKER = MarkerFactory.getMarker("marked_logger");
   private Logger logger;
   private Marker markerToAdd;
 
@@ -44,19 +40,9 @@ public class MarkedLogger {
   }
 
   protected Marker combine() {
-    clear();
-    COMBINING_MARKER.add(markerToAdd);
-    return COMBINING_MARKER;
-  }
-
-  private void clear() {
-    if (COMBINING_MARKER.hasReferences()) {
-      @SuppressWarnings("unchecked")
-      List<Marker> refs = IteratorUtils.toList(COMBINING_MARKER.iterator());
-      for (Marker ref : refs) {
-        COMBINING_MARKER.remove(ref);
-      }
-    }
+    Marker combiningMarker = MarkerFactory.getDetachedMarker("marked_logger");
+    combiningMarker.add(markerToAdd);
+    return combiningMarker;
   }
 
   public void debug(Marker marker, String msg) {
