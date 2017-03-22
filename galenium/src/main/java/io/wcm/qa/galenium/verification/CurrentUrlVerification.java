@@ -19,54 +19,32 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 public class CurrentUrlVerification extends VerificationBase {
 
-  private String actualUrl;
-  private String expectedUrl;
-
   public CurrentUrlVerification(String expectedUrl) {
-    setExpectedUrl(expectedUrl);
-  }
-
-  private String getActualUrl() {
-    return actualUrl;
-  }
-
-  private String getExpectedUrl() {
-    return expectedUrl;
-  }
-
-  private void setActualUrl(String actualUrl) {
-    this.actualUrl = actualUrl;
-  }
-
-  private void setExpectedUrl(String expectedUrl) {
-    this.expectedUrl = expectedUrl;
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    setActualUrl(GaleniumContext.getDriver().getCurrentUrl());
-    return StringUtils.equals(getActualUrl(), getExpectedUrl());
+    super(expectedUrl);
   }
 
   @Override
   protected String getAdditionalToStringInfo() {
-    return getExpectedUrl();
+    return getExpectedValue();
   }
 
   @Override
   protected String getFailureMessage() {
-    return "Expected URL: '" + getExpectedUrl() + "' but found '" + getActualUrl() + "'";
+    return "Expected URL: '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "Found URL: '" + getExpectedUrl() + "'";
+    return "Found URL: '" + getExpectedValue() + "'";
+  }
+
+  @Override
+  protected String sampleValue() {
+    return GaleniumContext.getDriver().getCurrentUrl();
   }
 
 }

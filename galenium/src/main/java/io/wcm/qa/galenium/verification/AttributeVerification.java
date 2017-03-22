@@ -19,32 +19,15 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class AttributeVerification extends ElementBasedVerification {
 
-  private String actualValue;
   private String attributeName;
-  protected String expectedValue;
 
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
-    super(selector);
+    super(selector, expectedValue);
     setAttributeName(attributeName);
-    setExpectedValue(expectedValue);
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    return StringUtils.equals(getActualValue(), getExpectedValue());
-  }
-
-  protected String getActualValue() {
-    if (actualValue == null) {
-      actualValue = getElement().getAttribute(getAttributeName());
-    }
-    return actualValue;
   }
 
   @Override
@@ -54,10 +37,6 @@ public class AttributeVerification extends ElementBasedVerification {
 
   protected String getAttributeName() {
     return attributeName;
-  }
-
-  protected String getExpectedValue() {
-    return expectedValue;
   }
 
   @Override
@@ -70,12 +49,13 @@ public class AttributeVerification extends ElementBasedVerification {
     return getElementName() + "[" + getAttributeName() + "] was '" + getActualValue() + "' as expected";
   }
 
-  protected void setAttributeName(String attributeName) {
-    this.attributeName = attributeName;
+  @Override
+  protected String sampleValue() {
+    return getElement().getAttribute(getAttributeName());
   }
 
-  protected void setExpectedValue(String expectedValue) {
-    this.expectedValue = expectedValue;
+  protected void setAttributeName(String attributeName) {
+    this.attributeName = attributeName;
   }
 
 }

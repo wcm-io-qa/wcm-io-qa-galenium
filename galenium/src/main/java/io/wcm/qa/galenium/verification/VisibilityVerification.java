@@ -24,7 +24,7 @@ import io.wcm.qa.galenium.selectors.Selector;
 public class VisibilityVerification extends ElementBasedVerification {
 
   public VisibilityVerification(Selector selector) {
-    super(selector);
+    super(selector, null);
   }
 
   @Override

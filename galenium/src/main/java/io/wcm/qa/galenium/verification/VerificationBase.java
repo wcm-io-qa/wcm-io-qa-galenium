@@ -30,13 +30,20 @@ import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 
 public abstract class VerificationBase implements Verification {
 
+  private String actualValue;
   private MutableDifferences differences;
   private Throwable exception;
+  private String expectedValue;
   private Verification preVerification;
   private Boolean verified;
 
-  public VerificationBase() {
+
+  protected VerificationBase() {
     super();
+  }
+
+  protected VerificationBase(String expectedValue) {
+    setExpectedValue(expectedValue);
   }
 
   public void addDifference(Difference difference) {
@@ -118,7 +125,16 @@ public abstract class VerificationBase implements Verification {
     return isVerified();
   }
 
-  protected abstract Boolean doVerification();
+  protected Boolean doVerification() {
+    return StringUtils.equals(getActualValue(), getExpectedValue());
+  }
+
+  protected String getActualValue() {
+    if (actualValue == null) {
+      actualValue = sampleValue();
+    }
+    return actualValue;
+  }
 
   protected String getAdditionalToStringInfo() {
     return StringUtils.EMPTY;
@@ -129,6 +145,10 @@ public abstract class VerificationBase implements Verification {
       differences = new MutableDifferences();
     }
     return differences;
+  }
+
+  protected String getExpectedValue() {
+    return expectedValue;
   }
 
   protected abstract String getFailureMessage();
@@ -147,8 +167,16 @@ public abstract class VerificationBase implements Verification {
     return getPreVerification() != null;
   }
 
+  protected String sampleValue() {
+    return toString() + ": SAMPLING NOT IMPLEMENTED";
+  }
+
   protected void setDifferences(MutableDifferences differences) {
     this.differences = differences;
+  }
+
+  protected void setExpectedValue(String expectedValue) {
+    this.expectedValue = expectedValue;
   }
 
 }
