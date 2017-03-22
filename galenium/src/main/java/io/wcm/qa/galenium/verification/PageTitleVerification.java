@@ -19,9 +19,17 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.apache.commons.lang3.StringUtils;
+
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 public class PageTitleVerification extends VerificationBase {
+
+  private static final String KEY_PART_PAGE_TITLE = "title";
+
+  public PageTitleVerification() {
+    super();
+  }
 
   public PageTitleVerification(String expectedTitle) {
     super(expectedTitle);
@@ -30,6 +38,13 @@ public class PageTitleVerification extends VerificationBase {
   @Override
   protected String getAdditionalToStringInfo() {
     return getExpectedValue();
+  }
+  @Override
+  protected String getExpectedKey() {
+    if (StringUtils.isNotBlank(super.getExpectedKey())) {
+      return super.getExpectedKey() + "." + KEY_PART_PAGE_TITLE;
+    }
+    return KEY_PART_PAGE_TITLE;
   }
 
   @Override

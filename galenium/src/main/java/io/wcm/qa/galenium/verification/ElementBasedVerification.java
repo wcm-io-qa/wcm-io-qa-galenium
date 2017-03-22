@@ -28,6 +28,11 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   private Selector selector;
 
+  protected ElementBasedVerification(Selector selector) {
+    super();
+    setSelector(selector);
+  }
+
   protected ElementBasedVerification(Selector selector, String expectedValue) {
     super(expectedValue);
     setSelector(selector);
@@ -44,6 +49,11 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   protected String getElementName() {
     return getSelector().elementName();
+  }
+
+  @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + "." + getElementName();
   }
 
   @Override

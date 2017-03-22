@@ -23,6 +23,9 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public class TextVerification extends ElementBasedVerification {
 
+  protected TextVerification(Selector selector) {
+    super(selector);
+  }
   protected TextVerification(Selector selector, String value) {
     super(selector, value);
   }

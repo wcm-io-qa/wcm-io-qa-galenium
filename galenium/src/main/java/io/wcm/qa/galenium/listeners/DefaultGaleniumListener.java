@@ -30,6 +30,8 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
+import io.wcm.qa.galenium.sampling.text.TextSamplePersistenceListener;
+
 /**
  * Listener to manage WebDriver management, reporting and screenshots.
  */
@@ -41,6 +43,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
     add(new LoggingListener());
     add(new ExtentReportsListener());
     add(new WebDriverListener());
+    add(new TextSamplePersistenceListener());
   }
 
   public boolean add(ITestListener e) {

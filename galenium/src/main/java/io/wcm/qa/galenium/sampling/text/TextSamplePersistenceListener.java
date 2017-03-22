@@ -17,20 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.sampling.text;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import org.testng.ITestContext;
+import org.testng.TestListenerAdapter;
 
-public class LinkTargetVerification extends AttributeVerification {
 
-  private static final String ATTRIBUTE_NAME_HREF = "href";
+public class TextSamplePersistenceListener extends TestListenerAdapter {
 
-  public LinkTargetVerification(Selector selector) {
-    super(selector, ATTRIBUTE_NAME_HREF);
-  }
-
-  public LinkTargetVerification(Selector selector, String expectedValue) {
-    super(selector, ATTRIBUTE_NAME_HREF, expectedValue);
+  @Override
+  public void onFinish(ITestContext testContext) {
+    TextSampleManager.persistNewTextSamples();
   }
 
 }
