@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.root</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.5-SNAPSHOT</version>
+  <version>0.1.4</version>
 
   <name>Galenium</name>
   <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
