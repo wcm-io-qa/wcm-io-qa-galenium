@@ -20,19 +20,24 @@
 package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 
 public class WebDriverListener implements ITestListener {
+
+  private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
 
   @Override
   public void onFinish(ITestContext context) {
@@ -110,6 +115,10 @@ public class WebDriverListener implements ITestListener {
 
   protected void closeDriver() {
     WebDriverManager.closeDriver();
+  }
+
+  protected Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MARKER_WEBDRIVER);
   }
 
 }
