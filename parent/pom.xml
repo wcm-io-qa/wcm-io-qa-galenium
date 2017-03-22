@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.3-SNAPSHOT</version>
+  <version>0.1.5-SNAPSHOT</version>
 
   <description>Test automation module. Enabling Galen and Selenium</description>
 
