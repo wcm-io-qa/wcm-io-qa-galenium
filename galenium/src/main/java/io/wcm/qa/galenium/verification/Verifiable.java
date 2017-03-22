@@ -25,4 +25,5 @@ public interface Verifiable {
    * @return whether verification was successful
    */
   boolean verify();
+
 }

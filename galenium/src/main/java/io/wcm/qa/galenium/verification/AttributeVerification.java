@@ -49,7 +49,7 @@ public class AttributeVerification extends ElementBasedVerification {
 
   @Override
   protected String getAdditionalToStringInfo() {
-    return getAttributeName() + ": '" + getExpectedValue() + "'";
+    return getElementName() + "[" + getAttributeName() + "]: '" + getExpectedValue() + "'";
   }
 
   protected String getAttributeName() {

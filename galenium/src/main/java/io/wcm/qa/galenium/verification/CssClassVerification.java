@@ -43,11 +43,6 @@ public class CssClassVerification extends AttributeVerification {
   }
 
   @Override
-  protected String getAdditionalToStringInfo() {
-    return getExpectedValue();
-  }
-
-  @Override
   protected String getFailureMessage() {
     return getElementName() + " should have CSS class '" + getExpectedValue() + "', but only found '" + getActualValue() + "'";
   }

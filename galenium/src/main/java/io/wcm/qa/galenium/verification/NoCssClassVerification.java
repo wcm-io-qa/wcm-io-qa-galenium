@@ -32,4 +32,14 @@ public class NoCssClassVerification extends CssClassVerification {
     return !super.doVerification();
   }
 
+  @Override
+  protected String getFailureMessage() {
+    return getElementName() + " should not have CSS class '" + getExpectedValue() + "', but found '" + getActualValue() + "'";
+  }
+
+  @Override
+  protected String getSuccessMessage() {
+    return getElementName() + " does not have CSS class '" + getExpectedValue() + "'";
+  }
+
 }
