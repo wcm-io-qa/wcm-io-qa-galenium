@@ -17,29 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.util;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import static io.wcm.qa.galenium.util.GaleniumContext.getVerificationStrategy;
 
-public class VisibilityVerification extends ElementBasedVerification {
+import io.wcm.qa.galenium.verification.Verification;
 
-  public VisibilityVerification(Selector selector) {
-    super(selector, null);
+public class VerificationUtil {
+
+  private VerificationUtil() {
+    // do not instantiate
   }
 
-  @Override
-  protected Boolean doVerification() {
-    return getElement() != null;
+  public static void verify(Verification... verifications) {
+    for (Verification verification : verifications) {
+      getVerificationStrategy().handle(verification);
+    }
   }
-
-  @Override
-  protected String getFailureMessage() {
-    return getElementName() + " is not visible";
-  }
-
-  @Override
-  protected String getSuccessMessage() {
-    return getElementName() + " is visible";
-  }
-
 }

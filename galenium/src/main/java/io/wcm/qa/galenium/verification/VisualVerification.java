@@ -35,7 +35,7 @@ public class VisualVerification extends ElementBasedVerification {
   private DifferenceAwareIcsFactory specFactory;
 
   public VisualVerification(Selector selector) {
-    super(selector);
+    super(selector, null);
     setPreVerification(new VisibilityVerification(getSelector()));
     setSpecFactory(new DifferenceAwareIcsFactory(getSelector()));
   }

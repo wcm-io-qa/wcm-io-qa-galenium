@@ -19,54 +19,32 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 public class PageTitleVerification extends VerificationBase {
 
-  private String actualTitle;
-  private String expectedTitle;
-
   public PageTitleVerification(String expectedTitle) {
-    this.setExpectedTitle(expectedTitle);
-  }
-
-  private String getActualTitle() {
-    return actualTitle;
-  }
-
-  private String getExpectedTitle() {
-    return expectedTitle;
-  }
-
-  private void setActualTitle(String actualTitle) {
-    this.actualTitle = actualTitle;
-  }
-
-  private void setExpectedTitle(String expectedTitle) {
-    this.expectedTitle = expectedTitle;
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    setActualTitle(GaleniumContext.getDriver().getTitle());
-    return StringUtils.equals(getActualTitle(), getExpectedTitle());
+    super(expectedTitle);
   }
 
   @Override
   protected String getAdditionalToStringInfo() {
-    return getExpectedTitle();
+    return getExpectedValue();
   }
 
   @Override
   protected String getFailureMessage() {
-    return "Expected: '" + getExpectedTitle() + "' but found '" + getActualTitle() + "'";
+    return "Expected page title: '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "Title matched '" + getExpectedTitle() + "'";
+    return "Title matched '" + getExpectedValue() + "'";
+  }
+
+  @Override
+  protected String sampleValue() {
+    return GaleniumContext.getDriver().getTitle();
   }
 
 }

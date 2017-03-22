@@ -27,7 +27,9 @@ import io.wcm.qa.galenium.util.InteractionUtil;
 abstract class ElementBasedVerification extends VerificationBase {
 
   private Selector selector;
-  protected ElementBasedVerification(Selector selector) {
+
+  protected ElementBasedVerification(Selector selector, String expectedValue) {
+    super(expectedValue);
     setSelector(selector);
   }
 

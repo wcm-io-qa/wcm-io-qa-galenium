@@ -19,32 +19,27 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.selectors.Selector;
 
-public class CurrentUrlVerification extends VerificationBase {
+public class TextVerification extends ElementBasedVerification {
 
-  public CurrentUrlVerification(String expectedUrl) {
-    super(expectedUrl);
-  }
-
-  @Override
-  protected String getAdditionalToStringInfo() {
-    return getExpectedValue();
+  protected TextVerification(Selector selector, String value) {
+    super(selector, value);
   }
 
   @Override
   protected String getFailureMessage() {
-    return "Expected URL: '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
+    return getElementName() + " should have text '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "Found URL: '" + getExpectedValue() + "'";
+    return getElementName() + " has text '" + getExpectedValue() + "'";
   }
 
   @Override
   protected String sampleValue() {
-    return GaleniumContext.getDriver().getCurrentUrl();
+    return getElement().getText();
   }
 
 }

@@ -19,32 +19,21 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import io.wcm.qa.galenium.util.GaleniumContext;
 
-public class CurrentUrlVerification extends VerificationBase {
-
-  public CurrentUrlVerification(String expectedUrl) {
-    super(expectedUrl);
-  }
+abstract public class VerificationStrategyBase implements VerificationStrategy {
 
   @Override
-  protected String getAdditionalToStringInfo() {
-    return getExpectedValue();
+  public void handle(Verification verification) {
+    if (verification.verify()) {
+      handleSuccess(verification);
+    }
+    else {
+      handleFailure(verification);
+    }
   }
 
-  @Override
-  protected String getFailureMessage() {
-    return "Expected URL: '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
-  }
+  protected abstract void handleFailure(Verification verification);
 
-  @Override
-  protected String getSuccessMessage() {
-    return "Found URL: '" + getExpectedValue() + "'";
-  }
-
-  @Override
-  protected String sampleValue() {
-    return GaleniumContext.getDriver().getCurrentUrl();
-  }
+  protected abstract void handleSuccess(Verification verification);
 
 }
