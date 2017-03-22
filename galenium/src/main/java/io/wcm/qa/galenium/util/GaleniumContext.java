@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.util;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.asserts.Assertion;
 
 import com.relevantcodes.extentreports.ExtentTest;
 
@@ -32,11 +33,40 @@ public class GaleniumContext {
     }
   };
 
+  private Assertion assertion;
   private WebDriver driver;
   private ExtentTest extentTest;
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
+
+  public void setAssertion(Assertion assertion) {
+    this.assertion = assertion;
+  }
+
+  public void setDriver(WebDriver driver) {
+    this.driver = driver;
+  }
+
+  public void setExtentTest(ExtentTest extentTest) {
+    this.extentTest = extentTest;
+  }
+
+  public void setTestDescription(String testDescription) {
+    this.testDescription = testDescription;
+  }
+
+  public void setTestDevice(TestDevice testDevice) {
+    this.testDevice = testDevice;
+  }
+
+  public void setTestName(String testName) {
+    this.testName = testName;
+  }
+
+  public static Assertion getAssertion() {
+    return THREAD_LOCAL_CONTEXT.get().assertion;
+  }
 
   public static GaleniumContext getContext() {
     return THREAD_LOCAL_CONTEXT.get();
@@ -60,26 +90,6 @@ public class GaleniumContext {
 
   public static String getTestName() {
     return THREAD_LOCAL_CONTEXT.get().testName;
-  }
-
-  public void setDriver(WebDriver driver) {
-    this.driver = driver;
-  }
-
-  public void setExtentTest(ExtentTest extentTest) {
-    this.extentTest = extentTest;
-  }
-
-  public void setTestDescription(String testDescription) {
-    this.testDescription = testDescription;
-  }
-
-  public void setTestDevice(TestDevice testDevice) {
-    this.testDevice = testDevice;
-  }
-
-  public void setTestName(String testName) {
-    this.testName = testName;
   }
 
 }

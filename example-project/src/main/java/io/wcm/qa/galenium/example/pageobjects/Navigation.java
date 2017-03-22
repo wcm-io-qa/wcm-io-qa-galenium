@@ -19,30 +19,22 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.SelectorFactory;
 
 /**
  * Main navigation.
  */
 public class Navigation extends AbstractWebDriverPageObject {
 
-  private static final Selector SELECTOR_TOP_LEVEL_ITEMS = SelectorFactory.fromCss("ul.navlist-main > li");
   private static final Selector SELECTOR_NAV_MENU_OPENER = SelectorFactory.fromCss("a.menu-opener");
+  private static final Selector SELECTOR_TOP_LEVEL_ITEMS = SelectorFactory.fromCss("ul.navlist-main > li");
   private List<NavigationTopLevelEntry> navItems;
-
-  /**
-   * @param driver web driver
-   */
-  public Navigation(WebDriver driver) {
-    super(driver);
-  }
 
   /**
    * @return a list of top level navigation items

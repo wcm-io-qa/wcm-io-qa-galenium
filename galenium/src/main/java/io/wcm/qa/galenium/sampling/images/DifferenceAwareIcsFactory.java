@@ -17,15 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.imagecomparison;
+package io.wcm.qa.galenium.sampling.images;
+
+import java.util.Collection;
+
+import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.Differences;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-
-import java.util.Collection;
 
 /**
  * Image comparison spec factory using {@link Differences}.
@@ -54,7 +56,7 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
    * @return true if this list changed as a result of the call
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
-    return this.differences.addAll(toBeAppended);
+    return differences.addAll(toBeAppended);
   }
 
   /**
@@ -64,8 +66,28 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
     differences.add(difference);
   }
 
+  /**
+   * Removes all differences added to this factory.
+   */
+  public void clearDifferences() {
+    differences.clear();
+  }
+
   @Override
   public String getFoldername() {
-    return GaleniumConfiguration.getGalenSpecPath() + "/" + differences.asFilePath();
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(GaleniumConfiguration.getGalenSpecPath());
+    stringBuilder.append("/");
+    if (StringUtils.isNotBlank(getRelativeImagePath())) {
+      stringBuilder.append(getRelativeImagePath());
+      stringBuilder.append("/");
+    }
+    stringBuilder.append(differences.asFilePath());
+    return stringBuilder.toString();
   }
+
+  protected String getRelativeImagePath() {
+    return "";
+  }
+
 }

@@ -30,15 +30,15 @@ public class LinkItem extends AbstractWebElementPageObject {
     super(webElement);
   }
 
-  public String getTitle() {
-    return getWebElement().getText();
-  }
-
   /**
    * Clicks the {@link WebElement} backing this object.
    */
   public void click() {
     getWebElement().click();
+  }
+
+  public String getTitle() {
+    return getWebElement().getText();
   }
 
 }

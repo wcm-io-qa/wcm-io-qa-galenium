@@ -19,21 +19,12 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import org.openqa.selenium.WebDriver;
-
 /**
  * Conference page.
  */
 public class ConferencePage extends AbstractPage {
 
-  private static final String PATH_TO_CONFERENCE = "/en/conference.html";
-
-  /**
-   * @param driver web driver
-   */
-  public ConferencePage(WebDriver driver) {
-    super(driver);
-  }
+  public static final String PATH_TO_CONFERENCE = "/en/conference.html";
 
   @Override
   protected String getRelativePath() {

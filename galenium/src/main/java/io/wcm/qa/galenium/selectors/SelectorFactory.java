@@ -33,7 +33,18 @@ public final class SelectorFactory {
    * @param selectorString CSS selector
    * @return Galenium selector representing the CSS selector
    */
-  public static Selector fromCss(final String selectorString) {
+  public static Selector fromCss(String selectorString) {
     return new SelectorFromString(selectorString);
+  }
+
+  /**
+   * @param elementName name to use for selector
+   * @param selectorString CSS selector
+   * @return Galenium selector representing the CSS selector
+   */
+  public static Selector fromCss(String elementName, String selectorString) {
+    SelectorFromString selector = new SelectorFromString(selectorString);
+    selector.setName(elementName);
+    return selector;
   }
 }

@@ -25,10 +25,10 @@ import org.testng.annotations.Test;
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 
-import io.wcm.qa.galenium.imagecomparison.DifferenceAwareIcsFactory;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
+import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
+import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -40,17 +40,12 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public class ImageComparisonExampleIT extends AbstractExampleBase {
 
-  private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("#stage");
-  private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("#top");
+  private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
+  private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
   public ImageComparisonExampleIT(TestDevice testDevice) {
     super(testDevice);
-  }
-
-  @Override
-  protected String getRelativePath() {
-    return PATH_TO_HOMEPAGE;
   }
 
   @Test
@@ -77,6 +72,11 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
         new SectionFilter(getTags(), null),
         getValidationListener());
     handleLayoutReport("image_comparison_" + selector.elementName() + ".gspec", layoutReport);
+  }
+
+  @Override
+  protected String getRelativePath() {
+    return PATH_TO_HOMEPAGE;
   }
 
 }

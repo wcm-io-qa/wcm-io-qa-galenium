@@ -19,20 +19,25 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
-import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 
 public class WebDriverListener implements ITestListener {
 
-  private Boolean isDriverInitialized = false;
+  private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
 
   @Override
   public void onFinish(ITestContext context) {
@@ -46,8 +51,7 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onStart(ITestContext context) {
-    // TODO: Auto-generated method stub
-
+    getLogger().trace("WebDriverListener active.");
   }
 
   @Override
@@ -67,8 +71,17 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    // TODO: Auto-generated method stub
-
+    TestDevice testDevice = TestInfoUtil.getTestDevice(result);
+    if (testDevice != null) {
+      getLogger().debug("new driver for: " + testDevice);
+      WebDriverManager.getDriver(testDevice);
+      if (getDriver() == null) {
+        getLogger().warn(MARKER_ERROR, "driver not instantiated");
+      }
+    }
+    else {
+      getLogger().debug("no test device set for: " + result.getTestName());
+    }
   }
 
   @Override
@@ -101,24 +114,11 @@ public class WebDriverListener implements ITestListener {
   }
 
   protected void closeDriver() {
-    WebDriverManager.get().closeDriver();
-    isDriverInitialized = false;
+    WebDriverManager.closeDriver();
   }
 
-  protected WebDriver getDriver() {
-    WebDriver driver = null;
-    if (isDriverInitialized) {
-      driver = WebDriverManager.getCurrentDriver();
-    }
-    else if (getTestDevice() != null) {
-      driver = WebDriverManager.getDriver(getTestDevice());
-      isDriverInitialized = true;
-    }
-    return driver;
-  }
-
-  protected TestDevice getTestDevice() {
-    return WebDriverManager.get().getTestDevice();
+  protected Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MARKER_WEBDRIVER);
   }
 
 }

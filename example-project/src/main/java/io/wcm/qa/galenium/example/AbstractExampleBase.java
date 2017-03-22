@@ -33,18 +33,18 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  */
 public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBaseTestCase {
 
+  private static final int CUTOFF_MOBILE_WIDTH = 601;
   private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
+  private static final String LOGIN_AUTHOR_NAME = "admin";
+  private static final String LOGIN_AUTHOR_PASS = "admin";
   private static final Selector SELECTOR_AUTHOR_INPUT_PASSWORD = SelectorFactory.fromCss("#password");
   private static final Selector SELECTOR_AUTHOR_INPUT_USERNAME = SelectorFactory.fromCss("#username");
   private static final Selector SELECTOR_AUTHOR_LOGIN_BUTTON = SelectorFactory.fromCss("#submit-button");
-  protected static final String PATH_TO_HOMEPAGE = "/en.html";
-  private static final String LOGIN_AUTHOR_NAME = "admin";
-  private static final String LOGIN_AUTHOR_PASS = "admin";
-  private static final int CUTOFF_MOBILE_WIDTH = 601;
-  protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   private static final Selector SELECTOR_NAV = SelectorFactory.fromCss("nav");
   private static final Selector SELECTOR_NAV_LINK = SelectorFactory.fromCss("a.navlink-main");
   private static final Selector SELECTOR_NAV_MENU_OPENER = SelectorFactory.fromCss("a.menu-opener");
+  protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
+  protected static final String PATH_TO_HOMEPAGE = "/en.html";
 
   /**
    * @param testDevice test device to use for test
@@ -54,20 +54,51 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
   }
 
   @Override
+  public String getTestName() {
+    return "Example." + super.getTestName();
+  }
+
+  private void enterText(Selector selector, String text) {
+    WebElement input = getElementOrFail(selector);
+    input.sendKeys(text);
+  }
+
+  private boolean isAuthorLogin() {
+    return getElementVisible(DIV_LOGIN_BOX) != null;
+  }
+
+  private void navShouldBeVisible() {
+    getElementOrFail(SELECTOR_NAV);
+  }
+
+  protected void assertRelativePath(String relativePath) {
+    String currentUrl = getDriver().getCurrentUrl();
+    assertEquals(currentUrl, getBaseUrl() + relativePath, "relative path should be: '" + relativePath + "'");
+  }
+
+  protected void clickConferenceNavLink() {
+    clickByPartialText(SELECTOR_NAV_LINK, "conference");
+  }
+
+  @Override
   protected WebDriver getDriver() {
     return WebDriverManager.getDriver(getDevice());
   }
+
+  protected abstract String getRelativePath();
 
   protected boolean isMobile() {
     return getDevice().getScreenSize().getWidth() < CUTOFF_MOBILE_WIDTH;
   }
 
   protected void loadStartUrl() {
-    loadUrl(getBaseUrl() + getRelativePath());
+    loadUrl(getStartUrl());
     loginToAuthor();
   }
 
-  protected abstract String getRelativePath();
+  protected String getStartUrl() {
+    return getBaseUrl() + getRelativePath();
+  }
 
   protected void loginToAuthor() {
     if (isAuthorLogin()) {
@@ -78,39 +109,12 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
     }
   }
 
-  private boolean isAuthorLogin() {
-    return getElementVisible(DIV_LOGIN_BOX) != null;
-  }
-
-  private void enterText(Selector selector, String text) {
-    WebElement input = getElementOrFail(selector);
-    input.sendKeys(text);
-  }
-
-  protected void assertRelativePath(String relativePath) {
-    String currentUrl = getDriver().getCurrentUrl();
-    assertEquals(currentUrl, getBaseUrl() + relativePath, "relative path should be: '" + relativePath + "'");
-  }
-
   protected void openNav() {
     navShouldBeVisible();
     if (isMobile()) {
       click(SELECTOR_NAV_MENU_OPENER);
       getElementOrFail(SELECTOR_NAV_LINK);
     }
-  }
-
-  protected void clickConferenceNavLink() {
-    clickByPartialText("conference", SELECTOR_NAV_LINK);
-  }
-
-  private void navShouldBeVisible() {
-    getElementOrFail(SELECTOR_NAV);
-  }
-
-  @Override
-  public String getTestName() {
-    return "Example." + super.getTestName();
   }
 
 }

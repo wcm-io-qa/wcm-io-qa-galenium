@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.listeners;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.assignCategory;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.Hashtable;
@@ -47,13 +48,14 @@ public class RetryAnalyzer implements IRetryAnalyzer {
       String failureMessage = "Exceeded max count (" + getCount(result).get() + "): " + result.getTestName();
       Reporter.log(failureMessage, true);
       getLogger().info(GaleniumReportUtil.MARKER_FAIL, failureMessage);
+      assignCategory("RERUN_MAX");
       return false;
     }
 
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
     Reporter.log(infoMessage, true);
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, infoMessage);
-
+    assignCategory("RERUN_" + getCount(result).get());
     return true;
   }
 

@@ -23,7 +23,28 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="0.1.2" date="not released yet">
+    <release version="0.1.4" date="2017-02-22">
+      <action type="fix" dev="apegam">
+        Context now holding all objects previously in WebDriverManager.
+      </action>
+      <action type="add" dev="apegam">
+        Category handling to report utility.
+      </action>
+      <action type="fix" dev="bbaumann">
+        Fix for chromedriver_mac. Set version to 64bit.
+      </action>
+      <action type="add" dev="apegam">
+        More methods in InteractionUtil and driver from context used.
+      </action>
+      <action type="add" dev="apegam">
+        New concept of using verification objects.
+      </action>
+      <action type="add" dev="apegam">
+        Marked logger to have finer control in reporting.
+      </action>
+    </release>
+
+    <release version="0.1.2" date="2017-02-22">
       <action type="add" dev="apegam">
         Context object to hold thread specific objects.
       </action>

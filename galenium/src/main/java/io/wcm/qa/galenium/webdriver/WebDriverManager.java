@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridHost;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridPort;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -44,11 +47,14 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MarkerFactory;
 import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
 import io.wcm.qa.galenium.util.TestDevice;
 
@@ -59,92 +65,22 @@ public final class WebDriverManager {
 
   private static final Logger log = LoggerFactory.getLogger(WebDriverManager.class);
 
-  private static final ThreadLocal<WebDriverManager> THREAD_LOCAL_MANAGER = new ThreadLocal<WebDriverManager>();
-
-  private WebDriver driver;
-  private FirefoxProfile firefoxProfile;
-
-  private TestDevice testDevice;
-  private RunMode runMode;
-  private String host;
-  private int port;
-
-  /**
-   * @return WebDriverManager for current thread.
-   */
-  public static WebDriverManager get() {
-    WebDriverManager context = THREAD_LOCAL_MANAGER.get();
-    if (context == null) {
-      context = new WebDriverManager();
-      THREAD_LOCAL_MANAGER.set(context);
-    }
-    return context;
-  }
-
   private WebDriverManager() {
-    runMode = RunMode.valueOf(System.getProperty("selenium.runmode").toUpperCase());
-    host = System.getProperty("selenium.host");
-    port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
-  }
-
-  /**
-   * @param testDevice test device to use for this driver
-   * @return WebDriver for current thread.
-   */
-  public static WebDriver getDriver(TestDevice testDevice) {
-    return get().getDriverInstance(testDevice);
-  }
-
-  public static WebDriver getCurrentDriver() {
-    return get().driver;
-  }
-
-  private WebDriver getDriverInstance(TestDevice newTestDevice) {
-
-    boolean needsNewDevice = driver == null
-        || getTestDevice() == null
-        || newTestDevice.getBrowserType() != getTestDevice().getBrowserType()
-        || (newTestDevice.getChromeEmulator() != null && !newTestDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
-
-    if (needsNewDevice) {
-      GaleniumReportUtil.getLogger().info("Needs new device: " + newTestDevice.toString());
-      if (driver != null) {
-        closeDriver();
-      }
-      setTestDevice(newTestDevice);
-      driver = newDriver(newTestDevice);
-    }
-    boolean needsWindowResize = StringUtils.isEmpty(newTestDevice.getChromeEmulator()) // don't size chrome-emulator
-        && (!newTestDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
-    if (needsWindowResize) {
-      try {
-        Dimension screenSize = newTestDevice.getScreenSize();
-        GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(driver, screenSize.width, screenSize.height);
-      }
-      catch (WebDriverException ex) {
-        String msg = "Exception when resizing browser";
-        log.info(msg, ex);
-        GaleniumReportUtil.getLogger().debug(msg, ex);
-      }
-      driver.manage().deleteAllCookies();
-      GaleniumReportUtil.getLogger().info("Deleted all cookies.");
-      setTestDevice(newTestDevice);
-    }
-    return driver;
+    // do not instantiate
   }
 
   /**
    * Quits Selenium WebDriver instance managed by this class.
    */
-  public void closeDriver() {
-    if (driver != null) {
+  public static void closeDriver() {
+    if (getDriver() != null) {
       try {
         quitDriver();
       }
       catch (WebDriverException ex) {
         if (ex.getCause() instanceof InterruptedException) {
           logInfo("attempting to close driver again after InterruptedException.");
-          GaleniumReportUtil.getLogger().debug("attempting to close driver after InterruptedException.", ex);
+          getLogger().debug("attempting to close driver after InterruptedException.", ex);
           quitDriver();
         }
         else {
@@ -153,27 +89,73 @@ public final class WebDriverManager {
         }
       }
       finally {
-        driver = null;
+        setDriver(null);
         setTestDevice(null);
-        GaleniumReportUtil.getLogger().info("Driver and Device set to null");
+        getLogger().info("Driver and Device set to null");
       }
     }
     else {
       RuntimeException ex = new RuntimeException("Attempting to close non existent driver.");
-      GaleniumReportUtil.getLogger().debug("Unnecessary call to close driver.", ex);
+      getLogger().debug("Unnecessary call to close driver.", ex);
     }
   }
 
-  protected void quitDriver() {
-    GaleniumReportUtil.getLogger().info("Attempting to close driver");
-    driver.quit();
-    GaleniumReportUtil.getLogger().info("Closed driver");
+  public static WebDriver getCurrentDriver() {
+    return GaleniumContext.getDriver();
   }
 
-  private DesiredCapabilities getDesiredCapabilities(TestDevice newTestDevice) {
+  /**
+   * @param testDevice test device to use for this driver
+   * @return WebDriver for current thread.
+   */
+  public static WebDriver getDriver(TestDevice testDevice) {
+    boolean needsNewDevice = getDriver() == null
+        || getTestDevice() == null
+        || testDevice.getBrowserType() != getTestDevice().getBrowserType()
+        || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
+
+    if (needsNewDevice) {
+      getLogger().info("Needs new device: " + testDevice.toString());
+      if (getDriver() != null) {
+        closeDriver();
+      }
+      setTestDevice(testDevice);
+      setDriver(newDriver(testDevice));
+    }
+    boolean needsWindowResize = StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
+        && (!testDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
+    if (needsWindowResize) {
+      try {
+        Dimension screenSize = testDevice.getScreenSize();
+        GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
+      }
+      catch (WebDriverException ex) {
+        String msg = "Exception when resizing browser";
+        log.info(msg, ex);
+        getLogger().debug(msg, ex);
+      }
+      getDriver().manage().deleteAllCookies();
+      getLogger().info("Deleted all cookies.");
+      setTestDevice(testDevice);
+    }
+    return getDriver();
+  }
+
+  public static TestDevice getTestDevice() {
+    return GaleniumContext.getTestDevice();
+  }
+
+  /**
+   * @param testDevice test device to use with this web driver
+   */
+  public static void setTestDevice(TestDevice testDevice) {
+    GaleniumContext.getContext().setTestDevice(testDevice);
+  }
+
+  private static DesiredCapabilities getDesiredCapabilities(TestDevice newTestDevice) {
     DesiredCapabilities capabilities;
 
-    GaleniumReportUtil.getLogger().info("Getting capabilities for " + newTestDevice.getBrowserType());
+    getLogger().info("Getting capabilities for " + newTestDevice.getBrowserType());
     switch (newTestDevice.getBrowserType()) {
       case CHROME:
         capabilities = DesiredCapabilities.chrome();
@@ -206,13 +188,11 @@ public final class WebDriverManager {
       default:
       case FIREFOX:
         capabilities = DesiredCapabilities.firefox();
-        if (firefoxProfile == null) {
-          firefoxProfile = new FirefoxProfile();
-          // Workaround for click events spuriously failing in Firefox (https://code.google.com/p/selenium/issues/detail?id=6112)
-          firefoxProfile.setEnableNativeEvents(false);
-          firefoxProfile.setAcceptUntrustedCertificates(true);
-          firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
-        }
+        // Workaround for click events spuriously failing in Firefox (https://code.google.com/p/selenium/issues/detail?id=6112)
+        FirefoxProfile firefoxProfile = new FirefoxProfile();
+        firefoxProfile.setEnableNativeEvents(false);
+        firefoxProfile.setAcceptUntrustedCertificates(true);
+        firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
         capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
         break;
     }
@@ -223,25 +203,40 @@ public final class WebDriverManager {
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-    GaleniumReportUtil.getLogger().info("Done generating capabilities");
+    getLogger().info("Done generating capabilities");
     return capabilities;
   }
 
-  private WebDriver newDriver(TestDevice newTestDevice) {
+  private static WebDriver getDriver() {
+    return GaleniumContext.getDriver();
+  }
 
+  private static void logError(String msg, WebDriverException ex) {
+    log.error(msg, ex);
+    getLogger().error(msg, ex);
+  }
+
+  private static void logInfo(String msg) {
+    log.info(msg);
+    getLogger().info(msg);
+  }
+
+  private static WebDriver newDriver(TestDevice newTestDevice) {
+
+    RunMode runMode = GaleniumConfiguration.getRunMode();
     logInfo("Creating new " + runMode + " " + newTestDevice.getBrowserType() + " WebDriver for thread " + Thread.currentThread().getName());
 
     DesiredCapabilities capabilities = getDesiredCapabilities(newTestDevice);
 
-    GaleniumReportUtil.getLogger().info("Getting driver for runmode '" + runMode + "'");
+    getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
       case REMOTE:
-        logInfo("Connecting to grid at " + host + ":" + port + "...");
+        logInfo("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
         try {
-          driver = new RemoteWebDriver(new URL("http", host, port, "/wd/hub"), capabilities);
+          setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilities));
         }
         catch (MalformedURLException ex) {
-          throw new RuntimeException("Couldn't construct valid URL using selenium.host=" + host + " and selenium.port=" + port);
+          throw new RuntimeException("Couldn't construct valid URL using selenium.host=" + getGridHost() + " and selenium.port=" + getGridPort());
         }
         break;
 
@@ -249,51 +244,44 @@ public final class WebDriverManager {
       case LOCAL:
         switch (newTestDevice.getBrowserType()) {
           case CHROME:
-            driver = new ChromeDriver(capabilities);
+            setDriver(new ChromeDriver(capabilities));
             break;
 
           case IE:
-            driver = new InternetExplorerDriver(capabilities);
+            setDriver(new InternetExplorerDriver(capabilities));
             break;
 
           case SAFARI:
-            driver = new SafariDriver(capabilities);
+            setDriver(new SafariDriver(capabilities));
             break;
 
           case PHANTOMJS:
-            driver = new PhantomJSDriver(capabilities);
+            setDriver(new PhantomJSDriver(capabilities));
             break;
 
           default:
           case FIREFOX:
-            driver = new FirefoxDriver(capabilities);
+            setDriver(new FirefoxDriver(capabilities));
             break;
         }
         break;
     }
 
-    return driver;
+    return getDriver();
   }
 
-  public TestDevice getTestDevice() {
-    return testDevice;
+  private static void setDriver(WebDriver driver) {
+    GaleniumContext.getContext().setDriver(driver);
   }
 
-  /**
-   * @param testDevice test device to use with this web driver
-   */
-  public void setTestDevice(TestDevice testDevice) {
-    this.testDevice = testDevice;
+  protected static Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MarkerFactory.getMarker("webdriver"));
   }
 
-  protected void logInfo(String msg) {
-    log.info(msg);
-    GaleniumReportUtil.getLogger().info(msg);
-  }
-
-  protected void logError(String msg, WebDriverException ex) {
-    log.error(msg, ex);
-    GaleniumReportUtil.getLogger().error(msg, ex);
+  protected static void quitDriver() {
+    getLogger().info("Attempting to close driver");
+    getDriver().quit();
+    getLogger().info("Closed driver");
   }
 
 }

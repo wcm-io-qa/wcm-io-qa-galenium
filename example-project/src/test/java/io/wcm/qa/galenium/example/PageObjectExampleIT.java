@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.example;
 
 import java.util.List;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
@@ -31,6 +32,7 @@ import io.wcm.qa.galenium.example.pageobjects.LinkItem;
 import io.wcm.qa.galenium.example.pageobjects.Navigation;
 import io.wcm.qa.galenium.example.pageobjects.NavigationTopLevelEntry;
 import io.wcm.qa.galenium.example.pageobjects.Stage;
+import io.wcm.qa.galenium.listeners.RetryAnalyzer;
 import io.wcm.qa.galenium.util.TestDevice;
 
 
@@ -43,7 +45,15 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     super(testDevice);
   }
 
-  @Test(groups = "dev")
+  @BeforeMethod(alwaysRun = true)
+  public void resetHomepage() {
+    if (homepage != null) {
+      getLogger().debug("resetting homepage object for next test");
+      homepage = null;
+    }
+  }
+
+  @Test(retryAnalyzer = RetryAnalyzer.class)
   public void testWithPageObjects() {
     getHomepage().load();
     loginToAuthor();
@@ -67,14 +77,6 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     assertEquals(archiveSection.getNavLinks().size(), 2, "archive section link count");
   }
 
-  private void checkStage() {
-    Stage stage = getHomepage().getStage();
-    assertEquals(stage.getTitle(), "adaptTo() 2013", "stage title");
-    assertEquals(stage.getDescription(), "23.–25. September 2013 Kulturbrauerei Berlin", "stage description");
-    List<LinkItem> ctaLinks = stage.getCtaLinks();
-    assertEquals(ctaLinks.size(), 2, "two CTA links");
-  }
-
   private void checkNavigation() {
     Navigation navigation = getHomepage().getNavigation();
     List<NavigationTopLevelEntry> topLevelItems = navigation.getTopLevelItems();
@@ -85,17 +87,26 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     assertEquals(navConference.getTitle(), "CONFERENCE", "Main navigation conference");
   }
 
-  @Override
-  protected String getRelativePath() {
-    // not used
-    return getHomepage().getRelativePath();
+  private void checkStage() {
+    Stage stage = getHomepage().getStage();
+    assertEquals(stage.getTitle(), "adaptTo() 2013", "stage title");
+    assertEquals(stage.getDescription(), "23.–25. September 2013 Kulturbrauerei Berlin", "stage description");
+    List<LinkItem> ctaLinks = stage.getCtaLinks();
+    assertEquals(ctaLinks.size(), 2, "two CTA links");
   }
 
   private Homepage getHomepage() {
     if (homepage == null) {
-      homepage = new Homepage(getDriver());
+      getLogger().debug("new homepage");
+      homepage = new Homepage();
     }
     return homepage;
+  }
+
+  @Override
+  protected String getRelativePath() {
+    // not used
+    return getHomepage().getRelativePath();
   }
 
 }

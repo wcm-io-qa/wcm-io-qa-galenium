@@ -95,7 +95,7 @@ public class MutableDifferences implements Differences {
 
   private String joinTagsWith(String separator) {
     StringBuilder joinedTags = new StringBuilder();
-    for (Difference difference : this) {
+    for (Difference difference : getDifferences()) {
       joinedTags.append(difference.getTag());
       joinedTags.append(separator);
     }

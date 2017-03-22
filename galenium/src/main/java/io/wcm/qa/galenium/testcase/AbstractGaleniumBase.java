@@ -36,11 +36,12 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GridHostExtractor;
 import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
  */
-public abstract class AbstractGaleniumBase implements ITest {
+public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   private Assertion assertion;
   private TestDevice device;
@@ -51,6 +52,22 @@ public abstract class AbstractGaleniumBase implements ITest {
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
+  }
+
+  /**
+   * @return the test device used for this test run.
+   */
+  public TestDevice getDevice() {
+    return device;
+  }
+
+  public Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
+  }
+
+  @Override
+  public String getTestName() {
+    return getClass().getSimpleName() + "/" + getDevice();
   }
 
   protected void assertEquals(boolean actual, boolean expected) {
@@ -274,13 +291,6 @@ public abstract class AbstractGaleniumBase implements ITest {
     return GaleniumConfiguration.getBaseUrl();
   }
 
-  /**
-   * @return the test device used for this test run.
-   */
-  public TestDevice getDevice() {
-    return device;
-  }
-
   protected abstract WebDriver getDriver();
 
   protected String getGridNodeHostname() {
@@ -292,11 +302,6 @@ public abstract class AbstractGaleniumBase implements ITest {
       return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
     }
     return "NOT_REMOTE";
-  }
-
-  @Override
-  public String getTestName() {
-    return getClass().getSimpleName() + "/" + getDevice();
   }
 
   protected void setAssertion(Assertion assertion) {
@@ -315,10 +320,6 @@ public abstract class AbstractGaleniumBase implements ITest {
   protected void skipTest(String skipMessage, Throwable ex) {
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
-  }
-
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
 }

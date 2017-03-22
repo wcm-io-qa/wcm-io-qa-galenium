@@ -52,41 +52,51 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
     for (ITestListener listener : listeners) {
       if (listener instanceof IConfigurationListener2) {
+        getLogger().trace("{}: beforeConfiguration(ITestResult tr)", listener.getClass());
         ((IConfigurationListener2)listener).beforeConfiguration(tr);
       }
     }
+    super.beforeConfiguration(tr);
   }
 
   @Override
   public void onFinish(ITestContext context) {
     getLogger().trace("+++LISTENER: onFinish(ITestContext context)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onFinish(ITestContext context)", listener.getClass());
       listener.onFinish(context);
     }
+    super.onFinish(context);
   }
 
   @Override
   public void onStart(ITestContext context) {
     getLogger().trace("+++LISTENER: onStart(ITestContext context)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onStart(ITestContext context)", listener.getClass());
       listener.onStart(context);
     }
+    super.onStart(context);
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
       listener.onTestFailedButWithinSuccessPercentage(result);
     }
+    super.onTestFailedButWithinSuccessPercentage(result);
   }
 
   @Override
   public void onTestFailure(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailure(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestFailure(ITestResult result)", listener.getClass());
       listener.onTestFailure(result);
     }
+    super.onTestFailure(result);
   }
 
   @Override
@@ -96,22 +106,27 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       getLogger().trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
       listener.onTestSkipped(result);
     }
+    super.onTestSkipped(result);
   }
 
   @Override
   public void onTestStart(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestStart(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestStart(ITestResult result)", listener.getClass());
       listener.onTestStart(result);
     }
+    super.onTestStart(result);
   }
 
   @Override
   public void onTestSuccess(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
     for (ITestListener listener : listeners) {
+      getLogger().trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
       listener.onTestSuccess(result);
     }
+    super.onTestSuccess(result);
   }
 
 }

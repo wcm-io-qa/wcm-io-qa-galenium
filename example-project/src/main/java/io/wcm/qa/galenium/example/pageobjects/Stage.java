@@ -19,14 +19,13 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.SelectorFactory;
 
 /**
  * Stage on homepage.
@@ -34,26 +33,11 @@ import org.openqa.selenium.WebElement;
 public class Stage extends AbstractWebDriverPageObject {
 
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("#stage");
-  private static final Selector SELECTOR_STAGE_HEADLINE = SelectorFactory.fromCss("div.stage-title > h2");
-  private static final Selector SELECTOR_STAGE_DESCRIPTION = SelectorFactory.fromCss("div.stage-overlay div.stage-title > p");
   private static final Selector SELECTOR_STAGE_CTA_LINKS = SelectorFactory.fromCss("div.stage-cta-box > div.stageheaderLinkItem a.stage-cta");
-  private WebElement stage;
+  private static final Selector SELECTOR_STAGE_DESCRIPTION = SelectorFactory.fromCss("div.stage-overlay div.stage-title > p");
+  private static final Selector SELECTOR_STAGE_HEADLINE = SelectorFactory.fromCss("div.stage-title > h2");
   private List<LinkItem> ctaLinks;
-
-  /**
-   * @param driver web driver
-   */
-  public Stage(WebDriver driver) {
-    super(driver);
-  }
-
-  public String getTitle() {
-    return getStage().findElement(SELECTOR_STAGE_HEADLINE.asBy()).getText();
-  }
-
-  public String getDescription() {
-    return getStage().findElement(SELECTOR_STAGE_DESCRIPTION.asBy()).getText();
-  }
+  private WebElement stage;
 
   /**
    * @return a list containing all CTA links from stage or empty list if none exist
@@ -67,6 +51,14 @@ public class Stage extends AbstractWebDriverPageObject {
       }
     }
     return ctaLinks;
+  }
+
+  public String getDescription() {
+    return getStage().findElement(SELECTOR_STAGE_DESCRIPTION.asBy()).getText();
+  }
+
+  public String getTitle() {
+    return getStage().findElement(SELECTOR_STAGE_HEADLINE.asBy()).getText();
   }
 
   private WebElement getStage() {

@@ -40,9 +40,21 @@ public class LocatorCorrectionsWrapper extends Locator {
     setAdditionalCorrections(corrections);
   }
 
+  public CorrectionsRect getAdditionalCorrections() {
+    return additionalCorrections;
+  }
+
   @Override
   public CorrectionsRect getCorrections() {
     return combinedCorrections(super.getCorrections(), getAdditionalCorrections());
+  }
+
+  public void setAdditionalCorrections(CorrectionsRect additionalCorrections) {
+    this.additionalCorrections = additionalCorrections;
+  }
+
+  private Correction combinedCorrection(Correction c1, Correction c2) {
+    return new CombinedCorrection(c1, c2);
   }
 
   private CorrectionsRect combinedCorrections(CorrectionsRect cr1, CorrectionsRect cr2) {
@@ -51,18 +63,6 @@ public class LocatorCorrectionsWrapper extends Locator {
     Correction width = combinedCorrection(cr1.getWidth(), cr2.getWidth());
     Correction height = combinedCorrection(cr1.getHeight(), cr2.getHeight());
     return new CorrectionsRect(left, top, width, height);
-  }
-
-  private Correction combinedCorrection(Correction c1, Correction c2) {
-    return new CombinedCorrection(c1, c2);
-  }
-
-  public CorrectionsRect getAdditionalCorrections() {
-    return additionalCorrections;
-  }
-
-  public void setAdditionalCorrections(CorrectionsRect additionalCorrections) {
-    this.additionalCorrections = additionalCorrections;
   }
 
   /**

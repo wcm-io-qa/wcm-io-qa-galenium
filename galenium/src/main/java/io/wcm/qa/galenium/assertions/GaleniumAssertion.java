@@ -30,12 +30,8 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  */
 public class GaleniumAssertion extends Assertion {
 
-  @Override
-  public void onAssertSuccess(IAssert<?> assertCommand) {
-    if (getLogger().isDebugEnabled()) {
-      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "PASSED: {} (actual: {})", assertCommand.getMessage(), assertCommand.getActual());
-    }
-    super.onAssertSuccess(assertCommand);
+  public Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
   @Override
@@ -44,8 +40,12 @@ public class GaleniumAssertion extends Assertion {
     super.onAssertFailure(assertCommand, ex);
   }
 
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+  @Override
+  public void onAssertSuccess(IAssert<?> assertCommand) {
+    if (getLogger().isDebugEnabled()) {
+      getLogger().debug(GaleniumReportUtil.MARKER_PASS, "PASSED: {} (actual: {})", assertCommand.getMessage(), assertCommand.getActual());
+    }
+    super.onAssertSuccess(assertCommand);
   }
 
 }

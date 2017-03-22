@@ -26,19 +26,58 @@ import org.testng.ITestResult;
 
 import com.relevantcodes.extentreports.ExtentTest;
 
-import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
+import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
  */
 public final class TestInfoUtil {
 
-  private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
-  private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
   private static final String EXTENT_CATEGORY_PREFIX_BREAKPOINTS = System.getProperty("galenium.extent.category.breakpoints", "");
+  private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
+  private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
 
   private TestInfoUtil() {
     // do not instantiate
+  }
+
+  /**
+   * @param test to add categories to
+   * @param result source for TestNG groups, browser, and breakpoints
+   */
+  public static void assignCategories(ExtentTest test, ITestResult result) {
+
+    for (String group : result.getMethod().getGroups()) {
+      test.assignCategory(EXTENT_CATEGORY_PREFIX_TEST_NG + group);
+    }
+
+    String browser = getBrowser(result);
+    if (browser != null) {
+      test.assignCategory(EXTENT_CATEGORY_PREFIX_BROWSER + browser);
+    }
+
+    List<String> breakPoints = getBreakPoint(result);
+    if (breakPoints != null) {
+      for (String breakPoint : breakPoints) {
+        test.assignCategory(EXTENT_CATEGORY_PREFIX_BREAKPOINTS + breakPoint);
+      }
+    }
+  }
+
+  public static TestDevice getTestDevice(ITestResult result) {
+    Object testClass = result.getInstance();
+    if (testClass instanceof HasDevice) {
+      Object device = ((HasDevice)testClass).getDevice();
+      if (device instanceof TestDevice) {
+        return (TestDevice)device;
+      }
+    }
+    return null;
+  }
+
+  static String getAlphanumericTestName(ITestResult result) {
+    String name = result.getName();
+    return name.replaceAll("[^-A-Za-z0-9]", "_");
   }
 
   static List<String> getBreakPoint(ITestResult result) {
@@ -65,45 +104,6 @@ public final class TestInfoUtil {
     String browser = name.replaceFirst(".*using ", "");
     browser = browser.replaceFirst(" \\(.*", "");
     return browser;
-  }
-
-  static TestDevice getTestDevice(ITestResult result) {
-    Object testClass = result.getInstance();
-    if (testClass instanceof AbstractGaleniumBase) {
-      Object device = ((AbstractGaleniumBase)testClass).getDevice();
-      if (device instanceof TestDevice) {
-        return (TestDevice)device;
-      }
-    }
-    return null;
-  }
-
-  static String getAlphanumericTestName(ITestResult result) {
-    String name = result.getName();
-    return name.replaceAll("[^-A-Za-z0-9]", "_");
-  }
-
-  /**
-   * @param test to add categories to
-   * @param result source for TestNG groups, browser, and breakpoints
-   */
-  public static void assignCategories(ExtentTest test, ITestResult result) {
-
-    for (String group : result.getMethod().getGroups()) {
-      test.assignCategory(EXTENT_CATEGORY_PREFIX_TEST_NG + group);
-    }
-
-    String browser = getBrowser(result);
-    if (browser != null) {
-      test.assignCategory(EXTENT_CATEGORY_PREFIX_BROWSER + browser);
-    }
-
-    List<String> breakPoints = getBreakPoint(result);
-    if (breakPoints != null) {
-      for (String breakPoint : breakPoints) {
-        test.assignCategory(EXTENT_CATEGORY_PREFIX_BREAKPOINTS + breakPoint);
-      }
-    }
   }
 
 }
