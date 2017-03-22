@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
-public class AttributeVerification extends VerificationBase {
+public class AttributeVerification extends ElementBasedVerification {
 
   private String actualValue;
   private String attributeName;

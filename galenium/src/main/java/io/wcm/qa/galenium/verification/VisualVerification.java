@@ -30,7 +30,7 @@ import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 
-public class VisualVerification extends VerificationBase {
+public class VisualVerification extends ElementBasedVerification {
 
   private DifferenceAwareIcsFactory specFactory;
 

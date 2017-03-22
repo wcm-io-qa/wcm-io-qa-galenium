@@ -19,12 +19,10 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import java.util.List;
-
 public interface Verifiable {
 
   /**
-   * @return a list of verifications
+   * @return whether verification was successful
    */
-  List<Verification> getVerifications();
+  boolean verify();
 }

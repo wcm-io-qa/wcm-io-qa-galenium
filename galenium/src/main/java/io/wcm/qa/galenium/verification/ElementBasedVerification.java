@@ -31,7 +31,7 @@ import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
 
-abstract class VerificationBase implements Verification {
+abstract class ElementBasedVerification implements Verification {
 
   private MutableDifferences differences;
   private Throwable exception;
@@ -39,7 +39,7 @@ abstract class VerificationBase implements Verification {
   private Selector selector;
   private Boolean verified;
 
-  protected VerificationBase(Selector selector) {
+  protected ElementBasedVerification(Selector selector) {
     setSelector(selector);
   }
 
