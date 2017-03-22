@@ -24,6 +24,10 @@ import org.testng.asserts.Assertion;
 
 import com.relevantcodes.extentreports.ExtentTest;
 
+import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.verification.DefaultVerificationStrategy;
+import io.wcm.qa.galenium.verification.VerificationStrategy;
+
 public class GaleniumContext {
 
   private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
@@ -33,12 +37,13 @@ public class GaleniumContext {
     }
   };
 
-  private Assertion assertion;
+  private Assertion assertion = new GaleniumAssertion();
   private WebDriver driver;
   private ExtentTest extentTest;
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
+  private VerificationStrategy verificationStrategy = new DefaultVerificationStrategy();
 
   public void setAssertion(Assertion assertion) {
     this.assertion = assertion;
@@ -62,6 +67,10 @@ public class GaleniumContext {
 
   public void setTestName(String testName) {
     this.testName = testName;
+  }
+
+  public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
+    this.verificationStrategy = verificationStrategy;
   }
 
   public static Assertion getAssertion() {
@@ -90,6 +99,10 @@ public class GaleniumContext {
 
   public static String getTestName() {
     return THREAD_LOCAL_CONTEXT.get().testName;
+  }
+
+  public static VerificationStrategy getVerificationStrategy() {
+    return THREAD_LOCAL_CONTEXT.get().verificationStrategy;
   }
 
 }
