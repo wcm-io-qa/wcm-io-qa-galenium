@@ -1,10 +1,11 @@
 package io.wcm.qa.galenium.verification;
+
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
+
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.verification.Verification;
-import io.wcm.qa.galenium.verification.VerificationStrategyBase;
 
 
 /*
@@ -45,7 +46,7 @@ public class DefaultVerificationStrategy extends VerificationStrategyBase {
 
   @Override
   protected void handleSuccess(Verification verification) {
-    getLogger().info(verification.getMessage());
+    getLogger().info(MARKER_PASS, verification.getMessage());
   }
 
 }
