@@ -19,9 +19,17 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.apache.commons.lang3.StringUtils;
+
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 public class CurrentUrlVerification extends VerificationBase {
+
+  private static final String KEY_PART_URL = "url";
+
+  public CurrentUrlVerification() {
+    super();
+  }
 
   public CurrentUrlVerification(String expectedUrl) {
     super(expectedUrl);
@@ -30,6 +38,14 @@ public class CurrentUrlVerification extends VerificationBase {
   @Override
   protected String getAdditionalToStringInfo() {
     return getExpectedValue();
+  }
+
+  @Override
+  protected String getExpectedKey() {
+    if (StringUtils.isNotBlank(super.getExpectedKey())) {
+      return super.getExpectedKey() + "." + KEY_PART_URL;
+    }
+    return KEY_PART_URL;
   }
 
   @Override

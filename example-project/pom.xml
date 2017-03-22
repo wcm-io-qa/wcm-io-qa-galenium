@@ -156,6 +156,7 @@
                 <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
                 <galenium.textComparison.save>true</galenium.textComparison.save>
                 <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
+                <galenium.textComparison.file>${galenium.specPath}/text/expected.properties</galenium.textComparison.file>
 
                 <!-- Galen -->
                 <galen.device>${galen.device}</galen.device>

@@ -63,8 +63,8 @@ public class VerificationIT extends AbstractExampleBase {
   public void verificationTest() {
     loadStartUrl();
     verify(
-        new CurrentUrlVerification(getStartUrl()),
-        new PageTitleVerification("wcm.io Sample Site"),
+        new CurrentUrlVerification(),
+        new PageTitleVerification(),
         new LogoVerification(),
         new VisibilityVerification(SELECTOR_STAGE));
     if (isMobile()) {
@@ -77,7 +77,7 @@ public class VerificationIT extends AbstractExampleBase {
           new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE),
           new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
-    VerificationUtil.verify(new LinkTargetVerification(SELECTOR_LOGO, getStartUrl()));
+    VerificationUtil.verify(new LinkTargetVerification(SELECTOR_LOGO));
   }
 
   @Override

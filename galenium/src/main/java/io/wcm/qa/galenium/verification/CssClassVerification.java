@@ -26,8 +26,11 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public class CssClassVerification extends AttributeVerification {
 
+  private static final String ATTRIBUTE_NAME_CLASS = "class";
+  private String expectedValue;
+
   public CssClassVerification(Selector selector, String cssClass) {
-    super(selector, "class", cssClass);
+    super(selector, ATTRIBUTE_NAME_CLASS, cssClass);
     setExpectedValue(cssClass);
     setPreVerification(new VisibilityVerification(getSelector()));
   }
@@ -43,6 +46,11 @@ public class CssClassVerification extends AttributeVerification {
   }
 
   @Override
+  protected String getExpectedValue() {
+    return expectedValue;
+  }
+
+  @Override
   protected String getFailureMessage() {
     return getElementName() + " should have CSS class '" + getExpectedValue() + "', but only found '" + getActualValue() + "'";
   }
@@ -50,6 +58,11 @@ public class CssClassVerification extends AttributeVerification {
   @Override
   protected String getSuccessMessage() {
     return getElementName() + " has CSS class '" + getExpectedValue() + "'";
+  }
+
+  @Override
+  protected void setExpectedValue(String expectedValue) {
+    this.expectedValue = expectedValue;
   }
 
 }

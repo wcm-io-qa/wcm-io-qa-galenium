@@ -25,6 +25,11 @@ public class AttributeVerification extends ElementBasedVerification {
 
   private String attributeName;
 
+  public AttributeVerification(Selector selector, String attributeName) {
+    super(selector);
+    setAttributeName(attributeName);
+  }
+
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     super(selector, expectedValue);
     setAttributeName(attributeName);

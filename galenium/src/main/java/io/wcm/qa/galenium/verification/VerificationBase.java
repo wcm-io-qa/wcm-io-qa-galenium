@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
+import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
 public abstract class VerificationBase implements Verification {
 
@@ -116,6 +117,9 @@ public abstract class VerificationBase implements Verification {
     try {
       setVerified(doVerification());
       getLogger().trace("done verifying (" + toString() + ")");
+      if (!isVerified() && getActualValue() != null) {
+        TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
+      }
     }
     catch (Throwable ex) {
       getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
@@ -147,7 +151,17 @@ public abstract class VerificationBase implements Verification {
     return differences;
   }
 
+  protected String getExpectedKey() {
+    return getDifferences().asPropertyKey();
+  }
+
   protected String getExpectedValue() {
+    if (expectedValue == null) {
+      String expectedKey = getExpectedKey();
+      if (StringUtils.isNotBlank(expectedKey)) {
+        expectedValue = TextSampleManager.getExpectedText(expectedKey);
+      }
+    }
     return expectedValue;
   }
 
