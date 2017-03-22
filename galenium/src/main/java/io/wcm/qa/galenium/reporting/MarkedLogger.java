@@ -25,267 +25,267 @@ import org.slf4j.MarkerFactory;
 
 public class MarkedLogger {
 
-  private Logger logger;
+  private Logger delegate;
   private Marker markerToAdd;
 
   public MarkedLogger(Logger delegateLogger, Marker additionalMarker) {
-    logger = delegateLogger;
+    delegate = delegateLogger;
     markerToAdd = additionalMarker;
   }
 
-  private Marker combine(Marker marker) {
-    Marker combined = combine();
+  private Marker mark(Marker marker) {
+    Marker combined = mark();
     combined.add(marker);
     return combined;
   }
 
-  protected Marker combine() {
+  private Marker mark() {
     Marker combiningMarker = MarkerFactory.getDetachedMarker("marked_logger");
     combiningMarker.add(markerToAdd);
     return combiningMarker;
   }
 
   public void debug(Marker marker, String msg) {
-    logger.debug(combine(marker), msg);
+    delegate.debug(mark(marker), msg);
   }
 
   public void debug(Marker marker, String format, Object arg) {
-    logger.debug(combine(marker), format, arg);
+    delegate.debug(mark(marker), format, arg);
   }
 
   public void debug(Marker marker, String format, Object... arguments) {
-    logger.debug(combine(marker), format, arguments);
+    delegate.debug(mark(marker), format, arguments);
   }
 
   public void debug(Marker marker, String format, Object arg1, Object arg2) {
-    logger.debug(combine(marker), format, arg1, arg2);
+    delegate.debug(mark(marker), format, arg1, arg2);
   }
 
   public void debug(Marker marker, String msg, Throwable t) {
-    logger.debug(combine(marker), msg, t);
+    delegate.debug(mark(marker), msg, t);
   }
 
   public void debug(String msg) {
-    logger.debug(combine(), msg);
+    delegate.debug(mark(), msg);
   }
 
   public void debug(String format, Object arg) {
-    logger.debug(combine(), format, arg);
+    delegate.debug(mark(), format, arg);
   }
 
   public void debug(String format, Object... arguments) {
-    logger.debug(combine(), format, arguments);
+    delegate.debug(mark(), format, arguments);
   }
 
   public void debug(String format, Object arg1, Object arg2) {
-    logger.debug(combine(), format, arg1, arg2);
+    delegate.debug(mark(), format, arg1, arg2);
   }
 
   public void debug(String msg, Throwable t) {
-    logger.debug(combine(), msg, t);
+    delegate.debug(mark(), msg, t);
   }
 
   public void error(Marker marker, String msg) {
-    logger.error(combine(marker), msg);
+    delegate.error(mark(marker), msg);
   }
 
   public void error(Marker marker, String format, Object arg) {
-    logger.error(combine(marker), format, arg);
+    delegate.error(mark(marker), format, arg);
   }
 
   public void error(Marker marker, String format, Object... arguments) {
-    logger.error(combine(marker), format, arguments);
+    delegate.error(mark(marker), format, arguments);
   }
 
   public void error(Marker marker, String format, Object arg1, Object arg2) {
-    logger.error(combine(marker), format, arg1, arg2);
+    delegate.error(mark(marker), format, arg1, arg2);
   }
 
   public void error(Marker marker, String msg, Throwable t) {
-    logger.error(combine(marker), msg, t);
+    delegate.error(mark(marker), msg, t);
   }
 
   public void error(String msg) {
-    logger.error(combine(), msg);
+    delegate.error(mark(), msg);
   }
 
   public void error(String format, Object arg) {
-    logger.error(combine(), format, arg);
+    delegate.error(mark(), format, arg);
   }
 
   public void error(String format, Object... arguments) {
-    logger.error(combine(), format, arguments);
+    delegate.error(mark(), format, arguments);
   }
 
   public void error(String format, Object arg1, Object arg2) {
-    logger.error(combine(), format, arg1, arg2);
+    delegate.error(mark(), format, arg1, arg2);
   }
 
   public void error(String msg, Throwable t) {
-    logger.error(combine(), msg, t);
+    delegate.error(mark(), msg, t);
   }
 
   public String getName() {
-    return logger.getName();
+    return delegate.getName();
   }
 
   public void info(Marker marker, String msg) {
-    logger.info(combine(marker), msg);
+    delegate.info(mark(marker), msg);
   }
 
   public void info(Marker marker, String format, Object arg) {
-    logger.info(combine(marker), format, arg);
+    delegate.info(mark(marker), format, arg);
   }
 
   public void info(Marker marker, String format, Object... arguments) {
-    logger.info(combine(marker), format, arguments);
+    delegate.info(mark(marker), format, arguments);
   }
 
   public void info(Marker marker, String format, Object arg1, Object arg2) {
-    logger.info(combine(marker), format, arg1, arg2);
+    delegate.info(mark(marker), format, arg1, arg2);
   }
 
   public void info(Marker marker, String msg, Throwable t) {
-    logger.info(combine(marker), msg, t);
+    delegate.info(mark(marker), msg, t);
   }
 
   public void info(String msg) {
-    logger.info(combine(), msg);
+    delegate.info(mark(), msg);
   }
 
   public void info(String format, Object arg) {
-    logger.info(combine(), format, arg);
+    delegate.info(mark(), format, arg);
   }
 
   public void info(String format, Object... arguments) {
-    logger.info(combine(), format, arguments);
+    delegate.info(mark(), format, arguments);
   }
 
   public void info(String format, Object arg1, Object arg2) {
-    logger.info(combine(), format, arg1, arg2);
+    delegate.info(mark(), format, arg1, arg2);
   }
 
   public void info(String msg, Throwable t) {
-    logger.info(combine(), msg, t);
+    delegate.info(mark(), msg, t);
   }
 
   public boolean isDebugEnabled() {
-    return logger.isDebugEnabled(combine());
+    return delegate.isDebugEnabled(mark());
   }
 
   public boolean isDebugEnabled(Marker marker) {
-    return logger.isDebugEnabled(combine(marker));
+    return delegate.isDebugEnabled(mark(marker));
   }
 
   public boolean isErrorEnabled() {
-    return logger.isErrorEnabled(combine());
+    return delegate.isErrorEnabled(mark());
   }
 
   public boolean isErrorEnabled(Marker marker) {
-    return logger.isErrorEnabled(combine(marker));
+    return delegate.isErrorEnabled(mark(marker));
   }
 
   public boolean isInfoEnabled() {
-    return logger.isInfoEnabled(combine());
+    return delegate.isInfoEnabled(mark());
   }
 
   public boolean isInfoEnabled(Marker marker) {
-    return logger.isInfoEnabled(combine(marker));
+    return delegate.isInfoEnabled(mark(marker));
   }
 
   public boolean isTraceEnabled() {
-    return logger.isTraceEnabled(combine());
+    return delegate.isTraceEnabled(mark());
   }
 
   public boolean isTraceEnabled(Marker marker) {
-    return logger.isTraceEnabled(combine(marker));
+    return delegate.isTraceEnabled(mark(marker));
   }
 
   public boolean isWarnEnabled() {
-    return logger.isWarnEnabled(combine());
+    return delegate.isWarnEnabled(mark());
   }
 
   public boolean isWarnEnabled(Marker marker) {
-    return logger.isWarnEnabled(combine(marker));
+    return delegate.isWarnEnabled(mark(marker));
   }
 
   public void trace(Marker marker, String msg) {
-    logger.trace(combine(marker), msg);
+    delegate.trace(mark(marker), msg);
   }
 
   public void trace(Marker marker, String format, Object arg) {
-    logger.trace(combine(marker), format, arg);
+    delegate.trace(mark(marker), format, arg);
   }
 
   public void trace(Marker marker, String format, Object... argArray) {
-    logger.trace(combine(marker), format, argArray);
+    delegate.trace(mark(marker), format, argArray);
   }
 
   public void trace(Marker marker, String format, Object arg1, Object arg2) {
-    logger.trace(combine(marker), format, arg1, arg2);
+    delegate.trace(mark(marker), format, arg1, arg2);
   }
 
   public void trace(Marker marker, String msg, Throwable t) {
-    logger.trace(combine(marker), msg, t);
+    delegate.trace(mark(marker), msg, t);
   }
 
   public void trace(String msg) {
-    logger.trace(combine(), msg);
+    delegate.trace(mark(), msg);
   }
 
   public void trace(String format, Object arg) {
-    logger.trace(combine(), format, arg);
+    delegate.trace(mark(), format, arg);
   }
 
   public void trace(String format, Object... arguments) {
-    logger.trace(combine(), format, arguments);
+    delegate.trace(mark(), format, arguments);
   }
 
   public void trace(String format, Object arg1, Object arg2) {
-    logger.trace(combine(), format, arg1, arg2);
+    delegate.trace(mark(), format, arg1, arg2);
   }
 
   public void trace(String msg, Throwable t) {
-    logger.trace(combine(), msg, t);
+    delegate.trace(mark(), msg, t);
   }
 
   public void warn(Marker marker, String msg) {
-    logger.warn(combine(marker), msg);
+    delegate.warn(mark(marker), msg);
   }
 
   public void warn(Marker marker, String format, Object arg) {
-    logger.warn(combine(marker), format, arg);
+    delegate.warn(mark(marker), format, arg);
   }
 
   public void warn(Marker marker, String format, Object... arguments) {
-    logger.warn(combine(marker), format, arguments);
+    delegate.warn(mark(marker), format, arguments);
   }
 
   public void warn(Marker marker, String format, Object arg1, Object arg2) {
-    logger.warn(combine(marker), format, arg1, arg2);
+    delegate.warn(mark(marker), format, arg1, arg2);
   }
 
   public void warn(Marker marker, String msg, Throwable t) {
-    logger.warn(combine(marker), msg, t);
+    delegate.warn(mark(marker), msg, t);
   }
 
   public void warn(String msg) {
-    logger.warn(combine(), msg);
+    delegate.warn(mark(), msg);
   }
 
   public void warn(String format, Object arg) {
-    logger.warn(combine(), format, arg);
+    delegate.warn(mark(), format, arg);
   }
 
   public void warn(String format, Object... arguments) {
-    logger.warn(combine(), format, arguments);
+    delegate.warn(mark(), format, arguments);
   }
 
   public void warn(String format, Object arg1, Object arg2) {
-    logger.warn(combine(), format, arg1, arg2);
+    delegate.warn(mark(), format, arg1, arg2);
   }
 
   public void warn(String msg, Throwable t) {
-    logger.warn(combine(), msg, t);
+    delegate.warn(mark(), msg, t);
   }
 }
