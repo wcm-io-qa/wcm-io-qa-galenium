@@ -33,9 +33,11 @@ import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.verification.CssClassVerification;
+import io.wcm.qa.galenium.verification.CurrentUrlVerification;
 import io.wcm.qa.galenium.verification.InvisibilityVerification;
 import io.wcm.qa.galenium.verification.LinkTargetVerification;
 import io.wcm.qa.galenium.verification.NoCssClassVerification;
+import io.wcm.qa.galenium.verification.PageTitleVerification;
 import io.wcm.qa.galenium.verification.Verification;
 import io.wcm.qa.galenium.verification.VisibilityVerification;
 import io.wcm.qa.galenium.verification.VisualVerification;
@@ -60,6 +62,8 @@ public class VerificationIT extends AbstractExampleBase {
   @Test(groups = "dev", retryAnalyzer = RetryAnalyzer.class)
   public void verificationTest() {
     loadStartUrl();
+    verify(new CurrentUrlVerification(getStartUrl()));
+    verify(new PageTitleVerification("wcm.io Sample Site"));
     verify(new LogoVerification(SELECTOR_LOGO));
     verify(new VisibilityVerification(SELECTOR_STAGE));
     if (isMobile()) {

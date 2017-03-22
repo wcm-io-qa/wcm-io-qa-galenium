@@ -92,8 +92,12 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
   }
 
   protected void loadStartUrl() {
-    loadUrl(getBaseUrl() + getRelativePath());
+    loadUrl(getStartUrl());
     loginToAuthor();
+  }
+
+  protected String getStartUrl() {
+    return getBaseUrl() + getRelativePath();
   }
 
   protected void loginToAuthor() {
