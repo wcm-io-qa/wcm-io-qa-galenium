@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
@@ -53,7 +54,10 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   @Override
   protected String getExpectedKey() {
-    return super.getExpectedKey() + "." + getElementName();
+    if (StringUtils.isNotBlank(super.getExpectedKey())) {
+      return super.getExpectedKey() + "." + getElementName();
+    }
+    return getElementName();
   }
 
   @Override
