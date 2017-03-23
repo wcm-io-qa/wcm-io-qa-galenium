@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.base;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 
@@ -59,7 +59,7 @@ public abstract class VerificationBase implements Verification {
   }
 
   /**
-   * @see io.wcm.qa.galenium.verification.Verification#getMessage()
+   * @see io.wcm.qa.galenium.verification.base.Verification#getMessage()
    */
   @Override
   public String getMessage() {

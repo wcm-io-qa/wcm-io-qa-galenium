@@ -25,8 +25,8 @@ import org.testng.asserts.Assertion;
 import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
-import io.wcm.qa.galenium.verification.DefaultVerificationStrategy;
-import io.wcm.qa.galenium.verification.VerificationStrategy;
+import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;
+import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
 
 public class GaleniumContext {
 

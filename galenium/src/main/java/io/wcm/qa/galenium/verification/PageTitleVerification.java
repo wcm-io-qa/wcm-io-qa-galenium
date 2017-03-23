@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.verification;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 public class PageTitleVerification extends VerificationBase {
 

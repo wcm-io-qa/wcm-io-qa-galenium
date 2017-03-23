@@ -1,4 +1,4 @@
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.strategy;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 
@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.verification.base.Verification;
 
 
 /*

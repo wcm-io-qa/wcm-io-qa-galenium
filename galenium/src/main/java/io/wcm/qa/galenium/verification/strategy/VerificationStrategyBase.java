@@ -17,10 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.strategy;
 
+import io.wcm.qa.galenium.verification.base.Verification;
 
-public interface VerificationStrategy {
+abstract public class VerificationStrategyBase implements VerificationStrategy {
 
-  void handle(Verification verification);
+  @Override
+  public void handle(Verification verification) {
+    if (verification.verify()) {
+      handleSuccess(verification);
+    }
+    else {
+      handleFailure(verification);
+    }
+  }
+
+  protected abstract void handleFailure(Verification verification);
+
+  protected abstract void handleSuccess(Verification verification);
+
 }

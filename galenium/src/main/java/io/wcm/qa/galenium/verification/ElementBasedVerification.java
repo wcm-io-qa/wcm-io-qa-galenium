@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 abstract class ElementBasedVerification extends VerificationBase {
 

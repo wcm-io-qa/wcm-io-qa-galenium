@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getVerificationStrategy;
 
-import io.wcm.qa.galenium.verification.Verification;
+import io.wcm.qa.galenium.verification.base.Verification;
 
 public class VerificationUtil {
 

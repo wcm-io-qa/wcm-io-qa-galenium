@@ -17,23 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.base;
 
+/**
+ * Unifies different kinds of verification done while UI testing.
+ */
+public interface Verification {
 
-abstract public class VerificationStrategyBase implements VerificationStrategy {
+  /**
+   * @return Throwable if one occured during verification
+   */
+  Throwable getException();
 
-  @Override
-  public void handle(Verification verification) {
-    if (verification.verify()) {
-      handleSuccess(verification);
-    }
-    else {
-      handleFailure(verification);
-    }
-  }
+  /**
+   * @return verification message
+   */
+  String getMessage();
 
-  protected abstract void handleFailure(Verification verification);
-
-  protected abstract void handleSuccess(Verification verification);
+  /**
+   * @return whether verification was successful
+   */
+  boolean verify();
 
 }
