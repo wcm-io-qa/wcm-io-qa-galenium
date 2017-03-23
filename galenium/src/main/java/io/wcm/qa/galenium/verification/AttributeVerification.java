@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class AttributeVerification extends ElementBasedVerification {
@@ -33,6 +35,16 @@ public class AttributeVerification extends ElementBasedVerification {
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     super(selector, expectedValue);
     setAttributeName(attributeName);
+  }
+
+  public AttributeVerification(String elementName, WebElement element, String attributeName) {
+    super(elementName, element);
+    setAttributeName(attributeName);
+  }
+
+  public AttributeVerification(String elementName, WebElement element, String attributeName, String expectedValue) {
+    this(elementName, element, attributeName);
+    setExpectedValue(expectedValue);
   }
 
   @Override

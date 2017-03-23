@@ -19,12 +19,18 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class NoCssClassVerification extends CssClassVerification {
 
   public NoCssClassVerification(Selector selector, String cssClass) {
     super(selector, cssClass);
+  }
+
+  public NoCssClassVerification(String elementName, WebElement element, String cssClass) {
+    super(elementName, element, cssClass);
   }
 
   @Override

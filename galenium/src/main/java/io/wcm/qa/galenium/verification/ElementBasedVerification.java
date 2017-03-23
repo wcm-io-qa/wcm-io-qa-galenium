@@ -28,6 +28,7 @@ import io.wcm.qa.galenium.util.InteractionUtil;
 abstract class ElementBasedVerification extends VerificationBase {
 
   private Selector selector;
+  private WebElement element;
 
   protected ElementBasedVerification(Selector selector) {
     super(selector.elementName());
@@ -39,12 +40,27 @@ abstract class ElementBasedVerification extends VerificationBase {
     setSelector(selector);
   }
 
-  protected WebElement getElement() {
-    return InteractionUtil.getElementVisible(getSelector());
+  protected ElementBasedVerification(String verificationName, WebElement element) {
+    super(verificationName);
+    setElement(element);
+  }
+
+  public WebElement getElement() {
+    if (element == null) {
+      element = InteractionUtil.getElementVisible(getSelector());
+    }
+    return element;
+  }
+
+  public void setElement(WebElement element) {
+    this.element = element;
   }
 
   protected String getElementName() {
-    return getSelector().elementName();
+    if (getSelector() != null) {
+      return getSelector().elementName();
+    }
+    return super.getVerificationName();
   }
 
   @Override

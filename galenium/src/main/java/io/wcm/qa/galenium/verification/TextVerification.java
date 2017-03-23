@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class TextVerification extends ElementBasedVerification {
@@ -29,6 +31,10 @@ public class TextVerification extends ElementBasedVerification {
 
   public TextVerification(Selector selector, String value) {
     super(selector, value);
+  }
+
+  public TextVerification(String elementName, WebElement element) {
+    super(elementName, element);
   }
 
   @Override
