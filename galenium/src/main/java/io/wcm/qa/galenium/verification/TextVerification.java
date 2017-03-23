@@ -27,10 +27,12 @@ public class TextVerification extends ElementBasedVerification {
 
   public TextVerification(Selector selector) {
     super(selector);
+    setPreVerification(new VisibilityVerification(getSelector()));
   }
 
   public TextVerification(Selector selector, String value) {
     super(selector, value);
+    setPreVerification(new VisibilityVerification(getSelector()));
   }
 
   public TextVerification(String elementName, WebElement element) {
