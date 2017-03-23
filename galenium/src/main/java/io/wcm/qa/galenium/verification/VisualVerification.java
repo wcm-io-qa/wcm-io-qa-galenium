@@ -117,6 +117,10 @@ public class VisualVerification extends ElementBasedVerification {
     getSpecFactory().setObjectsToIgnore(objectsToIgnore);
   }
 
+  public void setRelativeImagePath(String relativeImagePath) {
+    this.specFactory.setRelativeImagePath(relativeImagePath);
+  }
+
   public void setSectionName(String sectionName) {
     getSpecFactory().setSectionName(sectionName);
   }

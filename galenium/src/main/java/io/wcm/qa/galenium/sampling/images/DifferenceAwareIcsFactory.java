@@ -35,6 +35,7 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
 
   private MutableDifferences differences = new MutableDifferences();
+  private String relativeImagePath = StringUtils.EMPTY;
 
   /**
    * @param selector selects element to use in image comparison
@@ -86,8 +87,12 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
     return stringBuilder.toString();
   }
 
-  protected String getRelativeImagePath() {
-    return "";
+  public String getRelativeImagePath() {
+    return relativeImagePath;
+  }
+
+  public void setRelativeImagePath(String relativeImagePath) {
+    this.relativeImagePath = relativeImagePath;
   }
 
 }
