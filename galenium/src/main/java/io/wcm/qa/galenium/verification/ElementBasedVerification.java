@@ -30,7 +30,7 @@ abstract class ElementBasedVerification extends VerificationBase {
   private Selector selector;
 
   protected ElementBasedVerification(Selector selector) {
-    super();
+    super(selector.elementName());
     setSelector(selector);
   }
 
@@ -39,17 +39,17 @@ abstract class ElementBasedVerification extends VerificationBase {
     setSelector(selector);
   }
 
-  @Override
-  protected String getAdditionalToStringInfo() {
-    return getElementName();
-  }
-
   protected WebElement getElement() {
     return InteractionUtil.getElementVisible(getSelector());
   }
 
   protected String getElementName() {
     return getSelector().elementName();
+  }
+
+  @Override
+  public String getVerificationName() {
+    return getElementName();
   }
 
   @Override

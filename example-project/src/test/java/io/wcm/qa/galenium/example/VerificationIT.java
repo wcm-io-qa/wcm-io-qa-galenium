@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.galenium.example;
 
+import static io.wcm.qa.galenium.example.pageobjects.ConferencePage.PATH_TO_CONFERENCE;
 import static io.wcm.qa.galenium.util.VerificationUtil.verify;
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import io.wcm.qa.galenium.example.pageobjects.ConferencePage;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
 import io.wcm.qa.galenium.listeners.RetryAnalyzer;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
@@ -48,10 +48,10 @@ public class VerificationIT extends AbstractExampleBase {
   private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
   private static final Selector SELECTOR_NAV_LINK_CONFERENCE = SelectorFactory.fromCss(
       "Navlink Conference",
-      ".navlist-main a.navlink-main[href$='" + ConferencePage.PATH_TO_CONFERENCE + "'");
+      ".navlist-main a.navlink-main[href$='" + PATH_TO_CONFERENCE + "'");
   private static final Selector SELECTOR_NAV_LINK_HOME = SelectorFactory.fromCss(
       "Navlink Home",
-      ".navlist-main a.navlink-main[href$='" + Homepage.PATH_TO_HOMEPAGE + "'");
+      ".navlist-main a.navlink-main[href$='" + PATH_TO_HOMEPAGE + "'");
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
@@ -63,8 +63,8 @@ public class VerificationIT extends AbstractExampleBase {
   public void verificationTest() {
     loadStartUrl();
     verify(
-        new CurrentUrlVerification(),
-        new PageTitleVerification(),
+        new CurrentUrlVerification("Homepage"),
+        new PageTitleVerification("Homepage"),
         new LogoVerification(),
         new VisibilityVerification(SELECTOR_STAGE));
     if (isMobile()) {

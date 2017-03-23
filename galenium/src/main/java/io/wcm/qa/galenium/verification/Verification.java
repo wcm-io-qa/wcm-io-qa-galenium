@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification;
 /**
  * Unifies different kinds of verification done while UI testing.
  */
-public interface Verification extends Verifiable {
+public interface Verification {
 
   /**
    * @return Throwable if one occured during verification
@@ -33,5 +33,10 @@ public interface Verification extends Verifiable {
    * @return verification message
    */
   String getMessage();
+
+  /**
+   * @return whether verification was successful
+   */
+  boolean verify();
 
 }

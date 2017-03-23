@@ -27,12 +27,12 @@ public class CurrentUrlVerification extends VerificationBase {
 
   private static final String KEY_PART_URL = "url";
 
-  public CurrentUrlVerification() {
-    super();
+  public CurrentUrlVerification(String pageName) {
+    super(pageName);
   }
 
-  public CurrentUrlVerification(String expectedUrl) {
-    super(expectedUrl);
+  public CurrentUrlVerification(String pageName, String expectedUrl) {
+    super(pageName, expectedUrl);
   }
 
   @Override

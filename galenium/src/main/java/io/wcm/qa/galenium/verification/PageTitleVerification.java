@@ -27,18 +27,19 @@ public class PageTitleVerification extends VerificationBase {
 
   private static final String KEY_PART_PAGE_TITLE = "title";
 
-  public PageTitleVerification() {
-    super();
+  public PageTitleVerification(String pageName) {
+    super(pageName);
   }
 
-  public PageTitleVerification(String expectedTitle) {
-    super(expectedTitle);
+  public PageTitleVerification(String pageName, String expectedTitle) {
+    super(pageName, expectedTitle);
   }
 
   @Override
   protected String getAdditionalToStringInfo() {
     return getExpectedValue();
   }
+
   @Override
   protected String getExpectedKey() {
     if (StringUtils.isNotBlank(super.getExpectedKey())) {

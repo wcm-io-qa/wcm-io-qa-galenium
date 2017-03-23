@@ -37,13 +37,15 @@ public abstract class VerificationBase implements Verification {
   private String expectedValue;
   private Verification preVerification;
   private Boolean verified;
+  private String verificationName;
 
 
-  protected VerificationBase() {
-    super();
+  protected VerificationBase(String verificationName) {
+    setVerificationName(verificationName);
   }
 
-  protected VerificationBase(String expectedValue) {
+  protected VerificationBase(String verificationName, String expectedValue) {
+    this(verificationName);
     setExpectedValue(expectedValue);
   }
 
@@ -97,11 +99,13 @@ public abstract class VerificationBase implements Verification {
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(getClass().getSimpleName());
+    stringBuilder.append("(");
+    stringBuilder.append(getVerificationName());
     if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append("(");
+      stringBuilder.append(", ");
       stringBuilder.append(getAdditionalToStringInfo());
-      stringBuilder.append(")");
     }
+    stringBuilder.append(")");
     return stringBuilder.toString();
   }
 
@@ -191,6 +195,14 @@ public abstract class VerificationBase implements Verification {
 
   protected void setExpectedValue(String expectedValue) {
     this.expectedValue = expectedValue;
+  }
+
+  public String getVerificationName() {
+    return verificationName;
+  }
+
+  protected void setVerificationName(String verificationName) {
+    this.verificationName = verificationName;
   }
 
 }
