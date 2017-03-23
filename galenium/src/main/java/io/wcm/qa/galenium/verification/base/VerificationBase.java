@@ -186,7 +186,8 @@ public abstract class VerificationBase implements Verification {
   }
 
   protected String sampleValue() {
-    return toString() + ": SAMPLING NOT IMPLEMENTED";
+    getLogger().debug("trying to sample from " + toString());
+    return null;
   }
 
   protected void setDifferences(MutableDifferences differences) {
