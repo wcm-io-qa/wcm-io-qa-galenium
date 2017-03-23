@@ -58,6 +58,12 @@ public class LocatorCorrectionsWrapper extends Locator {
   }
 
   private CorrectionsRect combinedCorrections(CorrectionsRect cr1, CorrectionsRect cr2) {
+    if (cr1 == null) {
+      return cr2;
+    }
+    if (cr2 == null) {
+      return cr1;
+    }
     Correction left = combinedCorrection(cr1.getLeft(), cr2.getLeft());
     Correction top = combinedCorrection(cr1.getTop(), cr2.getTop());
     Correction width = combinedCorrection(cr1.getWidth(), cr2.getWidth());
