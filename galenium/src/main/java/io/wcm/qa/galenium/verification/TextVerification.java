@@ -54,4 +54,9 @@ public class TextVerification extends ElementBasedVerification {
     return getElement().getText();
   }
 
+  @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + ".text";
+  }
+
 }
