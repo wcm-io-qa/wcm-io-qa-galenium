@@ -75,4 +75,8 @@ public class AttributeVerification extends ElementBasedVerification {
     this.attributeName = attributeName;
   }
 
+  @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + "." + getAttributeName();
+  }
 }
