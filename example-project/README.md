@@ -39,7 +39,7 @@ Test Examples
 
 ### Using Image Comparison Specification Factory
 
-[ImageComparisonExampleIT](src/test/java/io/wcm/qa/galenium/example/ImageComparisonExampleIT.java) shows how to use a factory to programmatically create Galen specifications doing image comparison on individual web page elements. The *galenium.imageComparison.save* can be set to *true* to have deviations from expected images or missing expected images trigger saving of actual sampled image. This is useful for initially seeding the test data, but also for quickly establishing a new expected state.  
+[ImageComparisonExampleIT](src/test/java/io/wcm/qa/galenium/example/ImageComparisonExampleIT.java) shows how to use a factory to programmatically create Galen specifications doing image comparison on individual web page elements. The *galenium.sampling.image.save* can be set to *true* to have deviations from expected images or missing expected images trigger saving of actual sampled image. This is useful for initially seeding the test data, but also for quickly establishing a new expected state.  
 
 ### Selenium Only Navigation
 

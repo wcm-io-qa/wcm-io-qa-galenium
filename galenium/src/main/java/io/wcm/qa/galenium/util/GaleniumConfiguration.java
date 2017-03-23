@@ -43,11 +43,12 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
-  private static final String SYSTEM_PROPERTY_NAME_SAVE_IMAGE_COMPARISON = "galenium.imageComparison.save";
-  private static final String SYSTEM_PROPERTY_NAME_SAVE_IMAGE_COMPARISON_DIRECTORY = "galenium.imageComparison.directory";
-  private static final String SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON = "galenium.textComparison.save";
-  private static final String SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON_DIRECTORY = "galenium.textComparison.directory";
-  private static final String SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON_FILE = "galenium.textComparison.file";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY = "galenium.sampling.image.directory";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE = "galenium.sampling.image.save";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_DIRECTORY = "galenium.sampling.text.directory";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE = "galenium.sampling.text.save";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED = "galenium.screenshotOnSkipped";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_HOST = "selenium.host";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
@@ -98,7 +99,7 @@ public final class GaleniumConfiguration {
   }
 
   public static String getImageComparisonDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAVE_IMAGE_COMPARISON_DIRECTORY, DEFAULT_REPORT_DIR);
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY, DEFAULT_REPORT_DIR);
   }
 
   public static int getNumberOfRetries() {
@@ -128,23 +129,30 @@ public final class GaleniumConfiguration {
   }
 
   public static String getTextComparisonDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON_DIRECTORY, DEFAULT_REPORT_DIR);
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_DIRECTORY, DEFAULT_REPORT_DIR);
   }
 
   public static String getTextComparisonFile() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
   }
 
   public static boolean isOnlyReportGalenErrors() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY);
   }
 
+  public static boolean isSamplingVerificationIgnore() {
+    if (System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS) == null) {
+      return isSaveSampledTexts();
+    }
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS);
+  }
+
   public static boolean isSaveSampledImages() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAVE_IMAGE_COMPARISON);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE);
   }
 
   public static boolean isSaveSampledTexts() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAVE_TEXT_COMPARISON);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
   }
 
   public static boolean isSparseReporting() {

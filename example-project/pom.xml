@@ -58,6 +58,7 @@
     <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.ignoreVerification>false</galenium.ignoreVerification>
 
   </properties>
 
@@ -152,11 +153,12 @@
                 <galenium.specPath>${galenium.specPath}</galenium.specPath>
                 <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
                 <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
-                <galenium.imageComparison.save>true</galenium.imageComparison.save>
-                <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
-                <galenium.textComparison.save>true</galenium.textComparison.save>
-                <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
-                <galenium.textComparison.file>${galenium.specPath}/text/expected.properties</galenium.textComparison.file>
+                <galenium.sampling.image.save>true</galenium.sampling.image.save>
+                <galenium.sampling.image.directory>${project.build.directory}/sampledImages</galenium.sampling.image.directory>
+                <galenium.sampling.text.save>true</galenium.sampling.text.save>
+                <galenium.sampling.text.directory>${project.build.directory}/sampledTexts</galenium.sampling.text.directory>
+                <galenium.sampling.text.file>${galenium.specPath}/text/expected.properties</galenium.sampling.text.file>
+                <galenium.sampling.verification.ignoreErrors>${galenium.ignoreVerification}</galenium.sampling.verification.ignoreErrors>
 
                 <!-- Galen -->
                 <galen.device>${galen.device}</galen.device>

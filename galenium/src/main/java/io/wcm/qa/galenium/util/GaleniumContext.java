@@ -26,6 +26,7 @@ import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;
+import io.wcm.qa.galenium.verification.strategy.IgnoreFailuresStrategy;
 import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
 
 public class GaleniumContext {
@@ -43,7 +44,9 @@ public class GaleniumContext {
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
-  private VerificationStrategy verificationStrategy = new DefaultVerificationStrategy();
+  private VerificationStrategy verificationStrategy = (GaleniumConfiguration.isSamplingVerificationIgnore()
+      ? new IgnoreFailuresStrategy()
+      : new DefaultVerificationStrategy());
 
   public void setAssertion(Assertion assertion) {
     this.assertion = assertion;
