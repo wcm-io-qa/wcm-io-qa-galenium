@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +40,8 @@ import com.galenframework.validation.ImageComparison;
 import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
+
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 
 /**
@@ -138,17 +138,19 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   }
 
   protected File getDirectoryToRelativizeImageSavePathTo() {
-    return new File(GaleniumConfiguration.getImageComparisonDirectory());
+    return new File(GaleniumConfiguration.getGalenSpecPath());
   }
 
   protected File getImageFile(String imagePath) throws IOException {
     String imageComparisonDirectory = GaleniumConfiguration.getImageComparisonDirectory();
     String path;
     if (StringUtils.isNotBlank(imageComparisonDirectory)) {
-      String difference = StringUtils.difference(
-          getDirectoryToRelativizeImageSavePathTo().getAbsolutePath(),
-          new File(imagePath).getAbsolutePath()
-          );
+      String canonical1 = getDirectoryToRelativizeImageSavePathTo().getCanonicalPath();
+      String canonical2 = new File(imagePath).getCanonicalPath();
+      String difference = StringUtils.difference(canonical1, canonical2);
+      getLogger().trace("image path construction image dir: " + canonical1);
+      getLogger().trace("image path construction image path: " + canonical2);
+      getLogger().trace("image path construction difference: " + difference);
       path = imageComparisonDirectory + File.separator + difference;
     }
     else {
