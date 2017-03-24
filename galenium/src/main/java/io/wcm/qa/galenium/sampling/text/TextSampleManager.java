@@ -24,8 +24,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
+import org.apache.commons.io.input.ReaderInputStream;
+import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
@@ -34,6 +37,7 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public class TextSampleManager {
 
+  private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final Properties EXPECTED_TEXTS = new Properties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonDirectory();
@@ -42,7 +46,7 @@ public class TextSampleManager {
     try {
       getLogger().debug("initializing expected properties from " + FILE_NAME_EXPECTED_TEXTS);
       Reader reader = new FileReader(FILE_NAME_EXPECTED_TEXTS);
-      EXPECTED_TEXTS.load(reader);
+      EXPECTED_TEXTS.load(new ReaderInputStream(reader, CHARSET_UTF8));
     }
     catch (IOException ex) {
       getLogger().error("Could not initialize expected texts.", ex);
@@ -86,8 +90,10 @@ public class TextSampleManager {
         File file = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, difference);
         file.getParentFile().mkdirs();
         FileWriter fileWriter = new FileWriter(file, true);
-        EXPECTED_TEXTS.store(fileWriter, "Expected texts");
-        SAMPLED_TEXTS.store(fileWriter, "Sampled texts");
+        WriterOutputStream writerOutputStream = new WriterOutputStream(fileWriter, CHARSET_UTF8);
+
+        EXPECTED_TEXTS.store(writerOutputStream, "Expected texts");
+        SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
       }
       catch (IOException ex) {
         getLogger().error("Could not save sample texts.");
