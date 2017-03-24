@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Holds dimensions of potential differences for samples and supplies them either as file path or property key.
  */
@@ -94,12 +96,11 @@ public class MutableDifferences implements Differences {
   }
 
   private String joinTagsWith(String separator) {
-    StringBuilder joinedTags = new StringBuilder();
+    List<String> list = new ArrayList<String>();
     for (Difference difference : getDifferences()) {
-      joinedTags.append(difference.getTag());
-      joinedTags.append(separator);
+      list.add(difference.getTag());
     }
-    return joinedTags.toString();
+    return StringUtils.join(list, separator);
   }
 
 }
