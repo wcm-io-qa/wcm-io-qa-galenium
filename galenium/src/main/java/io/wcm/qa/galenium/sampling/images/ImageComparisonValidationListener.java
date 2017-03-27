@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -55,23 +57,11 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
 
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
-  private Logger logger;
-
-  /**
-   * Constructor.
-   * @param logger delegate for reporting
-   */
-  public ImageComparisonValidationListener(Logger logger) {
-    setLogger(logger);
-  }
-
-  public Logger getLogger() {
-    return logger;
-  }
 
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
+    getLogger().trace("spec error triggered: " + objectName);
     if (GaleniumConfiguration.isSaveSampledImages()) {
       logSpec(spec);
       String text = spec.toText();
@@ -104,10 +94,6 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
         }
       }
     }
-  }
-
-  public void setLogger(Logger logger) {
-    this.logger = logger;
   }
 
   private BufferedImage getPageElementScreenshot(PageValidation pageValidation, String objectName) {

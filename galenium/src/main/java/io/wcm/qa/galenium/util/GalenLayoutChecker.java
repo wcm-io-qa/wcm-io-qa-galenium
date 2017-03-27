@@ -98,7 +98,7 @@ public final class GalenLayoutChecker {
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
     TestDevice testDevice = getTestDevice();
     SectionFilter tags = new SectionFilter(testDevice.getTags(), Collections.emptyList());
-    ImageComparisonValidationListener validationListener = new ImageComparisonValidationListener(getLogger());
+    ImageComparisonValidationListener validationListener = new ImageComparisonValidationListener();
 
     return checkLayout(testName, spec, testDevice, tags, validationListener);
   }

@@ -142,7 +142,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected ValidationListener getValidationListener() {
-    return new ImageComparisonValidationListener(getLogger());
+    return new ImageComparisonValidationListener();
   }
 
   protected void handleLayoutReport(String specName, LayoutReport layoutReport) {
