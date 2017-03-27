@@ -100,7 +100,7 @@ public class MutableDifferences implements Differences {
     for (Difference difference : getDifferences()) {
       list.add(difference.getTag());
     }
-    return StringUtils.join(list, separator);
+    return StringUtils.join(list, separator).toLowerCase();
   }
 
 }
