@@ -19,16 +19,23 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
+
+import java.util.Collections;
 import java.util.List;
 
 import com.galenframework.reports.model.LayoutReport;
+import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.CorrectionsRect;
+import com.galenframework.specs.page.PageSpec;
+import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
+import io.wcm.qa.galenium.util.TestDevice;
 
 public class VisualVerification extends ElementBasedVerification {
 
@@ -85,6 +92,10 @@ public class VisualVerification extends ElementBasedVerification {
     return specFactory;
   }
 
+  public ValidationListener getValidationListener() {
+    return getSpecFactory().getValidationListener();
+  }
+
   public boolean isZeroToleranceWarning() {
     return getSpecFactory().isZeroToleranceWarning();
   }
@@ -129,13 +140,26 @@ public class VisualVerification extends ElementBasedVerification {
     this.specFactory = specFactory;
   }
 
+  public void setValidationListener(ValidationListener validationListener) {
+    getSpecFactory().setValidationListener(validationListener);
+  }
+
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     getSpecFactory().setZeroToleranceWarning(zeroToleranceWarning);
   }
 
   @Override
   protected Boolean doVerification() {
-    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
+    LayoutReport layoutReport;
+    if (getValidationListener() == null) {
+      layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
+    }
+    else {
+      PageSpec spec = specFactory.getPageSpecInstance();
+      TestDevice testDevice = getTestDevice();
+      SectionFilter tags = new SectionFilter(testDevice.getTags(), Collections.emptyList());
+      layoutReport = GalenLayoutChecker.checkLayout(specFactory.getSectionName(), spec, testDevice, tags, getValidationListener());
+    }
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }

@@ -76,7 +76,7 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(ImageComparisonSpecFactory specFactory) {
     PageSpec spec = specFactory.getPageSpecInstance();
-    return checkLayout(specFactory.getSectionName(), spec);
+    return checkLayout(specFactory.getSectionName(), spec, getTestDevice(), getTags(), specFactory.getValidationListener());
   }
 
   /**
@@ -96,11 +96,7 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
-    TestDevice testDevice = getTestDevice();
-    SectionFilter tags = new SectionFilter(testDevice.getTags(), Collections.emptyList());
-    ImageComparisonValidationListener validationListener = new ImageComparisonValidationListener();
-
-    return checkLayout(testName, spec, testDevice, tags, validationListener);
+    return checkLayout(testName, spec, getTestDevice(), getTags(), new ImageComparisonValidationListener());
   }
 
   /**
@@ -202,6 +198,11 @@ public final class GalenLayoutChecker {
 
   private static Browser getBrowser(TestDevice device) {
     return new SeleniumBrowser(getDriver(device));
+  }
+
+  private static SectionFilter getTags() {
+    SectionFilter tags = new SectionFilter(getTestDevice().getTags(), Collections.emptyList());
+    return tags;
   }
 
   private static PageSpec readSpec(String specPath, TestDevice device, SectionFilter tags) throws IOException {

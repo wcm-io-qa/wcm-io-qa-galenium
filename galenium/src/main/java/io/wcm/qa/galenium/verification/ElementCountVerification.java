@@ -40,12 +40,6 @@ public class ElementCountVerification extends ElementBasedVerification {
   }
 
   @Override
-  protected String sampleValue() {
-    List<WebElement> elements = InteractionUtil.findElements(getSelector());
-    return Integer.toString(elements.size());
-  }
-
-  @Override
   protected String getFailureMessage() {
     return "Expected " + getExpectedValue() + " elements matching " + getElementName() + " but found " + getActualValue();
   }
@@ -53,6 +47,12 @@ public class ElementCountVerification extends ElementBasedVerification {
   @Override
   protected String getSuccessMessage() {
     return "Found " + getExpectedValue() + " elements matching " + getElementName();
+  }
+
+  @Override
+  protected String sampleValue() {
+    List<WebElement> elements = InteractionUtil.findElements(getSelector());
+    return Integer.toString(elements.size());
   }
 
 }

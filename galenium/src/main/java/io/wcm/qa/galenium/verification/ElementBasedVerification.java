@@ -28,8 +28,8 @@ import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 abstract class ElementBasedVerification extends VerificationBase {
 
-  private Selector selector;
   private WebElement element;
+  private Selector selector;
 
   protected ElementBasedVerification(Selector selector) {
     super(selector.elementName());
@@ -53,6 +53,11 @@ abstract class ElementBasedVerification extends VerificationBase {
     return element;
   }
 
+  @Override
+  public String getVerificationName() {
+    return getElementName();
+  }
+
   public void setElement(WebElement element) {
     this.element = element;
   }
@@ -62,11 +67,6 @@ abstract class ElementBasedVerification extends VerificationBase {
       return getSelector().elementName();
     }
     return super.getVerificationName();
-  }
-
-  @Override
-  public String getVerificationName() {
-    return getElementName();
   }
 
   @Override

@@ -40,6 +40,11 @@ public class TextVerification extends ElementBasedVerification {
   }
 
   @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + ".text";
+  }
+
+  @Override
   protected String getFailureMessage() {
     return getElementName() + " should have text '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
   }
@@ -52,11 +57,6 @@ public class TextVerification extends ElementBasedVerification {
   @Override
   protected String sampleValue() {
     return getElement().getText();
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    return super.getExpectedKey() + ".text";
   }
 
 }

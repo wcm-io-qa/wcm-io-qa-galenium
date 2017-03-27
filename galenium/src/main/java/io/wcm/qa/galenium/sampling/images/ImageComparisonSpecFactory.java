@@ -35,6 +35,7 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.ObjectSpecs;
 import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
+import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -56,6 +57,7 @@ public class ImageComparisonSpecFactory {
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
+  private ValidationListener validationListener;
 
   private boolean zeroToleranceWarning;
 
@@ -170,6 +172,10 @@ public class ImageComparisonSpecFactory {
     return selector;
   }
 
+  public ValidationListener getValidationListener() {
+    return validationListener;
+  }
+
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
   }
@@ -228,6 +234,10 @@ public class ImageComparisonSpecFactory {
 
   public void setSelector(Selector selector) {
     this.selector = selector;
+  }
+
+  public void setValidationListener(ValidationListener validationListener) {
+    this.validationListener = validationListener;
   }
 
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {

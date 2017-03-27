@@ -57,6 +57,11 @@ public class AttributeVerification extends ElementBasedVerification {
   }
 
   @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + "." + getAttributeName();
+  }
+
+  @Override
   protected String getFailureMessage() {
     return getElementName() + "[" + getAttributeName() + "] should be '" + getExpectedValue() + "', but was '" + getActualValue() + "'";
   }
@@ -73,10 +78,5 @@ public class AttributeVerification extends ElementBasedVerification {
 
   protected void setAttributeName(String attributeName) {
     this.attributeName = attributeName;
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    return super.getExpectedKey() + "." + getAttributeName();
   }
 }
