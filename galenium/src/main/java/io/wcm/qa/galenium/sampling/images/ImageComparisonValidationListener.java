@@ -63,6 +63,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     super.onSpecError(pageValidation, objectName, spec, result);
     getLogger().trace("spec error triggered: " + objectName);
     if (GaleniumConfiguration.isSaveSampledImages()) {
+      getLogger().trace("saving sample: " + objectName);
       logSpec(spec);
       String text = spec.toText();
       Matcher matcher = getImagePathExtractionRegEx().matcher(text);
@@ -71,9 +72,14 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
           String imagePath = matcher.group(1);
           BufferedImage actualImage = getActualImage(result);
           if (actualImage == DUMMY_IMAGE) {
+            getLogger().trace("actual image sample could not be retrieved: " + objectName);
             BufferedImage pageElementImage = getPageElementScreenshot(pageValidation, objectName);
             if (pageElementImage != null) {
+              getLogger().trace("made secondary image sample: " + objectName);
               actualImage = pageElementImage;
+            }
+            else {
+              getLogger().trace("failed to make secondary image sample: " + objectName);
             }
           }
           getLogger().debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
@@ -93,6 +99,9 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
           getLogger().warn(msg);
         }
       }
+    }
+    else {
+      getLogger().trace("not saving sample. " + objectName);
     }
   }
 
