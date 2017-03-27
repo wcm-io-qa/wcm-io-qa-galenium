@@ -20,10 +20,37 @@
 package io.wcm.qa.galenium.sampling.differences;
 
 
-public class IntegerDifference extends StringDifference {
+public class IntegerDifference implements Difference {
+
+  private int index;
+
+  public IntegerDifference() {
+    this(0);
+  }
 
   public IntegerDifference(int index) {
-    super(Integer.toString(index));
+    setIndex(index);
+  }
+
+  public int getIndex() {
+    return index;
+  }
+
+  public void setIndex(int index) {
+    this.index = index;
+  }
+
+  public void increment() {
+    setIndex(getIndex() + 1);
+  }
+
+  public void decrement() {
+    setIndex(getIndex() - 1);
+  }
+
+  @Override
+  public String getTag() {
+    return Integer.toString(getIndex());
   }
 
 }
