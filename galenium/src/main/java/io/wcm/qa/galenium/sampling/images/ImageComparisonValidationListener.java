@@ -43,7 +43,9 @@ import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.InteractionUtil;
 
 
 /**
@@ -107,11 +109,19 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
   private BufferedImage getPageElementScreenshot(PageValidation pageValidation, String objectName) {
     BufferedImage wholePageImage = pageValidation.getPage().getScreenshotImage();
+    Long scrollYPosition = InteractionUtil.getScrollYPosition();
+    getLogger().trace("browser is scrolled to position: " + scrollYPosition);
     PageElement element = pageValidation.findPageElement(objectName);
     if (element != null) {
       Rect area = element.getArea();
-      BufferedImage elementImage = wholePageImage.getSubimage(area.getLeft(), area.getTop(), area.getWidth(), area.getHeight());
-      return elementImage;
+      getLogger().trace("found element '" + objectName + "': " + area);
+      try {
+        BufferedImage elementImage = wholePageImage.getSubimage(area.getLeft(), area.getTop(), area.getWidth(), area.getHeight());
+        return elementImage;
+      }
+      catch (Exception ex) {
+        getLogger().debug(GaleniumReportUtil.MARKER_ERROR, "exception when extracting secondary sample image.", ex);
+      }
     }
     return null;
   }
@@ -126,7 +136,16 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
         if (actualImage != null) {
           return actualImage;
         }
+        else {
+          getLogger().trace("could not find sampled image in image comparison.");
+        }
       }
+      else {
+        getLogger().trace("could not find image comparison in validation error.");
+      }
+    }
+    else {
+      getLogger().trace("could not find error in validation result.");
     }
 
     return DUMMY_IMAGE;
