@@ -133,9 +133,13 @@ public class ImageComparisonSpecFactory {
     Spec spec = getSpecForText(getImageComparisonSpecText());
     ObjectSpecs objectSpecs = new ObjectSpecs(getElementName());
 
+    Spec insideViewportSpec = getSpecForText("inside viewport");
+    objectSpecs.addSpec(insideViewportSpec);
+
     objectSpecs.addSpec(spec);
     if (GaleniumConfiguration.isSaveSampledImages()) {
       spec.setOnlyWarn(true);
+      insideViewportSpec.setOnlyWarn(true);
     }
     else if (isZeroToleranceWarning()) {
       Spec zeroToleranceSpec = getSpecForText(getZeroToleranceImageComparisonSpecText());
