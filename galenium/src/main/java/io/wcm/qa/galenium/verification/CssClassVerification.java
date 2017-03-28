@@ -33,7 +33,6 @@ public class CssClassVerification extends AttributeVerification {
   public CssClassVerification(Selector selector, String cssClass) {
     super(selector, ATTRIBUTE_NAME_CLASS, cssClass);
     setExpectedValue(cssClass);
-    setPreVerification(new VisibilityVerification(getSelector()));
   }
 
   public CssClassVerification(String elementName, WebElement element, String cssClass) {

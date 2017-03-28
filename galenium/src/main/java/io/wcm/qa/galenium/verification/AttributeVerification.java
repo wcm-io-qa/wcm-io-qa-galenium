@@ -30,6 +30,7 @@ public class AttributeVerification extends ElementBasedVerification {
   public AttributeVerification(Selector selector, String attributeName) {
     super(selector);
     setAttributeName(attributeName);
+    setPreVerification(new VisibilityVerification(getSelector()));
   }
 
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
