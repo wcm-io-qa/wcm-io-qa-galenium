@@ -87,7 +87,9 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
           getLogger().debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
           try {
             File imageFile = getImageFile(imagePath);
+            getLogger().trace("begin writing image '" + imageFile.getCanonicalPath());
             ImageIO.write(actualImage, "png", imageFile);
+            getLogger().trace("done writing image '" + imageFile.getCanonicalPath());
           }
           catch (IOException ex) {
             String msg = "could not write image: " + imagePath;
