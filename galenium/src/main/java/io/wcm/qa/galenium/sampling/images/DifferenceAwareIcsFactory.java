@@ -21,8 +21,6 @@ package io.wcm.qa.galenium.sampling.images;
 
 import java.util.Collection;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.Differences;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
@@ -35,7 +33,6 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
 
   private MutableDifferences differences = new MutableDifferences();
-  private String relativeImagePath = StringUtils.EMPTY;
 
   /**
    * @param selector selects element to use in image comparison
@@ -77,22 +74,10 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
   @Override
   public String getFoldername() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(GaleniumConfiguration.getGalenSpecPath());
+    stringBuilder.append(GaleniumConfiguration.getImageComparisonDirectory());
     stringBuilder.append("/");
-    if (StringUtils.isNotBlank(getRelativeImagePath())) {
-      stringBuilder.append(getRelativeImagePath());
-      stringBuilder.append("/");
-    }
     stringBuilder.append(differences.asFilePath());
     return stringBuilder.toString();
-  }
-
-  public String getRelativeImagePath() {
-    return relativeImagePath;
-  }
-
-  public void setRelativeImagePath(String relativeImagePath) {
-    this.relativeImagePath = relativeImagePath;
   }
 
 }

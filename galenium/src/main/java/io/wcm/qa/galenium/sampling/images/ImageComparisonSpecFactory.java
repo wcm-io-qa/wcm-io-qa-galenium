@@ -37,6 +37,7 @@ import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
@@ -249,7 +250,13 @@ public class ImageComparisonSpecFactory {
   }
 
   private Spec getSpecForText(String specText) {
-    return new SpecReader().read(specText);
+    try {
+      return new SpecReader().read(specText);
+    }
+    catch (Exception ex) {
+      GaleniumReportUtil.getLogger().error("when parsing spec text: '" + specText + "'");
+      throw ex;
+    }
   }
 
   private boolean hasCorrections() {
