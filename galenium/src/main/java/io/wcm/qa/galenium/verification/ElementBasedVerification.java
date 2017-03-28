@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.sampling.differences.DifferentiatedDifferences;
 import io.wcm.qa.galenium.sampling.differences.SelectorDifference;
+import io.wcm.qa.galenium.sampling.differences.StringDifference;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
@@ -75,7 +76,14 @@ abstract class ElementBasedVerification extends VerificationBase {
   protected String getExpectedKey() {
     DifferentiatedDifferences differentiatedDifferences = new DifferentiatedDifferences();
     differentiatedDifferences.addAll(getDifferences().getDifferences());
-    differentiatedDifferences.add(new SelectorDifference(getSelector()));
+    if (getSelector() != null) {
+      differentiatedDifferences.add(new SelectorDifference(getSelector()));
+    }
+    else {
+      StringDifference elementNameDifference = new StringDifference(getElementName());
+      elementNameDifference.setName("elementname");
+      differentiatedDifferences.add(elementNameDifference);
+    }
     differentiatedDifferences.setCutoff(1);
     if (StringUtils.isNotBlank(super.getExpectedKey())) {
       return super.getExpectedKey() + "." + getElementName();
