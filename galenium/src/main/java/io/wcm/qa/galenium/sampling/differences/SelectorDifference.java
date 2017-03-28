@@ -19,27 +19,12 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-/**
- * Simple {@link Difference} using the string assigned in constructor.
- */
-public class StringDifference extends DifferenceBase {
+import io.wcm.qa.galenium.selectors.Selector;
 
-  private String tag;
+public class SelectorDifference extends StringDifference {
 
-  /**
-   * @param tag to use
-   */
-  public StringDifference(String tag) {
-    setTag(tag);
-  }
-
-  @Override
-  public String getTag() {
-    return tag;
-  }
-
-  protected void setTag(String tag) {
-    this.tag = tag;
+  public SelectorDifference(Selector selector) {
+    super(selector.elementName());
   }
 
 }

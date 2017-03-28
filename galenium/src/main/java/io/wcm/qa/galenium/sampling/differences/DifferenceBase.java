@@ -19,27 +19,26 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-/**
- * Simple {@link Difference} using the string assigned in constructor.
- */
-public class StringDifference extends DifferenceBase {
+import org.apache.commons.lang3.StringUtils;
 
-  private String tag;
+abstract class DifferenceBase implements Difference {
 
-  /**
-   * @param tag to use
-   */
-  public StringDifference(String tag) {
-    setTag(tag);
-  }
+  private static final String CLASS_NAME_PART_DIFFERENCE = "difference";
+  private String name;
 
   @Override
-  public String getTag() {
-    return tag;
+  public String getName() {
+    if (StringUtils.isBlank(name)) {
+      String simpleName = getClass().getSimpleName();
+      simpleName = StringUtils.removeStartIgnoreCase(simpleName, CLASS_NAME_PART_DIFFERENCE);
+      simpleName = StringUtils.removeEndIgnoreCase(simpleName, CLASS_NAME_PART_DIFFERENCE);
+      return simpleName;
+    }
+    return name;
   }
 
-  protected void setTag(String tag) {
-    this.tag = tag;
+  public void setName(String name) {
+    this.name = name;
   }
 
 }

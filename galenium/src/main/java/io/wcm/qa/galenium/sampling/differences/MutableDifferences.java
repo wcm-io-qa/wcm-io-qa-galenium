@@ -95,12 +95,41 @@ public class MutableDifferences implements Differences {
     return getDifferences().remove(difference);
   }
 
-  private String joinTagsWith(String separator) {
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("differences: [");
+    stringBuilder.append(joinNamesWith("]|["));
+    stringBuilder.append("], asPropertyKey: '");
+    stringBuilder.append(asPropertyKey());
+    stringBuilder.append("', asFilePath: '");
+    stringBuilder.append(asFilePath());
+    stringBuilder.append("'");
+    return stringBuilder.toString();
+  }
+
+  private String joinNamesWith(String separator) {
+    return joinNamesWith(getDifferences(), separator);
+  }
+
+  protected String joinNamesWith(List<Difference> differencesToJoin, String separator) {
     List<String> list = new ArrayList<String>();
-    for (Difference difference : getDifferences()) {
+    for (Difference difference : differencesToJoin) {
+      list.add(difference.getName());
+    }
+    return StringUtils.join(list, separator).toLowerCase();
+  }
+
+  protected String joinTagsWith(List<Difference> differencesToJoin, String separator) {
+    List<String> list = new ArrayList<String>();
+    for (Difference difference : differencesToJoin) {
       list.add(difference.getTag());
     }
     return StringUtils.join(list, separator).toLowerCase();
+  }
+
+  protected String joinTagsWith(String separator) {
+    return joinTagsWith(getDifferences(), separator);
   }
 
 }

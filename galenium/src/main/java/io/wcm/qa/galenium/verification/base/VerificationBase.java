@@ -36,8 +36,8 @@ public abstract class VerificationBase implements Verification {
   private Throwable exception;
   private String expectedValue;
   private Verification preVerification;
-  private Boolean verified;
   private String verificationName;
+  private Boolean verified;
 
 
   protected VerificationBase(String verificationName) {
@@ -79,6 +79,10 @@ public abstract class VerificationBase implements Verification {
     return preVerification;
   }
 
+  public String getVerificationName() {
+    return verificationName;
+  }
+
   public Boolean isVerified() {
     return verified;
   }
@@ -101,6 +105,10 @@ public abstract class VerificationBase implements Verification {
     stringBuilder.append(getClass().getSimpleName());
     stringBuilder.append("(");
     stringBuilder.append(getVerificationName());
+    if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
+      stringBuilder.append("|");
+      stringBuilder.append(getDifferences());
+    }
     if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
       stringBuilder.append(", ");
       stringBuilder.append(getAdditionalToStringInfo());
@@ -196,10 +204,6 @@ public abstract class VerificationBase implements Verification {
 
   protected void setExpectedValue(String expectedValue) {
     this.expectedValue = expectedValue;
-  }
-
-  public String getVerificationName() {
-    return verificationName;
   }
 
   protected void setVerificationName(String verificationName) {
