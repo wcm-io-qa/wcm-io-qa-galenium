@@ -74,7 +74,7 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
   @Override
   public String getFoldername() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(GaleniumConfiguration.getImageComparisonDirectory());
+    stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
     stringBuilder.append("/");
     stringBuilder.append(differences.asFilePath());
     return stringBuilder.toString();

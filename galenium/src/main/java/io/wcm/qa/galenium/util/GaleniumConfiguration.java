@@ -43,7 +43,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY = "galenium.sampling.image.directory";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE = "galenium.sampling.image.save";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_DIRECTORY = "galenium.sampling.text.directory";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
@@ -58,6 +59,10 @@ public final class GaleniumConfiguration {
 
   private GaleniumConfiguration() {
     // do not instantiate
+  }
+
+  public static String getActualImagesDirectory() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
   }
 
   public static String getBaseUrl() {
@@ -86,6 +91,10 @@ public final class GaleniumConfiguration {
     return Arrays.asList(BrowserType.CHROME);
   }
 
+  public static String getExpectedImagesDirectory() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED, DEFAULT_SPEC_PATH);
+  }
+
   public static String getGalenSpecPath() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SPEC_PATH, DEFAULT_SPEC_PATH);
   }
@@ -96,10 +105,6 @@ public final class GaleniumConfiguration {
 
   public static int getGridPort() {
     return Integer.parseInt(System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_PORT, DEFAULT_GRID_PORT));
-  }
-
-  public static String getImageComparisonDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY, DEFAULT_REPORT_DIR);
   }
 
   public static int getNumberOfRetries() {

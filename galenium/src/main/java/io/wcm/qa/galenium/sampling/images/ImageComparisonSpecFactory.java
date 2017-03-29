@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
+import static java.util.Locale.ENGLISH;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -58,7 +60,7 @@ public class ImageComparisonSpecFactory {
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
-  private ValidationListener validationListener;
+  private ValidationListener validationListener = new ImageComparisonValidationListener();
 
   private boolean zeroToleranceWarning;
 
@@ -76,7 +78,7 @@ public class ImageComparisonSpecFactory {
   public ImageComparisonSpecFactory(Selector selector, String elementName) {
     setSelector(selector);
     setElementName(elementName);
-    setFilename(elementName + ".png");
+    setFilename(elementName.toLowerCase(ENGLISH) + ".png");
     setSectionName(DEFAULT_PAGE_SECTION_NAME + " for " + getElementName());
   }
 
