@@ -32,8 +32,7 @@ import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.sampling.differences.Difference;
-import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
-import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
+import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.sampling.images.SortedDifferencesIcsFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -74,6 +73,7 @@ public class VisualVerification extends ElementBasedVerification {
     return getSpecFactory().getAllowedOffset();
   }
 
+  @Override
   public Comparator<Difference> getComparator() {
     return this.specFactory.getComparator();
   }
@@ -94,7 +94,7 @@ public class VisualVerification extends ElementBasedVerification {
     return getSpecFactory().getSectionName();
   }
 
-  public DifferenceAwareIcsFactory getSpecFactory() {
+  public SortedDifferencesIcsFactory getSpecFactory() {
     return specFactory;
   }
 
@@ -118,6 +118,7 @@ public class VisualVerification extends ElementBasedVerification {
     getSpecFactory().setAllowedOffset(allowedOffset);
   }
 
+  @Override
   public void setComparator(Comparator<Difference> comparator) {
     this.specFactory.setComparator(comparator);
   }
@@ -186,7 +187,7 @@ public class VisualVerification extends ElementBasedVerification {
   }
 
   @Override
-  protected void setDifferences(MutableDifferences differences) {
+  protected void setDifferences(SortedDifferences differences) {
     // handle factory
     getSpecFactory().clearDifferences();
     getSpecFactory().addAll(differences.getDifferences());

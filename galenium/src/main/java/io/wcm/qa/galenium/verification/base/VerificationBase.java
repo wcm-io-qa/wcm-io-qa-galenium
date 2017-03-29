@@ -21,18 +21,30 @@ package io.wcm.qa.galenium.verification.base;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 
+import java.util.Comparator;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
+import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
 public abstract class VerificationBase implements Verification {
 
   private String actualValue;
-  private MutableDifferences differences;
+  private SortedDifferences differences;
+
+  public Comparator<Difference> getComparator() {
+    return this.differences.getComparator();
+  }
+
+  public void setComparator(Comparator<Difference> comparator) {
+    this.differences.setComparator(comparator);
+  }
+
   private Throwable exception;
   private String expectedValue;
   private Verification preVerification;
@@ -158,7 +170,7 @@ public abstract class VerificationBase implements Verification {
 
   protected MutableDifferences getDifferences() {
     if (differences == null) {
-      differences = new MutableDifferences();
+      differences = new SortedDifferences();
     }
     return differences;
   }
@@ -198,7 +210,7 @@ public abstract class VerificationBase implements Verification {
     return null;
   }
 
-  protected void setDifferences(MutableDifferences differences) {
+  protected void setDifferences(SortedDifferences differences) {
     this.differences = differences;
   }
 
