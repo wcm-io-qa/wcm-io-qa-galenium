@@ -81,22 +81,22 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
             if (pageElementImage != null) {
               trace("made secondary image sample: " + objectName);
               actualImage = pageElementImage;
+              debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
+              try {
+                File imageFile = getImageFile(imagePath);
+                trace("begin writing image '" + imageFile.getCanonicalPath());
+                ImageIO.write(actualImage, "png", imageFile);
+                trace("done writing image '" + imageFile.getCanonicalPath());
+              }
+              catch (IOException ex) {
+                String msg = "could not write image: " + imagePath;
+                log.error(msg, ex);
+                getLogger().error(msg, ex);
+              }
             }
             else {
               trace("failed to make secondary image sample: " + objectName);
             }
-          }
-          debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
-          try {
-            File imageFile = getImageFile(imagePath);
-            trace("begin writing image '" + imageFile.getCanonicalPath());
-            ImageIO.write(actualImage, "png", imageFile);
-            trace("done writing image '" + imageFile.getCanonicalPath());
-          }
-          catch (IOException ex) {
-            String msg = "could not write image: " + imagePath;
-            log.error(msg, ex);
-            getLogger().error(msg, ex);
           }
         }
         else {
