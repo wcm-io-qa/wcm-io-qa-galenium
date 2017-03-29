@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
-import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
@@ -37,32 +36,28 @@ public abstract class VerificationBase implements Verification {
   private String actualValue;
   private SortedDifferences differences;
 
-  public Comparator<Difference> getComparator() {
-    return this.differences.getComparator();
-  }
-
-  public void setComparator(Comparator<Difference> comparator) {
-    this.differences.setComparator(comparator);
-  }
-
   private Throwable exception;
+
   private String expectedValue;
+
   private Verification preVerification;
   private String verificationName;
   private Boolean verified;
-
-
   protected VerificationBase(String verificationName) {
     setVerificationName(verificationName);
   }
-
   protected VerificationBase(String verificationName, String expectedValue) {
     this(verificationName);
     setExpectedValue(expectedValue);
   }
 
+
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
+  }
+
+  public Comparator<Difference> getComparator() {
+    return getDifferences().getComparator();
   }
 
   @Override
@@ -97,6 +92,10 @@ public abstract class VerificationBase implements Verification {
 
   public Boolean isVerified() {
     return verified;
+  }
+
+  public void setComparator(Comparator<Difference> comparator) {
+    getDifferences().setComparator(comparator);
   }
 
   public void setException(Throwable exception) {
@@ -168,7 +167,7 @@ public abstract class VerificationBase implements Verification {
     return StringUtils.EMPTY;
   }
 
-  protected MutableDifferences getDifferences() {
+  protected SortedDifferences getDifferences() {
     if (differences == null) {
       differences = new SortedDifferences();
     }
