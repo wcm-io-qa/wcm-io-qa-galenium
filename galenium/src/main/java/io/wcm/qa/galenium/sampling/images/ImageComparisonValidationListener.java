@@ -167,15 +167,11 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     return DUMMY_IMAGE;
   }
 
-  protected File getDirectoryToRelativizeImageSavePathTo() {
-    return new File(getExpectedImagesDirectory());
-  }
-
   protected File getImageFile(String imagePath) throws IOException {
     String sampledImagesDirectory = getActualImagesDirectory();
     String path;
     if (StringUtils.isNotBlank(sampledImagesDirectory)) {
-      String canonical1 = getDirectoryToRelativizeImageSavePathTo().getCanonicalPath();
+      String canonical1 = new File(getExpectedImagesDirectory()).getCanonicalPath();
       String canonical2 = new File(imagePath).getCanonicalPath();
       String difference = StringUtils.difference(canonical1, canonical2);
       trace("image path construction image dir: " + canonical1);
