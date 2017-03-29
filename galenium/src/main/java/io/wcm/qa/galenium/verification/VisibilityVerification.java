@@ -28,6 +28,10 @@ public class VisibilityVerification extends ElementBasedVerification {
     super(selector);
   }
 
+  private String getVerboseSelectorInfo() {
+    return " (" + getSelector().asString() + ")";
+  }
+
   @Override
   protected Boolean doVerification() {
     return getElement() != null;
@@ -49,10 +53,6 @@ public class VisibilityVerification extends ElementBasedVerification {
       return successMessage;
     }
     return successMessage + getVerboseSelectorInfo();
-  }
-
-  private String getVerboseSelectorInfo() {
-    return " (" + getSelector().asString() + ")";
   }
 
 }

@@ -54,21 +54,21 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
    * @return true if this list changed as a result of the call
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
-    return differences.addAll(toBeAppended);
+    return getDifferences().addAll(toBeAppended);
   }
 
   /**
    * @param difference appends a difference
    */
   public void addDifference(Difference difference) {
-    differences.add(difference);
+    getDifferences().add(difference);
   }
 
   /**
    * Removes all differences added to this factory.
    */
   public void clearDifferences() {
-    differences.clear();
+    getDifferences().clear();
   }
 
   @Override
@@ -76,8 +76,16 @@ public class DifferenceAwareIcsFactory extends ImageComparisonSpecFactory {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
     stringBuilder.append("/");
-    stringBuilder.append(differences.asFilePath());
+    stringBuilder.append(getDifferences().asFilePath());
     return stringBuilder.toString();
+  }
+
+  public MutableDifferences getDifferences() {
+    return differences;
+  }
+
+  public void setDifferences(MutableDifferences differences) {
+    this.differences = differences;
   }
 
 }

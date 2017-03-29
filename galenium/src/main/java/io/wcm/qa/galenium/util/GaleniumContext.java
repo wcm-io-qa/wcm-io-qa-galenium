@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.asserts.Assertion;
 
@@ -47,6 +50,15 @@ public class GaleniumContext {
   private VerificationStrategy verificationStrategy = (GaleniumConfiguration.isSamplingVerificationIgnore()
       ? new IgnoreFailuresStrategy()
       : new DefaultVerificationStrategy());
+  private Map<String, Object> additionalMappings = new HashMap<String, Object>();
+
+  public static Object get(String arg0) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(arg0);
+  }
+
+  public static Object put(String arg0, Object arg1) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(arg0, arg1);
+  }
 
   public void setAssertion(Assertion assertion) {
     this.assertion = assertion;

@@ -19,25 +19,30 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
-public class DifferentiatedDifferences extends MutableDifferences {
+public class DifferentiatedDifferences extends SortedDifferences {
 
   private int cutoff = 2;
 
   @Override
   public String asFilePath() {
-    List<Difference> differences = getDifferences();
+    Collection<Difference> differences = getDifferences();
     int differencesTotalCount = differences.size();
     int pivotIndex = differencesTotalCount - getCutoff();
     if (pivotIndex < 0 || pivotIndex > differencesTotalCount) {
       GaleniumReportUtil.getLogger().debug("could not differentiate because of illegal cutoff: " + this);
       return super.asFilePath();
     }
-    String folderPart = joinTagsWith(differences.subList(0, pivotIndex), "/");
-    String filePart = joinTagsWith(differences.subList(pivotIndex, differencesTotalCount), "/");
+
+    ArrayList<Difference> differencesAsList = new ArrayList<Difference>();
+    differencesAsList.addAll(differences);
+
+    String folderPart = joinTagsWith(differencesAsList.subList(0, pivotIndex), "/");
+    String filePart = joinTagsWith(differencesAsList.subList(pivotIndex, differencesTotalCount), "/");
 
     return folderPart + "/" + filePart;
   }

@@ -29,6 +29,7 @@ import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
+import io.wcm.qa.galenium.sampling.images.SortedDifferencesIcsFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -50,19 +51,20 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
 
   @Test
   public void compareSomeImages() {
+    loadStartUrl();
     checkVisually(SELECTOR_STAGE);
     checkVisually(SELECTOR_LOGO);
   }
 
   private void checkVisually(Selector selector) {
     // get factory for comparing element
-    DifferenceAwareIcsFactory factory = new DifferenceAwareIcsFactory(selector);
+    DifferenceAwareIcsFactory factory = new SortedDifferencesIcsFactory(selector);
 
     // add a no tolerance check at warning level
     factory.setZeroToleranceWarning(true);
 
-    factory.addDifference(new BrowserDifference(getDevice()));
-    factory.addDifference(new ScreenWidthDifference(getDevice()));
+    factory.addDifference(new BrowserDifference());
+    factory.addDifference(new ScreenWidthDifference());
 
     // compare image using spec
     LayoutReport layoutReport = GalenLayoutChecker.checkLayout(

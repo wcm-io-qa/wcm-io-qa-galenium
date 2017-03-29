@@ -41,7 +41,9 @@ import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.util.BrowserUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.InteractionUtil;
 
 /**
  * Factory for fileless image comparison specs.
@@ -69,6 +71,9 @@ public class ImageComparisonSpecFactory {
    */
   public ImageComparisonSpecFactory(Selector selector) {
     this(selector, selector.elementName());
+    if (BrowserUtil.isChrome()) {
+      correctForSrollPosition(InteractionUtil.getScrollYPosition().intValue());
+    }
   }
 
   /**

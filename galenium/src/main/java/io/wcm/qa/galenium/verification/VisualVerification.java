@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.verification;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.galenframework.reports.model.LayoutReport;
@@ -33,18 +34,19 @@ import com.galenframework.validation.ValidationListener;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
 import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
+import io.wcm.qa.galenium.sampling.images.SortedDifferencesIcsFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.TestDevice;
 
 public class VisualVerification extends ElementBasedVerification {
 
-  private DifferenceAwareIcsFactory specFactory;
+  private SortedDifferencesIcsFactory specFactory;
 
   public VisualVerification(Selector selector) {
     super(selector);
     setPreVerification(new VisibilityVerification(getSelector()));
-    setSpecFactory(new DifferenceAwareIcsFactory(getSelector()));
+    setSpecFactory(new SortedDifferencesIcsFactory(getSelector()));
   }
 
   @Override
@@ -70,6 +72,10 @@ public class VisualVerification extends ElementBasedVerification {
 
   public int getAllowedOffset() {
     return getSpecFactory().getAllowedOffset();
+  }
+
+  public Comparator<Difference> getComparator() {
+    return this.specFactory.getComparator();
   }
 
   public String getFilename() {
@@ -112,6 +118,10 @@ public class VisualVerification extends ElementBasedVerification {
     getSpecFactory().setAllowedOffset(allowedOffset);
   }
 
+  public void setComparator(Comparator<Difference> comparator) {
+    this.specFactory.setComparator(comparator);
+  }
+
   public void setCorrections(CorrectionsRect corrections) {
     getSpecFactory().setCorrections(corrections);
   }
@@ -132,7 +142,7 @@ public class VisualVerification extends ElementBasedVerification {
     getSpecFactory().setSectionName(sectionName);
   }
 
-  public void setSpecFactory(DifferenceAwareIcsFactory specFactory) {
+  public void setSpecFactory(SortedDifferencesIcsFactory specFactory) {
     this.specFactory = specFactory;
   }
 

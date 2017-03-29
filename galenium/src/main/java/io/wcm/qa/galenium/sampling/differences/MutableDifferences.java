@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class MutableDifferences implements Differences {
 
-  private List<Difference> differences = new ArrayList<Difference>();
+  private Collection<Difference> differences = new ArrayList<Difference>();
 
   /**
    * See {@link ArrayList#add(Object)}
@@ -74,7 +74,7 @@ public class MutableDifferences implements Differences {
     getDifferences().clear();
   }
 
-  public List<Difference> getDifferences() {
+  public Collection<Difference> getDifferences() {
     return differences;
   }
 
@@ -112,17 +112,17 @@ public class MutableDifferences implements Differences {
     return joinNamesWith(getDifferences(), separator);
   }
 
-  protected String joinNamesWith(List<Difference> differencesToJoin, String separator) {
+  protected String joinNamesWith(Collection<Difference> collection, String separator) {
     List<String> list = new ArrayList<String>();
-    for (Difference difference : differencesToJoin) {
+    for (Difference difference : collection) {
       list.add(difference.getName());
     }
     return StringUtils.join(list, separator).toLowerCase();
   }
 
-  protected String joinTagsWith(List<Difference> differencesToJoin, String separator) {
+  protected String joinTagsWith(Collection<Difference> collection, String separator) {
     List<String> list = new ArrayList<String>();
-    for (Difference difference : differencesToJoin) {
+    for (Difference difference : collection) {
       list.add(difference.getTag());
     }
     return StringUtils.join(list, separator).toLowerCase();
