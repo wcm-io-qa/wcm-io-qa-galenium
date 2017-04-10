@@ -37,7 +37,7 @@
   <properties>
 
     <!-- Selenium configuration -->
-    <selenium.browser>chrome</selenium.browser>
+    <selenium.browser>chrome,firefox</selenium.browser>
     <selenium.runmode>local</selenium.runmode>
 
     <!-- TestNG configuration -->
@@ -170,6 +170,7 @@
                 <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
                 <selenium.runmode>${selenium.runmode}</selenium.runmode>
 
+                <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
                 <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
               </systemPropertyVariables>
               <includes>

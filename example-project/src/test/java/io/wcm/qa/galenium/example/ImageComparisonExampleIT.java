@@ -27,9 +27,7 @@ import com.galenframework.speclang2.pagespec.SectionFilter;
 
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
-import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
-import io.wcm.qa.galenium.sampling.images.SortedDifferencesIcsFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -58,7 +56,7 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
 
   private void checkVisually(Selector selector) {
     // get factory for comparing element
-    DifferenceAwareIcsFactory factory = new SortedDifferencesIcsFactory(selector);
+    ImageComparisonSpecFactory factory = new ImageComparisonSpecFactory(selector);
 
     // add a no tolerance check at warning level
     factory.setZeroToleranceWarning(true);

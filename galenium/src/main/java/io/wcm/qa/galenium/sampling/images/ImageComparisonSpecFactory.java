@@ -23,6 +23,7 @@ import static java.util.Locale.ENGLISH;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,6 +41,8 @@ import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.differences.Difference;
+import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.BrowserUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -65,6 +68,7 @@ public class ImageComparisonSpecFactory {
   private ValidationListener validationListener = new ImageComparisonValidationListener();
 
   private boolean zeroToleranceWarning;
+  private SortedDifferences differences = new SortedDifferences();
 
   /**
    * @param selector selector for main object
@@ -123,10 +127,6 @@ public class ImageComparisonSpecFactory {
 
   public String getFilename() {
     return filename;
-  }
-
-  public String getFoldername() {
-    return foldername;
   }
 
   public List<Selector> getObjectsToIgnore() {
@@ -347,6 +347,55 @@ public class ImageComparisonSpecFactory {
 
   protected String getZeroToleranceImageComparisonSpecText() {
     return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0);
+  }
+
+  /**
+   * @param toBeAppended differences to be appended
+   * @return true if this list changed as a result of the call
+   */
+  public boolean addAll(Collection<? extends Difference> toBeAppended) {
+    return getDifferences().addAll(toBeAppended);
+  }
+
+  /**
+   * @param difference appends a difference
+   */
+  public void addDifference(Difference difference) {
+    getDifferences().add(difference);
+  }
+
+  /**
+   * Removes all differences added to this factory.
+   */
+  public void clearDifferences() {
+    getDifferences().clear();
+  }
+
+  public String getFoldername() {
+    if (foldername != null) {
+      return foldername;
+    }
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
+    stringBuilder.append("/");
+    stringBuilder.append(getDifferences().asFilePath());
+    return stringBuilder.toString();
+  }
+
+  public Comparator<Difference> getComparator() {
+    return this.differences.getComparator();
+  }
+
+  public SortedDifferences getDifferences() {
+    return differences;
+  }
+
+  public void setComparator(Comparator<Difference> comparator) {
+    this.differences.setComparator(comparator);
+  }
+
+  public void setDifferences(SortedDifferences differences) {
+    this.differences = differences;
   }
 
 }

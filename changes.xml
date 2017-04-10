@@ -24,6 +24,12 @@
   <body>
 
     <release version="0.1.6" date="not released yet">
+      <action type="add" dev="apegam">
+        Upgrade to Galen 2.3.3 with Selenium 3.
+      </action>
+      <action type="add" dev="apegam">
+        Firefox as browser in example project.
+      </action>
     </release>
 
     <release version="0.1.4" date="2017-02-22">

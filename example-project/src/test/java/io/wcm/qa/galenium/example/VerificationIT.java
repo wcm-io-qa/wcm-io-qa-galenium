@@ -91,7 +91,7 @@ public class VerificationIT extends AbstractExampleBase {
       super(SELECTOR_LOGO);
       addDifference(new BrowserDifference());
       addDifference(new ScreenWidthDifference());
-      setAllowedOffset(2);
+      setAllowedOffset(3);
     }
   }
 }

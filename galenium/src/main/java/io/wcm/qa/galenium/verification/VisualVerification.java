@@ -33,19 +33,19 @@ import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
-import io.wcm.qa.galenium.sampling.images.SortedDifferencesIcsFactory;
+import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.TestDevice;
 
 public class VisualVerification extends ElementBasedVerification {
 
-  private SortedDifferencesIcsFactory specFactory;
+  private ImageComparisonSpecFactory specFactory;
 
   public VisualVerification(Selector selector) {
     super(selector);
     setPreVerification(new VisibilityVerification(getSelector()));
-    setSpecFactory(new SortedDifferencesIcsFactory(getSelector()));
+    setSpecFactory(new ImageComparisonSpecFactory(getSelector()));
   }
 
   @Override
@@ -94,7 +94,7 @@ public class VisualVerification extends ElementBasedVerification {
     return getSpecFactory().getSectionName();
   }
 
-  public SortedDifferencesIcsFactory getSpecFactory() {
+  public ImageComparisonSpecFactory getSpecFactory() {
     return specFactory;
   }
 
@@ -143,7 +143,7 @@ public class VisualVerification extends ElementBasedVerification {
     getSpecFactory().setSectionName(sectionName);
   }
 
-  public void setSpecFactory(SortedDifferencesIcsFactory specFactory) {
+  public void setSpecFactory(ImageComparisonSpecFactory specFactory) {
     this.specFactory = specFactory;
   }
 

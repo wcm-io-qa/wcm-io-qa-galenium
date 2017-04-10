@@ -25,6 +25,7 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumInteractiveBaseTestCase;
+import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
@@ -106,6 +107,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
       enterText(SELECTOR_AUTHOR_INPUT_USERNAME, LOGIN_AUTHOR_NAME);
       enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, LOGIN_AUTHOR_PASS);
       click(SELECTOR_AUTHOR_LOGIN_BUTTON);
+      InteractionUtil.waitForUrl(getStartUrl());
     }
   }
 

@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.util.BrowserType.CHROME;
+import static io.wcm.qa.galenium.util.BrowserType.FIREFOX;
 
 public final class BrowserUtil {
 
@@ -28,10 +29,18 @@ public final class BrowserUtil {
   }
 
   public static boolean isChrome() {
+    return isBrowser(CHROME);
+  }
+
+  public static boolean isFirefox() {
+    return isBrowser(FIREFOX);
+  }
+
+  private static boolean isBrowser(BrowserType browserType) {
     TestDevice testDevice = GaleniumContext.getTestDevice();
     if (testDevice == null) {
       return false;
     }
-    return testDevice.getBrowserType() == CHROME;
+    return testDevice.getBrowserType() == browserType;
   }
 }

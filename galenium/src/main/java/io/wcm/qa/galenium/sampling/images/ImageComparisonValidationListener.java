@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getActualImagesDirectory;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getExpectedImagesDirectory;
@@ -71,39 +72,37 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
       logSpec(spec);
       String text = spec.toText();
       Matcher matcher = getImagePathExtractionRegEx().matcher(text);
-      if (matcher.matches()) {
-        if (matcher.groupCount() >= 1) {
-          String imagePath = matcher.group(1);
-          BufferedImage actualImage = getActualImage(result);
-          if (actualImage == DUMMY_IMAGE) {
-            trace("actual image sample could not be retrieved: " + objectName);
-            BufferedImage pageElementImage = getPageElementScreenshot(pageValidation, objectName);
-            if (pageElementImage != null) {
-              trace("made secondary image sample: " + objectName);
-              actualImage = pageElementImage;
-              debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
-              try {
-                File imageFile = getImageFile(imagePath);
-                trace("begin writing image '" + imageFile.getCanonicalPath());
-                ImageIO.write(actualImage, "png", imageFile);
-                trace("done writing image '" + imageFile.getCanonicalPath());
-              }
-              catch (IOException ex) {
-                String msg = "could not write image: " + imagePath;
-                log.error(msg, ex);
-                getLogger().error(msg, ex);
-              }
-            }
-            else {
-              trace("failed to make secondary image sample: " + objectName);
-            }
+      if (matcher.matches() && matcher.groupCount() >= 1) {
+        String imagePath = matcher.group(1);
+        BufferedImage actualImage = getActualImage(result);
+        if (actualImage == DUMMY_IMAGE) {
+          trace("actual image sample could not be retrieved: " + objectName);
+          BufferedImage pageElementImage = getPageElementScreenshot(pageValidation, objectName);
+          if (pageElementImage != null) {
+            trace("made secondary image sample: " + objectName);
+            actualImage = pageElementImage;
+          }
+          else {
+            getLogger().debug(MARKER_WARN, "failed to make secondary image sample: " + objectName);
           }
         }
-        else {
-          String msg = "could not extract image name from: " + text;
-          log.warn(msg);
-          getLogger().warn(msg);
+        debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
+        try {
+          File imageFile = getImageFile(imagePath);
+          trace("begin writing image '" + imageFile.getCanonicalPath());
+          ImageIO.write(actualImage, "png", imageFile);
+          trace("done writing image '" + imageFile.getCanonicalPath());
         }
+        catch (IOException ex) {
+          String msg = "could not write image: " + imagePath;
+          log.error(msg, ex);
+          getLogger().error(msg, ex);
+        }
+      }
+      else {
+        String msg = "could not extract image name from: " + text;
+        log.warn(msg);
+        getLogger().warn(msg);
       }
     }
     else {
@@ -196,7 +195,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   }
 
   protected void logSpec(Spec spec) {
-    debug("checking failed spec for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
+    debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
   }
 
 }

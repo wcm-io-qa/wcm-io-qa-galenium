@@ -50,7 +50,8 @@ public final class InteractionUtil {
   }
 
   public static void click(Selector selector) {
-    getElementOrFail(selector).click();
+    WebElement element = getElementOrFail(selector);
+    element.click();
   }
 
   public static void clickByPartialText(Selector selector, String searchStr) {
@@ -199,6 +200,13 @@ public final class InteractionUtil {
     Actions actions = new Actions(getDriver());
     actions.moveToElement(elementToScrollTo);
     actions.perform();
+  }
+
+  public static void waitForUrl(String url) {
+    getLogger().trace("waiting for URL: '" + url + "'");
+    WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+    wait.until(ExpectedConditions.urlToBe(url));
+    getLogger().trace("found URL: '" + url + "'");
   }
 
   private static Actions getActions() {
