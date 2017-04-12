@@ -25,6 +25,7 @@ import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridPort;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -244,6 +245,15 @@ public final class WebDriverManager {
       case LOCAL:
         switch (newTestDevice.getBrowserType()) {
           case CHROME:
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("disable-infobars");
+
+            Map<String, Object> prefs = new LinkedHashMap<>();
+            prefs.put("credentials_enable_service", Boolean.valueOf(false));
+            prefs.put("profile.password_manager_enabled", Boolean.valueOf(false));
+            options.setExperimentalOption("prefs", prefs);
+            capabilities.setCapability(ChromeOptions.CAPABILITY, options);
             setDriver(new ChromeDriver(capabilities));
             break;
 
