@@ -214,6 +214,11 @@ public final class InteractionUtil {
     actions.perform();
   }
 
+  public static void loadUrl(String url) {
+    getLogger().trace("loading URL: '" + url + "'");
+    getDriver().get(url);
+  }
+
   public static void waitForUrl(String url) {
     getLogger().trace("waiting for URL: '" + url + "'");
     WebDriverWait wait = new WebDriverWait(getDriver(), 5);
@@ -224,5 +229,6 @@ public final class InteractionUtil {
   private static Actions getActions() {
     return new Actions(getDriver());
   }
+
 
 }

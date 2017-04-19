@@ -41,7 +41,7 @@ abstract class AbstractPage extends AbstractWebDriverPageObject {
     getDriver().get(getPageUrl());
   }
 
-  private String getPageUrl() {
+  public String getPageUrl() {
     return GaleniumConfiguration.getBaseUrl() + getRelativePath();
   }
 
