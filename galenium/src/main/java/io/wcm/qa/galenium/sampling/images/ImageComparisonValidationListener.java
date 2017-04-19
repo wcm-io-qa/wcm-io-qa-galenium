@@ -68,45 +68,50 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     super.onSpecError(pageValidation, objectName, spec, result);
     trace("spec error triggered: " + objectName);
     if (GaleniumConfiguration.isSaveSampledImages()) {
-      trace("saving sample: " + objectName);
-      logSpec(spec);
       String text = spec.toText();
-      Matcher matcher = getImagePathExtractionRegEx().matcher(text);
-      if (matcher.matches() && matcher.groupCount() >= 1) {
-        String imagePath = matcher.group(1);
-        BufferedImage actualImage = getActualImage(result);
-        if (actualImage == DUMMY_IMAGE) {
-          trace("actual image sample could not be retrieved: " + objectName);
-          BufferedImage pageElementImage = getPageElementScreenshot(pageValidation, objectName);
-          if (pageElementImage != null) {
-            trace("made secondary image sample: " + objectName);
-            actualImage = pageElementImage;
+      if (StringUtils.contains(text, "image file ")) {
+        trace("saving sample: " + objectName);
+        logSpec(spec);
+        Matcher matcher = getImagePathExtractionRegEx().matcher(text);
+        if (matcher.matches() && matcher.groupCount() >= 1) {
+          String imagePath = matcher.group(1);
+          BufferedImage actualImage = getActualImage(result);
+          if (actualImage == DUMMY_IMAGE) {
+            trace("actual image sample could not be retrieved: " + objectName);
+            BufferedImage pageElementImage = getPageElementScreenshot(pageValidation, objectName);
+            if (pageElementImage != null) {
+              trace("made secondary image sample: " + objectName);
+              actualImage = pageElementImage;
+            }
+            else {
+              getLogger().debug(MARKER_WARN, "failed to make secondary image sample: " + objectName);
+            }
           }
-          else {
-            getLogger().debug(MARKER_WARN, "failed to make secondary image sample: " + objectName);
+          debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
+          try {
+            File imageFile = getImageFile(imagePath);
+            trace("begin writing image '" + imageFile.getCanonicalPath());
+            ImageIO.write(actualImage, "png", imageFile);
+            trace("done writing image '" + imageFile.getCanonicalPath());
+          }
+          catch (IOException ex) {
+            String msg = "could not write image: " + imagePath;
+            log.error(msg, ex);
+            getLogger().error(msg, ex);
           }
         }
-        debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
-        try {
-          File imageFile = getImageFile(imagePath);
-          trace("begin writing image '" + imageFile.getCanonicalPath());
-          ImageIO.write(actualImage, "png", imageFile);
-          trace("done writing image '" + imageFile.getCanonicalPath());
-        }
-        catch (IOException ex) {
-          String msg = "could not write image: " + imagePath;
-          log.error(msg, ex);
-          getLogger().error(msg, ex);
+        else {
+          String msg = "could not extract image name from: " + text;
+          log.warn(msg);
+          getLogger().warn(msg);
         }
       }
       else {
-        String msg = "could not extract image name from: " + text;
-        log.warn(msg);
-        getLogger().warn(msg);
+        trace("not saving sample. " + objectName);
       }
     }
     else {
-      trace("not saving sample. " + objectName);
+      trace("not an image comparison spec");
     }
   }
 
