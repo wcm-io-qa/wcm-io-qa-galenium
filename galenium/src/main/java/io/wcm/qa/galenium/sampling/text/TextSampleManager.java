@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.sampling.text;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -49,7 +51,7 @@ public class TextSampleManager {
       EXPECTED_TEXTS.load(new ReaderInputStream(reader, CHARSET_UTF8));
     }
     catch (IOException ex) {
-      getLogger().error("Could not initialize expected texts.", ex);
+      getLogger().debug(MARKER_ERROR, "Could not initialize expected texts.", ex);
     }
   }
 
