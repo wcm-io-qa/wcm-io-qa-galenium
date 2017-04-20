@@ -25,6 +25,18 @@
 
     <release version="0.1.6" date="not released yet">
       <action type="add" dev="apegam">
+        Added text sampling.
+      </action>
+      <action type="update" dev="apegam">
+        Improved image sampling.
+      </action>
+      <action type="add" dev="apegam">
+        Added AemUtil for AEM specific helper methods.
+      </action>
+      <action type="update" dev="apegam">
+        Upgrade to TestNG 6.11.
+      </action>
+      <action type="update" dev="apegam">
         Upgrade to Galen 2.3.3 with Selenium 3.
       </action>
       <action type="add" dev="apegam">
