@@ -32,12 +32,16 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class GaleniumConfiguration {
 
+  private static final String DEFAULT_AUTHOR_PASS = "admin";
+  private static final String DEFAULT_AUTHOR_USER = "admin";
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
   private static final String DEFAULT_EXPECTED_TEXTS_FILE = "./src/test/resources/galen/specs/expectedTexts.properties";
   private static final String DEFAULT_GRID_PORT = "4444";
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/specs";
 
+  private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
+  private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.name";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
@@ -64,6 +68,14 @@ public final class GaleniumConfiguration {
 
   public static String getActualImagesDirectory() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
+  }
+
+  public static String getAuthorPass() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_PASS, DEFAULT_AUTHOR_PASS);
+  }
+
+  public static String getAuthorUser() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_USER, DEFAULT_AUTHOR_USER);
   }
 
   public static String getBaseUrl() {

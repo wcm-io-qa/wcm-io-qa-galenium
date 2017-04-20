@@ -20,6 +20,8 @@
 package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorPass;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorUser;
 import static io.wcm.qa.galenium.util.InteractionUtil.click;
 import static io.wcm.qa.galenium.util.InteractionUtil.enterText;
 import static io.wcm.qa.galenium.util.InteractionUtil.loadUrl;
@@ -34,8 +36,6 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
 public class AemUtil {
 
   private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
-  private static final String LOGIN_AUTHOR_NAME = "admin";
-  private static final String LOGIN_AUTHOR_PASS = "admin";
   private static final Selector SELECTOR_AUTHOR_INPUT_PASSWORD = SelectorFactory.fromCss("#password");
   private static final Selector SELECTOR_AUTHOR_INPUT_USERNAME = SelectorFactory.fromCss("#username");
   private static final Selector SELECTOR_AUTHOR_LOGIN_BUTTON = SelectorFactory.fromCss("#submit-button");
@@ -59,8 +59,8 @@ public class AemUtil {
   public static void loginToAuthor() {
     if (isAuthorLogin()) {
       getLogger().info("Logging in to author instance");
-      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, LOGIN_AUTHOR_NAME);
-      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, LOGIN_AUTHOR_PASS);
+      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, getAuthorUser());
+      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, getAuthorPass());
       click(SELECTOR_AUTHOR_LOGIN_BUTTON);
     }
   }
