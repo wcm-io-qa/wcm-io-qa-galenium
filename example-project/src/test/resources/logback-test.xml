@@ -18,9 +18,24 @@
     </encoder>
   </appender>
 
-  <logger name="Example" level="TRACE">
-    <appender-ref ref="EXTENT" />
-  </logger>
+  <if condition="${galenium.report.sparse}">
+    <then>
+      <logger name="Example" level="TRACE">
+        <appender-ref ref="EXTENT" />
+      </logger>
+      <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Marker>webdriver</Marker>
+        <OnMatch>DENY</OnMatch>
+      </turboFilter>
+    </then>
+    <else>
+      <logger name="Example" level="TRACE">
+        <appender-ref ref="EXTENT" />
+      </logger>
+    </else>
+  </if>  
+
+
   
   <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
 
