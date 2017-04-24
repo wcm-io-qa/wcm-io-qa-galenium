@@ -46,9 +46,15 @@ public class TextSampleManager {
   private static final Properties SAMPLED_TEXTS = new Properties();
   static {
     try {
-      getLogger().debug("initializing expected properties from " + FILE_NAME_EXPECTED_TEXTS);
-      Reader reader = new FileReader(FILE_NAME_EXPECTED_TEXTS);
-      EXPECTED_TEXTS.load(new ReaderInputStream(reader, CHARSET_UTF8));
+      File expectedTextsFile = new File(FILE_NAME_EXPECTED_TEXTS);
+      if (expectedTextsFile.exists() && expectedTextsFile.isFile()) {
+        getLogger().debug("initializing expected properties from " + FILE_NAME_EXPECTED_TEXTS);
+        Reader reader = new FileReader(expectedTextsFile);
+        EXPECTED_TEXTS.load(new ReaderInputStream(reader, CHARSET_UTF8));
+      }
+      else {
+        getLogger().debug("did not find expected properties at '" + FILE_NAME_EXPECTED_TEXTS + "'");
+      }
     }
     catch (IOException ex) {
       getLogger().debug(MARKER_ERROR, "Could not initialize expected texts.", ex);
