@@ -18,7 +18,7 @@
     </encoder>
   </appender>
 
-  <if condition="${galenium.report.sparse}">
+  <if condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
     <then>
       <logger name="Example" level="TRACE">
         <appender-ref ref="EXTENT" />
