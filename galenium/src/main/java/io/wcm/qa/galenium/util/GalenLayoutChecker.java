@@ -120,7 +120,7 @@ public final class GalenLayoutChecker {
     }
 
     // Creating an object that will contain the information about the test
-    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.toString());
+    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.getName());
 
     // Adding layout report to the test report
     test.getReport().layout(layoutReport, "check layout on " + getDriver(device).getCurrentUrl() + " with device: " + device.toString());
