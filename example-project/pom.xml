@@ -59,6 +59,7 @@
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
+    <io.wcm.qa.galen.suppressAutoAdjustBrowserSize>false</io.wcm.qa.galen.suppressAutoAdjustBrowserSize>
 
   </properties>
 

@@ -71,16 +71,21 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
+    try {
+
     TestDevice testDevice = TestInfoUtil.getTestDevice(result);
     if (testDevice != null) {
       getLogger().debug("new driver for: " + testDevice);
       WebDriverManager.getDriver(testDevice);
+      }
+      else {
+        getLogger().debug("no test device set for: " + result.getTestName());
+      }
+    }
+    finally {
       if (getDriver() == null) {
         getLogger().warn(MARKER_ERROR, "driver not instantiated");
       }
-    }
-    else {
-      getLogger().debug("no test device set for: " + result.getTestName());
     }
   }
 

@@ -123,7 +123,8 @@ public final class WebDriverManager {
       setTestDevice(testDevice);
       setDriver(newDriver(testDevice));
     }
-    boolean needsWindowResize = StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
+    boolean needsWindowResize = !GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()
+        && StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
         && (!testDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
     if (needsWindowResize) {
       try {
@@ -254,24 +255,29 @@ public final class WebDriverManager {
             prefs.put("profile.password_manager_enabled", Boolean.valueOf(false));
             options.setExperimentalOption("prefs", prefs);
             capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-            setDriver(new ChromeDriver(capabilities));
+            ChromeDriver chromeDriver = new ChromeDriver(capabilities);
+            setDriver(chromeDriver);
             break;
 
           case IE:
-            setDriver(new InternetExplorerDriver(capabilities));
+            InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilities);
+            setDriver(ieDriver);
             break;
 
           case SAFARI:
-            setDriver(new SafariDriver(capabilities));
+            SafariDriver safariDriver = new SafariDriver(capabilities);
+            setDriver(safariDriver);
             break;
 
           case PHANTOMJS:
-            setDriver(new PhantomJSDriver(capabilities));
+            PhantomJSDriver phantomDriver = new PhantomJSDriver(capabilities);
+            setDriver(phantomDriver);
             break;
 
           default:
           case FIREFOX:
-            setDriver(new FirefoxDriver(capabilities));
+            FirefoxDriver firefoxDriver = new FirefoxDriver(capabilities);
+            setDriver(firefoxDriver);
             break;
         }
         break;
@@ -282,6 +288,7 @@ public final class WebDriverManager {
 
   private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
+    getLogger().trace("set driver: " + driver);
   }
 
   protected static Logger getLogger() {

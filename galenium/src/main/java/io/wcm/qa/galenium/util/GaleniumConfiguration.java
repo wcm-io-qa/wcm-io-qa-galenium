@@ -43,6 +43,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.name";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
+  private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "io.wcm.qa.galen.suppressAutoAdjustBrowserSize";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
@@ -179,6 +180,10 @@ public final class GaleniumConfiguration {
 
   public static boolean isSaveSampledTexts() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
+  }
+
+  public static boolean isSuppressAutoAdjustBrowserSize() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
   }
 
   public static boolean isSparseReporting() {
