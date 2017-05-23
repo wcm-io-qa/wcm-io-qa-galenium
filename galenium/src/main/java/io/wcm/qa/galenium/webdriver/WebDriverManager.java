@@ -54,6 +54,7 @@ import org.testng.SkipException;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.BrowserType;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
@@ -104,6 +105,18 @@ public final class WebDriverManager {
   public static WebDriver getCurrentDriver() {
     return GaleniumContext.getDriver();
   }
+
+  public static WebDriver getDriver(String page, String size, String browser) {
+    TestDevice testDevice = new TestDevice(browser, BrowserType.valueOf(browser.trim().toUpperCase()), getDimension(size), null, null);
+    getLogger().trace("new webdriver from (" + page + ", " + size + ", " + browser + ")");
+    getLogger().trace("new webdriver from " + testDevice);
+    return getDriver(testDevice);
+  }
+
+  private static Dimension getDimension(String size) {
+    return new Dimension(GalenUtils.readSize(size).width, GalenUtils.readSize(size).height);
+  }
+
 
   /**
    * @param testDevice test device to use for this driver
@@ -210,7 +223,9 @@ public final class WebDriverManager {
   }
 
   private static WebDriver getDriver() {
-    return GaleniumContext.getDriver();
+    WebDriver driver = GaleniumContext.getDriver();
+    getLogger().trace("getting WebDriver: " + driver);
+    return driver;
   }
 
   private static void logError(String msg, WebDriverException ex) {
