@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
@@ -49,6 +50,14 @@ public final class InteractionUtil {
 
   private InteractionUtil() {
     // Do not instantiate
+  }
+
+  public static boolean acceptAlert() {
+    if (isAlertShowing()) {
+      getDriver().switchTo().alert().accept();
+      return true;
+    }
+    return false;
   }
 
   public static void click(Selector selector) {
@@ -163,6 +172,16 @@ public final class InteractionUtil {
     String[] split = element.getAttribute("class").split(" ");
 
     return ArrayUtils.contains(split, cssClass);
+  }
+
+  public static boolean isAlertShowing() {
+    try {
+      getDriver().switchTo().alert();
+      return true;
+    }
+    catch (NoAlertPresentException e) {
+      return false;
+    }
   }
 
   public static void mouseOver(Selector selector) {
