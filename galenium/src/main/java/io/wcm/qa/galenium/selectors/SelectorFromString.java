@@ -77,4 +77,9 @@ public class SelectorFromString implements Selector {
   public void setName(String name) {
     this.name = name;
   }
+
+  @Override
+  public String toString() {
+    return elementName() + "(" + asString() + ")";
+  }
 }
