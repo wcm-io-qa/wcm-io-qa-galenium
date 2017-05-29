@@ -26,6 +26,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Marker;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -46,17 +47,25 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     if (getCount(result).incrementAndGet() > MAX_RETRY_COUNT) {
       // don't retry if max count is exceeded
       String failureMessage = "Exceeded max count (" + getCount(result).get() + "): " + result.getTestName();
-      Reporter.log(failureMessage, true);
-      getLogger().info(GaleniumReportUtil.MARKER_FAIL, failureMessage);
+      logResult(GaleniumReportUtil.MARKER_FAIL, result, failureMessage);
       assignCategory("RERUN_MAX");
       return false;
     }
 
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
-    Reporter.log(infoMessage, true);
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, infoMessage);
+    logResult(GaleniumReportUtil.MARKER_SKIP, result, infoMessage);
     assignCategory("RERUN_" + getCount(result).get());
     return true;
+  }
+
+  private void logResult(Marker marker, ITestResult result, String message) {
+    Reporter.log(message, true);
+    getLogger().info(marker, message);
+    Throwable throwable = result.getThrowable();
+    if (throwable != null) {
+      getLogger().info(marker, result.getTestName() + ": " + throwable.getMessage());
+      getLogger().debug(marker, result.getTestName(), throwable);
+    }
   }
 
   private AtomicInteger getCount(ITestResult result) {
