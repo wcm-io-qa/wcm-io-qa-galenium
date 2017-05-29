@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.util;
 
 import java.util.List;
 
+import org.apache.commons.collections4.ListUtils;
 import org.openqa.selenium.Dimension;
 
 /**
@@ -45,7 +46,7 @@ public class TestDevice {
     this.name = name;
     this.browserType = browserType;
     this.screenSize = screenSize;
-    this.tags = tags;
+    this.tags = ListUtils.emptyIfNull(tags);
     this.chromeEmulator = chromeEmulator;
   }
 
