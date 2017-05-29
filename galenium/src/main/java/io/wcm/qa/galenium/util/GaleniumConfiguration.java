@@ -44,6 +44,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.name";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "io.wcm.qa.galen.suppressAutoAdjustBrowserSize";
+  private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "io.wcm.qa.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
@@ -163,6 +164,10 @@ public final class GaleniumConfiguration {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX);
   }
 
+  public static boolean isLazyWebDriverInitialization() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
+  }
+
   public static boolean isOnlyReportGalenErrors() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY);
   }
@@ -182,12 +187,12 @@ public final class GaleniumConfiguration {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
   }
 
-  public static boolean isSuppressAutoAdjustBrowserSize() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
-  }
-
   public static boolean isSparseReporting() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SPARSE_REPORTING);
+  }
+
+  public static boolean isSuppressAutoAdjustBrowserSize() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
   }
 
   public static boolean isTakeScreenshotOnSkippedTest() {
