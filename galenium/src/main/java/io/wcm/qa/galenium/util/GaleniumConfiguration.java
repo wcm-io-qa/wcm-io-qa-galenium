@@ -43,6 +43,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.name";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
+  private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
+  private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "io.wcm.qa.galen.suppressAutoAdjustBrowserSize";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "io.wcm.qa.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
@@ -62,7 +64,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
   private static final String SYSTEM_PROPERTY_NAME_SPARSE_REPORTING = "galenium.report.sparse";
-  private static final String SYSTEM_PROPERTY_NAME_SPEC_PATH = "galenium.specPath";
 
   private GaleniumConfiguration() {
     // do not instantiate
@@ -110,8 +111,12 @@ public final class GaleniumConfiguration {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED, DEFAULT_SPEC_PATH);
   }
 
+  public static String getGalenJsTestPath() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH, getGalenSpecPath());
+  }
+
   public static String getGalenSpecPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SPEC_PATH, DEFAULT_SPEC_PATH);
+    return System.getProperty(SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH, DEFAULT_SPEC_PATH);
   }
 
   public static String getGridHost() {

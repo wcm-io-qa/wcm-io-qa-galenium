@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.webdriver;
 
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridHost;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridPort;
+import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
+import static java.text.MessageFormat.format;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,14 +49,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MarkerFactory;
 import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.BrowserType;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
@@ -64,8 +64,6 @@ import io.wcm.qa.galenium.util.TestDevice;
  * Utility class to manage thread safe WebDriver instances.
  */
 public final class WebDriverManager {
-
-  private static final Logger log = LoggerFactory.getLogger(WebDriverManager.class);
 
   private WebDriverManager() {
     // do not instantiate
@@ -81,12 +79,12 @@ public final class WebDriverManager {
       }
       catch (WebDriverException ex) {
         if (ex.getCause() instanceof InterruptedException) {
-          logInfo("attempting to close driver again after InterruptedException.");
+          getLogger().info("attempting to close driver again after InterruptedException.");
           getLogger().debug("attempting to close driver after InterruptedException.", ex);
           quitDriver();
         }
         else {
-          logError("Exception when closing driver.", ex);
+          getLogger().error("Exception when closing driver.", ex);
           throw new SkipException("Skipping test because of driver problems. ", ex);
         }
       }
@@ -106,28 +104,12 @@ public final class WebDriverManager {
     return GaleniumContext.getDriver();
   }
 
-  public static WebDriver getDriver(String page, String size, String browser) {
-    TestDevice testDevice = new TestDevice(browser, BrowserType.valueOf(browser.trim().toUpperCase()), getDimension(size), null, null);
-    getLogger().trace("new webdriver from (" + page + ", " + size + ", " + browser + ")");
-    getLogger().trace("new webdriver from " + testDevice);
-    return getDriver(testDevice);
-  }
-
-  private static Dimension getDimension(String size) {
-    return new Dimension(GalenUtils.readSize(size).width, GalenUtils.readSize(size).height);
-  }
-
-
   /**
    * @param testDevice test device to use for this driver
    * @return WebDriver for current thread.
    */
   public static WebDriver getDriver(TestDevice testDevice) {
-    boolean needsNewDevice = getDriver() == null
-        || getTestDevice() == null
-        || testDevice.getBrowserType() != getTestDevice().getBrowserType()
-        || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
-
+    boolean needsNewDevice = isDifferentFromCurrentDevice(testDevice);
     if (needsNewDevice) {
       getLogger().info("Needs new device: " + testDevice.toString());
       if (getDriver() != null) {
@@ -146,7 +128,6 @@ public final class WebDriverManager {
       }
       catch (WebDriverException ex) {
         String msg = "Exception when resizing browser";
-        log.info(msg, ex);
         getLogger().debug(msg, ex);
       }
       getDriver().manage().deleteAllCookies();
@@ -154,10 +135,6 @@ public final class WebDriverManager {
       setTestDevice(testDevice);
     }
     return getDriver();
-  }
-
-  public static TestDevice getTestDevice() {
-    return GaleniumContext.getTestDevice();
   }
 
   /**
@@ -205,7 +182,7 @@ public final class WebDriverManager {
         capabilities = DesiredCapabilities.firefox();
         // Workaround for click events spuriously failing in Firefox (https://code.google.com/p/selenium/issues/detail?id=6112)
         FirefoxProfile firefoxProfile = new FirefoxProfile();
-        firefoxProfile.setEnableNativeEvents(false);
+        setEnableNativeEvents(firefoxProfile);
         firefoxProfile.setAcceptUntrustedCertificates(true);
         firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
         capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
@@ -228,32 +205,37 @@ public final class WebDriverManager {
     return driver;
   }
 
-  private static void logError(String msg, WebDriverException ex) {
-    log.error(msg, ex);
-    getLogger().error(msg, ex);
-  }
-
-  private static void logInfo(String msg) {
-    log.info(msg);
-    getLogger().info(msg);
+  private static boolean isDifferentFromCurrentDevice(TestDevice testDevice) {
+    boolean needsNewDevice = getDriver() == null
+        || getTestDevice() == null
+        || testDevice.getBrowserType() != getTestDevice().getBrowserType()
+        || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
+    return needsNewDevice;
   }
 
   private static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
-    logInfo("Creating new " + runMode + " " + newTestDevice.getBrowserType() + " WebDriver for thread " + Thread.currentThread().getName());
+    getLogger()
+        .info(format("Creating new {0} {1} WebDriver for thread {2}",
+            runMode,
+            newTestDevice.getBrowserType(),
+            Thread.currentThread().getName()));
 
     DesiredCapabilities capabilities = getDesiredCapabilities(newTestDevice);
 
     getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
       case REMOTE:
-        logInfo("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
+        getLogger().info("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
         try {
           setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilities));
         }
         catch (MalformedURLException ex) {
-          throw new RuntimeException("Couldn't construct valid URL using selenium.host=" + getGridHost() + " and selenium.port=" + getGridPort());
+          throw new RuntimeException(
+              format("Couldn''t construct valid URL using selenium.host={0} and selenium.port={1}",
+                  getGridHost(),
+                  getGridPort()));
         }
         break;
 
@@ -304,6 +286,11 @@ public final class WebDriverManager {
   private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
     getLogger().trace("set driver: " + driver);
+  }
+
+  @SuppressWarnings("deprecation")
+  private static void setEnableNativeEvents(FirefoxProfile firefoxProfile) {
+    firefoxProfile.setEnableNativeEvents(false);
   }
 
   protected static Logger getLogger() {
