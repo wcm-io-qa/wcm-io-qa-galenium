@@ -22,10 +22,18 @@ package io.wcm.qa.galenium.util;
 import static io.wcm.qa.galenium.util.BrowserType.CHROME;
 import static io.wcm.qa.galenium.util.BrowserType.FIREFOX;
 
+import org.openqa.selenium.Dimension;
+
+import com.galenframework.utils.GalenUtils;
+
 public final class BrowserUtil {
 
   private BrowserUtil() {
     // do not instantiate
+  }
+
+  public static Dimension getDimension(String size) {
+    return new Dimension(GalenUtils.readSize(size).width, GalenUtils.readSize(size).height);
   }
 
   public static boolean isChrome() {

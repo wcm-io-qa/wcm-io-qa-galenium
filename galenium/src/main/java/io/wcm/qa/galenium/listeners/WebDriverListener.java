@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
@@ -71,12 +73,18 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    try {
+    // do nothing for lazy initialization
+    if (GaleniumConfiguration.isLazyWebDriverInitialization()) {
+      getLogger().debug(MARKER_INFO, "Driver will be initialized lazily.");
+      return;
+    }
 
-    TestDevice testDevice = TestInfoUtil.getTestDevice(result);
-    if (testDevice != null) {
-      getLogger().debug("new driver for: " + testDevice);
-      WebDriverManager.getDriver(testDevice);
+    // create driver for test
+    try {
+      TestDevice testDevice = TestInfoUtil.getTestDevice(result);
+      if (testDevice != null) {
+        getLogger().debug("new driver for: " + testDevice);
+        WebDriverManager.getDriver(testDevice);
       }
       else {
         getLogger().debug("no test device set for: " + result.getTestName());
