@@ -21,13 +21,14 @@ package io.wcm.qa.galenium.webdriver;
 
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridHost;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridPort;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.isChromeHeadless;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 import static java.text.MessageFormat.format;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -53,6 +54,7 @@ import org.slf4j.MarkerFactory;
 import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
+import com.google.gson.JsonElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -153,13 +155,29 @@ public final class WebDriverManager {
         capabilities = DesiredCapabilities.chrome();
         String chromeEmulator = newTestDevice.getChromeEmulator();
         if (chromeEmulator != null) {
+          getLogger().debug("setting up chrome emulator: " + chromeEmulator);
           Map<String, String> mobileEmulation = new HashMap<String, String>();
           mobileEmulation.put("deviceName", chromeEmulator);
-          Map<String, Object> chromeOptions = new HashMap<String, Object>();
-          chromeOptions.put("mobileEmulation", mobileEmulation);
-          capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+          Map<String, Object> emulatorOptions = new HashMap<String, Object>();
+          emulatorOptions.put("mobileEmulation", mobileEmulation);
+          DesiredCapabilities emulatorCapabilities = new DesiredCapabilities();
+          emulatorCapabilities.setCapability(ChromeOptions.CAPABILITY, emulatorOptions);
+          capabilities.merge(emulatorCapabilities);
         }
-
+        if (isChromeHeadless()) {
+          getLogger().debug("setting up headless chrome.");
+          ChromeOptions headlessOptions = new ChromeOptions();
+          headlessOptions.addArguments(
+              // main headless arg
+              "headless",
+              // workaround (https://developers.google.com/web/updates/2017/04/headless-chrome#cli)
+              "disable-gpu",
+              // workaround for windows: there is still a window opened, so put it somewhere offscreen
+              "window-position=10000,0");
+          DesiredCapabilities headlessCapabilities = new DesiredCapabilities();
+          headlessCapabilities.setCapability(ChromeOptions.CAPABILITY, headlessOptions);
+          capabilities.merge(headlessCapabilities);
+        }
         break;
 
       case IE:
@@ -191,11 +209,27 @@ public final class WebDriverManager {
 
     // Request browser logging capabilities for capturing console.log output
     LoggingPreferences loggingPrefs = new LoggingPreferences();
-    loggingPrefs.enable(LogType.BROWSER, Level.INFO);
+    loggingPrefs.enable(LogType.BROWSER, Level.FINER);
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
     getLogger().info("Done generating capabilities");
+    if (getLogger().isTraceEnabled()) {
+      getLogger().trace("generated capabilities: " + capabilities);
+      Object chromeOptionsCapability = capabilities.getCapability(ChromeOptions.CAPABILITY);
+      if (chromeOptionsCapability != null) {
+        if (chromeOptionsCapability instanceof ChromeOptions) {
+          ChromeOptions chromeOptions = (ChromeOptions)chromeOptionsCapability;
+          try {
+            JsonElement json = chromeOptions.toJson();
+            getLogger().trace("chromeOptions: " + json);
+          }
+          catch (IOException ex) {
+            getLogger().trace("when getting chrome options as JSON.", ex);
+          }
+        }
+      }
+    }
     return capabilities;
   }
 
@@ -243,15 +277,6 @@ public final class WebDriverManager {
       case LOCAL:
         switch (newTestDevice.getBrowserType()) {
           case CHROME:
-
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("disable-infobars");
-
-            Map<String, Object> prefs = new LinkedHashMap<>();
-            prefs.put("credentials_enable_service", Boolean.valueOf(false));
-            prefs.put("profile.password_manager_enabled", Boolean.valueOf(false));
-            options.setExperimentalOption("prefs", prefs);
-            capabilities.setCapability(ChromeOptions.CAPABILITY, options);
             ChromeDriver chromeDriver = new ChromeDriver(capabilities);
             setDriver(chromeDriver);
             break;

@@ -43,6 +43,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.name";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
+  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "io.wcm.qa.webdriver.chrome.headless";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "io.wcm.qa.galen.suppressAutoAdjustBrowserSize";
@@ -171,6 +172,10 @@ public final class GaleniumConfiguration {
 
   public static boolean isLazyWebDriverInitialization() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
+  }
+
+  public static boolean isChromeHeadless() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS);
   }
 
   public static boolean isOnlyReportGalenErrors() {

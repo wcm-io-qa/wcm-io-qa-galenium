@@ -42,6 +42,15 @@
       <action type="add" dev="apegam">
         Firefox as browser in example project.
       </action>
+      <action type="add" dev="apegam">
+        Configurable lazy loading for webdriver.
+      </action>
+      <action type="add" dev="apegam">
+        Headless Chrome.
+      </action>
+      <action type="add" dev="apegam">
+        Factory methods for relative selector construction.
+      </action>
     </release>
 
     <release version="0.1.4" date="2017-02-22">
