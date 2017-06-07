@@ -162,6 +162,10 @@ public final class GaleniumConfiguration {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
   }
 
+  public static boolean isChromeHeadless() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS);
+  }
+
   public static boolean isFixChromeImageComparison() {
     if (System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX) == null) {
       // default is to fix chrome behavior
@@ -172,10 +176,6 @@ public final class GaleniumConfiguration {
 
   public static boolean isLazyWebDriverInitialization() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
-  }
-
-  public static boolean isChromeHeadless() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS);
   }
 
   public static boolean isOnlyReportGalenErrors() {
