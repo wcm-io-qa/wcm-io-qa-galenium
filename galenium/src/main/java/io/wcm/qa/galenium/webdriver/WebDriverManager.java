@@ -120,10 +120,8 @@ public final class WebDriverManager {
       setTestDevice(testDevice);
       setDriver(newDriver(testDevice));
     }
-    boolean needsWindowResize = !GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()
-        && StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
-        && (!testDevice.getScreenSize().equals(getTestDevice().getScreenSize()) || needsNewDevice); // only resize when different or new
-    if (needsWindowResize) {
+    // only resize when different or new
+    if (needsWindowResize(testDevice) || needsNewDevice) {
       try {
         Dimension screenSize = testDevice.getScreenSize();
         GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
@@ -239,12 +237,23 @@ public final class WebDriverManager {
     return driver;
   }
 
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MarkerFactory.getMarker("webdriver"));
+  }
+
   private static boolean isDifferentFromCurrentDevice(TestDevice testDevice) {
     boolean needsNewDevice = getDriver() == null
         || getTestDevice() == null
         || testDevice.getBrowserType() != getTestDevice().getBrowserType()
         || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
     return needsNewDevice;
+  }
+
+  private static boolean needsWindowResize(TestDevice testDevice) {
+    boolean needsWindowResize = !GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()
+        && StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
+        && (!testDevice.getScreenSize().equals(getTestDevice().getScreenSize()));
+    return needsWindowResize;
   }
 
   private static WebDriver newDriver(TestDevice newTestDevice) {
@@ -308,6 +317,12 @@ public final class WebDriverManager {
     return getDriver();
   }
 
+  private static void quitDriver() {
+    getLogger().info("Attempting to close driver");
+    getDriver().quit();
+    getLogger().info("Closed driver");
+  }
+
   private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
     getLogger().trace("set driver: " + driver);
@@ -316,16 +331,6 @@ public final class WebDriverManager {
   @SuppressWarnings("deprecation")
   private static void setEnableNativeEvents(FirefoxProfile firefoxProfile) {
     firefoxProfile.setEnableNativeEvents(false);
-  }
-
-  protected static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MarkerFactory.getMarker("webdriver"));
-  }
-
-  protected static void quitDriver() {
-    getLogger().info("Attempting to close driver");
-    getDriver().quit();
-    getLogger().info("Closed driver");
   }
 
 }
