@@ -39,7 +39,8 @@ class ChromeCapabilityProvider extends CapabilityProvider {
         chromeOptions.setBinary(value.toString());
         break;
       case OPTIONS_KEY_ARGS:
-        chromeOptions.setBinary(value.toString());
+        String[] arguments = (String[])value;
+        chromeOptions.addArguments(arguments);
         break;
 
       default:
@@ -48,12 +49,21 @@ class ChromeCapabilityProvider extends CapabilityProvider {
     }
   }
 
+  private DesiredCapabilities augmentCapabilities(DesiredCapabilities capabilities) {
+    String chromeBinaryPath = GaleniumConfiguration.getChromeBinaryPath();
+    if (StringUtils.isNotBlank(chromeBinaryPath)) {
+      getLogger().debug("setting binary path: '" + chromeBinaryPath + "'");
+      addChromeOption(capabilities, OPTIONS_KEY_BINARY, chromeBinaryPath);
+    }
+    return capabilities;
+  }
+
   protected DesiredCapabilities addChromeOption(DesiredCapabilities capabilities, String key, Object value) {
     Object options = capabilities.getCapability(ChromeOptions.CAPABILITY);
     if (options == null) {
       getLogger().debug("setting in fresh chrome options: '" + key + "' -> '" + value + "'");
-      ChromeOptions chromeOptions = new ChromeOptions();
-      addChromeOption(chromeOptions, key, value);
+      options = new ChromeOptions();
+      addChromeOption((ChromeOptions)options, key, value);
     }
     else if (options instanceof ChromeOptions) {
       getLogger().debug("setting in existing chrome options: '" + key + "' -> '" + value + "'");
@@ -74,12 +84,7 @@ class ChromeCapabilityProvider extends CapabilityProvider {
   protected DesiredCapabilities getBrowserSpecificCapabilities() {
     getLogger().debug("creating capabilities for Chrome");
     DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-    String chromeBinaryPath = GaleniumConfiguration.getChromeBinaryPath();
-    if (StringUtils.isNotBlank(chromeBinaryPath)) {
-      getLogger().debug("setting binary path: '" + chromeBinaryPath + "'");
-      addChromeOption(capabilities, OPTIONS_KEY_BINARY, chromeBinaryPath);
-    }
-    return capabilities;
+    return augmentCapabilities(capabilities);
   }
 
 }
