@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.webdriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
 
@@ -29,7 +30,8 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
       // main headless arg
       "headless",
       // workaround (https://developers.google.com/web/updates/2017/04/headless-chrome#cli)
-      "disable-gpu",
+      "disable-gpu" };
+  private static final String[] ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND = new String[] {
       // workaround for windows: there is still a window opened, so put it somewhere offscreen
       "window-position=10000,0"
   };
@@ -37,7 +39,12 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
   @Override
   protected DesiredCapabilities getBrowserSpecificCapabilities() {
     GaleniumReportUtil.getLogger().debug("setting up headless chrome.");
-    return addChromeOption(super.getBrowserSpecificCapabilities(), OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS);
+    DesiredCapabilities capabilities = super.getBrowserSpecificCapabilities();
+    addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS);
+    if (GaleniumConfiguration.isChromeHeadlessWindowsWorkaround()) {
+      addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
+    }
+    return capabilities;
   }
 
 }
