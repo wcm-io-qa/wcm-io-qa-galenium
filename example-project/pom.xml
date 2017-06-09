@@ -203,6 +203,37 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>headless</id>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <parallel>methods</parallel>
+              <threadCount>8</threadCount>
+              <groups>${testNG.groups}</groups>
+              <systemPropertyVariables>
+
+                <io.wcm.qa.webdriver.chrome.headless>true</io.wcm.qa.webdriver.chrome.headless>
+
+                <!-- Selenium -->
+                <selenium.browser>chrome</selenium.browser>
+                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+                <webdriver.chrome.logfile>chromedriver.log</webdriver.chrome.logfile>
+
+              </systemPropertyVariables>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
 </project>
