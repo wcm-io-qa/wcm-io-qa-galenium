@@ -59,11 +59,11 @@ final class WebDriverFactory {
         if (isChromeHeadless()) {
           if (withEmulator) {
             chromeCapabilityProvider = new CombinedCapabilityProvider(
-                new HeadlessChromeCapabilityProvider(),
+                new HeadlessChromeCapabilityProvider(device),
                 new ChromeEmulatorCapabilityProvider(chromeEmulator));
           }
           else {
-            chromeCapabilityProvider = new HeadlessChromeCapabilityProvider();
+            chromeCapabilityProvider = new HeadlessChromeCapabilityProvider(device);
           }
         }
         else if (withEmulator) {
