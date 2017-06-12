@@ -120,19 +120,59 @@ public final class WebDriverManager {
   }
 
   private static boolean isDifferentFromCurrentDevice(TestDevice testDevice) {
-    boolean needsNewDevice = getDriver() == null
-        || GaleniumConfiguration.isChromeHeadless()
-        || getTestDevice() == null
-        || testDevice.getBrowserType() != getTestDevice().getBrowserType()
-        || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));
-    return needsNewDevice;
+
+    if (getDriver() == null) {
+      getLogger().trace("needs new device: driver is null");
+      return true;
+    }
+    if (GaleniumConfiguration.isChromeHeadless()) {
+      getLogger().trace("needs new device: headless chrome always needs new device");
+      return true;
+    }
+    if (getTestDevice() == null) {
+      getLogger().trace("needs new device: no previous test device");
+      return true;
+    }
+    if (testDevice.getBrowserType() != getTestDevice().getBrowserType()) {
+      getLogger().trace("needs new device: different browser type ("
+          + testDevice.getBrowserType()
+          + " != "
+          + getTestDevice().getBrowserType()
+          + ")");
+      return true;
+    }
+    if (testDevice.getChromeEmulator() != null
+        && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator())) {
+      getLogger().trace("needs new device: different emulator ("
+          + testDevice.getChromeEmulator()
+          + " != "
+          + getTestDevice().getChromeEmulator()
+          + ")");
+      return true;
+    }
+    getLogger().trace("no need for new device: " + testDevice);
+    return false;
   }
 
   private static boolean needsWindowResize(TestDevice testDevice) {
-    boolean needsWindowResize = !GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()
-        && StringUtils.isEmpty(testDevice.getChromeEmulator()) // don't size chrome-emulator
-        && (!testDevice.getScreenSize().equals(getTestDevice().getScreenSize()));
-    return needsWindowResize;
+    if (GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()) {
+      getLogger().trace("no need for resize: suppress galen auto adjust");
+      return false;
+    }
+    if (GaleniumConfiguration.isChromeHeadless()) {
+      getLogger().trace("no need for resize: headless chrome always started as new instance in correct size");
+      return false;
+    }
+    if (StringUtils.isNotBlank(testDevice.getChromeEmulator())) {
+      getLogger().trace("no need for resize: chrome emulator set (" + testDevice.getChromeEmulator() + ")");
+      return false;
+    }
+    if (testDevice.getScreenSize().equals(getTestDevice().getScreenSize())) {
+      getLogger().trace("no need for resize: same screen size");
+      return false;
+    }
+    getLogger().trace("needs resize: " + testDevice);
+    return true;
   }
 
   private static void quitDriver() {
