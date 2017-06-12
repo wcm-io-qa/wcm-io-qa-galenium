@@ -212,7 +212,7 @@ public final class GaleniumConfiguration {
   }
 
   public static boolean isSuppressAutoAdjustBrowserSize() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE) || isChromeHeadless();
   }
 
   public static boolean isTakeScreenshotOnSkippedTest() {

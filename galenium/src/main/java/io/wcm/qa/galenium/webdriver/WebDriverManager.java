@@ -121,6 +121,7 @@ public final class WebDriverManager {
 
   private static boolean isDifferentFromCurrentDevice(TestDevice testDevice) {
     boolean needsNewDevice = getDriver() == null
+        || GaleniumConfiguration.isChromeHeadless()
         || getTestDevice() == null
         || testDevice.getBrowserType() != getTestDevice().getBrowserType()
         || (testDevice.getChromeEmulator() != null && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator()));

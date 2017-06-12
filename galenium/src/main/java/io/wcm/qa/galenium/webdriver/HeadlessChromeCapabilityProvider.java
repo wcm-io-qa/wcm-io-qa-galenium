@@ -19,10 +19,14 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import java.text.MessageFormat;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.TestDevice;
 
 class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
 
@@ -35,6 +39,12 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
       // workaround for windows: there is still a window opened, so put it somewhere offscreen
       "window-position=10000,0"
   };
+  private TestDevice device;
+
+
+  public HeadlessChromeCapabilityProvider(TestDevice device) {
+    setDevice(device);
+  }
 
   @Override
   protected DesiredCapabilities getBrowserSpecificCapabilities() {
@@ -44,7 +54,23 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
     if (GaleniumConfiguration.isChromeHeadlessWindowsWorkaround()) {
       addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
     }
+    addChromeOption(capabilities, OPTIONS_KEY_ARGS, getBrowserSizeArgument());
     return capabilities;
+  }
+
+  private String[] getBrowserSizeArgument() {
+    Dimension screenSize = getDevice().getScreenSize();
+    String windowSizeArgument = MessageFormat.format("--window-size={0}x{1}", screenSize.getWidth(), screenSize.getHeight());
+    String[] argumentsBrowserWindowSize = new String[] { windowSizeArgument };
+    return argumentsBrowserWindowSize;
+  }
+
+  public TestDevice getDevice() {
+    return device;
+  }
+
+  public void setDevice(TestDevice device) {
+    this.device = device;
   }
 
 }
