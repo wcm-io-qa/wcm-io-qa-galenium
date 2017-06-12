@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +97,14 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
-    return checkLayout(testName, spec, getTestDevice(), getTags(), new ImageComparisonValidationListener());
+    return checkLayout(
+        testName,
+        spec,
+        getTestDevice(),
+        getTags(),
+        new ImageComparisonValidationListener(),
+        getBrowser(),
+        GaleniumContext.getDriver());
   }
 
   /**
@@ -110,37 +118,18 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device,
       SectionFilter tags, ValidationListener validationListener) {
-    LayoutReport layoutReport;
-    try {
-      layoutReport = Galen.checkLayout(getBrowser(device), spec, tags, validationListener);
-    }
-    catch (IOException ex) {
-      log.error("IOException with layout checking", ex);
-      throw new GalenLayoutException("IOException with layout checking", ex);
-    }
+    return checkLayout(testName, spec, device, tags, validationListener, getBrowser(device), getDriver(device));
+  }
 
-    // Creating an object that will contain the information about the test
-    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.getName());
-
-    // Adding layout report to the test report
-    test.getReport().layout(layoutReport, "check layout on " + getDriver(device).getCurrentUrl() + " with device: " + device.toString());
-
-    GaleniumReportUtil.addGalenResult(test);
-
-    if (layoutReport.errors() > 0) {
-      String prettyStringResult;
-      try {
-        prettyStringResult = layoutReport.getValidationErrorResults().get(0).getSpec().getPlace().toPrettyString();
-      }
-      catch (NullPointerException ex) {
-        prettyStringResult = "____NPE____";
-      }
-      String msg = "FAILED: Layoutcheck " + prettyStringResult + " with device "
-          + device.toString();
-      log.error(msg);
-    }
-
-    return layoutReport;
+  /**
+   * Checks Galen spec against current state of driver.
+   * @param testName test name used as folder name in reports
+   * @param specPath path to spec file
+   * @return report on spec test
+   */
+  public static LayoutReport checkLayout(String testName, String specPath) {
+    PageSpec spec = readSpec(getBrowser(), specPath, getTags());
+    return checkLayout(testName, spec);
   }
 
   /**
@@ -155,12 +144,7 @@ public final class GalenLayoutChecker {
 
     SectionFilter tags = getSectionFilter(device);
     PageSpec spec;
-    try {
-      spec = readSpec(specPath, device, tags);
-    }
-    catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec", ex);
-    }
+      spec = readSpec(device, specPath, tags);
 
     return checkLayout(testName, spec, device, tags, validationListener);
   }
@@ -196,6 +180,45 @@ public final class GalenLayoutChecker {
     }
   }
 
+  private static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
+      Browser browser, WebDriver driver) {
+    LayoutReport layoutReport;
+    try {
+      layoutReport = Galen.checkLayout(browser, spec, tags, validationListener);
+    }
+    catch (IOException ex) {
+      log.error("IOException with layout checking", ex);
+      throw new GalenLayoutException("IOException with layout checking", ex);
+    }
+
+    // Creating an object that will contain the information about the test
+    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.getName());
+
+    // Adding layout report to the test report
+    test.getReport().layout(layoutReport, "check layout on " + driver.getCurrentUrl() + " with device: " + device.toString());
+
+    GaleniumReportUtil.addGalenResult(test);
+
+    if (layoutReport.errors() > 0) {
+      String prettyStringResult;
+      try {
+        prettyStringResult = layoutReport.getValidationErrorResults().get(0).getSpec().getPlace().toPrettyString();
+      }
+      catch (NullPointerException ex) {
+        prettyStringResult = "____NPE____";
+      }
+      String msg = "FAILED: Layoutcheck " + prettyStringResult + " with device "
+          + device.toString();
+      log.error(msg);
+    }
+
+    return layoutReport;
+  }
+
+  private static Browser getBrowser() {
+    return new SeleniumBrowser(GaleniumContext.getDriver());
+  }
+
   private static Browser getBrowser(TestDevice device) {
     return new SeleniumBrowser(getDriver(device));
   }
@@ -205,9 +228,17 @@ public final class GalenLayoutChecker {
     return tags;
   }
 
-  private static PageSpec readSpec(String specPath, TestDevice device, SectionFilter tags) throws IOException {
-    PageSpec spec = PAGE_SPEC_READER.read(specPath, getBrowser(device).getPage(), tags, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
-    return spec;
+  private static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
+    return readSpec(getBrowser(device), specPath, tags);
+  }
+
+  private static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
+    try {
+      return PAGE_SPEC_READER.read(specPath, browser.getPage(), tags, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+    }
+    catch (IOException ex) {
+      throw new GalenLayoutException("IOException when reading spec", ex);
+    }
   }
 
   protected static SectionFilter getSectionFilter(TestDevice device) {
