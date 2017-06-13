@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import java.text.MessageFormat;
-
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -54,15 +52,15 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
     if (GaleniumConfiguration.isChromeHeadlessWindowsWorkaround()) {
       addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
     }
-    addChromeOption(capabilities, OPTIONS_KEY_ARGS, getBrowserSizeArgument());
-    return capabilities;
-  }
-
-  private String[] getBrowserSizeArgument() {
     Dimension screenSize = getDevice().getScreenSize();
-    String windowSizeArgument = MessageFormat.format("--window-size={0}x{1}", screenSize.getWidth(), screenSize.getHeight());
-    String[] argumentsBrowserWindowSize = new String[] { windowSizeArgument };
-    return argumentsBrowserWindowSize;
+    String width = String.format("%d", screenSize.getWidth());
+    String height = String.format("%d", screenSize.getHeight());
+    String[] argumentsBrowserWindowSize = new String[] { "--window-size="
+        + width
+        + "x"
+        + height };
+    addChromeOption(capabilities, OPTIONS_KEY_ARGS, argumentsBrowserWindowSize);
+    return capabilities;
   }
 
   public TestDevice getDevice() {
