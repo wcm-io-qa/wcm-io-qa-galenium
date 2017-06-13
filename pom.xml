@@ -22,9 +22,9 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.parent_toplevel</artifactId>
-    <version>1.0.0</version>
-    <relativePath />
+    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <version>0.1.5-SNAPSHOT</version>
+    <relativePath>parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.qa</groupId>
