@@ -118,15 +118,12 @@ public final class TestInfoUtil {
     else {
       getLogger().info(GaleniumReportUtil.MARKER_PASS, "passed: " + testInfo.getName());
     }
-    List<TestReportNode> nodes = testInfo.getReport().getNodes();
-    for (TestReportNode testReportNode : nodes) {
-      logTestReportNode(testReportNode);
-    }
-  }
-
-  private static void logTestReportNode(TestReportNode testReportNode) {
     if (getLogger().isDebugEnabled()) {
-      logTestReportNode(testReportNode, "root");
+      List<TestReportNode> nodes = testInfo.getReport().getNodes();
+      int nodeCounter = 0;
+      for (TestReportNode testReportNode : nodes) {
+        logTestReportNode(testReportNode, "root" + nodeCounter++);
+      }
     }
   }
 
@@ -169,7 +166,7 @@ public final class TestInfoUtil {
     if (nodes != null) {
       int childCounter = 0;
       for (TestReportNode childNode : nodes) {
-        logTestReportNode(childNode, prefix + ".node" + childCounter);
+        logTestReportNode(childNode, prefix + ".node" + childCounter++);
       }
     }
     else {
