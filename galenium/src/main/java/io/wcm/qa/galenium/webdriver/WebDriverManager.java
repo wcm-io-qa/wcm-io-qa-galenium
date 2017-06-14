@@ -31,6 +31,7 @@ import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
@@ -86,6 +87,10 @@ public final class WebDriverManager {
    * @return WebDriver for current thread.
    */
   public static WebDriver getDriver(TestDevice testDevice) {
+    if (testDevice == null) {
+      throw new GaleniumException("trying to create driver for null device");
+    }
+
     if (isDifferentFromCurrentDevice(testDevice)) {
       logInfo("Needs new device: " + testDevice.toString());
       if (getDriver() != null) {
