@@ -132,7 +132,7 @@ public final class TestInfoUtil {
     switch (node.getStatus()) {
       case INFO:
       default:
-        marker = GaleniumReportUtil.MARKER_INFO;
+        marker = GaleniumReportUtil.MARKER_PASS;
         break;
       case WARN:
         marker = GaleniumReportUtil.MARKER_WARN;
