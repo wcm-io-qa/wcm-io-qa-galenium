@@ -160,8 +160,10 @@ public final class TestInfoUtil {
       }
     }
     List<TestReportNode> nodes = node.getNodes();
-    for (TestReportNode childNode : nodes) {
-      logTestReportNode(childNode, prefix);
+    if (nodes != null) {
+      for (TestReportNode childNode : nodes) {
+        logTestReportNode(childNode, prefix);
+      }
     }
   }
 
