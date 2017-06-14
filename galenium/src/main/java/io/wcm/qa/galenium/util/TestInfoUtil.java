@@ -152,6 +152,9 @@ public final class TestInfoUtil {
         getLogger().debug(marker, prefix + "attachment: " + attachment);
       }
     }
+    else {
+      getLogger().debug(marker, prefix + "attachments: none");
+    }
     Map<String, ReportExtra> reportExtras = node.getExtras();
     if (reportExtras != null) {
       Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
@@ -159,11 +162,17 @@ public final class TestInfoUtil {
         getLogger().debug(marker, prefix + "extra: " + entry.getKey() + "=" + entry.getValue());
       }
     }
+    else {
+      getLogger().debug(marker, prefix + "extras: none");
+    }
     List<TestReportNode> nodes = node.getNodes();
     if (nodes != null) {
       for (TestReportNode childNode : nodes) {
         logTestReportNode(childNode, prefix);
       }
+    }
+    else {
+      getLogger().debug(marker, prefix + "children: none");
     }
   }
 
