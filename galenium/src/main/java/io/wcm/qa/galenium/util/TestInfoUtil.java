@@ -19,13 +19,26 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.slf4j.Marker;
 import org.testng.ITestResult;
 
+import com.galenframework.reports.GalenTestInfo;
+import com.galenframework.reports.TestReport;
+import com.galenframework.reports.TestStatistic;
+import com.galenframework.reports.nodes.ReportExtra;
+import com.galenframework.reports.nodes.TestReportNode;
 import com.relevantcodes.extentreports.ExtentTest;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
@@ -74,6 +87,77 @@ public final class TestInfoUtil {
     }
     return null;
   }
+
+  public static void logGalenTestInfo(GalenTestInfo testInfo) {
+    if (isFailed(testInfo)) {
+      getLogger().info(MARKER_FAIL, "failed: " + testInfo.getName());
+    }
+    else if (hasWarnings(testInfo)) {
+      getLogger().info(MARKER_WARN, "warnings: " + testInfo.getName());
+    }
+    else {
+      getLogger().info(GaleniumReportUtil.MARKER_PASS, "passed: " + testInfo.getName());
+    }
+    List<TestReportNode> nodes = testInfo.getReport().getNodes();
+    for (TestReportNode testReportNode : nodes) {
+      logTestReportNode(testReportNode);
+    }
+  }
+
+  private static void logTestReportNode(TestReportNode testReportNode) {
+    if (getLogger().isDebugEnabled()) {
+      logTestReportNode(testReportNode, "");
+    }
+  }
+
+  private static void logTestReportNode(TestReportNode node, String parentPrefix) {
+    String prefix = parentPrefix + node.getName() + ".";
+    Marker marker;
+    switch (node.getStatus()) {
+      case INFO:
+      default:
+        marker = GaleniumReportUtil.MARKER_INFO;
+        break;
+      case WARN:
+        marker = GaleniumReportUtil.MARKER_WARN;
+        break;
+      case ERROR:
+        marker = GaleniumReportUtil.MARKER_FAIL;
+        break;
+    }
+    getLogger().debug(marker, prefix + "type: " + node.getType());
+    for (String attachment : node.getAttachments()) {
+      getLogger().debug(marker, prefix + "attachment: " + attachment);
+    }
+    Set<Entry<String, ReportExtra>> extras = node.getExtras().entrySet();
+    for (Entry<String, ReportExtra> entry : extras) {
+      getLogger().debug(marker, prefix + "extra: " + entry.getKey() + "=" + entry.getValue());
+    }
+    List<TestReportNode> nodes = node.getNodes();
+    for (TestReportNode childNode : nodes) {
+      logTestReportNode(childNode, prefix);
+    }
+  }
+
+  public static boolean isFailed(GalenTestInfo testInfo) {
+    return testInfo.isFailed();
+  }
+
+  public static boolean hasWarnings(GalenTestInfo testInfo) {
+    TestReport report = testInfo.getReport();
+    if (report == null) {
+      getLogger().trace("report was null: " + testInfo);
+      return false;
+    }
+    TestStatistic statistics = report.fetchStatistic();
+    if (statistics == null) {
+      getLogger().trace("statistics were null: " + testInfo + "->" + report);
+      return false;
+    }
+
+    return statistics.getWarnings() > 0;
+  }
+
 
   static String getAlphanumericTestName(ITestResult result) {
     String name = result.getName();
