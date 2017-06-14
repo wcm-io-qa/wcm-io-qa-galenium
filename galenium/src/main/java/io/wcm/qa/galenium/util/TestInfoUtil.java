@@ -122,7 +122,7 @@ public final class TestInfoUtil {
       List<TestReportNode> nodes = testInfo.getReport().getNodes();
       int nodeCounter = 0;
       for (TestReportNode testReportNode : nodes) {
-        logTestReportNode(testReportNode, "root" + nodeCounter++);
+        logTestReportNode(testReportNode, "node" + nodeCounter++);
       }
     }
   }
@@ -150,7 +150,7 @@ public final class TestInfoUtil {
       }
     }
     else {
-      getLogger().debug(marker, prefix + ".attachments: none");
+      getLogger().trace(marker, prefix + ".attachments: none");
     }
     Map<String, ReportExtra> reportExtras = node.getExtras();
     if (reportExtras != null) {
@@ -160,17 +160,17 @@ public final class TestInfoUtil {
       }
     }
     else {
-      getLogger().debug(marker, prefix + ".extras: none");
+      getLogger().trace(marker, prefix + ".extras: none");
     }
     List<TestReportNode> nodes = node.getNodes();
     if (nodes != null) {
       int childCounter = 0;
       for (TestReportNode childNode : nodes) {
-        logTestReportNode(childNode, prefix + ".node" + childCounter++);
+        logTestReportNode(childNode, prefix + "." + childCounter++);
       }
     }
     else {
-      getLogger().debug(marker, prefix + ".children: none");
+      getLogger().trace(marker, prefix + ".children: none");
     }
   }
 
