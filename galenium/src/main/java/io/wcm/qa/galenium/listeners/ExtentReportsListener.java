@@ -35,6 +35,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
@@ -131,7 +132,9 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
   @Override
   public void onTestSuccess(ITestResult result) {
     try {
-      takeScreenshot(result);
+      if (GaleniumConfiguration.isTakeScreenshotOnSuccessfulTest()) {
+        takeScreenshot(result);
+      }
 
       String msg = getTestName(result) + ": Success (" + getTestDuration(result) + ")";
       Reporter.log(msg + "<br />", false);

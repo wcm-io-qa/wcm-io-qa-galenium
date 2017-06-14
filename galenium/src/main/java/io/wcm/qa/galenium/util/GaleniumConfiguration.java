@@ -63,6 +63,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE = "galenium.sampling.text.save";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED = "galenium.screenshotOnSkipped";
+  private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS = "galenium.screenshotOnSuccess";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_HOST = "selenium.host";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
@@ -217,5 +218,9 @@ public final class GaleniumConfiguration {
 
   public static boolean isTakeScreenshotOnSkippedTest() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED);
+  }
+
+  public static boolean isTakeScreenshotOnSuccessfulTest() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
   }
 }
