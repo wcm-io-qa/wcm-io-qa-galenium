@@ -31,8 +31,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.galenframework.api.Galen;
 import com.galenframework.browser.Browser;
@@ -62,7 +60,6 @@ public final class GalenLayoutChecker {
   private static final Map<String, Object> EMPTY_JS_VARS = null;
   private static final Properties EMPTY_PROPERTIES = new Properties();
   private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
-  private static final Logger log = LoggerFactory.getLogger(GalenLayoutChecker.class);
   private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
 
   private GalenLayoutChecker() {
@@ -187,7 +184,7 @@ public final class GalenLayoutChecker {
       layoutReport = Galen.checkLayout(browser, spec, tags, validationListener);
     }
     catch (IOException ex) {
-      log.error("IOException with layout checking", ex);
+      getLogger().error("IOException with layout checking", ex);
       throw new GalenLayoutException("IOException with layout checking", ex);
     }
 
@@ -209,7 +206,7 @@ public final class GalenLayoutChecker {
       }
       String msg = "FAILED: Layoutcheck " + prettyStringResult + " with device "
           + device.toString();
-      log.error(msg);
+      getLogger().error(msg);
     }
 
     return layoutReport;
