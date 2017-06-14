@@ -44,6 +44,14 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
     setDevice(device);
   }
 
+  public TestDevice getDevice() {
+    return device;
+  }
+
+  public void setDevice(TestDevice device) {
+    this.device = device;
+  }
+
   @Override
   protected DesiredCapabilities getBrowserSpecificCapabilities() {
     GaleniumReportUtil.getLogger().debug("setting up headless chrome.");
@@ -61,14 +69,6 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
         + height };
     addChromeOption(capabilities, OPTIONS_KEY_ARGS, argumentsBrowserWindowSize);
     return capabilities;
-  }
-
-  public TestDevice getDevice() {
-    return device;
-  }
-
-  public void setDevice(TestDevice device) {
-    this.device = device;
   }
 
 }

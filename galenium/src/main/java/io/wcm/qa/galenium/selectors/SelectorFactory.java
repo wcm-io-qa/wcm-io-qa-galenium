@@ -48,12 +48,12 @@ public final class SelectorFactory {
     return selector;
   }
 
-  public static Selector relativeSelector(Selector parent, String relativeCssSelector) {
-    return relativeSelector(parent, "child", relativeCssSelector);
-  }
-
   public static Selector relativeSelector(Selector parent, Selector relativeSelector) {
     return relativeSelector(parent, relativeSelector.elementName(), relativeSelector.asString());
+  }
+
+  public static Selector relativeSelector(Selector parent, String relativeCssSelector) {
+    return relativeSelector(parent, "child", relativeCssSelector);
   }
 
   public static Selector relativeSelector(Selector parent, String childName, String relativeCssSelector) {

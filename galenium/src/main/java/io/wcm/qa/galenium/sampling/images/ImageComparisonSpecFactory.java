@@ -59,16 +59,16 @@ public class ImageComparisonSpecFactory {
   private String allowedError;
   private int allowedOffset;
   private CorrectionsRect corrections;
+  private SortedDifferences differences = new SortedDifferences();
   private String elementName;
   private String filename;
   private String foldername;
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
-  private ValidationListener validationListener = new ImageComparisonValidationListener();
 
+  private ValidationListener validationListener = new ImageComparisonValidationListener();
   private boolean zeroToleranceWarning;
-  private SortedDifferences differences = new SortedDifferences();
 
   /**
    * @param selector selector for main object
@@ -92,10 +92,32 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * @param toBeAppended differences to be appended
+   * @return true if this list changed as a result of the call
+   */
+  public boolean addAll(Collection<? extends Difference> toBeAppended) {
+    return getDifferences().addAll(toBeAppended);
+  }
+
+  /**
+   * @param difference appends a difference
+   */
+  public void addDifference(Difference difference) {
+    getDifferences().add(difference);
+  }
+
+  /**
    * @param selectorToIgnore the area of this object will be ignored in image comparison
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
     getObjectsToIgnore().add(selectorToIgnore);
+  }
+
+  /**
+   * Removes all differences added to this factory.
+   */
+  public void clearDifferences() {
+    getDifferences().clear();
   }
 
   /**
@@ -121,12 +143,31 @@ public class ImageComparisonSpecFactory {
     return allowedOffset;
   }
 
+  public Comparator<Difference> getComparator() {
+    return this.differences.getComparator();
+  }
+
+  public SortedDifferences getDifferences() {
+    return differences;
+  }
+
   public String getElementName() {
     return elementName;
   }
 
   public String getFilename() {
     return filename;
+  }
+
+  public String getFoldername() {
+    if (foldername != null) {
+      return foldername;
+    }
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
+    stringBuilder.append("/");
+    stringBuilder.append(getDifferences().asFilePath());
+    return stringBuilder.toString();
   }
 
   public List<Selector> getObjectsToIgnore() {
@@ -220,8 +261,16 @@ public class ImageComparisonSpecFactory {
     this.allowedOffset = allowedOffset;
   }
 
+  public void setComparator(Comparator<Difference> comparator) {
+    this.differences.setComparator(comparator);
+  }
+
   public void setCorrections(CorrectionsRect corrections) {
     this.corrections = corrections;
+  }
+
+  public void setDifferences(SortedDifferences differences) {
+    this.differences = differences;
   }
 
   public void setElementName(String elementName) {
@@ -347,55 +396,6 @@ public class ImageComparisonSpecFactory {
 
   protected String getZeroToleranceImageComparisonSpecText() {
     return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0);
-  }
-
-  /**
-   * @param toBeAppended differences to be appended
-   * @return true if this list changed as a result of the call
-   */
-  public boolean addAll(Collection<? extends Difference> toBeAppended) {
-    return getDifferences().addAll(toBeAppended);
-  }
-
-  /**
-   * @param difference appends a difference
-   */
-  public void addDifference(Difference difference) {
-    getDifferences().add(difference);
-  }
-
-  /**
-   * Removes all differences added to this factory.
-   */
-  public void clearDifferences() {
-    getDifferences().clear();
-  }
-
-  public String getFoldername() {
-    if (foldername != null) {
-      return foldername;
-    }
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
-    stringBuilder.append("/");
-    stringBuilder.append(getDifferences().asFilePath());
-    return stringBuilder.toString();
-  }
-
-  public Comparator<Difference> getComparator() {
-    return this.differences.getComparator();
-  }
-
-  public SortedDifferences getDifferences() {
-    return differences;
-  }
-
-  public void setComparator(Comparator<Difference> comparator) {
-    this.differences.setComparator(comparator);
-  }
-
-  public void setDifferences(SortedDifferences differences) {
-    this.differences = differences;
   }
 
 }
