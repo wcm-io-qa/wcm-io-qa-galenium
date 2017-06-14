@@ -88,6 +88,25 @@ public final class TestInfoUtil {
     return null;
   }
 
+  public static boolean hasWarnings(GalenTestInfo testInfo) {
+    TestReport report = testInfo.getReport();
+    if (report == null) {
+      getLogger().trace("report was null: " + testInfo);
+      return false;
+    }
+    TestStatistic statistics = report.fetchStatistic();
+    if (statistics == null) {
+      getLogger().trace("statistics were null: " + testInfo + "->" + report);
+      return false;
+    }
+
+    return statistics.getWarnings() > 0;
+  }
+
+  public static boolean isFailed(GalenTestInfo testInfo) {
+    return testInfo.isFailed();
+  }
+
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {
       getLogger().info(MARKER_FAIL, "failed: " + testInfo.getName());
@@ -126,8 +145,11 @@ public final class TestInfoUtil {
         break;
     }
     getLogger().debug(marker, prefix + "type: " + node.getType());
-    for (String attachment : node.getAttachments()) {
-      getLogger().debug(marker, prefix + "attachment: " + attachment);
+    List<String> attachments = node.getAttachments();
+    if (attachments != null) {
+      for (String attachment : attachments) {
+        getLogger().debug(marker, prefix + "attachment: " + attachment);
+      }
     }
     Set<Entry<String, ReportExtra>> extras = node.getExtras().entrySet();
     for (Entry<String, ReportExtra> entry : extras) {
@@ -137,25 +159,6 @@ public final class TestInfoUtil {
     for (TestReportNode childNode : nodes) {
       logTestReportNode(childNode, prefix);
     }
-  }
-
-  public static boolean isFailed(GalenTestInfo testInfo) {
-    return testInfo.isFailed();
-  }
-
-  public static boolean hasWarnings(GalenTestInfo testInfo) {
-    TestReport report = testInfo.getReport();
-    if (report == null) {
-      getLogger().trace("report was null: " + testInfo);
-      return false;
-    }
-    TestStatistic statistics = report.fetchStatistic();
-    if (statistics == null) {
-      getLogger().trace("statistics were null: " + testInfo + "->" + report);
-      return false;
-    }
-
-    return statistics.getWarnings() > 0;
   }
 
 
