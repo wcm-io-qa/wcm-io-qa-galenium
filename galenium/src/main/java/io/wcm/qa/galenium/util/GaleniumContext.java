@@ -41,6 +41,7 @@ public class GaleniumContext {
     }
   };
 
+  private Map<String, Object> additionalMappings = new HashMap<String, Object>();
   private Assertion assertion = new GaleniumAssertion();
   private WebDriver driver;
   private ExtentTest extentTest;
@@ -50,15 +51,6 @@ public class GaleniumContext {
   private VerificationStrategy verificationStrategy = (GaleniumConfiguration.isSamplingVerificationIgnore()
       ? new IgnoreFailuresStrategy()
       : new DefaultVerificationStrategy());
-  private Map<String, Object> additionalMappings = new HashMap<String, Object>();
-
-  public static Object get(String arg0) {
-    return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(arg0);
-  }
-
-  public static Object put(String arg0, Object arg1) {
-    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(arg0, arg1);
-  }
 
   public void setAssertion(Assertion assertion) {
     this.assertion = assertion;
@@ -86,6 +78,10 @@ public class GaleniumContext {
 
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;
+  }
+
+  public static Object get(String arg0) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(arg0);
   }
 
   public static Assertion getAssertion() {
@@ -118,6 +114,10 @@ public class GaleniumContext {
 
   public static VerificationStrategy getVerificationStrategy() {
     return THREAD_LOCAL_CONTEXT.get().verificationStrategy;
+  }
+
+  public static Object put(String arg0, Object arg1) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(arg0, arg1);
   }
 
 }

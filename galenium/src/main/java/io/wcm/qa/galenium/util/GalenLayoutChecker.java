@@ -225,10 +225,6 @@ public final class GalenLayoutChecker {
     return tags;
   }
 
-  private static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
-    return readSpec(getBrowser(device), specPath, tags);
-  }
-
   private static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
     try {
       return PAGE_SPEC_READER.read(specPath, browser.getPage(), tags, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
@@ -236,6 +232,10 @@ public final class GalenLayoutChecker {
     catch (IOException ex) {
       throw new GalenLayoutException("IOException when reading spec", ex);
     }
+  }
+
+  private static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
+    return readSpec(getBrowser(device), specPath, tags);
   }
 
   protected static SectionFilter getSectionFilter(TestDevice device) {

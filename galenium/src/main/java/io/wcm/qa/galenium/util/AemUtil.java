@@ -48,20 +48,20 @@ public class AemUtil {
     return InteractionUtil.getElementVisible(DIV_LOGIN_BOX) != null;
   }
 
-  public static void loginToAuthor(String targetUrl) {
-    loadUrl(targetUrl);
-    if (isAuthorLogin()) {
-      loginToAuthor();
-      waitForUrl(targetUrl);
-    }
-  }
-
   public static void loginToAuthor() {
     if (isAuthorLogin()) {
       getLogger().info("Logging in to author instance");
       enterText(SELECTOR_AUTHOR_INPUT_USERNAME, getAuthorUser());
       enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, getAuthorPass());
       click(SELECTOR_AUTHOR_LOGIN_BUTTON);
+    }
+  }
+
+  public static void loginToAuthor(String targetUrl) {
+    loadUrl(targetUrl);
+    if (isAuthorLogin()) {
+      loginToAuthor();
+      waitForUrl(targetUrl);
     }
   }
 

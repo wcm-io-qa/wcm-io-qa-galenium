@@ -184,6 +184,11 @@ public final class InteractionUtil {
     }
   }
 
+  public static void loadUrl(String url) {
+    getLogger().trace("loading URL: '" + url + "'");
+    getDriver().get(url);
+  }
+
   public static void mouseOver(Selector selector) {
     getLogger().debug("attempting mouse over: " + selector.elementName());
     WebDriver driver = getDriver();
@@ -231,11 +236,6 @@ public final class InteractionUtil {
     Actions actions = new Actions(getDriver());
     actions.moveToElement(elementToScrollTo);
     actions.perform();
-  }
-
-  public static void loadUrl(String url) {
-    getLogger().trace("loading URL: '" + url + "'");
-    getDriver().get(url);
   }
 
   public static void waitForUrl(String url) {
