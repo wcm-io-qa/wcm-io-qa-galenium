@@ -51,6 +51,18 @@
       <action type="add" dev="apegam">
         Factory methods for relative selector construction.
       </action>
+      <action type="update" dev="apegam">
+        Refactored WebDriver management and creation.
+      </action>
+      <action type="add" dev="apegam">
+        Headless tests with Chrome/Chromium.
+      </action>
+      <action type="add" dev="apegam">
+        Screenshots on success optional. Default false.
+      </action>
+      <action type="update" dev="apegam">
+        More verbose logging around web driver handling.
+      </action>
     </release>
 
     <release version="0.1.4" date="2017-02-22">
