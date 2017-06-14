@@ -126,12 +126,11 @@ public final class TestInfoUtil {
 
   private static void logTestReportNode(TestReportNode testReportNode) {
     if (getLogger().isDebugEnabled()) {
-      logTestReportNode(testReportNode, "");
+      logTestReportNode(testReportNode, "root");
     }
   }
 
-  private static void logTestReportNode(TestReportNode node, String parentPrefix) {
-    String prefix = parentPrefix + node.getName() + ".";
+  private static void logTestReportNode(TestReportNode node, String prefix) {
     Marker marker;
     switch (node.getStatus()) {
       case INFO:
@@ -145,34 +144,36 @@ public final class TestInfoUtil {
         marker = GaleniumReportUtil.MARKER_FAIL;
         break;
     }
-    getLogger().debug(marker, prefix + "type: " + node.getType());
+    getLogger().debug(marker, prefix + ".name: " + node.getName());
+    getLogger().debug(marker, prefix + ".type: " + node.getType());
     List<String> attachments = node.getAttachments();
     if (attachments != null) {
       for (String attachment : attachments) {
-        getLogger().debug(marker, prefix + "attachment: " + attachment);
+        getLogger().debug(marker, prefix + ".attachment: " + attachment);
       }
     }
     else {
-      getLogger().debug(marker, prefix + "attachments: none");
+      getLogger().debug(marker, prefix + ".attachments: none");
     }
     Map<String, ReportExtra> reportExtras = node.getExtras();
     if (reportExtras != null) {
       Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
       for (Entry<String, ReportExtra> entry : extras) {
-        getLogger().debug(marker, prefix + "extra: " + entry.getKey() + "=" + entry.getValue());
+        getLogger().debug(marker, prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
       }
     }
     else {
-      getLogger().debug(marker, prefix + "extras: none");
+      getLogger().debug(marker, prefix + ".extras: none");
     }
     List<TestReportNode> nodes = node.getNodes();
     if (nodes != null) {
+      int childCounter = 0;
       for (TestReportNode childNode : nodes) {
-        logTestReportNode(childNode, prefix);
+        logTestReportNode(childNode, prefix + ".node" + childCounter);
       }
     }
     else {
-      getLogger().debug(marker, prefix + "children: none");
+      getLogger().debug(marker, prefix + ".children: none");
     }
   }
 
