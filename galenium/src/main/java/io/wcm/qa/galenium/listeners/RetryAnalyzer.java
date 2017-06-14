@@ -58,16 +58,6 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     return true;
   }
 
-  private void logResult(Marker marker, ITestResult result, String message) {
-    Reporter.log(message, true);
-    getLogger().info(marker, message);
-    Throwable throwable = result.getThrowable();
-    if (throwable != null) {
-      getLogger().info(marker, result.getTestName() + ": " + throwable.getMessage());
-      getLogger().debug(marker, result.getTestName(), throwable);
-    }
-  }
-
   private AtomicInteger getCount(ITestResult result) {
     Object key = result.getInstance();
 
@@ -76,6 +66,16 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     }
 
     return counts.get(key);
+  }
+
+  private void logResult(Marker marker, ITestResult result, String message) {
+    Reporter.log(message, true);
+    getLogger().info(marker, message);
+    Throwable throwable = result.getThrowable();
+    if (throwable != null) {
+      getLogger().info(marker, result.getTestName() + ": " + throwable.getMessage());
+      getLogger().debug(marker, result.getTestName(), throwable);
+    }
   }
 
 }
