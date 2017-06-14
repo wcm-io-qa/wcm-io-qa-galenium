@@ -25,6 +25,7 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -151,9 +152,12 @@ public final class TestInfoUtil {
         getLogger().debug(marker, prefix + "attachment: " + attachment);
       }
     }
-    Set<Entry<String, ReportExtra>> extras = node.getExtras().entrySet();
-    for (Entry<String, ReportExtra> entry : extras) {
-      getLogger().debug(marker, prefix + "extra: " + entry.getKey() + "=" + entry.getValue());
+    Map<String, ReportExtra> reportExtras = node.getExtras();
+    if (reportExtras != null) {
+      Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
+      for (Entry<String, ReportExtra> entry : extras) {
+        getLogger().debug(marker, prefix + "extra: " + entry.getKey() + "=" + entry.getValue());
+      }
     }
     List<TestReportNode> nodes = node.getNodes();
     for (TestReportNode childNode : nodes) {
