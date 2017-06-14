@@ -85,8 +85,7 @@ public final class WebDriverManager {
    * @return WebDriver for current thread.
    */
   public static WebDriver getDriver(TestDevice testDevice) {
-    boolean needsNewDevice = isDifferentFromCurrentDevice(testDevice);
-    if (needsNewDevice) {
+    if (isDifferentFromCurrentDevice(testDevice)) {
       getLogger().info("Needs new device: " + testDevice.toString());
       if (getDriver() != null) {
         closeDriver();
@@ -96,7 +95,7 @@ public final class WebDriverManager {
     }
 
     // only resize when different or new
-    if (needsNewDevice || needsWindowResize(testDevice)) {
+    if (needsWindowResize(testDevice)) {
       try {
         Dimension screenSize = testDevice.getScreenSize();
         GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
@@ -107,9 +106,9 @@ public final class WebDriverManager {
       }
       getDriver().manage().deleteAllCookies();
       getLogger().info("Deleted all cookies.");
-
-      setTestDevice(testDevice);
     }
+
+    setTestDevice(testDevice);
     return getDriver();
   }
 
@@ -172,7 +171,7 @@ public final class WebDriverManager {
       return false;
     }
     getLogger().trace("needs resize: " + testDevice);
-    return true;
+    return isDifferentFromCurrentDevice(testDevice);
   }
 
   private static void quitDriver() {
@@ -190,7 +189,13 @@ public final class WebDriverManager {
    * @param testDevice test device to use with this web driver
    */
   private static void setTestDevice(TestDevice testDevice) {
-    GaleniumContext.getContext().setTestDevice(testDevice);
+    if (testDevice != getTestDevice()) {
+      getLogger().debug("setting new test device from WebDriverManager: " + testDevice);
+      GaleniumContext.getContext().setTestDevice(testDevice);
+    }
+    else {
+      getLogger().trace("not setting same test device twice: " + testDevice);
+    }
   }
 
   static Logger getLogger() {
