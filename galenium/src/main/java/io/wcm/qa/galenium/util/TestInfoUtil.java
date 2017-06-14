@@ -142,7 +142,7 @@ public final class TestInfoUtil {
         break;
     }
     getLogger().debug(marker, prefix + ".name: " + node.getName());
-    getLogger().debug(marker, prefix + ".type: " + node.getType());
+    getLogger().trace(marker, prefix + ".type: " + node.getType());
     List<String> attachments = node.getAttachments();
     if (attachments != null) {
       for (String attachment : attachments) {
