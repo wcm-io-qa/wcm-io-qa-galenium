@@ -187,7 +187,9 @@ public final class WebDriverManager {
       logTrace("no need for resize: chrome emulator set (" + testDevice.getChromeEmulator() + ")");
       return false;
     }
-    if (testDevice.getScreenSize().equals(getTestDevice().getScreenSize())) {
+    if (getTestDevice() != null
+        && testDevice.getScreenSize() != null
+        && testDevice.getScreenSize().equals(getTestDevice().getScreenSize())) {
       logTrace("no need for resize: same screen size");
       return false;
     }
