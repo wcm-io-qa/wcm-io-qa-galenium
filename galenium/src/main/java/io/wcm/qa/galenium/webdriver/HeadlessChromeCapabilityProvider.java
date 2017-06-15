@@ -65,7 +65,7 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
     String height = String.format("%d", screenSize.getHeight());
     String[] argumentsBrowserWindowSize = new String[] { "--window-size="
         + width
-        + "x"
+        + ","
         + height };
     addChromeOption(capabilities, OPTIONS_KEY_ARGS, argumentsBrowserWindowSize);
     return capabilities;
