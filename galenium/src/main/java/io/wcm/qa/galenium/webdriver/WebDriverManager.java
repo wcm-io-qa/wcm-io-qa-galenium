@@ -115,7 +115,19 @@ public final class WebDriverManager {
     }
 
     setTestDevice(testDevice);
+    if (getLogger().isTraceEnabled()) {
+      getLogger().trace("driver for test device: " + testDevice);
+      getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
+      getLogger().trace("driver window size: " + toString(getDriver().manage().window().getSize()));
+    }
     return getDriver();
+  }
+
+  private static String toString(Dimension dimension) {
+    if (dimension == null) {
+      return "null";
+    }
+    return dimension.getWidth() + "x" + dimension.getHeight();
   }
 
   private static WebDriver getDriver() {
