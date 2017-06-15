@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.lang3.StringUtils;
@@ -118,9 +119,19 @@ public final class WebDriverManager {
     if (getLogger().isTraceEnabled()) {
       getLogger().trace("driver for test device: " + testDevice);
       getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
-      getLogger().trace("driver window size: " + toString(getDriver().manage().window().getSize()));
+      getLogger().trace("driver window size: " + toString(getWindowSize()));
     }
     return getDriver();
+  }
+
+  private static Dimension getWindowSize() {
+    try {
+      return getDriver().manage().window().getSize();
+    }
+    catch (NullPointerException | WebDriverException ex) {
+      getLogger().debug(MARKER_ERROR, "exception when fetching window size", ex);
+    }
+    return null;
   }
 
   private static WebDriver getDriver() {
@@ -157,10 +168,6 @@ public final class WebDriverManager {
     }
     if (GaleniumConfiguration.isWebDriverAlwaysNew()) {
       logTrace("needs new device: always");
-      return true;
-    }
-    if (GaleniumConfiguration.isChromeHeadless()) {
-      logTrace("needs new device: headless chrome always needs new device");
       return true;
     }
     if (getTestDevice() == null) {
