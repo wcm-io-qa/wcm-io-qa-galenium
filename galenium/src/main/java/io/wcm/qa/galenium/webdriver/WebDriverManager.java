@@ -119,7 +119,12 @@ public final class WebDriverManager {
     if (getLogger().isTraceEnabled()) {
       getLogger().trace("driver for test device: " + testDevice);
       getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
-      getLogger().trace("driver window size: " + toString(getWindowSize()));
+      if (GaleniumConfiguration.isChromeHeadless()) {
+        getLogger().trace("driver window size: none (headless)");
+      }
+      else {
+        getLogger().trace("driver window size: " + toString(getWindowSize()));
+      }
     }
     return getDriver();
   }
@@ -129,7 +134,7 @@ public final class WebDriverManager {
       return getDriver().manage().window().getSize();
     }
     catch (NullPointerException | WebDriverException ex) {
-      getLogger().debug(MARKER_ERROR, "exception when fetching window size", ex);
+      getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
     }
     return null;
   }
