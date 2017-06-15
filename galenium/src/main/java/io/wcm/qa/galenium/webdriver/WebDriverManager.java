@@ -91,7 +91,7 @@ public final class WebDriverManager {
       throw new GaleniumException("trying to create driver for null device");
     }
 
-    if (isDifferentFromCurrentDevice(testDevice)) {
+    if (needsNewDriver(testDevice)) {
       logInfo("Needs new device: " + testDevice.toString());
       if (getDriver() != null) {
         closeDriver();
@@ -123,23 +123,40 @@ public final class WebDriverManager {
     return getDriver();
   }
 
-  private static String toString(Dimension dimension) {
-    if (dimension == null) {
-      return "null";
-    }
-    return dimension.getWidth() + "x" + dimension.getHeight();
-  }
-
   private static WebDriver getDriver() {
     WebDriver driver = GaleniumContext.getDriver();
     logTrace("getting WebDriver: " + driver);
     return driver;
   }
 
-  private static boolean isDifferentFromCurrentDevice(TestDevice testDevice) {
+  private static void logDebug(String msg) {
+    getLogger().debug(msg);
+  }
+
+  private static void logDebug(String msg, Throwable ex) {
+    getLogger().debug(msg, ex);
+  }
+
+  private static void logError(String msg, Throwable ex) {
+    getLogger().error(msg, ex);
+  }
+
+  private static void logInfo(String msg) {
+    getLogger().info(msg);
+  }
+
+  private static void logTrace(String msg) {
+    getLogger().trace(msg);
+  }
+
+  private static boolean needsNewDriver(TestDevice testDevice) {
 
     if (getDriver() == null) {
       logTrace("needs new device: driver is null");
+      return true;
+    }
+    if (GaleniumConfiguration.isWebDriverAlwaysNew()) {
+      logTrace("needs new device: always");
       return true;
     }
     if (GaleniumConfiguration.isChromeHeadless()) {
@@ -171,33 +188,9 @@ public final class WebDriverManager {
     return false;
   }
 
-  private static void logDebug(String msg) {
-    getLogger().debug(msg);
-  }
-
-  private static void logDebug(String msg, Throwable ex) {
-    getLogger().debug(msg, ex);
-  }
-
-  private static void logError(String msg, Throwable ex) {
-    getLogger().error(msg, ex);
-  }
-
-  private static void logInfo(String msg) {
-    getLogger().info(msg);
-  }
-
-  private static void logTrace(String msg) {
-    getLogger().trace(msg);
-  }
-
   private static boolean needsWindowResize(TestDevice testDevice) {
     if (GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()) {
       logTrace("no need for resize: suppress galen auto adjust");
-      return false;
-    }
-    if (GaleniumConfiguration.isChromeHeadless()) {
-      logTrace("no need for resize: headless chrome always started as new instance in correct size");
       return false;
     }
     if (StringUtils.isNotBlank(testDevice.getChromeEmulator())) {
@@ -211,7 +204,7 @@ public final class WebDriverManager {
       return false;
     }
     logTrace("needs resize: " + testDevice);
-    return isDifferentFromCurrentDevice(testDevice);
+    return needsNewDriver(testDevice);
   }
 
   private static void quitDriver() {
@@ -236,6 +229,13 @@ public final class WebDriverManager {
     else {
       logTrace("not setting same test device twice: " + testDevice);
     }
+  }
+
+  private static String toString(Dimension dimension) {
+    if (dimension == null) {
+      return "null";
+    }
+    return dimension.getWidth() + "x" + dimension.getHeight();
   }
 
   static Logger getLogger() {

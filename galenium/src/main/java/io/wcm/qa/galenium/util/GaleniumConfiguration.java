@@ -68,6 +68,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
   private static final String SYSTEM_PROPERTY_NAME_SPARSE_REPORTING = "galenium.report.sparse";
+  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW = "galenium.webdriver.alwaysNew";
 
   private GaleniumConfiguration() {
     // do not instantiate
@@ -222,5 +223,9 @@ public final class GaleniumConfiguration {
 
   public static boolean isTakeScreenshotOnSuccessfulTest() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
+  }
+
+  public static boolean isWebDriverAlwaysNew() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
   }
 }
