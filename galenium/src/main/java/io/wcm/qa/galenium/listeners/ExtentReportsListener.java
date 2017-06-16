@@ -141,7 +141,9 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       getLogger().info(msg);
     }
     finally {
+      getLogger().trace("ending extent test now.");
       GaleniumReportUtil.endExtentTest(result, LogStatus.PASS, "SUCCESS");
+      getLogger().trace("ended extent test.");
     }
   }
 
