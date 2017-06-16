@@ -185,10 +185,15 @@ public final class GaleniumReportUtil {
    * @param details final message
    */
   public static void endExtentTest(ITestResult result, LogStatus status, String details) {
+    getLogger().trace("GaleniumReportUtilendExtentTest(): getting extent test.");
     ExtentTest extentTest = getExtentTest(result);
+    getLogger().trace("GaleniumReportUtilendExtentTest(): logging details.");
     extentTest.log(status, details);
+    getLogger().trace("GaleniumReportUtilendExtentTest(): assigning categories.");
     TestInfoUtil.assignCategories(extentTest, result);
+    getLogger().trace("GaleniumReportUtilendExtentTest(): ending extent report test");
     EXTENT_REPORTS.endTest(extentTest);
+    getLogger().trace("GaleniumReportUtilendExtentTest(): done");
   }
 
   public static ExtentReports getExtentReports() {
