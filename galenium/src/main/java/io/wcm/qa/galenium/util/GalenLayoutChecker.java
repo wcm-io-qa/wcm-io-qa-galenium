@@ -19,25 +19,22 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 
 import com.galenframework.api.Galen;
 import com.galenframework.browser.Browser;
-import com.galenframework.browser.SeleniumBrowser;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationError;
@@ -57,11 +54,6 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  */
 public final class GalenLayoutChecker {
 
-  private static final Map<String, Object> EMPTY_JS_VARS = null;
-  private static final Properties EMPTY_PROPERTIES = new Properties();
-  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
-  private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
-
   private GalenLayoutChecker() {
     // do not instantiate
   }
@@ -74,7 +66,7 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(ImageComparisonSpecFactory specFactory) {
     PageSpec spec = specFactory.getPageSpecInstance();
-    return checkLayout(specFactory.getSectionName(), spec, getTestDevice(), getTags(), specFactory.getValidationListener());
+    return checkLayout(specFactory.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), specFactory.getValidationListener());
   }
 
   /**
@@ -98,9 +90,9 @@ public final class GalenLayoutChecker {
         testName,
         spec,
         getTestDevice(),
-        getTags(),
+        GalenHelperUtil.getTags(),
         new ImageComparisonValidationListener(),
-        getBrowser(),
+        GalenHelperUtil.getBrowser(),
         GaleniumContext.getDriver());
   }
 
@@ -115,7 +107,7 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device,
       SectionFilter tags, ValidationListener validationListener) {
-    return checkLayout(testName, spec, device, tags, validationListener, getBrowser(device), getDriver(device));
+    return checkLayout(testName, spec, device, tags, validationListener, GalenHelperUtil.getBrowser(device), getDriver(device));
   }
 
   /**
@@ -125,7 +117,7 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, String specPath) {
-    PageSpec spec = readSpec(getBrowser(), specPath, getTags());
+    PageSpec spec = GalenHelperUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenHelperUtil.getTags());
     return checkLayout(testName, spec);
   }
 
@@ -139,9 +131,9 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
 
-    SectionFilter tags = getSectionFilter(device);
+    SectionFilter tags = GalenHelperUtil.getSectionFilter(device);
     PageSpec spec;
-      spec = readSpec(device, specPath, tags);
+      spec = GalenHelperUtil.readSpec(device, specPath, tags);
 
     return checkLayout(testName, spec, device, tags, validationListener);
   }
@@ -153,7 +145,7 @@ public final class GalenLayoutChecker {
    */
   public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
     if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      getLogger().debug(GaleniumReportUtil.MARKER_PASS, successMessage);
+      getLogger().debug(MARKER_PASS, successMessage);
     }
     else {
       List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
@@ -164,7 +156,7 @@ public final class GalenLayoutChecker {
           getLogger().warn(errorMessages);
         }
         else {
-          getLogger().error(GaleniumReportUtil.MARKER_FAIL, errorMessages);
+          getLogger().error(MARKER_FAIL, errorMessages);
         }
       }
       if (layoutReport.errors() > 0) {
@@ -210,36 +202,6 @@ public final class GalenLayoutChecker {
     }
 
     return layoutReport;
-  }
-
-  private static Browser getBrowser() {
-    return new SeleniumBrowser(GaleniumContext.getDriver());
-  }
-
-  private static Browser getBrowser(TestDevice device) {
-    return new SeleniumBrowser(getDriver(device));
-  }
-
-  private static SectionFilter getTags() {
-    SectionFilter tags = new SectionFilter(getTestDevice().getTags(), Collections.emptyList());
-    return tags;
-  }
-
-  private static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
-    try {
-      return PAGE_SPEC_READER.read(specPath, browser.getPage(), tags, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
-    }
-    catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec", ex);
-    }
-  }
-
-  private static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
-    return readSpec(getBrowser(device), specPath, tags);
-  }
-
-  protected static SectionFilter getSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
   }
 
 }
