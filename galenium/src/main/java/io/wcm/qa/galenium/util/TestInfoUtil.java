@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Marker;
 import org.testng.ITestResult;
 
@@ -141,8 +142,14 @@ public final class TestInfoUtil {
         marker = GaleniumReportUtil.MARKER_FAIL;
         break;
     }
-    getLogger().debug(marker, prefix + ".name: " + node.getName());
-    getLogger().trace(marker, prefix + ".type: " + node.getType());
+    String type = node.getType();
+    if (StringUtils.equals("layout", type)) {
+      getLogger().info(marker, prefix + ".name: " + node.getName());
+    }
+    else {
+      getLogger().debug(marker, prefix + ".name: " + node.getName());
+    }
+    getLogger().trace(marker, prefix + ".type: " + type);
     List<String> attachments = node.getAttachments();
     if (attachments != null) {
       for (String attachment : attachments) {
