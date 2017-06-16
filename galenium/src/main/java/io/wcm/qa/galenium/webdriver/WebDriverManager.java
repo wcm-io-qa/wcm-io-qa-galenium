@@ -92,7 +92,8 @@ public final class WebDriverManager {
       throw new GaleniumException("trying to create driver for null device");
     }
 
-    if (needsNewDriver(testDevice)) {
+    boolean needsNewDriver = needsNewDriver(testDevice);
+    if (needsNewDriver) {
       logInfo("Needs new device: " + testDevice.toString());
       if (getDriver() != null) {
         closeDriver();
@@ -102,7 +103,7 @@ public final class WebDriverManager {
     }
 
     // only resize when different or new
-    if (needsWindowResize(testDevice)) {
+    if (needsNewDriver || needsWindowResize(testDevice)) {
       try {
         Dimension screenSize = testDevice.getScreenSize();
         GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
@@ -215,8 +216,7 @@ public final class WebDriverManager {
       logTrace("no need for resize: same screen size");
       return false;
     }
-    logTrace("needs resize: " + testDevice);
-    return needsNewDriver(testDevice);
+    return true;
   }
 
   private static void quitDriver() {
