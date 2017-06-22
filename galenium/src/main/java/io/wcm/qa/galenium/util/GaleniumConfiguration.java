@@ -54,6 +54,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
+  private static final String SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX = "galenium.webdriver.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX = "galenium.sampling.image.chromefix";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
@@ -138,6 +139,10 @@ public final class GaleniumConfiguration {
 
   public static int getNumberOfRetries() {
     return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_MAX, 2);
+  }
+
+  public static int getNumberOfBrowserInstantiationRetries() {
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX, 0);
   }
 
   /**

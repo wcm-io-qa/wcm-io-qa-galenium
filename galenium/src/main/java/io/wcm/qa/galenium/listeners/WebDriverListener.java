@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
@@ -45,6 +46,7 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 public class WebDriverListener implements ITestListener {
 
   private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
+  private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
 
   @Override
   public void onFinish(ITestContext context) {
@@ -87,22 +89,31 @@ public class WebDriverListener implements ITestListener {
     }
 
     // create driver for test
-    try {
-      TestDevice testDevice = TestInfoUtil.getTestDevice(result);
-      if (testDevice == null) {
-        testDevice = GaleniumContext.getTestDevice();
+    int retries = 0;
+    while (retries <= getNumberOfBrowserInstantiationRetries()) {
+      try {
+        TestDevice testDevice = TestInfoUtil.getTestDevice(result);
+        if (testDevice == null) {
+          testDevice = GaleniumContext.getTestDevice();
+        }
+        if (testDevice != null) {
+          getLogger().debug("new driver for: " + testDevice);
+          WebDriverManager.getDriver(testDevice);
+        }
+        else {
+          getLogger().debug("no test device set for: " + result.getTestName());
+        }
       }
-      if (testDevice != null) {
-        getLogger().debug("new driver for: " + testDevice);
-        WebDriverManager.getDriver(testDevice);
-      }
-      else {
-        getLogger().debug("no test device set for: " + result.getTestName());
-      }
-    }
-    finally {
-      if (getDriver() == null) {
-        getLogger().warn(MARKER_ERROR, "driver not instantiated");
+      finally {
+        if (getDriver() == null) {
+          getLogger().warn(MARKER_ERROR, "driver not instantiated");
+          GaleniumReportUtil.assignCategory(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED);
+          retries++;
+        }
+        else {
+          // we have a driver and can move on
+          break;
+        }
       }
     }
   }
