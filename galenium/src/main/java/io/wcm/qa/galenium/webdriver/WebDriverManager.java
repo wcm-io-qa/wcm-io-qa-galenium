@@ -20,6 +20,8 @@
 package io.wcm.qa.galenium.webdriver;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.isChromeHeadless;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.lang3.StringUtils;
@@ -100,20 +102,27 @@ public final class WebDriverManager {
       }
       WebDriver newDriver = WebDriverFactory.newDriver(testDevice);
       setDriver(newDriver);
+      getDriver().manage().deleteAllCookies();
+      logInfo("Deleted all cookies.");
     }
 
     // only resize when different or new
     if (needsNewDriver || needsWindowResize(testDevice)) {
-      try {
-        Dimension screenSize = testDevice.getScreenSize();
-        GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
+      if (isSuppressAutoAdjustBrowserSize()) {
+        logDebug("resizing suppressed.");
       }
-      catch (WebDriverException ex) {
-        String msg = "Exception when resizing browser";
-        logDebug(msg, ex);
+      else {
+        try {
+          Dimension screenSize = testDevice.getScreenSize();
+          GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
+        }
+        catch (WebDriverException ex) {
+          if (!isChromeHeadless()) {
+            // headless chrome does not have a window target
+            logDebug("Exception when resizing browser", ex);
+          }
+        }
       }
-      getDriver().manage().deleteAllCookies();
-      logInfo("Deleted all cookies.");
     }
 
     setTestDevice(testDevice);
