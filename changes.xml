@@ -64,6 +64,12 @@
         More verbose logging around web driver handling.
       </action>
       <action type="add" dev="apegam">
+        String based driver management to integrate Galen JS tests.
+      </action>
+      <action type="add" dev="apegam">
+        Configurable retries for driver instantiation.
+      </action>
+      <action type="add" dev="apegam">
         Add HTTP BasicAuth credentials to base URL.
       </action>
     </release>
