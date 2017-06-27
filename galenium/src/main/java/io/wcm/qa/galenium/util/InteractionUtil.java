@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
@@ -33,13 +36,14 @@ import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.galenframework.browser.SeleniumBrowser;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 /**
@@ -50,6 +54,17 @@ public final class InteractionUtil {
 
   private InteractionUtil() {
     // Do not instantiate
+  }
+
+  protected static String getGridNodeHostname() {
+    WebDriver driver = getDriver();
+    if (driver instanceof RemoteWebDriver) {
+      String host = System.getProperty("selenium.host");
+      int port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
+      SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
+      return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
+    }
+    return "NOT_REMOTE";
   }
 
   public static boolean acceptAlert() {
@@ -63,6 +78,7 @@ public final class InteractionUtil {
   public static void click(Selector selector) {
     WebElement element = getElementOrFail(selector);
     element.click();
+    getLogger().debug(MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }
 
   public static void clickByPartialText(Selector selector, String searchStr) {
@@ -74,6 +90,30 @@ public final class InteractionUtil {
     }
     else {
       getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
+    }
+  }
+
+  public static void clickIfVisible(Selector selector) {
+    WebElement element = getElementVisible(selector, 30);
+    if (element != null) {
+      element.click();
+      getLogger().debug(MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
+    }
+    else {
+      getLogger().debug("did not click optional '" + selector.elementName() + "'");
+    }
+  }
+
+  public static void clickVisibleOfMany(Selector selector) {
+    List<WebElement> elements = findElements(selector);
+
+    for (WebElement element : elements) {
+      getLogger().debug("found element with " + selector.elementName() + ": " + element);
+      if (element.isDisplayed()) {
+        getLogger().debug("clicking element: " + element);
+        element.click();
+        return;
+      }
     }
   }
 
@@ -111,7 +151,7 @@ public final class InteractionUtil {
     WebElement element = getElementVisible(selector, 30);
     if (element == null) {
       String msg = "could not find '" + selector.elementName() + "'";
-      getLogger().debug(GaleniumReportUtil.MARKER_FAIL, msg);
+      getLogger().debug(MARKER_FAIL, msg);
       throw new GaleniumException(msg);
     }
     return element;
@@ -131,13 +171,15 @@ public final class InteractionUtil {
    * @return matching element if it is visible or null
    */
   public static WebElement getElementVisible(Selector selector, int howLong) {
+    WebElement element = null;
     WebDriverWait wait = new WebDriverWait(getDriver(), howLong);
     try {
-      return wait.until(ExpectedConditions.visibilityOfElementLocated(selector.asBy()));
+      element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector.asBy()));
     }
     catch (TimeoutException tex) {
-      return null;
+      getLogger().trace("timeout when waiting for: " + selector.elementName());
     }
+    return element;
   }
 
   /**
@@ -184,9 +226,18 @@ public final class InteractionUtil {
     }
   }
 
+  public static boolean isCurrentUrl(String url) {
+    return StringUtils.equals(url, getDriver().getCurrentUrl());
+  }
+
   public static void loadUrl(String url) {
     getLogger().trace("loading URL: '" + url + "'");
     getDriver().get(url);
+  }
+
+  public static void loadUrlExactly(String url) {
+    loadUrl(url);
+    GaleniumContext.getAssertion().assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
   }
 
   public static void mouseOver(Selector selector) {
@@ -218,16 +269,16 @@ public final class InteractionUtil {
 
   public static void moveMouseHorizontally(int offsetInPixel) {
     if (offsetInPixel > 0) {
-      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse right by " + offsetInPixel);
+      getLogger().debug(MARKER_INFO, "move mouse right by " + offsetInPixel);
     }
     else if (offsetInPixel < 0) {
-      getLogger().debug(GaleniumReportUtil.MARKER_INFO, "move mouse left by " + -offsetInPixel);
+      getLogger().debug(MARKER_INFO, "move mouse left by " + -offsetInPixel);
     }
     getActions().moveByOffset(offsetInPixel, 0).perform();
   }
 
   public static void scrollToElement(Selector selector) {
-    getLogger().debug(GaleniumReportUtil.MARKER_INFO, "Scrolling to element: '" + selector + "'");
+    getLogger().debug(MARKER_INFO, "Scrolling to element: '" + selector + "'");
     WebElement elementToScrollTo = getDriver().findElement(selector.asBy());
     scrollToElement(elementToScrollTo);
   }

@@ -19,22 +19,27 @@
  */
 package io.wcm.qa.galenium.testcase;
 
+import static io.wcm.qa.galenium.util.GaleniumContext.getContext;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.SessionId;
 import org.slf4j.Logger;
 import org.testng.ITest;
 import org.testng.SkipException;
 import org.testng.asserts.Assertion;
 
+import com.galenframework.reports.model.LayoutReport;
+
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.GridHostExtractor;
+import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.HasDevice;
 
@@ -43,7 +48,6 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
  */
 public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
-  private Assertion assertion;
   private TestDevice device;
 
   /**
@@ -57,6 +61,7 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   /**
    * @return the test device used for this test run.
    */
+  @Override
   public TestDevice getDevice() {
     return device;
   }
@@ -68,6 +73,16 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   @Override
   public String getTestName() {
     return getClass().getSimpleName() + "/" + getDevice();
+  }
+
+  protected void assertElementNotVisible(String message, Selector selector) {
+    assertNull(InteractionUtil.getElementVisible(selector), message);
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
+  }
+
+  protected void assertElementVisible(String message, Selector selector) {
+    assertNotNull(InteractionUtil.getElementVisible(selector, 10), message);
+    getLogger().debug(GaleniumReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 
   protected void assertEquals(boolean actual, boolean expected) {
@@ -281,8 +296,10 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   }
 
   protected Assertion getAssertion() {
+    Assertion assertion = GaleniumContext.getAssertion();
     if (assertion == null) {
       assertion = new GaleniumAssertion();
+      getContext().setAssertion(assertion);
     }
     return assertion;
   }
@@ -291,21 +308,23 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     return GaleniumConfiguration.getBaseUrl();
   }
 
-  protected abstract WebDriver getDriver();
+  protected List<String> getTags() {
+    return getDevice().getTags();
+  }
 
-  protected String getGridNodeHostname() {
-    WebDriver driver = getDriver();
-    if (driver instanceof RemoteWebDriver) {
-      String host = System.getProperty("selenium.host");
-      int port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
-      SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
-      return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
+  protected void handleLayoutReport(String specName, LayoutReport layoutReport) {
+    String errorMessage = "FAILED: Layoutcheck " + specName + " with device " + getDevice();
+    String successMessage = "successfully ran spec: " + specName;
+    try {
+      GalenLayoutChecker.handleLayoutReport(layoutReport, errorMessage, successMessage);
     }
-    return "NOT_REMOTE";
+    catch (Throwable ex) {
+      fail(errorMessage, ex);
+    }
   }
 
   protected void setAssertion(Assertion assertion) {
-    this.assertion = assertion;
+    getContext().setAssertion(assertion);
   }
 
   protected void setDevice(TestDevice device) {

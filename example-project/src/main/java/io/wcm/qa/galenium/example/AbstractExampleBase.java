@@ -19,19 +19,21 @@
  */
 package io.wcm.qa.galenium.example;
 
-import org.openqa.selenium.WebDriver;
+import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
+import static io.wcm.qa.galenium.util.InteractionUtil.click;
+import static io.wcm.qa.galenium.util.InteractionUtil.clickByPartialText;
+import static io.wcm.qa.galenium.util.InteractionUtil.getElementOrFail;
 
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
-import io.wcm.qa.galenium.testcase.AbstractGaleniumInteractiveBaseTestCase;
+import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 import io.wcm.qa.galenium.util.AemUtil;
 import io.wcm.qa.galenium.util.TestDevice;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Abstract base class for common functionality needed by multiple tests.
  */
-public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBaseTestCase {
+public abstract class AbstractExampleBase extends AbstractGaleniumBase {
 
   private static final int CUTOFF_MOBILE_WIDTH = 601;
   private static final Selector SELECTOR_NAV = SelectorFactory.fromCss("nav");
@@ -63,11 +65,6 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
 
   protected void clickConferenceNavLink() {
     clickByPartialText(SELECTOR_NAV_LINK, "conference");
-  }
-
-  @Override
-  protected WebDriver getDriver() {
-    return WebDriverManager.getDriver(getDevice());
   }
 
   protected abstract String getRelativePath();

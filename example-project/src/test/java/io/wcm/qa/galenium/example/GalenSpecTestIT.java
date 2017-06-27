@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.example;
 
+import static io.wcm.qa.galenium.util.GalenLayoutChecker.checkLayout;
+
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
