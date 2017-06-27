@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.sampling.differences;
 /**
  * Simple {@link Difference} using the string assigned in constructor.
  */
-public class StringDifference implements Difference {
+public class StringDifference extends DifferenceBase {
 
   private String tag;
 

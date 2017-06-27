@@ -26,7 +26,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -49,8 +52,17 @@ public final class InteractionUtil {
     // Do not instantiate
   }
 
+  public static boolean acceptAlert() {
+    if (isAlertShowing()) {
+      getDriver().switchTo().alert().accept();
+      return true;
+    }
+    return false;
+  }
+
   public static void click(Selector selector) {
-    getElementOrFail(selector).click();
+    WebElement element = getElementOrFail(selector);
+    element.click();
   }
 
   public static void clickByPartialText(Selector selector, String searchStr) {
@@ -162,6 +174,21 @@ public final class InteractionUtil {
     return ArrayUtils.contains(split, cssClass);
   }
 
+  public static boolean isAlertShowing() {
+    try {
+      getDriver().switchTo().alert();
+      return true;
+    }
+    catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
+
+  public static void loadUrl(String url) {
+    getLogger().trace("loading URL: '" + url + "'");
+    getDriver().get(url);
+  }
+
   public static void mouseOver(Selector selector) {
     getLogger().debug("attempting mouse over: " + selector.elementName());
     WebDriver driver = getDriver();
@@ -170,8 +197,18 @@ public final class InteractionUtil {
       WebElement mouseOverElement = mouseOverElements.get(0);
       if (mouseOverElement.isDisplayed()) {
         getLogger().debug("Moving to element: " + mouseOverElement);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(mouseOverElement).perform();
+        try {
+          Actions actions = new Actions(driver);
+          actions.moveToElement(mouseOverElement).perform();
+        }
+        catch (UnsupportedCommandException ex) {
+          getLogger().debug("Attempting JS workaround for mouseover.");
+          String javaScript = "var evObj = document.createEvent('MouseEvents');" +
+              "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+              "arguments[0].dispatchEvent(evObj);";
+
+          ((JavascriptExecutor)driver).executeScript(javaScript, mouseOverElement);
+        }
       }
     }
     else {
@@ -201,8 +238,16 @@ public final class InteractionUtil {
     actions.perform();
   }
 
+  public static void waitForUrl(String url) {
+    getLogger().trace("waiting for URL: '" + url + "'");
+    WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+    wait.until(ExpectedConditions.urlToBe(url));
+    getLogger().trace("found URL: '" + url + "'");
+  }
+
   private static Actions getActions() {
     return new Actions(getDriver());
   }
+
 
 }

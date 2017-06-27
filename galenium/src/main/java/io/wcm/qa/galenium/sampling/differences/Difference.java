@@ -25,6 +25,12 @@ package io.wcm.qa.galenium.sampling.differences;
 public interface Difference {
 
   /**
+   * @return a descriptive name for this difference type
+   */
+  String getName();
+
+  /**
+   * The current value for the differing part of current difference instance.
    * @return a short, simple string representation to be used in folder names or property keys
    */
   String getTag();

@@ -25,20 +25,16 @@ import io.wcm.qa.galenium.util.TestDevice;
 /**
  * {@link TestDevice} based {@link Difference}.
  */
-public class ScreenWidthDifference extends StringDifference {
+public class ScreenWidthDifference implements Difference {
 
-  /**
-   * Uses test device from context.
-   */
-  public ScreenWidthDifference() {
-    this(GaleniumContext.getTestDevice());
+  @Override
+  public String getName() {
+    return "width";
   }
 
-  /**
-   * @param device defines screen width
-   */
-  public ScreenWidthDifference(TestDevice device) {
-    super(Integer.toString(device.getScreenSize().getWidth()));
+  @Override
+  public String getTag() {
+    return Integer.toString(GaleniumContext.getTestDevice().getScreenSize().getWidth());
   }
 
 }

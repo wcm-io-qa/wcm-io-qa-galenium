@@ -20,6 +20,9 @@
 package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import org.slf4j.Logger;
@@ -29,7 +32,12 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import com.galenframework.config.GalenConfig;
+import com.galenframework.config.GalenProperty;
+
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
@@ -38,6 +46,7 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 public class WebDriverListener implements ITestListener {
 
   private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
+  private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
 
   @Override
   public void onFinish(ITestContext context) {
@@ -52,6 +61,8 @@ public class WebDriverListener implements ITestListener {
   @Override
   public void onStart(ITestContext context) {
     getLogger().trace("WebDriverListener active.");
+    // always executed in the main thread, so we can't initialize WebDrivers right here
+    setAdjustViewportInGalen(!isSuppressAutoAdjustBrowserSize());
   }
 
   @Override
@@ -71,16 +82,39 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    TestDevice testDevice = TestInfoUtil.getTestDevice(result);
-    if (testDevice != null) {
-      getLogger().debug("new driver for: " + testDevice);
-      WebDriverManager.getDriver(testDevice);
-      if (getDriver() == null) {
-        getLogger().warn(MARKER_ERROR, "driver not instantiated");
-      }
+    // do nothing for lazy initialization
+    if (GaleniumConfiguration.isLazyWebDriverInitialization()) {
+      getLogger().debug(MARKER_INFO, "Driver will be initialized lazily.");
+      return;
     }
-    else {
-      getLogger().debug("no test device set for: " + result.getTestName());
+
+    // create driver for test
+    int retries = 0;
+    while (retries <= getNumberOfBrowserInstantiationRetries()) {
+      try {
+        TestDevice testDevice = TestInfoUtil.getTestDevice(result);
+        if (testDevice == null) {
+          testDevice = GaleniumContext.getTestDevice();
+        }
+        if (testDevice != null) {
+          getLogger().debug("new driver for: " + testDevice);
+          WebDriverManager.getDriver(testDevice);
+        }
+        else {
+          getLogger().debug("no test device set for: " + result.getTestName());
+        }
+      }
+      finally {
+        if (getDriver() == null) {
+          getLogger().warn(MARKER_ERROR, "driver not instantiated");
+          GaleniumReportUtil.assignCategory(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED);
+          retries++;
+        }
+        else {
+          // we have a driver and can move on
+          break;
+        }
+      }
     }
   }
 
@@ -111,6 +145,12 @@ public class WebDriverListener implements ITestListener {
 
     // getParallel() will return "methods", "classes", "tests" or "false" (which is the default)
     return !"false".equals(context.getSuite().getParallel());
+  }
+
+  private void setAdjustViewportInGalen(boolean adjustBrowserViewportSize) {
+    GalenConfig.getConfig().setProperty(
+        GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE,
+        new Boolean(adjustBrowserViewportSize).toString());
   }
 
   protected void closeDriver() {

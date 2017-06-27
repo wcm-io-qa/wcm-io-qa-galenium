@@ -17,13 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.strategy;
 
-public interface Verifiable {
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.verification.base.Verification;
 
-  /**
-   * @return whether verification was successful
-   */
-  boolean verify();
+public class IgnoreFailuresStrategy extends DefaultVerificationStrategy {
 
+  @Override
+  protected void handleFailure(Verification verification) {
+    if (verification.getException() != null) {
+      getLogger().info(GaleniumReportUtil.MARKER_FAIL, verification.getMessage(), verification.getException());
+    }
+    else {
+      getLogger().info(GaleniumReportUtil.MARKER_FAIL, verification.getMessage());
+    }
+  }
 }

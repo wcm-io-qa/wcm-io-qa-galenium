@@ -19,13 +19,28 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Marker;
 import org.testng.ITestResult;
 
+import com.galenframework.reports.GalenTestInfo;
+import com.galenframework.reports.TestReport;
+import com.galenframework.reports.TestStatistic;
+import com.galenframework.reports.nodes.ReportExtra;
+import com.galenframework.reports.nodes.TestReportNode;
 import com.relevantcodes.extentreports.ExtentTest;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
@@ -74,6 +89,98 @@ public final class TestInfoUtil {
     }
     return null;
   }
+
+  public static boolean hasWarnings(GalenTestInfo testInfo) {
+    TestReport report = testInfo.getReport();
+    if (report == null) {
+      getLogger().trace("report was null: " + testInfo);
+      return false;
+    }
+    TestStatistic statistics = report.fetchStatistic();
+    if (statistics == null) {
+      getLogger().trace("statistics were null: " + testInfo + "->" + report);
+      return false;
+    }
+
+    return statistics.getWarnings() > 0;
+  }
+
+  public static boolean isFailed(GalenTestInfo testInfo) {
+    return testInfo.isFailed();
+  }
+
+  public static void logGalenTestInfo(GalenTestInfo testInfo) {
+    if (isFailed(testInfo)) {
+      getLogger().info(MARKER_FAIL, "failed: " + testInfo.getName());
+    }
+    else if (hasWarnings(testInfo)) {
+      getLogger().info(MARKER_WARN, "warnings: " + testInfo.getName());
+    }
+    else {
+      getLogger().info(GaleniumReportUtil.MARKER_PASS, "passed: " + testInfo.getName());
+    }
+    if (getLogger().isDebugEnabled()) {
+      List<TestReportNode> nodes = testInfo.getReport().getNodes();
+      int nodeCounter = 0;
+      for (TestReportNode testReportNode : nodes) {
+        logTestReportNode(testReportNode, "node" + nodeCounter++);
+      }
+    }
+  }
+
+  private static void logTestReportNode(TestReportNode node, String prefix) {
+    Marker marker;
+    switch (node.getStatus()) {
+      case INFO:
+      default:
+        marker = GaleniumReportUtil.MARKER_PASS;
+        break;
+      case WARN:
+        marker = GaleniumReportUtil.MARKER_WARN;
+        break;
+      case ERROR:
+        marker = GaleniumReportUtil.MARKER_FAIL;
+        break;
+    }
+    String type = node.getType();
+    if (StringUtils.equals("layout", type)) {
+      getLogger().info(marker, prefix + ".name: " + node.getName());
+    }
+    else {
+      getLogger().debug(marker, prefix + ".name: " + node.getName());
+    }
+    getLogger().trace(marker, prefix + ".type: " + type);
+    List<String> attachments = node.getAttachments();
+    if (attachments != null) {
+      for (String attachment : attachments) {
+        getLogger().debug(marker, prefix + ".attachment: " + attachment);
+      }
+    }
+    else {
+      getLogger().trace(marker, prefix + ".attachments: none");
+    }
+    Map<String, ReportExtra> reportExtras = node.getExtras();
+    if (reportExtras != null) {
+      Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
+      for (Entry<String, ReportExtra> entry : extras) {
+        getLogger().debug(marker, prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
+      }
+    }
+    else {
+      getLogger().trace(marker, prefix + ".extras: none");
+    }
+    List<TestReportNode> nodes = node.getNodes();
+    if (nodes != null) {
+      int childCounter = 0;
+      for (TestReportNode childNode : nodes) {
+        logTestReportNode(childNode, prefix + "." + childCounter++);
+      }
+    }
+    else {
+      getLogger().trace(marker, prefix + ".children: none");
+    }
+  }
+
 
   static String getAlphanumericTestName(ITestResult result) {
     String name = result.getName();

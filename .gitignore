@@ -26,3 +26,4 @@ npm-debug.log
 .temp/
 *~
 *.swp
+example-project/chromedriver.log

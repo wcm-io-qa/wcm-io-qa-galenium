@@ -22,13 +22,18 @@ package io.wcm.qa.galenium.listeners;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.testng.ISuite;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+import org.testng.xml.XmlSuite;
 
-import com.galenframework.config.GalenConfig;
-import com.galenframework.config.GalenProperty;
 import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
@@ -46,13 +51,33 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onFinish(ITestContext context) {
+    getLogger().trace("Generating Galen reports.");
     GaleniumReportUtil.createGalenReports();
   }
 
   @Override
   public void onStart(ITestContext context) {
-    // always executed in the main thread, so we can't initialize WebDrivers right here
-    GalenConfig.getConfig().setProperty(GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE, Boolean.TRUE.toString());
+    Logger logger = getLogger();
+    logger.debug("Starting tests");
+    if (logger.isDebugEnabled()) {
+      logger.trace("host: " + context.getHost());
+      logger.trace("suite name: " + context.getSuite().getName());
+      logger.trace("parallel: " + context.getSuite().getParallel());
+      logger.trace("included groups: " + StringUtils.join(context.getIncludedGroups(), ", "));
+      logger.trace("excluded groups: " + StringUtils.join(context.getExcludedGroups(), ", "));
+    }
+    if (logger.isTraceEnabled()) {
+      ISuite suite = context.getSuite();
+      XmlSuite xmlSuite = suite.getXmlSuite();
+      logger.trace("thread count: " + xmlSuite.getThreadCount());
+      logger.trace("data provider thread count: " + xmlSuite.getDataProviderThreadCount());
+      logger.trace("methods: " + StringUtils.join(suite.getAllMethods(), ", "));
+      logger.trace("excluded methods: " + StringUtils.join(suite.getExcludedMethods(), ", "));
+      Set<Entry<String, String>> allParameters = xmlSuite.getAllParameters().entrySet();
+      for (Entry<String, String> entry : allParameters) {
+        logger.trace(entry.getKey() + "='" + entry.getValue() + "'");
+      }
+    }
   }
 
   @Override

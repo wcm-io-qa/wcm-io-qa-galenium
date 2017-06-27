@@ -20,11 +20,11 @@
 package io.wcm.qa.galenium.example;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumInteractiveBaseTestCase;
+import io.wcm.qa.galenium.util.AemUtil;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
@@ -34,12 +34,6 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBaseTestCase {
 
   private static final int CUTOFF_MOBILE_WIDTH = 601;
-  private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
-  private static final String LOGIN_AUTHOR_NAME = "admin";
-  private static final String LOGIN_AUTHOR_PASS = "admin";
-  private static final Selector SELECTOR_AUTHOR_INPUT_PASSWORD = SelectorFactory.fromCss("#password");
-  private static final Selector SELECTOR_AUTHOR_INPUT_USERNAME = SelectorFactory.fromCss("#username");
-  private static final Selector SELECTOR_AUTHOR_LOGIN_BUTTON = SelectorFactory.fromCss("#submit-button");
   private static final Selector SELECTOR_NAV = SelectorFactory.fromCss("nav");
   private static final Selector SELECTOR_NAV_LINK = SelectorFactory.fromCss("a.navlink-main");
   private static final Selector SELECTOR_NAV_MENU_OPENER = SelectorFactory.fromCss("a.menu-opener");
@@ -56,15 +50,6 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
   @Override
   public String getTestName() {
     return "Example." + super.getTestName();
-  }
-
-  private void enterText(Selector selector, String text) {
-    WebElement input = getElementOrFail(selector);
-    input.sendKeys(text);
-  }
-
-  private boolean isAuthorLogin() {
-    return getElementVisible(DIV_LOGIN_BOX) != null;
   }
 
   private void navShouldBeVisible() {
@@ -87,26 +72,16 @@ public abstract class AbstractExampleBase extends AbstractGaleniumInteractiveBas
 
   protected abstract String getRelativePath();
 
+  protected String getStartUrl() {
+    return getBaseUrl() + getRelativePath();
+  }
+
   protected boolean isMobile() {
     return getDevice().getScreenSize().getWidth() < CUTOFF_MOBILE_WIDTH;
   }
 
   protected void loadStartUrl() {
-    loadUrl(getStartUrl());
-    loginToAuthor();
-  }
-
-  protected String getStartUrl() {
-    return getBaseUrl() + getRelativePath();
-  }
-
-  protected void loginToAuthor() {
-    if (isAuthorLogin()) {
-      getLogger().info("Logging in to author instance");
-      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, LOGIN_AUTHOR_NAME);
-      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, LOGIN_AUTHOR_PASS);
-      click(SELECTOR_AUTHOR_LOGIN_BUTTON);
-    }
+    AemUtil.loginToAuthor(getStartUrl());
   }
 
   protected void openNav() {

@@ -19,7 +19,10 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getActualImagesDirectory;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getExpectedImagesDirectory;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -43,6 +46,10 @@ import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.InteractionUtil;
+
 
 /**
  * {@link CombinedValidationListener} to handle storing of sampled image files in ZIP file.
@@ -55,41 +62,37 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
 
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
-  private Logger logger;
-
-  /**
-   * Constructor.
-   * @param logger delegate for reporting
-   */
-  public ImageComparisonValidationListener(Logger logger) {
-    setLogger(logger);
-  }
-
-  public Logger getLogger() {
-    return logger;
-  }
 
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
+    trace("spec error triggered: " + objectName);
     if (GaleniumConfiguration.isSaveSampledImages()) {
-      logSpec(spec);
       String text = spec.toText();
-      Matcher matcher = getImagePathExtractionRegEx().matcher(text);
-      if (matcher.matches()) {
-        if (matcher.groupCount() >= 1) {
+      if (StringUtils.contains(text, "image file ")) {
+        trace("saving sample: " + objectName);
+        logSpec(spec);
+        Matcher matcher = getImagePathExtractionRegEx().matcher(text);
+        if (matcher.matches() && matcher.groupCount() >= 1) {
           String imagePath = matcher.group(1);
           BufferedImage actualImage = getActualImage(result);
           if (actualImage == DUMMY_IMAGE) {
+            trace("actual image sample could not be retrieved: " + objectName);
             BufferedImage pageElementImage = getPageElementScreenshot(pageValidation, objectName);
             if (pageElementImage != null) {
+              trace("made secondary image sample: " + objectName);
               actualImage = pageElementImage;
             }
+            else {
+              getLogger().debug(MARKER_WARN, "failed to make secondary image sample: " + objectName);
+            }
           }
-          getLogger().debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
+          debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
           try {
             File imageFile = getImageFile(imagePath);
+            trace("begin writing image '" + imageFile.getCanonicalPath());
             ImageIO.write(actualImage, "png", imageFile);
+            trace("done writing image '" + imageFile.getCanonicalPath());
           }
           catch (IOException ex) {
             String msg = "could not write image: " + imagePath;
@@ -103,22 +106,44 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
           getLogger().warn(msg);
         }
       }
+      else {
+        trace("not saving sample. " + objectName);
+      }
+    }
+    else {
+      trace("not an image comparison spec");
     }
   }
 
-  public void setLogger(Logger logger) {
-    this.logger = logger;
+  private void debug(String msg) {
+    getLogger().debug(msg);
+  }
+
+  private void debugError(String string, Exception ex) {
+    getLogger().debug(GaleniumReportUtil.MARKER_ERROR, string, ex);
   }
 
   private BufferedImage getPageElementScreenshot(PageValidation pageValidation, String objectName) {
     BufferedImage wholePageImage = pageValidation.getPage().getScreenshotImage();
+    Long scrollYPosition = InteractionUtil.getScrollYPosition();
+    trace("browser is scrolled to position: " + scrollYPosition);
     PageElement element = pageValidation.findPageElement(objectName);
     if (element != null) {
       Rect area = element.getArea();
-      BufferedImage elementImage = wholePageImage.getSubimage(area.getLeft(), area.getTop(), area.getWidth(), area.getHeight());
-      return elementImage;
+      trace("found element '" + objectName + "': " + area);
+      try {
+        BufferedImage elementImage = wholePageImage.getSubimage(area.getLeft(), area.getTop(), area.getWidth(), area.getHeight());
+        return elementImage;
+      }
+      catch (Exception ex) {
+        debugError("exception when extracting secondary sample image.", ex);
+      }
     }
     return null;
+  }
+
+  private void trace(String msg) {
+    getLogger().trace(msg);
   }
 
   protected BufferedImage getActualImage(ValidationResult result) {
@@ -131,25 +156,32 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
         if (actualImage != null) {
           return actualImage;
         }
+        else {
+          trace("could not find sampled image in image comparison.");
+        }
       }
+      else {
+        trace("could not find image comparison in validation error.");
+      }
+    }
+    else {
+      trace("could not find error in validation result.");
     }
 
     return DUMMY_IMAGE;
   }
 
-  protected File getDirectoryToRelativizeImageSavePathTo() {
-    return new File(GaleniumConfiguration.getImageComparisonDirectory());
-  }
-
   protected File getImageFile(String imagePath) throws IOException {
-    String imageComparisonDirectory = GaleniumConfiguration.getImageComparisonDirectory();
+    String sampledImagesDirectory = getActualImagesDirectory();
     String path;
-    if (StringUtils.isNotBlank(imageComparisonDirectory)) {
-      String difference = StringUtils.difference(
-          getDirectoryToRelativizeImageSavePathTo().getAbsolutePath(),
-          new File(imagePath).getAbsolutePath()
-          );
-      path = imageComparisonDirectory + File.separator + difference;
+    if (StringUtils.isNotBlank(sampledImagesDirectory)) {
+      String canonical1 = new File(getExpectedImagesDirectory()).getCanonicalPath();
+      String canonical2 = new File(imagePath).getCanonicalPath();
+      String difference = StringUtils.difference(canonical1, canonical2);
+      trace("image path construction image dir: " + canonical1);
+      trace("image path construction image path: " + canonical2);
+      trace("image path construction difference: " + difference);
+      path = sampledImagesDirectory + File.separator + difference;
     }
     else {
       path = imagePath;
@@ -157,7 +189,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     File imageFile = new File(path);
     File parentFile = imageFile.getParentFile();
     if (!parentFile.isDirectory()) {
-      getLogger().debug("creating directory: " + parentFile.getPath());
+      debug("creating directory: " + parentFile.getPath());
       FileUtils.forceMkdir(parentFile);
     }
     return imageFile;
@@ -168,7 +200,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   }
 
   protected void logSpec(Spec spec) {
-    getLogger().debug("checking failed spec for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
+    debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
   }
 
 }

@@ -19,32 +19,33 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class AttributeVerification extends ElementBasedVerification {
 
-  private String actualValue;
   private String attributeName;
-  protected String expectedValue;
 
-  public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
+  public AttributeVerification(Selector selector, String attributeName) {
     super(selector);
     setAttributeName(attributeName);
+    setPreVerification(new VisibilityVerification(getSelector()));
+  }
+
+  public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
+    super(selector, expectedValue);
+    setAttributeName(attributeName);
+  }
+
+  public AttributeVerification(String elementName, WebElement element, String attributeName) {
+    super(elementName, element);
+    setAttributeName(attributeName);
+  }
+
+  public AttributeVerification(String elementName, WebElement element, String attributeName, String expectedValue) {
+    this(elementName, element, attributeName);
     setExpectedValue(expectedValue);
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    return StringUtils.equals(getActualValue(), getExpectedValue());
-  }
-
-  protected String getActualValue() {
-    if (actualValue == null) {
-      actualValue = getElement().getAttribute(getAttributeName());
-    }
-    return actualValue;
   }
 
   @Override
@@ -56,8 +57,9 @@ public class AttributeVerification extends ElementBasedVerification {
     return attributeName;
   }
 
-  protected String getExpectedValue() {
-    return expectedValue;
+  @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + "." + getAttributeName();
   }
 
   @Override
@@ -70,12 +72,12 @@ public class AttributeVerification extends ElementBasedVerification {
     return getElementName() + "[" + getAttributeName() + "] was '" + getActualValue() + "' as expected";
   }
 
+  @Override
+  protected String sampleValue() {
+    return getElement().getAttribute(getAttributeName());
+  }
+
   protected void setAttributeName(String attributeName) {
     this.attributeName = attributeName;
   }
-
-  protected void setExpectedValue(String expectedValue) {
-    this.expectedValue = expectedValue;
-  }
-
 }

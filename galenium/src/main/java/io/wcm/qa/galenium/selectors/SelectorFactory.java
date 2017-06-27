@@ -47,4 +47,18 @@ public final class SelectorFactory {
     selector.setName(elementName);
     return selector;
   }
+
+  public static Selector relativeSelector(Selector parent, Selector relativeSelector) {
+    return relativeSelector(parent, relativeSelector.elementName(), relativeSelector.asString());
+  }
+
+  public static Selector relativeSelector(Selector parent, String relativeCssSelector) {
+    return relativeSelector(parent, "child", relativeCssSelector);
+  }
+
+  public static Selector relativeSelector(Selector parent, String childName, String relativeCssSelector) {
+    String selectorString = parent.asString() + " " + relativeCssSelector;
+    String elementName = parent.elementName() + "|" + childName;
+    return fromCss(elementName, selectorString);
+  }
 }

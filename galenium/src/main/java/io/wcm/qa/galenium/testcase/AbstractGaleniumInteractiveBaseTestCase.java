@@ -142,7 +142,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
   }
 
   protected ValidationListener getValidationListener() {
-    return new ImageComparisonValidationListener(getLogger());
+    return new ImageComparisonValidationListener();
   }
 
   protected void handleLayoutReport(String specName, LayoutReport layoutReport) {
@@ -152,7 +152,7 @@ public abstract class AbstractGaleniumInteractiveBaseTestCase extends AbstractGa
       GalenLayoutChecker.handleLayoutReport(layoutReport, errorMessage, successMessage);
     }
     catch (Throwable ex) {
-      fail("layout check failed.", ex);
+      fail(errorMessage, ex);
     }
   }
 

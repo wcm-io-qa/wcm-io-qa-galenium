@@ -19,26 +19,22 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openqa.selenium.WebDriver;
 
 import com.galenframework.api.Galen;
 import com.galenframework.browser.Browser;
-import com.galenframework.browser.SeleniumBrowser;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationError;
@@ -58,12 +54,6 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  */
 public final class GalenLayoutChecker {
 
-  private static final Map<String, Object> EMPTY_JS_VARS = null;
-  private static final Properties EMPTY_PROPERTIES = new Properties();
-  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
-  private static final Logger log = LoggerFactory.getLogger(GalenLayoutChecker.class);
-  private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
-
   private GalenLayoutChecker() {
     // do not instantiate
   }
@@ -76,7 +66,7 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(ImageComparisonSpecFactory specFactory) {
     PageSpec spec = specFactory.getPageSpecInstance();
-    return checkLayout(specFactory.getSectionName(), spec);
+    return checkLayout(specFactory.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), specFactory.getValidationListener());
   }
 
   /**
@@ -96,11 +86,14 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
-    TestDevice testDevice = getTestDevice();
-    SectionFilter tags = new SectionFilter(testDevice.getTags(), Collections.emptyList());
-    ImageComparisonValidationListener validationListener = new ImageComparisonValidationListener(getLogger());
-
-    return checkLayout(testName, spec, testDevice, tags, validationListener);
+    return checkLayout(
+        testName,
+        spec,
+        getTestDevice(),
+        GalenHelperUtil.getTags(),
+        new ImageComparisonValidationListener(),
+        GalenHelperUtil.getBrowser(),
+        GaleniumContext.getDriver());
   }
 
   /**
@@ -114,20 +107,84 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device,
       SectionFilter tags, ValidationListener validationListener) {
+    return checkLayout(testName, spec, device, tags, validationListener, GalenHelperUtil.getBrowser(device), getDriver(device));
+  }
+
+  /**
+   * Checks Galen spec against current state of driver.
+   * @param testName test name used as folder name in reports
+   * @param specPath path to spec file
+   * @return report on spec test
+   */
+  public static LayoutReport checkLayout(String testName, String specPath) {
+    PageSpec spec = GalenHelperUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenHelperUtil.getTags());
+    return checkLayout(testName, spec);
+  }
+
+  /**
+   * Checks Galen spec against current state of driver.
+   * @param testName testname, also used as foldernames in reports
+   * @param specPath path to the Galen spec
+   * @param device Device for the test
+   * @param validationListener validation listener to use, can be null
+   * @return report on spec test
+   */
+  public static LayoutReport checkLayout(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
+
+    SectionFilter tags = GalenHelperUtil.getSectionFilter(device);
+    PageSpec spec;
+      spec = GalenHelperUtil.readSpec(device, specPath, tags);
+
+    return checkLayout(testName, spec, device, tags, validationListener);
+  }
+
+  /**
+   * @param layoutReport Galen layout report
+   * @param errorMessage message to use for errors and failures
+   * @param successMessage message to use in case of success
+   */
+  public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
+    if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
+      getLogger().debug(MARKER_PASS, successMessage);
+    }
+    else {
+      List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
+      for (ValidationResult validationResult : validationErrorResults) {
+        ValidationError error = validationResult.getError();
+        String errorMessages = StringUtils.join(error.getMessages(), "|");
+        if (error.isOnlyWarn()) {
+          getLogger().warn(errorMessages);
+        }
+        else {
+          getLogger().error(MARKER_FAIL, errorMessages);
+        }
+      }
+      if (layoutReport.errors() > 0) {
+        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
+        List<String> messages = validationResult.getError().getMessages();
+        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
+        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
+        throw new GalenLayoutException(errorMessage, ex);
+      }
+    }
+  }
+
+  private static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
+      Browser browser, WebDriver driver) {
     LayoutReport layoutReport;
     try {
-      layoutReport = Galen.checkLayout(getBrowser(device), spec, tags, validationListener);
+      layoutReport = Galen.checkLayout(browser, spec, tags, validationListener);
     }
     catch (IOException ex) {
-      log.error("IOException with layout checking", ex);
+      getLogger().error("IOException with layout checking", ex);
       throw new GalenLayoutException("IOException with layout checking", ex);
     }
 
     // Creating an object that will contain the information about the test
-    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.toString());
+    GalenTestInfo test = GalenTestInfo.fromString("Layoutcheck " + testName + " " + device.getName());
 
     // Adding layout report to the test report
-    test.getReport().layout(layoutReport, "check layout on " + getDriver(device).getCurrentUrl() + " with device: " + device.toString());
+    test.getReport().layout(layoutReport, "check layout on " + driver.getCurrentUrl() + " with device: " + device.toString());
 
     GaleniumReportUtil.addGalenResult(test);
 
@@ -141,76 +198,10 @@ public final class GalenLayoutChecker {
       }
       String msg = "FAILED: Layoutcheck " + prettyStringResult + " with device "
           + device.toString();
-      log.error(msg);
+      getLogger().error(msg);
     }
 
     return layoutReport;
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   * @param testName testname, also used as foldernames in reports
-   * @param specPath path to the Galen spec
-   * @param device Device for the test
-   * @param validationListener validation listener to use, can be null
-   * @return report on spec test
-   */
-  public static LayoutReport checkLayout(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
-
-    SectionFilter tags = getSectionFilter(device);
-    PageSpec spec;
-    try {
-      spec = readSpec(specPath, device, tags);
-    }
-    catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec", ex);
-    }
-
-    return checkLayout(testName, spec, device, tags, validationListener);
-  }
-
-  /**
-   * @param layoutReport Galen layout report
-   * @param errorMessage message to use for errors and failures
-   * @param successMessage message to use in case of success
-   */
-  public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
-    if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      getLogger().debug(GaleniumReportUtil.MARKER_PASS, successMessage);
-    }
-    else {
-      List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
-      for (ValidationResult validationResult : validationErrorResults) {
-        ValidationError error = validationResult.getError();
-        String errorMessages = StringUtils.join(error.getMessages(), "|");
-        if (error.isOnlyWarn()) {
-          getLogger().warn(errorMessages);
-        }
-        else {
-          getLogger().error(GaleniumReportUtil.MARKER_FAIL, errorMessages);
-        }
-      }
-      if (layoutReport.errors() > 0) {
-        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
-        List<String> messages = validationResult.getError().getMessages();
-        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-        throw new GalenLayoutException(errorMessage, ex);
-      }
-    }
-  }
-
-  private static Browser getBrowser(TestDevice device) {
-    return new SeleniumBrowser(getDriver(device));
-  }
-
-  private static PageSpec readSpec(String specPath, TestDevice device, SectionFilter tags) throws IOException {
-    PageSpec spec = PAGE_SPEC_READER.read(specPath, getBrowser(device).getPage(), tags, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
-    return spec;
-  }
-
-  protected static SectionFilter getSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
   }
 
 }

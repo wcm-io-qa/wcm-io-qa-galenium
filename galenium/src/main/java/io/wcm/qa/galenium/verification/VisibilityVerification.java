@@ -20,11 +20,16 @@
 package io.wcm.qa.galenium.verification;
 
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public class VisibilityVerification extends ElementBasedVerification {
 
   public VisibilityVerification(Selector selector) {
     super(selector);
+  }
+
+  private String getVerboseSelectorInfo() {
+    return " (" + getSelector().asString() + ")";
   }
 
   @Override
@@ -34,12 +39,20 @@ public class VisibilityVerification extends ElementBasedVerification {
 
   @Override
   protected String getFailureMessage() {
-    return getElementName() + " is not visible";
+    String failureMessage = getElementName() + " is not visible";
+    if (GaleniumConfiguration.isSparseReporting() || getSelector() == null) {
+      return failureMessage;
+    }
+    return failureMessage + getVerboseSelectorInfo();
   }
 
   @Override
   protected String getSuccessMessage() {
-    return getElementName() + " is visible";
+    String successMessage = getElementName() + " is visible";
+    if (GaleniumConfiguration.isSparseReporting() || getSelector() == null) {
+      return successMessage;
+    }
+    return successMessage + getVerboseSelectorInfo();
   }
 
 }

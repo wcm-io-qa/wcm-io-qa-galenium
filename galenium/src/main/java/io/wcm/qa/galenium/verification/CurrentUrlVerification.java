@@ -22,51 +22,46 @@ package io.wcm.qa.galenium.verification;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 public class CurrentUrlVerification extends VerificationBase {
 
-  private String actualUrl;
-  private String expectedUrl;
+  private static final String KEY_PART_URL = "url";
 
-  public CurrentUrlVerification(String expectedUrl) {
-    setExpectedUrl(expectedUrl);
+  public CurrentUrlVerification(String pageName) {
+    super(pageName);
   }
 
-  private String getActualUrl() {
-    return actualUrl;
-  }
-
-  private String getExpectedUrl() {
-    return expectedUrl;
-  }
-
-  private void setActualUrl(String actualUrl) {
-    this.actualUrl = actualUrl;
-  }
-
-  private void setExpectedUrl(String expectedUrl) {
-    this.expectedUrl = expectedUrl;
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    setActualUrl(GaleniumContext.getDriver().getCurrentUrl());
-    return StringUtils.equals(getActualUrl(), getExpectedUrl());
+  public CurrentUrlVerification(String pageName, String expectedUrl) {
+    super(pageName, expectedUrl);
   }
 
   @Override
   protected String getAdditionalToStringInfo() {
-    return getExpectedUrl();
+    return getExpectedValue();
+  }
+
+  @Override
+  protected String getExpectedKey() {
+    if (StringUtils.isNotBlank(super.getExpectedKey())) {
+      return super.getExpectedKey() + "." + KEY_PART_URL;
+    }
+    return KEY_PART_URL;
   }
 
   @Override
   protected String getFailureMessage() {
-    return "Expected URL: '" + getExpectedUrl() + "' but found '" + getActualUrl() + "'";
+    return "Expected URL: '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "Found URL: '" + getExpectedUrl() + "'";
+    return "Found URL: '" + getExpectedValue() + "'";
+  }
+
+  @Override
+  protected String sampleValue() {
+    return GaleniumContext.getDriver().getCurrentUrl();
   }
 
 }

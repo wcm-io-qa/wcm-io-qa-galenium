@@ -17,30 +17,47 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.base;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
+
+import java.util.Comparator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
-import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
+import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
+import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
 public abstract class VerificationBase implements Verification {
 
-  private MutableDifferences differences;
-  private Throwable exception;
-  private Verification preVerification;
-  private Boolean verified;
+  private String actualValue;
+  private SortedDifferences differences;
 
-  public VerificationBase() {
-    super();
+  private Throwable exception;
+
+  private String expectedValue;
+
+  private Verification preVerification;
+  private String verificationName;
+  private Boolean verified;
+  protected VerificationBase(String verificationName) {
+    setVerificationName(verificationName);
   }
+  protected VerificationBase(String verificationName, String expectedValue) {
+    this(verificationName);
+    setExpectedValue(expectedValue);
+  }
+
 
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
+  }
+
+  public Comparator<Difference> getComparator() {
+    return getDifferences().getComparator();
   }
 
   @Override
@@ -49,7 +66,7 @@ public abstract class VerificationBase implements Verification {
   }
 
   /**
-   * @see io.wcm.qa.galenium.verification.Verification#getMessage()
+   * @see io.wcm.qa.galenium.verification.base.Verification#getMessage()
    */
   @Override
   public String getMessage() {
@@ -69,8 +86,16 @@ public abstract class VerificationBase implements Verification {
     return preVerification;
   }
 
+  public String getVerificationName() {
+    return verificationName;
+  }
+
   public Boolean isVerified() {
     return verified;
+  }
+
+  public void setComparator(Comparator<Difference> comparator) {
+    getDifferences().setComparator(comparator);
   }
 
   public void setException(Throwable exception) {
@@ -89,11 +114,17 @@ public abstract class VerificationBase implements Verification {
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(getClass().getSimpleName());
-    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append("(");
-      stringBuilder.append(getAdditionalToStringInfo());
-      stringBuilder.append(")");
+    stringBuilder.append("(");
+    stringBuilder.append(getVerificationName());
+    if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
+      stringBuilder.append("|");
+      stringBuilder.append(getDifferences());
     }
+    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
+      stringBuilder.append(", ");
+      stringBuilder.append(getAdditionalToStringInfo());
+    }
+    stringBuilder.append(")");
     return stringBuilder.toString();
   }
 
@@ -109,6 +140,9 @@ public abstract class VerificationBase implements Verification {
     try {
       setVerified(doVerification());
       getLogger().trace("done verifying (" + toString() + ")");
+      if (!isVerified() && getActualValue() != null) {
+        TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
+      }
     }
     catch (Throwable ex) {
       getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
@@ -118,17 +152,40 @@ public abstract class VerificationBase implements Verification {
     return isVerified();
   }
 
-  protected abstract Boolean doVerification();
+  protected Boolean doVerification() {
+    return StringUtils.equals(getActualValue(), getExpectedValue());
+  }
+
+  protected String getActualValue() {
+    if (actualValue == null) {
+      actualValue = sampleValue();
+    }
+    return actualValue;
+  }
 
   protected String getAdditionalToStringInfo() {
     return StringUtils.EMPTY;
   }
 
-  protected MutableDifferences getDifferences() {
+  protected SortedDifferences getDifferences() {
     if (differences == null) {
-      differences = new MutableDifferences();
+      differences = new SortedDifferences();
     }
     return differences;
+  }
+
+  protected String getExpectedKey() {
+    return getDifferences().asPropertyKey();
+  }
+
+  protected String getExpectedValue() {
+    if (expectedValue == null) {
+      String expectedKey = getExpectedKey();
+      if (StringUtils.isNotBlank(expectedKey)) {
+        expectedValue = TextSampleManager.getExpectedText(expectedKey);
+      }
+    }
+    return expectedValue;
   }
 
   protected abstract String getFailureMessage();
@@ -147,8 +204,21 @@ public abstract class VerificationBase implements Verification {
     return getPreVerification() != null;
   }
 
-  protected void setDifferences(MutableDifferences differences) {
+  protected String sampleValue() {
+    getLogger().debug("trying to sample from " + toString());
+    return null;
+  }
+
+  protected void setDifferences(SortedDifferences differences) {
     this.differences = differences;
+  }
+
+  protected void setExpectedValue(String expectedValue) {
+    this.expectedValue = expectedValue;
+  }
+
+  protected void setVerificationName(String verificationName) {
+    this.verificationName = verificationName;
   }
 
 }

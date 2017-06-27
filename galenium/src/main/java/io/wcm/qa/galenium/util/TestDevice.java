@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.util;
 
 import java.util.List;
 
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 
 /**
@@ -45,7 +47,7 @@ public class TestDevice {
     this.name = name;
     this.browserType = browserType;
     this.screenSize = screenSize;
-    this.tags = tags;
+    this.tags = ListUtils.emptyIfNull(tags);
     this.chromeEmulator = chromeEmulator;
   }
 
@@ -80,9 +82,9 @@ public class TestDevice {
     stringBuilder.append(name);
     stringBuilder.append("_");
     stringBuilder.append(screenSize);
-    stringBuilder.append("_");
-    stringBuilder.append(tags);
-    stringBuilder.append("_");
+    stringBuilder.append("_[");
+    StringUtils.join(getTags().toArray(), "|");
+    stringBuilder.append("]_");
     stringBuilder.append(browserType);
     if (chromeEmulator != null) {
       stringBuilder.append("_");

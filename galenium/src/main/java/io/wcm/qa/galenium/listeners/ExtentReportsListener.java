@@ -24,6 +24,7 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.IConfigurationListener2;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -34,6 +35,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
@@ -130,14 +132,18 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
   @Override
   public void onTestSuccess(ITestResult result) {
     try {
-      takeScreenshot(result);
+      if (GaleniumConfiguration.isTakeScreenshotOnSuccessfulTest()) {
+        takeScreenshot(result);
+      }
 
       String msg = getTestName(result) + ": Success (" + getTestDuration(result) + ")";
       Reporter.log(msg + "<br />", false);
       getLogger().info(msg);
     }
     finally {
+      getLogger().trace("ending extent test now.");
       GaleniumReportUtil.endExtentTest(result, LogStatus.PASS, "SUCCESS");
+      getLogger().trace("ended extent test.");
     }
   }
 
@@ -162,7 +168,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
 
   private void takeScreenshot(ITestResult result) {
     WebDriver driver = getDriver();
-    if (driver != null) {
+    if (driver != null && ((RemoteWebDriver)driver).getSessionId() != null) {
       GaleniumReportUtil.takeScreenshot(result, driver);
     }
   }

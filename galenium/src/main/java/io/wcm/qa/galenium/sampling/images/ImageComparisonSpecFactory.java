@@ -19,8 +19,11 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
+import static java.util.Locale.ENGLISH;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -35,9 +38,15 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.ObjectSpecs;
 import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
+import com.galenframework.validation.ValidationListener;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.differences.Difference;
+import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.util.BrowserUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.InteractionUtil;
 
 /**
  * Factory for fileless image comparison specs.
@@ -50,6 +59,7 @@ public class ImageComparisonSpecFactory {
   private String allowedError;
   private int allowedOffset;
   private CorrectionsRect corrections;
+  private SortedDifferences differences = new SortedDifferences();
   private String elementName;
   private String filename;
   private String foldername;
@@ -57,6 +67,7 @@ public class ImageComparisonSpecFactory {
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
 
+  private ValidationListener validationListener = new ImageComparisonValidationListener();
   private boolean zeroToleranceWarning;
 
   /**
@@ -64,6 +75,9 @@ public class ImageComparisonSpecFactory {
    */
   public ImageComparisonSpecFactory(Selector selector) {
     this(selector, selector.elementName());
+    if (BrowserUtil.isChrome()) {
+      correctForSrollPosition(InteractionUtil.getScrollYPosition().intValue());
+    }
   }
 
   /**
@@ -73,8 +87,23 @@ public class ImageComparisonSpecFactory {
   public ImageComparisonSpecFactory(Selector selector, String elementName) {
     setSelector(selector);
     setElementName(elementName);
-    setFilename(elementName + ".png");
+    setFilename(elementName.toLowerCase(ENGLISH) + ".png");
     setSectionName(DEFAULT_PAGE_SECTION_NAME + " for " + getElementName());
+  }
+
+  /**
+   * @param toBeAppended differences to be appended
+   * @return true if this list changed as a result of the call
+   */
+  public boolean addAll(Collection<? extends Difference> toBeAppended) {
+    return getDifferences().addAll(toBeAppended);
+  }
+
+  /**
+   * @param difference appends a difference
+   */
+  public void addDifference(Difference difference) {
+    getDifferences().add(difference);
   }
 
   /**
@@ -82,6 +111,13 @@ public class ImageComparisonSpecFactory {
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
     getObjectsToIgnore().add(selectorToIgnore);
+  }
+
+  /**
+   * Removes all differences added to this factory.
+   */
+  public void clearDifferences() {
+    getDifferences().clear();
   }
 
   /**
@@ -107,6 +143,14 @@ public class ImageComparisonSpecFactory {
     return allowedOffset;
   }
 
+  public Comparator<Difference> getComparator() {
+    return this.differences.getComparator();
+  }
+
+  public SortedDifferences getDifferences() {
+    return differences;
+  }
+
   public String getElementName() {
     return elementName;
   }
@@ -116,7 +160,14 @@ public class ImageComparisonSpecFactory {
   }
 
   public String getFoldername() {
-    return foldername;
+    if (foldername != null) {
+      return foldername;
+    }
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
+    stringBuilder.append("/");
+    stringBuilder.append(getDifferences().asFilePath());
+    return stringBuilder.toString();
   }
 
   public List<Selector> getObjectsToIgnore() {
@@ -131,9 +182,13 @@ public class ImageComparisonSpecFactory {
     Spec spec = getSpecForText(getImageComparisonSpecText());
     ObjectSpecs objectSpecs = new ObjectSpecs(getElementName());
 
+    Spec insideViewportSpec = getSpecForText("inside viewport");
+    objectSpecs.addSpec(insideViewportSpec);
+
     objectSpecs.addSpec(spec);
     if (GaleniumConfiguration.isSaveSampledImages()) {
       spec.setOnlyWarn(true);
+      insideViewportSpec.setOnlyWarn(true);
     }
     else if (isZeroToleranceWarning()) {
       Spec zeroToleranceSpec = getSpecForText(getZeroToleranceImageComparisonSpecText());
@@ -170,6 +225,10 @@ public class ImageComparisonSpecFactory {
     return selector;
   }
 
+  public ValidationListener getValidationListener() {
+    return validationListener;
+  }
+
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
   }
@@ -202,8 +261,16 @@ public class ImageComparisonSpecFactory {
     this.allowedOffset = allowedOffset;
   }
 
+  public void setComparator(Comparator<Difference> comparator) {
+    this.differences.setComparator(comparator);
+  }
+
   public void setCorrections(CorrectionsRect corrections) {
     this.corrections = corrections;
+  }
+
+  public void setDifferences(SortedDifferences differences) {
+    this.differences = differences;
   }
 
   public void setElementName(String elementName) {
@@ -230,12 +297,22 @@ public class ImageComparisonSpecFactory {
     this.selector = selector;
   }
 
+  public void setValidationListener(ValidationListener validationListener) {
+    this.validationListener = validationListener;
+  }
+
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     this.zeroToleranceWarning = zeroToleranceWarning;
   }
 
   private Spec getSpecForText(String specText) {
-    return new SpecReader().read(specText);
+    try {
+      return new SpecReader().read(specText);
+    }
+    catch (Exception ex) {
+      GaleniumReportUtil.getLogger().error("when parsing spec text: '" + specText + "'");
+      throw ex;
+    }
   }
 
   private boolean hasCorrections() {

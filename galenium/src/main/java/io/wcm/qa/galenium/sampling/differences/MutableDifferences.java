@@ -24,12 +24,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Holds dimensions of potential differences for samples and supplies them either as file path or property key.
  */
 public class MutableDifferences implements Differences {
 
-  private List<Difference> differences = new ArrayList<Difference>();
+  private Collection<Difference> differences = new ArrayList<Difference>();
 
   /**
    * See {@link ArrayList#add(Object)}
@@ -72,7 +74,7 @@ public class MutableDifferences implements Differences {
     getDifferences().clear();
   }
 
-  public List<Difference> getDifferences() {
+  public Collection<Difference> getDifferences() {
     return differences;
   }
 
@@ -93,13 +95,41 @@ public class MutableDifferences implements Differences {
     return getDifferences().remove(difference);
   }
 
-  private String joinTagsWith(String separator) {
-    StringBuilder joinedTags = new StringBuilder();
-    for (Difference difference : getDifferences()) {
-      joinedTags.append(difference.getTag());
-      joinedTags.append(separator);
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("differences: [");
+    stringBuilder.append(joinNamesWith("]|["));
+    stringBuilder.append("], asPropertyKey: '");
+    stringBuilder.append(asPropertyKey());
+    stringBuilder.append("', asFilePath: '");
+    stringBuilder.append(asFilePath());
+    stringBuilder.append("'");
+    return stringBuilder.toString();
+  }
+
+  private String joinNamesWith(String separator) {
+    return joinNamesWith(getDifferences(), separator);
+  }
+
+  protected String joinNamesWith(Collection<Difference> collection, String separator) {
+    List<String> list = new ArrayList<String>();
+    for (Difference difference : collection) {
+      list.add(difference.getName());
     }
-    return joinedTags.toString();
+    return StringUtils.join(list, separator).toLowerCase();
+  }
+
+  protected String joinTagsWith(Collection<Difference> collection, String separator) {
+    List<String> list = new ArrayList<String>();
+    for (Difference difference : collection) {
+      list.add(difference.getTag());
+    }
+    return StringUtils.join(list, separator).toLowerCase();
+  }
+
+  protected String joinTagsWith(String separator) {
+    return joinTagsWith(getDifferences(), separator);
   }
 
 }

@@ -19,29 +19,76 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.galenium.sampling.differences.DifferentiatedDifferences;
+import io.wcm.qa.galenium.sampling.differences.SelectorDifference;
+import io.wcm.qa.galenium.sampling.differences.StringDifference;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 abstract class ElementBasedVerification extends VerificationBase {
 
+  private WebElement element;
   private Selector selector;
+
   protected ElementBasedVerification(Selector selector) {
+    super(selector.elementName());
     setSelector(selector);
   }
 
+  protected ElementBasedVerification(Selector selector, String expectedValue) {
+    super(expectedValue);
+    setSelector(selector);
+  }
+
+  protected ElementBasedVerification(String verificationName, WebElement element) {
+    super(verificationName);
+    setElement(element);
+  }
+
+  public WebElement getElement() {
+    if (element == null) {
+      element = InteractionUtil.getElementVisible(getSelector());
+    }
+    return element;
+  }
+
   @Override
-  protected String getAdditionalToStringInfo() {
+  public String getVerificationName() {
     return getElementName();
   }
 
-  protected WebElement getElement() {
-    return InteractionUtil.getElementVisible(getSelector());
+  public void setElement(WebElement element) {
+    this.element = element;
   }
 
   protected String getElementName() {
-    return getSelector().elementName();
+    if (getSelector() != null) {
+      return getSelector().elementName();
+    }
+    return super.getVerificationName();
+  }
+
+  @Override
+  protected String getExpectedKey() {
+    DifferentiatedDifferences differentiatedDifferences = new DifferentiatedDifferences();
+    differentiatedDifferences.addAll(getDifferences().getDifferences());
+    if (getSelector() != null) {
+      differentiatedDifferences.add(new SelectorDifference(getSelector()));
+    }
+    else {
+      StringDifference elementNameDifference = new StringDifference(getElementName());
+      elementNameDifference.setName("elementname");
+      differentiatedDifferences.add(elementNameDifference);
+    }
+    differentiatedDifferences.setCutoff(1);
+    if (StringUtils.isNotBlank(super.getExpectedKey())) {
+      return super.getExpectedKey() + "." + getElementName();
+    }
+    return getElementName();
   }
 
   @Override

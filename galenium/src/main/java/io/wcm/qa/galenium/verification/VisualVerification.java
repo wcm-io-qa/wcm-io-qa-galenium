@@ -19,25 +19,33 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.galenframework.reports.model.LayoutReport;
+import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.CorrectionsRect;
+import com.galenframework.specs.page.PageSpec;
+import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.sampling.differences.Difference;
-import io.wcm.qa.galenium.sampling.differences.MutableDifferences;
-import io.wcm.qa.galenium.sampling.images.DifferenceAwareIcsFactory;
+import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
+import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
+import io.wcm.qa.galenium.util.TestDevice;
 
 public class VisualVerification extends ElementBasedVerification {
 
-  private DifferenceAwareIcsFactory specFactory;
+  private ImageComparisonSpecFactory specFactory;
 
   public VisualVerification(Selector selector) {
     super(selector);
     setPreVerification(new VisibilityVerification(getSelector()));
-    setSpecFactory(new DifferenceAwareIcsFactory(getSelector()));
+    setSpecFactory(new ImageComparisonSpecFactory(getSelector()));
   }
 
   @Override
@@ -65,6 +73,11 @@ public class VisualVerification extends ElementBasedVerification {
     return getSpecFactory().getAllowedOffset();
   }
 
+  @Override
+  public Comparator<Difference> getComparator() {
+    return this.specFactory.getComparator();
+  }
+
   public String getFilename() {
     return getSpecFactory().getFilename();
   }
@@ -81,8 +94,12 @@ public class VisualVerification extends ElementBasedVerification {
     return getSpecFactory().getSectionName();
   }
 
-  public DifferenceAwareIcsFactory getSpecFactory() {
+  public ImageComparisonSpecFactory getSpecFactory() {
     return specFactory;
+  }
+
+  public ValidationListener getValidationListener() {
+    return getSpecFactory().getValidationListener();
   }
 
   public boolean isZeroToleranceWarning() {
@@ -99,6 +116,11 @@ public class VisualVerification extends ElementBasedVerification {
 
   public void setAllowedOffset(int allowedOffset) {
     getSpecFactory().setAllowedOffset(allowedOffset);
+  }
+
+  @Override
+  public void setComparator(Comparator<Difference> comparator) {
+    this.specFactory.setComparator(comparator);
   }
 
   public void setCorrections(CorrectionsRect corrections) {
@@ -121,8 +143,12 @@ public class VisualVerification extends ElementBasedVerification {
     getSpecFactory().setSectionName(sectionName);
   }
 
-  public void setSpecFactory(DifferenceAwareIcsFactory specFactory) {
+  public void setSpecFactory(ImageComparisonSpecFactory specFactory) {
     this.specFactory = specFactory;
+  }
+
+  public void setValidationListener(ValidationListener validationListener) {
+    getSpecFactory().setValidationListener(validationListener);
   }
 
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
@@ -131,7 +157,16 @@ public class VisualVerification extends ElementBasedVerification {
 
   @Override
   protected Boolean doVerification() {
-    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
+    LayoutReport layoutReport;
+    if (getValidationListener() == null) {
+      layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
+    }
+    else {
+      PageSpec spec = specFactory.getPageSpecInstance();
+      TestDevice testDevice = getTestDevice();
+      SectionFilter tags = new SectionFilter(testDevice.getTags(), Collections.emptyList());
+      layoutReport = GalenLayoutChecker.checkLayout(specFactory.getSectionName(), spec, testDevice, tags, getValidationListener());
+    }
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
@@ -152,7 +187,7 @@ public class VisualVerification extends ElementBasedVerification {
   }
 
   @Override
-  protected void setDifferences(MutableDifferences differences) {
+  protected void setDifferences(SortedDifferences differences) {
     // handle factory
     getSpecFactory().clearDifferences();
     getSpecFactory().addAll(differences.getDifferences());

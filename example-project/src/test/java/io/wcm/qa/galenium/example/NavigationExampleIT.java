@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.example;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.wcm.qa.galenium.util.BrowserUtil;
 import io.wcm.qa.galenium.util.TestDevice;
 
 /**
@@ -44,6 +45,14 @@ public class NavigationExampleIT extends AbstractExampleBase {
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
+    if (BrowserUtil.isFirefox()) {
+      try {
+        Thread.sleep(1000);
+      }
+      catch (InterruptedException ex) {
+        getLogger().debug("exception when sleeping after click", ex);
+      }
+    }
     assertRelativePath(PATH_TO_CONFERENCE_PAGE);
   }
 

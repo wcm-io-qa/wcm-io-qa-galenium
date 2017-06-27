@@ -23,14 +23,14 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.6</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
   
   <name>Galenium Integration</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.6</version>
   <packaging>jar</packaging>
 
   <properties>
@@ -47,13 +47,29 @@
     <dependency>
       <groupId>com.galenframework</groupId>
       <artifactId>galen-java-support</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-java</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
     </dependency>
 
     <dependency>
       <groupId>com.relevantcodes</groupId>
       <artifactId>extentreports</artifactId>
     </dependency>
-  	
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+    </dependency>
+
   </dependencies>
     
   <build>

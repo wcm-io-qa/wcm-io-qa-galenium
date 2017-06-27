@@ -19,10 +19,18 @@
  */
 package io.wcm.qa.galenium.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.asserts.Assertion;
 
 import com.relevantcodes.extentreports.ExtentTest;
+
+import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;
+import io.wcm.qa.galenium.verification.strategy.IgnoreFailuresStrategy;
+import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
 
 public class GaleniumContext {
 
@@ -33,12 +41,16 @@ public class GaleniumContext {
     }
   };
 
-  private Assertion assertion;
+  private Map<String, Object> additionalMappings = new HashMap<String, Object>();
+  private Assertion assertion = new GaleniumAssertion();
   private WebDriver driver;
   private ExtentTest extentTest;
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
+  private VerificationStrategy verificationStrategy = (GaleniumConfiguration.isSamplingVerificationIgnore()
+      ? new IgnoreFailuresStrategy()
+      : new DefaultVerificationStrategy());
 
   public void setAssertion(Assertion assertion) {
     this.assertion = assertion;
@@ -62,6 +74,14 @@ public class GaleniumContext {
 
   public void setTestName(String testName) {
     this.testName = testName;
+  }
+
+  public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
+    this.verificationStrategy = verificationStrategy;
+  }
+
+  public static Object get(String arg0) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(arg0);
   }
 
   public static Assertion getAssertion() {
@@ -90,6 +110,14 @@ public class GaleniumContext {
 
   public static String getTestName() {
     return THREAD_LOCAL_CONTEXT.get().testName;
+  }
+
+  public static VerificationStrategy getVerificationStrategy() {
+    return THREAD_LOCAL_CONTEXT.get().verificationStrategy;
+  }
+
+  public static Object put(String arg0, Object arg1) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(arg0, arg1);
   }
 
 }

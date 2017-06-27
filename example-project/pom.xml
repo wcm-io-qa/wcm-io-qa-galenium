@@ -31,13 +31,13 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.example</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.4</version>
+  <version>0.1.6</version>
   <description>Test automation example.</description>
 
   <properties>
 
     <!-- Selenium configuration -->
-    <selenium.browser>chrome</selenium.browser>
+    <selenium.browser>chrome,firefox</selenium.browser>
     <selenium.runmode>local</selenium.runmode>
 
     <!-- TestNG configuration -->
@@ -58,6 +58,8 @@
     <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.ignoreVerification>false</galenium.ignoreVerification>
+    <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
 
   </properties>
 
@@ -66,7 +68,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>0.1.4</version>
+      <version>0.1.6</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -77,7 +79,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.4</version>
+      <version>0.1.6</version>
     </dependency>
 
   </dependencies>
@@ -152,10 +154,13 @@
                 <galenium.specPath>${galenium.specPath}</galenium.specPath>
                 <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
                 <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
-                <galenium.imageComparison.save>true</galenium.imageComparison.save>
-                <galenium.imageComparison.directory>${project.build.directory}/sampledImages</galenium.imageComparison.directory>
-                <galenium.textComparison.save>true</galenium.textComparison.save>
-                <galenium.textComparison.directory>${project.build.directory}/sampledTexts</galenium.textComparison.directory>
+                <galenium.sampling.image.save>true</galenium.sampling.image.save>
+                <galenium.sampling.image.directory.expected>${galenium.specPath}/images</galenium.sampling.image.directory.expected>
+                <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
+                <galenium.sampling.text.save>true</galenium.sampling.text.save>
+                <galenium.sampling.text.directory>${project.build.directory}/sampled/texts</galenium.sampling.text.directory>
+                <galenium.sampling.text.file>${galenium.specPath}/text/expected.properties</galenium.sampling.text.file>
+                <galenium.sampling.verification.ignoreErrors>${galenium.ignoreVerification}</galenium.sampling.verification.ignoreErrors>
 
                 <!-- Galen -->
                 <galen.device>${galen.device}</galen.device>
@@ -166,6 +171,7 @@
                 <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
                 <selenium.runmode>${selenium.runmode}</selenium.runmode>
 
+                <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
                 <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
               </systemPropertyVariables>
               <includes>
@@ -192,6 +198,37 @@
                 </goals>
               </execution>
             </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>headless</id>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <parallel>methods</parallel>
+              <threadCount>8</threadCount>
+              <groups>${testNG.groups}</groups>
+              <systemPropertyVariables>
+
+                <galenium.webdriver.chrome.headless>true</galenium.webdriver.chrome.headless>
+
+                <!-- Selenium -->
+                <selenium.browser>chrome</selenium.browser>
+                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+                <webdriver.chrome.logfile>chromedriver.log</webdriver.chrome.logfile>
+
+              </systemPropertyVariables>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
           </plugin>
 
         </plugins>

@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.example;
 
+import static io.wcm.qa.galenium.util.AemUtil.loginToAuthor;
+
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -55,8 +57,7 @@ public class PageObjectExampleIT extends AbstractExampleBase {
 
   @Test(retryAnalyzer = RetryAnalyzer.class)
   public void testWithPageObjects() {
-    getHomepage().load();
-    loginToAuthor();
+    loginToAuthor(getHomepage().getPageUrl());
     checkNavigation();
     checkStage();
     checkFooter();

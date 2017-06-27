@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.4</version>
+  <version>0.1.6</version>
 
   <description>Test automation module. Enabling Galen and Selenium</description>
 
@@ -43,7 +43,7 @@
     <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
       http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
     <testNG.groups />
-    <selenium.browser>firefox</selenium.browser>
+    <selenium.browser>chrome,firefox</selenium.browser>
     <galen.device />
     <selenium.chromeEmulator>Google Nexus 7, Apple iPhone 6, Apple iPad,
       Laptop with HiDPI screen, Amazon Kindle Fire HDX</selenium.chromeEmulator>
@@ -57,15 +57,21 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>6.9.10</version>
+        <version>6.11</version>
       </dependency>
 
       <dependency>
         <groupId>com.galenframework</groupId>
         <artifactId>galen-java-support</artifactId>
-        <version>2.3.1</version>
+        <version>2.3.3</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>3.4.0</version>
+      </dependency>
+       
       <!-- Reporting -->
       <dependency>
         <groupId>com.relevantcodes</groupId>
@@ -76,9 +82,22 @@
       <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.1.8</version>
+        <version>1.2.3</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.codehaus.janino</groupId>
+        <artifactId>janino</artifactId>
+        <version>3.0.7</version>
+      </dependency>
+
+      <!-- Utils -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>4.1</version>
+			</dependency>
+			
     </dependencies>
   </dependencyManagement>
 

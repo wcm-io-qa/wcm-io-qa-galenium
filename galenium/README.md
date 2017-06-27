@@ -7,16 +7,16 @@ This is the main integration library. It integrates Selenium, Galen, and Reporti
 
 | Name | Description | Default |
 | ---- | ----------- |:-------:|
-| *galenium.imageComparison.directory* | Directory to save new sample images to. | ./target/galenium-reports |
-| *galenium.imageComparison.save* | Sets image comparisons done via spec factory to warning level and saves all anomalies using the paths of the expected images to make it easy to turn sampled images into expected images in the next run. | false |
+| *galenium.sampling.image.directory* | Directory to save new sample images to. | ./target/galenium-reports |
+| *galenium.sampling.image.save* | Sets image comparisons done via spec factory to warning level and saves all anomalies using the paths of the expected images to make it easy to turn sampled images into expected images in the next run. | false |
 | *galenium.report.rootPath* | Root path for reports written by Galenium. | ./target/galenium-reports |
 | *galenium.retryMax* | How many times a failed test should be retried before considering it failed. | 2 |
 | *galenium.screenshotOnSkipped* | Make a screenshot when skipping test. | false |
 | *galenium.specPath* | Root path to use to look up relative spec paths. | ./target/specs |
 | *galenium.report.galen.errorsOnly* | Only write Galen reports for specifications that failed validation. This can save a lot of disk space when running a lot of validations.  | false |
 | *galenium.report.sparse* | Do not output debug statements to report. | false |
-| *galenium.textComparison.directory* | Directory to save new text samples to. | ./target/galenium-reports |
-| *galenium.textComparison.save* | Saves new text samples to property file to use them as expected values in future runs. | false |
+| *galenium.sampling.text.directory* | Directory to save new text samples to. | ./target/galenium-reports |
+| *galenium.sampling.text.save* | Saves new text samples to property file to use them as expected values in future runs. | false |
 | *io.wcm.qa.baseUrl* | Base URL to run tests against. | http://localhost:4502 |
 | *io.wcm.qa.extent.reportConfig* | ExtentReports config file can be used to customize ExtentReport. | null |
 
