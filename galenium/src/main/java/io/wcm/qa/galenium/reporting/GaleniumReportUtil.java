@@ -49,7 +49,6 @@ import com.relevantcodes.extentreports.model.ITest;
 import com.relevantcodes.extentreports.model.TestAttribute;
 
 import freemarker.template.TemplateException;
-import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
@@ -146,38 +145,35 @@ public final class GaleniumReportUtil {
   /**
    * Write all test results to Galen report.
    * @param testInfos list to persist test information
-   * @throws IOException when unable to write report
    */
-  public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) throws IOException {
-    new HtmlReportBuilder().build(testInfos, PATH_GALEN_REPORT);
+  public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) {
+    try {
+      new HtmlReportBuilder().build(testInfos, PATH_GALEN_REPORT);
+    }
+    catch (IOException ex) {
+      getLogger().error("could not generate Galen report.", ex);
+    }
   }
 
   /**
    * Create reports from global list of GalenTestInfos.
    */
   public static void createGalenReports() {
-    try {
       createGalenHtmlReport(GALEN_RESULTS);
       createGalenTestNgReport(GALEN_RESULTS);
-    }
-    catch (IOException ex) {
-      log.error("IOException writing report", ex);
-      throw new GalenLayoutException("IOException writing report", ex);
-    }
-    catch (TemplateException ex) {
-      log.error("TemplateException writing report", ex);
-      throw new GalenLayoutException("TemplateException writing report", ex);
-    }
   }
 
   /**
    * Write all test results to TestNG report.
    * @param testInfos list to persist test information
-   * @throws IOException when unable to write report
-   * @throws TemplateException in case of FreeParser error
    */
-  public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) throws IOException, TemplateException {
-    new TestNgReportBuilder().build(testInfos, PATH_TESTNG_REPORT_XML);
+  public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) {
+    try {
+      new TestNgReportBuilder().build(testInfos, PATH_TESTNG_REPORT_XML);
+    }
+    catch (IOException | TemplateException ex) {
+      getLogger().error("could not generate TestNG report.", ex);
+    }
   }
 
   /**
