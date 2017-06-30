@@ -303,6 +303,9 @@ public final class GaleniumReportUtil {
   }
 
   private static boolean isAddResult(GalenTestInfo galenTestInfo) {
+    if (galenTestInfo == null) {
+      return false;
+    }
     if (GaleniumConfiguration.isOnlyReportGalenErrors()) {
       if ((!galenTestInfo.isFailed()) && (galenTestInfo.getReport().fetchStatistic().getWarnings() == 0)) {
         return false;
