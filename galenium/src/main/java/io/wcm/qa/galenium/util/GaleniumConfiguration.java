@@ -49,21 +49,22 @@ public final class GaleniumConfiguration {
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
-  private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
-  private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
+  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "galenium.suppressAutoAdjustBrowserSize";
+  private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
+  private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
-  private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX = "galenium.webdriver.retryMax";
+  private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX = "galenium.sampling.image.chromefix";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
@@ -88,20 +89,16 @@ public final class GaleniumConfiguration {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
   }
 
+  public static int getAdditionalChromeHeadlessWidth() {
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
+  }
+
   public static String getAuthorPass() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_PASS, DEFAULT_AUTHOR_PASS);
   }
 
   public static String getAuthorUser() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_USER, DEFAULT_AUTHOR_USER);
-  }
-
-  public static String getHttpPass() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_PASS);
-  }
-
-  public static String getHttpUser() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_USER);
   }
 
   public static String getBaseUrl() {
@@ -115,18 +112,6 @@ public final class GaleniumConfiguration {
       baseUrl = baseUrl.replace("//", "//" + httpUser + ":" + httpPass + "@");
     }
     return baseUrl;
-  }
-
-  private static String attemptUrlEncoding(String name, String valueToEncode) {
-    String encodedValue;
-    try {
-      encodedValue = URLEncoder.encode(valueToEncode, "UTF-8");
-    }
-    catch (UnsupportedEncodingException ex) {
-      GaleniumReportUtil.getLogger().debug("when URL encoding: " + name, ex);
-      encodedValue = valueToEncode;
-    }
-    return encodedValue;
   }
 
   /**
@@ -175,12 +160,20 @@ public final class GaleniumConfiguration {
     return Integer.parseInt(System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_PORT, DEFAULT_GRID_PORT));
   }
 
-  public static int getNumberOfRetries() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_MAX, 2);
+  public static String getHttpPass() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_PASS);
+  }
+
+  public static String getHttpUser() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_USER);
   }
 
   public static int getNumberOfBrowserInstantiationRetries() {
     return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX, 0);
+  }
+
+  public static int getNumberOfRetries() {
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_MAX, 2);
   }
 
   /**
@@ -270,5 +263,17 @@ public final class GaleniumConfiguration {
 
   public static boolean isWebDriverAlwaysNew() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
+  }
+
+  private static String attemptUrlEncoding(String name, String valueToEncode) {
+    String encodedValue;
+    try {
+      encodedValue = URLEncoder.encode(valueToEncode, "UTF-8");
+    }
+    catch (UnsupportedEncodingException ex) {
+      GaleniumReportUtil.getLogger().debug("when URL encoding: " + name, ex);
+      encodedValue = valueToEncode;
+    }
+    return encodedValue;
   }
 }

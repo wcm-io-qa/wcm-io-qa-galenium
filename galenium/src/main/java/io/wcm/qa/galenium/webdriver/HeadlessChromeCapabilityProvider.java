@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAdditionalChromeHeadlessWidth;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -61,7 +63,7 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
       addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
     }
     Dimension screenSize = getDevice().getScreenSize();
-    String width = String.format("%d", screenSize.getWidth());
+    String width = String.format("%d", screenSize.getWidth() + getAdditionalChromeHeadlessWidth());
     String height = String.format("%d", screenSize.getHeight());
     String[] argumentsBrowserWindowSize = new String[] { "--window-size="
         + width
