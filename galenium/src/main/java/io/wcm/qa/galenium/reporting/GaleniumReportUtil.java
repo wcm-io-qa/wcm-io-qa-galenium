@@ -77,9 +77,6 @@ public final class GaleniumReportUtil {
 
   private static final GaleniumExtentReports EXTENT_REPORTS;
 
-  // Logger
-  private static final Logger log = LoggerFactory.getLogger(GaleniumReportUtil.class);
-
   // Root folder for reports
   private static final String PATH_REPORT_ROOT = GaleniumConfiguration.getReportDirectory();
 
