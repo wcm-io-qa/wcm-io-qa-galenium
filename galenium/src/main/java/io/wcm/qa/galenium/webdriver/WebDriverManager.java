@@ -139,6 +139,12 @@ public final class WebDriverManager {
     return getDriver();
   }
 
+  private static WebDriver getDriver() {
+    WebDriver driver = GaleniumContext.getDriver();
+    logTrace("getting WebDriver: " + driver);
+    return driver;
+  }
+
   private static Dimension getWindowSize() {
     try {
       return getDriver().manage().window().getSize();
@@ -147,12 +153,6 @@ public final class WebDriverManager {
       getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
     }
     return null;
-  }
-
-  private static WebDriver getDriver() {
-    WebDriver driver = GaleniumContext.getDriver();
-    logTrace("getting WebDriver: " + driver);
-    return driver;
   }
 
   private static void logDebug(String msg) {
