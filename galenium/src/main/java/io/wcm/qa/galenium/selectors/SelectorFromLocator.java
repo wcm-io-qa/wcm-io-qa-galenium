@@ -19,15 +19,23 @@
  */
 package io.wcm.qa.galenium.selectors;
 
-/**
- * Implementation of {@link Selector} interface.
- */
-public class SelectorFromString extends AbstractSelectorBase {
+import com.galenframework.specs.page.Locator;
 
-  /**
-   * @param selectorString CSS selector
-   */
-  public SelectorFromString(String selectorString) {
-    setString(selectorString);
+
+public class SelectorFromLocator extends AbstractSelectorBase {
+
+  public SelectorFromLocator(Locator locator) {
+    setLocator(locator);
   }
+
+  public SelectorFromLocator(String elementName, Locator locator) {
+    this(locator);
+    setName(elementName);
+  }
+
+  @Override
+  public String getString() {
+    return getLocator().getLocatorValue();
+  }
+
 }

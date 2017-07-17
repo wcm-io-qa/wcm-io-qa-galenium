@@ -19,22 +19,28 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.selectors.SelectorFactory.fromLocator;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.galenframework.browser.Browser;
 import com.galenframework.browser.SeleniumBrowser;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
+import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
+import io.wcm.qa.galenium.selectors.Selector;
 
 public final class GalenHelperUtil {
 
@@ -47,13 +53,25 @@ public final class GalenHelperUtil {
     // do not instantiate
   }
 
-
   public static Browser getBrowser() {
     return new SeleniumBrowser(GaleniumContext.getDriver());
   }
 
   public static Browser getBrowser(TestDevice device) {
     return new SeleniumBrowser(getDriver(device));
+  }
+
+  public static Collection<Selector> getObjects(PageSpec spec) {
+    Collection<Selector> objects = new ArrayList<>();
+    for (Entry<String, Locator> entry : spec.getObjects().entrySet()) {
+      objects.add(fromLocator(entry.getKey(), entry.getValue()));
+    }
+    return objects;
+  }
+
+  public static Selector getObject(PageSpec spec, String objectName) {
+    Locator objectLocator = spec.getObjectLocator(objectName);
+    return fromLocator(objectName, objectLocator);
   }
 
   public static SectionFilter getSectionFilter(TestDevice device) {
@@ -81,6 +99,5 @@ public final class GalenHelperUtil {
   public static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
     return readSpec(getBrowser(device), specPath, tags);
   }
-
 
 }

@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.selectors;
 
+import com.galenframework.specs.page.Locator;
 
 /**
  * Creates Selectors for use with Galenium.
@@ -43,9 +44,21 @@ public final class SelectorFactory {
    * @return Galenium selector representing the CSS selector
    */
   public static Selector fromCss(String elementName, String selectorString) {
-    SelectorFromString selector = new SelectorFromString(selectorString);
+    AbstractSelectorBase selector = new SelectorFromString(selectorString);
     selector.setName(elementName);
     return selector;
+  }
+
+  /**
+   * @param locator to construct selector from
+   * @return Galenium selector representing the locator
+   */
+  public static Selector fromLocator(Locator locator) {
+    return new SelectorFromLocator(locator);
+  }
+
+  public static Selector fromLocator(String elementName, Locator locator) {
+    return new SelectorFromLocator(elementName, locator);
   }
 
   public static Selector relativeSelector(Selector parent, Selector relativeSelector) {
