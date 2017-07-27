@@ -30,6 +30,14 @@ final public class TestNgProviderUtil {
     // do not instantiate
   }
 
+  public static Object[][] combine(Iterable argumentLists) {
+    Collection<Object[]> combinedArguments = new ArrayList<>();
+    for (Object object : argumentLists) {
+      combinedArguments.add(new Object[] { object });
+    }
+    return combinedArguments.toArray(new Object[combinedArguments.size()][]);
+  }
+
   public static Object[][] combine(Iterable... argumentLists) {
     Collection<Object[]> combinedArguments = new ArrayList<>();
     for (Iterable argumentList : argumentLists) {
