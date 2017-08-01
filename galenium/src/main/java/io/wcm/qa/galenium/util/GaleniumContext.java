@@ -28,9 +28,11 @@ import org.testng.asserts.Assertion;
 import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;
 import io.wcm.qa.galenium.verification.strategy.IgnoreFailuresStrategy;
 import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
+import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 public class GaleniumContext {
 
@@ -78,6 +80,17 @@ public class GaleniumContext {
 
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;
+  }
+
+  @Override
+  protected void finalize() throws Throwable {
+    try {
+      GaleniumReportUtil.getLogger().debug("finalize Galenium context.");
+      WebDriverManager.closeDriver();
+    }
+    finally {
+      super.finalize();
+    }
   }
 
   public static Object get(String arg0) {
