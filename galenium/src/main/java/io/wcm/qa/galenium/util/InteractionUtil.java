@@ -56,7 +56,7 @@ public final class InteractionUtil {
     // Do not instantiate
   }
 
-  protected static String getGridNodeHostname() {
+  public static String getGridNodeHostname() {
     WebDriver driver = getDriver();
     if (driver instanceof RemoteWebDriver) {
       String host = System.getProperty("selenium.host");
