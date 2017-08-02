@@ -33,7 +33,7 @@ import com.google.gson.JsonElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
-public abstract class CapabilityProvider {
+abstract class CapabilityProvider {
 
   /**
    * @return capabilities for browser

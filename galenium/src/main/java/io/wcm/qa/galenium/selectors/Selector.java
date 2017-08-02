@@ -24,7 +24,8 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.Locator;
 
 /**
- * Interface to represent selectors in Galenium.
+ * Interface to represent selectors in Galenium. Selectors are used to identify elements in a page. This interface is
+ * used throughout Galenium up to the final hand off to Galen (as {@link Locator}) or Selenium (as {@link By}).
  */
 public interface Selector {
 

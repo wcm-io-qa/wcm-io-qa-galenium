@@ -23,21 +23,37 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.testng.annotations.DataProvider;
 
+/**
+ * Utility class to help with writing {@link DataProvider} code.
+ */
 final public class TestNgProviderUtil {
 
   private TestNgProviderUtil() {
     // do not instantiate
   }
 
-  public static Object[][] combine(Iterable argumentLists) {
+  /**
+   * Transforms argument list into Object array. For use with DataProviders for single argument methods and
+   * constructors.
+   * @param argumentList iterable to turn into object array
+   * @return a two dimensional object array containing the arguments
+   */
+  public static Object[][] combine(Iterable argumentList) {
     Collection<Object[]> combinedArguments = new ArrayList<>();
-    for (Object object : argumentLists) {
+    for (Object object : argumentList) {
       combinedArguments.add(new Object[] { object });
     }
     return combinedArguments.toArray(new Object[combinedArguments.size()][]);
   }
 
+  /**
+   * Combines argument lists into Object array. Each {@link Iterable} will be used to provide the argument corresponding
+   * to its position.
+   * @param argumentLists iterables to combine
+   * @return a two dimensional object array containing the Cartesian product of the iterable arguments
+   */
   public static Object[][] combine(Iterable... argumentLists) {
     Collection<Object[]> combinedArguments = new ArrayList<>();
     for (Iterable argumentList : argumentLists) {

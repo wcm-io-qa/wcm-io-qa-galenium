@@ -57,18 +57,42 @@ public final class SelectorFactory {
     return new SelectorFromLocator(locator);
   }
 
+  /**
+   * @param elementName alternative name to use in Selector
+   * @param locator to construct selector from
+   * @return Galenium selector representing the locator
+   */
   public static Selector fromLocator(String elementName, Locator locator) {
     return new SelectorFromLocator(elementName, locator);
   }
 
+  /**
+   * Constructs selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param relativeSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
   public static Selector relativeSelector(Selector parent, Selector relativeSelector) {
     return relativeSelector(parent, relativeSelector.elementName(), relativeSelector.asString());
   }
 
+  /**
+   * Constructs selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param relativeCssSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
   public static Selector relativeSelector(Selector parent, String relativeCssSelector) {
     return relativeSelector(parent, "child", relativeCssSelector);
   }
 
+  /**
+   * Constructs selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param childName to use in construction of name of relative selector
+   * @param relativeCssSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
   public static Selector relativeSelector(Selector parent, String childName, String relativeCssSelector) {
     String selectorString = parent.asString() + " " + relativeCssSelector;
     String elementName = parent.elementName() + "|" + childName;
