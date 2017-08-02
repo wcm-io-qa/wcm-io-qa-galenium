@@ -47,10 +47,9 @@ import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
- * Utility methods to run Galen layout checks from Selenium tests. Integration through {@link WebDriverManager}.
+ * Utility methods to run Galen layout checks from Selenium tests. Integration via {@link GaleniumContext}.
  */
 public final class GalenLayoutChecker {
 

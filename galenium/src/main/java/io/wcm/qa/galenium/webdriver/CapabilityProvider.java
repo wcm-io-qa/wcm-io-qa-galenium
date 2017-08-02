@@ -33,8 +33,11 @@ import com.google.gson.JsonElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
-abstract class CapabilityProvider {
+public abstract class CapabilityProvider {
 
+  /**
+   * @return capabilities for browser
+   */
   public DesiredCapabilities getDesiredCapabilities() {
     DesiredCapabilities capabilities = getBrowserSpecificCapabilities();
     capabilities = capabilities.merge(getCommonCapabilities());
@@ -62,6 +65,11 @@ abstract class CapabilityProvider {
     }
   }
 
+  /**
+   * Capabilities specific to this browser type. These are automatically included in {@link #getDesiredCapabilities()}.
+   * Override when implementing new browser types.
+   * @return capabilities for browser
+   */
   protected abstract DesiredCapabilities getBrowserSpecificCapabilities();
 
   protected DesiredCapabilities getCommonCapabilities() {

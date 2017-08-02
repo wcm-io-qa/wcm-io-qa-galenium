@@ -49,24 +49,15 @@ import io.wcm.qa.galenium.selectors.Selector;
 /**
  * Collection of utility methods for interaction with browser. It uses {@link Selector} to be able to seamlessly use
  * Selenium or Galen.
+ * The methods are static to avoid being locked into a certain inheritance hierarchy.
+ * To access the {@link WebDriver} it uses {@link GaleniumContext#getDriver()}.
  */
 public final class InteractionUtil {
 
-  private InteractionUtil() {
-    // Do not instantiate
-  }
-
-  public static String getGridNodeHostname() {
-    WebDriver driver = getDriver();
-    if (driver instanceof RemoteWebDriver) {
-      String host = System.getProperty("selenium.host");
-      int port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
-      SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
-      return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
-    }
-    return "NOT_REMOTE";
-  }
-
+  /**
+   * Accepting alert popups in browser.
+   * @return whether an alert was accepted
+   */
   public static boolean acceptAlert() {
     if (isAlertShowing()) {
       getDriver().switchTo().alert().accept();
@@ -75,12 +66,21 @@ public final class InteractionUtil {
     return false;
   }
 
+  /**
+   * Click element.
+   * @param selector identifies the element
+   */
   public static void click(Selector selector) {
     WebElement element = getElementOrFail(selector);
     element.click();
     getLogger().debug(MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }
 
+  /**
+   * Click element.
+   * @param selector identifies the elements to be checked for partial text
+   * @param searchStr string to be found as part of text of element
+   */
   public static void clickByPartialText(Selector selector, String searchStr) {
     getLogger().debug("looking for pattern: " + searchStr);
     WebElement element = findByPartialText(selector, searchStr);
@@ -93,6 +93,10 @@ public final class InteractionUtil {
     }
   }
 
+  /**
+   * Click element only if it is visible and don't fail if element cannot be found.
+   * @param selector identifies the element
+   */
   public static void clickIfVisible(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
     if (element != null) {
@@ -104,6 +108,10 @@ public final class InteractionUtil {
     }
   }
 
+  /**
+   * Click first element only even if many are found.
+   * @param selector identifies the element
+   */
   public static void clickVisibleOfMany(Selector selector) {
     List<WebElement> elements = findElements(selector);
 
@@ -117,6 +125,11 @@ public final class InteractionUtil {
     }
   }
 
+  /**
+   * Enters text into element which replaces any text that might already be in element.
+   * @param selector identifies the element
+   * @param text value to enter
+   */
   public static void enterText(Selector selector, String text) {
     WebElement input = getElementOrFail(selector);
     input.clear();
@@ -124,6 +137,7 @@ public final class InteractionUtil {
   }
 
   /**
+   * Find elements by partial text.
    * @param selector used to find elements
    * @param searchStr used to filter elements that contain this text
    * @return matching element if it is visible or null
@@ -147,6 +161,15 @@ public final class InteractionUtil {
     return getDriver().findElements(selector.asBy());
   }
 
+  private static Actions getActions() {
+    return new Actions(getDriver());
+  }
+
+  /**
+   * Return element or fail with {@link GaleniumException}.
+   * @param selector identifies the element
+   * @return element found
+   */
   public static WebElement getElementOrFail(Selector selector) {
     WebElement element = getElementVisible(selector, 30);
     if (element == null) {
@@ -183,6 +206,22 @@ public final class InteractionUtil {
   }
 
   /**
+   * @return the hostname of the Selenium Grid node the test is run on or {@link GridHostExtractor#NO_HOST_RETRIEVED} if
+   *         hostname cannot be retrieved or {@link GridHostExtractor#NOT_REMOTE} if driver is not a
+   *         {@link RemoteWebDriver}.
+   */
+  public static String getGridNodeHostname() {
+    WebDriver driver = getDriver();
+    if (driver instanceof RemoteWebDriver) {
+      String host = System.getProperty("selenium.host");
+      int port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
+      SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
+      return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
+    }
+    return GridHostExtractor.NOT_REMOTE;
+  }
+
+  /**
    * @return current vertical scroll position of browser with 0 being the very top
    */
   public static Long getScrollYPosition() {
@@ -198,6 +237,13 @@ public final class InteractionUtil {
     return scrollYPosition;
   }
 
+  /**
+   * Checks whether element attribute value equals string argument.
+   * @param selector identifies element
+   * @param name attribute to check
+   * @param value value to compare against
+   * @return whether element with attribute exists and attribute string representation is equal to value.
+   */
   public static boolean hasAttribute(Selector selector, String name, String value) {
     WebElement element = getElementVisible(selector);
     if (element == null) {
@@ -206,6 +252,12 @@ public final class InteractionUtil {
     return StringUtils.equals(value, element.getAttribute(name));
   }
 
+  /**
+   * Checks for CSS class on element.
+   * @param selector identifies element
+   * @param cssClass css class to check for
+   * @return whether element has a CSS class equal to the value passed
+   */
   public static boolean hasCssClass(Selector selector, String cssClass) {
     WebElement element = getElementVisible(selector);
     if (element == null) {
@@ -216,6 +268,9 @@ public final class InteractionUtil {
     return ArrayUtils.contains(split, cssClass);
   }
 
+  /**
+   * @return whether browser is showing an alert popup.
+   */
   public static boolean isAlertShowing() {
     try {
       getDriver().switchTo().alert();
@@ -226,20 +281,36 @@ public final class InteractionUtil {
     }
   }
 
+  /**
+   * @param url to check against
+   * @return whether browser is currently pointing at URL
+   */
   public static boolean isCurrentUrl(String url) {
     return StringUtils.equals(url, getDriver().getCurrentUrl());
   }
 
+  /**
+   * Load URL in browser.
+   * @param url to load
+   */
   public static void loadUrl(String url) {
     getLogger().trace("loading URL: '" + url + "'");
     getDriver().get(url);
   }
 
+  /**
+   * Load URL in browser and fail test if URL does not match.
+   * @param url to load
+   */
   public static void loadUrlExactly(String url) {
     loadUrl(url);
     GaleniumContext.getAssertion().assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
   }
 
+  /**
+   * Hover mouse over element.
+   * @param selector identifies element.
+   */
   public static void mouseOver(Selector selector) {
     getLogger().debug("attempting mouse over: " + selector.elementName());
     WebDriver driver = getDriver();
@@ -267,6 +338,10 @@ public final class InteractionUtil {
     }
   }
 
+  /**
+   * Move mouse horizontally over page and scroll if necessary to keep it in viewport.
+   * @param offsetInPixel to move mouse horizontally by (negative values move to the left.
+   */
   public static void moveMouseHorizontally(int offsetInPixel) {
     if (offsetInPixel > 0) {
       getLogger().debug(MARKER_INFO, "move mouse right by " + offsetInPixel);
@@ -277,18 +352,30 @@ public final class InteractionUtil {
     getActions().moveByOffset(offsetInPixel, 0).perform();
   }
 
+  /**
+   * Scroll element into view.
+   * @param selector identifies element
+   */
   public static void scrollToElement(Selector selector) {
     getLogger().debug(MARKER_INFO, "Scrolling to element: '" + selector + "'");
     WebElement elementToScrollTo = getDriver().findElement(selector.asBy());
     scrollToElement(elementToScrollTo);
   }
 
+  /**
+   * Scroll element into view.
+   * @param elementToScrollTo element to scroll to
+   */
   public static void scrollToElement(WebElement elementToScrollTo) {
     Actions actions = new Actions(getDriver());
     actions.moveToElement(elementToScrollTo);
     actions.perform();
   }
 
+  /**
+   * Load URL and wait for it to be loaded.
+   * @param url to load
+   */
   public static void waitForUrl(String url) {
     getLogger().trace("waiting for URL: '" + url + "'");
     WebDriverWait wait = new WebDriverWait(getDriver(), 5);
@@ -296,9 +383,8 @@ public final class InteractionUtil {
     getLogger().trace("found URL: '" + url + "'");
   }
 
-  private static Actions getActions() {
-    return new Actions(getDriver());
+  private InteractionUtil() {
+    // Do not instantiate
   }
-
 
 }

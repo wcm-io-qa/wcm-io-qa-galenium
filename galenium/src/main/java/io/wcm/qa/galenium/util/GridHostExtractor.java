@@ -42,6 +42,9 @@ import com.google.gson.JsonParser;
  */
 public final class GridHostExtractor {
 
+  public static final String NO_HOST_RETRIEVED = "NO_HOST_RETRIEVED";
+  static final String NOT_REMOTE = "NOT_REMOTE";
+
   private GridHostExtractor() {
     // do not instantiate
   }
@@ -65,7 +68,7 @@ public final class GridHostExtractor {
       return object.get("proxyId").getAsString();
     }
     catch (Throwable ex) {
-      return "NO_HOST_RETRIEVED";
+      return NO_HOST_RETRIEVED;
     }
 
   }

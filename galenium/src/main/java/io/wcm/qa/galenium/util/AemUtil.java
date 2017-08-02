@@ -44,10 +44,16 @@ public class AemUtil {
     // do not instantiate
   }
 
+  /**
+   * @return whether current page is AEM author login page
+   */
   public static boolean isAuthorLogin() {
     return InteractionUtil.getElementVisible(DIV_LOGIN_BOX) != null;
   }
 
+  /**
+   * Login to author if on AEM author login page.
+   */
   public static void loginToAuthor() {
     if (isAuthorLogin()) {
       getLogger().info("Logging in to author instance");
@@ -57,6 +63,9 @@ public class AemUtil {
     }
   }
 
+  /**
+   * Load URL and login to AEM author if landing on login page.
+   */
   public static void loginToAuthor(String targetUrl) {
     loadUrl(targetUrl);
     if (isAuthorLogin()) {
