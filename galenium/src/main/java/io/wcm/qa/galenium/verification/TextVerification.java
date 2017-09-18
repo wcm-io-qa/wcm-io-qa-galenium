@@ -23,18 +23,32 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
+/**
+ * Verifies text of element.
+ */
 public class TextVerification extends ElementBasedVerification {
 
+  /**
+   * @param selector to identify element
+   */
   public TextVerification(Selector selector) {
     super(selector);
     setPreVerification(new VisibilityVerification(getSelector()));
   }
 
-  public TextVerification(Selector selector, String value) {
-    super(selector, value);
+  /**
+   * @param selector to identify element
+   * @param expectedValue to verify against
+   */
+  public TextVerification(Selector selector, String expectedValue) {
+    super(selector, expectedValue);
     setPreVerification(new VisibilityVerification(getSelector()));
   }
 
+  /**
+   * @param elementName to use in reporting
+   * @param element resolved {@link WebElement} from Selenium
+   */
   public TextVerification(String elementName, WebElement element) {
     super(elementName, element);
   }

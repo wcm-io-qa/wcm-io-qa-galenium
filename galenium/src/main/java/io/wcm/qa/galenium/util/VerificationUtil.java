@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.util;
 import static io.wcm.qa.galenium.util.GaleniumContext.getVerificationStrategy;
 
 import io.wcm.qa.galenium.verification.base.Verification;
+import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
 
 public class VerificationUtil {
 
@@ -29,6 +30,10 @@ public class VerificationUtil {
     // do not instantiate
   }
 
+  /**
+   * Uses {@link VerificationStrategy} from {@link GaleniumContext} to handle a list of verifications.
+   * @param verifications to verify
+   */
   public static void verify(Verification... verifications) {
     for (Verification verification : verifications) {
       getVerificationStrategy().handle(verification);

@@ -1,14 +1,3 @@
-package io.wcm.qa.galenium.verification.strategy;
-
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
-
-import org.slf4j.Logger;
-
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.verification.base.Verification;
-
-
 /*
  * #%L
  * wcm.io
@@ -28,7 +17,20 @@ import io.wcm.qa.galenium.verification.base.Verification;
  * limitations under the License.
  * #L%
  */
+package io.wcm.qa.galenium.verification.strategy;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
+
+import org.slf4j.Logger;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.verification.base.Verification;
+
+
+/**
+ * Uses {@link GaleniumContext#getAssertion()} to fail if {@link Verification} contains an exception.
+ */
 public class DefaultVerificationStrategy extends VerificationStrategyBase {
 
   protected Logger getLogger() {

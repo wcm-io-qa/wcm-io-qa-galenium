@@ -38,10 +38,16 @@ import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.TestDevice;
 
+/**
+ * Make sure an element looks like a sample image.
+ */
 public class VisualVerification extends ElementBasedVerification {
 
   private ImageComparisonSpecFactory specFactory;
 
+  /**
+   * @param selector to identify element
+   */
   public VisualVerification(Selector selector) {
     super(selector);
     setPreVerification(new VisibilityVerification(getSelector()));
@@ -57,10 +63,18 @@ public class VisualVerification extends ElementBasedVerification {
     super.addDifference(difference);
   }
 
+  /**
+   * Add an object to ignore during image comparison.
+   * @param selectorToIgnore identify element to ignore
+   */
   public void addObjectToIgnore(Selector selectorToIgnore) {
     getSpecFactory().addObjectToIgnore(selectorToIgnore);
   }
 
+  /**
+   * If set the scroll position will be taken into account when needed.
+   * @param yCorrection vertical scroll position value
+   */
   public void correctForSrollPosition(int yCorrection) {
     getSpecFactory().correctForSrollPosition(yCorrection);
   }
@@ -106,14 +120,27 @@ public class VisualVerification extends ElementBasedVerification {
     return getSpecFactory().isZeroToleranceWarning();
   }
 
+  /**
+   * Percentage of pixels which can have different values without failing verification. Overrides allowed error pixel.
+   * @param allowedErrorPercentage tolerance in percent
+   */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
     getSpecFactory().setAllowedErrorPercent(allowedErrorPercentage);
   }
 
+  /**
+   * Total number of pixels which can have different values without failing verification. Overrides allowed error
+   * percentage.
+   * @param allowedErrorPixels tolerance in total number of pixels
+   */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
     getSpecFactory().setAllowedErrorPixel(allowedErrorPixels);
   }
 
+  /**
+   * Allow image to be displaced by a few pixels.
+   * @param allowedOffset maximum offset to take into account
+   */
   public void setAllowedOffset(int allowedOffset) {
     getSpecFactory().setAllowedOffset(allowedOffset);
   }
@@ -123,22 +150,41 @@ public class VisualVerification extends ElementBasedVerification {
     this.specFactory.setComparator(comparator);
   }
 
+  /**
+   * Apply positional corrections in form of a {@link CorrectionsRect}.
+   * @param corrections to apply when comparing
+   */
   public void setCorrections(CorrectionsRect corrections) {
     getSpecFactory().setCorrections(corrections);
   }
 
+  /**
+   * Filename of sample.
+   * @param filename
+   */
   public void setFilename(String filename) {
     getSpecFactory().setFilename(filename);
   }
 
+  /**
+   * Foldername of sample.
+   * @param filename
+   */
   public void setFoldername(String foldername) {
     getSpecFactory().setFoldername(foldername);
   }
 
+  /**
+   * Ignore a list of objects when doing image comparison.
+   * @param objectsToIgnore list to ignore
+   */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
     getSpecFactory().setObjectsToIgnore(objectsToIgnore);
   }
 
+  /**
+   * @param sectionName used in reporting
+   */
   public void setSectionName(String sectionName) {
     getSpecFactory().setSectionName(sectionName);
   }
@@ -147,10 +193,19 @@ public class VisualVerification extends ElementBasedVerification {
     this.specFactory = specFactory;
   }
 
+  /**
+   * @param validationListener listener to use for this comparison
+   */
   public void setValidationListener(ValidationListener validationListener) {
     getSpecFactory().setValidationListener(validationListener);
   }
 
+  /**
+   * Compare images with no tolerances, but only warn. Allowed pixel percentage and count are ignored along with allowed
+   * offset. If this results in a failed verification a warning will be reported and a new sample stored, but the test
+   * run will continue.
+   * @param zeroToleranceWarning whether to use zero tolerance approach
+   */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     getSpecFactory().setZeroToleranceWarning(zeroToleranceWarning);
   }

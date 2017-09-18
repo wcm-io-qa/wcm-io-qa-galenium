@@ -31,31 +31,39 @@ import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
+/**
+ * Common base for {@link Difference} aware Galenium {@link Verification}.
+ */
 public abstract class VerificationBase implements Verification {
 
   private String actualValue;
   private SortedDifferences differences;
-
   private Throwable exception;
-
   private String expectedValue;
-
   private Verification preVerification;
   private String verificationName;
   private Boolean verified;
+
   protected VerificationBase(String verificationName) {
     setVerificationName(verificationName);
   }
+
   protected VerificationBase(String verificationName, String expectedValue) {
     this(verificationName);
     setExpectedValue(expectedValue);
   }
 
-
+  /**
+   * Add a difference to this verification.
+   * @param difference to add
+   */
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
   }
 
+  /**
+   * @return comparator used to sort differences
+   */
   public Comparator<Difference> getComparator() {
     return getDifferences().getComparator();
   }
@@ -82,18 +90,32 @@ public abstract class VerificationBase implements Verification {
     return getFailureMessage();
   }
 
+  /**
+   * Pre verification is run before this verfication to test whether it makes sense to attempt verification. Verifying
+   * an attribute value is futile if the element does not exist, for example.
+   * @return pre verification
+   */
   public Verification getPreVerification() {
     return preVerification;
   }
 
+  /**
+   * @return name of this verification
+   */
   public String getVerificationName() {
     return verificationName;
   }
 
+  /**
+   * @return whether verification was successful or null, if verification did not run yet.
+   */
   public Boolean isVerified() {
     return verified;
   }
 
+  /**
+   * @param comparator to use for sorting associated differences
+   */
   public void setComparator(Comparator<Difference> comparator) {
     getDifferences().setComparator(comparator);
   }
@@ -128,6 +150,9 @@ public abstract class VerificationBase implements Verification {
     return stringBuilder.toString();
   }
 
+  /**
+   * Runs pre verification and this verification using built-in text sampling.
+   */
   @Override
   public boolean verify() {
     getLogger().trace("verifying (" + toString() + ")");
@@ -152,10 +177,17 @@ public abstract class VerificationBase implements Verification {
     return isVerified();
   }
 
+  /**
+   * Override to use anything that is not String equivalence of actual and expected value.
+   * @return whether verification was successful
+   */
   protected Boolean doVerification() {
     return StringUtils.equals(getActualValue(), getExpectedValue());
   }
 
+  /**
+   * @return actual value, defaults to {@link VerificationBase#sampleValue()}
+   */
   protected String getActualValue() {
     if (actualValue == null) {
       actualValue = sampleValue();
@@ -163,6 +195,10 @@ public abstract class VerificationBase implements Verification {
     return actualValue;
   }
 
+  /**
+   * Override to supply additional info on verification. Default is empty String.
+   * @return additional info about this verification
+   */
   protected String getAdditionalToStringInfo() {
     return StringUtils.EMPTY;
   }
@@ -174,10 +210,16 @@ public abstract class VerificationBase implements Verification {
     return differences;
   }
 
+  /**
+   * @return key to use in persisting and retrieving sample values
+   */
   protected String getExpectedKey() {
     return getDifferences().asPropertyKey();
   }
 
+  /**
+   * @return expected value if one was set or is retrievable from sample manager
+   */
   protected String getExpectedValue() {
     if (expectedValue == null) {
       String expectedKey = getExpectedKey();
@@ -188,31 +230,54 @@ public abstract class VerificationBase implements Verification {
     return expectedValue;
   }
 
+  /**
+   * @return message for use on failed verification
+   */
   protected abstract String getFailureMessage();
 
   protected Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }
 
+  /**
+   * @return message for use when verification was not done yet
+   */
   protected String getNotVerifiedMessage() {
     return "NOT VERIFIED";
   }
 
+  /**
+   * @return message for use on successful verification
+   */
   protected abstract String getSuccessMessage();
 
+  /**
+   * @return whether pre verification exists
+   */
   protected boolean hasPreVerification() {
     return getPreVerification() != null;
   }
 
+  /**
+   * Override to actually sample a value.
+   * @return sample value to be used as actual value
+   */
   protected String sampleValue() {
     getLogger().debug("trying to sample from " + toString());
     return null;
   }
 
+  /**
+   * @param differences replaces differences on this verification
+   */
   protected void setDifferences(SortedDifferences differences) {
     this.differences = differences;
   }
 
+  /**
+   * Set expected value directly to bypass built-in sampling.
+   * @param expectedValue to use in verification
+   */
   protected void setExpectedValue(String expectedValue) {
     this.expectedValue = expectedValue;
   }

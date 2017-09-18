@@ -25,16 +25,30 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
+/**
+ * Make sure a certain CSS class is set on an element.
+ */
 public class CssClassVerification extends AttributeVerification {
 
   private static final String ATTRIBUTE_NAME_CLASS = "class";
   private String expectedValue;
 
+  /**
+   * Constructor for {@link Selector}.
+   * @param selector to identify element
+   * @param cssClass to verify against
+   */
   public CssClassVerification(Selector selector, String cssClass) {
     super(selector, ATTRIBUTE_NAME_CLASS, cssClass);
     setExpectedValue(cssClass);
   }
 
+  /**
+   * Constructor for resolved {@link WebElement}.
+   * @param elementName name of element for reporting
+   * @param element resolved element to test
+   * @param cssClass to verify
+   */
   public CssClassVerification(String elementName, WebElement element, String cssClass) {
     super(elementName, element, ATTRIBUTE_NAME_CLASS, cssClass);
   }

@@ -25,15 +25,21 @@ import java.util.Map;
 import org.openqa.selenium.WebDriver;
 import org.testng.asserts.Assertion;
 
+import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;
 import io.wcm.qa.galenium.verification.strategy.IgnoreFailuresStrategy;
 import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
+/**
+ * Keeps important data for each thread. Simplifies integration without need for rigid inheritance hierarchies. Takes a
+ * lot of hassle out of multi-threaded runs.
+ */
 public class GaleniumContext {
 
   private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
@@ -54,30 +60,61 @@ public class GaleniumContext {
       ? new IgnoreFailuresStrategy()
       : new DefaultVerificationStrategy());
 
+  /**
+   * Assertion to use. Default is {@link GaleniumAssertion}.
+   * @param assertion can be soft assertion
+   */
   public void setAssertion(Assertion assertion) {
     this.assertion = assertion;
   }
 
+  /**
+   * WebDriver to use for all things Galenium. This includes interaction with Galen and Selenium. Usually the WebDriver
+   * handling can be left to Galenium. Listeners should initialize the driver based on the configured
+   * {@link TestDevice}.
+   * @param driver WebDriver to use for everything
+   */
   public void setDriver(WebDriver driver) {
     this.driver = driver;
   }
 
+  /**
+   * Used for {@link ExtentReports} reporting. Galenium should handle this internally without additional interaction.
+   * @param extentTest
+   */
   public void setExtentTest(ExtentTest extentTest) {
     this.extentTest = extentTest;
   }
 
+  /**
+   * A short description of current test.
+   * @param testDescription
+   */
   public void setTestDescription(String testDescription) {
     this.testDescription = testDescription;
   }
 
+  /**
+   * The test device is central to Galenium's WebDriver handling.
+   * @param testDevice
+   */
   public void setTestDevice(TestDevice testDevice) {
     this.testDevice = testDevice;
   }
 
+  /**
+   * Name to use in reporting.
+   * @param testName
+   */
   public void setTestName(String testName) {
     this.testName = testName;
   }
 
+  /**
+   * Different kinds of {@link Verification} can all use the same strategy. This allows to ignore failures when
+   * collecting samples to compare against in future runs.
+   * @param verificationStrategy
+   */
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;
   }
@@ -93,44 +130,80 @@ public class GaleniumContext {
     }
   }
 
-  public static Object get(String arg0) {
-    return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(arg0);
+  /**
+   * Get a custom object for the current thread.
+   * @param key used for retrieving custom object
+   * @return the value to which the specified key is mapped, or null if this thread context contains no mapping for the
+   *         key
+   */
+  public static Object get(String key) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(key);
   }
 
+  /**
+   * @return {@link Assertion} to use
+   */
   public static Assertion getAssertion() {
     return THREAD_LOCAL_CONTEXT.get().assertion;
   }
 
+  /**
+   * @return {@link GaleniumContext} object for this thread
+   */
   public static GaleniumContext getContext() {
     return THREAD_LOCAL_CONTEXT.get();
   }
 
+  /**
+   * @return driver to use with Selenium and Galen
+   */
   public static WebDriver getDriver() {
     return THREAD_LOCAL_CONTEXT.get().driver;
   }
 
+  /**
+   * @return test report to write to
+   */
   public static ExtentTest getExtentTest() {
     return THREAD_LOCAL_CONTEXT.get().extentTest;
   }
 
+  /**
+   * @return short description of the current test
+   */
   public static String getTestDescription() {
     return THREAD_LOCAL_CONTEXT.get().testDescription;
   }
 
+  /**
+   * @return current test device for this thread
+   */
   public static TestDevice getTestDevice() {
     return THREAD_LOCAL_CONTEXT.get().testDevice;
   }
 
+  /**
+   * @return name of the current test used for reporting
+   */
   public static String getTestName() {
     return THREAD_LOCAL_CONTEXT.get().testName;
   }
 
+  /**
+   * @return verification strategy to use
+   */
   public static VerificationStrategy getVerificationStrategy() {
     return THREAD_LOCAL_CONTEXT.get().verificationStrategy;
   }
 
-  public static Object put(String arg0, Object arg1) {
-    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(arg0, arg1);
+  /**
+   * Store any object in the current threads context.
+   * @param key used to store and retrieve object
+   * @param customObject custom object
+   * @return the previous value associated with key in this thread, or null if there was no mapping for key
+   */
+  public static Object put(String key, Object customObject) {
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(key, customObject);
   }
 
 }

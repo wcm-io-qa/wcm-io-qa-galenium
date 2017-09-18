@@ -24,14 +24,24 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
+/**
+ * Make sure current URL is a certain value.
+ */
 public class CurrentUrlVerification extends VerificationBase {
 
   private static final String KEY_PART_URL = "url";
 
+  /**
+   * @param pageName for use in reporting
+   */
   public CurrentUrlVerification(String pageName) {
     super(pageName);
   }
 
+  /**
+   * @param pageName for use in reporting
+   * @param expectedUrl to match against
+   */
   public CurrentUrlVerification(String pageName, String expectedUrl) {
     super(pageName, expectedUrl);
   }

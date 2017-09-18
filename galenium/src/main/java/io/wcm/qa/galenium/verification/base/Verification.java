@@ -35,6 +35,7 @@ public interface Verification {
   String getMessage();
 
   /**
+   * Attempts verification, if it was not attempted before, and returns whether it was successful
    * @return whether verification was successful
    */
   boolean verify();

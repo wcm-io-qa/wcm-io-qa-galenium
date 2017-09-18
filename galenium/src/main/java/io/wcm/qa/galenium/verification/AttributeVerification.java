@@ -23,26 +23,49 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
+/**
+ * Make sure an attribute is set on an element.
+ */
 public class AttributeVerification extends ElementBasedVerification {
 
   private String attributeName;
 
+  /**
+   * @param selector to identify element
+   * @param attributeName name of attribute to check
+   */
   public AttributeVerification(Selector selector, String attributeName) {
     super(selector);
     setAttributeName(attributeName);
     setPreVerification(new VisibilityVerification(getSelector()));
   }
 
+  /**
+   * @param selector to identify element
+   * @param attributeName name of attribute to check
+   * @param expectedValue to verify against
+   */
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     super(selector, expectedValue);
     setAttributeName(attributeName);
   }
 
+  /**
+   * @param elementName name of element for reporting
+   * @param element resolved element to test
+   * @param attributeName name of attribute to check
+   */
   public AttributeVerification(String elementName, WebElement element, String attributeName) {
     super(elementName, element);
     setAttributeName(attributeName);
   }
 
+  /**
+   * @param elementName name of element for reporting
+   * @param element resolved element to test
+   * @param attributeName name of attribute to check
+   * @param expectedValue to verify against
+   */
   public AttributeVerification(String elementName, WebElement element, String attributeName, String expectedValue) {
     this(elementName, element, attributeName);
     setExpectedValue(expectedValue);

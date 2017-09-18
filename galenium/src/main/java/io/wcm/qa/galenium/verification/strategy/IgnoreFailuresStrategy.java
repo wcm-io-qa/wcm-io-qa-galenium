@@ -22,6 +22,9 @@ package io.wcm.qa.galenium.verification.strategy;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.verification.base.Verification;
 
+/**
+ * Will only report failures, but not fail test run.
+ */
 public class IgnoreFailuresStrategy extends DefaultVerificationStrategy {
 
   @Override

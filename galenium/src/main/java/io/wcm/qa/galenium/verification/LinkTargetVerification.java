@@ -23,18 +23,32 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
+/**
+ * Make sure a link has a certain href value.
+ */
 public class LinkTargetVerification extends AttributeVerification {
 
   private static final String ATTRIBUTE_NAME_HREF = "href";
 
+  /**
+   * @param selector to identify element
+   */
   public LinkTargetVerification(Selector selector) {
     super(selector, ATTRIBUTE_NAME_HREF);
   }
 
+  /**
+   * @param selector to identify element
+   * @param expectedValue to verify against
+   */
   public LinkTargetVerification(Selector selector, String expectedValue) {
     super(selector, ATTRIBUTE_NAME_HREF, expectedValue);
   }
 
+  /**
+   * @param elementName for reporting
+   * @param element resolved element to verify
+   */
   public LinkTargetVerification(String elementName, WebElement element) {
     super(elementName, element, ATTRIBUTE_NAME_HREF);
   }
