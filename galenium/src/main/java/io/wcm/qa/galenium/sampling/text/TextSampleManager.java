@@ -37,7 +37,12 @@ import org.slf4j.Logger;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
-public class TextSampleManager {
+/**
+ * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link Properties}
+ * file located at {@link GaleniumConfiguration#getTextComparisonFile()} in
+ * {@link GaleniumConfiguration#getTextComparisonDirectory()}.
+ */
+public final class TextSampleManager {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final Properties EXPECTED_TEXTS = new Properties();

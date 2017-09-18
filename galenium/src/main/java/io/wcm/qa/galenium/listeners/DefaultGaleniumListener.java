@@ -39,6 +39,9 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
 
   private List<ITestListener> listeners = new ArrayList<ITestListener>();
 
+  /**
+   * Constructor.
+   */
   public DefaultGaleniumListener() {
     add(new LoggingListener());
     add(new ExtentReportsListener());
@@ -46,8 +49,13 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
     add(new TextSamplePersistenceListener());
   }
 
-  public boolean add(ITestListener e) {
-    return listeners.add(e);
+  /**
+   * Adds an additional test listener.
+   * @param listener to add
+   * @return true
+   */
+  public boolean add(ITestListener listener) {
+    return listeners.add(listener);
   }
 
   @Override

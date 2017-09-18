@@ -101,6 +101,9 @@ public final class GaleniumConfiguration {
     return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_USER, DEFAULT_AUTHOR_USER);
   }
 
+  /**
+   * @return base URL with HTTP basic auth, if configured
+   */
   public static String getBaseUrl() {
     String baseUrl = System.getProperty(SYSTEM_PROPERTY_NAME_BASE_URL, DEFAULT_BASE_URL);
     String httpUser = getHttpUser();
@@ -214,6 +217,9 @@ public final class GaleniumConfiguration {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
   }
 
+  /**
+   * @return whether to use workaround to fix Chrome's image comparison behavior
+   */
   public static boolean isFixChromeImageComparison() {
     if (System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX) == null) {
       // default is to fix chrome behavior
@@ -230,6 +236,9 @@ public final class GaleniumConfiguration {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY);
   }
 
+  /**
+   * @return whether to ignore errors when validating samples
+   */
   public static boolean isSamplingVerificationIgnore() {
     if (System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS) == null) {
       return isSaveSampledTexts();

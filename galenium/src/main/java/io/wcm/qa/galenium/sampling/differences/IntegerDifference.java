@@ -19,19 +19,30 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-
+/**
+ * Integer based difference for use with index or count values.
+ */
 public class IntegerDifference extends DifferenceBase {
 
   private int index;
 
+  /**
+   * Constructor.
+   */
   public IntegerDifference() {
     this(0);
   }
 
+  /**
+   * @param index index to use
+   */
   public IntegerDifference(int index) {
     setIndex(index);
   }
 
+  /**
+   * Decrement or count down.
+   */
   public void decrement() {
     setIndex(getIndex() - 1);
   }
@@ -45,6 +56,9 @@ public class IntegerDifference extends DifferenceBase {
     return Integer.toString(getIndex());
   }
 
+  /**
+   * Increment aka increase index by one.
+   */
   public void increment() {
     setIndex(getIndex() + 1);
   }

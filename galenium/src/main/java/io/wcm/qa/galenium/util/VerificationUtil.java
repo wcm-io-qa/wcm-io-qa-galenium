@@ -24,7 +24,10 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getVerificationStrategy;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
 
-public class VerificationUtil {
+/**
+ * Handles verification using the strategy from {@link GaleniumContext#getVerificationStrategy()}.
+ */
+public final class VerificationUtil {
 
   private VerificationUtil() {
     // do not instantiate

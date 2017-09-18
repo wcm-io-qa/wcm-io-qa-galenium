@@ -79,6 +79,11 @@ public final class TestInfoUtil {
     }
   }
 
+  /**
+   * Gets test device if test case in this result implements {@link HasDevice}.
+   * @param result test result to retrieve test case from
+   * @return device if one was found
+   */
   public static TestDevice getTestDevice(ITestResult result) {
     Object testClass = result.getInstance();
     if (testClass instanceof HasDevice) {
@@ -90,6 +95,10 @@ public final class TestInfoUtil {
     return null;
   }
 
+  /**
+   * @param testInfo to check
+   * @return whether there are warnings in the results
+   */
   public static boolean hasWarnings(GalenTestInfo testInfo) {
     TestReport report = testInfo.getReport();
     if (report == null) {
@@ -105,10 +114,17 @@ public final class TestInfoUtil {
     return statistics.getWarnings() > 0;
   }
 
+  /**
+   * @param testInfo to check
+   * @return whether test failed
+   */
   public static boolean isFailed(GalenTestInfo testInfo) {
     return testInfo.isFailed();
   }
 
+  /**
+   * @param testInfo to log
+   */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {
       getLogger().info(MARKER_FAIL, "failed: " + testInfo.getName());
@@ -131,15 +147,15 @@ public final class TestInfoUtil {
   private static void logTestReportNode(TestReportNode node, String prefix) {
     Marker marker;
     switch (node.getStatus()) {
-      case INFO:
-      default:
-        marker = GaleniumReportUtil.MARKER_PASS;
-        break;
       case WARN:
         marker = GaleniumReportUtil.MARKER_WARN;
         break;
       case ERROR:
         marker = GaleniumReportUtil.MARKER_FAIL;
+        break;
+      case INFO:
+      default:
+        marker = GaleniumReportUtil.MARKER_PASS;
         break;
     }
     String type = node.getType();

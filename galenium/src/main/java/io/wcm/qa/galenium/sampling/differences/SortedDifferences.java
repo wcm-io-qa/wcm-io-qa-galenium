@@ -24,15 +24,24 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * Differences are stored in a sorted way to get a consistent hierarchy.
+ */
 public class SortedDifferences extends MutableDifferences {
 
   private Comparator<Difference> comparator;
   private SortedSet<Difference> differences;
 
+  /**
+   * Use default comparator.
+   */
   public SortedDifferences() {
     setDifferences(new TreeSet<Difference>(getComparator()));
   }
 
+  /**
+   * @return the configured comparator or {@link DifferenceNameComparator} if none is set
+   */
   public Comparator<Difference> getComparator() {
     if (comparator == null) {
       return new DifferenceNameComparator();
@@ -45,12 +54,15 @@ public class SortedDifferences extends MutableDifferences {
     return differences;
   }
 
+  /**
+   * Set a new comparator and reorder already existing differences.
+   * @param comparator to use from now on
+   */
   public void setComparator(Comparator<Difference> comparator) {
     this.comparator = comparator;
     TreeSet<Difference> newDifferences = new TreeSet<Difference>(comparator);
     newDifferences.addAll(getDifferences());
     setDifferences(newDifferences);
-    ;
   }
 
   private void setDifferences(SortedSet<Difference> differences) {
