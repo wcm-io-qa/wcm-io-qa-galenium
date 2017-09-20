@@ -20,4 +20,4 @@ TBD
 
 [usage]: usage.html
 [apidocs]: galenium/apidocs/
-[changelog]: changes-report.html
+[changelog]: galenium/changes-report.html
