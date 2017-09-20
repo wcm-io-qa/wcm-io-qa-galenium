@@ -24,6 +24,15 @@
   <body>
 
     <release version="0.1.8" date="not released yet">
+      <action type="add" dev="apegam">
+        Added configuration option for browser log level.
+      </action>
+      <action type="update" dev="apegam">
+        Updated chromedriver and geckodriver versions.
+      </action>
+      <action type="update" dev="apegam">
+        Javadoc and code clean up.
+      </action>
     </release>
 
     <release version="0.1.6" date="2017-06-27">
