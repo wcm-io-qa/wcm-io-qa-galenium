@@ -20,7 +20,6 @@
 package io.wcm.qa.galenium.webdriver;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
@@ -35,8 +34,6 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 abstract class CapabilityProvider {
-
-  private Level browserLoggingLevel = Level.WARNING;
 
   /**
    * @return capabilities for browser
