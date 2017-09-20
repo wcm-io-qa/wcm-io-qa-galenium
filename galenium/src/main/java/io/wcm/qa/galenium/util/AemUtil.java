@@ -33,7 +33,7 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
 /**
  * AEM specific utility methods.
  */
-public class AemUtil {
+public final class AemUtil {
 
   private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
   private static final Selector SELECTOR_AUTHOR_INPUT_PASSWORD = SelectorFactory.fromCss("#password");

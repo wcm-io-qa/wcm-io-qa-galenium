@@ -23,11 +23,18 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+/**
+ * Wraps a {@link Logger} in a way that marks every statement with the configured additional marker.
+ */
 public class MarkedLogger implements Logger {
 
   private Logger delegate;
   private Marker markerToAdd;
 
+  /**
+   * @param delegateLogger logger to wrap
+   * @param additionalMarker marker to use
+   */
   public MarkedLogger(Logger delegateLogger, Marker additionalMarker) {
     delegate = delegateLogger;
     markerToAdd = additionalMarker;

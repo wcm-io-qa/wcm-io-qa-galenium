@@ -29,7 +29,7 @@ class ChromeEmulatorCapabilityProvider extends ChromeCapabilityProvider {
   private String chromeEmulator;
 
 
-  public ChromeEmulatorCapabilityProvider(String emulatorString) {
+  ChromeEmulatorCapabilityProvider(String emulatorString) {
     setChromeEmulator(emulatorString);
   }
 

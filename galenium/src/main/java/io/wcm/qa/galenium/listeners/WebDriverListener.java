@@ -25,6 +25,7 @@ import static io.wcm.qa.galenium.util.GaleniumConfiguration.getNumberOfBrowserIn
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
@@ -42,7 +43,9 @@ import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
-
+/**
+ * Handles {@link WebDriver} life cycle in single and multi threaded scenarios.
+ */
 public class WebDriverListener implements ITestListener {
 
   private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");

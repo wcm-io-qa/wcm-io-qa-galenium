@@ -22,7 +22,9 @@ package io.wcm.qa.galenium.sampling.text;
 import org.testng.ITestContext;
 import org.testng.TestListenerAdapter;
 
-
+/**
+ * Handles persisting text samples at the end of test run.
+ */
 public class TextSamplePersistenceListener extends TestListenerAdapter {
 
   @Override

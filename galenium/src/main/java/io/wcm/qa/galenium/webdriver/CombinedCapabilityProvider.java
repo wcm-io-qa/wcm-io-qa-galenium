@@ -28,7 +28,7 @@ class CombinedCapabilityProvider extends CapabilityProvider {
   private CapabilityProvider p1;
   private CapabilityProvider p2;
 
-  public CombinedCapabilityProvider(CapabilityProvider provider1, CapabilityProvider provider2) {
+  CombinedCapabilityProvider(CapabilityProvider provider1, CapabilityProvider provider2) {
     getLogger().debug("Creating combined provider with " + p1 + " and " + p2);
     p1 = provider1;
     p2 = provider2;

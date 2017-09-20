@@ -26,12 +26,19 @@ public class GaleniumException extends RuntimeException {
 
   private static final long serialVersionUID = 7561233675534113771L;
 
+  /**
+   * @param msg message for exception
+   */
   public GaleniumException(String msg) {
     super(msg);
   }
 
-  public GaleniumException(String message, Throwable ex) {
-    super(message, ex);
+  /**
+   * @param msg message for exception
+   * @param ex optional exception
+   */
+  public GaleniumException(String msg, Throwable ex) {
+    super(msg, ex);
   }
 
 }

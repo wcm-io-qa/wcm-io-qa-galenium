@@ -24,14 +24,24 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
+/**
+ * Verifies current page's title.
+ */
 public class PageTitleVerification extends VerificationBase {
 
   private static final String KEY_PART_PAGE_TITLE = "title";
 
+  /**
+   * @param pageName to use in reporting
+   */
   public PageTitleVerification(String pageName) {
     super(pageName);
   }
 
+  /**
+   * @param pageName to use in reporting
+   * @param expectedTitle to verify against
+   */
   public PageTitleVerification(String pageName, String expectedTitle) {
     super(pageName, expectedTitle);
   }

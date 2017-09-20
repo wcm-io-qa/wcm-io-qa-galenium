@@ -21,8 +21,14 @@ package io.wcm.qa.galenium.sampling.differences;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
+/**
+ * Difference based on selector name.
+ */
 public class SelectorDifference extends StringDifference {
 
+  /**
+   * @param selector to get name from
+   */
   public SelectorDifference(Selector selector) {
     super(selector.elementName());
   }

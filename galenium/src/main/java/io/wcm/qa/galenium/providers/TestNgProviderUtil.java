@@ -28,7 +28,7 @@ import org.testng.annotations.DataProvider;
 /**
  * Utility class to help with writing {@link DataProvider} code.
  */
-final public class TestNgProviderUtil {
+public final class TestNgProviderUtil {
 
   private TestNgProviderUtil() {
     // do not instantiate

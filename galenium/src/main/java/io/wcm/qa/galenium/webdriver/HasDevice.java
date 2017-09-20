@@ -21,7 +21,13 @@ package io.wcm.qa.galenium.webdriver;
 
 import io.wcm.qa.galenium.util.TestDevice;
 
+/**
+ * Used to mark tests which have an associated test device.
+ */
 public interface HasDevice {
 
+  /**
+   * @return the test device configured
+   */
   TestDevice getDevice();
 }

@@ -21,13 +21,22 @@ package io.wcm.qa.galenium.selectors;
 
 import com.galenframework.specs.page.Locator;
 
-
+/**
+ * Turns a Galen {@link Locator} object into a Galenium {@link Selector}.
+ */
 public class SelectorFromLocator extends AbstractSelectorBase {
 
+  /**
+   * @param locator to use in Selector construction
+   */
   public SelectorFromLocator(Locator locator) {
     setLocator(locator);
   }
 
+  /**
+   * @param elementName alternative name for use in reporting
+   * @param locator to use in Selector construction
+   */
   public SelectorFromLocator(String elementName, Locator locator) {
     this(locator);
     setName(elementName);
