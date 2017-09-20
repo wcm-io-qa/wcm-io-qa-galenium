@@ -827,7 +827,7 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Store image samples to properties file on disk.
+   * Store text samples to properties file on disk.
    * <ul>
    * <li>Key:
    *
