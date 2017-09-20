@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -50,6 +51,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
+  private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
@@ -115,6 +117,16 @@ public final class GaleniumConfiguration {
       baseUrl = baseUrl.replace("//", "//" + httpUser + ":" + httpPass + "@");
     }
     return baseUrl;
+  }
+
+  public static Level getBrowserLogLevel() {
+    try {
+      return Level.parse(System.getProperty(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, "INFO"));
+    }
+    catch (IllegalArgumentException ex) {
+      getLogger().info("could not parse browser log level, using INFO level.", ex);
+      return Level.INFO;
+    }
   }
 
   /**
