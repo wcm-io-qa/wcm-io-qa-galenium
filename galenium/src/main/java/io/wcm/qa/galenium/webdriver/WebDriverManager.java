@@ -230,7 +230,6 @@ public final class WebDriverManager {
 
   private static void quitDriver() {
     logInfo("Attempting to close driver");
-    getDriver().close();
     getDriver().quit();
     logInfo("Closed driver");
   }
