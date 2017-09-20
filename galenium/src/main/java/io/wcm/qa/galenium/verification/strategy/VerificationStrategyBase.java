@@ -21,7 +21,10 @@ package io.wcm.qa.galenium.verification.strategy;
 
 import io.wcm.qa.galenium.verification.base.Verification;
 
-abstract public class VerificationStrategyBase implements VerificationStrategy {
+/**
+ * Convenience base class to implement a {@link VerificationStrategy}.
+ */
+public abstract class VerificationStrategyBase implements VerificationStrategy {
 
   @Override
   public void handle(Verification verification) {
@@ -33,8 +36,16 @@ abstract public class VerificationStrategyBase implements VerificationStrategy {
     }
   }
 
+  /**
+   * Handles a failed verification.
+   * @param verification failed verification to handle.
+   */
   protected abstract void handleFailure(Verification verification);
 
+  /**
+   * Handles a successful verification.
+   * @param verification successful verification to handle
+   */
   protected abstract void handleSuccess(Verification verification);
 
 }

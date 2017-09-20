@@ -42,7 +42,7 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
   private TestDevice device;
 
 
-  public HeadlessChromeCapabilityProvider(TestDevice device) {
+  HeadlessChromeCapabilityProvider(TestDevice device) {
     setDevice(device);
   }
 

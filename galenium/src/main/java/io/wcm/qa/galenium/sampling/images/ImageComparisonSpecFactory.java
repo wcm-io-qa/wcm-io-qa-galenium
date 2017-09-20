@@ -159,6 +159,9 @@ public class ImageComparisonSpecFactory {
     return filename;
   }
 
+  /**
+   * @return the set folder name or one constructed from differences
+   */
   public String getFoldername() {
     if (foldername != null) {
       return foldername;
@@ -261,6 +264,9 @@ public class ImageComparisonSpecFactory {
     this.allowedOffset = allowedOffset;
   }
 
+  /**
+   * @param comparator used to order differences in a consistent manner
+   */
   public void setComparator(Comparator<Difference> comparator) {
     this.differences.setComparator(comparator);
   }

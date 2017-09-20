@@ -29,21 +29,35 @@ import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
+/**
+ * Base class encapsulating common functionality to verify aspects of elements.
+ */
 abstract class ElementBasedVerification extends VerificationBase {
 
   private WebElement element;
   private Selector selector;
 
+  /**
+   * @param selector to identify element
+   */
   protected ElementBasedVerification(Selector selector) {
     super(selector.elementName());
     setSelector(selector);
   }
 
+  /**
+   * @param selector to identify element
+   * @param expectedValue to verify against
+   */
   protected ElementBasedVerification(Selector selector, String expectedValue) {
     super(expectedValue);
     setSelector(selector);
   }
 
+  /**
+   * @param verificationName for reporting
+   * @param element resolved element
+   */
   protected ElementBasedVerification(String verificationName, WebElement element) {
     super(verificationName);
     setElement(element);

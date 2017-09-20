@@ -17,7 +17,7 @@ npm-debug.log
 .pmd
 .checkstyle
 .idea
-.iml
+*.iml
 .DS_Store
 .rubygems
 .sass-cache

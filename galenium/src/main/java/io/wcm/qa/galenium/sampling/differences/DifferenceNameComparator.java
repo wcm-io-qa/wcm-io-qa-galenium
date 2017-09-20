@@ -21,7 +21,9 @@ package io.wcm.qa.galenium.sampling.differences;
 
 import java.util.Comparator;
 
-
+/**
+ * Sort differences by their name.
+ */
 public class DifferenceNameComparator implements Comparator<Difference> {
 
   @Override

@@ -24,7 +24,10 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-public abstract class AbstractSelectorBase implements Selector {
+/**
+ * Base class for the different {@link Selector} implementations.
+ */
+abstract class AbstractSelectorBase implements Selector {
 
   private By by;
   private Locator locator;

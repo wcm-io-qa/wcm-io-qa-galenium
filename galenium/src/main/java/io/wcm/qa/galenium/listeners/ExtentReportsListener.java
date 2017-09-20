@@ -39,7 +39,9 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
-
+/**
+ * Handles {@link ExtentReports} life cycle.
+ */
 public class ExtentReportsListener implements ITestListener, IConfigurationListener2 {
 
   @Override

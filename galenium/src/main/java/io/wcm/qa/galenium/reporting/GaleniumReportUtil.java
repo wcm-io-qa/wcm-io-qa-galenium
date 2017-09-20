@@ -122,12 +122,20 @@ public final class GaleniumReportUtil {
     }
   }
 
+  /**
+   * Assigns categories to {@link ExtentTest}.
+   * @param categories to add
+   */
   public static void assignCategories(String... categories) {
     for (String category : categories) {
       assignCategory(category);
     }
   }
 
+  /**
+   * Assigns a single category to {@link ExtentTest}.
+   * @param category to add
+   */
   public static void assignCategory(String category) {
     ExtentTest extentTest = getExtentTest();
     List<TestAttribute> categoryList = extentTest.getTest().getCategoryList();
@@ -220,10 +228,18 @@ public final class GaleniumReportUtil {
     return currentReport;
   }
 
+  /**
+   * Gets a logger which marks every entry with the passed {@link Marker}.
+   * @param marker to use with this logger
+   * @return a {@link MarkedLogger} using the marker
+   */
   public static Logger getMarkedLogger(Marker marker) {
     return new MarkedLogger(getLogger(), marker);
   }
 
+  /**
+   * @return the logger used for the current test, if no test is set, it will use "NO_TEST_NAME_SET" as the test name
+   */
   public static Logger getLogger() {
     String name = "NO_TEST_NAME_SET";
     ExtentTest extentTest = getExtentTest();

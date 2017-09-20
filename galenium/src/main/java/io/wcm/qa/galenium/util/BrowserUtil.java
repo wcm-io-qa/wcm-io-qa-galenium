@@ -26,20 +26,34 @@ import org.openqa.selenium.Dimension;
 
 import com.galenframework.utils.GalenUtils;
 
+/**
+ * Collection of utility methods when dealing with browsers.
+ */
 public final class BrowserUtil {
 
   private BrowserUtil() {
     // do not instantiate
   }
 
+  /**
+   * Turn Galen syntax size string into Selenium {@link Dimension}.
+   * @param size to parse
+   * @return Selenium representation of size
+   */
   public static Dimension getDimension(String size) {
     return new Dimension(GalenUtils.readSize(size).width, GalenUtils.readSize(size).height);
   }
 
+  /**
+   * @return whether current browser is Chrome
+   */
   public static boolean isChrome() {
     return isBrowser(CHROME);
   }
 
+  /**
+   * @return whether current browser is Firefox
+   */
   public static boolean isFirefox() {
     return isBrowser(FIREFOX);
   }

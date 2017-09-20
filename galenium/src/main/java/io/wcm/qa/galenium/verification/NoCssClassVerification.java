@@ -23,12 +23,26 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
+/**
+ * Make sure a certain CSS class is not set on an element.
+ */
 public class NoCssClassVerification extends CssClassVerification {
 
+  /**
+   * Constructor for {@link Selector}.
+   * @param selector to identify element
+   * @param cssClass to verify against
+   */
   public NoCssClassVerification(Selector selector, String cssClass) {
     super(selector, cssClass);
   }
 
+  /**
+   * Constructor for resolved {@link WebElement}.
+   * @param elementName name of element for reporting
+   * @param element resolved element to test
+   * @param cssClass to verify
+   */
   public NoCssClassVerification(String elementName, WebElement element, String cssClass) {
     super(elementName, element, cssClass);
   }

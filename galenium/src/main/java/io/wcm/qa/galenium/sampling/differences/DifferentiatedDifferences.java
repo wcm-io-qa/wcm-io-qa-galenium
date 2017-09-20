@@ -24,6 +24,10 @@ import java.util.Collection;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
+/**
+ * Differences are sorted and a cut off value determines which part goes into the folder name and which part into the
+ * filename.
+ */
 public class DifferentiatedDifferences extends SortedDifferences {
 
   private int cutoff = 2;

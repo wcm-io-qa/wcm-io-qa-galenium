@@ -27,9 +27,16 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.InteractionUtil;
 
+/**
+ * Make sure a certain number of elements are present.
+ */
 public class ElementCountVerification extends ElementBasedVerification {
 
-  protected ElementCountVerification(Selector selector, int expectedCount) {
+  /**
+   * @param selector to identify element
+   * @param expectedCount to verify against
+   */
+  public ElementCountVerification(Selector selector, int expectedCount) {
     super(selector, Integer.toString(expectedCount));
   }
 

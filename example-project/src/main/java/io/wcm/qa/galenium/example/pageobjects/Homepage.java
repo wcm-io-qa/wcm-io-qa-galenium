@@ -24,6 +24,9 @@ package io.wcm.qa.galenium.example.pageobjects;
  */
 public class Homepage extends AbstractPage {
 
+  /**
+   * Relative path to home page.
+   */
   public static final String PATH_TO_HOMEPAGE = "/en.html";
 
   @Override

@@ -24,9 +24,10 @@ import java.util.List;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
 
 /**
- * DataModel for screenSizes and galen-tags
+ * DataModel for browser types, screen sizes and Galen tags. Used to initialize {@link WebDriver}.
  */
 public class TestDevice {
 
@@ -40,7 +41,7 @@ public class TestDevice {
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
-   * @param tags galen tag
+   * @param tags Galen tag
    * @param chromeEmulator emulator like in Device-combobox
    */
   public TestDevice(String name, BrowserType browserType, Dimension screenSize, List<String> tags, String chromeEmulator) {
@@ -51,26 +52,44 @@ public class TestDevice {
     this.chromeEmulator = chromeEmulator;
   }
 
+  /**
+   * @return browser to use for this device
+   */
   public BrowserType getBrowserType() {
     return browserType;
   }
 
+  /**
+   * @return chrome emulator string if set or null
+   */
   public String getChromeEmulator() {
     return chromeEmulator;
   }
 
+  /**
+   * @return test device name for use in logging and test case names
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * @return viewport size for this test device
+   */
   public Dimension getScreenSize() {
     return screenSize;
   }
 
+  /**
+   * @return tags to use in Galen tests and specs
+   */
   public List<String> getTags() {
     return tags;
   }
 
+  /**
+   * @param chromeEmulator chrome emulator string to use in web driver
+   */
   public void setChromeEmulator(String chromeEmulator) {
     this.chromeEmulator = chromeEmulator;
   }

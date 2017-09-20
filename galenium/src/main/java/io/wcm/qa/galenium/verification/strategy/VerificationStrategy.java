@@ -19,10 +19,19 @@
  */
 package io.wcm.qa.galenium.verification.strategy;
 
+import org.testng.asserts.Assertion;
+
 import io.wcm.qa.galenium.verification.base.Verification;
 
+/**
+ * Handles verifications.
+ */
 public interface VerificationStrategy {
 
+  /**
+   * To fail test run, raise an exception or fail with {@link Assertion#fail()}.
+   * @param verification to handle
+   */
   void handle(Verification verification);
 
 }

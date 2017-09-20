@@ -42,6 +42,9 @@ import com.google.gson.JsonParser;
  */
 public final class GridHostExtractor {
 
+  /**
+   * Constant used when no grid host could be retrieved.
+   */
   public static final String NO_HOST_RETRIEVED = "NO_HOST_RETRIEVED";
   static final String NOT_REMOTE = "NOT_REMOTE";
 

@@ -22,8 +22,15 @@ package io.wcm.qa.galenium.verification;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
+/**
+ * Verifies that an element is visible on page.
+ */
 public class VisibilityVerification extends ElementBasedVerification {
 
+  /**
+   * Constructor.
+   * @param selector to identify element
+   */
   public VisibilityVerification(Selector selector) {
     super(selector);
   }
