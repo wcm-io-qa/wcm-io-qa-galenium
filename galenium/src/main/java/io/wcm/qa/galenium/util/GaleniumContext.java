@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,18 +41,15 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Keeps important data for each thread. Simplifies integration without need for rigid inheritance hierarchies. Takes a
- * lot of hassle out of multi-threaded runs.
+ * lot of hassle out of multi-threaded runs. Methods are provided for objects commonly needed in a Galenium run. Custom
+ * objects can be added using {@link #put(String, Object)} and retrieved using {@link #get(String)}.
  */
 public class GaleniumContext {
 
-  private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
-    @Override
-    protected GaleniumContext initialValue() {
-      return new GaleniumContext();
-    }
-  };
+  private static final GaleniumThreadLocal THREAD_LOCAL_CONTEXT = new GaleniumThreadLocal();
 
   private Map<String, Object> additionalMappings = new HashMap<String, Object>();
+
   private Assertion assertion = new GaleniumAssertion();
   private WebDriver driver;
   private ExtentTest extentTest;
@@ -117,17 +117,6 @@ public class GaleniumContext {
    */
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;
-  }
-
-  @Override
-  protected void finalize() throws Throwable {
-    try {
-      GaleniumReportUtil.getLogger().debug("finalize Galenium context.");
-      WebDriverManager.closeDriver();
-    }
-    finally {
-      super.finalize();
-    }
   }
 
   /**
@@ -204,6 +193,52 @@ public class GaleniumContext {
    */
   public static Object put(String key, Object customObject) {
     return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(key, customObject);
+  }
+
+  /**
+   * Only call when everything is done.
+   */
+  public static void cleanAllContexts() {
+    GaleniumThreadLocal.cleanRemainingContexts();
+  }
+
+  private static final class GaleniumThreadLocal extends ThreadLocal<GaleniumContext> {
+
+    private static final Collection<GaleniumContext> CONTEXTS = Collections.synchronizedCollection(new ArrayList<>());
+
+    @Override
+    protected GaleniumContext initialValue() {
+      GaleniumContext galeniumContext = new GaleniumContext();
+      CONTEXTS.add(galeniumContext);
+      return galeniumContext;
+    }
+
+    @Override
+    public void remove() {
+      GaleniumContext galeniumContextToRemove = get();
+      GaleniumReportUtil.getLogger().debug("removing Galenium context: " + galeniumContextToRemove);
+      WebDriverManager.closeDriver();
+      CONTEXTS.remove(galeniumContextToRemove);
+      super.remove();
+    }
+
+    static void cleanRemainingContexts() {
+      GaleniumReportUtil.getLogger().info("cleaning all contexts");
+      for (GaleniumContext galeniumContext : CONTEXTS) {
+        GaleniumReportUtil.getLogger().trace("attempting to close driver");
+        WebDriver driverToClose = GaleniumContext.getDriver();
+        if (driverToClose != null) {
+          GaleniumReportUtil.getLogger().info("closing driver: " + driverToClose);
+          driverToClose.close();
+          driverToClose.quit();
+          galeniumContext.setDriver(null);
+          GaleniumReportUtil.getLogger().info("closed driver: " + driverToClose);
+        }
+        else {
+          GaleniumReportUtil.getLogger().info("driver is null");
+        }
+      }
+    }
   }
 
 }

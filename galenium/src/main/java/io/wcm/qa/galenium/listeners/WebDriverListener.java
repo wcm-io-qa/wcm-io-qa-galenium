@@ -42,6 +42,7 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.webdriver.WebDriverShutdown;
 
 /**
  * Handles {@link WebDriver} life cycle in single and multi threaded scenarios.
@@ -66,6 +67,8 @@ public class WebDriverListener implements ITestListener {
     getLogger().trace("WebDriverListener active.");
     // always executed in the main thread, so we can't initialize WebDrivers right here
     setAdjustViewportInGalen(!isSuppressAutoAdjustBrowserSize());
+    getLogger().info("Adding Shutdown hook.");
+    Runtime.getRuntime().addShutdownHook(new WebDriverShutdown());
   }
 
   @Override
@@ -123,7 +126,7 @@ public class WebDriverListener implements ITestListener {
 
   @Override
   public void onTestSuccess(ITestResult result) {
-    closeDriverIfRunningInParallel(result);
+    //    closeDriverIfRunningInParallel(result);
   }
 
   private void closeDriverIfRunningInParallel(ITestResult result) {
