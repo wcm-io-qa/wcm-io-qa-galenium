@@ -44,6 +44,9 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
 import io.wcm.qa.galenium.util.TestDevice;
 
+/**
+ * Static factory methods for use by {@link WebDriverManager}.
+ */
 final class WebDriverFactory {
 
   private WebDriverFactory() {
@@ -99,6 +102,11 @@ final class WebDriverFactory {
     GaleniumContext.getContext().setDriver(driver);
   }
 
+  /**
+   * Create webdriver based on test device
+   * @param newTestDevice info on browser and size
+   * @return ready to use driver
+   */
   static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
