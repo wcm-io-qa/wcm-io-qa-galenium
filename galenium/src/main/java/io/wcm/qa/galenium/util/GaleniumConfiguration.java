@@ -166,7 +166,7 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Password to use when logging into author.
+   * Username to use when logging into author.
    * <ul>
    * <li>Key:
    *
