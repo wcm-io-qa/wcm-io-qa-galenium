@@ -119,6 +119,10 @@ public final class GaleniumConfiguration {
     return baseUrl;
   }
 
+  /**
+   * Log level for browser log output. Default INFO.
+   * @return level to use for logs from browser
+   */
   public static Level getBrowserLogLevel() {
     try {
       return Level.parse(System.getProperty(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, "INFO"));
