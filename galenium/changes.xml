@@ -33,6 +33,12 @@
       <action type="update" dev="apegam">
         Javadoc and code clean up.
       </action>
+      <action type="update" dev="apegam">
+        Bump Galen version to 2.3.5 and Selenium to 3.5.3.
+      </action>
+      <action type="update" dev="apegam">
+        Bugfixes.
+      </action>
     </release>
 
     <release version="0.1.6" date="2017-06-27">
