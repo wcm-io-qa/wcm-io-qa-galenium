@@ -17,6 +17,7 @@ Selenium Galen Integration
 Galenium integrates Galen with Selenium with TestNG with Maven.
 
 Features:
+
 * Integrates easily with CI because it is Maven based
 * Optional multi-threading to speed up test runs
 * Configurable retries for failed tests to deal with flakiness
