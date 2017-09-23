@@ -37,7 +37,9 @@ import io.wcm.qa.galenium.example.pageobjects.Stage;
 import io.wcm.qa.galenium.listeners.RetryAnalyzer;
 import io.wcm.qa.galenium.util.TestDevice;
 
-
+/**
+ * Showcase page object approach.
+ */
 public class PageObjectExampleIT extends AbstractExampleBase {
 
   private Homepage homepage;
