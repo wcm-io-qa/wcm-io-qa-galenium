@@ -221,7 +221,11 @@ public abstract class VerificationBase implements Verification {
    * @return key to use in persisting and retrieving sample values
    */
   protected String getExpectedKey() {
-    return getDifferences().asPropertyKey();
+    String expectedKey = getDifferences().asPropertyKey();
+    if (StringUtils.isNotBlank(expectedKey)) {
+      return expectedKey + "." + getVerificationName().toLowerCase();
+    }
+    return getVerificationName().toLowerCase();
   }
 
   /**
