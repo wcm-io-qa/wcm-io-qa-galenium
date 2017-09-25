@@ -31,6 +31,7 @@ public class InvisibilityVerification extends VisibilityVerification {
    */
   public InvisibilityVerification(Selector selector) {
     super(selector);
+    setTimeout(1);
   }
 
   @Override
