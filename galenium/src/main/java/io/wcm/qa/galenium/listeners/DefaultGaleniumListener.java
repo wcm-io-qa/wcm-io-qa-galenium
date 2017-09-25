@@ -33,7 +33,24 @@ import org.testng.TestListenerAdapter;
 import io.wcm.qa.galenium.sampling.text.TextSamplePersistenceListener;
 
 /**
- * Listener to manage WebDriver management, reporting and screenshots.
+ * Listener to manage WebDriver management, reporting and screenshots. This listener is just a container for other
+ * listeners that will be called throughout test and suite lifecycle.
+ * Contained by default:
+ * <ul>
+ * <li>
+ * {@link LoggingListener}
+ * </li>
+ * <li>
+ * {@link ExtentReportsListener}
+ * </li>
+ * <li>
+ * {@link WebDriverListener}
+ * </li>
+ * <li>
+ * {@link TextSamplePersistenceListener}
+ * </li>
+ * </ul>
+ * You can extend this class and add your own listeners using the {@link #add(ITestListener)} method.
  */
 public class DefaultGaleniumListener extends TestListenerAdapter {
 
