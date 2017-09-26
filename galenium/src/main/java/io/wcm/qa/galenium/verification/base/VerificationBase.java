@@ -36,6 +36,7 @@ import io.wcm.qa.galenium.sampling.text.TextSampleManager;
  */
 public abstract class VerificationBase implements Verification {
 
+  private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
   private String actualValue;
   private SortedDifferences differences;
   private Throwable exception;
@@ -135,7 +136,13 @@ public abstract class VerificationBase implements Verification {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(getClass().getSimpleName());
+    String simpleClassName = getClass().getSimpleName();
+    if (isStripVerificationFromClassName()) {
+      stringBuilder.append(StringUtils.removeIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME));
+    }
+    else {
+      stringBuilder.append(simpleClassName);
+    }
     stringBuilder.append("(");
     stringBuilder.append(getVerificationName());
     if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
@@ -214,7 +221,11 @@ public abstract class VerificationBase implements Verification {
    * @return key to use in persisting and retrieving sample values
    */
   protected String getExpectedKey() {
-    return getDifferences().asPropertyKey();
+    String expectedKey = getDifferences().asPropertyKey();
+    if (StringUtils.isNotBlank(expectedKey)) {
+      return expectedKey + "." + getVerificationName().toLowerCase();
+    }
+    return getVerificationName().toLowerCase();
   }
 
   /**
@@ -256,6 +267,13 @@ public abstract class VerificationBase implements Verification {
    */
   protected boolean hasPreVerification() {
     return getPreVerification() != null;
+  }
+
+  /**
+   * @return whether to remove "Verification" from name
+   */
+  protected boolean isStripVerificationFromClassName() {
+    return true;
   }
 
   /**

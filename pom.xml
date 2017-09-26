@@ -23,16 +23,16 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.7-SNAPSHOT</version>
+    <version>0.1.8</version>
     <relativePath>parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.root</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.7-SNAPSHOT</version>
+  <version>0.1.8</version>
 
-  <name>Galenium</name>
+  <name>Galenium Root</name>
   <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
 
   <scm>
@@ -42,10 +42,6 @@
     <tag>HEAD</tag>
   </scm>
   
-  <properties>
-    <site.url.module.prefix>galenium</site.url.module.prefix>
-  </properties>
-
   <modules>
     <module>parent</module>
     <module>galenium</module>
@@ -65,14 +61,16 @@
         </configuration>
       </plugin>
 
+      <!-- do not generate site for this project -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
-
-  <distributionManagement>
-    <site>
-      <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}${site.url.module.prefix}</url>
-    </site>
-  </distributionManagement>
 
 </project>

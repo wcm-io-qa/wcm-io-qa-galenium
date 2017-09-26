@@ -36,6 +36,14 @@ public class CssClassVerification extends AttributeVerification {
   /**
    * Constructor for {@link Selector}.
    * @param selector to identify element
+   */
+  public CssClassVerification(Selector selector) {
+    super(selector, ATTRIBUTE_NAME_CLASS);
+  }
+
+  /**
+   * Constructor for {@link Selector}.
+   * @param selector to identify element
    * @param cssClass to verify against
    */
   public CssClassVerification(Selector selector, String cssClass) {

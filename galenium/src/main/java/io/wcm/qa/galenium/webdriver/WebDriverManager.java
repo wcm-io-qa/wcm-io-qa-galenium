@@ -53,7 +53,7 @@ public final class WebDriverManager {
    * Quits Selenium WebDriver instance managed by this class.
    */
   public static void closeDriver() {
-    if (getDriver() != null) {
+    if (getCurrentDriver() != null) {
       try {
         quitDriver();
       }
@@ -81,6 +81,9 @@ public final class WebDriverManager {
     }
   }
 
+  /**
+   * @return driver from current thread's context
+   */
   public static WebDriver getCurrentDriver() {
     return GaleniumContext.getDriver();
   }
@@ -97,12 +100,12 @@ public final class WebDriverManager {
     boolean needsNewDriver = needsNewDriver(testDevice);
     if (needsNewDriver) {
       logInfo("Needs new device: " + testDevice.toString());
-      if (getDriver() != null) {
+      if (getCurrentDriver() != null) {
         closeDriver();
       }
       WebDriver newDriver = WebDriverFactory.newDriver(testDevice);
       setDriver(newDriver);
-      getDriver().manage().deleteAllCookies();
+      getCurrentDriver().manage().deleteAllCookies();
       logInfo("Deleted all cookies.");
     }
 
@@ -114,7 +117,7 @@ public final class WebDriverManager {
       else {
         try {
           Dimension screenSize = testDevice.getScreenSize();
-          GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getDriver(), screenSize.width, screenSize.height);
+          GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getCurrentDriver(), screenSize.width, screenSize.height);
         }
         catch (WebDriverException ex) {
           if (!isChromeHeadless()) {
@@ -136,18 +139,12 @@ public final class WebDriverManager {
         getLogger().trace("driver window size: " + toString(getWindowSize()));
       }
     }
-    return getDriver();
-  }
-
-  private static WebDriver getDriver() {
-    WebDriver driver = GaleniumContext.getDriver();
-    logTrace("getting WebDriver: " + driver);
-    return driver;
+    return getCurrentDriver();
   }
 
   private static Dimension getWindowSize() {
     try {
-      return getDriver().manage().window().getSize();
+      return getCurrentDriver().manage().window().getSize();
     }
     catch (NullPointerException | WebDriverException ex) {
       getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
@@ -177,7 +174,7 @@ public final class WebDriverManager {
 
   private static boolean needsNewDriver(TestDevice testDevice) {
 
-    if (getDriver() == null) {
+    if (getCurrentDriver() == null) {
       logTrace("needs new device: driver is null");
       return true;
     }
@@ -230,7 +227,7 @@ public final class WebDriverManager {
 
   private static void quitDriver() {
     logInfo("Attempting to close driver");
-    getDriver().quit();
+    getCurrentDriver().quit();
     logInfo("Closed driver");
   }
 

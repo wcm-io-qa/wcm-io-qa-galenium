@@ -45,7 +45,7 @@ abstract class AbstractSelectorBase implements Selector {
   @Override
   public Locator asLocator() {
     if (getLocator() == null) {
-      Locator.css(getString());
+      setLocator(Locator.css(getString()));
     }
     return getLocator();
   }

@@ -46,7 +46,7 @@ Sometimes it is desirable to have tests continue running even if assertions fail
 
 ## Selectors
 
-*Selector* is a Galenium concept that uses a single type to represent both Galen's notion of *Locator* and Selenium's *By*. It is an interface that should be used within Galenium tests up to the final handing off to proper Galen or Selenium API methods. This helps sharing UI objects to be easily shared between Galen and Selenium based functionality.
+*Selector* is a Galenium concept that uses a single type to represent both Galen's notion of *Locator* and Selenium's *By*. It is an interface that should be used within Galenium tests up to the final handing off to proper Galen or Selenium API methods. This helps sharing UI objects easily between Galen and Selenium based functionality.
 
 ## Image Comparison
 

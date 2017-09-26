@@ -1,4 +1,0 @@
-## Galenium - Usage
-
-
-TBD

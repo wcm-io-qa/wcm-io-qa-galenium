@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.galenium.verification;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.sampling.differences.DifferentiatedDifferences;
@@ -36,6 +35,7 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   private WebElement element;
   private Selector selector;
+  private int timeout;
 
   /**
    * @param selector to identify element
@@ -47,10 +47,10 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   /**
    * @param selector to identify element
-   * @param expectedValue to verify against
+   * @param alternativeName name to use for verification
    */
-  protected ElementBasedVerification(Selector selector, String expectedValue) {
-    super(expectedValue);
+  protected ElementBasedVerification(Selector selector, String alternativeName) {
+    super(alternativeName);
     setSelector(selector);
   }
 
@@ -65,9 +65,16 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   public WebElement getElement() {
     if (element == null) {
-      element = InteractionUtil.getElementVisible(getSelector());
+      element = InteractionUtil.getElementVisible(getSelector(), getTimeout());
     }
     return element;
+  }
+
+  /**
+   * @return how long to wait in seconds
+   */
+  public int getTimeout() {
+    return timeout;
   }
 
   @Override
@@ -99,10 +106,7 @@ abstract class ElementBasedVerification extends VerificationBase {
       differentiatedDifferences.add(elementNameDifference);
     }
     differentiatedDifferences.setCutoff(1);
-    if (StringUtils.isNotBlank(super.getExpectedKey())) {
-      return super.getExpectedKey() + "." + getElementName();
-    }
-    return getElementName();
+    return differentiatedDifferences.asPropertyKey();
   }
 
   @Override
@@ -116,5 +120,9 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   protected void setSelector(Selector selector) {
     this.selector = selector;
+  }
+
+  public void setTimeout(int timeout) {
+    this.timeout = timeout;
   }
 }

@@ -27,11 +27,11 @@
     <relativePath />
   </parent>
 
-  <name>Galenium Integration Parent</name>
+  <name>Galenium</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.7-SNAPSHOT</version>
+  <version>0.1.8</version>
 
   <description>Test automation module. Enabling Galen and Selenium</description>
 
@@ -47,8 +47,15 @@
     <galen.device />
     <selenium.chromeEmulator>Google Nexus 7, Apple iPhone 6, Apple iPad,
       Laptop with HiDPI screen, Amazon Kindle Fire HDX</selenium.chromeEmulator>
-
+    <site.url.module.prefix>galenium</site.url.module.prefix>
   </properties>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
   <dependencyManagement>
     <dependencies>
@@ -63,7 +70,7 @@
       <dependency>
         <groupId>com.galenframework</groupId>
         <artifactId>galen-java-support</artifactId>
-        <version>2.3.3</version>
+        <version>2.3.5</version>
       </dependency>
 
       <dependency>
@@ -132,15 +139,6 @@
             <include>**/*IT.java</include>
             <include>**/*GalenSuiteRunner.java</include>
           </includes>
-        </configuration>
-      </plugin>
-
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
         </configuration>
       </plugin>
 

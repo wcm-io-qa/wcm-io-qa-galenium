@@ -41,7 +41,11 @@ import io.wcm.qa.galenium.verification.NoCssClassVerification;
 import io.wcm.qa.galenium.verification.PageTitleVerification;
 import io.wcm.qa.galenium.verification.VisibilityVerification;
 import io.wcm.qa.galenium.verification.VisualVerification;
+import io.wcm.qa.galenium.verification.base.Verification;
 
+/**
+ * Showcase {@link Verification} approach.
+ */
 public class VerificationIT extends AbstractExampleBase {
 
   private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";

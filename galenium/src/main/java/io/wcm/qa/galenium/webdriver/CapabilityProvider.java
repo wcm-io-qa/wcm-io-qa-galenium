@@ -20,7 +20,6 @@
 package io.wcm.qa.galenium.webdriver;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
@@ -32,6 +31,7 @@ import org.slf4j.Logger;
 import com.google.gson.JsonElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 abstract class CapabilityProvider {
 
@@ -75,14 +75,13 @@ abstract class CapabilityProvider {
   protected DesiredCapabilities getCommonCapabilities() {
     // Request browser logging capabilities for capturing console.log output
     LoggingPreferences loggingPrefs = new LoggingPreferences();
-    loggingPrefs.enable(LogType.BROWSER, Level.FINER);
+    loggingPrefs.enable(LogType.BROWSER, GaleniumConfiguration.getBrowserLogLevel());
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
     return capabilities;
   }
-
 
   protected Logger getLogger() {
     return WebDriverManager.getLogger();
