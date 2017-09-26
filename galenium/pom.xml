@@ -23,14 +23,14 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
   
   <name>Galenium Integration</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-  <version>0.1.8</version>
+  <version>0.1.9-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <properties>
