@@ -155,7 +155,7 @@ public final class GalenLayoutChecker {
           getLogger().warn(errorMessages);
         }
         else {
-          getLogger().error(MARKER_FAIL, errorMessages);
+          getLogger().warn(MARKER_FAIL, errorMessages);
         }
       }
       if (layoutReport.errors() > 0) {
