@@ -31,6 +31,7 @@ import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
+import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
@@ -225,7 +226,7 @@ public class VisualVerification extends ElementBasedVerification {
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
-    catch (Exception ex) {
+    catch (GalenLayoutException ex) {
       return false;
     }
     return true;
