@@ -32,7 +32,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -80,8 +79,6 @@ final class WebDriverFactory {
         return new FirefoxCapabilityProvider();
       case IE:
         return new InternetExplorerCapabilityProvider();
-      case PHANTOMJS:
-        return new PhantomCapabilityProvider();
       case SAFARI:
         return new SafariCapabilityProvider();
       default:
@@ -149,11 +146,6 @@ final class WebDriverFactory {
           case SAFARI:
             SafariDriver safariDriver = new SafariDriver(capabilities);
             setDriver(safariDriver);
-            break;
-
-          case PHANTOMJS:
-            PhantomJSDriver phantomDriver = new PhantomJSDriver(capabilities);
-            setDriver(phantomDriver);
             break;
 
           default:
