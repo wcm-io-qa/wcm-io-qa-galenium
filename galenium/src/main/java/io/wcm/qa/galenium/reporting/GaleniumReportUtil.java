@@ -276,6 +276,12 @@ public final class GaleniumReportUtil {
           String screenCapture = getExtentTest().addScreenCapture(destScreenshotFilePath);
           getLogger().info(screenCapture);
           screenshotSuccessful = true;
+          if (FileUtils.deleteQuietly(screenshotFile)) {
+            getLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
+          }
+          else {
+            getLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
+          }
         }
         catch (IOException ex) {
           getLogger().error("Cannot copy screenshot.", ex);
