@@ -132,11 +132,15 @@ public final class WebDriverManager {
     if (getLogger().isTraceEnabled()) {
       getLogger().trace("driver for test device: " + testDevice);
       getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
-      if (GaleniumConfiguration.isChromeHeadless()) {
+      Dimension windowSize = getWindowSize();
+      if (windowSize == null && GaleniumConfiguration.isChromeHeadless()) {
         getLogger().trace("driver window size: none (headless)");
       }
+      else if (windowSize == null) {
+        getLogger().trace("driver window size: none");
+      }
       else {
-        getLogger().trace("driver window size: " + toString(getWindowSize()));
+        getLogger().trace("driver window size: " + toString(windowSize));
       }
     }
     return getCurrentDriver();
