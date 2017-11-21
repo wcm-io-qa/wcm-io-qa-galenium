@@ -151,7 +151,9 @@ public final class WebDriverManager {
       return getCurrentDriver().manage().window().getSize();
     }
     catch (NullPointerException | WebDriverException ex) {
-      getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
+      if (!GaleniumConfiguration.isChromeHeadless()) {
+        getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
+      }
     }
     return null;
   }
