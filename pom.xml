@@ -34,6 +34,7 @@
 
   <name>Galenium Root</name>
   <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io-qa/wcm-io-qa-galenium.git</connection>
