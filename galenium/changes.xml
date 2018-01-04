@@ -25,6 +25,9 @@
 
     <release version="0.1.10" date="not released yet">
       <action type="update" dev="apegam">
+        Updated chromedriver to version 2.33.
+      </action>
+      <action type="update" dev="apegam">
         Now deleting Selenium's screenshots to avoid disk space problems on systems not cleaning their temp directory.
       </action>
       <action type="remove" dev="apegam">
