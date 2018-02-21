@@ -70,6 +70,11 @@
       <artifactId>commons-collections4</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>net.lightbody.bmp</groupId>
+      <artifactId>browsermob-core</artifactId>
+    </dependency>
+
   </dependencies>
     
   <build>

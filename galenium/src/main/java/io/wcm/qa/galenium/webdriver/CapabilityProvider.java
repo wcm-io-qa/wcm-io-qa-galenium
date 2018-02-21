@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import com.google.gson.JsonElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.BrowserMobUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 abstract class CapabilityProvider {
@@ -79,6 +80,10 @@ abstract class CapabilityProvider {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+
+    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
+      capabilities.setCapability(CapabilityType.PROXY, BrowserMobUtil.getSeleniumProxy());
+    }
 
     return capabilities;
   }
