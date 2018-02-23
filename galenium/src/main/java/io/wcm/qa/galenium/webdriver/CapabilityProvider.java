@@ -81,10 +81,6 @@ abstract class CapabilityProvider {
     capabilities.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
-      capabilities.setCapability(CapabilityType.PROXY, BrowserMobUtil.getSeleniumProxy());
-    }
-
     return capabilities;
   }
 

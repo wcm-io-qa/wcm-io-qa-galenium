@@ -26,6 +26,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.BrowserMobUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 class ChromeCapabilityProvider extends CapabilityProvider {
@@ -55,29 +56,44 @@ class ChromeCapabilityProvider extends CapabilityProvider {
       getLogger().debug("setting binary path: '" + chromeBinaryPath + "'");
       addChromeOption(capabilities, OPTIONS_KEY_BINARY, chromeBinaryPath);
     }
+    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
+      addChromeOption(capabilities, OPTIONS_KEY_ARGS, new String[] { "proxy-server=" + BrowserMobUtil.getProxyAsString() });
+    }
     return capabilities;
   }
 
   protected DesiredCapabilities addChromeOption(DesiredCapabilities capabilities, String key, Object value) {
     Object options = capabilities.getCapability(ChromeOptions.CAPABILITY);
     if (options == null) {
-      getLogger().debug("setting in fresh chrome options: '" + key + "' -> '" + value + "'");
+      getLogger().debug("setting in fresh chrome options: '" + key + "' -> '" + chromeOptionValueToString(value) + "'");
       options = new ChromeOptions();
       addChromeOption((ChromeOptions)options, key, value);
     }
     else if (options instanceof ChromeOptions) {
-      getLogger().debug("setting in existing chrome options: '" + key + "' -> '" + value + "'");
+      getLogger().debug("setting in existing chrome options: '" + key + "' -> '" + chromeOptionValueToString(value) + "'");
       ChromeOptions chromeOptions = (ChromeOptions)options;
       addChromeOption(chromeOptions, key, value);
     }
     else if (options instanceof Map<?, ?>) {
-      getLogger().debug("setting in existing map options: '" + key + "' -> '" + value + "'");
+      getLogger().debug("setting in existing map options: '" + key + "' -> '" + chromeOptionValueToString(value) + "'");
       @SuppressWarnings("unchecked")
       Map<Object, Object> optionMap = (Map<Object, Object>)options;
       optionMap.put(key, value);
     }
     capabilities.setCapability(ChromeOptions.CAPABILITY, options);
     return capabilities;
+  }
+
+  private String chromeOptionValueToString(Object value) {
+    if (value instanceof Object[]) {
+      Object[] array = (Object[])value;
+      return "[" + StringUtils.join(array, ", ") + "]";
+    }
+    if (value instanceof Iterable) {
+      Iterable iterable = (Iterable)value;
+      return "[" + StringUtils.join(iterable, ", ") + "]";
+    }
+    return value.toString();
   }
 
   @Override

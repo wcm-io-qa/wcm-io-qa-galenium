@@ -19,26 +19,46 @@
  */
 package io.wcm.qa.galenium.util;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import org.openqa.selenium.Proxy;
 
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.proxy.auth.AuthType;
 
 /**
  * Configuring the BrowserMob Proxy.
  */
 public final class BrowserMobUtil {
 
-  private static final String HEADER_NAME_BASIC_AUTHENTICATION = "Authorization";
-  private static Proxy seleniumProxy;
   private static BrowserMobProxyServer proxy;
+  private static Proxy seleniumProxy;
 
   private BrowserMobUtil() {
     // do not instantiate
+  }
+
+  /**
+   * Add basic authentication header to every request.
+   * @param name user name to use for auth
+   * @param pass password to use for auth
+   */
+  public static void addBasicAuth(String name, String pass) {
+    getLogger().debug(MARKER_INFO, "setting basic auth.");
+    getBrowserMobProxy().autoAuthorization("", name, pass, AuthType.BASIC);
+  }
+
+  /**
+   * Add header to every request.
+   * @param name header name
+   * @param value header value
+   */
+  public static void addHeader(String name, String value) {
+    getLogger().debug(MARKER_INFO, "adding header: " + name);
+    getBrowserMobProxy().addHeader(name, value);
   }
 
   /**
@@ -52,7 +72,10 @@ public final class BrowserMobUtil {
 
   }
 
-  private static BrowserMobProxy getBrowserMobProxy() {
+  /**
+   * @return the started BrowserMob Proxy
+   */
+  public static BrowserMobProxy getBrowserMobProxy() {
     if (proxy == null) {
       proxy = new BrowserMobProxyServer();
       proxy.start();
@@ -60,32 +83,8 @@ public final class BrowserMobUtil {
     return proxy;
   }
 
-  /**
-   * Add basic authentication header to every request.
-   * @param name user name to use for auth
-   * @param pass password to use for auth
-   */
-  public static void addBasicAuth(String name, String pass) {
-    String credentialsAsString = name + ":" + pass;
-    byte[] credentialsAsBytes = credentialsAsString.getBytes(Charset.forName("UTF-8"));
-    String encodedCredentials = Base64.getEncoder().encodeToString(credentialsAsBytes);
-    getBrowserMobProxy().addHeader(HEADER_NAME_BASIC_AUTHENTICATION, "Basic " + encodedCredentials);
-  }
-
-  /**
-   * Removes basic authentication header so that BrowserMob Proxy does not add them to any requests anymore.
-   */
-  public static void removeBasicAuth() {
-    getBrowserMobProxy().removeHeader(HEADER_NAME_BASIC_AUTHENTICATION);
-  }
-
-  /**
-   * Add header to every request.
-   * @param name header name
-   * @param value header value
-   */
-  public static void addHeader(String name, String value) {
-    getBrowserMobProxy().addHeader(name, value);
+  public static String getProxyAsString() {
+    return "localhost:" + getBrowserMobProxy().getPort();
   }
 
 }
