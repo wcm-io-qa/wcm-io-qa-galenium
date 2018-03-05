@@ -24,9 +24,6 @@
   <body>
 
     <release version="0.1.10" date="not released yet">
-      <action type="add" dev="apegam">
-        Added BrowserMob Proxy for basic authentication.
-      </action>
       <action type="update" dev="apegam">
         Updated chromedriver to version 2.33.
       </action>
