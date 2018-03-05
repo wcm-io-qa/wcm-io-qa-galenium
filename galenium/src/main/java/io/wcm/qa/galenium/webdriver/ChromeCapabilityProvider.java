@@ -26,7 +26,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.BrowserMobUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 class ChromeCapabilityProvider extends CapabilityProvider {
@@ -55,9 +54,6 @@ class ChromeCapabilityProvider extends CapabilityProvider {
     if (StringUtils.isNotBlank(chromeBinaryPath)) {
       getLogger().debug("setting binary path: '" + chromeBinaryPath + "'");
       addChromeOption(capabilities, OPTIONS_KEY_BINARY, chromeBinaryPath);
-    }
-    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
-      addChromeOption(capabilities, OPTIONS_KEY_ARGS, new String[] { "proxy-server=" + BrowserMobUtil.getProxyAsString() });
     }
     return capabilities;
   }
