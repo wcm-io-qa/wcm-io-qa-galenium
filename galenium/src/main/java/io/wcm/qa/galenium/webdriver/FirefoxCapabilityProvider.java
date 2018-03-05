@@ -21,7 +21,11 @@ package io.wcm.qa.galenium.webdriver;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.wcm.qa.galenium.util.BrowserMobUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 
 class FirefoxCapabilityProvider extends CapabilityProvider {
@@ -36,6 +40,9 @@ class FirefoxCapabilityProvider extends CapabilityProvider {
   protected DesiredCapabilities getBrowserSpecificCapabilities() {
     getLogger().debug("creating capabilities for Firefox");
     DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
+      capabilities.setCapability(CapabilityType.PROXY, BrowserMobUtil.getSeleniumProxy());
+    }
     FirefoxProfile firefoxProfile = new FirefoxProfile();
     setEnableNativeEvents(firefoxProfile);
     firefoxProfile.setAcceptUntrustedCertificates(true);
