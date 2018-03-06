@@ -58,6 +58,7 @@ import io.wcm.qa.galenium.util.TestInfoUtil;
  */
 public final class GaleniumReportUtil {
 
+  private static final String NO_TEST_NAME_SET = "no.test.name.set";
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
   /** For special ERROR log status. */
@@ -241,7 +242,7 @@ public final class GaleniumReportUtil {
    * @return the logger used for the current test, if no test is set, it will use "NO_TEST_NAME_SET" as the test name
    */
   public static Logger getLogger() {
-    String name = "NO_TEST_NAME_SET";
+    String name = NO_TEST_NAME_SET;
     ExtentTest extentTest = getExtentTest();
     if (extentTest != null) {
       ITest test = extentTest.getTest();
