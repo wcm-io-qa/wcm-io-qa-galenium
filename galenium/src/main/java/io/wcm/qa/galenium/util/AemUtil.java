@@ -55,10 +55,14 @@ public final class AemUtil {
    * Login to author if on AEM author login page.
    */
   public static void loginToAuthor() {
+    loginToAuthor(getAuthorUser(), getAuthorPass());
+  }
+
+  private static void loginToAuthor(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
       getLogger().info("Logging in to author instance");
-      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, getAuthorUser());
-      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, getAuthorPass());
+      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
+      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
       click(SELECTOR_AUTHOR_LOGIN_BUTTON);
     }
   }
@@ -67,9 +71,19 @@ public final class AemUtil {
    * Load URL and login to AEM author if landing on login page.
    */
   public static void loginToAuthor(String targetUrl) {
+    loginToAuthor(targetUrl, getAuthorUser(), getAuthorPass());
+  }
+
+  /**
+   * Load URL and login to AEM author with credentials if landing on login page.
+   * @param targetUrl
+   * @param authorUser
+   * @param authorPass
+   */
+  public static void loginToAuthor(String targetUrl, String authorUser, String authorPass) {
     loadUrl(targetUrl);
     if (isAuthorLogin()) {
-      loginToAuthor();
+      loginToAuthor(authorUser, authorPass);
       waitForUrl(targetUrl);
     }
   }

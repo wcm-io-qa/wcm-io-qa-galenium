@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.cookies;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,11 +76,26 @@ public final class CookiePersistenceUtil {
   }
 
   /**
+   * @return whether there is a profile set for this thread
+   */
+  public static boolean hasCurrentProfile() {
+    return getCurrentProfile() != null;
+  }
+
+  /**
    * Sets all fetched cookies from profile in current driver.
    * @param profileToApply
    */
   public static void applyProfileToDriver(CookieProfile profileToApply) {
+    if (profileToApply == null) {
+      getLogger().warn("cookie profile is null.");
+      return;
+    }
     WebDriver driver = GaleniumContext.getDriver();
+    if (driver == null) {
+      getLogger().error("driver is null, when trying to apply cookie profile: " + profileToApply.getProfileName());
+      return;
+    }
     Collection<Cookie> fetchedCookies = profileToApply.getFetchedCookies();
     for (Cookie cookie : fetchedCookies) {
       driver.manage().addCookie(cookie);

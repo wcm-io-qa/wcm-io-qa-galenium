@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
 
@@ -66,7 +67,11 @@ public class CookieProfile {
    * @see java.util.Collection#add(java.lang.Object)
    */
   public boolean add(CookieFetcher fetcherToAdd) {
-    return this.cookieFetchers.add(fetcherToAdd);
+    if (cookieFetchers.add(fetcherToAdd)) {
+      setInitialized(false);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -75,14 +80,14 @@ public class CookieProfile {
    * @see java.util.Collection#addAll(java.util.Collection)
    */
   public boolean addAll(Collection<? extends CookieFetcher> collectionOfFetchersToAdd) {
-    return this.cookieFetchers.addAll(collectionOfFetchersToAdd);
+    return cookieFetchers.addAll(collectionOfFetchersToAdd);
   }
 
   /**
    * @see java.util.Collection#clear()
    */
   public void clear() {
-    this.cookieFetchers.clear();
+    cookieFetchers.clear();
   }
 
   /**
@@ -91,7 +96,7 @@ public class CookieProfile {
    * @see java.util.Collection#contains(java.lang.Object)
    */
   public boolean contains(Object fetcher) {
-    return this.cookieFetchers.contains(fetcher);
+    return cookieFetchers.contains(fetcher);
   }
 
   public String getProfileName() {
@@ -104,7 +109,7 @@ public class CookieProfile {
    * @see java.util.Collection#remove(java.lang.Object)
    */
   public boolean remove(Object fetcherToRemove) {
-    return this.cookieFetchers.remove(fetcherToRemove);
+    return cookieFetchers.remove(fetcherToRemove);
   }
 
   private void setProfileName(String profileName) {
@@ -115,15 +120,15 @@ public class CookieProfile {
     return initialized;
   }
 
-  private void setInitialized() {
-    this.initialized = true;
+  private void setInitialized(boolean value) {
+    initialized = value;
   }
 
-  private void fetchCookies() {
+  private void fetchCookies(WebDriver driver) {
     for (CookieFetcher cookieFetcher : cookieFetchers) {
-      getLogger().debug("fetching cookies for profile '" + getProfileName() + "': " + cookieFetcher);
+      getLogger().debug("fetching cookies for profile '" + getProfileName() + "': " + cookieFetcher.getFetcherName());
       if (cookieFetcher.fetchCookies()) {
-        Set<Cookie> cookies = GaleniumContext.getDriver().manage().getCookies();
+        Set<Cookie> cookies = driver.manage().getCookies();
         Collection<String> cookieNames = cookieFetcher.getCookieNames();
         for (String cookieName : cookieNames) {
           for (Cookie cookie : cookies) {
@@ -135,7 +140,7 @@ public class CookieProfile {
         }
       }
       else {
-        getLogger().warn("fetching cookies failed in profile '" + getProfileName() + "': " + cookieFetcher);
+        getLogger().warn("fetching cookies failed in profile '" + getProfileName() + "': " + cookieFetcher.getFetcherName());
       }
     }
   }
@@ -144,11 +149,20 @@ public class CookieProfile {
    * @return fetched cookies
    */
   public Collection<Cookie> getFetchedCookies() {
-    if (!isInitialized()) {
-      fetchCookies();
-      setInitialized();
-    }
+    initialize(GaleniumContext.getDriver());
     return fetchedCookies;
+  }
+
+  /**
+   * Fetches the cookies.
+   * @param driver to use for cookie fetching
+   */
+  public void initialize(WebDriver driver) {
+    if (!isInitialized()) {
+      getFetchedCookies().clear();
+      fetchCookies(driver);
+      setInitialized(true);
+    }
   }
 
 }
