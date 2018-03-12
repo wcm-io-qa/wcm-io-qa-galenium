@@ -239,7 +239,7 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * @return the logger used for the current test, if no test is set, it will use "NO_TEST_NAME_SET" as the test name
+   * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
    */
   public static Logger getLogger() {
     String name = NO_TEST_NAME_SET;
