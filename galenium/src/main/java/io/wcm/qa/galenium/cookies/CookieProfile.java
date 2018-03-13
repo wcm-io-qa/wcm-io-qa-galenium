@@ -29,8 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
-import io.wcm.qa.galenium.util.GaleniumContext;
-
 /**
  * Combines multiple {@link CookieFetcher} into one profile that can be easily selected on a per test case basis.
  */
@@ -149,7 +147,9 @@ public class CookieProfile {
    * @return fetched cookies
    */
   public Collection<Cookie> getFetchedCookies() {
-    initialize(GaleniumContext.getDriver());
+    if (!isInitialized()) {
+      getLogger().warn("getting cookies before they are fetched.");
+    }
     return fetchedCookies;
   }
 
@@ -159,7 +159,7 @@ public class CookieProfile {
    */
   public void initialize(WebDriver driver) {
     if (!isInitialized()) {
-      getFetchedCookies().clear();
+      fetchedCookies.clear();
       fetchCookies(driver);
       setInitialized(true);
     }
