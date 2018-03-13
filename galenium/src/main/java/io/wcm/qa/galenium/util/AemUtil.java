@@ -56,15 +56,7 @@ public final class AemUtil {
    */
   public static void loginToAuthor() {
     loginToAuthor(getAuthorUser(), getAuthorPass());
-  }
 
-  private static void loginToAuthor(String authorUser, String authorPass) {
-    if (isAuthorLogin()) {
-      getLogger().info("Logging in to author instance");
-      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
-      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
-      click(SELECTOR_AUTHOR_LOGIN_BUTTON);
-    }
   }
 
   /**
@@ -85,6 +77,15 @@ public final class AemUtil {
     if (isAuthorLogin()) {
       loginToAuthor(authorUser, authorPass);
       waitForUrl(targetUrl);
+    }
+  }
+
+  private static void loginToAuthor(String authorUser, String authorPass) {
+    if (isAuthorLogin()) {
+      getLogger().info("Logging in to author instance");
+      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
+      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
+      click(SELECTOR_AUTHOR_LOGIN_BUTTON);
     }
   }
 
