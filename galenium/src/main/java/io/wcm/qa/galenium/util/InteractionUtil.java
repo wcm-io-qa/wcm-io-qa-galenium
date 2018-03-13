@@ -54,6 +54,10 @@ import io.wcm.qa.galenium.selectors.Selector;
  */
 public final class InteractionUtil {
 
+  private InteractionUtil() {
+    // Do not instantiate
+  }
+
   /**
    * Accepting alert popups in browser.
    * @return whether an alert was accepted
@@ -377,14 +381,19 @@ public final class InteractionUtil {
    * @param url to load
    */
   public static void waitForUrl(String url) {
-    getLogger().trace("waiting for URL: '" + url + "'");
-    WebDriverWait wait = new WebDriverWait(getDriver(), 5);
-    wait.until(ExpectedConditions.urlToBe(url));
-    getLogger().trace("found URL: '" + url + "'");
+    waitForUrl(url, 5);
   }
 
-  private InteractionUtil() {
-    // Do not instantiate
+  /**
+   * Load URL and wait passed number of seconds for it to be loaded.
+   * @param url to load
+   * @param timeOutInSeconds how long to wait for URL to be current
+   */
+  public static void waitForUrl(String url, int timeOutInSeconds) {
+    getLogger().trace("waiting for URL: '" + url + "'");
+    WebDriverWait wait = new WebDriverWait(getDriver(), timeOutInSeconds);
+    wait.until(ExpectedConditions.urlToBe(url));
+    getLogger().trace("found URL: '" + url + "'");
   }
 
 }
