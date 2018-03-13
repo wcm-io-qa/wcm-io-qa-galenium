@@ -74,13 +74,25 @@ public final class AemUtil {
    * @param targetUrl
    * @param authorUser
    * @param authorPass
+   * @return whether login was necessary and successful
    */
   public static boolean loginToAuthor(String targetUrl, String authorUser, String authorPass) {
-    loadUrl(targetUrl);
+    return loginToAuthor(targetUrl, targetUrl, authorUser, authorPass);
+  }
+
+  /**
+   * @param initialUrl
+   * @param finalUrl
+   * @param authorUser
+   * @param authorPass
+   * @return whether login was necessary and successful
+   */
+  public static boolean loginToAuthor(String initialUrl, String finalUrl, String authorUser, String authorPass) {
+    loadUrl(initialUrl);
     if (isAuthorLogin()) {
       try {
         loginToAuthor(authorUser, authorPass);
-        waitForUrl(targetUrl, 5);
+        waitForUrl(finalUrl, 5);
         return true;
       }
       catch (WebDriverException ex) {
@@ -92,7 +104,7 @@ public final class AemUtil {
         else {
           actualResult = driver.getCurrentUrl();
         }
-        getLogger().warn("author login not successful, when waiting for '" + targetUrl + "' got '" + actualResult + "'");
+        getLogger().warn("author login not successful, when waiting for '" + finalUrl + "' got '" + actualResult + "'");
       }
     }
     else {

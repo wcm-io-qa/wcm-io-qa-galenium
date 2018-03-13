@@ -33,21 +33,34 @@ public class AuthorLoginFetcher implements CookieFetcher {
   private static final Collection<String> COOKIE_NAMES = Arrays.asList("login-token");
   private String name;
   private String pass;
-  private String url;
+  private String initialUrl;
+  private String finalUrl;
 
   /**
-   * @param name login name
-   * @param pass password
+   * @param loginUrl URL to call and to check for
+   * @param name AEM author user
+   * @param pass AEM author password
    */
   public AuthorLoginFetcher(String loginUrl, String name, String pass) {
-    setUrl(loginUrl);
+    this(loginUrl, loginUrl, name, pass);
+  }
+
+  /**
+   * @param initialUrl to call
+   * @param finalUrl to check for after login
+   * @param name AEM author user
+   * @param pass AEM author password
+   */
+  public AuthorLoginFetcher(String initialUrl, String finalUrl, String name, String pass) {
+    setInitialUrl(initialUrl);
+    setFinalUrl(finalUrl);
     setName(name);
     setPass(pass);
   }
 
   @Override
   public boolean fetchCookies() {
-    return AemUtil.loginToAuthor(getUrl(), getName(), getPass());
+    return AemUtil.loginToAuthor(getInitialUrl(), getFinalUrl(), getName(), getPass());
   }
 
   @Override
@@ -68,8 +81,8 @@ public class AuthorLoginFetcher implements CookieFetcher {
     return pass;
   }
 
-  public String getUrl() {
-    return url;
+  public String getInitialUrl() {
+    return initialUrl;
   }
 
   protected void setName(String name) {
@@ -80,8 +93,16 @@ public class AuthorLoginFetcher implements CookieFetcher {
     this.pass = pass;
   }
 
-  protected void setUrl(String url) {
-    this.url = url;
+  protected void setInitialUrl(String url) {
+    this.initialUrl = url;
+  }
+
+  public String getFinalUrl() {
+    return finalUrl;
+  }
+
+  protected void setFinalUrl(String finalUrl) {
+    this.finalUrl = finalUrl;
   }
 
 }
