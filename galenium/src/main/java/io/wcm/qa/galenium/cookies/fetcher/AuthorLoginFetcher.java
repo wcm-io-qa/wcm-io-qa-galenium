@@ -47,9 +47,7 @@ public class AuthorLoginFetcher implements CookieFetcher {
 
   @Override
   public boolean fetchCookies() {
-    AemUtil.loginToAuthor(getUrl(), getName(), getPass());
-
-    return true;
+    return AemUtil.loginToAuthor(getUrl(), getName(), getPass());
   }
 
   @Override
