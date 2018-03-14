@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
 
@@ -91,6 +92,7 @@ public final class CookiePersistenceUtil {
       getLogger().warn("cookie profile is null.");
       return;
     }
+    getLogger().debug("applying cookie profile: '" + profileToApply.getProfileName() + "'");
     WebDriver driver = GaleniumContext.getDriver();
     if (driver == null) {
       getLogger().error("driver is null, when trying to apply cookie profile: " + profileToApply.getProfileName());
@@ -98,7 +100,23 @@ public final class CookiePersistenceUtil {
     }
     Collection<Cookie> fetchedCookies = profileToApply.getFetchedCookies();
     for (Cookie cookie : fetchedCookies) {
-      driver.manage().addCookie(cookie);
+      if (getLogger().isDebugEnabled()) {
+        StringBuilder addCookieMessage = new StringBuilder();
+        addCookieMessage.append("adding cookie to driver: '");
+        addCookieMessage.append(cookie.getName());
+        addCookieMessage.append("' (domain: '");
+        addCookieMessage.append(cookie.getDomain());
+        addCookieMessage.append("', path: '");
+        addCookieMessage.append(cookie.getPath());
+        addCookieMessage.append("')");
+        getLogger().debug(addCookieMessage.toString());
+      }
+      try {
+        driver.manage().addCookie(cookie);
+      }
+      catch (WebDriverException ex) {
+        getLogger().warn("could not set cookie ('" + cookie.getName() + "') when applying profile '" + profileToApply.getProfileName() + "'", ex);
+      }
     }
   }
 

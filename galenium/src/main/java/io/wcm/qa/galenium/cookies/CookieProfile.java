@@ -35,9 +35,9 @@ import org.openqa.selenium.WebDriver;
 public class CookieProfile {
 
   private Collection<CookieFetcher> cookieFetchers = new ArrayList<CookieFetcher>();
-  private String profileName;
-  private boolean initialized;
   private Collection<Cookie> fetchedCookies = new ArrayList<>();
+  private boolean initialized;
+  private String profileName;
 
   /**
    * Constructor.
@@ -97,8 +97,30 @@ public class CookieProfile {
     return cookieFetchers.contains(fetcher);
   }
 
+  /**
+   * @return fetched cookies
+   */
+  public Collection<Cookie> getFetchedCookies() {
+    if (!isInitialized()) {
+      getLogger().warn("getting cookies before they are fetched.");
+    }
+    return fetchedCookies;
+  }
+
   public String getProfileName() {
     return profileName;
+  }
+
+  /**
+   * Fetches the cookies.
+   * @param driver to use for cookie fetching
+   */
+  public void initialize(WebDriver driver) {
+    if (!isInitialized()) {
+      clearFetchedCookies();
+      fetchCookies(driver);
+      setInitialized(true);
+    }
   }
 
   /**
@@ -110,18 +132,6 @@ public class CookieProfile {
     return cookieFetchers.remove(fetcherToRemove);
   }
 
-  private void setProfileName(String profileName) {
-    this.profileName = profileName;
-  }
-
-  private boolean isInitialized() {
-    return initialized;
-  }
-
-  private void setInitialized(boolean value) {
-    initialized = value;
-  }
-
   private void fetchCookies(WebDriver driver) {
     for (CookieFetcher cookieFetcher : cookieFetchers) {
       getLogger().debug("fetching cookies for profile '" + getProfileName() + "': " + cookieFetcher.getFetcherName());
@@ -131,8 +141,8 @@ public class CookieProfile {
         for (String cookieName : cookieNames) {
           for (Cookie cookie : cookies) {
             if (StringUtils.equals(cookieName, cookie.getName())) {
-              getLogger().trace("adding cookie: '" + cookieName + "'");
-              getFetchedCookies().add(cookie);
+              getLogger().trace("adding cookie to '" + getProfileName() + "': '" + cookieName + "'");
+              addCookie(cookie);
             }
           }
         }
@@ -143,26 +153,24 @@ public class CookieProfile {
     }
   }
 
-  /**
-   * @return fetched cookies
-   */
-  public Collection<Cookie> getFetchedCookies() {
-    if (!isInitialized()) {
-      getLogger().warn("getting cookies before they are fetched.");
-    }
-    return fetchedCookies;
+  private boolean isInitialized() {
+    return initialized;
   }
 
-  /**
-   * Fetches the cookies.
-   * @param driver to use for cookie fetching
-   */
-  public void initialize(WebDriver driver) {
-    if (!isInitialized()) {
-      fetchedCookies.clear();
-      fetchCookies(driver);
-      setInitialized(true);
-    }
+  private void setInitialized(boolean value) {
+    initialized = value;
+  }
+
+  private void setProfileName(String profileName) {
+    this.profileName = profileName;
+  }
+
+  protected boolean addCookie(Cookie cookie) {
+    return fetchedCookies.add(cookie);
+  }
+
+  protected void clearFetchedCookies() {
+    fetchedCookies.clear();
   }
 
 }
