@@ -265,7 +265,8 @@ public final class GaleniumReportUtil {
     boolean screenshotSuccessful;
     if (driver instanceof TakesScreenshot) {
       getLogger().debug("taking screenshot: " + driver);
-      filenameOnly = System.currentTimeMillis() + "_" + result.getName() + ".png";
+      String resultName = result.getName().replaceAll("[^A-Za-z0-9-_]", "_");
+      filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
       File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
       if (screenshotFile != null) {
         getLogger().trace("screenshot taken: " + screenshotFile.getPath());
