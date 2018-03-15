@@ -153,7 +153,7 @@ public class CookieProfile {
     }
   }
 
-  private boolean isInitialized() {
+  public boolean isInitialized() {
     return initialized;
   }
 
