@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.cookies;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.assignCategory;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.Collection;
@@ -38,6 +39,7 @@ public final class CookiePersistenceUtil {
 
   private static final Map<String, CookieProfile> PROFILES = new HashMap<>();
   private static final String CONTEXT_KEY_CURRENT_PROFILE = "currentCookieProfile";
+  private static final String CATEGORY_PREFIX_PROFILE = "P_";
 
   private CookiePersistenceUtil() {
     // do not instantiate
@@ -118,6 +120,7 @@ public final class CookiePersistenceUtil {
         getLogger().warn("could not set cookie ('" + cookie.getName() + "') when applying profile '" + profileToApply.getProfileName() + "'", ex);
       }
     }
+    assignCategory(CATEGORY_PREFIX_PROFILE + profileToApply.getProfileName());
   }
 
 }
