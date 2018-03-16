@@ -17,30 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.cookies;
+package io.wcm.qa.galenium.storage.local;
 
-import java.util.Collection;
+import io.wcm.qa.galenium.storage.Fetcher;
 
 /**
- * Cookie fetcher gets cookies to be used throughout test run. Standard use cases include logins and notification
- * layers.
+ * Implement to fetch local storage items to be used in test cases.
  */
-public interface CookieFetcher {
+public interface LocalStorageFetcher extends Fetcher {
 
-  /**
-   * @return name for fetcher
-   */
-  String getFetcherName();
-
-  /**
-   * @return names of cookie to persist
-   */
-  Collection<String> getCookieNames();
-
-  /**
-   * Use browser to fetch cookies. This could be a login or confirming a cookie notification layer.
-   * @return whether fetching the cookies was successful
-   */
-  boolean fetchCookies();
+  // Marker interface. All methods defined in super interface.
 
 }

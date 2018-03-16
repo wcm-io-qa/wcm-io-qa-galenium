@@ -17,12 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.cookies.fetcher;
+package io.wcm.qa.galenium.storage.cookies.fetcher;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import io.wcm.qa.galenium.cookies.CookieFetcher;
+import io.wcm.qa.galenium.storage.cookies.CookieFetcher;
 import io.wcm.qa.galenium.util.AemUtil;
 
 /**
@@ -59,12 +59,12 @@ public class AuthorLoginFetcher implements CookieFetcher {
   }
 
   @Override
-  public boolean fetchCookies() {
+  public boolean fetchItems() {
     return AemUtil.loginToAuthor(getInitialUrl(), getFinalUrl(), getName(), getPass());
   }
 
   @Override
-  public Collection<String> getCookieNames() {
+  public Collection<String> getItemNames() {
     return COOKIE_NAMES;
   }
 

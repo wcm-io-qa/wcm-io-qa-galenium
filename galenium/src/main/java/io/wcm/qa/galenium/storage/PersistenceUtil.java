@@ -17,72 +17,33 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.cookies;
+package io.wcm.qa.galenium.storage;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.assignCategory;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.WebStorage;
 
+import io.wcm.qa.galenium.storage.cookies.CookieProfile;
+import io.wcm.qa.galenium.storage.local.LocalStorageProfile;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Handles persisting fetched cookies so they can be used by all tests.
  */
-public final class CookiePersistenceUtil {
+public final class PersistenceUtil {
 
-  private static final Map<String, CookieProfile> PROFILES = new HashMap<>();
-  private static final String CONTEXT_KEY_CURRENT_PROFILE = "currentCookieProfile";
   private static final String CATEGORY_PREFIX_PROFILE = "CP_";
 
-  private CookiePersistenceUtil() {
+  private PersistenceUtil() {
     // do not instantiate
-  }
-
-  /**
-   * @param profileToAdd
-   */
-  public static void addProfile(CookieProfile profileToAdd) {
-    PROFILES.put(profileToAdd.getProfileName(), profileToAdd);
-  }
-
-  /**
-   * Add and set profile to use in current thread.
-   * @param profileToUse
-   */
-  public static void useProfile(CookieProfile profileToUse) {
-    addProfile(profileToUse);
-    useProfile(profileToUse.getProfileName());
-  }
-
-  /**
-   * Set profile to use in current thread.
-   * @param profileName
-   */
-  public static void useProfile(String profileName) {
-    GaleniumContext.put(CONTEXT_KEY_CURRENT_PROFILE, profileName);
-  }
-
-  /**
-   * @return profile set to be used in this thread
-   */
-  public static CookieProfile getCurrentProfile() {
-    Object profileName = GaleniumContext.get(CONTEXT_KEY_CURRENT_PROFILE);
-    CookieProfile currentProfile = PROFILES.get(profileName);
-    return currentProfile;
-  }
-
-  /**
-   * @return whether there is a profile set for this thread
-   */
-  public static boolean hasCurrentProfile() {
-    return getCurrentProfile() != null;
   }
 
   /**
@@ -97,10 +58,10 @@ public final class CookiePersistenceUtil {
     getLogger().debug("applying cookie profile: '" + profileToApply.getProfileName() + "'");
     WebDriver driver = GaleniumContext.getDriver();
     if (driver == null) {
-      getLogger().error("driver is null, when trying to apply cookie profile: " + profileToApply.getProfileName());
+      getLogger().error("driver is null, when trying to apply profile: " + profileToApply.getProfileName());
       return;
     }
-    Collection<Cookie> fetchedCookies = profileToApply.getFetchedCookies();
+    Collection<Cookie> fetchedCookies = profileToApply.getFetchedItems();
     for (Cookie cookie : fetchedCookies) {
       if (getLogger().isDebugEnabled()) {
         StringBuilder addCookieMessage = new StringBuilder();
@@ -118,6 +79,49 @@ public final class CookiePersistenceUtil {
       }
       catch (WebDriverException ex) {
         getLogger().warn("could not set cookie ('" + cookie.getName() + "') when applying profile '" + profileToApply.getProfileName() + "'", ex);
+      }
+    }
+    assignCategory(CATEGORY_PREFIX_PROFILE + profileToApply.getProfileName());
+  }
+
+  /**
+   * Sets all fetched cookies from profile in current driver.
+   * @param profileToApply
+   */
+  public static void applyProfileToDriver(LocalStorageProfile profileToApply) {
+    if (profileToApply == null) {
+      getLogger().warn("local storage profile is null.");
+      return;
+    }
+    getLogger().debug("applying local storage profile: '" + profileToApply.getProfileName() + "'");
+    WebDriver driver = GaleniumContext.getDriver();
+    if (driver == null) {
+      getLogger().error("driver is null, when trying to apply profile: " + profileToApply.getProfileName());
+      return;
+    }
+    if (!(driver instanceof WebStorage)) {
+      getLogger().error("driver cannot handle local storage, when trying to apply profile: " + profileToApply.getProfileName());
+      return;
+    }
+    LocalStorage localStorage = ((WebStorage)driver).getLocalStorage();
+    Collection<Entry<String, String>> fetchedItems = profileToApply.getFetchedItems();
+    for (Entry<String, String> item : fetchedItems) {
+      String key = item.getKey();
+      String value = item.getValue();
+      if (getLogger().isDebugEnabled()) {
+        StringBuilder addItemMessage = new StringBuilder();
+        addItemMessage.append("adding local storage item to driver: '");
+        addItemMessage.append(key);
+        addItemMessage.append("' : '");
+        addItemMessage.append(value);
+        addItemMessage.append("'");
+        getLogger().debug(addItemMessage.toString());
+      }
+      try {
+        localStorage.setItem(key, value);
+      }
+      catch (WebDriverException ex) {
+        getLogger().warn("could not set local storage item ('" + key + "') when applying profile '" + profileToApply.getProfileName() + "'", ex);
       }
     }
     assignCategory(CATEGORY_PREFIX_PROFILE + profileToApply.getProfileName());

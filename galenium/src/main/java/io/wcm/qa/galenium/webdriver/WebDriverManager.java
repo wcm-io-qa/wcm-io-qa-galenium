@@ -76,8 +76,7 @@ public final class WebDriverManager {
       }
     }
     else {
-      RuntimeException ex = new RuntimeException("Attempting to close non existent driver.");
-      logDebug("Unnecessary call to close driver.", ex);
+      logDebug("Unnecessary call to close driver.", new GaleniumException("Attempting to close non existent driver."));
     }
   }
 
@@ -235,6 +234,7 @@ public final class WebDriverManager {
     logInfo("Attempting to close driver");
     getCurrentDriver().quit();
     logInfo("Closed driver");
+    setDriver(null);
   }
 
   private static void setDriver(WebDriver driver) {
