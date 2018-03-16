@@ -39,7 +39,7 @@ public final class CookiePersistenceUtil {
 
   private static final Map<String, CookieProfile> PROFILES = new HashMap<>();
   private static final String CONTEXT_KEY_CURRENT_PROFILE = "currentCookieProfile";
-  private static final String CATEGORY_PREFIX_PROFILE = "P_";
+  private static final String CATEGORY_PREFIX_PROFILE = "CP_";
 
   private CookiePersistenceUtil() {
     // do not instantiate

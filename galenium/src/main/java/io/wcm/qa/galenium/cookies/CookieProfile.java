@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.cookies;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.assignCategory;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ import org.openqa.selenium.WebDriver;
  * Combines multiple {@link CookieFetcher} into one profile that can be easily selected on a per test case basis.
  */
 public class CookieProfile {
+
+  private static final String CATEGORY_PREFIX_FETCHER = "CF_";
 
   private Collection<CookieFetcher> cookieFetchers = new ArrayList<CookieFetcher>();
   private Collection<Cookie> fetchedCookies = new ArrayList<>();
@@ -135,6 +138,7 @@ public class CookieProfile {
   private void fetchCookies(WebDriver driver) {
     for (CookieFetcher cookieFetcher : cookieFetchers) {
       getLogger().debug("fetching cookies for profile '" + getProfileName() + "': " + cookieFetcher.getFetcherName());
+      assignCategory(CATEGORY_PREFIX_FETCHER + cookieFetcher.getFetcherName());
       if (cookieFetcher.fetchCookies()) {
         Set<Cookie> cookies = driver.manage().getCookies();
         Collection<String> cookieNames = cookieFetcher.getCookieNames();
