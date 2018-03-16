@@ -198,7 +198,12 @@ public final class TestInfoUtil {
   }
 
 
-  static String getAlphanumericTestName(ITestResult result) {
+  /**
+   * Replaces all non-alphanumeric characters with underscore.
+   * @param result to extract test name from
+   * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
+   */
+  public static String getAlphanumericTestName(ITestResult result) {
     String name = result.getName();
     return name.replaceAll("[^-A-Za-z0-9]", "_");
   }

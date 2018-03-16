@@ -20,6 +20,8 @@
 /* Copyright (c) wcm.io. All rights reserved. */
 package io.wcm.qa.galenium.reporting;
 
+import static io.wcm.qa.galenium.util.TestInfoUtil.getAlphanumericTestName;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -265,7 +267,7 @@ public final class GaleniumReportUtil {
     boolean screenshotSuccessful;
     if (driver instanceof TakesScreenshot) {
       getLogger().debug("taking screenshot: " + driver);
-      String resultName = result.getName().replaceAll("[^A-Za-z0-9-_]", "_");
+      String resultName = getAlphanumericTestName(result);
       filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
       File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
       if (screenshotFile != null) {
