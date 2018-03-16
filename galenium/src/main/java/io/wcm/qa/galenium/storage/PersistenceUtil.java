@@ -40,7 +40,8 @@ import io.wcm.qa.galenium.util.GaleniumContext;
  */
 public final class PersistenceUtil {
 
-  private static final String CATEGORY_PREFIX_PROFILE = "CP_";
+  private static final String CATEGORY_PREFIX_COOKIE_PROFILE = "CP_";
+  private static final String CATEGORY_PREFIX_LOCAL_STORAGE_PROFILE = "LSP_";
 
   private PersistenceUtil() {
     // do not instantiate
@@ -81,7 +82,7 @@ public final class PersistenceUtil {
         getLogger().warn("could not set cookie ('" + cookie.getName() + "') when applying profile '" + profileToApply.getProfileName() + "'", ex);
       }
     }
-    assignCategory(CATEGORY_PREFIX_PROFILE + profileToApply.getProfileName());
+    assignCategory(CATEGORY_PREFIX_COOKIE_PROFILE + profileToApply.getProfileName());
   }
 
   /**
@@ -124,7 +125,7 @@ public final class PersistenceUtil {
         getLogger().warn("could not set local storage item ('" + key + "') when applying profile '" + profileToApply.getProfileName() + "'", ex);
       }
     }
-    assignCategory(CATEGORY_PREFIX_PROFILE + profileToApply.getProfileName());
+    assignCategory(CATEGORY_PREFIX_LOCAL_STORAGE_PROFILE + profileToApply.getProfileName());
   }
 
 }
