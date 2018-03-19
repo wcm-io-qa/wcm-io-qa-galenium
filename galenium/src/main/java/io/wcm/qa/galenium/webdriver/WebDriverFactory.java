@@ -37,7 +37,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
@@ -92,7 +91,7 @@ final class WebDriverFactory {
   }
 
   private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+    return WebDriverManager.getLogger();
   }
 
   private static void setDriver(WebDriver driver) {

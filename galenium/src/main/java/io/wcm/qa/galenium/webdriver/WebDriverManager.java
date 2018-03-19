@@ -29,6 +29,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.testng.SkipException;
 
@@ -44,6 +45,8 @@ import io.wcm.qa.galenium.util.TestDevice;
  * Utility class to manage thread safe WebDriver instances.
  */
 public final class WebDriverManager {
+
+  public static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
 
   private WebDriverManager() {
     // do not instantiate
@@ -263,7 +266,7 @@ public final class WebDriverManager {
   }
 
   static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MarkerFactory.getMarker("webdriver"));
+    return GaleniumReportUtil.getMarkedLogger(MARKER_WEBDRIVER);
   }
 
 }
