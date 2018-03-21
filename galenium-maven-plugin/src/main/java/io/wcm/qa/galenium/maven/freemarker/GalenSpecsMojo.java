@@ -1,4 +1,4 @@
-package io.wcm.qa.galenium.maven;
+package io.wcm.qa.galenium.maven.freemarker;
 
 import static java.util.Collections.emptyList;
 
