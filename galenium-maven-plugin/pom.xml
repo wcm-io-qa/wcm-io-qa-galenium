@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>io.wcm.qa.galenium.root</artifactId>
+    <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <groupId>io.wcm.qa</groupId>
     <version>0.1.9-SNAPSHOT</version>
   </parent>
@@ -15,7 +15,7 @@
   <name>galenium-maven-plugin Maven Plugin</name>
 
   <!-- FIXME change it to the project's website -->
-  <url>http://maven.apache.org</url>
+  <url>http://qa.wcm.io/galenium</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,18 +25,13 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>3.0</version>
+      <version>3.5.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.4</version>
+      <version>3.5.1</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>3.0.8</version>
     </dependency>
     
     <!-- Galenium -->
@@ -59,7 +54,7 @@
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
         </configuration>
         <executions>
-<!--           <execution>
+          <execution>
             <id>mojo-descriptor</id>
             <goals>
               <goal>descriptor</goal>
@@ -70,7 +65,7 @@
             <goals>
               <goal>helpmojo</goal>
             </goals>
-          </execution> -->
+          </execution>
         </executions>
       </plugin>
     </plugins>
