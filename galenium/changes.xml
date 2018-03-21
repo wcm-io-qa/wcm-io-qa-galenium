@@ -25,6 +25,9 @@
 
     <release version="0.1.10" date="not released yet">
       <action type="add" dev="apegam">
+        Maven plugin to generate Selectors from Galen specs.
+      </action>
+      <action type="add" dev="apegam">
         Added cookie fetching capabilities.
       </action>
       <action type="update" dev="apegam">
