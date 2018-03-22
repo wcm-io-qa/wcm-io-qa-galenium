@@ -98,22 +98,18 @@ public class GalenSpecsMojo extends AbstractMojo {
   @Override
   public void execute() throws MojoExecutionException {
 
-    // check directory
-    if (!inputDirectory.isDirectory()) {
-      getLog().error("directory not found: " + inputDirectory.getPath());
+    if (!initPlugin()) {
+      // if initialization does not work, plugin does not work
+      getLog().error("Plugin initialization failed.");
       return;
     }
-    getLog().info("checking directory: " + inputDirectory.getPath());
-
-    // transfer system properties
-    initSysProps();
 
     try {
-      // handle spec files
+      // handle spec files and collect objects
       parseSpecFiles();
 
-      // prepare Freemarker data model
-      prepareFreemarker();
+      // prepare Freemarker data model and process template
+      processFreemarkerTemplate();
     }
     finally {
       WebDriverManager.closeDriver();
@@ -210,7 +206,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     return root;
   }
 
-  private void prepareFreemarker() {
+  private void processFreemarkerTemplate() {
     try {
       File outputFile = getOutputFile();
       Template template = getTemplate();
@@ -229,6 +225,21 @@ public class GalenSpecsMojo extends AbstractMojo {
 
   private void storeSelectors(File specFile, Collection<Selector> selectors) {
     specSelectorMapping.put(specFile, selectors);
+  }
+
+  protected boolean initPlugin() {
+
+    // check directory
+    if (!inputDirectory.isDirectory()) {
+      getLog().error("directory not found: " + inputDirectory.getPath());
+      return false;
+    }
+    getLog().info("checking directory: " + inputDirectory.getPath());
+
+    // transfer system properties
+    initSysProps();
+
+    return true;
   }
 
   private static Configuration generateConfiguration() {
