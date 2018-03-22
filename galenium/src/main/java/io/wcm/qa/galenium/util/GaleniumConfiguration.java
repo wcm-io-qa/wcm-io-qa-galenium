@@ -20,11 +20,8 @@
 package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +31,6 @@ import java.util.logging.Level;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.listeners.WebDriverListener;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Central place to integrate test run and environment configuration from Maven et al.
@@ -213,16 +209,7 @@ public final class GaleniumConfiguration {
    * @return base URL with HTTP basic auth, if configured
    */
   public static String getBaseUrl() {
-    String baseUrl = System.getProperty(SYSTEM_PROPERTY_NAME_BASE_URL, DEFAULT_BASE_URL);
-    String httpUser = getHttpUser();
-    String httpPass = getHttpPass();
-    if (isNotBlank(httpUser) && isNotBlank(httpPass)) {
-      getLogger().trace("adding basic http auth information");
-      httpUser = attemptUrlEncoding("HTTP User", httpUser);
-      httpPass = attemptUrlEncoding("HTTP Pass", httpPass);
-      baseUrl = baseUrl.replace("//", "//" + httpUser + ":" + httpPass + "@");
-    }
-    return baseUrl;
+    return System.getProperty(SYSTEM_PROPERTY_NAME_BASE_URL, DEFAULT_BASE_URL);
   }
 
   /**
@@ -977,17 +964,5 @@ public final class GaleniumConfiguration {
    */
   public static boolean isWebDriverAlwaysNew() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
-  }
-
-  private static String attemptUrlEncoding(String name, String valueToEncode) {
-    String encodedValue;
-    try {
-      encodedValue = URLEncoder.encode(valueToEncode, "UTF-8");
-    }
-    catch (UnsupportedEncodingException ex) {
-      GaleniumReportUtil.getLogger().debug("when URL encoding: " + name, ex);
-      encodedValue = valueToEncode;
-    }
-    return encodedValue;
   }
 }

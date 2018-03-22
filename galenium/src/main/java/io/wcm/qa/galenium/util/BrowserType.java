@@ -29,8 +29,6 @@ public enum BrowserType {
   FIREFOX("firefox"),
   /** Internet Explorer */
   IE("ie"),
-  /** PhantomJS */
-  PHANTOMJS("phantomjs"),
   /** Safari */
   SAFARI("safari");
 

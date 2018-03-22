@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.galenframework.parser.SyntaxException;
 import com.galenframework.speclang2.specs.SpecReader;
 import com.galenframework.specs.Spec;
 import com.galenframework.specs.page.CorrectionsRect;
@@ -40,6 +41,7 @@ import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
@@ -315,9 +317,10 @@ public class ImageComparisonSpecFactory {
     try {
       return new SpecReader().read(specText);
     }
-    catch (Exception ex) {
-      GaleniumReportUtil.getLogger().error("when parsing spec text: '" + specText + "'");
-      throw ex;
+    catch (IllegalArgumentException | SyntaxException ex) {
+      String msg = "when parsing spec text: '" + specText + "'";
+      GaleniumReportUtil.getLogger().error(msg);
+      throw new GaleniumException(msg, ex);
     }
   }
 

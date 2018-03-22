@@ -29,6 +29,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.testng.SkipException;
 
@@ -44,6 +45,9 @@ import io.wcm.qa.galenium.util.TestDevice;
  * Utility class to manage thread safe WebDriver instances.
  */
 public final class WebDriverManager {
+
+  /** Marker for use in logging related directly to webdriver handling and internals. */
+  public static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
 
   private WebDriverManager() {
     // do not instantiate
@@ -76,8 +80,7 @@ public final class WebDriverManager {
       }
     }
     else {
-      RuntimeException ex = new RuntimeException("Attempting to close non existent driver.");
-      logDebug("Unnecessary call to close driver.", ex);
+      logDebug("Unnecessary call to close driver.", new GaleniumException("Attempting to close non existent driver."));
     }
   }
 
@@ -132,11 +135,15 @@ public final class WebDriverManager {
     if (getLogger().isTraceEnabled()) {
       getLogger().trace("driver for test device: " + testDevice);
       getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
-      if (GaleniumConfiguration.isChromeHeadless()) {
+      Dimension windowSize = getWindowSize();
+      if (windowSize == null && GaleniumConfiguration.isChromeHeadless()) {
         getLogger().trace("driver window size: none (headless)");
       }
+      else if (windowSize == null) {
+        getLogger().trace("driver window size: none");
+      }
       else {
-        getLogger().trace("driver window size: " + toString(getWindowSize()));
+        getLogger().trace("driver window size: " + toString(windowSize));
       }
     }
     return getCurrentDriver();
@@ -147,7 +154,9 @@ public final class WebDriverManager {
       return getCurrentDriver().manage().window().getSize();
     }
     catch (NullPointerException | WebDriverException ex) {
-      getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
+      if (!GaleniumConfiguration.isChromeHeadless()) {
+        getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
+      }
     }
     return null;
   }
@@ -229,6 +238,7 @@ public final class WebDriverManager {
     logInfo("Attempting to close driver");
     getCurrentDriver().quit();
     logInfo("Closed driver");
+    setDriver(null);
   }
 
   private static void setDriver(WebDriver driver) {
@@ -257,7 +267,7 @@ public final class WebDriverManager {
   }
 
   static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MarkerFactory.getMarker("webdriver"));
+    return GaleniumReportUtil.getMarkedLogger(MARKER_WEBDRIVER);
   }
 
 }

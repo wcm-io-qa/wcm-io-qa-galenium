@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.8</version>
+  <version>0.1.10</version>
 
   <description>Test automation module. Enabling Galen and Selenium</description>
 
@@ -64,19 +64,19 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>6.11</version>
+        <version>6.14.2</version>
       </dependency>
 
       <dependency>
         <groupId>com.galenframework</groupId>
         <artifactId>galen-java-support</artifactId>
-        <version>2.3.5</version>
+        <version>2.3.6</version>
       </dependency>
 
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        <version>3.4.0</version>
+        <version>3.11.0</version>
       </dependency>
        
       <!-- Reporting -->
@@ -95,118 +95,60 @@
       <dependency>
         <groupId>org.codehaus.janino</groupId>
         <artifactId>janino</artifactId>
-        <version>3.0.7</version>
+        <version>3.0.8</version>
       </dependency>
 
       <!-- Utils -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-collections4</artifactId>
-				<version>4.1</version>
-			</dependency>
-			
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>4.1</version>
+      </dependency>
+
+      <!-- Plugin -->
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>3.5.3</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.apache.maven.plugin-tools</groupId>
+        <artifactId>maven-plugin-annotations</artifactId>
+        <version>3.5.1</version>
+      </dependency>
+      
     </dependencies>
   </dependencyManagement>
 
   <build>
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <groups>${testNG.groups}</groups>
-          <systemPropertyVariables>
-
-            <io.wcm.qa.baseUrl>NEED_TO_CONFIGURE_io.wcm.qa.baseUrl</io.wcm.qa.baseUrl>
-
-            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-
-            <!-- Selenium -->
-            <selenium.browser>${selenium.browser}</selenium.browser>
-            <galen.device>${galen.device}</galen.device>
-            <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-            <selenium.runmode>local</selenium.runmode>
-
-          </systemPropertyVariables>
-          <properties>
-            <property>
-              <name>reporter</name>
-              <value>io.wcm.qa.galenium.GaleniumReporter</value>
-            </property>
-          </properties>
-          <includes>
-            <include>**/*IT.java</include>
-            <include>**/*GalenSuiteRunner.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.5.1</version>
+          <configuration>
+            <goalPrefix>galenium</goalPrefix>
+            <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+          </configuration>
+          <executions>
+            <execution>
+              <id>mojo-descriptor</id>
+              <goals>
+                <goal>descriptor</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>help-goal</id>
+              <goals>
+                <goal>helpmojo</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
-
-  <profiles>
-    <profile>
-      <id>remote-grid</id>
-      <activation>
-        <property>
-          <name>remote-grid profile</name>
-        </property>
-      </activation>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-
-              <parallel>methods</parallel>
-              <threadCount>2</threadCount>
-
-              <systemPropertyVariables>
-
-                <selenium.host>NEED_TO_CONFIGURE_selenium.host</selenium.host>
-                <selenium.port>4444</selenium.port>
-                <selenium.runmode>remote</selenium.runmode>
-
-              </systemPropertyVariables>
-              <properties>
-                <property>
-                  <name>reporter</name>
-                  <value>io.wcm.qa.galenium.GaleniumReporter</value>
-                </property>
-              </properties>
-            </configuration>
-          </plugin>
-
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>local-dev</id>
-      <activation>
-        <property>
-          <name>galenium-dev</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <systemPropertyVariables>
-                <selenium.runmode>dev</selenium.runmode>
-                <frontend.baseUrl>http://localhost</frontend.baseUrl>
-              </systemPropertyVariables>
-            </configuration>
-          </plugin>
-
-        </plugins>
-
-      </build>
-    </profile>
-  </profiles>
 
 </project>

@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>13</version>
+    <version>19</version>
     <relativePath />
   </parent>
 
@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.example</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.8</version>
+  <version>0.1.10</version>
   <description>Test automation example.</description>
 
   <properties>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>0.1.8</version>
+      <version>0.1.10</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -79,7 +79,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.8</version>
+      <version>0.1.10</version>
     </dependency>
 
   </dependencies>
@@ -121,7 +121,73 @@
       
     </plugins>
   </build>
+
   <profiles>
+  
+    <profile>
+      <id>galen-specs</id>
+      <properties>
+        <integrationtests.skip>true</integrationtests.skip>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.wcm.qa</groupId>
+            <artifactId>galenium-maven-plugin</artifactId>
+            <version>0.1.10</version>
+            <configuration>
+              <systemPropertyVariables>
+
+                <!-- Galenium -->
+                <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+                <galenium.specPath>${galenium.specPath}</galenium.specPath>
+                <galenium.webdriver.chrome.headless>true</galenium.webdriver.chrome.headless>
+
+                <!-- Selenium -->
+                <selenium.browser>chrome</selenium.browser>
+                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+                <selenium.runmode>${selenium.runmode}</selenium.runmode>
+
+                <!-- WebDriver download -->
+                <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
+                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+
+              </systemPropertyVariables>
+              <className>ExampleProjectSelectors</className>
+              <packageName>io.wcm.qa.galenium.example</packageName>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>test</phase>
+                <goals>
+                  <goal>specs</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.lazerycode.selenium</groupId>
+            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+            <version>1.0.10</version>
+            <configuration>
+              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
+              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
+              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
+              <checkFileHashes>false</checkFileHashes>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>selenium</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <profile>
       <id>example</id>
       <properties>

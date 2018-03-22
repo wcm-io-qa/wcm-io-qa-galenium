@@ -20,6 +20,8 @@
 /* Copyright (c) wcm.io. All rights reserved. */
 package io.wcm.qa.galenium.reporting;
 
+import static io.wcm.qa.galenium.util.TestInfoUtil.getAlphanumericTestName;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +60,7 @@ import io.wcm.qa.galenium.util.TestInfoUtil;
  */
 public final class GaleniumReportUtil {
 
+  private static final String NO_TEST_NAME_SET = "no.test.name.set";
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
   /** For special ERROR log status. */
@@ -238,10 +241,10 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * @return the logger used for the current test, if no test is set, it will use "NO_TEST_NAME_SET" as the test name
+   * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
    */
   public static Logger getLogger() {
-    String name = "NO_TEST_NAME_SET";
+    String name = NO_TEST_NAME_SET;
     ExtentTest extentTest = getExtentTest();
     if (extentTest != null) {
       ITest test = extentTest.getTest();
@@ -264,7 +267,8 @@ public final class GaleniumReportUtil {
     boolean screenshotSuccessful;
     if (driver instanceof TakesScreenshot) {
       getLogger().debug("taking screenshot: " + driver);
-      filenameOnly = System.currentTimeMillis() + "_" + result.getName() + ".png";
+      String resultName = getAlphanumericTestName(result);
+      filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
       File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
       if (screenshotFile != null) {
         getLogger().trace("screenshot taken: " + screenshotFile.getPath());
@@ -276,6 +280,12 @@ public final class GaleniumReportUtil {
           String screenCapture = getExtentTest().addScreenCapture(destScreenshotFilePath);
           getLogger().info(screenCapture);
           screenshotSuccessful = true;
+          if (FileUtils.deleteQuietly(screenshotFile)) {
+            getLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
+          }
+          else {
+            getLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
+          }
         }
         catch (IOException ex) {
           getLogger().error("Cannot copy screenshot.", ex);

@@ -107,8 +107,11 @@ public final class GalenHelperUtil {
    * @return current tags as Galen filter
    */
   public static SectionFilter getTags() {
-    SectionFilter tags = new SectionFilter(getTestDevice().getTags(), Collections.emptyList());
-    return tags;
+    List<String> tags = Collections.emptyList();
+    if (getTestDevice() != null) {
+      tags = getTestDevice().getTags();
+    }
+    return new SectionFilter(tags, Collections.emptyList());
   }
 
   /**

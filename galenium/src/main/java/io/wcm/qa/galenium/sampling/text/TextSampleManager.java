@@ -96,20 +96,34 @@ public final class TextSampleManager {
    * Write all stored new text samples to disk for easy replacement of existing expected values.
    */
   public static void persistNewTextSamples() {
-    if (!SAMPLED_TEXTS.isEmpty()) {
+    if (SAMPLED_TEXTS.isEmpty()) {
+      getLogger().debug("no text samples to persist.");
+    }
+    else {
+      WriterOutputStream writerOutputStream = null;
       try {
         getLogger().debug("Persisting " + SAMPLED_TEXTS.size() + " text samples.");
         String difference = StringUtils.difference(GaleniumConfiguration.getGalenSpecPath(), FILE_NAME_EXPECTED_TEXTS);
         File file = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, difference);
         file.getParentFile().mkdirs();
         FileWriter fileWriter = new FileWriter(file, true);
-        WriterOutputStream writerOutputStream = new WriterOutputStream(fileWriter, CHARSET_UTF8);
+        writerOutputStream = new WriterOutputStream(fileWriter, CHARSET_UTF8);
 
         EXPECTED_TEXTS.store(writerOutputStream, "Expected texts");
         SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
       }
       catch (IOException ex) {
         getLogger().error("Could not save sample texts.");
+      }
+      finally {
+        if (writerOutputStream != null) {
+          try {
+            writerOutputStream.close();
+          }
+          catch (IOException ex) {
+            getLogger().warn("error when closing file output stream.");
+          }
+        }
       }
     }
   }

@@ -22,10 +22,14 @@ package io.wcm.qa.galenium.util;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorUser;
+import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 import static io.wcm.qa.galenium.util.InteractionUtil.click;
 import static io.wcm.qa.galenium.util.InteractionUtil.enterText;
 import static io.wcm.qa.galenium.util.InteractionUtil.loadUrl;
 import static io.wcm.qa.galenium.util.InteractionUtil.waitForUrl;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
@@ -54,24 +58,71 @@ public final class AemUtil {
   /**
    * Login to author if on AEM author login page.
    */
-  public static void loginToAuthor() {
-    if (isAuthorLogin()) {
-      getLogger().info("Logging in to author instance");
-      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, getAuthorUser());
-      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, getAuthorPass());
-      click(SELECTOR_AUTHOR_LOGIN_BUTTON);
-    }
+  public static boolean loginToAuthor() {
+    return loginToAuthor(getAuthorUser(), getAuthorPass());
   }
 
   /**
    * Load URL and login to AEM author if landing on login page.
    */
-  public static void loginToAuthor(String targetUrl) {
-    loadUrl(targetUrl);
+  public static boolean loginToAuthor(String targetUrl) {
+    return loginToAuthor(targetUrl, getAuthorUser(), getAuthorPass());
+  }
+
+  /**
+   * Load URL and login to AEM author with credentials if landing on login page.
+   * @param targetUrl
+   * @param authorUser
+   * @param authorPass
+   * @return whether login was necessary and successful
+   */
+  public static boolean loginToAuthor(String targetUrl, String authorUser, String authorPass) {
+    return loginToAuthor(targetUrl, targetUrl, authorUser, authorPass);
+  }
+
+  /**
+   * @param initialUrl
+   * @param finalUrl
+   * @param authorUser
+   * @param authorPass
+   * @return whether login was necessary and successful
+   */
+  public static boolean loginToAuthor(String initialUrl, String finalUrl, String authorUser, String authorPass) {
+    loadUrl(initialUrl);
     if (isAuthorLogin()) {
-      loginToAuthor();
-      waitForUrl(targetUrl);
+      try {
+        loginToAuthor(authorUser, authorPass);
+        waitForUrl(finalUrl, 5);
+        return true;
+      }
+      catch (WebDriverException ex) {
+        WebDriver driver = getDriver();
+        String actualResult;
+        if (driver == null) {
+          actualResult = "driver is null in this context";
+        }
+        else {
+          actualResult = driver.getCurrentUrl();
+        }
+        getLogger().warn("author login not successful, when waiting for '" + finalUrl + "' got '" + actualResult + "'");
+      }
     }
+    else {
+      getLogger().debug("skipping author login, because not on login page.");
+    }
+
+    return false;
+  }
+
+  private static boolean loginToAuthor(String authorUser, String authorPass) {
+    if (isAuthorLogin()) {
+      getLogger().info("Logging in to author instance");
+      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
+      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
+      click(SELECTOR_AUTHOR_LOGIN_BUTTON);
+      return true;
+    }
+    return false;
   }
 
 }

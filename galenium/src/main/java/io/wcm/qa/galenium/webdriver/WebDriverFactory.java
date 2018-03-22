@@ -32,13 +32,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.RunMode;
@@ -80,8 +78,6 @@ final class WebDriverFactory {
         return new FirefoxCapabilityProvider();
       case IE:
         return new InternetExplorerCapabilityProvider();
-      case PHANTOMJS:
-        return new PhantomCapabilityProvider();
       case SAFARI:
         return new SafariCapabilityProvider();
       default:
@@ -95,7 +91,7 @@ final class WebDriverFactory {
   }
 
   private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+    return WebDriverManager.getLogger();
   }
 
   private static void setDriver(WebDriver driver) {
@@ -107,6 +103,7 @@ final class WebDriverFactory {
    * @param newTestDevice info on browser and size
    * @return ready to use driver
    */
+  @SuppressWarnings("deprecation")
   static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
@@ -149,11 +146,6 @@ final class WebDriverFactory {
           case SAFARI:
             SafariDriver safariDriver = new SafariDriver(capabilities);
             setDriver(safariDriver);
-            break;
-
-          case PHANTOMJS:
-            PhantomJSDriver phantomDriver = new PhantomJSDriver(capabilities);
-            setDriver(phantomDriver);
             break;
 
           default:

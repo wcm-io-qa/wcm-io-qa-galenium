@@ -22,8 +22,11 @@ package io.wcm.qa.galenium.providers;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.DataProvider;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Utility class to help with writing {@link DataProvider} code.
@@ -45,7 +48,14 @@ public final class TestNgProviderUtil {
     for (Object object : argumentList) {
       combinedArguments.add(new Object[] { object });
     }
-    return combinedArguments.toArray(new Object[combinedArguments.size()][]);
+    int size = combinedArguments.size();
+    if (size > 0) {
+      trace("after combining: " + size);
+    }
+    else {
+      trace("empty after combining.");
+    }
+    return combinedArguments.toArray(new Object[size][]);
   }
 
   /**
@@ -55,23 +65,52 @@ public final class TestNgProviderUtil {
    * @return a two dimensional object array containing the Cartesian product of the iterable arguments
    */
   public static Object[][] combine(Iterable... argumentLists) {
+    trace("combining " + argumentLists.length + " Iterables");
     Collection<Object[]> combinedArguments = new ArrayList<>();
     for (Iterable argumentList : argumentLists) {
+      trace("adding: " + argumentList);
       combinedArguments = addArguments(combinedArguments, argumentList);
     }
 
-    return combinedArguments.toArray(new Object[combinedArguments.size()][]);
+    int size = combinedArguments.size();
+    if (size > 0) {
+      trace("after combining: " + size);
+    }
+    else {
+      trace("empty after combining.");
+    }
+    return combinedArguments.toArray(new Object[size][]);
   }
 
   private static Collection<Object[]> addArguments(Collection<Object[]> initialArguments, Iterable newArguments) {
     Collection<Object[]> combinedArguments = new ArrayList<>();
     for (Object newArgument : newArguments) {
-      for (Object[] objects : initialArguments) {
-        combinedArguments.add(ArrayUtils.add(objects, newArgument));
+      if (initialArguments.isEmpty()) {
+        combinedArguments.add(new Object[] { newArgument });
+      }
+      else {
+        for (Object[] objects : initialArguments) {
+          combinedArguments.add(ArrayUtils.add(objects, newArgument));
+        }
       }
     }
 
+    if (combinedArguments.isEmpty()) {
+      trace("empty after adding.");
+    }
+    else {
+      trace("after adding arguments: " + combinedArguments.size() + "x" + getLengthOfFirstElement(combinedArguments));
+    }
     return combinedArguments;
+  }
+
+  @SuppressWarnings("deprecation")
+  private static int getLengthOfFirstElement(Collection<Object[]> combinedArguments) {
+    return CollectionUtils.get(combinedArguments, 0).length;
+  }
+
+  private static void trace(String msg) {
+    GaleniumReportUtil.getLogger().trace(msg);
   }
 
 }

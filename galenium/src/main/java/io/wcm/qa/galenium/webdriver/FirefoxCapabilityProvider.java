@@ -26,18 +26,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 class FirefoxCapabilityProvider extends CapabilityProvider {
 
-  @SuppressWarnings("deprecation")
-  private void setEnableNativeEvents(FirefoxProfile firefoxProfile) {
-    // Workaround for click events spuriously failing in Firefox (https://code.google.com/p/selenium/issues/detail?id=6112)
-    firefoxProfile.setEnableNativeEvents(true);
-  }
-
   @Override
   protected DesiredCapabilities getBrowserSpecificCapabilities() {
     getLogger().debug("creating capabilities for Firefox");
     DesiredCapabilities capabilities = DesiredCapabilities.firefox();
     FirefoxProfile firefoxProfile = new FirefoxProfile();
-    setEnableNativeEvents(firefoxProfile);
     firefoxProfile.setAcceptUntrustedCertificates(true);
     firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
     capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
