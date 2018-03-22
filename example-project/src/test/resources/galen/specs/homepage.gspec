@@ -22,15 +22,16 @@
             above stage
             above footer
         navigation:
-            above stage
+            above stage ~ 0px
             above footer
         &content:
             below stage
             below navigation
             below site-header
-            above footer
+        article:
+            above footer 
         teaserbar:
-            above footer
+            above footer ~ 0px
     = Containment =
         site-header, navigation, stage, &content, teaserbar, footer:
             inside page

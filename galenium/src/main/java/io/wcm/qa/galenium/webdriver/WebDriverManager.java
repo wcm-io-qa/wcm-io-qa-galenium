@@ -46,6 +46,7 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public final class WebDriverManager {
 
+  /** Marker for use in logging related directly to webdriver handling and internals. */
   public static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
 
   private WebDriverManager() {

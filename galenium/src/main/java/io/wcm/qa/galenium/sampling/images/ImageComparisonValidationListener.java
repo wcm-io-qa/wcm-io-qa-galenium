@@ -135,7 +135,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
         BufferedImage elementImage = wholePageImage.getSubimage(area.getLeft(), area.getTop(), area.getWidth(), area.getHeight());
         return elementImage;
       }
-      catch (Exception ex) {
+      catch (RuntimeException ex) {
         debugError("exception when extracting secondary sample image.", ex);
       }
     }

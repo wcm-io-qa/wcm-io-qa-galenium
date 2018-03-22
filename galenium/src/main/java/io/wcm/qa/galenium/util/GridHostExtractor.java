@@ -30,7 +30,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
-import org.openqa.selenium.remote.JsonException;
 import org.openqa.selenium.remote.SessionId;
 
 import com.google.gson.JsonElement;
@@ -70,13 +69,13 @@ public final class GridHostExtractor {
       client.close();
       return object.get("proxyId").getAsString();
     }
-    catch (Throwable ex) {
+    catch (RuntimeException | IOException ex) {
       return NO_HOST_RETRIEVED;
     }
 
   }
 
-  private static JsonObject extractObject(HttpResponse resp) throws IOException, JsonException {
+  private static JsonObject extractObject(HttpResponse resp) throws IOException {
     BufferedReader rd = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
     StringBuffer s = new StringBuffer();
     String line;

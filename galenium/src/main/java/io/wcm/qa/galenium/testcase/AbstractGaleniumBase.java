@@ -34,6 +34,7 @@ import org.testng.asserts.Assertion;
 import com.galenframework.reports.model.LayoutReport;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
@@ -318,7 +319,7 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, errorMessage, successMessage);
     }
-    catch (Throwable ex) {
+    catch (GaleniumException ex) {
       fail(errorMessage, ex);
     }
   }

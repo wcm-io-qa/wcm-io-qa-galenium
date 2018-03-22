@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.10" date="not released yet">
+      <action type="update" dev="apegam">
+        Dependencies updated to newest versions.
+      </action>
       <action type="add" dev="apegam">
         Maven plugin to generate Selectors from Galen specs.
       </action>

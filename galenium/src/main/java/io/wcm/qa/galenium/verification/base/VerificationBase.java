@@ -26,6 +26,7 @@ import java.util.Comparator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
@@ -138,7 +139,7 @@ public abstract class VerificationBase implements Verification {
     StringBuilder stringBuilder = new StringBuilder();
     String simpleClassName = getClass().getSimpleName();
     if (isStripVerificationFromClassName()) {
-      stringBuilder.append(StringUtils.removeIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME));
+      stringBuilder.append(StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME));
     }
     else {
       stringBuilder.append(simpleClassName);
@@ -176,7 +177,7 @@ public abstract class VerificationBase implements Verification {
         TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
       }
     }
-    catch (Throwable ex) {
+    catch (GaleniumException ex) {
       getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
       setException(ex);
       setVerified(false);

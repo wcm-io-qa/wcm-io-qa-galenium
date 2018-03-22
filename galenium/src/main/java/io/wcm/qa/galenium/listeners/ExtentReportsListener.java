@@ -34,6 +34,7 @@ import org.testng.Reporter;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
@@ -112,9 +113,10 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       Reporter.log(logMsgHtml, false);
       getLogger().error(logMsg.toString());
     }
-    catch (Throwable ex) {
-      GaleniumReportUtil.getLogger().error("Error during failure handling", ex);
-      throw ex;
+    catch (RuntimeException ex) {
+      String msg = "Error during failure handling";
+      GaleniumReportUtil.getLogger().error(msg, ex);
+      throw new GaleniumException(msg, ex);
     }
     finally {
       GaleniumReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);

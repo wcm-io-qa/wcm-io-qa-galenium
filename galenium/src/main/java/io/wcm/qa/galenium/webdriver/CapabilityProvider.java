@@ -19,7 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
@@ -27,8 +29,6 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
-
-import com.google.gson.JsonElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -53,13 +53,18 @@ abstract class CapabilityProvider {
       if (chromeOptionsCapability != null) {
         if (chromeOptionsCapability instanceof ChromeOptions) {
           ChromeOptions chromeOptions = (ChromeOptions)chromeOptionsCapability;
-          try {
-            JsonElement json = chromeOptions.toJson();
-            getLogger().trace("chromeOptions: " + json);
+            Map<String, Object> json = chromeOptions.toJson();
+          Set<Entry<String, Object>> entrySet = json.entrySet();
+          StringBuilder sb = new StringBuilder();
+          sb.append("chromeOptions:\n");
+          for (Entry<String, Object> entry : entrySet) {
+            sb.append("'");
+            sb.append(entry.getKey());
+            sb.append("': '");
+            sb.append(entry.getValue());
+            sb.append("'");
           }
-          catch (IOException ex) {
-            getLogger().trace("when getting chrome options as JSON.", ex);
-          }
+          getLogger().trace(sb.toString());
         }
       }
     }
