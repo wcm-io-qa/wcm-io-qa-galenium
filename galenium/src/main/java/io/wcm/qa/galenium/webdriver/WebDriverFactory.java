@@ -103,6 +103,7 @@ final class WebDriverFactory {
    * @param newTestDevice info on browser and size
    * @return ready to use driver
    */
+  @SuppressWarnings("deprecation")
   static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
