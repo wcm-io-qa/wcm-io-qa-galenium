@@ -23,18 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="0.1.10" date="not released yet">
+    <release version="0.1.10" date="2018-03-22">
       <action type="update" dev="apegam">
         Dependencies updated to newest versions.
+      </action>
+      <action type="update" dev="apegam">
+        Updated webdrivers to newest versions.
       </action>
       <action type="add" dev="apegam">
         Maven plugin to generate Selectors from Galen specs.
       </action>
       <action type="add" dev="apegam">
         Added cookie fetching capabilities.
-      </action>
-      <action type="update" dev="apegam">
-        Updated chromedriver to version 2.33.
       </action>
       <action type="update" dev="apegam">
         Now deleting Selenium's screenshots to avoid disk space problems on systems not cleaning their temp directory.
