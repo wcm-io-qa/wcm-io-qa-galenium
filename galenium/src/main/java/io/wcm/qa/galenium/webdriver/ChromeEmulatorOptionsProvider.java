@@ -22,14 +22,14 @@ package io.wcm.qa.galenium.webdriver;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
 
-class ChromeEmulatorCapabilityProvider extends ChromeCapabilityProvider {
+class ChromeEmulatorOptionsProvider extends ChromeCapabilityProvider {
 
   private String chromeEmulator;
 
 
-  ChromeEmulatorCapabilityProvider(String emulatorString) {
+  ChromeEmulatorOptionsProvider(String emulatorString) {
     setChromeEmulator(emulatorString);
   }
 
@@ -42,11 +42,11 @@ class ChromeEmulatorCapabilityProvider extends ChromeCapabilityProvider {
   }
 
   @Override
-  protected DesiredCapabilities getBrowserSpecificCapabilities() {
+  protected ChromeOptions getBrowserSpecificOptions() {
     getLogger().debug("setting up chrome emulator: " + getChromeEmulator());
     Map<String, String> mobileEmulation = new HashMap<String, String>();
     mobileEmulation.put("deviceName", getChromeEmulator());
-    return addChromeOption(super.getBrowserSpecificCapabilities(), "mobileEmulation", mobileEmulation);
+    return addChromeOption(super.getBrowserSpecificOptions(), "mobileEmulation", mobileEmulation);
   }
 
 }

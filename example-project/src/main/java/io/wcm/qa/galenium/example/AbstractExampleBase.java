@@ -24,6 +24,7 @@ import static io.wcm.qa.galenium.util.InteractionUtil.click;
 import static io.wcm.qa.galenium.util.InteractionUtil.clickByPartialText;
 import static io.wcm.qa.galenium.util.InteractionUtil.getElementOrFail;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
@@ -78,7 +79,11 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   protected void loadStartUrl() {
-    AemUtil.loginToAuthor(getStartUrl());
+    if (AemUtil.loginToAuthor(getStartUrl())) {
+      getLogger().debug("loaded start URL: " + getStartUrl());
+      return;
+    }
+    throw new GaleniumException("could not login to author when loading start URL.");
   }
 
   protected void openNav() {

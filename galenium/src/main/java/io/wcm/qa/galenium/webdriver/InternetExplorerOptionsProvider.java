@@ -19,20 +19,20 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 
 
-class PhantomCapabilityProvider extends CapabilityProvider {
+class InternetExplorerOptionsProvider extends OptionsProvider<InternetExplorerOptions> {
 
   @Override
-  protected DesiredCapabilities getBrowserSpecificCapabilities() {
-    getLogger().debug("creating capabilities for PhantomJS");
-    DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-    capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {
-        "--ignore-ssl-errors=true", "--ssl-protocol=tlsv1", "--web-security=false", "--webdriver-loglevel=OFF", "--webdriver-loglevel=NONE"
-    });
-    return capabilities;
+  protected InternetExplorerOptions getBrowserSpecificOptions() {
+    getLogger().debug("creating capabilities for Internet Explorer");
+    return newOptions();
+  }
+
+  @Override
+  protected InternetExplorerOptions newOptions() {
+    return new InternetExplorerOptions();
   }
 
 }

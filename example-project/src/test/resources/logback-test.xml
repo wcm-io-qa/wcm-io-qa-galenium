@@ -20,7 +20,7 @@
 
   <if condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
     <then>
-      <logger name="Example" level="TRACE">
+      <logger name="Example" level="INFO">
         <appender-ref ref="EXTENT" />
       </logger>
       <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">

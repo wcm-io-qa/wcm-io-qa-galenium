@@ -165,10 +165,6 @@ public final class InteractionUtil {
     return getDriver().findElements(selector.asBy());
   }
 
-  private static Actions getActions() {
-    return new Actions(getDriver());
-  }
-
   /**
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
@@ -293,6 +289,10 @@ public final class InteractionUtil {
     return StringUtils.equals(url, getDriver().getCurrentUrl());
   }
 
+  public static boolean isElementVisible(Selector selector) {
+    return getElementVisible(selector) != null;
+  }
+
   /**
    * Load URL in browser.
    * @param url to load
@@ -394,6 +394,10 @@ public final class InteractionUtil {
     WebDriverWait wait = new WebDriverWait(getDriver(), timeOutInSeconds);
     wait.until(ExpectedConditions.urlToBe(url));
     getLogger().trace("found URL: '" + url + "'");
+  }
+
+  private static Actions getActions() {
+    return new Actions(getDriver());
   }
 
 }

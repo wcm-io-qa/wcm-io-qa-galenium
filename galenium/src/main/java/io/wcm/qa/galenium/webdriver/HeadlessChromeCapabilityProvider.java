@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.webdriver;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAdditionalChromeHeadlessWidth;
 
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -55,9 +55,9 @@ class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
   }
 
   @Override
-  protected DesiredCapabilities getBrowserSpecificCapabilities() {
+  protected ChromeOptions getBrowserSpecificOptions() {
     GaleniumReportUtil.getLogger().debug("setting up headless chrome.");
-    DesiredCapabilities capabilities = super.getBrowserSpecificCapabilities();
+    ChromeOptions capabilities = super.getBrowserSpecificOptions();
     addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS);
     if (GaleniumConfiguration.isChromeHeadlessWindowsWorkaround()) {
       addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
