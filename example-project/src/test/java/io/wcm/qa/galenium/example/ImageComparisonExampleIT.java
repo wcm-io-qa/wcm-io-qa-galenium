@@ -62,6 +62,10 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
     // add a no tolerance check at warning level
     factory.setZeroToleranceWarning(true);
 
+    // allow offset
+    factory.setAllowedOffset(2);
+
+    // browser and viewport width will make a difference
     factory.addDifference(new BrowserDifference());
     factory.addDifference(new ScreenWidthDifference());
 
