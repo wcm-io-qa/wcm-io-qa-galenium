@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.example</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.11-SNAPSHOT</version>
+  <version>0.1.13-SNAPSHOT</version>
   <description>Test automation example.</description>
 
   <properties>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>0.1.11-SNAPSHOT</version>
+      <version>0.1.13-SNAPSHOT</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -79,7 +79,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.11-SNAPSHOT</version>
+      <version>0.1.13-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
@@ -134,7 +134,7 @@
           <plugin>
             <groupId>io.wcm.qa</groupId>
             <artifactId>galenium-maven-plugin</artifactId>
-            <version>0.1.11-SNAPSHOT</version>
+            <version>0.1.13-SNAPSHOT</version>
             <configuration>
               <systemPropertyVariables>
 
