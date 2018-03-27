@@ -28,9 +28,7 @@ public enum BrowserType {
   /** Firefox */
   FIREFOX("firefox"),
   /** Internet Explorer */
-  IE("ie"),
-  /** Safari */
-  SAFARI("safari");
+  IE("ie");
 
   private final String mBrowser;
 

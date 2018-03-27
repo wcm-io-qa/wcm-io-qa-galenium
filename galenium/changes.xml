@@ -23,12 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="0.1.10" date="2018-03-22">
+    <release version="0.1.12" date="2018-03-27">
       <action type="update" dev="apegam">
-        Dependencies updated to newest versions.
+        Switch WebDriver creation from DesiredCapabilities to Options.
       </action>
       <action type="update" dev="apegam">
         Updated webdrivers to newest versions.
+      </action>
+    </release>
+    
+    <release version="0.1.10" date="2018-03-22">
+      <action type="update" dev="apegam">
+        Dependencies updated to newest versions.
       </action>
       <action type="add" dev="apegam">
         Maven plugin to generate Selectors from Galen specs.

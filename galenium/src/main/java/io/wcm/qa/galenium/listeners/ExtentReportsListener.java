@@ -60,7 +60,6 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
     // nothing to do
   }
 
-
   @Override
   public void onConfigurationSuccess(ITestResult itr) {
     // nothing to do

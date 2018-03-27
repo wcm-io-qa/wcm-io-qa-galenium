@@ -28,13 +28,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -51,35 +50,33 @@ final class WebDriverFactory {
     // do not instantiate
   }
 
-  private static CapabilityProvider getDesiredCapabilitiesProvider(TestDevice device) {
+  private static OptionsProvider getDesiredCapabilitiesProvider(TestDevice device) {
     switch (device.getBrowserType()) {
       case CHROME:
-        CapabilityProvider chromeCapabilityProvider;
+        OptionsProvider chromeOptionProvider;
         String chromeEmulator = device.getChromeEmulator();
         boolean withEmulator = StringUtils.isNotBlank(chromeEmulator);
         if (isChromeHeadless()) {
           if (withEmulator) {
-            chromeCapabilityProvider = new CombinedCapabilityProvider(
+            chromeOptionProvider = new CombinedOptionsProvider(
                 new HeadlessChromeCapabilityProvider(device),
-                new ChromeEmulatorCapabilityProvider(chromeEmulator));
+                new ChromeEmulatorOptionsProvider(chromeEmulator));
           }
           else {
-            chromeCapabilityProvider = new HeadlessChromeCapabilityProvider(device);
+            chromeOptionProvider = new HeadlessChromeCapabilityProvider(device);
           }
         }
         else if (withEmulator) {
-          chromeCapabilityProvider = new ChromeEmulatorCapabilityProvider(chromeEmulator);
+          chromeOptionProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
         }
         else {
-          chromeCapabilityProvider = new ChromeCapabilityProvider();
+          chromeOptionProvider = new ChromeCapabilityProvider();
         }
-        return chromeCapabilityProvider;
+        return chromeOptionProvider;
       case FIREFOX:
-        return new FirefoxCapabilityProvider();
+        return new FirefoxOptionsProvider();
       case IE:
-        return new InternetExplorerCapabilityProvider();
-      case SAFARI:
-        return new SafariCapabilityProvider();
+        return new InternetExplorerOptionsProvider();
       default:
         break;
     }
@@ -113,7 +110,7 @@ final class WebDriverFactory {
             newTestDevice.getBrowserType(),
             Thread.currentThread().getName()));
 
-    DesiredCapabilities capabilities = getDesiredCapabilitiesProvider(newTestDevice).getDesiredCapabilities();
+    MutableCapabilities capabilities = getDesiredCapabilitiesProvider(newTestDevice).getOptions();
 
     getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
@@ -141,11 +138,6 @@ final class WebDriverFactory {
           case IE:
             InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilities);
             setDriver(ieDriver);
-            break;
-
-          case SAFARI:
-            SafariDriver safariDriver = new SafariDriver(capabilities);
-            setDriver(safariDriver);
             break;
 
           default:

@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorUser;
@@ -52,13 +53,14 @@ public final class AemUtil {
    * @return whether current page is AEM author login page
    */
   public static boolean isAuthorLogin() {
-    return InteractionUtil.getElementVisible(DIV_LOGIN_BOX) != null;
+    return InteractionUtil.isElementVisible(DIV_LOGIN_BOX);
   }
 
   /**
    * Login to author if on AEM author login page.
    */
   public static boolean loginToAuthor() {
+    getLogger().debug("using credentials from configuration.");
     return loginToAuthor(getAuthorUser(), getAuthorPass());
   }
 
@@ -66,6 +68,7 @@ public final class AemUtil {
    * Load URL and login to AEM author if landing on login page.
    */
   public static boolean loginToAuthor(String targetUrl) {
+    getLogger().debug("using credentials from configuration.");
     return loginToAuthor(targetUrl, getAuthorUser(), getAuthorPass());
   }
 
@@ -116,12 +119,14 @@ public final class AemUtil {
 
   private static boolean loginToAuthor(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
-      getLogger().info("Logging in to author instance");
+      getLogger().debug("Attempting login in to author instance");
       enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
       enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
       click(SELECTOR_AUTHOR_LOGIN_BUTTON);
+      getLogger().info(MARKER_PASS, "Logging in to author instance.");
       return true;
     }
+    getLogger().debug("Not logging in to author instance.");
     return false;
   }
 

@@ -20,21 +20,26 @@
 package io.wcm.qa.galenium.webdriver;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 
-class FirefoxCapabilityProvider extends CapabilityProvider {
+class FirefoxOptionsProvider extends OptionsProvider<FirefoxOptions> {
 
   @Override
-  protected DesiredCapabilities getBrowserSpecificCapabilities() {
+  protected FirefoxOptions getBrowserSpecificOptions() {
     getLogger().debug("creating capabilities for Firefox");
-    DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+    FirefoxOptions options = new FirefoxOptions();
     FirefoxProfile firefoxProfile = new FirefoxProfile();
     firefoxProfile.setAcceptUntrustedCertificates(true);
     firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
-    capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
-    return capabilities;
+    options.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
+    return options;
+  }
+
+  @Override
+  protected FirefoxOptions newOptions() {
+    return new FirefoxOptions();
   }
 
 }

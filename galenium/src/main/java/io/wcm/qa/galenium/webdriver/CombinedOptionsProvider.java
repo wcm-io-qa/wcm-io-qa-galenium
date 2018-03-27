@@ -19,25 +19,34 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.MutableCapabilities;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 
-class CombinedCapabilityProvider extends CapabilityProvider {
+class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities>
+{
 
+  private OptionsProvider p1;
+  private OptionsProvider p2;
 
-  private CapabilityProvider p1;
-  private CapabilityProvider p2;
-
-  CombinedCapabilityProvider(CapabilityProvider provider1, CapabilityProvider provider2) {
+  CombinedOptionsProvider(OptionsProvider provider1, OptionsProvider provider2) {
     getLogger().debug("Creating combined provider with " + p1 + " and " + p2);
+    if (p1 == null || p2 == null) {
+      throw new GaleniumException("cannot combine null OptionsProvider.");
+    }
     p1 = provider1;
     p2 = provider2;
   }
 
   @Override
-  protected DesiredCapabilities getBrowserSpecificCapabilities() {
+  protected MutableCapabilities getBrowserSpecificOptions() {
     getLogger().debug("Combining capablities of " + p1 + " and " + p2);
-    return p1.getDesiredCapabilities().merge(p2.getDesiredCapabilities());
+    return p1.getOptions().merge(p2.getOptions());
+  }
+
+  @Override
+  protected MutableCapabilities newOptions() {
+    return p1.newOptions();
   }
 
 }

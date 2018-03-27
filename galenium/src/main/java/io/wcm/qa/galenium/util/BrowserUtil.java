@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.util.BrowserType.CHROME;
 import static io.wcm.qa.galenium.util.BrowserType.FIREFOX;
+import static io.wcm.qa.galenium.util.BrowserType.IE;
 
 import org.openqa.selenium.Dimension;
 
@@ -49,6 +50,13 @@ public final class BrowserUtil {
    */
   public static boolean isChrome() {
     return isBrowser(CHROME);
+  }
+
+  /**
+   * @return whether current browser is Internet Explorer
+   */
+  public static boolean isInternetExplorer() {
+    return isBrowser(IE);
   }
 
   /**
