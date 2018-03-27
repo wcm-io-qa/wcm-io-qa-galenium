@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="0.1.12" date="not released yet">
+    <release version="0.1.12" date="2018-03-27">
       <action type="update" dev="apegam">
         Switch WebDriver creation from DesiredCapabilities to Options.
       </action>
