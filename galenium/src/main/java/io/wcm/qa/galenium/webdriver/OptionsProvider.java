@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.isWebDriverAcceptTrustedSslCertificatesOnly;
+import static io.wcm.qa.galenium.util.GaleniumConfiguration.isWebDriverRefuseSslCertificates;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -83,7 +86,8 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
     loggingPrefs.enable(LogType.BROWSER, GaleniumConfiguration.getBrowserLogLevel());
     O options = newOptions();
     options.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
-    options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+    options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, !isWebDriverRefuseSslCertificates());
+    options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, !isWebDriverAcceptTrustedSslCertificatesOnly());
 
     return options;
   }

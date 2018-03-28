@@ -80,6 +80,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
   private static final String SYSTEM_PROPERTY_NAME_SPARSE_REPORTING = "galenium.report.sparse";
   private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW = "galenium.webdriver.alwaysNew";
+  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE = "galenium.webdriver.ssl.refuse";
+  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY = "galenium.webdriver.ssl.trusted";
 
   private GaleniumConfiguration() {
     // do not instantiate
@@ -939,6 +941,56 @@ public final class GaleniumConfiguration {
    */
   public static boolean isTakeScreenshotOnSuccessfulTest() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
+  }
+
+  /**
+   * Control whether to only accept secure SSL certificates
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.webdriver.ssl.trusted
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether browser accepts secure SSL certificates only
+   */
+  public static boolean isWebDriverAcceptTrustedSslCertificatesOnly() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY);
+  }
+
+  /**
+   * Control whether to refuse SSL certificates
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.webdriver.ssl.refuse
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether browser refuses SSL certificates
+   */
+  public static boolean isWebDriverRefuseSslCertificates() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);
   }
 
   /**
