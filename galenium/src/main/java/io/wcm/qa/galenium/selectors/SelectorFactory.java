@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.selectors;
 
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+
 /**
  * Creates Selectors for use with Galenium.
  */
@@ -54,7 +56,31 @@ public final class SelectorFactory {
    * @return Galenium selector representing the locator
    */
   public static Selector fromLocator(Locator locator) {
-    return new SelectorFromLocator(locator);
+    checkLocator(locator);
+    Locator parent = locator.getParent();
+    if (parent == null) {
+      return new SelectorFromLocator(locator);
+    }
+    Selector parentSelector = fromLocator(parent);
+    return relativeSelector(parentSelector, locator.getLocatorValue());
+  }
+
+  private static void checkLocator(Locator locator) {
+
+    switch (locator.getLocatorType()) {
+      case "css":
+        // standard case
+        return;
+
+      case "id":
+        // can be transformed into standard case
+        locator.setLocatorType("css");
+        locator.setLocatorValue("#" + locator.getLocatorValue());
+        return;
+
+      default:
+        throw new GaleniumException("unsupported locator type: '" + locator.getLocatorType() + "'");
+    }
   }
 
   /**
@@ -63,6 +89,7 @@ public final class SelectorFactory {
    * @return Galenium selector representing the locator
    */
   public static Selector fromLocator(String elementName, Locator locator) {
+    checkLocator(locator);
     return new SelectorFromLocator(elementName, locator);
   }
 

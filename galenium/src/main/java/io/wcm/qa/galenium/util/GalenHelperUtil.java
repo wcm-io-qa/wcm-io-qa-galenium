@@ -34,6 +34,7 @@ import java.util.Properties;
 
 import com.galenframework.browser.Browser;
 import com.galenframework.browser.SeleniumBrowser;
+import com.galenframework.page.Page;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
@@ -123,8 +124,24 @@ public final class GalenHelperUtil {
    * @return Galen page spec object
    */
   public static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
+    return readSpec(specPath, tags, browser.getPage(), EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+  }
+
+  /**
+   * Read a spec from path. Basically a convenience mapping to
+   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   * @param specPath path to spec file
+   * @param tags tag based filter
+   * @param page page to retrieve objects from
+   * @param properties properties for spec parsing
+   * @param jsVars JS variables to use for spec parsing
+   * @param objects predefined objects
+   * @return Galen page spec object
+   */
+  public static PageSpec readSpec(String specPath, SectionFilter tags, Page page, Properties properties, Map<String, Object> jsVars,
+      Map<String, Locator> objects) {
     try {
-      return PAGE_SPEC_READER.read(specPath, browser.getPage(), tags, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+      return PAGE_SPEC_READER.read(specPath, page, tags, properties, jsVars, objects);
     }
     catch (IOException ex) {
       throw new GalenLayoutException("IOException when reading spec", ex);

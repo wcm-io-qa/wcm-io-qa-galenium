@@ -20,26 +20,28 @@
 package io.wcm.qa.galenium.maven.freemarker.util;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Properties;
 
-import org.openqa.selenium.Dimension;
-
+import com.galenframework.page.Page;
 import com.galenframework.speclang2.pagespec.SectionFilter;
+import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.maven.mock.MockPage;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.BrowserType;
 import io.wcm.qa.galenium.util.GalenHelperUtil;
-import io.wcm.qa.galenium.util.TestDevice;
 
 public final class ParsingUtil {
 
   private static final GalenSpecFileFilter GALEN_SPEC_FILE_FILTER = new GalenSpecFileFilter();
-  private static final TestDevice TEST_DEVICE = new TestDevice("galen-specs", BrowserType.CHROME, new Dimension(1000, 1000), emptyList(), null);
+  //  private static final TestDevice TEST_DEVICE = new TestDevice("galen-specs", BrowserType.CHROME, new Dimension(1000, 1000), emptyList(), null);
 
   private ParsingUtil() {
     // do not instantiate
@@ -59,7 +61,13 @@ public final class ParsingUtil {
     if (specFile == null) {
       throw new GaleniumException("cannot read spec from null file.");
     }
-    return GalenHelperUtil.readSpec(TEST_DEVICE, specFile.getPath(), new SectionFilter(emptyList(), emptyList()));
+    String specPath = specFile.getPath();
+    SectionFilter tags = new SectionFilter(emptyList(), emptyList());
+    Page page = new MockPage();
+    Properties properties = new Properties();
+    Map<String, Object> jsVars = emptyMap();
+    Map<String, Locator> objects = null;
+    return GalenHelperUtil.readSpec(specPath, tags, page, properties, jsVars, objects);
   }
 
   private static final class GalenSpecFileFilter implements FilenameFilter {

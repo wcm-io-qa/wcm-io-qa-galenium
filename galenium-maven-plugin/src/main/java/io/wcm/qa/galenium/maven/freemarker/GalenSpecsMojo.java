@@ -53,6 +53,7 @@ import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
@@ -61,32 +62,55 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 @Mojo(name = "specs", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class GalenSpecsMojo extends AbstractMojo {
 
+  /**
+   * Class name for generated code. When generating multiple classes in one run, this is used as a prefix for the class
+   * name.
+   */
   @Parameter(defaultValue = "Selectors", property = "className", required = true)
   private String className;
 
   /**
-   * Location of input Galen specs.
+   * Whether to generate a dedicated class per spec file.
+   */
+  @Parameter(defaultValue = "true", property = "classPerSpec", required = true)
+  private boolean classPerSpec;
+
+  /**
+   * Location of input directory containing Galen specs.
    */
   @Parameter(defaultValue = "${project.basedir}/src/test/resources/galen/specs", property = "inputDir", required = true)
   private File inputDirectory;
 
   /**
-   * Location of generated output.
+   * Root directory for generated output.
    */
   @Parameter(defaultValue = "${project.build.directory}/generated-sources", property = "outputDir", required = true)
   private File outputDirectory;
 
+  /**
+   * Package name to generate code into.
+   */
   @Parameter(defaultValue = "io.wcm.qa.galenium.selectors", property = "packageName", required = true)
   private String packageName;
 
   private Map<File, Collection<Selector>> specSelectorMapping = new HashMap<>();
 
+  /**
+   * To be transferred to system properties when running plugin. Mostly used to manipulate
+   * {@link GaleniumConfiguration}.
+   */
   @Parameter(property = "systemPropertyVariables")
   private Map<String, String> systemPropertyVariables;
 
+  /**
+   * Directory containing the Freemarker template.
+   */
   @Parameter(defaultValue = "${project.basedir}/src/test/resources/freemarker", property = "templateDir", required = true)
   private File templateDirectory;
 
+  /**
+   * Name of Freemarker template to use in code generation.
+   */
   @Parameter(defaultValue = "selectors_from_galen.ftlh", property = "templateName")
   private String templateName;
 
@@ -101,22 +125,10 @@ public class GalenSpecsMojo extends AbstractMojo {
     try {
 
       // handle spec files and collect objects
-      getLog().info("collecting spec files");
-      File[] specFiles = getSpecFiles();
-
-      getLog().info("processing spec files");
-      parseSpecFilesAndStoreSelectors(specFiles);
+      parseSpecs();
 
       // prepare Freemarker data model and process template
-      getLog().info("generating data model");
-      List<SpecPojo> specsForDataModel = FreemarkerUtil.getSpecsForDataModel(specSelectorMapping.entrySet());
-      Map<String, Object> dataModelForSpecs = FreemarkerUtil.getDataModelForSpecs(specsForDataModel, packageName, className);
-
-      getLog().info("fetching template");
-      Template template = FreemarkerUtil.getTemplate(templateDirectory, templateName);
-
-      getLog().info("processing template");
-      FreemarkerUtil.process(template, dataModelForSpecs, getOutputFile());
+      generateCode();
 
     }
     finally {
@@ -135,7 +147,6 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private boolean checkInputParams() {
-    // check directories
     return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
   }
 
@@ -162,10 +173,16 @@ public class GalenSpecsMojo extends AbstractMojo {
     return specFiles;
   }
 
-  private void parseSpecFilesAndStoreSelectors(File[] specFiles) {
-    for (File specFile : specFiles) {
-      storeSelectors(specFile, getSelectorsFromSpecFile(specFile));
-    }
+  protected void generateCode() {
+    getLog().info("generating data model");
+    List<SpecPojo> specsForDataModel = FreemarkerUtil.getSpecsForDataModel(specSelectorMapping.entrySet());
+    Map<String, Object> dataModelForSpecs = FreemarkerUtil.getDataModelForSpecs(specsForDataModel, packageName, className);
+
+    getLog().info("fetching template");
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, templateName);
+
+    getLog().info("processing template");
+    FreemarkerUtil.process(template, dataModelForSpecs, getOutputFile());
   }
 
   protected boolean initPlugin() {
@@ -181,8 +198,20 @@ public class GalenSpecsMojo extends AbstractMojo {
     return true;
   }
 
+  protected void parseSpecs() {
+    getLog().info("collecting spec files");
+    File[] specFiles = getSpecFiles();
+
+    getLog().info("processing spec files");
+    for (File specFile : specFiles) {
+      Collection<Selector> selectorsFromSpecFile = getSelectorsFromSpecFile(specFile);
+      storeSelectors(specFile, selectorsFromSpecFile);
+    }
+  }
+
   protected void storeSelectors(File specFile, Collection<Selector> selectors) {
     getLog().debug("storing " + selectors.size() + " selector(s)");
     specSelectorMapping.put(specFile, selectors);
   }
+
 }

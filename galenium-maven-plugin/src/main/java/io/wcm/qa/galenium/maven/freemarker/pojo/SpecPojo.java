@@ -26,9 +26,7 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.google.common.base.CaseFormat;
-
-import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
+import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class SpecPojo {
@@ -43,7 +41,7 @@ public class SpecPojo {
   }
 
   public String getClassName() {
-    return CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, FilenameUtils.getBaseName(getSpecFile().getPath()));
+    return FormatUtil.kebapToUpperCamel(FilenameUtils.getBaseName(getSpecFile().getPath()));
   }
 
   public Collection<SelectorPojo> getSelectors() {

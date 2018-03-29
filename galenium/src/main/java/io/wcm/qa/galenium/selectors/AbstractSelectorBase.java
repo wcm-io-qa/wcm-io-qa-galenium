@@ -29,6 +29,8 @@ import com.galenframework.specs.page.Locator;
  */
 abstract class AbstractSelectorBase implements Selector {
 
+  private static final String REGEX_NAME_CLEANING = "[^a-zA-Z0-9.]+";
+
   private By by;
   private Locator locator;
   private String name;
@@ -64,7 +66,7 @@ abstract class AbstractSelectorBase implements Selector {
     else {
       nameBase = asString();
     }
-    return nameBase.replaceAll("[^a-zA-Z0-9]+", "-");
+    return nameBase.replaceAll(REGEX_NAME_CLEANING, "-");
   }
 
   @Override

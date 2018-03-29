@@ -2,7 +2,8 @@
     page                    #page
     site-header             header.header-site
     navigation              #nav-main
-    nav-link-*              #nav-main ul.navlist > li.navlink
+        nav-link-*              #nav-main ul.navlist > li.navlink
+    main                    #nav
     article                 #main article
     footer                  footer.footer-site
 

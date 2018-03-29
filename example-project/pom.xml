@@ -257,16 +257,6 @@
                 <!-- Galenium -->
                 <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
                 <galenium.specPath>${galenium.specPath}</galenium.specPath>
-                <galenium.webdriver.chrome.headless>true</galenium.webdriver.chrome.headless>
-
-                <!-- Selenium -->
-                <selenium.browser>chrome</selenium.browser>
-                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-                <selenium.runmode>${selenium.runmode}</selenium.runmode>
-
-                <!-- WebDriver download -->
-                <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
-                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
 
               </systemPropertyVariables>
             </configuration>
@@ -275,25 +265,6 @@
                 <phase>test</phase>
                 <goals>
                   <goal>specs</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-            <version>1.0.10</version>
-            <configuration>
-              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
-              <checkFileHashes>false</checkFileHashes>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>selenium</goal>
                 </goals>
               </execution>
             </executions>

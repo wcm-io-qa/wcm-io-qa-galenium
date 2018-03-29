@@ -19,8 +19,7 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.pojo;
 
-import com.google.common.base.CaseFormat;
-
+import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class SelectorPojo {
@@ -32,7 +31,8 @@ public class SelectorPojo {
   }
 
   public String getConstantName() {
-    return CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_UNDERSCORE, getElementName());
+    String elementName = getElementName();
+    return FormatUtil.kebapToConstant(elementName.replaceAll("\\.", "__"));
   }
 
   public String getCss() {
@@ -50,4 +50,5 @@ public class SelectorPojo {
   private void setSelector(Selector selector) {
     this.selector = selector;
   }
+
 }
