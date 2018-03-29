@@ -60,7 +60,6 @@ import io.wcm.qa.galenium.util.TestInfoUtil;
  */
 public final class GaleniumReportUtil {
 
-  private static final String NO_TEST_NAME_SET = "no.test.name.set";
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
   /** For special ERROR log status. */
@@ -78,20 +77,21 @@ public final class GaleniumReportUtil {
   /** For special WARN log status. */
   public static final Marker MARKER_WARN = getMarker(LogStatus.WARNING);
 
+
   private static final GaleniumExtentReports EXTENT_REPORTS;
+  private static final String NO_TEST_NAME_SET = "no.test.name.set";
 
   // Root folder for reports
   private static final String PATH_REPORT_ROOT = GaleniumConfiguration.getReportDirectory();
-
-  // Galen
-  private static final List<GalenTestInfo> GALEN_RESULTS = new ArrayList<GalenTestInfo>();
-  private static final String PATH_GALEN_REPORT = PATH_REPORT_ROOT + "/galen";
 
   // ExtentReports
   private static final String PATH_EXTENT_REPORTS_ROOT = PATH_REPORT_ROOT + "/extentreports";
   private static final String PATH_EXTENT_REPORTS_DB = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
   private static final String PATH_EXTENT_REPORTS_REPORT = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.html";
 
+  // Galen
+  private static final List<GalenTestInfo> GALEN_RESULTS = new ArrayList<GalenTestInfo>();
+  private static final String PATH_GALEN_REPORT = PATH_REPORT_ROOT + "/galen";
 
   // Screenshots
   private static final String PATH_SCREENSHOTS_ROOT = PATH_REPORT_ROOT + "/screenshots";
@@ -101,14 +101,21 @@ public final class GaleniumReportUtil {
   private static final String PATH_TESTNG_REPORT_XML = PATH_REPORT_ROOT + "/testng.xml";
 
   static {
-    EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT, NetworkMode.OFFLINE);
-
-    File reportConfig = GaleniumConfiguration.getReportConfig();
-    if (reportConfig != null) {
-      EXTENT_REPORTS.loadConfig(reportConfig);
+    if (GaleniumConfiguration.isSkipExtentReports()) {
+      EXTENT_REPORTS = null;
     }
+    else {
+      EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT, NetworkMode.OFFLINE);
 
-    EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
+      File reportConfig = GaleniumConfiguration.getReportConfig();
+      if (reportConfig != null) {
+        EXTENT_REPORTS.loadConfig(reportConfig);
+      }
+
+      EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
+
+      Runtime.getRuntime().addShutdownHook(new ExtentReportShutdownHook());
+    }
   }
 
   private GaleniumReportUtil() {
@@ -167,8 +174,8 @@ public final class GaleniumReportUtil {
    * Create reports from global list of GalenTestInfos.
    */
   public static void createGalenReports() {
-      createGalenHtmlReport(GALEN_RESULTS);
-      createGalenTestNgReport(GALEN_RESULTS);
+    createGalenHtmlReport(GALEN_RESULTS);
+    createGalenTestNgReport(GALEN_RESULTS);
   }
 
   /**
@@ -198,6 +205,18 @@ public final class GaleniumReportUtil {
     getLogger().trace("GaleniumReportUtilendExtentTest(): ending extent report test");
     EXTENT_REPORTS.endTest(extentTest);
     getLogger().trace("GaleniumReportUtilendExtentTest(): done");
+  }
+
+  /**
+   * Finish and flush ExtentReports.
+   */
+  public static void finishExtentReports() {
+    ExtentReports extentReport = getExtentReports();
+    if (!GaleniumConfiguration.isNoTestNg()) {
+      // if using TestNG, append reporter output
+      extentReport.setTestRunnerOutput(StringUtils.join(Reporter.getOutput(), "</br>"));
+    }
+    extentReport.flush();
   }
 
   public static ExtentReports getExtentReports() {
@@ -232,15 +251,6 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Gets a logger which marks every entry with the passed {@link Marker}.
-   * @param marker to use with this logger
-   * @return a {@link MarkedLogger} using the marker
-   */
-  public static Logger getMarkedLogger(Marker marker) {
-    return new MarkedLogger(getLogger(), marker);
-  }
-
-  /**
    * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
    */
   public static Logger getLogger() {
@@ -253,6 +263,15 @@ public final class GaleniumReportUtil {
       }
     }
     return LoggerFactory.getLogger(name);
+  }
+
+  /**
+   * Gets a logger which marks every entry with the passed {@link Marker}.
+   * @param marker to use with this logger
+   * @return a {@link MarkedLogger} using the marker
+   */
+  public static Logger getMarkedLogger(Marker marker) {
+    return new MarkedLogger(getLogger(), marker);
   }
 
   /**

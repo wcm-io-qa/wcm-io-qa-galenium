@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.maven.freemarker.datamodel;
+package io.wcm.qa.galenium.maven.freemarker.pojo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.google.common.base.CaseFormat;
 
+import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class SpecPojo {

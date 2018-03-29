@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.maven.freemarker.datamodel;
+package io.wcm.qa.galenium.maven.freemarker.util;
 
 import static java.util.Collections.emptyList;
 

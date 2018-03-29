@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.maven.freemarker.datamodel;
+package io.wcm.qa.galenium.maven.freemarker.pojo;
 
 import com.google.common.base.CaseFormat;
 

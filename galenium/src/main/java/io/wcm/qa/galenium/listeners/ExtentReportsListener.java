@@ -22,7 +22,6 @@ package io.wcm.qa.galenium.listeners;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.IConfigurationListener2;
@@ -67,9 +66,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
 
   @Override
   public void onFinish(ITestContext context) {
-    ExtentReports extentReport = GaleniumReportUtil.getExtentReports();
-    extentReport.setTestRunnerOutput(StringUtils.join(Reporter.getOutput(), "</br>"));
-    extentReport.flush();
+    GaleniumReportUtil.finishExtentReports();
   }
 
   @Override

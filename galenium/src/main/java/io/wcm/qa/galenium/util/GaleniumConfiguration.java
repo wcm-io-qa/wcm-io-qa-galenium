@@ -60,9 +60,11 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
+  private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
+  private static final String SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT = "galenium.report.extent.skip";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX = "galenium.webdriver.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX = "galenium.sampling.image.chromefix";
@@ -737,6 +739,31 @@ public final class GaleniumConfiguration {
   }
 
   /**
+   * Usually Galenium is used for testing with TestNG. If not this property should reflect that.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.noTestNG
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether TestNG is used
+   */
+  public static boolean isNoTestNg() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_NO_TESTNG);
+  }
+
+  /**
    * Only report Galen errors and leave successful tests out of report. This drastically reduces the size of reports in
    * the target folder. Useful to save disk space on CI.
    * <ul>
@@ -838,6 +865,31 @@ public final class GaleniumConfiguration {
    */
   public static boolean isSaveSampledTexts() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
+  }
+
+  /**
+   * Usually Galenium will log to ExtentReports, but it can be skipped.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.report.extent.skip
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether TestNG is used
+   */
+  public static boolean isSkipExtentReports() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT);
   }
 
   /**
@@ -969,31 +1021,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Control whether to refuse SSL certificates
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.ssl.refuse
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return whether browser refuses SSL certificates
-   */
-  public static boolean isWebDriverRefuseSslCertificates() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);
-  }
-
-  /**
    * Control whether to attempt reuse of drivers.
    * <ul>
    * <li>Key:
@@ -1016,5 +1043,30 @@ public final class GaleniumConfiguration {
    */
   public static boolean isWebDriverAlwaysNew() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
+  }
+
+  /**
+   * Control whether to refuse SSL certificates
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.webdriver.ssl.refuse
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether browser refuses SSL certificates
+   */
+  public static boolean isWebDriverRefuseSslCertificates() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);
   }
 }

@@ -33,6 +33,9 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.NetworkMode;
 import com.relevantcodes.extentreports.model.Test;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
+
 /**
  * Handles closing of reports a little more gracefully than the original.
  */
@@ -47,10 +50,15 @@ class GaleniumExtentReports extends ExtentReports {
 
   GaleniumExtentReports(String pathExtentReportsReport, NetworkMode networkMode) {
     super(pathExtentReportsReport, networkMode);
+    log.info("init GaleniumExtentReports");
+    if (GaleniumConfiguration.isSkipExtentReports()) {
+      throw new GaleniumException("init despite skipping.");
+    }
   }
 
   @Override
   public synchronized void close() {
+    log.info("attempting closing GaleniumExtentReports");
     if (isClosed()) {
       StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
       StringBuilder stacktraceString = new StringBuilder();
@@ -64,6 +72,7 @@ class GaleniumExtentReports extends ExtentReports {
     map.clear();
     super.close();
     setClosed(true);
+    log.info("closed GaleniumExtentReports");
   }
 
   public ExtentTest getExtentTest(String name) {
@@ -75,6 +84,7 @@ class GaleniumExtentReports extends ExtentReports {
 
   @Override
   public synchronized ExtentTest startTest(String testName, String description) {
+    log.info("starting ExtentTest: " + testName + " (" + description + ")");
     ExtentTest extentTest = super.startTest(testName, description);
     addExtentTest(extentTest);
     return extentTest;
@@ -85,6 +95,7 @@ class GaleniumExtentReports extends ExtentReports {
   }
 
   private void closeAllTests() {
+    log.info("closing all tests.");
     List<ExtentTest> tests = new ArrayList<ExtentTest>();
     tests.addAll(getTestList());
 

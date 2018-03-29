@@ -250,6 +250,8 @@
             <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
             <version>0.1.13-SNAPSHOT</version>
             <configuration>
+              <className>ExampleProjectSelectors</className>
+              <packageName>io.wcm.qa.galenium.example</packageName>
               <systemPropertyVariables>
 
                 <!-- Galenium -->
@@ -267,8 +269,6 @@
                 <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
 
               </systemPropertyVariables>
-              <className>ExampleProjectSelectors</className>
-              <packageName>io.wcm.qa.galenium.example</packageName>
             </configuration>
             <executions>
               <execution>
@@ -295,6 +295,26 @@
                 <goals>
                   <goal>selenium</goal>
                 </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>set-system-properties</goal>
+                </goals>
+                <configuration>
+                  <properties>
+                    <property>
+                      <name>galenium.report.extent.skip</name>
+                      <value>true</value>
+                    </property>
+                  </properties>
+                </configuration>
               </execution>
             </executions>
           </plugin>
