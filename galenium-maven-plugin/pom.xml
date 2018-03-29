@@ -15,7 +15,6 @@
 
   <name>Galenium Galen Specs Maven Plugin</name>
 
-  <!-- FIXME change it to the project's website -->
   <url>http://qa.wcm.io/galenium</url>
 
   <properties>
@@ -49,6 +48,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+        <configuration>
+          <goalPrefix>io.wcm.qa.galenium.galen-specs</goalPrefix>
+        </configuration>
       </plugin>
     </plugins>
   </build>

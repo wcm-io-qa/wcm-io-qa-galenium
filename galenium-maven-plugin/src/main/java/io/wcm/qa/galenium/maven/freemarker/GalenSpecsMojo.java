@@ -1,18 +1,10 @@
 package io.wcm.qa.galenium.maven.freemarker;
 
-import static java.util.Collections.emptyList;
-
 import java.io.File;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -35,24 +27,14 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.openqa.selenium.Dimension;
 
-import com.galenframework.speclang2.pagespec.SectionFilter;
-import com.galenframework.specs.page.PageSpec;
-
-import freemarker.core.ParseException;
-import freemarker.template.Configuration;
-import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.TemplateNotFoundException;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.maven.freemarker.datamodel.FreemarkerUtil;
+import io.wcm.qa.galenium.maven.freemarker.datamodel.ParsingUtil;
 import io.wcm.qa.galenium.maven.freemarker.datamodel.SpecPojo;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.BrowserType;
-import io.wcm.qa.galenium.util.GalenHelperUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
@@ -60,11 +42,6 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  */
 @Mojo(name = "specs", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class GalenSpecsMojo extends AbstractMojo {
-
-  private static final Configuration CONFIGURATION = generateConfiguration();
-  private static final String FILE_EXTENSION_JAVA = ".java";
-  private static final GalenSpecFileFilter GALEN_SPEC_FILE_FILTER = new GalenSpecFileFilter();
-  private static final TestDevice TEST_DEVICE = new TestDevice("galen-specs", BrowserType.CHROME, new Dimension(1000, 1000), emptyList(), null);
 
   @Parameter(defaultValue = "Selectors", property = "className", required = true)
   private String className;
@@ -100,171 +77,94 @@ public class GalenSpecsMojo extends AbstractMojo {
 
     if (!initPlugin()) {
       // if initialization does not work, plugin does not work
-      getLog().error("Plugin initialization failed.");
-      return;
+      throw new GaleniumException("Plugin initialization failed.");
     }
 
     try {
+
       // handle spec files and collect objects
-      parseSpecFiles();
+      getLog().info("collecting spec files");
+      File[] specFiles = getSpecFiles();
+
+      getLog().info("processing spec files");
+      parseSpecFilesAndStoreSelectors(specFiles);
 
       // prepare Freemarker data model and process template
-      processFreemarkerTemplate();
+      getLog().info("generating data model");
+      List<SpecPojo> specsForDataModel = FreemarkerUtil.getSpecsForDataModel(specSelectorMapping.entrySet());
+      Map<String, Object> dataModelForSpecs = FreemarkerUtil.getDataModelForSpecs(specsForDataModel, packageName, className);
+
+      getLog().info("fetching template");
+      Template template = FreemarkerUtil.getTemplate(templateDirectory, templateName);
+
+      getLog().info("processing template");
+      FreemarkerUtil.process(template, dataModelForSpecs, getOutputFile());
+
     }
     finally {
       WebDriverManager.closeDriver();
     }
   }
 
-  private File getOutputFile() {
-    File outputDirectoryPackage = new File(outputDirectory, packageName.replaceAll("\\.", "/"));
-    outputDirectoryPackage.mkdirs();
-    File outputFile = new File(outputDirectoryPackage, className + FILE_EXTENSION_JAVA);
-    return outputFile;
+  private boolean checkDirectory(File directory) {
+    getLog().info("checking directory: " + directory.getPath());
+    if (!directory.isDirectory()) {
+      getLog().error("directory not found: " + directory.getPath());
+      return false;
+    }
+
+    return true;
   }
 
-  private Collection<Selector> getSelectorsFromSpec(PageSpec galenSpec) {
-    Collection<Selector> selectors = GalenHelperUtil.getObjects(galenSpec);
+  private boolean checkInputParams() {
+    // check directories
+    return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
+  }
+
+  private File getOutputFile() {
+    return FreemarkerUtil.getOutputFile(outputDirectory, packageName, className);
+  }
+
+  private Collection<Selector> getSelectorsFromSpecFile(File specFile) {
+    getLog().info("checking file: " + specFile.getPath());
+    Collection<Selector> selectors = ParsingUtil.getSelectorsFromSpec(specFile);
     if (getLog().isDebugEnabled()) {
       for (Selector selector : selectors) {
         getLog().debug("found: " + selector.elementName() + " - > '" + selector.asString() + "'");
       }
     }
-    return selectors;
-  }
-
-  private Collection<Selector> getSelectorsFromSpecFile(File specFile) {
-    getLog().info("checking file: " + specFile.getPath());
-    String specPath = specFile.getPath();
-    PageSpec galenSpec = readSpec(specPath);
-    Collection<Selector> selectors = getSelectorsFromSpec(galenSpec);
-    getLog().debug("found " + selectors.size() + " selectors in '" + specPath + "'");
+    getLog().info("found " + selectors.size() + " selectors in '" + specFile.getPath() + "'");
     return selectors;
   }
 
   private File[] getSpecFiles() {
-    File[] specFiles = inputDirectory.listFiles(GALEN_SPEC_FILE_FILTER);
+    File fromDir = inputDirectory;
+    File[] specFiles = ParsingUtil.getSpecFiles(fromDir);
     getLog().debug("found " + specFiles.length + " spec files.");
     return specFiles;
   }
 
-  private Set<Entry<File, Collection<Selector>>> getSpecFileToSelectorMapping() {
-    return specSelectorMapping.entrySet();
-  }
-
-  private List<SpecPojo> getSpecsForDataModel() {
-    List<SpecPojo> specs = new ArrayList<>();
-    for (Entry<File, Collection<Selector>> entry : getSpecFileToSelectorMapping()) {
-      File spec = entry.getKey();
-      Collection<Selector> selectors = entry.getValue();
-      getLog().debug("adding " + selectors.size() + " selectors from spec '" + spec.getPath() + "'");
-      specs.add(new SpecPojo(spec, selectors));
+  private void parseSpecFilesAndStoreSelectors(File[] specFiles) {
+    for (File specFile : specFiles) {
+      storeSelectors(specFile, getSelectorsFromSpecFile(specFile));
     }
-    return specs;
-  }
-
-  private Template getTemplate() throws IOException, TemplateNotFoundException, MalformedTemplateNameException, ParseException {
-    CONFIGURATION.setDirectoryForTemplateLoading(templateDirectory);
-    Template template = CONFIGURATION.getTemplate(templateName);
-    return template;
-  }
-
-  private void initSysProps() {
-    Set<Entry<String, String>> entrySet = systemPropertyVariables.entrySet();
-    for (Entry<String, String> entry : entrySet) {
-      if (entry != null) {
-        String key = entry.getKey();
-        String value = entry.getValue();
-        if (key == null || value == null) {
-          getLog().info("skipping entry: " + key + "->" + value);
-        }
-        else {
-          getLog().info("adding entry: " + key + "->" + value);
-          System.setProperty(key, value);
-        }
-      }
-      else {
-        getLog().warn("entry for system property was null.");
-      }
-    }
-  }
-
-  private void parseSpecFiles() {
-    for (File specFile : getSpecFiles()) {
-      Collection<Selector> selectors = getSelectorsFromSpecFile(specFile);
-      getLog().debug("found " + selectors.size());
-      storeSelectors(specFile, selectors);
-    }
-  }
-
-  private Map<String, Object> prepareDataModel() {
-    getLog().debug("generating data model");
-    Map<String, Object> root = new HashMap<>();
-    root.put("specs", getSpecsForDataModel());
-    root.put("packageName", packageName);
-    root.put("className", className);
-    return root;
-  }
-
-  private void processFreemarkerTemplate() {
-    try {
-      File outputFile = getOutputFile();
-      Template template = getTemplate();
-      getLog().debug("generating '" + outputFile.getPath() + "'");
-      template.process(prepareDataModel(), new FileWriter(outputFile));
-      getLog().info("generated '" + outputFile.getPath() + "'");
-    }
-    catch (IOException | TemplateException ex) {
-      throw new RuntimeException("template exception", ex);
-    }
-  }
-
-  private PageSpec readSpec(String specPath) {
-    return GalenHelperUtil.readSpec(TEST_DEVICE, specPath, new SectionFilter(emptyList(), emptyList()));
-  }
-
-  private void storeSelectors(File specFile, Collection<Selector> selectors) {
-    specSelectorMapping.put(specFile, selectors);
   }
 
   protected boolean initPlugin() {
 
-    // check directory
-    if (!inputDirectory.isDirectory()) {
-      getLog().error("directory not found: " + inputDirectory.getPath());
+    // check input parameters
+    if (!checkInputParams()) {
       return false;
     }
-    getLog().info("checking directory: " + inputDirectory.getPath());
 
     // transfer system properties
-    initSysProps();
+    ConfigurationUtil.addToSystemProperties(systemPropertyVariables);
 
     return true;
   }
 
-  private static Configuration generateConfiguration() {
-    Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
-    cfg.setDefaultEncoding("UTF-8");
-    cfg.setTemplateExceptionHandler(getExceptionHandler());
-    return cfg;
-  }
-
-  private static TemplateExceptionHandler getExceptionHandler() {
-    if (GaleniumConfiguration.isSparseReporting()) {
-      return TemplateExceptionHandler.RETHROW_HANDLER;
-    }
-    else {
-      return TemplateExceptionHandler.DEBUG_HANDLER;
-    }
-  }
-
-  private static final class GalenSpecFileFilter implements FilenameFilter {
-
-    private static final String FILE_EXTENSION_GSPEC = ".gspec";
-
-    @Override
-    public boolean accept(File dir, String name) {
-      return name.endsWith(FILE_EXTENSION_GSPEC);
-    }
+  protected void storeSelectors(File specFile, Collection<Selector> selectors) {
+    getLog().debug("storing " + selectors.size() + " selector(s)");
+    specSelectorMapping.put(specFile, selectors);
   }
 }

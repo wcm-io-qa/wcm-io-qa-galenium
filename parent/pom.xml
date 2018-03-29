@@ -129,7 +129,7 @@
           <artifactId>maven-plugin-plugin</artifactId>
           <version>3.5.1</version>
           <configuration>
-            <goalPrefix>galenium</goalPrefix>
+            <goalPrefix>io.wcm.qa.galenium</goalPrefix>
             <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
           </configuration>
           <executions>
