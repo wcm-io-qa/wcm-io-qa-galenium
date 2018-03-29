@@ -9,11 +9,11 @@
   </parent>
 
   <groupId>io.wcm.qa</groupId>
-  <artifactId>galenium-maven-plugin</artifactId>
+  <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
   <version>0.1.13-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>galenium-maven-plugin Maven Plugin</name>
+  <name>Galenium Galen Specs Maven Plugin</name>
 
   <!-- FIXME change it to the project's website -->
   <url>http://qa.wcm.io/galenium</url>

@@ -247,7 +247,7 @@
         <plugins>
           <plugin>
             <groupId>io.wcm.qa</groupId>
-            <artifactId>galenium-maven-plugin</artifactId>
+            <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
             <version>0.1.13-SNAPSHOT</version>
             <configuration>
               <systemPropertyVariables>
