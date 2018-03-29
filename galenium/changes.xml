@@ -27,6 +27,9 @@
       <action type="add" dev="apegam">
         Add configuration options for SSL certificate handling.
       </action>
+      <action type="update" dev="apegam">
+        Rename Galen specs Maven module.
+      </action>
     </release>
 
     <release version="0.1.12" date="2018-03-27">
