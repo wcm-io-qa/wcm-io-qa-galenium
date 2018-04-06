@@ -332,6 +332,7 @@
             <configuration>
               <skipIfEmpty>true</skipIfEmpty>
               <classifier>selectors</classifier>
+              <excludes>*.xml</excludes>
             </configuration>
           </plugin>
         </plugins>
