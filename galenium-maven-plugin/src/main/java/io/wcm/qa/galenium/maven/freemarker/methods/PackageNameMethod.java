@@ -17,29 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package ${packageName};
+package io.wcm.qa.galenium.maven.freemarker.methods;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
+import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
+import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 
-public final class ${className} {
 
-  private ${className}() {
-    // do not instantiate
+public class PackageNameMethod extends AbstractTemplateMethod<SpecPojo> {
+
+  @Override
+  protected String exec(SpecPojo spec) {
+    String packageRoot = System.getProperty("packageRootName", "io.wcm.qa.galenium.selectors");
+    return FormatUtil.getPackageName(packageRoot, spec);
   }
 
-  <#list specs as spec>
-  public final static class ${spec.className} {
-
-    private ${spec.className}() {
-      // do not instantiate
-    }
-
-    <#list spec.selectors as selector>
-    public final static Selector ${selector.constantName} = SelectorFactory.fromCss("${selector.elementName}", "${selector.css}");
-    </#list>
-
-  }
-
-  </#list>
 }

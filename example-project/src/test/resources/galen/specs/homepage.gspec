@@ -2,7 +2,7 @@
     page                    #page
     site-header             header.header-site
     navigation              #nav-main
-    nav-link-*              #nav-main ul.navlist > li.navlink
+        link-*              ul.navlist > li.navlink
     stage                   #stage
         image               img
         overlay             div.stage-overlay
@@ -35,7 +35,7 @@
     = Containment =
         site-header, navigation, stage, &content, teaserbar, footer:
             inside page
-        nav-link-*:
+        navigation.link-*:
             inside navigation
     = Alignment =
         site-header:

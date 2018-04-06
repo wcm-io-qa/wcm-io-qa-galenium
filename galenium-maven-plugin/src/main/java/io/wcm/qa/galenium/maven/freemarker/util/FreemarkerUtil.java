@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,9 +37,12 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.ConstantNameMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.EscapeXmlMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public final class FreemarkerUtil {
@@ -53,14 +58,6 @@ public final class FreemarkerUtil {
     cfg.setDefaultEncoding("UTF-8");
     cfg.setTemplateExceptionHandler(getExceptionHandler());
     return cfg;
-  }
-
-  public static Map<String, Object> getDataModelForSpecs(List<SpecPojo> specs, String packageName, String className) {
-    Map<String, Object> root = new HashMap<>();
-    root.put("specs", specs);
-    root.put("packageName", packageName);
-    root.put("className", className);
-    return root;
   }
 
   public static TemplateExceptionHandler getExceptionHandler() {
@@ -79,12 +76,12 @@ public final class FreemarkerUtil {
     return outputFile;
   }
 
-  public static List<SpecPojo> getSpecsForDataModel(Set<Entry<File, Collection<Selector>>> specFileToSelectorMapping) {
+  public static List<SpecPojo> getSpecsForDataModel(Set<Entry<File, Collection<NestedSelector>>> specFileToSelectorMapping) {
     List<SpecPojo> specs = new ArrayList<>();
-    for (Entry<File, Collection<Selector>> entry : specFileToSelectorMapping) {
+    for (Entry<File, Collection<NestedSelector>> entry : specFileToSelectorMapping) {
       File spec = entry.getKey();
-      Collection<Selector> selectors = entry.getValue();
-      GaleniumReportUtil.getLogger().debug("adding " + selectors.size() + " selectors from spec '" + spec.getPath() + "'");
+      Collection<NestedSelector> selectors = entry.getValue();
+      getLogger().debug("adding " + selectors.size() + " selectors from spec '" + spec.getPath() + "'");
       specs.add(new SpecPojo(spec, selectors));
     }
     return specs;
@@ -105,9 +102,9 @@ public final class FreemarkerUtil {
     FileWriter out = null;
     try {
       out = new FileWriter(outputFile);
-      GaleniumReportUtil.getLogger().debug("generating '" + outputFile.getPath() + "'");
+      getLogger().debug("generating '" + outputFile.getPath() + "'");
       template.process(dataModel, out);
-      GaleniumReportUtil.getLogger().info("generated '" + outputFile.getPath() + "'");
+      getLogger().info("generated '" + outputFile.getPath() + "'");
     }
     catch (IOException | TemplateException ex) {
       throw new GaleniumException("template exception", ex);
@@ -122,6 +119,17 @@ public final class FreemarkerUtil {
         }
       }
     }
+  }
+
+  public static Map<String, Object> getDataModelForSelector(NestedSelector selector, SpecPojo spec) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("escapeXml", new EscapeXmlMethod());
+    model.put("className", new ClassNameMethod());
+    model.put("constantName", new ConstantNameMethod());
+    model.put("packageName", new PackageNameMethod());
+    model.put("spec", spec);
+    model.put("this", selector);
+    return model;
   }
 
 

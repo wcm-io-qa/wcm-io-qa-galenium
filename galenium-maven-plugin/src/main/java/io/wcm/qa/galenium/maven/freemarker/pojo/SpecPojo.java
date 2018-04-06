@@ -27,24 +27,39 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 
 public class SpecPojo {
 
-
-  private List<SelectorPojo> selectors = new ArrayList<>();
+  private List<NestedSelector> selectors = new ArrayList<>();
   private File specFile;
 
-  public SpecPojo(File specFile, Collection<Selector> selectors) {
+  public SpecPojo(File specFile, Collection<NestedSelector> selectors) {
     setSpecFile(specFile);
-    setSelectors(selectors);
+    addSelectors(selectors);
   }
 
   public String getClassName() {
-    return FormatUtil.kebapToUpperCamel(FilenameUtils.getBaseName(getSpecFile().getPath()));
+    File file = getSpecFile();
+    return FormatUtil.getClassName(file);
   }
 
-  public Collection<SelectorPojo> getSelectors() {
+  public String getPackageName() {
+    String baseName = FilenameUtils.getBaseName(getSpecFile().getPath());
+    return baseName.toLowerCase().replaceAll("[^a-z0-9]", "");
+  }
+
+  public Collection<NestedSelector> getRootSelectors() {
+    Collection<NestedSelector> rootSelectors = new ArrayList<>();
+    for (NestedSelector selector : selectors) {
+      if (!selector.hasParent()) {
+        rootSelectors.add(selector);
+      }
+    }
+    return rootSelectors;
+  }
+
+  public List<NestedSelector> getSelectors() {
     return selectors;
   }
 
@@ -52,10 +67,8 @@ public class SpecPojo {
     return specFile;
   }
 
-  private void setSelectors(Collection<Selector> selectors) {
-    for (Selector selector : selectors) {
-      getSelectors().add(new SelectorPojo(selector));
-    }
+  private void addSelectors(Collection<NestedSelector> newSelectors) {
+    selectors.addAll(newSelectors);
   }
 
   private void setSpecFile(File specFile) {

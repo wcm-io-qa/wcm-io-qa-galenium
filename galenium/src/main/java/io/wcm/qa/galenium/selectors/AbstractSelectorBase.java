@@ -69,6 +69,10 @@ abstract class AbstractSelectorBase implements Selector {
     return nameBase.replaceAll(REGEX_NAME_CLEANING, "-");
   }
 
+  public String getName() {
+    return name;
+  }
+
   @Override
   public String toString() {
     return elementName() + "(" + asString() + ")";
@@ -80,10 +84,6 @@ abstract class AbstractSelectorBase implements Selector {
 
   protected Locator getLocator() {
     return locator;
-  }
-
-  protected String getName() {
-    return name;
   }
 
   protected String getString() {

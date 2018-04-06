@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.util;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.selectors.SelectorFactory.fromLocator;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,7 +43,10 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 
 /**
  * Helper methods for dealing with Galen.
@@ -71,19 +76,6 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Get objects from {@link PageSpec}.
-   * @param spec to extract objects from
-   * @return selectors for all objects found in spec
-   */
-  public static Collection<Selector> getObjects(PageSpec spec) {
-    Collection<Selector> objects = new ArrayList<>();
-    for (Entry<String, Locator> entry : spec.getObjects().entrySet()) {
-      objects.add(fromLocator(entry.getKey(), entry.getValue()));
-    }
-    return objects;
-  }
-
-  /**
    * Get named object from spec.
    * @param spec to extract object from
    * @param objectName name to use for extraction
@@ -92,6 +84,18 @@ public final class GalenHelperUtil {
   public static Selector getObject(PageSpec spec, String objectName) {
     Locator objectLocator = spec.getObjectLocator(objectName);
     return fromLocator(objectName, objectLocator);
+  }
+
+  /**
+   * Get objects from {@link PageSpec}.
+   * @param spec to extract objects from
+   * @return selectors for all objects found in spec
+   */
+  public static Collection<NestedSelector> getObjects(PageSpec spec) {
+
+    Map<String, SelectorFromLocator> objectMapping = getObjectMapping(spec);
+
+    return extractCollectionFromMapping(objectMapping);
   }
 
   /**
@@ -128,6 +132,16 @@ public final class GalenHelperUtil {
   }
 
   /**
+   * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
+   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   * @param specPath path to spec file
+   * @return Galen page spec object
+   */
+  public static PageSpec readSpec(String specPath) {
+    return readSpec(getBrowser(), specPath, getTags());
+  }
+
+  /**
    * Read a spec from path. Basically a convenience mapping to
    * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
    * @param specPath path to spec file
@@ -149,16 +163,6 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
-   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   * @param specPath path to spec file
-   * @return Galen page spec object
-   */
-  public static PageSpec readSpec(String specPath) {
-    return readSpec(getBrowser(), specPath, getTags());
-  }
-
-  /**
    * Read a spec from path. Basically a convenience mapping to
    * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
    * @param device to use to get page
@@ -168,6 +172,50 @@ public final class GalenHelperUtil {
    */
   public static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
     return readSpec(getBrowser(device), specPath, tags);
+  }
+
+  private static Collection<NestedSelector> extractCollectionFromMapping(Map<String, SelectorFromLocator> objectMapping) {
+    Collection<NestedSelector> objects = new ArrayList<>();
+    Collection<SelectorFromLocator> values = objectMapping.values();
+    for (SelectorFromLocator selectorFromLocator : values) {
+      getLogger().info("checking " + selectorFromLocator);
+      if (selectorFromLocator.hasParent()) {
+        getLogger().info("has parent " + selectorFromLocator);
+        String parentName = selectorFromLocator.getParent().asString();
+        getLogger().info("parentName: '" + parentName + "'");
+        SelectorFromLocator trueParent = objectMapping.get(parentName);
+        if (trueParent == null) {
+          throw new GaleniumException("parent for '" + selectorFromLocator.elementName() + "' not found in spec ('" + parentName + "')");
+        }
+        selectorFromLocator.setParent(trueParent);
+        trueParent.addChild(selectorFromLocator);
+      }
+      else {
+        getLogger().info("no parent found.");
+      }
+      objects.add(selectorFromLocator);
+    }
+    return objects;
+  }
+
+  private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
+    Map<String, SelectorFromLocator> objectMapping = new HashMap<String, SelectorFromLocator>();
+    for (Entry<String, Locator> entry : spec.getObjects().entrySet()) {
+      String name = entry.getKey();
+      if (name.matches(".*-[0-9][0-9]*")) {
+        name = name.replaceAll("-[0-9][0-9]*$", "");
+      }
+      Locator locator = entry.getValue();
+      SelectorFromLocator selector = fromLocator(name, locator);
+      String asString = selector.asString();
+      if (objectMapping.containsKey(asString)) {
+        getLogger().info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+      }
+      else {
+        objectMapping.put(asString, selector);
+      }
+    }
+    return objectMapping;
   }
 
 }

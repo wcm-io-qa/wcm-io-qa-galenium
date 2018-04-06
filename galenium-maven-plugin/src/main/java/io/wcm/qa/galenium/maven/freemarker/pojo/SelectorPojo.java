@@ -19,20 +19,48 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.pojo;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.galenframework.specs.page.Locator;
+
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 
-public class SelectorPojo {
+class SelectorPojo {
 
-  private Selector selector;
+  private Collection<SelectorPojo> children = new ArrayList<>();
+  private SelectorPojo parent;
+  private NestedSelector selector;
+  private SpecPojo spec;
 
-  public SelectorPojo(Selector selector) {
+  public SelectorPojo(SpecPojo specPojo, NestedSelector selector) {
     setSelector(selector);
+    setSpec(specPojo);
+  }
+
+  public void addChild(SelectorPojo child) {
+    children.add(child);
+  }
+
+  public String getAbsoluteElementName() {
+    return getSelector().elementName();
+  }
+
+  public Collection<SelectorPojo> getChildren() {
+    return children;
+  }
+
+  public String getClassName() {
+    return FormatUtil.getClassName(getSelector());
   }
 
   public String getConstantName() {
-    String elementName = getElementName();
-    return FormatUtil.kebapToConstant(elementName.replaceAll("\\.", "__"));
+    return FormatUtil.getConstantName(getSelector());
   }
 
   public String getCss() {
@@ -40,15 +68,60 @@ public class SelectorPojo {
   }
 
   public String getElementName() {
-    return getSelector().elementName();
+
+    if (hasParent()) {
+      // child selectors return relative name
+      String thisName = getAbsoluteElementName();
+      String parentName = getParent().getAbsoluteElementName();
+      String cleanName = StringUtils.removeStart(thisName, parentName + ".");
+      getLogger().info("this: '" + thisName + "' parent: '" + parentName + "' clean: '" + cleanName + "'");
+      return cleanName;
+    }
+
+    return getAbsoluteElementName();
   }
 
-  public Selector getSelector() {
+  public Locator getLocator() {
+    return getSelector().asLocator();
+  }
+
+  public String getPackageName() {
+    return getSpec().getPackageName();
+  }
+
+  public SelectorPojo getParent() {
+    return parent;
+  }
+
+  public NestedSelector getSelector() {
     return selector;
   }
 
-  private void setSelector(Selector selector) {
+  public SpecPojo getSpec() {
+    return spec;
+  }
+
+  public boolean hasChildren() {
+    return !children.isEmpty();
+  }
+
+  public boolean hasParent() {
+    return getParent() != null;
+  }
+
+  public void setParent(SelectorPojo parent) {
+    this.parent = parent;
+    if (parent != null) {
+      parent.addChild(this);
+    }
+  }
+
+  private void setSelector(NestedSelector selector) {
     this.selector = selector;
+  }
+
+  private void setSpec(SpecPojo spec) {
+    this.spec = spec;
   }
 
 }

@@ -61,6 +61,7 @@
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
 
+    <io.wcm.qa.galenium.example.sourceDir>${basedir}/src/main/java</io.wcm.qa.galenium.example.sourceDir>
   </properties>
 
   <dependencies>
@@ -81,10 +82,16 @@
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
       <version>0.1.13-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
+      <version>0.1.13-SNAPSHOT</version>
+    </dependency>
 
   </dependencies>
 
   <build>
+    <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
     <plugins>
 
       <plugin>
@@ -242,6 +249,7 @@
       <id>galen-specs</id>
       <properties>
         <integrationtests.skip>true</integrationtests.skip>
+        <io.wcm.qa.galenium.example.sourceDir>${project.build.directory}/generated-sources</io.wcm.qa.galenium.example.sourceDir>
       </properties>
       <build>
         <plugins>
@@ -250,8 +258,8 @@
             <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
             <version>0.1.13-SNAPSHOT</version>
             <configuration>
-              <className>ExampleProjectSelectors</className>
-              <packageName>io.wcm.qa.galenium.example</packageName>
+              <packageRootName>io.wcm.qa.galenium.example.selectors</packageRootName>
+              <templateDirectory>${project.build.directory}/generated-resources/freemarker</templateDirectory>
               <systemPropertyVariables>
 
                 <!-- Galenium -->
@@ -262,7 +270,7 @@
             </configuration>
             <executions>
               <execution>
-                <phase>test</phase>
+                <phase>process-sources</phase>
                 <goals>
                   <goal>specs</goal>
                 </goals>
@@ -288,6 +296,43 @@
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>unpack-freemarker-resources</id>
+                <goals>
+                  <goal>unpack-dependencies</goal>
+                </goals>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+                  <includeArtifacIds>io.wcm.qa.galenium.galen-specs</includeArtifacIds>
+                  <includes>**/*.ftlh</includes>
+                  <excludeTransitive>true</excludeTransitive>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>**</testExcludes>
+              <includes>
+                <include>io/wcm/qa/galenium/example/selectors/**/*.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <skipIfEmpty>true</skipIfEmpty>
+              <classifier>selectors</classifier>
+            </configuration>
           </plugin>
         </plugins>
       </build>

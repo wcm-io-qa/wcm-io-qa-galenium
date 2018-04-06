@@ -35,7 +35,7 @@ import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.maven.mock.MockPage;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.GalenHelperUtil;
 
 public final class ParsingUtil {
@@ -47,9 +47,9 @@ public final class ParsingUtil {
     // do not instantiate
   }
 
-  public static Collection<Selector> getSelectorsFromSpec(File specFile) {
+  public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
     PageSpec galenSpec = readSpec(specFile);
-    Collection<Selector> selectors = GalenHelperUtil.getObjects(galenSpec);
+    Collection<NestedSelector> selectors = GalenHelperUtil.getObjects(galenSpec);
     return selectors;
   }
 

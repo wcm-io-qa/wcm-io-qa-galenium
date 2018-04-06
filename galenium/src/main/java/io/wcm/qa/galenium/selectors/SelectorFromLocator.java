@@ -24,7 +24,7 @@ import com.galenframework.specs.page.Locator;
 /**
  * Turns a Galen {@link Locator} object into a Galenium {@link Selector}.
  */
-public class SelectorFromLocator extends AbstractSelectorBase {
+public class SelectorFromLocator extends AbstractNestedSelectorBase {
 
   /**
    * @param locator to use in Selector construction
@@ -40,6 +40,17 @@ public class SelectorFromLocator extends AbstractSelectorBase {
   public SelectorFromLocator(String elementName, Locator locator) {
     this(locator);
     setName(elementName);
+  }
+
+  @Override
+  protected void setLocator(Locator locator) {
+    super.setLocator(locator);
+    Locator parentLocator = locator.getParent();
+    if (parentLocator != null) {
+      SelectorFromLocator parentSelector = new SelectorFromLocator(parentLocator);
+      setParent(parentSelector);
+      parentSelector.addChild(this);
+    }
   }
 
   @Override

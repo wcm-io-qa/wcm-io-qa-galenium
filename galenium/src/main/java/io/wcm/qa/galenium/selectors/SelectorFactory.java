@@ -55,14 +55,9 @@ public final class SelectorFactory {
    * @param locator to construct selector from
    * @return Galenium selector representing the locator
    */
-  public static Selector fromLocator(Locator locator) {
+  public static SelectorFromLocator fromLocator(Locator locator) {
     checkLocator(locator);
-    Locator parent = locator.getParent();
-    if (parent == null) {
-      return new SelectorFromLocator(locator);
-    }
-    Selector parentSelector = fromLocator(parent);
-    return relativeSelector(parentSelector, locator.getLocatorValue());
+    return new SelectorFromLocator(locator);
   }
 
   private static void checkLocator(Locator locator) {
@@ -88,7 +83,7 @@ public final class SelectorFactory {
    * @param locator to construct selector from
    * @return Galenium selector representing the locator
    */
-  public static Selector fromLocator(String elementName, Locator locator) {
+  public static SelectorFromLocator fromLocator(String elementName, Locator locator) {
     checkLocator(locator);
     return new SelectorFromLocator(elementName, locator);
   }
@@ -99,8 +94,8 @@ public final class SelectorFactory {
    * @param relativeSelector relative to parent
    * @return new selector that is relative to the parent selector
    */
-  public static Selector relativeSelector(Selector parent, Selector relativeSelector) {
-    return relativeSelector(parent, relativeSelector.elementName(), relativeSelector.asString());
+  public static Selector relativeToAbsolute(Selector parent, Selector relativeSelector) {
+    return relativeToAbsolute(parent, relativeSelector.elementName(), relativeSelector.asString());
   }
 
   /**
@@ -109,8 +104,8 @@ public final class SelectorFactory {
    * @param relativeCssSelector relative to parent
    * @return new selector that is relative to the parent selector
    */
-  public static Selector relativeSelector(Selector parent, String relativeCssSelector) {
-    return relativeSelector(parent, "child", relativeCssSelector);
+  public static Selector relativeToAbsolute(Selector parent, String relativeCssSelector) {
+    return relativeToAbsolute(parent, "child", relativeCssSelector);
   }
 
   /**
@@ -120,7 +115,7 @@ public final class SelectorFactory {
    * @param relativeCssSelector relative to parent
    * @return new selector that is relative to the parent selector
    */
-  public static Selector relativeSelector(Selector parent, String childName, String relativeCssSelector) {
+  public static Selector relativeToAbsolute(Selector parent, String childName, String relativeCssSelector) {
     String selectorString = parent.asString() + " " + relativeCssSelector;
     String elementName = parent.elementName() + "|" + childName;
     return fromCss(elementName, selectorString);
