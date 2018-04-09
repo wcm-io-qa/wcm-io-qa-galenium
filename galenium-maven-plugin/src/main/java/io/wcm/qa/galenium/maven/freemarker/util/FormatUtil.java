@@ -47,8 +47,8 @@ public final class FormatUtil {
     return kebapToUpperCamel(cleanElementName);
   }
 
-  protected static String getRelativeElementName(String elementName) {
-    return elementName.replaceFirst("^.*\\.", "");
+  public static String getClassName(SpecPojo specPojo) {
+    return kebapToUpperCamel(specPojo.getBasename());
   }
 
   public static String getConstantName(NestedSelector selector) {
@@ -87,6 +87,10 @@ public final class FormatUtil {
    */
   private static String kebapToUpperCamel(String input) {
     return CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, input);
+  }
+
+  protected static String getRelativeElementName(String elementName) {
+    return elementName.replaceFirst("^.*\\.", "");
   }
 
 }

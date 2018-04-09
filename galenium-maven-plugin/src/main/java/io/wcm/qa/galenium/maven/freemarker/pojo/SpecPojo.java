@@ -26,17 +26,25 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
+import com.galenframework.specs.Spec;
+import com.galenframework.specs.page.ObjectSpecs;
+import com.galenframework.specs.page.PageSection;
+import com.galenframework.specs.page.PageSpec;
+import com.galenframework.specs.page.SpecGroup;
+
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
+import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.util.GalenHelperUtil;
 
 public class SpecPojo {
 
-  private List<NestedSelector> selectors = new ArrayList<>();
+  private Collection<NestedSelector> selectors;
   private File specFile;
+  private PageSpec pageSpec;
 
-  public SpecPojo(File specFile, Collection<NestedSelector> selectors) {
+  public SpecPojo(File specFile) {
     setSpecFile(specFile);
-    addSelectors(selectors);
   }
 
   public String getClassName() {
@@ -51,7 +59,7 @@ public class SpecPojo {
 
   public Collection<NestedSelector> getRootSelectors() {
     Collection<NestedSelector> rootSelectors = new ArrayList<>();
-    for (NestedSelector selector : selectors) {
+    for (NestedSelector selector : getSelectors()) {
       if (!selector.hasParent()) {
         rootSelectors.add(selector);
       }
@@ -59,7 +67,25 @@ public class SpecPojo {
     return rootSelectors;
   }
 
-  public List<NestedSelector> getSelectors() {
+  public String getFilename() {
+    return getSpecFile().getName();
+  }
+
+  public String getBasename() {
+    return FilenameUtils.getBaseName(getFilename());
+  }
+
+  public PageSpec getPageSpec() {
+    if (pageSpec == null) {
+      pageSpec = ParsingUtil.readSpec(getSpecFile());
+    }
+    return pageSpec;
+  }
+
+  public Collection<NestedSelector> getSelectors() {
+    if (selectors == null) {
+      selectors = GalenHelperUtil.getObjects(getPageSpec());
+    }
     return selectors;
   }
 
@@ -67,8 +93,22 @@ public class SpecPojo {
     return specFile;
   }
 
-  private void addSelectors(Collection<NestedSelector> newSelectors) {
-    selectors.addAll(newSelectors);
+  public Collection<String> getTags(){
+    Collection<String> tags = new ArrayList<>();
+    List<PageSection> sections = getPageSpec().getSections();
+    for (PageSection pageSection : sections) {
+      List<ObjectSpecs> objects = pageSection.getObjects();
+      for (ObjectSpecs objectSpecs : objects) {
+        List<SpecGroup> specGroups = objectSpecs.getSpecGroups();
+        for (SpecGroup specGroup : specGroups) {
+          List<Spec> specs = specGroup.getSpecs();
+          for (Spec spec : specs) {
+
+          }
+        }
+      }
+    }
+    return tags;
   }
 
   private void setSpecFile(File specFile) {

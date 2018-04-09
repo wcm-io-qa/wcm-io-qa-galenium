@@ -41,7 +41,6 @@ import io.wcm.qa.galenium.util.GalenHelperUtil;
 public final class ParsingUtil {
 
   private static final GalenSpecFileFilter GALEN_SPEC_FILE_FILTER = new GalenSpecFileFilter();
-  //  private static final TestDevice TEST_DEVICE = new TestDevice("galen-specs", BrowserType.CHROME, new Dimension(1000, 1000), emptyList(), null);
 
   private ParsingUtil() {
     // do not instantiate

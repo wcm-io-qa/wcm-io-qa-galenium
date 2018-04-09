@@ -24,20 +24,16 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
-import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSelectorMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSpecMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ConstantNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.EscapeXmlMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
@@ -60,6 +56,21 @@ public final class FreemarkerUtil {
     return cfg;
   }
 
+  public static Map<String, Object> getDataModelForSelector(NestedSelector selector, SpecPojo spec) {
+    Map<String, Object> model = getCommonDataModel();
+    model.put("className", new ClassNameFromSelectorMethod());
+    model.put("spec", spec);
+    model.put("this", selector);
+    return model;
+  }
+
+  public static Map<String, Object> getDataModelForSpec(SpecPojo spec) {
+    Map<String, Object> model = getCommonDataModel();
+    model.put("className", new ClassNameFromSpecMethod());
+    model.put("spec", spec);
+    return model;
+  }
+
   public static TemplateExceptionHandler getExceptionHandler() {
     if (GaleniumConfiguration.isSparseReporting()) {
       return TemplateExceptionHandler.RETHROW_HANDLER;
@@ -76,16 +87,16 @@ public final class FreemarkerUtil {
     return outputFile;
   }
 
-  public static List<SpecPojo> getSpecsForDataModel(Set<Entry<File, Collection<NestedSelector>>> specFileToSelectorMapping) {
-    List<SpecPojo> specs = new ArrayList<>();
-    for (Entry<File, Collection<NestedSelector>> entry : specFileToSelectorMapping) {
-      File spec = entry.getKey();
-      Collection<NestedSelector> selectors = entry.getValue();
-      getLogger().debug("adding " + selectors.size() + " selectors from spec '" + spec.getPath() + "'");
-      specs.add(new SpecPojo(spec, selectors));
-    }
-    return specs;
-  }
+  //  public static List<SpecPojo> getSpecsForDataModel(Set<Entry<File, Collection<NestedSelector>>> specFileToSelectorMapping) {
+  //    List<SpecPojo> specs = new ArrayList<>();
+  //    for (Entry<File, Collection<NestedSelector>> entry : specFileToSelectorMapping) {
+  //      File spec = entry.getKey();
+  //      Collection<NestedSelector> selectors = entry.getValue();
+  //      getLogger().debug("adding " + selectors.size() + " selectors from spec '" + spec.getPath() + "'");
+  //      specs.add(new SpecPojo(spec, selectors));
+  //    }
+  //    return specs;
+  //  }
 
   public static Template getTemplate(File directory, String name) {
     try {
@@ -121,16 +132,12 @@ public final class FreemarkerUtil {
     }
   }
 
-  public static Map<String, Object> getDataModelForSelector(NestedSelector selector, SpecPojo spec) {
+  private static Map<String, Object> getCommonDataModel() {
     Map<String, Object> model = new HashMap<>();
     model.put("escapeXml", new EscapeXmlMethod());
-    model.put("className", new ClassNameMethod());
     model.put("constantName", new ConstantNameMethod());
     model.put("packageName", new PackageNameMethod());
-    model.put("spec", spec);
-    model.put("this", selector);
     return model;
   }
-
 
 }

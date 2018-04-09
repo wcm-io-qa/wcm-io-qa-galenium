@@ -1,6 +1,6 @@
 <#macro innerClass selector>
   /**
-   * Java version of '${selector.elementName()}' from ${spec.getSpecFile().getName()}. 
+   * Java version of '${selector.elementName()}' from ${spec.filename}. 
    */
   public static class ${className(selector)} extends SelectorFromLocator {
 
@@ -68,7 +68,7 @@ import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 
 /**
- * Java version of '${this.elementName()}' from ${spec.getSpecFile().getName()}. 
+ * Java version of '${this.elementName()}' from ${spec.filename}. 
  */
 public class ${className(this)} extends SelectorFromLocator {
 

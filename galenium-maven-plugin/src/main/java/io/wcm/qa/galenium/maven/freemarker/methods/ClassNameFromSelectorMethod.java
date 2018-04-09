@@ -23,7 +23,7 @@ import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 
 
-public class ClassNameMethod extends AbstractTemplateMethod<NestedSelector> {
+public class ClassNameFromSelectorMethod extends AbstractTemplateMethod<NestedSelector> {
 
   @Override
   protected String exec(NestedSelector selector) {

@@ -19,8 +19,8 @@
 package io.wcm.qa.galenium.maven.freemarker;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -52,7 +52,6 @@ import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
-import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
@@ -62,18 +61,6 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  */
 @Mojo(name = "specs", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class GalenSpecsMojo extends AbstractMojo {
-
-  /**
-   * Name of Freemarker template to use for recursively generating static inner classes.
-   */
-  @Parameter(defaultValue = "class.ftlh", property = "classTemplate")
-  private String classTemplate;
-
-  /**
-   * Name of Freemarker template to use for generating constants in a class.
-   */
-  @Parameter(defaultValue = "constants.ftlh", property = "constantsTemplate")
-  private String constantsTemplate;
 
   /**
    * Location of input directory containing Galen specs.
@@ -96,10 +83,16 @@ public class GalenSpecsMojo extends AbstractMojo {
   /**
    * Name of Freemarker template to use for generating top level classes.
    */
-  @Parameter(defaultValue = "root.ftlh", property = "rootTemplate")
-  private String rootTemplate;
+  @Parameter(defaultValue = "selector.ftlh", property = "selectorTemplate")
+  private String selectorTemplate;
 
-  private Map<File, Collection<NestedSelector>> specSelectorMapping = new HashMap<>();
+  private Collection<SpecPojo> specs = new ArrayList<>();
+
+  /**
+   * Name of Freemarker template to use for recursively generating static inner classes.
+   */
+  @Parameter(defaultValue = "spec.ftlh", property = "specTemplate")
+  private String specTemplate;
 
   /**
    * To be transferred to system properties when running plugin. Mostly used to manipulate
@@ -150,22 +143,32 @@ public class GalenSpecsMojo extends AbstractMojo {
     return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
   }
 
+  private void generateSpecCode() {
+    // same template for all specs
+    getLog().info("fetching template");
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, specTemplate);
+
+    for (SpecPojo specPojo : specs) {
+
+      getLog().info("generating data model for '" + specPojo.getSpecFile().getPath() + "'");
+      Map<String, Object> dataModelForSpec = FreemarkerUtil.getDataModelForSpec(specPojo);
+
+      getLog().debug("processing template");
+      FreemarkerUtil.process(template, dataModelForSpec, getOutputFile(specPojo));
+
+    }
+  }
+
   private File getOutputFile(NestedSelector selector, SpecPojo spec) {
     String outputPackage = FormatUtil.getPackageName(packageRootName, spec);
     String className = FormatUtil.getClassName(selector);
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private Collection<NestedSelector> getSelectorsFromSpecFile(File specFile) {
-    getLog().info("checking file: " + specFile.getPath());
-    Collection<NestedSelector> selectors = ParsingUtil.getSelectorsFromSpec(specFile);
-    if (getLog().isDebugEnabled()) {
-      for (Selector selector : selectors) {
-        getLog().debug("found: " + selector.elementName() + " - > '" + selector.asString() + "'");
-      }
-    }
-    getLog().info("found " + selectors.size() + " selectors in '" + specFile.getPath() + "'");
-    return selectors;
+  private File getOutputFile(SpecPojo spec) {
+    String outputPackage = FormatUtil.getPackageName(packageRootName, spec);
+    String className = FormatUtil.getClassName(spec);
+    return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
   private File[] getSpecFiles() {
@@ -175,13 +178,21 @@ public class GalenSpecsMojo extends AbstractMojo {
     return specFiles;
   }
 
+  private void storeSpec(SpecPojo specPojo) {
+    specs.add(specPojo);
+  }
+
   protected void generateCode() {
+    generateSelectorCode();
+    //    generateSpecCode();
+  }
 
-    // same template for all specs
+  protected void generateSelectorCode() {
+    // same template for all selectors
     getLog().info("fetching template");
-    Template template = FreemarkerUtil.getTemplate(templateDirectory, rootTemplate);
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, selectorTemplate);
 
-    for (SpecPojo specPojo : FreemarkerUtil.getSpecsForDataModel(specSelectorMapping.entrySet())) {
+    for (SpecPojo specPojo : specs) {
 
       getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
       for (NestedSelector selector : specPojo.getRootSelectors()) {
@@ -215,14 +226,8 @@ public class GalenSpecsMojo extends AbstractMojo {
 
     getLog().info("processing spec files");
     for (File specFile : specFiles) {
-      Collection<NestedSelector> selectorsFromSpecFile = getSelectorsFromSpecFile(specFile);
-      storeSelectors(specFile, selectorsFromSpecFile);
+      storeSpec(new SpecPojo(specFile));
     }
-  }
-
-  protected void storeSelectors(File specFile, Collection<NestedSelector> selectors) {
-    getLog().debug("storing " + selectors.size() + " selector(s)");
-    specSelectorMapping.put(specFile, selectors);
   }
 
 }
