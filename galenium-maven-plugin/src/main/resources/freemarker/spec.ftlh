@@ -24,6 +24,10 @@ package ${packageNameForSpec};
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.ArrayList;
+
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
@@ -33,11 +37,18 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
  */
 public class ${classNameForSpec} {
 
-  private static final File specFile = new File("${spec.getSpecFile().getPath()}");
+  private static final File specFile = new File("${spec.filePath}");
+
+  private Collection<String> tags = new ArrayList<>();
+
+  public void check() {
+    
+  }
 
   <#list spec.tags as tag>
     public ${classNameForSpec} with${className(tag)}() {
-
+      tags.add("${tag}");
+      return this;
     }
   </#list>
 }

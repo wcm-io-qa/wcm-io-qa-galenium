@@ -22,15 +22,10 @@ package io.wcm.qa.galenium.maven.freemarker.pojo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.galenframework.specs.Spec;
-import com.galenframework.specs.page.ObjectSpecs;
-import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
-import com.galenframework.specs.page.SpecGroup;
 
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
@@ -42,6 +37,7 @@ public class SpecPojo {
   private Collection<NestedSelector> selectors;
   private File specFile;
   private PageSpec pageSpec;
+  private Collection<String> tags;
 
   public SpecPojo(File specFile) {
     setSpecFile(specFile);
@@ -65,6 +61,10 @@ public class SpecPojo {
       }
     }
     return rootSelectors;
+  }
+
+  public String getFilePath() {
+    return FilenameUtils.normalize(getSpecFile().getPath(), true);
   }
 
   public String getFilename() {
@@ -94,19 +94,8 @@ public class SpecPojo {
   }
 
   public Collection<String> getTags(){
-    Collection<String> tags = new ArrayList<>();
-    List<PageSection> sections = getPageSpec().getSections();
-    for (PageSection pageSection : sections) {
-      List<ObjectSpecs> objects = pageSection.getObjects();
-      for (ObjectSpecs objectSpecs : objects) {
-        List<SpecGroup> specGroups = objectSpecs.getSpecGroups();
-        for (SpecGroup specGroup : specGroups) {
-          List<Spec> specs = specGroup.getSpecs();
-          for (Spec spec : specs) {
-
-          }
-        }
-      }
+    if (tags == null) {
+      tags = ParsingUtil.getTags(getSpecFile());
     }
     return tags;
   }

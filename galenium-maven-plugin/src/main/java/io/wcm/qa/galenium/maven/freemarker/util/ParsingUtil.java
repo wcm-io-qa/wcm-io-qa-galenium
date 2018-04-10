@@ -23,10 +23,16 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.galenframework.page.Page;
 import com.galenframework.speclang2.pagespec.SectionFilter;
@@ -40,6 +46,7 @@ import io.wcm.qa.galenium.util.GalenHelperUtil;
 
 public final class ParsingUtil {
 
+  private static final String PATTERN_LINE_WITH_TAGS_IN_SPEC = "@on";
   private static final GalenSpecFileFilter GALEN_SPEC_FILE_FILTER = new GalenSpecFileFilter();
 
   private ParsingUtil() {
@@ -76,6 +83,32 @@ public final class ParsingUtil {
     @Override
     public boolean accept(File dir, String name) {
       return name.endsWith(FILE_EXTENSION_GSPEC);
+    }
+  }
+
+  public static Collection<String> getTags(File specFile) {
+    try {
+      Collection<String> tags = new ArrayList<>();
+      LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(specFile));
+      String line = lineNumberReader.readLine();
+      while (line != null) {
+        String trimmedLine = line.trim();
+        if (StringUtils.startsWith(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC)) {
+          String tagsAsString = StringUtils.removeStart(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC);
+          String[] tagsAsArray = tagsAsString.split(",");
+          for (String tag : tagsAsArray) {
+            if (StringUtils.isNotBlank(tag)) {
+              tags.add(tag.trim());
+            }
+          }
+        }
+        line = lineNumberReader.readLine();
+      }
+      lineNumberReader.close();
+      return tags;
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("when parsing '" + specFile + "'");
     }
   }
 

@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.util;
 
+
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
@@ -36,7 +37,11 @@ import com.galenframework.browser.Browser;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
+import com.galenframework.specs.Spec;
+import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
+import com.galenframework.suite.GalenPageAction;
+import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationErrorException;
 import com.galenframework.validation.ValidationListener;
@@ -46,7 +51,6 @@ import com.galenframework.validation.ValidationResult;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
-import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via {@link GaleniumContext}.
@@ -85,12 +89,13 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
+    ValidationListener validationListener = getValidationListener();
     return checkLayout(
         testName,
         spec,
         getTestDevice(),
         GalenHelperUtil.getTags(),
-        new ImageComparisonValidationListener(),
+        validationListener,
         GalenHelperUtil.getBrowser(),
         GaleniumContext.getDriver());
   }
@@ -201,6 +206,159 @@ public final class GalenLayoutChecker {
     }
 
     return layoutReport;
+  }
+
+  private static ValidationListener getValidationListener() {
+    if (getLogger().isTraceEnabled()) {
+      return new TracingValidationListener();
+    }
+    return new DummyValidationListener();
+  }
+
+  private static final class DummyValidationListener implements ValidationListener {
+
+    @Override
+    public void onAfterObject(PageValidation pageValidation, String objectName) {
+      // noop
+    }
+
+    @Override
+    public void onAfterPageAction(GalenPageAction action) {
+      // noop
+    }
+
+    @Override
+    public void onAfterSection(PageValidation pageValidation, PageSection pageSection) {
+      // noop
+    }
+
+    @Override
+    public void onAfterSpecGroup(PageValidation pageValidation, String specGroupName) {
+      // noop
+    }
+
+    @Override
+    public void onAfterSubLayout(PageValidation pageValidation, String objectName) {
+      // noop
+    }
+
+    @Override
+    public void onBeforePageAction(GalenPageAction action) {
+      // noop
+    }
+
+    @Override
+    public void onBeforeSection(PageValidation pageValidation, PageSection pageSection) {
+      // noop
+    }
+
+    @Override
+    public void onBeforeSpec(PageValidation pageValidation, String objectName, Spec spec) {
+      // noop
+    }
+
+    @Override
+    public void onGlobalError(Exception e) {
+      // noop
+    }
+
+    @Override
+    public void onObject(PageValidation pageValidation, String objectName) {
+      // noop
+    }
+
+    @Override
+    public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
+      // noop
+    }
+
+    @Override
+    public void onSpecGroup(PageValidation pageValidation, String specGroupName) {
+      // noop
+    }
+
+    @Override
+    public void onSpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
+      // noop
+    }
+
+    @Override
+    public void onSubLayout(PageValidation pageValidation, String objectName) {
+      // noop
+    }
+  }
+
+  private static final class TracingValidationListener implements ValidationListener {
+
+    @Override
+    public void onAfterObject(PageValidation pageValidation, String objectName) {
+      getLogger().trace("AfterObject(PageValidation pageValidation, String objectName)");
+    }
+
+    @Override
+    public void onAfterPageAction(GalenPageAction action) {
+      getLogger().trace("AfterPageAction(GalenPageAction action)");
+    }
+
+    @Override
+    public void onAfterSection(PageValidation pageValidation, PageSection pageSection) {
+      getLogger().trace("AfterSection(PageValidation pageValidation, PageSection pageSection)");
+    }
+
+    @Override
+    public void onAfterSpecGroup(PageValidation pageValidation, String specGroupName) {
+      getLogger().trace("AfterSpecGroup(PageValidation pageValidation, String specGroupName)");
+    }
+
+    @Override
+    public void onAfterSubLayout(PageValidation pageValidation, String objectName) {
+      getLogger().trace("AfterSubLayout(PageValidation pageValidation, String objectName)");
+    }
+
+    @Override
+    public void onBeforePageAction(GalenPageAction action) {
+      getLogger().trace("BeforePageAction(GalenPageAction action)");
+    }
+
+    @Override
+    public void onBeforeSection(PageValidation pageValidation, PageSection pageSection) {
+      getLogger().trace("BeforeSection(PageValidation pageValidation, PageSection pageSection)");
+    }
+
+    @Override
+    public void onBeforeSpec(PageValidation pageValidation, String objectName, Spec spec) {
+      getLogger().trace("BeforeSpec(PageValidation pageValidation, String objectName, Spec spec)");
+    }
+
+    @Override
+    public void onGlobalError(Exception e) {
+      getLogger().trace("GlobalError(Exception e)");
+    }
+
+    @Override
+    public void onObject(PageValidation pageValidation, String objectName) {
+      getLogger().trace("Object(PageValidation pageValidation, String objectName)");
+    }
+
+    @Override
+    public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
+      getLogger().trace("SpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult)");
+    }
+
+    @Override
+    public void onSpecGroup(PageValidation pageValidation, String specGroupName) {
+      getLogger().trace("SpecGroup(PageValidation pageValidation, String specGroupName)");
+    }
+
+    @Override
+    public void onSpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
+      getLogger().trace("SpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult)");
+    }
+
+    @Override
+    public void onSubLayout(PageValidation pageValidation, String objectName) {
+      getLogger().trace("SubLayout(PageValidation pageValidation, String objectName)");
+    }
   }
 
 }

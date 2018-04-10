@@ -22,7 +22,7 @@
 </#macro>
 <#macro constant selector>
   /** ${className(selector)}: '${escapeXml(selector.asString())}' */
-  public static final Selector ${constantName(selector)} = new ${className(selector)}();
+  public static final className(selector) ${constantName(selector)} = new ${className(selector)}();
 </#macro>
 <#macro newLocator locator>
 new Locator("${locator.locatorType}", "${locator.locatorValue}", ${locator.index})
