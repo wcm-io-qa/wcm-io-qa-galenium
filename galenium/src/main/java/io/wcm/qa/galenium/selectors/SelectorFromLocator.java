@@ -30,7 +30,7 @@ public class SelectorFromLocator extends AbstractNestedSelectorBase {
    * @param locator to use in Selector construction
    */
   public SelectorFromLocator(Locator locator) {
-    setLocator(locator);
+    this(null, locator);
   }
 
   /**
@@ -38,24 +38,21 @@ public class SelectorFromLocator extends AbstractNestedSelectorBase {
    * @param locator to use in Selector construction
    */
   public SelectorFromLocator(String elementName, Locator locator) {
-    this(locator);
     setName(elementName);
+    setLocator(locator);
   }
 
   @Override
   protected void setLocator(Locator locator) {
     super.setLocator(locator);
+    setString(locator.getLocatorValue());
     Locator parentLocator = locator.getParent();
     if (parentLocator != null) {
-      SelectorFromLocator parentSelector = new SelectorFromLocator(parentLocator);
+      String parentName = getName().replaceFirst("\\.[^.]*$", "");
+      SelectorFromLocator parentSelector = new SelectorFromLocator(parentName, parentLocator);
       setParent(parentSelector);
       parentSelector.addChild(this);
     }
-  }
-
-  @Override
-  public String getString() {
-    return getLocator().getLocatorValue();
   }
 
 }

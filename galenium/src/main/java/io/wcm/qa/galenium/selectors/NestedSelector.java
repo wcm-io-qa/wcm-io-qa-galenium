@@ -54,4 +54,10 @@ public interface NestedSelector extends Selector {
    * @return a clone relative to parent
    */
   Selector asAbsolute();
+
+  /**
+   * Cloned selector with CSS not relative to potential parent, but as absolute in page.
+   * @return a clone relative to parent
+   */
+  Selector asRelative();
 }

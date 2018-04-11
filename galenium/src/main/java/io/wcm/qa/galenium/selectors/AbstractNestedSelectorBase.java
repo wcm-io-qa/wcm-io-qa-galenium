@@ -22,6 +22,10 @@ package io.wcm.qa.galenium.selectors;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.openqa.selenium.By;
+
+import com.galenframework.specs.page.Locator;
+
 /**
  * Abstract base class for {@link NestedSelector} implementations.
  */
@@ -30,6 +34,7 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
   private Selector absolute;
   private Collection<NestedSelector> children;
   private NestedSelector parent;
+  private Selector relative;
 
   /**
    * @param child to add
@@ -40,7 +45,50 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
 
   @Override
   public Selector asAbsolute() {
-    return absolute;
+    if (getAbsolute() == null) {
+      setAbsolute(getClone());
+    }
+    return getAbsolute();
+  }
+
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#asBy()
+   */
+  @Override
+  public By asBy() {
+    return asAbsolute().asBy();
+  }
+
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#asLocator()
+   */
+  @Override
+  public Locator asLocator() {
+    return asAbsolute().asLocator();
+  }
+
+  @Override
+  public Selector asRelative() {
+    if (getRelative() == null) {
+      setRelative(getClone());
+    }
+    return getRelative();
+  }
+
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#asString()
+   */
+  @Override
+  public String asString() {
+    return asAbsolute().asString();
+  }
+
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#elementName()
+   */
+  @Override
+  public String elementName() {
+    return asAbsolute().elementName();
   }
 
   @Override
@@ -68,16 +116,40 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
 
   public void setParent(NestedSelector parent) {
     this.parent = parent;
-    if (hasParent()) {
-      absolute = SelectorFactory.relativeToAbsolute(parent, this);
+    parentChanged(parent);
+  }
+
+  private Selector getClone() {
+    return SelectorFactory.fromValues(getName(), getString(), getBy(), getLocator());
+  }
+
+  protected Selector getAbsolute() {
+    return absolute;
+  }
+
+  protected Selector getRelative() {
+    return relative;
+  }
+
+  protected void parentChanged(NestedSelector newParent) {
+    if (newParent != null) {
+      setAbsolute(SelectorFactory.relativeToAbsolute(newParent, asRelative()));
     }
     else {
-      absolute = this;
+      setAbsolute(null);
     }
+  }
+
+  protected void setAbsolute(Selector absolute) {
+    this.absolute = absolute;
   }
 
   protected void setChildren(Collection<NestedSelector> children) {
     this.children = children;
+  }
+
+  protected void setRelative(Selector relative) {
+    this.relative = relative;
   }
 
 }

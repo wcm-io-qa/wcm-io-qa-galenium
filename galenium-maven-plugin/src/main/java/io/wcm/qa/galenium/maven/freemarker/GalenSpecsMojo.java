@@ -54,7 +54,6 @@ import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Goal which finds Galen specs, extracts objects and generates Java code from it.
@@ -115,18 +114,11 @@ public class GalenSpecsMojo extends AbstractMojo {
       throw new GaleniumException("Plugin initialization failed.");
     }
 
-    try {
+    // handle spec files and collect objects
+    parseSpecs();
 
-      // handle spec files and collect objects
-      parseSpecs();
-
-      // prepare Freemarker data model and process template
-      generateCode();
-
-    }
-    finally {
-      WebDriverManager.closeDriver();
-    }
+    // prepare Freemarker data model and process template
+    generateCode();
   }
 
   private boolean checkDirectory(File directory) {

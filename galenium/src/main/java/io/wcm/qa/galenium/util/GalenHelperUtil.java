@@ -177,33 +177,40 @@ public final class GalenHelperUtil {
   private static Collection<NestedSelector> extractCollectionFromMapping(Map<String, SelectorFromLocator> objectMapping) {
     Collection<NestedSelector> objects = new ArrayList<>();
     Collection<SelectorFromLocator> values = objectMapping.values();
-    for (SelectorFromLocator selectorFromLocator : values) {
-      getLogger().info("checking " + selectorFromLocator);
-      if (selectorFromLocator.hasParent()) {
-        getLogger().info("has parent " + selectorFromLocator);
-        String parentName = selectorFromLocator.getParent().asString();
-        getLogger().info("parentName: '" + parentName + "'");
-        SelectorFromLocator trueParent = objectMapping.get(parentName);
+    for (SelectorFromLocator selector : values) {
+      getLogger().debug("checking " + selector);
+      if (selector.hasParent()) {
+        getLogger().debug("has parent " + selector);
+        NestedSelector parent = selector.getParent();
+        getLogger().debug("parentName: '" + parent.elementName() + "'");
+        String parentCss = parent.asString();
+        getLogger().debug("parentCss: '" + parentCss + "'");
+        SelectorFromLocator trueParent = objectMapping.get(parentCss);
         if (trueParent == null) {
-          throw new GaleniumException("parent for '" + selectorFromLocator.elementName() + "' not found in spec ('" + parentName + "')");
+          throw new GaleniumException("parent for '" + selector.elementName() + "' not found in spec ('" + parentCss + "')");
         }
-        selectorFromLocator.setParent(trueParent);
-        trueParent.addChild(selectorFromLocator);
+        selector.setParent(trueParent);
+        trueParent.addChild(selector);
       }
       else {
-        getLogger().info("no parent found.");
+        getLogger().debug("no parent found.");
       }
-      objects.add(selectorFromLocator);
+      objects.add(selector);
+      getLogger().debug("added: " + selector);
     }
     return objects;
   }
 
   private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
     Map<String, SelectorFromLocator> objectMapping = new HashMap<String, SelectorFromLocator>();
-    for (Entry<String, Locator> entry : spec.getObjects().entrySet()) {
+    Map<String, Locator> objects = spec.getObjects();
+    getLogger().debug("mapping " + objects.size() + " selector candidates.");
+    for (Entry<String, Locator> entry : objects.entrySet()) {
       String name = entry.getKey();
+      getLogger().debug("mapping '" + name + "'");
       if (name.matches(".*-[0-9][0-9]*")) {
-        name = name.replaceAll("-[0-9][0-9]*$", "");
+        name = name.replaceFirst("-[0-9][0-9]*$", "");
+        getLogger().debug("clean name for muliple object locator '" + name + "'");
       }
       Locator locator = entry.getValue();
       SelectorFromLocator selector = fromLocator(name, locator);
@@ -213,8 +220,10 @@ public final class GalenHelperUtil {
       }
       else {
         objectMapping.put(asString, selector);
+        getLogger().debug("mapped: " + selector);
       }
     }
+    getLogger().info("mapped " + objectMapping.size() + " selectors.");
     return objectMapping;
   }
 
