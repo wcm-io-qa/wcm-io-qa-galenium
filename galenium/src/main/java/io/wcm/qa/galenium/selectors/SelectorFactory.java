@@ -19,6 +19,10 @@
  */
 package io.wcm.qa.galenium.selectors;
 
+import java.util.Collection;
+
+import org.openqa.selenium.By;
+
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
@@ -60,6 +64,92 @@ public final class SelectorFactory {
     return new SelectorFromLocator(locator);
   }
 
+  /**
+   * @param elementName alternative name to use in Selector
+   * @param locator to construct selector from
+   * @return Galenium selector representing the locator
+   */
+  public static SelectorFromLocator fromLocator(String elementName, Locator locator) {
+    checkLocator(locator);
+    return new SelectorFromLocator(elementName, locator);
+  }
+
+  /**
+   * @param sourceSelector to take values from
+   * @return new selector with values identical to source selector
+   */
+  public static NestedSelector fromSelector(NestedSelector sourceSelector) {
+    return new FixedValueNestedSelector(sourceSelector);
+  }
+
+  /**
+   * @param sourceSelector to take values from
+   * @return new selector with values identical to source selector
+   */
+  public static Selector fromSelector(Selector sourceSelector) {
+    return new FixedValueSelector(sourceSelector);
+  }
+
+  /**
+   * @param elementName element name
+   * @param css CSS value
+   * @param by Selenium {@link By}
+   * @param locator Galen {@link Locator}
+   * @return a {@link NestedSelector} built using the passed values
+   */
+  public static Selector fromValues(String elementName, String css, By by, Locator locator) {
+    return new FixedValueSelector(elementName, css, by, locator);
+  }
+
+  /**
+   * @param elementName element name
+   * @param css CSS value
+   * @param by Selenium {@link By}
+   * @param locator Galen {@link Locator}
+   * @param absolute absolute version integrating CSS from ancestors
+   * @param relative relative version with CSS relative to direct parent
+   * @param parent parent selector
+   * @param children child selectors
+   * @return a {@link NestedSelector} built using the passed values
+   */
+  public static NestedSelector fromValues(String elementName, String css, By by, Locator locator, Selector absolute,
+      Selector relative, NestedSelector parent, Collection<NestedSelector> children) {
+    return new FixedValueNestedSelector(elementName, css, by, locator, absolute, relative, parent, children);
+  }
+
+  /**
+   * Constructs absolute selector from selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param relativeSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
+  public static Selector relativeToAbsolute(Selector parent, Selector relativeSelector) {
+    return relativeToAbsolute(parent, relativeSelector.elementName(), relativeSelector.asString());
+  }
+
+  /**
+   * Constructs absolute selector from selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param relativeCssSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
+  public static Selector relativeToAbsolute(Selector parent, String relativeCssSelector) {
+    return relativeToAbsolute(parent, "child", relativeCssSelector);
+  }
+
+  /**
+   * Constructs absolute selector from selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param childName to use in construction of name of relative selector
+   * @param relativeCssSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
+  public static Selector relativeToAbsolute(Selector parent, String childName, String relativeCssSelector) {
+    String selectorString = parent.asString() + " " + relativeCssSelector;
+    String elementName = parent.elementName() + "|" + childName;
+    return fromCss(elementName, selectorString);
+  }
+
   private static void checkLocator(Locator locator) {
 
     switch (locator.getLocatorType()) {
@@ -76,48 +166,5 @@ public final class SelectorFactory {
       default:
         throw new GaleniumException("unsupported locator type: '" + locator.getLocatorType() + "'");
     }
-  }
-
-  /**
-   * @param elementName alternative name to use in Selector
-   * @param locator to construct selector from
-   * @return Galenium selector representing the locator
-   */
-  public static SelectorFromLocator fromLocator(String elementName, Locator locator) {
-    checkLocator(locator);
-    return new SelectorFromLocator(elementName, locator);
-  }
-
-  /**
-   * Constructs selector relative to a parent selector.
-   * @param parent parent selector to be used as base
-   * @param relativeSelector relative to parent
-   * @return new selector that is relative to the parent selector
-   */
-  public static Selector relativeToAbsolute(Selector parent, Selector relativeSelector) {
-    return relativeToAbsolute(parent, relativeSelector.elementName(), relativeSelector.asString());
-  }
-
-  /**
-   * Constructs selector relative to a parent selector.
-   * @param parent parent selector to be used as base
-   * @param relativeCssSelector relative to parent
-   * @return new selector that is relative to the parent selector
-   */
-  public static Selector relativeToAbsolute(Selector parent, String relativeCssSelector) {
-    return relativeToAbsolute(parent, "child", relativeCssSelector);
-  }
-
-  /**
-   * Constructs selector relative to a parent selector.
-   * @param parent parent selector to be used as base
-   * @param childName to use in construction of name of relative selector
-   * @param relativeCssSelector relative to parent
-   * @return new selector that is relative to the parent selector
-   */
-  public static Selector relativeToAbsolute(Selector parent, String childName, String relativeCssSelector) {
-    String selectorString = parent.asString() + " " + relativeCssSelector;
-    String elementName = parent.elementName() + "|" + childName;
-    return fromCss(elementName, selectorString);
   }
 }
