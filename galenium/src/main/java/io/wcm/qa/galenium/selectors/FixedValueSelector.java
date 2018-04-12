@@ -23,37 +23,19 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-class FixedValueSelector implements Selector {
+class FixedValueSelector extends AbstractSelectorBase {
 
-  private By by;
   private String elementName;
-  private Locator locator;
-  private String string;
 
   public FixedValueSelector(Selector selector) {
     this(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator());
   }
 
   public FixedValueSelector(String elementName, String css, By by, Locator locator) {
-    this.by = by;
+    setBy(by);
     this.elementName = elementName;
-    this.locator = locator;
-    this.string = css;
-  }
-
-  @Override
-  public By asBy() {
-    return by;
-  }
-
-  @Override
-  public Locator asLocator() {
-    return locator;
-  }
-
-  @Override
-  public String asString() {
-    return string;
+    setLocator(locator);
+    setString(css);
   }
 
   @Override
