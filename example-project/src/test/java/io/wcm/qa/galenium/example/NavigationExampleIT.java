@@ -30,30 +30,29 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public class NavigationExampleIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
-  public NavigationExampleIT(TestDevice testDevice) {
-    super(testDevice);
-  }
-
-  @Override
-  public String getRelativePath() {
-    return PATH_TO_HOMEPAGE;
-  }
-
-  @Test
-  public void testNavigation() {
-    loadStartUrl();
-    openNav();
-    clickConferenceNavLink();
-    if (BrowserUtil.isFirefox()) {
-      try {
-        Thread.sleep(1000);
-      }
-      catch (InterruptedException ex) {
-        getLogger().debug("exception when sleeping after click", ex);
-      }
+    @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+    public NavigationExampleIT(TestDevice testDevice) {
+        super(testDevice);
     }
-    assertRelativePath(PATH_TO_CONFERENCE_PAGE);
-  }
+
+    @Override
+    public String getRelativePath() {
+        return PATH_TO_HOMEPAGE;
+    }
+
+    @Test
+    public void testNavigation() {
+        loadStartUrl();
+        openNav();
+        clickConferenceNavLink();
+        if (BrowserUtil.isFirefox()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                getLogger().debug("exception when sleeping after click", ex);
+            }
+        }
+        assertRelativePath(PATH_TO_CONFERENCE_PAGE);
+    }
 
 }

@@ -48,54 +48,46 @@ import io.wcm.qa.galenium.verification.base.Verification;
  */
 public class VerificationIT extends AbstractExampleBase {
 
-  private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";
-  private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
-  private static final Selector SELECTOR_NAV_LINK_CONFERENCE = SelectorFactory.fromCss(
-      "Navlink Conference",
-      ".navlist-main a.navlink-main[href$='" + PATH_TO_CONFERENCE + "'");
-  private static final Selector SELECTOR_NAV_LINK_HOME = SelectorFactory.fromCss(
-      "Navlink Home",
-      ".navlist-main a.navlink-main[href$='" + PATH_TO_HOMEPAGE + "'");
-  private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
+    private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";
+    private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
+    private static final Selector SELECTOR_NAV_LINK_CONFERENCE = SelectorFactory.fromCss("Navlink Conference",
+            ".navlist-main a.navlink-main[href$='" + PATH_TO_CONFERENCE + "'");
+    private static final Selector SELECTOR_NAV_LINK_HOME = SelectorFactory.fromCss("Navlink Home",
+            ".navlist-main a.navlink-main[href$='" + PATH_TO_HOMEPAGE + "'");
+    private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
-  public VerificationIT(TestDevice testDevice) {
-    super(testDevice);
-  }
-
-  @Test(groups = "dev", retryAnalyzer = RetryAnalyzer.class)
-  public void verificationTest() {
-    loadStartUrl();
-    verify(
-        new CurrentUrlVerification("Homepage"),
-        new PageTitleVerification("Homepage"),
-        new LogoVerification(),
-        new VisibilityVerification(SELECTOR_STAGE));
-    if (isMobile()) {
-      verify(
-          new InvisibilityVerification(SELECTOR_NAV_LINK_HOME),
-          new InvisibilityVerification(SELECTOR_NAV_LINK_CONFERENCE));
+    @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+    public VerificationIT(TestDevice testDevice) {
+        super(testDevice);
     }
-    else {
-      verify(
-          new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE),
-          new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
+
+    @Test(groups = "dev", retryAnalyzer = RetryAnalyzer.class)
+    public void verificationTest() {
+        loadStartUrl();
+        verify(new CurrentUrlVerification("Homepage"), new PageTitleVerification("Homepage"), new LogoVerification(),
+                new VisibilityVerification(SELECTOR_STAGE));
+        if (isMobile()) {
+            verify(new InvisibilityVerification(SELECTOR_NAV_LINK_HOME),
+                    new InvisibilityVerification(SELECTOR_NAV_LINK_CONFERENCE));
+        } else {
+            verify(new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE),
+                    new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
+        }
+        VerificationUtil.verify(new LinkTargetVerification(SELECTOR_LOGO));
     }
-    VerificationUtil.verify(new LinkTargetVerification(SELECTOR_LOGO));
-  }
 
-  @Override
-  protected String getRelativePath() {
-    return new Homepage().getRelativePath();
-  }
-
-  private static final class LogoVerification extends VisualVerification {
-
-    private LogoVerification() {
-      super(SELECTOR_LOGO);
-      addDifference(new BrowserDifference());
-      addDifference(new ScreenWidthDifference());
-      setAllowedOffset(3);
+    @Override
+    protected String getRelativePath() {
+        return new Homepage().getRelativePath();
     }
-  }
+
+    private static final class LogoVerification extends VisualVerification {
+
+        private LogoVerification() {
+            super(SELECTOR_LOGO);
+            addDifference(new BrowserDifference());
+            addDifference(new ScreenWidthDifference());
+            setAllowedOffset(3);
+        }
+    }
 }

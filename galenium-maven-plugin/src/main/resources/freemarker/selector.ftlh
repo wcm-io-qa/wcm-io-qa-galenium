@@ -10,6 +10,7 @@
     public ${className(selector)}() {
       super("${selector.elementName()}", <@newLocator selector.asRelative().asLocator() />);
       setParent(${parentConstantName});    
+      setBy(By.cssSelector("${selector.asString()}"));    
     }
   
     <#list selector.children as child>
@@ -49,6 +50,8 @@ import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 
+import org.openqa.selenium.By;
+
 /**
  * Java version of '${this.elementName()}' from ${spec.filename}.
  *
@@ -63,9 +66,10 @@ public class ${className(this)} extends SelectorFromLocator {
    * Constructor.
    */
   public ${className(this)}() {
-    super("${this.elementName()}", <@newLocator this.asRelative().asLocator() />);    
+    super("${this.elementName()}", <@newLocator this.asRelative().asLocator() />);
+    setBy(By.cssSelector("${this.asString()}"));    
   }
-
+  
   <#list this.children as child>
     <@constant child />
   </#list>
