@@ -23,15 +23,15 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.galenframework.page.Page;
@@ -55,8 +55,7 @@ public final class ParsingUtil {
 
   public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
     PageSpec galenSpec = readSpec(specFile);
-    Collection<NestedSelector> selectors = GalenHelperUtil.getObjects(galenSpec);
-    return selectors;
+    return GalenHelperUtil.getObjects(galenSpec);
   }
 
   public static File[] getSpecFiles(File fromDir) {
@@ -89,9 +88,8 @@ public final class ParsingUtil {
   public static Collection<String> getTags(File specFile) {
     try {
       Collection<String> tags = new ArrayList<>();
-      LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(specFile));
-      String line = lineNumberReader.readLine();
-      while (line != null) {
+      List<String> lines = FileUtils.readLines(specFile);
+      for (String line : lines) {
         String trimmedLine = line.trim();
         if (StringUtils.startsWith(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC)) {
           String tagsAsString = StringUtils.removeStart(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC);
@@ -102,9 +100,7 @@ public final class ParsingUtil {
             }
           }
         }
-        line = lineNumberReader.readLine();
       }
-      lineNumberReader.close();
       return tags;
     }
     catch (IOException ex) {

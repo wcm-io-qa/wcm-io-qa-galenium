@@ -1,28 +1,14 @@
 <#assign classNameForSpec = className(spec) />
-<#assign packageNameForSpec = packageName(spec) />
-/*
- * #%L
- * wcm.io
- * %%
- * Copyright (C) 2018 wcm.io
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-package ${packageNameForSpec};
+package ${specPackageName};
 
+import static io.wcm.qa.galenium.util.GalenLayoutChecker.checkLayout;
+import static io.wcm.qa.galenium.util.GalenLayoutChecker.handleLayoutReport;
+import static io.wcm.qa.galenium.util.GalenHelperUtil.readSpec;
+
+import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
+import com.galenframework.specs.page.PageSpec;
 
 import java.io.File;
 import java.util.Collection;
@@ -37,18 +23,32 @@ import io.wcm.qa.galenium.selectors.SelectorFactory;
  */
 public class ${classNameForSpec} {
 
-  private static final File specFile = new File("${spec.filePath}");
+  private static final String RELATIVE_PATH = "${spec.relativeFilePath}";
+  private PageSpec pageSpec;
 
-  private Collection<String> tags = new ArrayList<>();
+<#if spec.tags??>
+  private Collection<String> tags = new ArrayList<>();</#if>
 
   public void check() {
-    
+    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec());
+    String errorMessage = "errors when checking: " + RELATIVE_PATH;
+    String successMessage = "successfully checked: " + RELATIVE_PATH;
+    handleLayoutReport(layoutReport, errorMessage, successMessage);
   }
 
+  public PageSpec getPageSpec() {
+    if (pageSpec == null) {
+      pageSpec = readSpec(RELATIVE_PATH);
+    }
+    return pageSpec;
+  }
+
+<#if spec.tags??>
   <#list spec.tags as tag>
     public ${classNameForSpec} with${className(tag)}() {
       tags.add("${tag}");
       return this;
     }
   </#list>
+</#if>
 }

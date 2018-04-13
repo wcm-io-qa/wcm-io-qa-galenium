@@ -27,20 +27,27 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.galenframework.specs.page.PageSpec;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.util.FileHandlingUtil;
 import io.wcm.qa.galenium.util.GalenHelperUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public class SpecPojo {
 
+  private PageSpec pageSpec;
   private Collection<NestedSelector> selectors;
   private File specFile;
-  private PageSpec pageSpec;
   private Collection<String> tags;
 
   public SpecPojo(File specFile) {
     setSpecFile(specFile);
+  }
+
+  public String getBasename() {
+    return FilenameUtils.getBaseName(getFilename());
   }
 
   public String getClassName() {
@@ -48,9 +55,20 @@ public class SpecPojo {
     return FormatUtil.getClassName(file);
   }
 
+  public String getFilename() {
+    return getSpecFile().getName();
+  }
+
   public String getPackageName() {
     String baseName = FilenameUtils.getBaseName(getSpecFile().getPath());
     return baseName.toLowerCase().replaceAll("[^a-z0-9]", "");
+  }
+
+  public PageSpec getPageSpec() {
+    if (pageSpec == null) {
+      pageSpec = ParsingUtil.readSpec(getSpecFile());
+    }
+    return pageSpec;
   }
 
   public Collection<NestedSelector> getRootSelectors() {
@@ -61,25 +79,6 @@ public class SpecPojo {
       }
     }
     return rootSelectors;
-  }
-
-  public String getFilePath() {
-    return FilenameUtils.normalize(getSpecFile().getPath(), true);
-  }
-
-  public String getFilename() {
-    return getSpecFile().getName();
-  }
-
-  public String getBasename() {
-    return FilenameUtils.getBaseName(getFilename());
-  }
-
-  public PageSpec getPageSpec() {
-    if (pageSpec == null) {
-      pageSpec = ParsingUtil.readSpec(getSpecFile());
-    }
-    return pageSpec;
   }
 
   public Collection<NestedSelector> getSelectors() {
@@ -97,11 +96,31 @@ public class SpecPojo {
     if (tags == null) {
       tags = ParsingUtil.getTags(getSpecFile());
     }
+    if (tags.isEmpty()) {
+      return null;
+    }
     return tags;
+  }
+
+  public String getRelativeFilePath() {
+    String relativePath = FileHandlingUtil.constructRelativePath(getSpecRootDirectory(), getSpecFile());
+    return getUnixStyleFilePath(relativePath);
+  }
+
+  private File getSpecRootDirectory() {
+    File file = new File(GaleniumConfiguration.getGalenSpecPath());
+    if (file.isDirectory()) {
+      return file;
+    }
+    throw new GaleniumException("spec root is not a directory: " + file);
   }
 
   private void setSpecFile(File specFile) {
     this.specFile = specFile;
+  }
+
+  private static String getUnixStyleFilePath(String path) {
+    return FilenameUtils.normalize(path, true);
   }
 
 }

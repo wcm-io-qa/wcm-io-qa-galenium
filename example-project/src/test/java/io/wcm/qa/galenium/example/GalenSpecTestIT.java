@@ -27,39 +27,39 @@ import org.testng.annotations.Test;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
 
-
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
 
-  private static final String SPEC_PATH_FOR_CONFERENCE_PAGE = GaleniumConfiguration.getGalenSpecPath() + "/conference.gspec";
-  private static final String SPEC_PATH_FOR_HOMEPAGE = GaleniumConfiguration.getGalenSpecPath() + "/homepage.gspec";
+    private static final String SPEC_PATH_FOR_CONFERENCE_PAGE = GaleniumConfiguration.getGalenSpecPath()
+            + "/conference.gspec";
+    private static final String SPEC_PATH_FOR_HOMEPAGE = GaleniumConfiguration.getGalenSpecPath() + "/homepage.gspec";
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
-  public GalenSpecTestIT(TestDevice testDevice) {
-    super(testDevice);
-  }
+    @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+    public GalenSpecTestIT(TestDevice testDevice) {
+        super(testDevice);
+    }
 
-  @Test
-  public void checkConferencePageWithNavigationAndGalenSpec() {
-    getLogger().info("Testing Conference Page");
-    loadStartUrl();
-    openNav();
-    clickConferenceNavLink();
-    checkLayout("Conference Page", SPEC_PATH_FOR_CONFERENCE_PAGE);
-  }
+    @Test
+    public void checkConferencePageWithNavigationAndGalenSpec() {
+        getLogger().info("Testing Conference Page");
+        loadStartUrl();
+        openNav();
+        clickConferenceNavLink();
+        checkLayout("Conference Page", SPEC_PATH_FOR_CONFERENCE_PAGE);
+    }
 
-  @Test
-  public void checkHomepageWithGalenSpec() {
-    getLogger().info("Testing Homepage");
-    loadStartUrl();
-    checkLayout("Homepage", SPEC_PATH_FOR_HOMEPAGE);
-  }
+    @Test
+    public void checkHomepageWithGalenSpec() {
+        getLogger().info("Testing Homepage");
+        loadStartUrl();
+        checkLayout("Homepage", SPEC_PATH_FOR_HOMEPAGE);
+    }
 
-  @Override
-  protected String getRelativePath() {
-    return PATH_TO_HOMEPAGE;
-  }
+    @Override
+    protected String getRelativePath() {
+        return PATH_TO_HOMEPAGE;
+    }
 
 }

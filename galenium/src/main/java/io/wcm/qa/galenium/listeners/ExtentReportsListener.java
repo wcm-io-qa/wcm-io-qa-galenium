@@ -101,7 +101,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       }
       logMsg.append("Duration: ").append(getTestDuration(result)).append(System.lineSeparator());
 
-      GaleniumReportUtil.getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "Full stacktrace", throwable);
+      logStacktrace(throwable);
 
       logMsg.append("++++++++++++++++++++++++++++++++++++++++++").append(System.lineSeparator());
 
@@ -116,6 +116,16 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
     }
     finally {
       GaleniumReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);
+    }
+  }
+
+  private void logStacktrace(Throwable throwable) {
+    if (getLogger().isDebugEnabled()) {
+      GaleniumReportUtil.getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "Full stacktrace", throwable);
+      Throwable cause = throwable.getCause();
+      if (cause != null) {
+        logStacktrace(cause);
+      }
     }
   }
 

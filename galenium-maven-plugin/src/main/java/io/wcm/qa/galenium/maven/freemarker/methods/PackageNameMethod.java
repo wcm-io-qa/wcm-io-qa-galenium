@@ -28,7 +28,7 @@ public class PackageNameMethod extends AbstractTemplateMethod<SpecPojo> {
   @Override
   protected String exec(SpecPojo spec) {
     String packageRoot = System.getProperty("packageRootName", "io.wcm.qa.galenium.selectors");
-    return FormatUtil.getPackageName(packageRoot, spec);
+    return FormatUtil.getSelectorsPackageName(packageRoot, spec);
   }
 
 }

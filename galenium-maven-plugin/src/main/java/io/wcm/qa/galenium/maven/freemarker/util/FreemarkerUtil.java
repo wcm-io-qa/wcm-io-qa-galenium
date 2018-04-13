@@ -64,9 +64,10 @@ public final class FreemarkerUtil {
     return model;
   }
 
-  public static Map<String, Object> getDataModelForSpec(SpecPojo spec) {
+  public static Map<String, Object> getDataModelForSpec(SpecPojo spec, String packagePrefixSpecs) {
     Map<String, Object> model = getCommonDataModel();
     model.put("className", new ClassNameFromSpecMethod());
+    model.put("specPackageName", packagePrefixSpecs);
     model.put("spec", spec);
     return model;
   }
@@ -86,17 +87,6 @@ public final class FreemarkerUtil {
     File outputFile = new File(outputDirectoryPackage, outputClassName + ".java");
     return outputFile;
   }
-
-  //  public static List<SpecPojo> getSpecsForDataModel(Set<Entry<File, Collection<NestedSelector>>> specFileToSelectorMapping) {
-  //    List<SpecPojo> specs = new ArrayList<>();
-  //    for (Entry<File, Collection<NestedSelector>> entry : specFileToSelectorMapping) {
-  //      File spec = entry.getKey();
-  //      Collection<NestedSelector> selectors = entry.getValue();
-  //      getLogger().debug("adding " + selectors.size() + " selectors from spec '" + spec.getPath() + "'");
-  //      specs.add(new SpecPojo(spec, selectors));
-  //    }
-  //    return specs;
-  //  }
 
   public static Template getTemplate(File directory, String name) {
     try {

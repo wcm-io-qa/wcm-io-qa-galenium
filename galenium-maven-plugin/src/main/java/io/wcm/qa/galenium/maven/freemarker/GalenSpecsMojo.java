@@ -52,6 +52,7 @@ import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
@@ -74,10 +75,16 @@ public class GalenSpecsMojo extends AbstractMojo {
   private File outputDirectory;
 
   /**
-   * Package name to generate code into.
+   * Package name to generate {@link Selector} code into.
    */
-  @Parameter(defaultValue = "io.wcm.qa.galenium.selectors", property = "packageRootName", required = true)
-  private String packageRootName;
+  @Parameter(defaultValue = "io.wcm.qa.galenium.specs", property = "packagePrefixSpecs", required = true)
+  private String packagePrefixSpecs;
+
+  /**
+   * Package name to generate {@link Selector} code into.
+   */
+  @Parameter(defaultValue = "io.wcm.qa.galenium.selectors", property = "packagePrefixSelectors", required = true)
+  private String packagePrefixSelectors;
 
   /**
    * Name of Freemarker template to use for generating top level classes.
@@ -143,7 +150,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     for (SpecPojo specPojo : specs) {
 
       getLog().info("generating data model for '" + specPojo.getSpecFile().getPath() + "'");
-      Map<String, Object> dataModelForSpec = FreemarkerUtil.getDataModelForSpec(specPojo);
+      Map<String, Object> dataModelForSpec = FreemarkerUtil.getDataModelForSpec(specPojo, packagePrefixSpecs);
 
       getLog().debug("processing template");
       FreemarkerUtil.process(template, dataModelForSpec, getOutputFile(specPojo));
@@ -152,13 +159,13 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private File getOutputFile(NestedSelector selector, SpecPojo spec) {
-    String outputPackage = FormatUtil.getPackageName(packageRootName, spec);
+    String outputPackage = FormatUtil.getSelectorsPackageName(packagePrefixSelectors, spec);
     String className = FormatUtil.getClassName(selector);
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
   private File getOutputFile(SpecPojo spec) {
-    String outputPackage = FormatUtil.getPackageName(packageRootName, spec);
+    String outputPackage = packagePrefixSpecs;
     String className = FormatUtil.getClassName(spec);
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
@@ -176,7 +183,7 @@ public class GalenSpecsMojo extends AbstractMojo {
 
   protected void generateCode() {
     generateSelectorCode();
-    //    generateSpecCode();
+    generateSpecCode();
   }
 
   protected void generateSelectorCode() {
@@ -202,7 +209,8 @@ public class GalenSpecsMojo extends AbstractMojo {
 
     // transfer system properties
     ConfigurationUtil.addToSystemProperties(systemPropertyVariables);
-    System.setProperty("packageRootName", packageRootName);
+    System.setProperty("packageRootName", packagePrefixSelectors);
+    System.setProperty("galenium.specPath", inputDirectory.getPath());
 
     // check input parameters
     if (!checkInputParams()) {

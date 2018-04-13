@@ -58,7 +58,7 @@ public final class FormatUtil {
     return kebapToConstant(cleanElementName);
   }
 
-  public static String getPackageName(String packageRoot, SpecPojo spec) {
+  public static String getSelectorsPackageName(String packageRoot, SpecPojo spec) {
     return packageRoot + "." + getPackageName(spec);
   }
 

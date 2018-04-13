@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.sampling.images;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getActualImagesDirectory;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getExpectedImagesDirectory;
 
@@ -32,7 +33,6 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +47,7 @@ import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.FileHandlingUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.InteractionUtil;
 
@@ -90,9 +91,9 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
           debug("image: " + imagePath + " (" + actualImage.getWidth() + "x" + actualImage.getHeight() + ")");
           try {
             File imageFile = getImageFile(imagePath);
-            trace("begin writing image '" + imageFile.getCanonicalPath());
+            trace("begin writing image '" + imageFile);
             ImageIO.write(actualImage, "png", imageFile);
-            trace("done writing image '" + imageFile.getCanonicalPath());
+            trace("done writing image '" + imageFile);
           }
           catch (IOException ex) {
             String msg = "could not write image: " + imagePath;
@@ -172,26 +173,18 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   }
 
   protected File getImageFile(String imagePath) throws IOException {
-    String sampledImagesDirectory = getActualImagesDirectory();
+    String sampledImagesRootPath = getActualImagesDirectory();
     String path;
-    if (StringUtils.isNotBlank(sampledImagesDirectory)) {
-      String canonical1 = new File(getExpectedImagesDirectory()).getCanonicalPath();
-      String canonical2 = new File(imagePath).getCanonicalPath();
-      String difference = StringUtils.difference(canonical1, canonical2);
-      trace("image path construction image dir: " + canonical1);
-      trace("image path construction image path: " + canonical2);
-      trace("image path construction difference: " + difference);
-      path = sampledImagesDirectory + File.separator + difference;
+    if (StringUtils.isNotBlank(sampledImagesRootPath)) {
+      File rootDirectory = new File(getExpectedImagesDirectory());
+      String relativeImagePath = constructRelativePath(rootDirectory, new File(imagePath));
+      path = sampledImagesRootPath + File.separator + relativeImagePath;
     }
     else {
       path = imagePath;
     }
     File imageFile = new File(path);
-    File parentFile = imageFile.getParentFile();
-    if (!parentFile.isDirectory()) {
-      debug("creating directory: " + parentFile.getPath());
-      FileUtils.forceMkdir(parentFile);
-    }
+    FileHandlingUtil.ensureParent(imageFile);
     return imageFile;
   }
 

@@ -42,74 +42,74 @@ import io.wcm.qa.galenium.util.TestDevice;
  */
 public class PageObjectExampleIT extends AbstractExampleBase {
 
-  private Homepage homepage;
+    private Homepage homepage;
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
-  public PageObjectExampleIT(TestDevice testDevice) {
-    super(testDevice);
-  }
-
-  @BeforeMethod(alwaysRun = true)
-  public void resetHomepage() {
-    if (homepage != null) {
-      getLogger().debug("resetting homepage object for next test");
-      homepage = null;
+    @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+    public PageObjectExampleIT(TestDevice testDevice) {
+        super(testDevice);
     }
-  }
 
-  @Test(retryAnalyzer = RetryAnalyzer.class)
-  public void testWithPageObjects() {
-    loginToAuthor(getHomepage().getPageUrl());
-    checkNavigation();
-    checkStage();
-    checkFooter();
-  }
-
-  private void checkFooter() {
-    Footer footer = getHomepage().getFooter();
-    List<FooterNavSection> navSections = footer.getNavSections();
-    assertEquals(navSections.size(), 3, "Meta nav sections");
-    FooterNavSection conferenceSection = navSections.get(0);
-    assertEquals(conferenceSection.getTitle(), "CONFERENCE", "conference section title");
-    assertEquals(conferenceSection.getNavLinks().size(), 3, "conference section link count");
-    FooterNavSection venueSection = navSections.get(1);
-    assertEquals(venueSection.getTitle(), "VENUE", "venue section title");
-    assertEquals(venueSection.getNavLinks().size(), 1, "venue section link count");
-    FooterNavSection archiveSection = navSections.get(2);
-    assertEquals(archiveSection.getTitle(), "ARCHIVE", "archive section title");
-    assertEquals(archiveSection.getNavLinks().size(), 2, "archive section link count");
-  }
-
-  private void checkNavigation() {
-    Navigation navigation = getHomepage().getNavigation();
-    List<NavigationTopLevelEntry> topLevelItems = navigation.getTopLevelItems();
-    assertEquals(topLevelItems.size(), 2, "two top level items");
-    NavigationTopLevelEntry navHome = topLevelItems.get(0);
-    assertEquals(navHome.getTitle(), "HOME", "Main navigation home");
-    NavigationTopLevelEntry navConference = topLevelItems.get(1);
-    assertEquals(navConference.getTitle(), "CONFERENCE", "Main navigation conference");
-  }
-
-  private void checkStage() {
-    Stage stage = getHomepage().getStage();
-    assertEquals(stage.getTitle(), "adaptTo() 2013", "stage title");
-    assertEquals(stage.getDescription(), "23.–25. September 2013 Kulturbrauerei Berlin", "stage description");
-    List<LinkItem> ctaLinks = stage.getCtaLinks();
-    assertEquals(ctaLinks.size(), 2, "two CTA links");
-  }
-
-  private Homepage getHomepage() {
-    if (homepage == null) {
-      getLogger().debug("new homepage");
-      homepage = new Homepage();
+    @BeforeMethod(alwaysRun = true)
+    public void resetHomepage() {
+        if (homepage != null) {
+            getLogger().debug("resetting homepage object for next test");
+            homepage = null;
+        }
     }
-    return homepage;
-  }
 
-  @Override
-  protected String getRelativePath() {
-    // not used
-    return getHomepage().getRelativePath();
-  }
+    @Test(retryAnalyzer = RetryAnalyzer.class)
+    public void testWithPageObjects() {
+        loginToAuthor(getHomepage().getPageUrl());
+        checkNavigation();
+        checkStage();
+        checkFooter();
+    }
+
+    private void checkFooter() {
+        Footer footer = getHomepage().getFooter();
+        List<FooterNavSection> navSections = footer.getNavSections();
+        assertEquals(navSections.size(), 3, "Meta nav sections");
+        FooterNavSection conferenceSection = navSections.get(0);
+        assertEquals(conferenceSection.getTitle(), "CONFERENCE", "conference section title");
+        assertEquals(conferenceSection.getNavLinks().size(), 3, "conference section link count");
+        FooterNavSection venueSection = navSections.get(1);
+        assertEquals(venueSection.getTitle(), "VENUE", "venue section title");
+        assertEquals(venueSection.getNavLinks().size(), 1, "venue section link count");
+        FooterNavSection archiveSection = navSections.get(2);
+        assertEquals(archiveSection.getTitle(), "ARCHIVE", "archive section title");
+        assertEquals(archiveSection.getNavLinks().size(), 2, "archive section link count");
+    }
+
+    private void checkNavigation() {
+        Navigation navigation = getHomepage().getNavigation();
+        List<NavigationTopLevelEntry> topLevelItems = navigation.getTopLevelItems();
+        assertEquals(topLevelItems.size(), 2, "two top level items");
+        NavigationTopLevelEntry navHome = topLevelItems.get(0);
+        assertEquals(navHome.getTitle(), "HOME", "Main navigation home");
+        NavigationTopLevelEntry navConference = topLevelItems.get(1);
+        assertEquals(navConference.getTitle(), "CONFERENCE", "Main navigation conference");
+    }
+
+    private void checkStage() {
+        Stage stage = getHomepage().getStage();
+        assertEquals(stage.getTitle(), "adaptTo() 2013", "stage title");
+        assertEquals(stage.getDescription(), "23.–25. September 2013 Kulturbrauerei Berlin", "stage description");
+        List<LinkItem> ctaLinks = stage.getCtaLinks();
+        assertEquals(ctaLinks.size(), 2, "two CTA links");
+    }
+
+    private Homepage getHomepage() {
+        if (homepage == null) {
+            getLogger().debug("new homepage");
+            homepage = new Homepage();
+        }
+        return homepage;
+    }
+
+    @Override
+    protected String getRelativePath() {
+        // not used
+        return getHomepage().getRelativePath();
+    }
 
 }
