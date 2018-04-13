@@ -38,7 +38,7 @@ public class ${classNameForSpec} {
 
   public PageSpec getPageSpec() {
     if (pageSpec == null) {
-      pageSpec = readSpec(RELATIVE_PATH);
+      pageSpec = readSpec(GaleniumConfiguration.getGalenSpecPath() + RELATIVE_PATH);
     }
     return pageSpec;
   }
