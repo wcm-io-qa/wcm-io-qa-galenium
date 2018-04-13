@@ -29,7 +29,7 @@ public class ${classNameForSpec} {
 <#if spec.tags??>
   private Collection<String> tags = new ArrayList<>();</#if>
 
-  public void check() {
+  private void checkSpec() {
     LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec());
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
@@ -51,4 +51,9 @@ public class ${classNameForSpec} {
     }
   </#list>
 </#if>
+
+  public static void check() {
+    new ${classNameForSpec}().checkSpec();
+  }
+
 }
