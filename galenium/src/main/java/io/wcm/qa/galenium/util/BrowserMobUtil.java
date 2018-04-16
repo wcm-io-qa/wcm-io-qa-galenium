@@ -22,6 +22,9 @@ package io.wcm.qa.galenium.util;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
+import java.net.URI;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Proxy;
 
 import net.lightbody.bmp.BrowserMobProxy;
@@ -52,13 +55,32 @@ public final class BrowserMobUtil {
 
   /**
    * Add basic authentication header to every request.
-   * @param domain domain to use auth for
+   * @param url to extract protected domain from
    * @param name user name to use for auth
    * @param pass password to use for auth
    */
-  public static void addBasicAuth(String domain, String name, String pass) {
+  public static void addBasicAuth(String url, String name, String pass) {
+    String domain = extractDomain(url);
     getLogger().debug(MARKER_INFO, "setting basic auth for domain '" + domain + "'");
     getBrowserMobProxy().autoAuthorization(domain, name, pass, AuthType.BASIC);
+  }
+
+  private static String extractDomain(String url) {
+    String host = getHostFromUrl(url);
+    String domain;
+    if (StringUtils.isNotBlank(host)) {
+      domain = host;
+    }
+    else {
+      domain = url;
+    }
+    return domain;
+  }
+
+  private static String getHostFromUrl(String url) {
+    URI rawUri = URI.create(url);
+    String host = rawUri.getHost();
+    return host;
   }
 
   /**

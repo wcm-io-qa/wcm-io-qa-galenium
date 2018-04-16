@@ -50,6 +50,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
+  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browsermob.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
@@ -631,6 +632,31 @@ public final class GaleniumConfiguration {
    */
   public static String getTextComparisonFile() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
+  }
+
+  /**
+   * BrowserMob Proxy flag.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.browsermob.proxy
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether to use BrowserMob Proxy for drivers
+   */
+  public static boolean isUseBrowserMobProxy() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 
   /**
