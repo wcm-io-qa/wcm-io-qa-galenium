@@ -27,6 +27,7 @@ import java.net.URI;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Proxy;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
@@ -39,6 +40,14 @@ public final class BrowserMobUtil {
 
   private static Proxy seleniumProxy;
   private static BrowserMobProxyServer proxy;
+
+  static {
+    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
+      proxy = new BrowserMobProxyServer();
+      proxy.setMitmDisabled(false);
+      proxy.start();
+    }
+  }
 
   private BrowserMobUtil() {
     // do not instantiate
@@ -105,10 +114,8 @@ public final class BrowserMobUtil {
   }
 
   private static BrowserMobProxy getBrowserMobProxy() {
-    if (proxy == null) {
-      proxy = new BrowserMobProxyServer();
-      proxy.setMitmDisabled(false);
-      proxy.start();
+    if (!GaleniumConfiguration.isUseBrowserMobProxy()) {
+      throw new GaleniumException("set 'galenium.browsermob.proxy' to true before fetching browsermob proxy.");
     }
     return proxy;
   }
