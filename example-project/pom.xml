@@ -341,6 +341,10 @@
             <version>2.7.2</version>
             <executions>
               <execution>
+                <configuration>
+                  <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
+                  <testSourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</testSourceDirectory>
+                </configuration>
                 <goals>
                   <goal>format</goal>
                 </goals>
