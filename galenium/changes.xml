@@ -25,6 +25,9 @@
 
     <release version="0.1.14" date="not released yet">
       <action type="add" dev="apegam">
+        Added BrowserMob Proxy for basic authentication.
+      </action>
+      <action type="add" dev="apegam">
         Add Maven plugin for generating Java Selectors from Galen specifications.
       </action>
       <action type="add" dev="apegam">

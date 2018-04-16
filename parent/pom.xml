@@ -98,6 +98,13 @@
         <version>3.0.8</version>
       </dependency>
 
+      <!-- Proxy -->
+      <dependency>
+        <groupId>net.lightbody.bmp</groupId>
+        <artifactId>browsermob-core</artifactId>
+        <version>2.1.5</version>
+      </dependency>
+
       <!-- Utils -->
       <dependency>
         <groupId>org.apache.commons</groupId>
