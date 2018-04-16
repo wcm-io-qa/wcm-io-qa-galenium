@@ -43,7 +43,7 @@
         Updated webdrivers to newest versions.
       </action>
     </release>
-    
+
     <release version="0.1.10" date="2018-03-22">
       <action type="update" dev="apegam">
         Dependencies updated to newest versions.
