@@ -113,7 +113,7 @@ public final class BrowserMobUtil {
 
   }
 
-  private static BrowserMobProxy getBrowserMobProxy() {
+  public static BrowserMobProxy getBrowserMobProxy() {
     if (!GaleniumConfiguration.isUseBrowserMobProxy()) {
       throw new GaleniumException("set 'galenium.browsermob.proxy' to true before fetching browsermob proxy.");
     }
