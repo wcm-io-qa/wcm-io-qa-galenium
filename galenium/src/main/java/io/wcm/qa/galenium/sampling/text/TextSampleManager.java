@@ -19,22 +19,18 @@
  */
 package io.wcm.qa.galenium.sampling.text;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
-
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
-import org.apache.commons.io.input.ReaderInputStream;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
@@ -49,21 +45,9 @@ public final class TextSampleManager {
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonDirectory();
   private static final Properties SAMPLED_TEXTS = new Properties();
+
   static {
-    try {
-      File expectedTextsFile = new File(FILE_NAME_EXPECTED_TEXTS);
-      if (expectedTextsFile.exists() && expectedTextsFile.isFile()) {
-        getLogger().debug("initializing expected properties from " + FILE_NAME_EXPECTED_TEXTS);
-        Reader reader = new FileReader(expectedTextsFile);
-        EXPECTED_TEXTS.load(new ReaderInputStream(reader, CHARSET_UTF8));
-      }
-      else {
-        getLogger().debug("did not find expected properties at '" + FILE_NAME_EXPECTED_TEXTS + "'");
-      }
-    }
-    catch (IOException ex) {
-      getLogger().debug(MARKER_ERROR, "Could not initialize expected texts.", ex);
-    }
+    ConfigurationUtil.loadProperties(EXPECTED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
   }
 
   private TextSampleManager() {
