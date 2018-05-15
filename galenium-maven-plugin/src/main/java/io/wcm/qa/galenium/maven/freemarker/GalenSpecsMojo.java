@@ -71,7 +71,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   /**
    * Root directory for generated output.
    */
-  @Parameter(defaultValue = "${project.build.directory}/generated-sources", property = "outputDir", required = true)
+  @Parameter(defaultValue = "${project.build.directory}/generated-sources/java", property = "outputDir", required = true)
   private File outputDirectory;
 
   /**
