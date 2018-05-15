@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -276,17 +277,38 @@ public final class GaleniumReportUtil {
 
   /**
    * Take screenshot of current browser window and add to reports.
-   * @param result
+   * @param result to generate filename from
    * @param driver to take screenshot from
    * @return log message including screenshot if everything was successful
    */
   public static String takeScreenshot(ITestResult result, WebDriver driver) {
+    String resultName = getAlphanumericTestName(result);
+    return takeScreenshot(resultName, driver);
+  }
+
+
+  /**
+   * Take screenshot of current browser window and add to reports. Uses random filename.
+   * @return log message including screenshot if everything was successful
+   */
+  public static String takeScreenshot() {
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    WebDriver driver = GaleniumContext.getDriver();
+    return takeScreenshot(randomAlphanumeric, driver);
+  }
+
+  /**
+   * Take screenshot of current browser window and add to reports.
+   * @param resultName to use in filename
+   * @param driver to take screenshot from
+   * @return log message including screenshot if everything was successful
+   */
+  public static String takeScreenshot(String resultName, WebDriver driver) {
     String destScreenshotFilePath = null;
     String filenameOnly = null;
     boolean screenshotSuccessful;
     if (driver instanceof TakesScreenshot) {
       getLogger().debug("taking screenshot: " + driver);
-      String resultName = getAlphanumericTestName(result);
       filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
       File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
       if (screenshotFile != null) {
