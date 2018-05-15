@@ -123,7 +123,9 @@ public class GaleniumContext {
   protected void finalize() throws Throwable {
     try {
       GaleniumReportUtil.getLogger().debug("finalize Galenium context.");
-      WebDriverManager.closeDriver();
+      if (getDriver() != null) {
+        WebDriverManager.closeDriver();
+      }
     }
     finally {
       super.finalize();
