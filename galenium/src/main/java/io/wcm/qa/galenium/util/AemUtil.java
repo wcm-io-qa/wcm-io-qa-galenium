@@ -24,14 +24,13 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorUser;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
-import static io.wcm.qa.galenium.util.InteractionUtil.click;
-import static io.wcm.qa.galenium.util.InteractionUtil.enterText;
 import static io.wcm.qa.galenium.util.InteractionUtil.loadUrl;
-import static io.wcm.qa.galenium.util.InteractionUtil.waitForUrl;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
+import io.wcm.qa.galenium.interaction.Element;
+import io.wcm.qa.galenium.interaction.Wait;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 
@@ -53,7 +52,7 @@ public final class AemUtil {
    * @return whether current page is AEM author login page
    */
   public static boolean isAuthorLogin() {
-    return InteractionUtil.isElementVisible(DIV_LOGIN_BOX);
+    return Element.isVisible(DIV_LOGIN_BOX);
   }
 
   /**
@@ -95,7 +94,7 @@ public final class AemUtil {
     if (isAuthorLogin()) {
       try {
         loginToAuthor(authorUser, authorPass);
-        waitForUrl(finalUrl, 5);
+        Wait.forUrl(finalUrl, 5);
         return true;
       }
       catch (WebDriverException ex) {
@@ -120,9 +119,9 @@ public final class AemUtil {
   private static boolean loginToAuthor(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
       getLogger().debug("Attempting login in to author instance");
-      enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
-      enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
-      click(SELECTOR_AUTHOR_LOGIN_BUTTON);
+      Element.enterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
+      Element.enterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
+      Element.click(SELECTOR_AUTHOR_LOGIN_BUTTON);
       getLogger().info(MARKER_PASS, "Logging in to author instance.");
       return true;
     }

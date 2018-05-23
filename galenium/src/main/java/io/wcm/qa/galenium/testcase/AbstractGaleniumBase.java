@@ -35,12 +35,12 @@ import com.galenframework.reports.model.LayoutReport;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.HasDevice;
 
@@ -77,12 +77,12 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   }
 
   protected void assertElementNotVisible(String message, Selector selector) {
-    assertNull(InteractionUtil.getElementVisible(selector), message);
+    assertNull(Element.find(selector), message);
     getLogger().debug(GaleniumReportUtil.MARKER_PASS, "not visible: " + selector.elementName());
   }
 
   protected void assertElementVisible(String message, Selector selector) {
-    assertNotNull(InteractionUtil.getElementVisible(selector, 10), message);
+    assertNotNull(Element.find(selector, 10), message);
     getLogger().debug(GaleniumReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 

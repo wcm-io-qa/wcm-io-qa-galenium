@@ -21,11 +21,11 @@ package io.wcm.qa.galenium.verification;
 
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.sampling.differences.DifferentiatedDifferences;
 import io.wcm.qa.galenium.sampling.differences.SelectorDifference;
 import io.wcm.qa.galenium.sampling.differences.StringDifference;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.InteractionUtil;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 /**
@@ -65,7 +65,7 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   public WebElement getElement() {
     if (element == null) {
-      element = InteractionUtil.getElementVisible(getSelector(), getTimeout());
+      element = Element.find(getSelector(), getTimeout());
     }
     return element;
   }

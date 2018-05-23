@@ -20,6 +20,8 @@
 package io.wcm.qa.galenium.util;
 
 
+import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +32,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 
 import com.google.gson.JsonElement;
@@ -49,6 +53,22 @@ public final class GridHostExtractor {
 
   private GridHostExtractor() {
     // do not instantiate
+  }
+
+  /**
+   * @return the hostname of the Selenium Grid node the test is run on or {@link NO_HOST_RETRIEVED} if
+   *         hostname cannot be retrieved or {@link NOT_REMOTE} if driver is not a
+   *         {@link RemoteWebDriver}.
+   */
+  public static String getGridNodeHostname() {
+    WebDriver driver = getDriver();
+    if (driver instanceof RemoteWebDriver) {
+      String host = System.getProperty("selenium.host");
+      int port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
+      SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
+      return getHostnameAndPort(host, port, sessionId);
+    }
+    return NOT_REMOTE;
   }
 
   /**

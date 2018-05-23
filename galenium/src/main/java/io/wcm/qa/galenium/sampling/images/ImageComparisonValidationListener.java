@@ -46,10 +46,10 @@ import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.interaction.Mouse;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.InteractionUtil;
 
 
 /**
@@ -126,7 +126,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
   private BufferedImage getPageElementScreenshot(PageValidation pageValidation, String objectName) {
     BufferedImage wholePageImage = pageValidation.getPage().getScreenshotImage();
-    Long scrollYPosition = InteractionUtil.getScrollYPosition();
+    Long scrollYPosition = Mouse.getVerticalScrollPosition();
     trace("browser is scrolled to position: " + scrollYPosition);
     PageElement element = pageValidation.findPageElement(objectName);
     if (element != null) {

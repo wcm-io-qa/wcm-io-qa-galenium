@@ -19,31 +19,22 @@
  */
 package io.wcm.qa.galenium.util;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.SessionId;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.galenframework.browser.SeleniumBrowser;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.interaction.Alert;
+import io.wcm.qa.galenium.interaction.Element;
+import io.wcm.qa.galenium.interaction.Mouse;
+import io.wcm.qa.galenium.interaction.Wait;
 import io.wcm.qa.galenium.selectors.Selector;
 
 /**
@@ -61,83 +52,57 @@ public final class InteractionUtil {
   /**
    * Accepting alert popups in browser.
    * @return whether an alert was accepted
+   * @deprecated Use {@link Alert#accept()} instead
    */
   public static boolean acceptAlert() {
-    if (isAlertShowing()) {
-      getDriver().switchTo().alert().accept();
-      return true;
-    }
-    return false;
+    return Alert.accept();
   }
 
   /**
    * Click element.
    * @param selector identifies the element
+   * @deprecated Use {@link Element#click(Selector)} instead
    */
   public static void click(Selector selector) {
-    WebElement element = getElementOrFail(selector);
-    element.click();
-    getLogger().debug(MARKER_PASS, "clicked '" + selector.elementName() + "'");
+    Element.click(selector);
   }
 
   /**
    * Click element.
    * @param selector identifies the elements to be checked for partial text
    * @param searchStr string to be found as part of text of element
+   * @deprecated Use {@link Element#clickByPartialText(Selector,String)} instead
    */
   public static void clickByPartialText(Selector selector, String searchStr) {
-    getLogger().debug("looking for pattern: " + searchStr);
-    WebElement element = findByPartialText(selector, searchStr);
-    if (element != null) {
-      getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
-      element.click();
-    }
-    else {
-      getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
-    }
+    Element.clickByPartialText(selector, searchStr);
   }
 
   /**
    * Click element only if it is visible and don't fail if element cannot be found.
    * @param selector identifies the element
+   * @deprecated Use {@link Element#clickIfVisible(Selector)} instead
    */
   public static void clickIfVisible(Selector selector) {
-    WebElement element = getElementVisible(selector, 30);
-    if (element != null) {
-      element.click();
-      getLogger().debug(MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
-    }
-    else {
-      getLogger().debug("did not click optional '" + selector.elementName() + "'");
-    }
+    Element.clickIfVisible(selector);
   }
 
   /**
    * Click first element only even if many are found.
    * @param selector identifies the element
+   * @deprecated Use {@link Element#clickFirstVisibleOfMany(Selector)} instead
    */
   public static void clickVisibleOfMany(Selector selector) {
-    List<WebElement> elements = findElements(selector);
-
-    for (WebElement element : elements) {
-      getLogger().debug("found element with " + selector.elementName() + ": " + element);
-      if (element.isDisplayed()) {
-        getLogger().debug("clicking element: " + element);
-        element.click();
-        return;
-      }
-    }
+    Element.clickFirstVisibleOfMany(selector);
   }
 
   /**
    * Enters text into element which replaces any text that might already be in element.
    * @param selector identifies the element
    * @param text value to enter
+   * @deprecated Use {@link Element#enterText(Selector,String)} instead
    */
   public static void enterText(Selector selector, String text) {
-    WebElement input = getElementOrFail(selector);
-    input.clear();
-    input.sendKeys(text);
+    Element.enterText(selector, text);
   }
 
   /**
@@ -145,96 +110,66 @@ public final class InteractionUtil {
    * @param selector used to find elements
    * @param searchStr used to filter elements that contain this text
    * @return matching element if it is visible or null
+   * @deprecated Use {@link Element#findByPartialText(Selector,String)} instead
    */
   public static WebElement findByPartialText(Selector selector, String searchStr) {
-    List<WebElement> elements = findElements(selector);
-    for (WebElement element : elements) {
-      String text = element.getText();
-      if (StringUtils.containsIgnoreCase(text, searchStr)) {
-        return element;
-      }
-    }
-    return null;
+    return Element.findByPartialText(selector, searchStr);
   }
 
   /**
    * @param selector used to find elements
    * @return list of elements matched by selector
+   * @deprecated Use {@link Element#findAll(Selector)} instead
    */
   public static List<WebElement> findElements(Selector selector) {
-    return getDriver().findElements(selector.asBy());
+    return Element.findAll(selector);
   }
 
   /**
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
    * @return element found
+   * @deprecated Use {@link Element#getElementOrFail(Selector)} instead
    */
   public static WebElement getElementOrFail(Selector selector) {
-    WebElement element = getElementVisible(selector, 30);
-    if (element == null) {
-      String msg = "could not find '" + selector.elementName() + "'";
-      getLogger().debug(MARKER_FAIL, msg);
-      throw new GaleniumException(msg);
-    }
-    return element;
+    return Element.getElementOrFail(selector);
   }
 
   /**
    * @param selector used to find element
    * @return matching element if it is visible or null
+   * @deprecated Use {@link Element#find(Selector)} instead
    */
   public static WebElement getElementVisible(Selector selector) {
-    return getElementVisible(selector, 10);
+    return Element.find(selector);
   }
 
   /**
    * @param selector used to find element
    * @param howLong how long to wait for element to be visible in seconds
    * @return matching element if it is visible or null
+   * @deprecated Use {@link Element#find(Selector,int)} instead
    */
   public static WebElement getElementVisible(Selector selector, int howLong) {
-    WebElement element = null;
-    WebDriverWait wait = new WebDriverWait(getDriver(), howLong);
-    try {
-      element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector.asBy()));
-    }
-    catch (TimeoutException tex) {
-      getLogger().trace("timeout when waiting for: " + selector.elementName());
-    }
-    return element;
+    return Element.find(selector, howLong);
   }
 
   /**
    * @return the hostname of the Selenium Grid node the test is run on or {@link GridHostExtractor#NO_HOST_RETRIEVED} if
    *         hostname cannot be retrieved or {@link GridHostExtractor#NOT_REMOTE} if driver is not a
    *         {@link RemoteWebDriver}.
+   * @deprecated Use {@link GridHostExtractor#getGridNodeHostname()} instead
    */
   public static String getGridNodeHostname() {
-    WebDriver driver = getDriver();
-    if (driver instanceof RemoteWebDriver) {
-      String host = System.getProperty("selenium.host");
-      int port = Integer.parseInt(System.getProperty("selenium.port", "4444"));
-      SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
-      return GridHostExtractor.getHostnameAndPort(host, port, sessionId);
-    }
-    return GridHostExtractor.NOT_REMOTE;
+    return GridHostExtractor.getGridNodeHostname();
   }
 
   /**
    * @return current vertical scroll position of browser with 0 being the very top
+   * @deprecated Use {@link Mouse#getVerticalScrollPosition()} instead
    */
   public static Long getScrollYPosition() {
-    SeleniumBrowser seleniumBrowser = new SeleniumBrowser(getDriver());
-    StringBuilder builder = new StringBuilder();
-    builder.append("if (window.pageYOffset) ");
-    builder.append("return window.pageYOffset;");
-    builder.append("else if(window.document.documentElement.scrollTop)");
-    builder.append("return window.document.documentElement.scrollTop;");
-    builder.append("else ");
-    builder.append("return window.document.body.scrollTop;");
-    Long scrollYPosition = (Long)seleniumBrowser.executeJavascript(builder.toString());
-    return scrollYPosition;
+    return Mouse.getVerticalScrollPosition();
   }
 
   /**
@@ -243,13 +178,10 @@ public final class InteractionUtil {
    * @param name attribute to check
    * @param value value to compare against
    * @return whether element with attribute exists and attribute string representation is equal to value.
+   * @deprecated Use {@link Element#hasAttribute(Selector,String,String)} instead
    */
   public static boolean hasAttribute(Selector selector, String name, String value) {
-    WebElement element = getElementVisible(selector);
-    if (element == null) {
-      return false;
-    }
-    return StringUtils.equals(value, element.getAttribute(name));
+    return Element.hasAttribute(selector, name, value);
   }
 
   /**
@@ -257,28 +189,18 @@ public final class InteractionUtil {
    * @param selector identifies element
    * @param cssClass css class to check for
    * @return whether element has a CSS class equal to the value passed
+   * @deprecated Use {@link Element#hasCssClass(Selector,String)} instead
    */
   public static boolean hasCssClass(Selector selector, String cssClass) {
-    WebElement element = getElementVisible(selector);
-    if (element == null) {
-      return false;
-    }
-    String[] split = element.getAttribute("class").split(" ");
-
-    return ArrayUtils.contains(split, cssClass);
+    return Element.hasCssClass(selector, cssClass);
   }
 
   /**
    * @return whether browser is showing an alert popup.
+   * @deprecated Use {@link Alert#isShowing()} instead
    */
   public static boolean isAlertShowing() {
-    try {
-      getDriver().switchTo().alert();
-      return true;
-    }
-    catch (NoAlertPresentException e) {
-      return false;
-    }
+    return Alert.isShowing();
   }
 
   /**
@@ -289,8 +211,11 @@ public final class InteractionUtil {
     return StringUtils.equals(url, getDriver().getCurrentUrl());
   }
 
+  /**
+   * @deprecated Use {@link Element#isVisible(Selector)} instead
+   */
   public static boolean isElementVisible(Selector selector) {
-    return getElementVisible(selector) != null;
+    return Element.isVisible(selector);
   }
 
   /**
@@ -314,89 +239,59 @@ public final class InteractionUtil {
   /**
    * Hover mouse over element.
    * @param selector identifies element.
+   * @deprecated Use {@link Mouse#hover(Selector)} instead
    */
   public static void mouseOver(Selector selector) {
-    getLogger().debug("attempting mouse over: " + selector.elementName());
-    WebDriver driver = getDriver();
-    List<WebElement> mouseOverElements = driver.findElements(selector.asBy());
-    if (!mouseOverElements.isEmpty()) {
-      WebElement mouseOverElement = mouseOverElements.get(0);
-      if (mouseOverElement.isDisplayed()) {
-        getLogger().debug("Moving to element: " + mouseOverElement);
-        try {
-          Actions actions = new Actions(driver);
-          actions.moveToElement(mouseOverElement).perform();
-        }
-        catch (UnsupportedCommandException ex) {
-          getLogger().debug("Attempting JS workaround for mouseover.");
-          String javaScript = "var evObj = document.createEvent('MouseEvents');" +
-              "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
-              "arguments[0].dispatchEvent(evObj);";
-
-          ((JavascriptExecutor)driver).executeScript(javaScript, mouseOverElement);
-        }
-      }
-    }
-    else {
-      getLogger().debug("no elements found.");
-    }
+    Mouse.hover(selector);
   }
 
   /**
    * Move mouse horizontally over page and scroll if necessary to keep it in viewport.
    * @param offsetInPixel to move mouse horizontally by (negative values move to the left.
+   * @deprecated Use {@link Mouse#moveHorizontally(int)} instead
    */
   public static void moveMouseHorizontally(int offsetInPixel) {
-    if (offsetInPixel > 0) {
-      getLogger().debug(MARKER_INFO, "move mouse right by " + offsetInPixel);
-    }
-    else if (offsetInPixel < 0) {
-      getLogger().debug(MARKER_INFO, "move mouse left by " + -offsetInPixel);
-    }
-    getActions().moveByOffset(offsetInPixel, 0).perform();
+    Mouse.moveHorizontally(offsetInPixel);
   }
 
   /**
    * Scroll element into view.
    * @param selector identifies element
+   * @deprecated Use {@link Element#scrollTo(Selector)} instead
    */
   public static void scrollToElement(Selector selector) {
-    getLogger().debug(MARKER_INFO, "Scrolling to element: '" + selector + "'");
-    WebElement elementToScrollTo = getDriver().findElement(selector.asBy());
-    scrollToElement(elementToScrollTo);
+    Element.scrollTo(selector);
   }
 
   /**
    * Scroll element into view.
    * @param elementToScrollTo element to scroll to
+   * @deprecated Use {@link Element#scrollTo(WebElement)} instead
    */
   public static void scrollToElement(WebElement elementToScrollTo) {
-    Actions actions = new Actions(getDriver());
-    actions.moveToElement(elementToScrollTo);
-    actions.perform();
+    Element.scrollTo(elementToScrollTo);
   }
 
   /**
    * Load URL and wait for it to be loaded.
    * @param url to load
+   * @deprecated Use {@link Wait#forUrl(String)} instead
    */
   public static void waitForUrl(String url) {
-    waitForUrl(url, 5);
+    Wait.forUrl(url);
   }
 
   /**
    * Load URL and wait passed number of seconds for it to be loaded.
    * @param url to load
    * @param timeOutInSeconds how long to wait for URL to be current
+   * @deprecated Use {@link Wait#forUrl(String,int)} instead
    */
   public static void waitForUrl(String url, int timeOutInSeconds) {
-    getLogger().trace("waiting for URL: '" + url + "'");
-    WebDriverWait wait = new WebDriverWait(getDriver(), timeOutInSeconds);
-    wait.until(ExpectedConditions.urlToBe(url));
-    getLogger().trace("found URL: '" + url + "'");
+    Wait.forUrl(url, timeOutInSeconds);
   }
 
-  private static Actions getActions() {
+  public static Actions getActions() {
     return new Actions(getDriver());
   }
 

@@ -20,11 +20,9 @@
 package io.wcm.qa.galenium.example;
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
-import static io.wcm.qa.galenium.util.InteractionUtil.click;
-import static io.wcm.qa.galenium.util.InteractionUtil.clickByPartialText;
-import static io.wcm.qa.galenium.util.InteractionUtil.getElementOrFail;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
@@ -56,7 +54,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   private void navShouldBeVisible() {
-    getElementOrFail(SELECTOR_NAV);
+    Element.getElementOrFail(SELECTOR_NAV);
   }
 
   protected void assertRelativePath(String relativePath) {
@@ -65,7 +63,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   protected void clickConferenceNavLink() {
-    clickByPartialText(SELECTOR_NAV_LINK, "conference");
+    Element.clickByPartialText(SELECTOR_NAV_LINK, "conference");
   }
 
   protected abstract String getRelativePath();
@@ -89,8 +87,8 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   protected void openNav() {
     navShouldBeVisible();
     if (isMobile()) {
-      click(SELECTOR_NAV_MENU_OPENER);
-      getElementOrFail(SELECTOR_NAV_LINK);
+      Element.click(SELECTOR_NAV_MENU_OPENER);
+      Element.getElementOrFail(SELECTOR_NAV_LINK);
     }
   }
 

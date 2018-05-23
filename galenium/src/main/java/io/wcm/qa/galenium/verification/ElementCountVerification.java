@@ -24,8 +24,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.InteractionUtil;
 
 /**
  * Make sure a certain number of elements are present.
@@ -58,7 +58,7 @@ public class ElementCountVerification extends ElementBasedVerification {
 
   @Override
   protected String sampleValue() {
-    List<WebElement> elements = InteractionUtil.findElements(getSelector());
+    List<WebElement> elements = Element.findAll(getSelector());
     return Integer.toString(elements.size());
   }
 
