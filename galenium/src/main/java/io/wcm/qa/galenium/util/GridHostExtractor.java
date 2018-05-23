@@ -56,8 +56,8 @@ public final class GridHostExtractor {
   }
 
   /**
-   * @return the hostname of the Selenium Grid node the test is run on or {@link NO_HOST_RETRIEVED} if
-   *         hostname cannot be retrieved or {@link NOT_REMOTE} if driver is not a
+   * @return the hostname of the Selenium Grid node the test is run on or NO_HOST_RETRIEVED if
+   *         hostname cannot be retrieved or NOT_REMOTE if driver is not a
    *         {@link RemoteWebDriver}.
    */
   public static String getGridNodeHostname() {
