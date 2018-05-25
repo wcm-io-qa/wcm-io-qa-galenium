@@ -84,6 +84,11 @@
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galenium-util</artifactId>
+      <version>0.1.13-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
       <version>0.1.13-SNAPSHOT</version>
     </dependency>

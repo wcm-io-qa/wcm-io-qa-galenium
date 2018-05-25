@@ -41,10 +41,11 @@
   
   <modules>
     <module>parent</module>
-    <module>galenium</module>
+    <module>core</module>
+    <module>convenience</module>
     <module>example-project</module>
     <module>logging</module>
-    <module>galenium-maven-plugin</module>
+    <module>maven-plugin</module>
   </modules>
 
   <build>
