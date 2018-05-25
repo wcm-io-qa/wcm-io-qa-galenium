@@ -21,15 +21,19 @@ package io.wcm.qa.galenium.listeners;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.IAnnotationTransformer;
 import org.testng.IConfigurationListener2;
-import org.testng.IRetryAnalyzer;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
+import org.testng.ITestNGListener;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+import org.testng.annotations.ITestAnnotation;
 
 import io.wcm.qa.galenium.sampling.text.TextSamplePersistenceListener;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -52,12 +56,11 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
  * {@link TextSamplePersistenceListener}
  * </li>
  * </ul>
- * You can extend this class and add your own listeners using the {@link #add(ITestListener)} method.
+ * You can extend this class and add your own listeners using the {@link #add(ITestNGListener)} method.
  */
-public class DefaultGaleniumListener extends TestListenerAdapter implements IRetryAnalyzer {
+public class DefaultGaleniumListener extends TestListenerAdapter implements IAnnotationTransformer {
 
-  private List<ITestListener> listeners = new ArrayList<ITestListener>();
-  private List<IRetryAnalyzer> retryAnalyzers = new ArrayList<IRetryAnalyzer>();
+  private List<ITestNGListener> listeners = new ArrayList<ITestNGListener>();
 
   /**
    * Constructor.
@@ -68,7 +71,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
     add(new WebDriverListener());
     add(new TextSamplePersistenceListener());
     if (GaleniumConfiguration.getNumberOfRetries() > 0) {
-      add(new RetryAnalyzer());
+      add(new RetryAnalyzerAnnotationTransformer());
     }
   }
 
@@ -77,23 +80,14 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
    * @param listener to add
    * @return true
    */
-  public boolean add(ITestListener listener) {
+  public boolean add(ITestNGListener listener) {
     return listeners.add(listener);
-  }
-
-  /**
-   * Adds an additional retry analyzer.
-   * @param retryAnalyzer to add
-   * @return true
-   */
-  public boolean add(RetryAnalyzer retryAnalyzer) {
-    return retryAnalyzers.add(retryAnalyzer);
   }
 
   @Override
   public void beforeConfiguration(ITestResult tr) {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
-    for (ITestListener listener : listeners) {
+    for (ITestNGListener listener : listeners) {
       if (listener instanceof IConfigurationListener2) {
         getLogger().trace("{}: beforeConfiguration(ITestResult tr)", listener.getClass());
         ((IConfigurationListener2)listener).beforeConfiguration(tr);
@@ -105,9 +99,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onFinish(ITestContext context) {
     getLogger().trace("+++LISTENER: onFinish(ITestContext context)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onFinish(ITestContext context)", listener.getClass());
-      listener.onFinish(context);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onFinish(ITestContext context)", listener.getClass());
+        ((ITestListener)listener).onFinish(context);
+      }
     }
     super.onFinish(context);
   }
@@ -115,9 +111,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onStart(ITestContext context) {
     getLogger().trace("+++LISTENER: onStart(ITestContext context)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onStart(ITestContext context)", listener.getClass());
-      listener.onStart(context);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onStart(ITestContext context)", listener.getClass());
+        ((ITestListener)listener).onStart(context);
+      }
     }
     super.onStart(context);
   }
@@ -125,9 +123,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
-      listener.onTestFailedButWithinSuccessPercentage(result);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
+        ((ITestListener)listener).onTestFailedButWithinSuccessPercentage(result);
+      }
     }
     super.onTestFailedButWithinSuccessPercentage(result);
   }
@@ -135,9 +135,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onTestFailure(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailure(ITestResult result)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onTestFailure(ITestResult result)", listener.getClass());
-      listener.onTestFailure(result);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onTestFailure(ITestResult result)", listener.getClass());
+        ((ITestListener)listener).onTestFailure(result);
+      }
     }
     super.onTestFailure(result);
   }
@@ -145,9 +147,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onTestSkipped(ITestResult result) {
     getLogger().trace("LISTENER: onTestSkipped(ITestResult result)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
-      listener.onTestSkipped(result);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
+        ((ITestListener)listener).onTestSkipped(result);
+      }
     }
     super.onTestSkipped(result);
   }
@@ -155,9 +159,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onTestStart(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestStart(ITestResult result)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onTestStart(ITestResult result)", listener.getClass());
-      listener.onTestStart(result);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onTestStart(ITestResult result)", listener.getClass());
+        ((ITestListener)listener).onTestStart(result);
+      }
     }
     super.onTestStart(result);
   }
@@ -165,23 +171,27 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
   @Override
   public void onTestSuccess(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
-    for (ITestListener listener : listeners) {
-      getLogger().trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
-      listener.onTestSuccess(result);
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof ITestListener) {
+        getLogger().trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
+        ((ITestListener)listener).onTestSuccess(result);
+      }
     }
     super.onTestSuccess(result);
   }
 
   @Override
-  public boolean retry(ITestResult result) {
-    getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
-    for (IRetryAnalyzer analyzer : retryAnalyzers) {
-      getLogger().trace("{}: retry(ITestResult result)", analyzer.getClass());
-      if (analyzer.retry(result)) {
-        return true;
+  public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
+    getLogger().trace("+++LISTENER: transform("
+        + "ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod)");
+    for (ITestNGListener listener : listeners) {
+      if (listener instanceof IAnnotationTransformer) {
+        getLogger().trace("{}: transform("
+            + "ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod)", listener.getClass());
+        ((IAnnotationTransformer)listener).transform(annotation, testClass, testConstructor, testMethod);
       }
     }
-    return false;
+
   }
 
 }
