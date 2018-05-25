@@ -55,6 +55,9 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
  * <li>
  * {@link TextSamplePersistenceListener}
  * </li>
+ * <li>
+ * {@link RetryAnalyzer} if galenium.retryMax is greater than zero
+ * </li>
  * </ul>
  * You can extend this class and add your own listeners using the {@link #add(ITestNGListener)} method.
  */
