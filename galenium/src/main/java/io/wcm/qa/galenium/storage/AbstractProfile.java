@@ -80,6 +80,9 @@ public abstract class AbstractProfile<F extends Fetcher, I> {
    */
   public abstract Collection<I> getFetchedItems();
 
+  /**
+   * @return profile name
+   */
   public String getProfileName() {
     return profileName;
   }
@@ -95,6 +98,10 @@ public abstract class AbstractProfile<F extends Fetcher, I> {
       setInitialized(true);
     }
   }
+
+  /**
+   * @return whether profile is initialized.
+   */
   public boolean isInitialized() {
     return initialized;
   }

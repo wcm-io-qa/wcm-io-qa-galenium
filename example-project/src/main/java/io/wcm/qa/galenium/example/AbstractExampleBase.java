@@ -54,7 +54,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   private void navShouldBeVisible() {
-    Element.getElementOrFail(SELECTOR_NAV);
+    Element.findOrFail(SELECTOR_NAV);
   }
 
   protected void assertRelativePath(String relativePath) {
@@ -88,7 +88,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
     navShouldBeVisible();
     if (isMobile()) {
       Element.click(SELECTOR_NAV_MENU_OPENER);
-      Element.getElementOrFail(SELECTOR_NAV_LINK);
+      Element.findOrFail(SELECTOR_NAV_LINK);
     }
   }
 

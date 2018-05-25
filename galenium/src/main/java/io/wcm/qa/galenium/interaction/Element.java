@@ -125,12 +125,40 @@ public final class Element {
   }
 
   /**
+   * Will return immediately whether element is found or not.
+   * @param selector used to find element
+   * @return matching element if it is visible or null
+   */
+  public static WebElement findFast(Selector selector) {
+    return find(selector, 0);
+  }
+
+  /**
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
    * @return element found
    */
-  public static WebElement getElementOrFail(Selector selector) {
-    WebElement element = find(selector, 30);
+  public static WebElement findOrFail(Selector selector) {
+    return findOrFail(selector, 10);
+  }
+
+  /**
+   * Return element or fail with {@link GaleniumException} immediately.
+   * @param selector identifies the element
+   * @return element found
+   */
+  public static WebElement findOrFailFast(Selector selector) {
+    return findOrFail(selector, 0);
+  }
+
+  /**
+   * Return element or fail with {@link GaleniumException}.
+   * @param selector identifies the element
+   * @param howLong seconds to try until failure
+   * @return element found
+   */
+  public static WebElement findOrFail(Selector selector, int howLong) {
+    WebElement element = find(selector, howLong);
     if (element == null) {
       String msg = "could not find '" + selector.elementName() + "'";
       getLogger().debug(MARKER_FAIL, msg);
@@ -170,7 +198,7 @@ public final class Element {
    * @param text value to enter
    */
   public static void enterText(Selector selector, String text) {
-    WebElement input = getElementOrFail(selector);
+    WebElement input = findOrFail(selector);
     input.clear();
     input.sendKeys(text);
   }
@@ -229,7 +257,7 @@ public final class Element {
    * @param selector identifies the element
    */
   public static void click(Selector selector) {
-    WebElement element = getElementOrFail(selector);
+    WebElement element = findOrFail(selector);
     element.click();
     getLogger().debug(MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }

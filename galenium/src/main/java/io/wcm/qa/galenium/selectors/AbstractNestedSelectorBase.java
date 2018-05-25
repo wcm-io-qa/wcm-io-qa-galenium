@@ -114,6 +114,10 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
     return getParent() != null;
   }
 
+  /**
+   * Set parent and update selector state.
+   * @param parent
+   */
   public void setParent(NestedSelector parent) {
     this.parent = parent;
     parentChanged(parent);

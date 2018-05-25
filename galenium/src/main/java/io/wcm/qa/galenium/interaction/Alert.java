@@ -23,6 +23,9 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.NoAlertPresentException;
 
+/**
+ * Alert related convenience methods.
+ */
 public final class Alert {
 
   private Alert() {

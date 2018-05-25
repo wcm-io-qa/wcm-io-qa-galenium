@@ -83,7 +83,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IRet
 
   /**
    * Adds an additional retry analyzer.
-   * @param listener to add
+   * @param retryAnalyzer to add
    * @return true
    */
   public boolean add(RetryAnalyzer retryAnalyzer) {

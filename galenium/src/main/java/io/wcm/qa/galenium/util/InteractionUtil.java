@@ -129,10 +129,10 @@ public final class InteractionUtil {
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
    * @return element found
-   * @deprecated Use {@link Element#getElementOrFail(Selector)} instead
+   * @deprecated Use {@link Element#findOrFail(Selector)} instead
    */
-  public static WebElement getElementOrFail(Selector selector) {
-    return Element.getElementOrFail(selector);
+  public static WebElement findOrFail(Selector selector) {
+    return Element.findOrFail(selector);
   }
 
   /**

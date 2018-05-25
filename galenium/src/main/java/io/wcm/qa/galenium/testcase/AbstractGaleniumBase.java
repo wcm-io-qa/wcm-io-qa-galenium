@@ -67,6 +67,10 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     return device;
   }
 
+  /**
+   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
+   * @return current logger
+   */
   public Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }
