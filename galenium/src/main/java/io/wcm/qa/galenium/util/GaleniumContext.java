@@ -80,7 +80,7 @@ public class GaleniumContext {
 
   /**
    * Used for {@link ExtentReports} reporting. Galenium should handle this internally without additional interaction.
-   * @param extentTest
+   * @param extentTest report instance
    */
   public void setExtentTest(ExtentTest extentTest) {
     this.extentTest = extentTest;
@@ -88,7 +88,7 @@ public class GaleniumContext {
 
   /**
    * A short description of current test.
-   * @param testDescription
+   * @param testDescription short description of test
    */
   public void setTestDescription(String testDescription) {
     this.testDescription = testDescription;
@@ -96,7 +96,7 @@ public class GaleniumContext {
 
   /**
    * The test device is central to Galenium's WebDriver handling.
-   * @param testDevice
+   * @param testDevice device to use
    */
   public void setTestDevice(TestDevice testDevice) {
     this.testDevice = testDevice;
@@ -104,7 +104,7 @@ public class GaleniumContext {
 
   /**
    * Name to use in reporting.
-   * @param testName
+   * @param testName new test name
    */
   public void setTestName(String testName) {
     this.testName = testName;
@@ -113,7 +113,7 @@ public class GaleniumContext {
   /**
    * Different kinds of {@link Verification} can all use the same strategy. This allows to ignore failures when
    * collecting samples to compare against in future runs.
-   * @param verificationStrategy
+   * @param verificationStrategy strategy to use
    */
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;

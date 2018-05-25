@@ -57,6 +57,7 @@ public final class AemUtil {
 
   /**
    * Login to author if on AEM author login page.
+   * @return successful login
    */
   public static boolean loginToAuthor() {
     getLogger().debug("using credentials from configuration.");
@@ -65,6 +66,8 @@ public final class AemUtil {
 
   /**
    * Load URL and login to AEM author if landing on login page.
+   * @param targetUrl URL to load
+   * @return successful login
    */
   public static boolean loginToAuthor(String targetUrl) {
     getLogger().debug("using credentials from configuration.");
@@ -73,9 +76,9 @@ public final class AemUtil {
 
   /**
    * Load URL and login to AEM author with credentials if landing on login page.
-   * @param targetUrl
-   * @param authorUser
-   * @param authorPass
+   * @param targetUrl URL to load
+   * @param authorUser user for author instance
+   * @param authorPass password for author instance
    * @return whether login was necessary and successful
    */
   public static boolean loginToAuthor(String targetUrl, String authorUser, String authorPass) {
@@ -83,10 +86,10 @@ public final class AemUtil {
   }
 
   /**
-   * @param initialUrl
-   * @param finalUrl
-   * @param authorUser
-   * @param authorPass
+   * @param initialUrl URL to load
+   * @param finalUrl URL to check for
+   * @param authorUser user for author instance
+   * @param authorPass password for author instance
    * @return whether login was necessary and successful
    */
   public static boolean loginToAuthor(String initialUrl, String finalUrl, String authorUser, String authorPass) {

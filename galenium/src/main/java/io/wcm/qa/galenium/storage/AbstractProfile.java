@@ -29,6 +29,7 @@ import org.openqa.selenium.WebDriver;
 
 /**
  * @param <F> Fetcher type
+ * @param <I> item type
  */
 public abstract class AbstractProfile<F extends Fetcher, I> {
 
@@ -38,7 +39,7 @@ public abstract class AbstractProfile<F extends Fetcher, I> {
 
 
   /**
-   * @param fetcherToAdd
+   * @param fetcherToAdd new fetcher
    * @return whether fetcher collection changed as a result of the call
    * @see java.util.Collection#add(java.lang.Object)
    */
@@ -51,7 +52,7 @@ public abstract class AbstractProfile<F extends Fetcher, I> {
   }
 
   /**
-   * @param collectionOfFetchersToAdd
+   * @param collectionOfFetchersToAdd new fetchers to add
    * @return whether fetcher collection changed as a result of the call
    * @see java.util.Collection#addAll(java.util.Collection)
    */
@@ -67,7 +68,7 @@ public abstract class AbstractProfile<F extends Fetcher, I> {
   }
 
   /**
-   * @param fetcher
+   * @param fetcher fetcher to add
    * @return whether this profile contains the specified fetcher
    * @see java.util.Collection#contains(java.lang.Object)
    */
@@ -107,7 +108,7 @@ public abstract class AbstractProfile<F extends Fetcher, I> {
   }
 
   /**
-   * @param fetcherToRemove
+   * @param fetcherToRemove fetcher to remove
    * @return whether an element was removed as a result of this call
    * @see java.util.Collection#remove(java.lang.Object)
    */

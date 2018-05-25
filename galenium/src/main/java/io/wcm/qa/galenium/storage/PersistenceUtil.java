@@ -49,7 +49,7 @@ public final class PersistenceUtil {
 
   /**
    * Sets all fetched cookies from profile in current driver.
-   * @param profileToApply
+   * @param profileToApply profile to apply
    */
   public static void applyProfileToDriver(CookieProfile profileToApply) {
     if (profileToApply == null) {
@@ -87,7 +87,7 @@ public final class PersistenceUtil {
 
   /**
    * Sets all fetched cookies from profile in current driver.
-   * @param profileToApply
+   * @param profileToApply profile to apply
    */
   public static void applyProfileToDriver(LocalStorageProfile profileToApply) {
     if (profileToApply == null) {

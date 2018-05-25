@@ -54,6 +54,7 @@ public final class InteractionUtil {
    * @return whether an alert was accepted
    * @deprecated Use {@link Alert#accept()} instead
    */
+  @Deprecated
   public static boolean acceptAlert() {
     return Alert.accept();
   }
@@ -63,6 +64,7 @@ public final class InteractionUtil {
    * @param selector identifies the element
    * @deprecated Use {@link Element#click(Selector)} instead
    */
+  @Deprecated
   public static void click(Selector selector) {
     Element.click(selector);
   }
@@ -73,6 +75,7 @@ public final class InteractionUtil {
    * @param searchStr string to be found as part of text of element
    * @deprecated Use {@link Element#clickByPartialText(Selector,String)} instead
    */
+  @Deprecated
   public static void clickByPartialText(Selector selector, String searchStr) {
     Element.clickByPartialText(selector, searchStr);
   }
@@ -82,6 +85,7 @@ public final class InteractionUtil {
    * @param selector identifies the element
    * @deprecated Use {@link Element#clickIfVisible(Selector)} instead
    */
+  @Deprecated
   public static void clickIfVisible(Selector selector) {
     Element.clickIfVisible(selector);
   }
@@ -91,6 +95,7 @@ public final class InteractionUtil {
    * @param selector identifies the element
    * @deprecated Use {@link Element#clickFirstVisibleOfMany(Selector)} instead
    */
+  @Deprecated
   public static void clickVisibleOfMany(Selector selector) {
     Element.clickFirstVisibleOfMany(selector);
   }
@@ -101,6 +106,7 @@ public final class InteractionUtil {
    * @param text value to enter
    * @deprecated Use {@link Element#enterText(Selector,String)} instead
    */
+  @Deprecated
   public static void enterText(Selector selector, String text) {
     Element.enterText(selector, text);
   }
@@ -112,6 +118,7 @@ public final class InteractionUtil {
    * @return matching element if it is visible or null
    * @deprecated Use {@link Element#findByPartialText(Selector,String)} instead
    */
+  @Deprecated
   public static WebElement findByPartialText(Selector selector, String searchStr) {
     return Element.findByPartialText(selector, searchStr);
   }
@@ -121,6 +128,7 @@ public final class InteractionUtil {
    * @return list of elements matched by selector
    * @deprecated Use {@link Element#findAll(Selector)} instead
    */
+  @Deprecated
   public static List<WebElement> findElements(Selector selector) {
     return Element.findAll(selector);
   }
@@ -131,6 +139,7 @@ public final class InteractionUtil {
    * @return element found
    * @deprecated Use {@link Element#findOrFail(Selector)} instead
    */
+  @Deprecated
   public static WebElement findOrFail(Selector selector) {
     return Element.findOrFail(selector);
   }
@@ -140,6 +149,7 @@ public final class InteractionUtil {
    * @return matching element if it is visible or null
    * @deprecated Use {@link Element#find(Selector)} instead
    */
+  @Deprecated
   public static WebElement getElementVisible(Selector selector) {
     return Element.find(selector);
   }
@@ -150,6 +160,7 @@ public final class InteractionUtil {
    * @return matching element if it is visible or null
    * @deprecated Use {@link Element#find(Selector,int)} instead
    */
+  @Deprecated
   public static WebElement getElementVisible(Selector selector, int howLong) {
     return Element.find(selector, howLong);
   }
@@ -160,6 +171,7 @@ public final class InteractionUtil {
    *         {@link RemoteWebDriver}.
    * @deprecated Use {@link GridHostExtractor#getGridNodeHostname()} instead
    */
+  @Deprecated
   public static String getGridNodeHostname() {
     return GridHostExtractor.getGridNodeHostname();
   }
@@ -168,6 +180,7 @@ public final class InteractionUtil {
    * @return current vertical scroll position of browser with 0 being the very top
    * @deprecated Use {@link Mouse#getVerticalScrollPosition()} instead
    */
+  @Deprecated
   public static Long getScrollYPosition() {
     return Mouse.getVerticalScrollPosition();
   }
@@ -180,6 +193,7 @@ public final class InteractionUtil {
    * @return whether element with attribute exists and attribute string representation is equal to value.
    * @deprecated Use {@link Element#hasAttribute(Selector,String,String)} instead
    */
+  @Deprecated
   public static boolean hasAttribute(Selector selector, String name, String value) {
     return Element.hasAttribute(selector, name, value);
   }
@@ -191,6 +205,7 @@ public final class InteractionUtil {
    * @return whether element has a CSS class equal to the value passed
    * @deprecated Use {@link Element#hasCssClass(Selector,String)} instead
    */
+  @Deprecated
   public static boolean hasCssClass(Selector selector, String cssClass) {
     return Element.hasCssClass(selector, cssClass);
   }
@@ -199,6 +214,7 @@ public final class InteractionUtil {
    * @return whether browser is showing an alert popup.
    * @deprecated Use {@link Alert#isShowing()} instead
    */
+  @Deprecated
   public static boolean isAlertShowing() {
     return Alert.isShowing();
   }
@@ -212,8 +228,11 @@ public final class InteractionUtil {
   }
 
   /**
+   * @param selector to check
+   * @return whether element is visible
    * @deprecated Use {@link Element#isVisible(Selector)} instead
    */
+  @Deprecated
   public static boolean isElementVisible(Selector selector) {
     return Element.isVisible(selector);
   }
@@ -241,6 +260,7 @@ public final class InteractionUtil {
    * @param selector identifies element.
    * @deprecated Use {@link Mouse#hover(Selector)} instead
    */
+  @Deprecated
   public static void mouseOver(Selector selector) {
     Mouse.hover(selector);
   }
@@ -250,6 +270,7 @@ public final class InteractionUtil {
    * @param offsetInPixel to move mouse horizontally by (negative values move to the left.
    * @deprecated Use {@link Mouse#moveHorizontally(int)} instead
    */
+  @Deprecated
   public static void moveMouseHorizontally(int offsetInPixel) {
     Mouse.moveHorizontally(offsetInPixel);
   }
@@ -259,6 +280,7 @@ public final class InteractionUtil {
    * @param selector identifies element
    * @deprecated Use {@link Element#scrollTo(Selector)} instead
    */
+  @Deprecated
   public static void scrollToElement(Selector selector) {
     Element.scrollTo(selector);
   }
@@ -268,6 +290,7 @@ public final class InteractionUtil {
    * @param elementToScrollTo element to scroll to
    * @deprecated Use {@link Element#scrollTo(WebElement)} instead
    */
+  @Deprecated
   public static void scrollToElement(WebElement elementToScrollTo) {
     Element.scrollTo(elementToScrollTo);
   }
@@ -277,6 +300,7 @@ public final class InteractionUtil {
    * @param url to load
    * @deprecated Use {@link Wait#forUrl(String)} instead
    */
+  @Deprecated
   public static void waitForUrl(String url) {
     Wait.forUrl(url);
   }
@@ -287,6 +311,7 @@ public final class InteractionUtil {
    * @param timeOutInSeconds how long to wait for URL to be current
    * @deprecated Use {@link Wait#forUrl(String,int)} instead
    */
+  @Deprecated
   public static void waitForUrl(String url, int timeOutInSeconds) {
     Wait.forUrl(url, timeOutInSeconds);
   }

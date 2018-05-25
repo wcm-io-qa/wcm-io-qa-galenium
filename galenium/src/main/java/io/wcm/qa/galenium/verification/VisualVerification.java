@@ -161,7 +161,7 @@ public class VisualVerification extends ElementBasedVerification {
 
   /**
    * Filename of sample.
-   * @param filename
+   * @param filename new file name
    */
   public void setFilename(String filename) {
     getSpecFactory().setFilename(filename);
@@ -169,7 +169,7 @@ public class VisualVerification extends ElementBasedVerification {
 
   /**
    * Foldername of sample.
-   * @param foldername
+   * @param foldername new folder name
    */
   public void setFoldername(String foldername) {
     getSpecFactory().setFoldername(foldername);

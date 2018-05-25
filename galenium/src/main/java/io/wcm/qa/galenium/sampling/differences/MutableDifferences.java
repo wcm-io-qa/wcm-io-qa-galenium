@@ -88,7 +88,7 @@ public class MutableDifferences implements Differences {
 
   /**
    * See {@link ArrayList#remove(Object)}
-   * @param difference
+   * @param difference to be removed
    * @return true if difference existed and was removed
    */
   public boolean remove(Difference difference) {

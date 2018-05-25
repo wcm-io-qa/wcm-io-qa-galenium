@@ -197,6 +197,7 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * @param result current test result
    * @param status status to use for final message
    * @param details final message
    */
@@ -233,6 +234,7 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * @param result current test result
    * @return test report associated with result
    */
   public static ExtentTest getExtentTest(ITestResult result) {
