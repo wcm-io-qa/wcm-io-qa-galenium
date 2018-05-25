@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.14" date="not released yet">
+      <action type="add" dev="apegam">
+        Dedicated core and convenience submodules formed by splitting up galenium.
+      </action>
       <action type="update" dev="apegam">
         Retry analyzer integration now automatically, if retryMax is greater than zero.
       </action>
