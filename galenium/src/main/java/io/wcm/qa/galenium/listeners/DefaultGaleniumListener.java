@@ -25,12 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.IConfigurationListener2;
+import org.testng.IRetryAnalyzer;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
 import io.wcm.qa.galenium.sampling.text.TextSamplePersistenceListener;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
  * Listener to manage WebDriver management, reporting and screenshots. This listener is just a container for other
@@ -52,9 +54,10 @@ import io.wcm.qa.galenium.sampling.text.TextSamplePersistenceListener;
  * </ul>
  * You can extend this class and add your own listeners using the {@link #add(ITestListener)} method.
  */
-public class DefaultGaleniumListener extends TestListenerAdapter {
+public class DefaultGaleniumListener extends TestListenerAdapter implements IRetryAnalyzer {
 
   private List<ITestListener> listeners = new ArrayList<ITestListener>();
+  private List<IRetryAnalyzer> retryAnalyzers = new ArrayList<IRetryAnalyzer>();
 
   /**
    * Constructor.
@@ -64,6 +67,9 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
     add(new ExtentReportsListener());
     add(new WebDriverListener());
     add(new TextSamplePersistenceListener());
+    if (GaleniumConfiguration.getNumberOfRetries() > 0) {
+      add(new RetryAnalyzer());
+    }
   }
 
   /**
@@ -73,6 +79,15 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
    */
   public boolean add(ITestListener listener) {
     return listeners.add(listener);
+  }
+
+  /**
+   * Adds an additional retry analyzer.
+   * @param listener to add
+   * @return true
+   */
+  public boolean add(RetryAnalyzer retryAnalyzer) {
+    return retryAnalyzers.add(retryAnalyzer);
   }
 
   @Override
@@ -155,6 +170,18 @@ public class DefaultGaleniumListener extends TestListenerAdapter {
       listener.onTestSuccess(result);
     }
     super.onTestSuccess(result);
+  }
+
+  @Override
+  public boolean retry(ITestResult result) {
+    getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
+    for (IRetryAnalyzer analyzer : retryAnalyzers) {
+      getLogger().trace("{}: retry(ITestResult result)", analyzer.getClass());
+      if (analyzer.retry(result)) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
