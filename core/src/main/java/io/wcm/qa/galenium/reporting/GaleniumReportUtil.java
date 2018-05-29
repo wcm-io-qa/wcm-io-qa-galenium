@@ -261,15 +261,15 @@ public final class GaleniumReportUtil {
    * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
    */
   public static Logger getLogger() {
-    String name = NO_TEST_NAME_SET;
     ExtentTest extentTest = getExtentTest();
     if (extentTest != null) {
       ITest test = extentTest.getTest();
       if (test != null) {
-        name = test.getName();
+        return LoggerFactory.getLogger(test.getName());
       }
     }
-    return LoggerFactory.getLogger(name);
+
+    return LoggerFactory.getLogger(NO_TEST_NAME_SET);
   }
 
   /**

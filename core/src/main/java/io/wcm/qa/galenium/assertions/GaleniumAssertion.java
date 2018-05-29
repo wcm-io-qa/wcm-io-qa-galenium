@@ -20,6 +20,8 @@
 package io.wcm.qa.galenium.assertions;
 
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;
 
@@ -30,8 +32,10 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  */
 public class GaleniumAssertion extends Assertion {
 
+  private static final Marker MARKER_ASSERTION = MarkerFactory.getMarker("galenium.assertion");
+
   public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+    return GaleniumReportUtil.getMarkedLogger(MARKER_ASSERTION);
   }
 
   @Override
