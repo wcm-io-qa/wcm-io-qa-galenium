@@ -30,8 +30,8 @@
       <action type="update" dev="apegam">
         Retry analyzer integration now automatically, if retryMax is greater than zero.
       </action>
-      <action type="add" dev="apegam">
-        Added more specialized interaction utility classes.
+      <action type="update" dev="apegam">
+        Break up InteractionUtil into more specialized classes.
       </action>
       <action type="add" dev="apegam">
         Added BrowserMob Proxy for basic authentication.
