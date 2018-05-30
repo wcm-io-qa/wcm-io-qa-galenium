@@ -37,7 +37,7 @@
     <!-- Galenium -->
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.galenium-util</artifactId>
+      <artifactId>io.wcm.qa.galenium.convenience</artifactId>
       <version>0.1.13-SNAPSHOT</version>
     </dependency>
     
