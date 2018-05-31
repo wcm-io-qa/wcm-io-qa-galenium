@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,13 @@
 package io.wcm.qa.galenium.verification.base;
 
 /**
- * Unifies different kinds of verification done while UI testing.
+ * Represents verifiable objects in a lambda friendly way.
  */
-public interface Verification extends Verifiable {
+public interface Verifiable {
 
   /**
-   * @return Throwable if one occured during verification
+   * Attempts verification, if it was not attempted before, and returns whether it was successful
+   * @return whether verification was successful
    */
-  Throwable getException();
-
-  /**
-   * @return verification message
-   */
-  String getMessage();
-
+  boolean verify();
 }
