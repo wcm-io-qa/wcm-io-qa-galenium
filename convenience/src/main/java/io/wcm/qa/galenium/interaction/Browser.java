@@ -22,6 +22,8 @@ package io.wcm.qa.galenium.interaction;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
+import java.net.URL;
+
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
@@ -36,12 +38,25 @@ public final class Browser {
   }
 
   /**
-   * Load URL in browser and fail test if URL does not match.
-   * @param url to load
+   * Navigate back.
    */
-  public static void loadExactly(String url) {
-    load(url);
-    GaleniumContext.getAssertion().assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
+  public static void back() {
+    getDriver().navigate().back();
+  }
+
+  /**
+   * Navigate forward.
+   */
+  public static void forward() {
+    getDriver().navigate().forward();
+  }
+
+  /**
+   * @param url to check against
+   * @return whether browser is currently pointing at URL
+   */
+  public static boolean isCurrentUrl(String url) {
+    return StringUtils.equals(url, getDriver().getCurrentUrl());
   }
 
   /**
@@ -54,11 +69,34 @@ public final class Browser {
   }
 
   /**
-   * @param url to check against
-   * @return whether browser is currently pointing at URL
+   * Load URL in browser and fail test if URL does not match.
+   * @param url to load
    */
-  public static boolean isCurrentUrl(String url) {
-    return StringUtils.equals(url, getDriver().getCurrentUrl());
+  public static void loadExactly(String url) {
+    load(url);
+    GaleniumContext.getAssertion().assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
   }
 
+  /**
+   * Navigate to URL.
+   * @param string URL to navigate to
+   */
+  public static void navigateTo(String string) {
+    getDriver().navigate().to(string);
+  }
+
+  /**
+   * Navigate to URL.
+   * @param url to navigate to
+   */
+  public static void navigateTo(URL url) {
+    getDriver().navigate().to(url);
+  }
+
+  /**
+   * Refresh browser.
+   */
+  public static void refresh() {
+    getDriver().navigate().refresh();
+  }
 }
