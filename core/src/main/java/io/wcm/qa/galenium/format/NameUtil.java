@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.format;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+
 /**
  * Utility methods to get solid names for code, tests and files.
  */
@@ -28,14 +30,14 @@ public final class NameUtil {
     // do not instantiate
   }
 
-  public static String getConstantName(String input) {
+  static String getConstantName(String input) {
     String kebapInput = anyToKebap(input);
     return kebapInput;
   }
 
   private static String anyToKebap(String input) {
-
-    return null;
+    throw new GaleniumException("name formatting not implemented yet.");
+    //    return null;
   }
 
 
