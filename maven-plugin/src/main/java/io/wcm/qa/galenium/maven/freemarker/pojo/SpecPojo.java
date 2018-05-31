@@ -28,11 +28,11 @@ import org.apache.commons.io.FilenameUtils;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
-import io.wcm.qa.galenium.util.GalenHelperUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public class SpecPojo {

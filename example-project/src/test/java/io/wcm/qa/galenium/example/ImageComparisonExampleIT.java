@@ -25,13 +25,13 @@ import org.testng.annotations.Test;
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 
+import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
-import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.TestDevice;
 
 /**

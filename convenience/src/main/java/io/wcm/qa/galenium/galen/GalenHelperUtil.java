@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.galen;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.selectors.SelectorFactory.fromLocator;
@@ -47,6 +47,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
+import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Helper methods for dealing with Galen.

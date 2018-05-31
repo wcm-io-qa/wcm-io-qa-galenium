@@ -40,9 +40,9 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.mock.MockPage;
 import io.wcm.qa.galenium.selectors.NestedSelector;
-import io.wcm.qa.galenium.util.GalenHelperUtil;
 
 public final class ParsingUtil {
 

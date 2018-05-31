@@ -32,11 +32,11 @@ import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
+import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.GalenLayoutChecker;
 import io.wcm.qa.galenium.util.TestDevice;
 
 /**

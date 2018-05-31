@@ -1,9 +1,9 @@
 <#assign classNameForSpec = className(spec) />
 package ${specPackageName};
 
-import static io.wcm.qa.galenium.util.GalenLayoutChecker.checkLayout;
-import static io.wcm.qa.galenium.util.GalenLayoutChecker.handleLayoutReport;
-import static io.wcm.qa.galenium.util.GalenHelperUtil.readSpec;
+import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
+import static io.wcm.qa.galenium.galen.GalenLayoutChecker.handleLayoutReport;
+import static io.wcm.qa.galenium.galen.GalenHelperUtil.readSpec;
 
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.specs.page.CorrectionsRect;
