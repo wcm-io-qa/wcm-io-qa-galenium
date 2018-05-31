@@ -70,7 +70,7 @@ public final class Mouse {
       if (mouseOverElement.isDisplayed()) {
         getLogger().debug("Moving to element: " + mouseOverElement);
         try {
-          Actions actions = getActions(driver);
+          Actions actions = getActions();
           actions.moveToElement(mouseOverElement).perform();
         }
         catch (UnsupportedCommandException ex) {
@@ -90,20 +90,34 @@ public final class Mouse {
 
   /**
    * Move mouse horizontally over page and scroll if necessary to keep it in viewport.
-   * @param offsetInPixel to move mouse horizontally by (negative values move to the left.
+   * @param horizontalOffset to move mouse horizontally by (negative values move to the left.
    */
-  public static void moveHorizontally(int offsetInPixel) {
-    if (offsetInPixel > 0) {
-      getLogger().debug(MARKER_INFO, "move mouse right by " + offsetInPixel);
+  public static void moveHorizontally(int horizontalOffset) {
+    if (horizontalOffset > 0) {
+      getLogger().debug(MARKER_INFO, "move mouse right by " + horizontalOffset);
     }
-    else if (offsetInPixel < 0) {
-      getLogger().debug(MARKER_INFO, "move mouse left by " + -offsetInPixel);
+    else if (horizontalOffset < 0) {
+      getLogger().debug(MARKER_INFO, "move mouse left by " + -horizontalOffset);
     }
-    getActions(getDriver()).moveByOffset(offsetInPixel, 0).perform();
+    int verticalOffset = 0;
+    moveByOffset(horizontalOffset, verticalOffset);
   }
 
-  private static Actions getActions(WebDriver driver) {
-    return new Actions(driver);
+  public static void moveByOffset(int horizontalOffset, int verticalOffset) {
+    getActions().moveByOffset(horizontalOffset, verticalOffset).perform();
+  }
+
+  public static void moveTo(Selector selector) {
+    getActions().moveToElement(Element.findOrFail(selector));
+  }
+
+  public static void clickLocation(Selector selector) {
+    moveTo(selector);
+    getActions().click();
+  }
+
+  private static Actions getActions() {
+    return new Actions(getDriver());
   }
 
 }
