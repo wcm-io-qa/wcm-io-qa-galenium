@@ -67,6 +67,7 @@ public class CssClassVerification extends AttributeVerification {
     if (StringUtils.isBlank(cssClasses)) {
       return false;
     }
+    String cssValue = getElement().getCssValue("animation-play-state");
     String[] splitCssClasses = cssClasses.split(" ");
     return ArrayUtils.contains(splitCssClasses, getExpectedValue());
   }
