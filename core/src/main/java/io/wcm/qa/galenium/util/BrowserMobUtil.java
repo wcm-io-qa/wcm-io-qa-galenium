@@ -38,16 +38,8 @@ import net.lightbody.bmp.proxy.auth.AuthType;
  */
 public final class BrowserMobUtil {
 
-  private static Proxy seleniumProxy;
-  private static BrowserMobProxyServer proxy;
-
-  static {
-    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
-      proxy = new BrowserMobProxyServer();
-      proxy.setMitmDisabled(false);
-      proxy.start();
-    }
-  }
+  private static String BROWSER_MOB_PROXY = "galenium.proxy.browserMob";
+  private static String SELENIUM_PROXY = "galenium.proxy.selenium";
 
   private BrowserMobUtil() {
     // do not instantiate
@@ -106,8 +98,10 @@ public final class BrowserMobUtil {
    * @return Selenium proxy using BrowserMob Proxy
    */
   public static Proxy getSeleniumProxy() {
+    Proxy seleniumProxy = (Proxy)GaleniumContext.get(SELENIUM_PROXY);
     if (seleniumProxy == null) {
       seleniumProxy = ClientUtil.createSeleniumProxy(getBrowserMobProxy());
+      GaleniumContext.put(SELENIUM_PROXY, seleniumProxy);
     }
     return seleniumProxy;
 
@@ -116,6 +110,13 @@ public final class BrowserMobUtil {
   public static BrowserMobProxy getBrowserMobProxy() {
     if (!GaleniumConfiguration.isUseBrowserMobProxy()) {
       throw new GaleniumException("set 'galenium.browsermob.proxy' to true before fetching browsermob proxy.");
+    }
+    BrowserMobProxy proxy = (BrowserMobProxy)GaleniumContext.get(BROWSER_MOB_PROXY);
+    if (proxy == null) {
+      proxy = new BrowserMobProxyServer();
+      proxy.setMitmDisabled(false);
+      proxy.start();
+      GaleniumContext.put(BROWSER_MOB_PROXY, proxy);
     }
     return proxy;
   }
