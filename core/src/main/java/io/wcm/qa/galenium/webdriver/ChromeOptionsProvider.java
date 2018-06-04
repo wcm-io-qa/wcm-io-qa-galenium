@@ -25,7 +25,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
-class ChromeCapabilityProvider extends OptionsProvider<ChromeOptions> {
+class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
 
   private static final String OPTIONS_KEY_BINARY = "binary";
   protected static final String OPTIONS_KEY_ARGS = "args";

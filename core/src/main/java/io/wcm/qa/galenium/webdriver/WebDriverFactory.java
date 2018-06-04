@@ -70,7 +70,7 @@ final class WebDriverFactory {
           chromeOptionProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
         }
         else {
-          chromeOptionProvider = new ChromeCapabilityProvider();
+          chromeOptionProvider = new ChromeOptionsProvider();
         }
         return chromeOptionProvider;
       case FIREFOX:

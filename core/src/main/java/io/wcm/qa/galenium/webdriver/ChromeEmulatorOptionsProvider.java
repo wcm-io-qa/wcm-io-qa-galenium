@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 
-class ChromeEmulatorOptionsProvider extends ChromeCapabilityProvider {
+class ChromeEmulatorOptionsProvider extends ChromeOptionsProvider {
 
   private String chromeEmulator;
 

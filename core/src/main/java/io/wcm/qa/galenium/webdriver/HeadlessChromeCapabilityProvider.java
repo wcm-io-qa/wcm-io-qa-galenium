@@ -28,7 +28,7 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.TestDevice;
 
-class HeadlessChromeCapabilityProvider extends ChromeCapabilityProvider {
+class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
 
   private static final String[] ARGUMENTS_HEADLESS = new String[] {
       // main headless arg
