@@ -68,7 +68,6 @@ public final class Mouse {
     if (!mouseOverElements.isEmpty()) {
       WebElement mouseOverElement = mouseOverElements.get(0);
       if (mouseOverElement.isDisplayed()) {
-        getLogger().debug("Moving to element: " + mouseOverElement);
         try {
           moveTo(selector);
         }
@@ -107,8 +106,9 @@ public final class Mouse {
   }
 
   public static void moveTo(Selector selector) {
-    getActions().moveToElement(Element.findOrFail(selector)).perform();
-    ;
+    WebElement element = Element.findOrFail(selector);
+    getLogger().debug("Moving to element: " + element);
+    getActions().moveToElement(element).perform();
   }
 
   public static void clickLocation(Selector selector) {
@@ -117,7 +117,8 @@ public final class Mouse {
   }
 
   public static void click() {
-    getActions().click();
+    getLogger().debug("Clicking at current position.");
+    getActions().click().perform();
   }
 
   private static Actions getActions() {
