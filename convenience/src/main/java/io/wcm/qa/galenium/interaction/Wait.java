@@ -48,7 +48,17 @@ public final class Wait {
    * @param selector element to check
    */
   public static void forAnimationEnd(Selector selector) {
-    getWait().until(new NoAnimationExpectedCondition(selector));
+    int timeOutInSeconds = 10;
+    forAnimationEnd(selector, timeOutInSeconds);
+  }
+
+  /**
+   * Wait for element to not be in animation. No element means no animation.
+   * @param selector element to check
+   * @param timeOutInSeconds time out
+   */
+  public static void forAnimationEnd(Selector selector, int timeOutInSeconds) {
+    getWait(timeOutInSeconds).until(new NoAnimationExpectedCondition(selector));
   }
 
   /**
