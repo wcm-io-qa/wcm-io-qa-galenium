@@ -21,15 +21,12 @@ package io.wcm.qa.galenium.interaction;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
@@ -41,23 +38,6 @@ public final class Wait {
 
   private Wait() {
     // do not instantiate
-  }
-
-  /**
-   * Wait for element to not be in animation. No element means no animation.
-   * @param selector element to check
-   */
-  public static void forAnimationEnd(Selector selector) {
-    forAnimationEnd(selector, 10);
-  }
-
-  /**
-   * Wait for element to not be in animation. No element means no animation.
-   * @param selector element to check
-   * @param timeOutInSeconds time out
-   */
-  public static void forAnimationEnd(Selector selector, int timeOutInSeconds) {
-    getWait(timeOutInSeconds).until(new NoAnimationExpectedCondition(selector));
   }
 
   /**
@@ -114,26 +94,6 @@ public final class Wait {
 
   private static WebDriverWait getWait(int timeOutInSeconds, int pollingInterval) {
     return new WebDriverWait(GaleniumContext.getDriver(), timeOutInSeconds, pollingInterval);
-  }
-
-  private static final class NoAnimationExpectedCondition implements ExpectedCondition<Boolean> {
-
-    private final Selector selector;
-
-    private NoAnimationExpectedCondition(Selector selector) {
-      this.selector = selector;
-    }
-
-    @Override
-    public Boolean apply(WebDriver arg0) {
-      WebElement element = arg0.findElement(this.selector.asBy());
-      if (element != null) {
-        return StringUtils.isBlank(element.getCssValue("animation-play-state"));
-      }
-
-      // no element means no animation
-      return true;
-    }
   }
 
   private static final class VerifiableExpectedCondition implements ExpectedCondition<Boolean> {
