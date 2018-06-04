@@ -48,8 +48,7 @@ public final class Wait {
    * @param selector element to check
    */
   public static void forAnimationEnd(Selector selector) {
-    int timeOutInSeconds = 10;
-    forAnimationEnd(selector, timeOutInSeconds);
+    forAnimationEnd(selector, 10);
   }
 
   /**
@@ -133,7 +132,7 @@ public final class Wait {
       }
 
       // no element means no animation
-      return false;
+      return true;
     }
   }
 
