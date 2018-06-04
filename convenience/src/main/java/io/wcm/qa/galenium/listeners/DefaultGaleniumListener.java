@@ -19,13 +19,13 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.Marker;
 import org.testng.IAnnotationTransformer;
 import org.testng.IConfigurationListener2;
 import org.testng.ITestContext;
@@ -35,6 +35,7 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.testng.annotations.ITestAnnotation;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
@@ -62,6 +63,7 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
  */
 public class DefaultGaleniumListener extends TestListenerAdapter implements IAnnotationTransformer {
 
+  private static final Marker MARKER_LISTENERS = GaleniumReportUtil.getMarker("galenium.listeners");
   private List<ITestNGListener> listeners = new ArrayList<ITestNGListener>();
 
   /**
@@ -194,6 +196,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
       }
     }
 
+  }
+
+  private Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MARKER_LISTENERS);
   }
 
 }
