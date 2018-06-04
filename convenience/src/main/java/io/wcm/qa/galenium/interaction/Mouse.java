@@ -113,6 +113,10 @@ public final class Mouse {
 
   public static void clickLocation(Selector selector) {
     moveTo(selector);
+    click();
+  }
+
+  public static void click() {
     getActions().click();
   }
 
