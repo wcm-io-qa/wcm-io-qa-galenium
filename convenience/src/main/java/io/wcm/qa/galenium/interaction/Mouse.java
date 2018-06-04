@@ -70,8 +70,7 @@ public final class Mouse {
       if (mouseOverElement.isDisplayed()) {
         getLogger().debug("Moving to element: " + mouseOverElement);
         try {
-          Actions actions = getActions();
-          actions.moveToElement(mouseOverElement).perform();
+          moveTo(selector);
         }
         catch (UnsupportedCommandException ex) {
           getLogger().debug("Attempting JS workaround for mouseover.");
@@ -108,7 +107,8 @@ public final class Mouse {
   }
 
   public static void moveTo(Selector selector) {
-    getActions().moveToElement(Element.findOrFail(selector));
+    getActions().moveToElement(Element.findOrFail(selector)).perform();
+    ;
   }
 
   public static void clickLocation(Selector selector) {
