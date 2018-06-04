@@ -80,6 +80,9 @@ public final class GaleniumReportUtil {
 
 
   private static final GaleniumExtentReports EXTENT_REPORTS;
+
+  private static final Marker MARKER_REPORT_UTIL_INTERNAL = getMarker("galenium.reporting.internal");
+
   private static final String NO_TEST_NAME_SET = "no.test.name.set";
 
   // Root folder for reports
@@ -202,15 +205,15 @@ public final class GaleniumReportUtil {
    * @param details final message
    */
   public static void endExtentTest(ITestResult result, LogStatus status, String details) {
-    getLogger().trace("GaleniumReportUtilendExtentTest(): getting extent test.");
+    getInternalLogger().trace("GaleniumReportUtilendExtentTest(): getting extent test.");
     ExtentTest extentTest = getExtentTest(result);
-    getLogger().trace("GaleniumReportUtilendExtentTest(): logging details.");
+    getInternalLogger().trace("GaleniumReportUtilendExtentTest(): logging details.");
     extentTest.log(status, details);
-    getLogger().trace("GaleniumReportUtilendExtentTest(): assigning categories.");
+    getInternalLogger().trace("GaleniumReportUtilendExtentTest(): assigning categories.");
     TestInfoUtil.assignCategories(extentTest, result);
-    getLogger().trace("GaleniumReportUtilendExtentTest(): ending extent report test");
+    getInternalLogger().trace("GaleniumReportUtilendExtentTest(): ending extent report test");
     EXTENT_REPORTS.endTest(extentTest);
-    getLogger().trace("GaleniumReportUtilendExtentTest(): done");
+    getInternalLogger().trace("GaleniumReportUtilendExtentTest(): done");
   }
 
   /**
@@ -314,24 +317,24 @@ public final class GaleniumReportUtil {
     String filenameOnly = null;
     boolean screenshotSuccessful;
     if (driver instanceof TakesScreenshot) {
-      getLogger().debug("taking screenshot: " + driver);
+      getInternalLogger().debug("taking screenshot: " + driver);
       filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
       File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
       if (screenshotFile != null) {
-        getLogger().trace("screenshot taken: " + screenshotFile.getPath());
+        getInternalLogger().trace("screenshot taken: " + screenshotFile.getPath());
         try {
           File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
           FileUtils.copyFile(screenshotFile, destFile);
-          getLogger().trace("copied screenshot: " + destFile.getPath());
+          getInternalLogger().trace("copied screenshot: " + destFile.getPath());
           destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
           String screenCapture = getExtentTest().addScreenCapture(destScreenshotFilePath);
           getLogger().info(screenCapture);
           screenshotSuccessful = true;
           if (FileUtils.deleteQuietly(screenshotFile)) {
-            getLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
+            getInternalLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
           }
           else {
-            getLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
+            getInternalLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
           }
         }
         catch (IOException ex) {
@@ -340,12 +343,12 @@ public final class GaleniumReportUtil {
         }
       }
       else {
-        getLogger().debug("screenshot file is null.");
+        getInternalLogger().debug("screenshot file is null.");
         screenshotSuccessful = false;
       }
     }
     else {
-      getLogger().trace("driver cannot take screenshots: " + driver);
+      getInternalLogger().trace("driver cannot take screenshots: " + driver);
       screenshotSuccessful = false;
     }
 
@@ -362,8 +365,20 @@ public final class GaleniumReportUtil {
     return logMsg.toString();
   }
 
+  private static Logger getInternalLogger() {
+    return getMarkedLogger(MARKER_REPORT_UTIL_INTERNAL);
+  }
+
   private static Marker getMarker(LogStatus logStatus) {
-    Marker marker = MarkerFactory.getMarker(logStatus.name());
+    return getMarker(logStatus.name());
+  }
+
+  /**
+   * @param name marker name
+   * @return marker for use with marked logger
+   */
+  public static Marker getMarker(String name) {
+    Marker marker = MarkerFactory.getMarker(name);
     marker.add(MARKER_EXTENT_REPORT);
     return marker;
   }
