@@ -41,6 +41,7 @@ public final class Browser {
    * Navigate back.
    */
   public static void back() {
+    getLogger().debug("navigating back");
     getDriver().navigate().back();
   }
 
@@ -48,6 +49,7 @@ public final class Browser {
    * Navigate forward.
    */
   public static void forward() {
+    getLogger().debug("navigating forward");
     getDriver().navigate().forward();
   }
 
@@ -56,6 +58,7 @@ public final class Browser {
    * @return whether browser is currently pointing at URL
    */
   public static boolean isCurrentUrl(String url) {
+    getLogger().trace("checking current URL");
     return StringUtils.equals(url, getDriver().getCurrentUrl());
   }
 
@@ -79,10 +82,11 @@ public final class Browser {
 
   /**
    * Navigate to URL.
-   * @param string URL to navigate to
+   * @param url URL to navigate to
    */
-  public static void navigateTo(String string) {
-    getDriver().navigate().to(string);
+  public static void navigateTo(String url) {
+    getLogger().debug("navigating to URL: '" + url + "'");
+    getDriver().navigate().to(url);
   }
 
   /**
@@ -90,6 +94,7 @@ public final class Browser {
    * @param url to navigate to
    */
   public static void navigateTo(URL url) {
+    getLogger().debug("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
   }
 
@@ -97,6 +102,8 @@ public final class Browser {
    * Refresh browser.
    */
   public static void refresh() {
+    getLogger().debug("refreshing browser");
     getDriver().navigate().refresh();
   }
+
 }
