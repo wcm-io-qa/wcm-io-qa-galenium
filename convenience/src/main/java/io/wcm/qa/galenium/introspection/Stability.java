@@ -39,22 +39,29 @@ public abstract class Stability<T> implements Verifiable {
   public boolean verify() {
     T currentSampleValue = getSampler().sampleValue();
     if (firstRun) {
-      oldSampleValue = currentSampleValue;
+      setOldSampleValue(currentSampleValue);
       firstRun = false;
+
+      // first run can never succeed
       return false;
     }
-    return compareToOldValue(currentSampleValue);
+
+    if (checkAgainstOldValue(currentSampleValue)) {
+      return true;
+    }
+    setOldSampleValue(currentSampleValue);
+    return false;
   }
 
-  private boolean compareToOldValue(T currentSampleValue) {
-    if (oldSampleValue == null) {
+  private boolean checkAgainstOldValue(T currentSampleValue) {
+    if (getOldSampleValue() == null) {
       return currentSampleValue == null;
     }
     else if (currentSampleValue == null) {
       return false;
     }
 
-    return checkForEquality(oldSampleValue, currentSampleValue);
+    return checkForEquality(getOldSampleValue(), currentSampleValue);
   }
 
   /**
@@ -70,6 +77,14 @@ public abstract class Stability<T> implements Verifiable {
 
   public void setSampler(Sampler<T> sampler) {
     this.sampler = sampler;
+  }
+
+  private T getOldSampleValue() {
+    return oldSampleValue;
+  }
+
+  private void setOldSampleValue(T oldSampleValue) {
+    this.oldSampleValue = oldSampleValue;
   }
 
 }

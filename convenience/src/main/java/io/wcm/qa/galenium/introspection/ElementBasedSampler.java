@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.introspection;
 
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.interaction.Element;
@@ -30,13 +32,18 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
     super(selector);
   }
 
-  protected WebElement getElement() {
-    return Element.findFast(getSelector());
-  }
-
   @Override
   public T sampleValue() {
-    return sampleValue(getElement());
+    WebElement element = getElement();
+    if (element != null) {
+      return sampleValue(element);
+    }
+    getLogger().debug("did not find '" + getSelector().elementName() + "' when trying to sample.");
+    return null;
+  }
+
+  protected WebElement getElement() {
+    return Element.findFast(getSelector());
   }
 
   protected abstract T sampleValue(WebElement element);

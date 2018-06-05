@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.introspection;
 
 import org.openqa.selenium.Point;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class StablePosition extends Stability<Point> {
@@ -31,6 +32,7 @@ public class StablePosition extends Stability<Point> {
 
   @Override
   protected boolean checkForEquality(Point value1, Point value2) {
+    GaleniumReportUtil.getLogger().trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
     return value1.equals(value2);
   }
 

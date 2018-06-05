@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.introspection;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class LocationSampler extends ElementBasedSampler<Point> {
@@ -32,7 +33,9 @@ public class LocationSampler extends ElementBasedSampler<Point> {
 
   @Override
   protected Point sampleValue(WebElement element) {
-    return element.getLocation();
+    Point location = element.getLocation();
+    GaleniumReportUtil.getLogger().trace("Sampled location for '" + getSelector().elementName() + "': " + location);
+    return location;
   }
 
 
