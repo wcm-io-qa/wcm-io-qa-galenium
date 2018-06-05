@@ -25,6 +25,12 @@
 
     <release version="0.1.14" date="not released yet">
       <action type="add" dev="apegam">
+        Verifiable stability concept to wait for changes to the page like animations, page loading, or rendering.
+      </action>
+      <action type="add" dev="apegam">
+        Sampler concept.
+      </action>
+      <action type="add" dev="apegam">
         Dedicated core and convenience submodules formed by splitting up galenium.
       </action>
       <action type="update" dev="apegam">
