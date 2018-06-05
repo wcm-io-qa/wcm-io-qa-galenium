@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.sampling;
 /**
  * String sampling interface.
  */
-public interface TextSampler extends Sampler<String> {
+public interface StringSampler extends Sampler<String> {
 
   // inherits method from super interface
 
