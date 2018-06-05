@@ -45,7 +45,19 @@ public final class Wait {
    * @param condition to wait for
    */
   public static void forCondition(Verifiable condition) {
-    getWait().until(new VerifiableExpectedCondition(condition));
+    int timeOut = DEFAULT_TIMEOUT;
+    forCondition(condition, timeOut);
+  }
+
+  public static void forCondition(Verifiable condition, int timeOut) {
+    int pollingInterval = DEFAULT_POLLING_INTERVAL;
+    forCondition(condition, timeOut, pollingInterval);
+  }
+
+  public static void forCondition(Verifiable condition, int timeOut, int pollingInterval) {
+    WebDriverWait wait = getWait(timeOut, pollingInterval);
+    VerifiableExpectedCondition verifiableCondition = new VerifiableExpectedCondition(condition);
+    wait.until(verifiableCondition);
   }
 
   /**
