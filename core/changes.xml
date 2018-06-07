@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.14" date="not released yet">
+      <action type="update" dev="apegam">
+        Update dependencies.
+      </action>
       <action type="add" dev="apegam">
         Verifiable stability concept to wait for changes to the page like animations, page loading, or rendering.
       </action>
