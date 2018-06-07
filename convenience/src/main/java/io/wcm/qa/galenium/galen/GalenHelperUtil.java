@@ -160,7 +160,7 @@ public final class GalenHelperUtil {
       return PAGE_SPEC_READER.read(specPath, page, tags, properties, jsVars, objects);
     }
     catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec", ex);
+      throw new GalenLayoutException("IOException when reading spec: '" + specPath + "'", ex);
     }
   }
 
