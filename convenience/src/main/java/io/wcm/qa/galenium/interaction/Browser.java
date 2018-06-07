@@ -72,6 +72,13 @@ public final class Browser {
   }
 
   /**
+   * Loads 'about:blank'.
+   */
+  public static void loadBlankPage() {
+    load("about:blank");
+  }
+
+  /**
    * Load URL in browser and fail test if URL does not match.
    * @param url to load
    */
