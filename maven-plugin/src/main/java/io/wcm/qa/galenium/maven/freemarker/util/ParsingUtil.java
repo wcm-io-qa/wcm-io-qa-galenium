@@ -23,7 +23,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,11 +42,12 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.mock.MockPage;
 import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public final class ParsingUtil {
 
+  private static final String FILE_EXTENSION_GSPEC = "gspec";
   private static final String PATTERN_LINE_WITH_TAGS_IN_SPEC = "@on";
-  private static final GalenSpecFileFilter GALEN_SPEC_FILE_FILTER = new GalenSpecFileFilter();
 
   private ParsingUtil() {
     // do not instantiate
@@ -58,31 +58,16 @@ public final class ParsingUtil {
     return GalenHelperUtil.getObjects(galenSpec);
   }
 
-  public static File[] getSpecFiles(File fromDir) {
-    return fromDir.listFiles(GALEN_SPEC_FILE_FILTER);
+  public static Collection<File> getSpecFiles() {
+    return FileUtils.listFiles(getSpecRootDirectory(), new String[] { FILE_EXTENSION_GSPEC }, true);
   }
 
-  public static PageSpec readSpec(File specFile) {
-    if (specFile == null) {
-      throw new GaleniumException("cannot read spec from null file.");
+  public static File getSpecRootDirectory() {
+    File file = new File(GaleniumConfiguration.getGalenSpecPath());
+    if (file.isDirectory()) {
+      return file;
     }
-    String specPath = specFile.getPath();
-    SectionFilter tags = new SectionFilter(emptyList(), emptyList());
-    Page page = new MockPage();
-    Properties properties = new Properties();
-    Map<String, Object> jsVars = emptyMap();
-    Map<String, Locator> objects = null;
-    return GalenHelperUtil.readSpec(specPath, tags, page, properties, jsVars, objects);
-  }
-
-  private static final class GalenSpecFileFilter implements FilenameFilter {
-
-    private static final String FILE_EXTENSION_GSPEC = ".gspec";
-
-    @Override
-    public boolean accept(File dir, String name) {
-      return name.endsWith(FILE_EXTENSION_GSPEC);
-    }
+    throw new GaleniumException("spec root is not a directory: " + file);
   }
 
   public static Collection<String> getTags(File specFile) {
@@ -106,6 +91,19 @@ public final class ParsingUtil {
     catch (IOException ex) {
       throw new GaleniumException("when parsing '" + specFile + "'");
     }
+  }
+
+  public static PageSpec readSpec(File specFile) {
+    if (specFile == null) {
+      throw new GaleniumException("cannot read spec from null file.");
+    }
+    String specPath = specFile.getPath();
+    SectionFilter tags = new SectionFilter(emptyList(), emptyList());
+    Page page = new MockPage();
+    Properties properties = new Properties();
+    Map<String, Object> jsVars = emptyMap();
+    Map<String, Locator> objects = null;
+    return GalenHelperUtil.readSpec(specPath, tags, page, properties, jsVars, objects);
   }
 
 }

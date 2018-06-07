@@ -67,7 +67,7 @@ public final class FreemarkerUtil {
   public static Map<String, Object> getDataModelForSpec(SpecPojo spec, String packagePrefixSpecs) {
     Map<String, Object> model = getCommonDataModel();
     model.put("className", new ClassNameFromSpecMethod());
-    model.put("specPackageName", packagePrefixSpecs);
+    model.put("specRootPackageName", packagePrefixSpecs);
     model.put("spec", spec);
     return model;
   }

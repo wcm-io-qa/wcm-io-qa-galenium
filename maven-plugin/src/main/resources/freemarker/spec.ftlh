@@ -1,5 +1,5 @@
 <#assign classNameForSpec = className(spec) />
-package ${specPackageName};
+package ${specRootPackageName};
 
 import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
 import static io.wcm.qa.galenium.galen.GalenLayoutChecker.handleLayoutReport;

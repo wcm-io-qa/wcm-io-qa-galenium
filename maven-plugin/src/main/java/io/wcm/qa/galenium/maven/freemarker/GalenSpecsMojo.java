@@ -63,12 +63,6 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 public class GalenSpecsMojo extends AbstractMojo {
 
   /**
-   * Location of input directory containing Galen specs.
-   */
-  @Parameter(defaultValue = "${project.basedir}/src/test/resources/galen/specs", property = "inputDir", required = true)
-  private File inputDirectory;
-
-  /**
    * Root directory for generated output.
    */
   @Parameter(defaultValue = "${project.build.directory}/generated-sources/java", property = "outputDir", required = true)
@@ -139,7 +133,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private boolean checkInputParams() {
-    return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
+    return checkDirectory(ParsingUtil.getSpecRootDirectory()) && checkDirectory(templateDirectory);
   }
 
   private void generateSpecCode() {
@@ -170,10 +164,9 @@ public class GalenSpecsMojo extends AbstractMojo {
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private File[] getSpecFiles() {
-    File fromDir = inputDirectory;
-    File[] specFiles = ParsingUtil.getSpecFiles(fromDir);
-    getLog().debug("found " + specFiles.length + " spec files.");
+  private Collection<File> getSpecFiles() {
+    Collection<File> specFiles = ParsingUtil.getSpecFiles();
+    getLog().debug("found " + specFiles.size() + " spec files.");
     return specFiles;
   }
 
@@ -210,7 +203,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     // transfer system properties
     ConfigurationUtil.addToSystemProperties(systemPropertyVariables);
     System.setProperty("packageRootName", packagePrefixSelectors);
-    System.setProperty("galenium.specPath", inputDirectory.getPath());
+    System.setProperty("galenium.specPath", ParsingUtil.getSpecRootDirectory().getPath());
 
     // check input parameters
     if (!checkInputParams()) {
@@ -222,7 +215,7 @@ public class GalenSpecsMojo extends AbstractMojo {
 
   protected void parseSpecs() {
     getLog().info("collecting spec files");
-    File[] specFiles = getSpecFiles();
+    Collection<File> specFiles = getSpecFiles();
 
     getLog().info("processing spec files");
     for (File specFile : specFiles) {

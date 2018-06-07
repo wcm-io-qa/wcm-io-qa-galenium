@@ -27,13 +27,11 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.galenframework.specs.page.PageSpec;
 
-import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public class SpecPojo {
 
@@ -71,6 +69,11 @@ public class SpecPojo {
     return pageSpec;
   }
 
+  public String getRelativeFilePath() {
+    String relativePath = FileHandlingUtil.constructRelativePath(ParsingUtil.getSpecRootDirectory(), getSpecFile());
+    return getUnixStyleFilePath(relativePath);
+  }
+
   public Collection<NestedSelector> getRootSelectors() {
     Collection<NestedSelector> rootSelectors = new ArrayList<>();
     for (NestedSelector selector : getSelectors()) {
@@ -100,19 +103,6 @@ public class SpecPojo {
       return null;
     }
     return tags;
-  }
-
-  public String getRelativeFilePath() {
-    String relativePath = FileHandlingUtil.constructRelativePath(getSpecRootDirectory(), getSpecFile());
-    return getUnixStyleFilePath(relativePath);
-  }
-
-  private File getSpecRootDirectory() {
-    File file = new File(GaleniumConfiguration.getGalenSpecPath());
-    if (file.isDirectory()) {
-      return file;
-    }
-    throw new GaleniumException("spec root is not a directory: " + file);
   }
 
   private void setSpecFile(File specFile) {

@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.maven.freemarker.util;
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.CaseFormat;
 
@@ -30,6 +31,7 @@ import io.wcm.qa.galenium.selectors.NestedSelector;
 
 public final class FormatUtil {
 
+  private static final String FILE_ENDING_GSPEC = ".gspec";
   private static final String REGEX_NAME_CLEANING = "\\.";
 
   private FormatUtil() {
@@ -59,7 +61,14 @@ public final class FormatUtil {
   }
 
   public static String getSelectorsPackageName(String packageRoot, SpecPojo spec) {
-    return packageRoot + "." + getPackageName(spec);
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(packageRoot);
+    String relativePackageName = getPackageName(spec);
+    if (!StringUtils.startsWith(relativePackageName, ".")) {
+      stringBuilder.append(".");
+    }
+    stringBuilder.append(relativePackageName);
+    return stringBuilder.toString();
   }
 
   private static String getCleanElementName(String elementName) {
@@ -67,8 +76,10 @@ public final class FormatUtil {
   }
 
   private static String getPackageName(SpecPojo spec) {
-    String baseName = FilenameUtils.getBaseName(spec.getSpecFile().getPath());
-    return baseName.toLowerCase().replaceAll("[^a-z0-9]", "");
+    String relativePath = spec.getRelativeFilePath();
+    String relativePathWithoutExtension = StringUtils.removeEnd(relativePath, FILE_ENDING_GSPEC);
+    String lowerCasePath = relativePathWithoutExtension.toLowerCase().replaceAll("[^a-z0-9/]", "");
+    return lowerCasePath.replaceAll("/", ".");
   }
 
   /**
