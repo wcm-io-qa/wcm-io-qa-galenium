@@ -33,6 +33,8 @@ import io.wcm.qa.galenium.util.GaleniumContext;
  */
 public final class Browser {
 
+  private static final String ABOUT_BLANK = "about:blank";
+
   private Browser() {
     // do not instantiate
   }
@@ -75,7 +77,7 @@ public final class Browser {
    * Loads 'about:blank'.
    */
   public static void loadBlankPage() {
-    load("about:blank");
+    load(ABOUT_BLANK);
   }
 
   /**
