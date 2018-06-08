@@ -29,8 +29,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
@@ -71,12 +73,35 @@ public final class MediaQueryUtil {
       mediaQueries.add(new MediaQueryInstance(mediaQueryName, lowerBound, upperBound));
       lowerBound = upperBound + 1;
     }
+    if (getLogger().isDebugEnabled()) {
+      getLogger().debug("generated " + mediaQueries.size() + " media queries");
+      for (MediaQuery mediaQuery : mediaQueries) {
+        getLogger().debug("  " + mediaQuery);
+      }
+    }
     return mediaQueries;
   }
 
   public static Collection<MediaQuery> getMediaQueries(String propertyFilePath) {
     Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertyFilePath);
     return getMediaQueries(mediaQueryProperties);
+  }
+
+  private static Integer getIntegerValue(Entry<Object, Object> entry) {
+    Object value = entry.getValue();
+    if (value == null) {
+      throw new GaleniumException("value null for '" + entry.getKey() + "'");
+    }
+    try {
+      return Integer.parseInt(value.toString());
+    }
+    catch (NumberFormatException ex) {
+      throw new GaleniumException("could not parse to integer: '" + value, ex);
+    }
+  }
+
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
   private static SortedMap<Integer, String> getSortedMediaQueryMap(Properties mediaQueryProperties) {
@@ -88,19 +113,6 @@ public final class MediaQueryUtil {
       mediaQueryMap.put(intValue, mediaQueryName);
     }
     return mediaQueryMap;
-  }
-
-  public static Integer getIntegerValue(Entry<Object, Object> entry) {
-    Object value = entry.getValue();
-    if (value == null) {
-      throw new GaleniumException("value null for '" + entry.getKey() + "'");
-    }
-    try {
-      return Integer.parseInt(value.toString());
-    }
-    catch (NumberFormatException ex) {
-      throw new GaleniumException("could not parse to integer: '" + value, ex);
-    }
   }
 
   private static final class MediaQueryInstance implements MediaQuery {
@@ -128,6 +140,11 @@ public final class MediaQueryUtil {
     @Override
     public int getUpperBound() {
       return high;
+    }
+
+    @Override
+    public String toString() {
+      return name + "(lower: " + low + ", upper: " + high + ")";
     }
   }
 
