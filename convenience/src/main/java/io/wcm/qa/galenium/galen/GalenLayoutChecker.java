@@ -91,12 +91,24 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
+    SectionFilter tags = GalenHelperUtil.getTags();
+    return checkLayout(testName, spec, tags);
+  }
+
+  /**
+   * Checks Galen spec against current state of driver using the tags.
+   * @param testName test name used as folder name in reports
+   * @param spec Galen spec to check
+   * @param tags tags to use to filter rules
+   * @return report on spec test
+   */
+  public static LayoutReport checkLayout(String testName, PageSpec spec, SectionFilter tags) {
     ValidationListener validationListener = getValidationListener();
     return checkLayout(
         testName,
         spec,
         getTestDevice(),
-        GalenHelperUtil.getTags(),
+        tags,
         validationListener,
         GalenHelperUtil.getBrowser(),
         GaleniumContext.getDriver());
