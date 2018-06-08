@@ -151,7 +151,7 @@ public final class GalenLayoutChecker {
 
     SectionFilter tags = GalenHelperUtil.getSectionFilter(device);
     PageSpec spec;
-      spec = GalenHelperUtil.readSpec(device, specPath, tags);
+    spec = GalenHelperUtil.readSpec(device, specPath, tags);
 
     return checkLayout(testName, spec, device, tags, validationListener);
   }
@@ -189,6 +189,25 @@ public final class GalenLayoutChecker {
 
   private static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
       Browser browser, WebDriver driver) {
+    if (getLogger().isDebugEnabled()) {
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("checking layout with: ('name' : '");
+      stringBuilder.append(testName);
+      stringBuilder.append("', 'spec' : '");
+      stringBuilder.append(spec);
+      stringBuilder.append("', 'device' : '");
+      stringBuilder.append(device);
+      stringBuilder.append("', 'included' : '");
+      stringBuilder.append(tags.getIncludedTags());
+      stringBuilder.append("', 'excluded' : '");
+      stringBuilder.append(tags.getExcludedTags());
+      stringBuilder.append("', 'listener' : '");
+      stringBuilder.append(validationListener);
+      stringBuilder.append("')<br/>on URL: '");
+      stringBuilder.append(GaleniumContext.getDriver().getCurrentUrl());
+      stringBuilder.append("'");
+      getLogger().debug(stringBuilder.toString());
+    }
     LayoutReport layoutReport;
     try {
       layoutReport = Galen.checkLayout(browser, spec, tags, validationListener);
@@ -300,9 +319,19 @@ public final class GalenLayoutChecker {
     public void onSubLayout(PageValidation pageValidation, String objectName) {
       // noop
     }
+
+    @Override
+    public String toString() {
+      return "Dummy Validation Listener";
+    }
   }
 
   private static final class TracingValidationListener implements ValidationListener {
+
+    @Override
+    public String toString() {
+      return "Tracing Validation Listener";
+    }
 
     @Override
     public void onAfterObject(PageValidation pageValidation, String objectName) {
