@@ -101,6 +101,19 @@ public final class GalenHelperUtil {
   }
 
   /**
+   * Get tags device as Galen {@link SectionFilter}.
+   * @param includeTags tags to use in filter
+   * @return filter ready for use with Galen
+   */
+  public static SectionFilter getSectionFilter(String... includeTags) {
+    List<String> tagList = new ArrayList<String>();
+    if (includeTags != null) {
+      Collections.addAll(tagList, includeTags);
+    }
+    return new SectionFilter(tagList, Collections.emptyList());
+  }
+
+  /**
    * Get tags from device as Galen {@link SectionFilter}.
    * @param device to get tags from
    * @return filter ready for use with Galen
@@ -110,15 +123,14 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Get tags from current device as Galen {@link SectionFilter}.
-   * @return current tags as Galen filter
+   * Get tags from current device as Galen {@link SectionFilter}. Empty filter when no device set.
+   * @return filter ready for use with Galen
    */
   public static SectionFilter getTags() {
-    List<String> tags = Collections.emptyList();
     if (getTestDevice() != null) {
-      tags = getTestDevice().getTags();
+      return getSectionFilter(getTestDevice());
     }
-    return new SectionFilter(tags, Collections.emptyList());
+    return getSectionFilter();
   }
 
   /**

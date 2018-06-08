@@ -4,6 +4,7 @@ package ${specRootPackageName};
 import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
 import static io.wcm.qa.galenium.galen.GalenLayoutChecker.handleLayoutReport;
 import static io.wcm.qa.galenium.galen.GalenHelperUtil.readSpec;
+import static io.wcm.qa.galenium.galen.GalenHelperUtil.getSectionFilter;
 
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.specs.page.CorrectionsRect;
@@ -31,7 +32,11 @@ public class ${classNameForSpec} {
   private Collection<String> tags = new ArrayList<>();</#if>
 
   private void checkSpec() {
-    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec());
+    checkSpec(null);
+  }
+  
+  private void checkSpec(String... includeTags) {
+    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec(), getSectionFilter(includeTags));
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
     handleLayoutReport(layoutReport, errorMessage, successMessage);
@@ -54,7 +59,14 @@ public class ${classNameForSpec} {
 </#if>
 
   public static void check() {
-    new ${classNameForSpec}().checkSpec();
+    instance().checkSpec();
   }
 
+  public static void check(String... tags) {
+    instance().checkSpec(tags);
+  }
+
+  private static ${classNameForSpec} instance() {
+    return new ${classNameForSpec}();
+  }
 }
