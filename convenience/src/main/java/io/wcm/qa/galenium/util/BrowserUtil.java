@@ -19,13 +19,16 @@
  */
 package io.wcm.qa.galenium.util;
 
-import static io.wcm.qa.galenium.util.BrowserType.CHROME;
-import static io.wcm.qa.galenium.util.BrowserType.FIREFOX;
-import static io.wcm.qa.galenium.util.BrowserType.IE;
+import static io.wcm.qa.galenium.device.BrowserType.CHROME;
+import static io.wcm.qa.galenium.device.BrowserType.FIREFOX;
+import static io.wcm.qa.galenium.device.BrowserType.IE;
 
 import org.openqa.selenium.Dimension;
 
 import com.galenframework.utils.GalenUtils;
+
+import io.wcm.qa.galenium.device.BrowserType;
+import io.wcm.qa.galenium.device.TestDevice;
 
 /**
  * Collection of utility methods when dealing with browsers.

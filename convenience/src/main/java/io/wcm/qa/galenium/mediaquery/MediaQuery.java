@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2014 - 2016 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,36 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.mediaquery;
 
-/**
- * Run modes are set externally to enable running in different scenarios.
- */
-public enum RunMode {
 
-  /**
-   * Run a subset of tests to facilitate fast turnover during development.
-   */
-  DEV("dev"),
-  /**
-   * Run tests locally.
-   */
-  LOCAL("local"),
-  /**
-   * Run tests on remote grid.
-   */
-  REMOTE("remote");
+public interface MediaQuery {
 
-  private final String mRunMode;
+  String getName();
+  int getLowerBound();
+  int getUpperBound();
 
-  RunMode(String pRunMode) {
-    this.mRunMode = pRunMode;
-  }
-
-  /**
-   * @return string representation of run mode.
-   */
-  public String getRunMode() {
-    return mRunMode;
-  }
 }

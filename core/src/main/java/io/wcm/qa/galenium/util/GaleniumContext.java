@@ -29,6 +29,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;

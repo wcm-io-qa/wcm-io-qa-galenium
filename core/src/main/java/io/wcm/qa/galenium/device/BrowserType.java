@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2014 - 2016 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
-
-import io.wcm.qa.galenium.device.BrowserType;
-import io.wcm.qa.galenium.device.TestDevice;
-import io.wcm.qa.galenium.util.GaleniumContext;
+package io.wcm.qa.galenium.device;
 
 /**
- * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
+ * Browser types that can be used with Galenium.
  */
-public class BrowserDifference implements Difference {
+public enum BrowserType {
+  /** Chrome */
+  CHROME("chrome"),
+  /** Firefox */
+  FIREFOX("firefox"),
+  /** Internet Explorer */
+  IE("ie");
 
-  @Override
-  public String getName() {
-    return "browser";
+  private final String mBrowser;
+
+  BrowserType(String pBrowser) {
+    this.mBrowser = pBrowser;
   }
 
-  @Override
-  public String getTag() {
-    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
+  /**
+   * @return string representation of browser type to feed to Selenium
+   */
+  public String getBrowser() {
+    return mBrowser;
   }
-
 }

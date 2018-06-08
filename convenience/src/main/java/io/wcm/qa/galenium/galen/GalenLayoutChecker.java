@@ -48,11 +48,11 @@ import com.galenframework.validation.ValidationListener;
 import com.galenframework.validation.ValidationObject;
 import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via {@link GaleniumContext}.

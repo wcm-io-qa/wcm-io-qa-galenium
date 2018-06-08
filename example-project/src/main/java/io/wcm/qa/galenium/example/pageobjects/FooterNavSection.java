@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import io.wcm.qa.galenium.selectors.SelectorFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.galenium.selectors.SelectorFactory;
 
 
 /**

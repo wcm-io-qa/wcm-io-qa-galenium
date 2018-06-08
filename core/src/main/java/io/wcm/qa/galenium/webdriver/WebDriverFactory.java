@@ -36,10 +36,10 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.selenium.RunMode;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.util.RunMode;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Static factory methods for use by {@link WebDriverManager}.

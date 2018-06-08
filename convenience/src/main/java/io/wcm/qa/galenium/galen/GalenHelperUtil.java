@@ -42,13 +42,13 @@ import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Helper methods for dealing with Galen.

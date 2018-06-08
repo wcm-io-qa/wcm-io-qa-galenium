@@ -21,13 +21,13 @@ package io.wcm.qa.galenium.example;
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Aem;
 import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Abstract base class for common functionality needed by multiple tests.

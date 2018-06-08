@@ -22,8 +22,8 @@ package io.wcm.qa.galenium.example;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.util.BrowserUtil;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Example for pure Selenium test based on Galenium.

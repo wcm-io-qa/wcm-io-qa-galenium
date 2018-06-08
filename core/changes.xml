@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.14" date="not released yet">
+      <action type="add" dev="apegam">
+        Media query concept with data provider support.
+      </action>
       <action type="update" dev="apegam">
         Update dependencies.
       </action>

@@ -36,9 +36,9 @@ import org.testng.xml.XmlSuite;
 
 import com.relevantcodes.extentreports.LogStatus;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**

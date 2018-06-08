@@ -19,9 +19,8 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-import io.wcm.qa.galenium.sampling.differences.Difference;
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * {@link TestDevice} based {@link Difference}.

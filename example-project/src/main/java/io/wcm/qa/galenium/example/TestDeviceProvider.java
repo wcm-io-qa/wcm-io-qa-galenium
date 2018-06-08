@@ -27,9 +27,9 @@ import java.util.List;
 import org.openqa.selenium.Dimension;
 import org.testng.annotations.DataProvider;
 
-import io.wcm.qa.galenium.util.BrowserType;
+import io.wcm.qa.galenium.device.BrowserType;
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Test device provider to be used as {@link DataProvider} for tests.

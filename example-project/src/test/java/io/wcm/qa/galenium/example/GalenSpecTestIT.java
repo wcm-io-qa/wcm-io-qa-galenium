@@ -24,8 +24,8 @@ import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.

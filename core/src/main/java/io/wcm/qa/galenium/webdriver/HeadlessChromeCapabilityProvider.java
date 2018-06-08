@@ -24,9 +24,9 @@ import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAdditionalChromeH
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
-import io.wcm.qa.galenium.util.TestDevice;
 
 class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
 

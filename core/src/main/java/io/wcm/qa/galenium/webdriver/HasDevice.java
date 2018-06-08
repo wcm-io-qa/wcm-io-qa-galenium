@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import io.wcm.qa.galenium.util.TestDevice;
+import io.wcm.qa.galenium.device.TestDevice;
 
 /**
  * Used to mark tests which have an associated test device.

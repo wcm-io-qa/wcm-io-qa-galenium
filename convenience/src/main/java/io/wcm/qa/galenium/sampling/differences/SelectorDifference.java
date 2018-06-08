@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-import io.wcm.qa.galenium.sampling.differences.StringDifference;
 import io.wcm.qa.galenium.selectors.Selector;
 
 /**

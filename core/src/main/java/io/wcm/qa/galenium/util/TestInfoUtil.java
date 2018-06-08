@@ -40,6 +40,7 @@ import com.galenframework.reports.nodes.ReportExtra;
 import com.galenframework.reports.nodes.TestReportNode;
 import com.relevantcodes.extentreports.ExtentTest;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.webdriver.HasDevice;
 

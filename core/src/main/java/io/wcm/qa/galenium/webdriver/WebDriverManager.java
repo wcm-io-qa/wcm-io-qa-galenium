@@ -35,11 +35,11 @@ import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Utility class to manage thread safe WebDriver instances.

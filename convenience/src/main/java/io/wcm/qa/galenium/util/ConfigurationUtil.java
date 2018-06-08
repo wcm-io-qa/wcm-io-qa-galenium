@@ -73,7 +73,11 @@ public class ConfigurationUtil {
     }
   }
 
-  public static void loadProperties(Properties properties, String filePath) {
+  public static Properties loadProperties(String filePath) {
+    return loadProperties(new Properties(), filePath);
+  }
+
+  public static Properties loadProperties(Properties properties, String filePath) {
     try {
       File propertiesFile = new File(filePath);
       if (propertiesFile.exists() && propertiesFile.isFile()) {
@@ -95,5 +99,6 @@ public class ConfigurationUtil {
     catch (IOException ex) {
       getLogger().debug(MARKER_ERROR, "Could not initialize properties: '" + filePath + "'", ex);
     }
+    return properties;
   }
 }

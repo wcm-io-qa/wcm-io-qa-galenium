@@ -25,6 +25,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.example.pageobjects.Footer;
 import io.wcm.qa.galenium.example.pageobjects.FooterNavSection;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
@@ -34,7 +35,6 @@ import io.wcm.qa.galenium.example.pageobjects.NavigationTopLevelEntry;
 import io.wcm.qa.galenium.example.pageobjects.Stage;
 import io.wcm.qa.galenium.interaction.Aem;
 import io.wcm.qa.galenium.listeners.RetryAnalyzer;
-import io.wcm.qa.galenium.util.TestDevice;
 
 /**
  * Showcase page object approach.

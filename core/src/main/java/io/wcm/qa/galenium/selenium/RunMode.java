@@ -17,29 +17,36 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.selenium;
 
 /**
- * Browser types that can be used with Galenium.
+ * Run modes are set externally to enable running in different scenarios.
  */
-public enum BrowserType {
-  /** Chrome */
-  CHROME("chrome"),
-  /** Firefox */
-  FIREFOX("firefox"),
-  /** Internet Explorer */
-  IE("ie");
+public enum RunMode {
 
-  private final String mBrowser;
+  /**
+   * Run a subset of tests to facilitate fast turnover during development.
+   */
+  DEV("dev"),
+  /**
+   * Run tests locally.
+   */
+  LOCAL("local"),
+  /**
+   * Run tests on remote grid.
+   */
+  REMOTE("remote");
 
-  BrowserType(String pBrowser) {
-    this.mBrowser = pBrowser;
+  private final String mRunMode;
+
+  RunMode(String pRunMode) {
+    this.mRunMode = pRunMode;
   }
 
   /**
-   * @return string representation of browser type to feed to Selenium
+   * @return string representation of run mode.
    */
-  public String getBrowser() {
-    return mBrowser;
+  public String getRunMode() {
+    return mRunMode;
   }
 }

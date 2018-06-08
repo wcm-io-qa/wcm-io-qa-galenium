@@ -26,9 +26,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
+
+import io.wcm.qa.galenium.device.BrowserType;
+import io.wcm.qa.galenium.selenium.RunMode;
 
 /**
  * Central place to integrate test run and environment configuration from Maven et al.
@@ -41,6 +45,7 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
   private static final String DEFAULT_EXPECTED_TEXTS_FILE = "./src/test/resources/galen/specs/expectedTexts.properties";
   private static final String DEFAULT_GRID_PORT = "4444";
+  private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/specs";
 
@@ -59,6 +64,9 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_MIN_WIDTH = "galenium.mediaquery.minWidth";
   private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
@@ -466,6 +474,81 @@ public final class GaleniumConfiguration {
    */
   public static String getHttpUser() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_USER);
+  }
+
+  /**
+   * Path to media query definitions.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.properties
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * ./target/test-classes/mediaqueries.properties
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return path to {@link Properties} file containing media query definitions
+   */
+  public static String getMediaQueryPropertiesPath() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES, DEFAULT_MEDIA_QUERY_PATH);
+  }
+
+  /**
+   * Height to use when instantiating devices using media queries.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.height
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 800
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return height for use with device creation
+   */
+  public static Integer getMediaQueryHeight() {
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT, 800);
+  }
+
+  /**
+   * Height to use when instantiating devices using media queries.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.minWidth
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 240
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return minimal width to use with media query instantiation
+   */
+  public static Integer getMediaQueryMinimalWidth() {
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_MIN_WIDTH, 240);
   }
 
   /**

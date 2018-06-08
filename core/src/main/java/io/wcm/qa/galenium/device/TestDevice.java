@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.device;
 
 import java.util.List;
 
@@ -41,7 +41,16 @@ public class TestDevice {
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
-   * @param tags Galen tag
+   */
+  public TestDevice(String name, BrowserType browserType, Dimension screenSize) {
+    this(name, browserType, screenSize, null, null);
+  }
+
+  /**
+   * @param name for display
+   * @param browserType browser
+   * @param screenSize size when not in emulator mode
+   * @param tags Galen tags
    * @param chromeEmulator emulator like in Device-combobox
    */
   public TestDevice(String name, BrowserType browserType, Dimension screenSize, List<String> tags, String chromeEmulator) {
