@@ -86,13 +86,16 @@ public final class MediaQueryUtil {
 
   public static MediaQueryInstance getMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
     if (lowerBound < MIN_WIDTH) {
-      throw new GaleniumException("MediaQuery: illegal lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + MIN_WIDTH);
+      throw new GaleniumException("MediaQuery: illegally low lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + MIN_WIDTH);
+    }
+    if (upperBound < MIN_WIDTH) {
+      throw new GaleniumException("MediaQuery: illegally low upper bound for '" + mediaQueryName + "': " + upperBound + " < " + MIN_WIDTH);
     }
     if (upperBound > MAX_WIDTH) {
-      throw new GaleniumException("MediaQuery: illegal upper bound for '" + mediaQueryName + "': " + upperBound + " < " + MAX_WIDTH);
+      throw new GaleniumException("MediaQuery: illegally high upper bound for '" + mediaQueryName + "': " + upperBound + " > " + MAX_WIDTH);
     }
     if (lowerBound > upperBound) {
-      throw new GaleniumException("illegal media query lower and upper bound parameters for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
+      throw new GaleniumException("illegal media query lower and upper bound combination for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
     }
     return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
   }
