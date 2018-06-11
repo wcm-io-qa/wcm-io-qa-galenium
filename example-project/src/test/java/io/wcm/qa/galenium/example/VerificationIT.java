@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
-import io.wcm.qa.galenium.listeners.RetryAnalyzer;
+import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.selectors.Selector;
@@ -56,12 +56,12 @@ public class VerificationIT extends AbstractExampleBase {
       ".navlist-main a.navlink-main[href$='" + PATH_TO_HOMEPAGE + "'");
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public VerificationIT(TestDevice testDevice) {
     super(testDevice);
   }
 
-  @Test(groups = "dev", retryAnalyzer = RetryAnalyzer.class)
+  @Test(groups = "dev")
   public void verificationTest() {
     loadStartUrl();
     verify(new CurrentUrlVerification("Homepage"), new PageTitleVerification("Homepage"), new LogoVerification(),

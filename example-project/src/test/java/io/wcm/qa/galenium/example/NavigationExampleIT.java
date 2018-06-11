@@ -23,6 +23,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.util.BrowserUtil;
 
 /**
@@ -30,7 +31,7 @@ import io.wcm.qa.galenium.util.BrowserUtil;
  */
 public class NavigationExampleIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public NavigationExampleIT(TestDevice testDevice) {
     super(testDevice);
   }

@@ -34,7 +34,7 @@ import io.wcm.qa.galenium.example.pageobjects.Navigation;
 import io.wcm.qa.galenium.example.pageobjects.NavigationTopLevelEntry;
 import io.wcm.qa.galenium.example.pageobjects.Stage;
 import io.wcm.qa.galenium.interaction.Aem;
-import io.wcm.qa.galenium.listeners.RetryAnalyzer;
+import io.wcm.qa.galenium.providers.TestDeviceProvider;
 
 /**
  * Showcase page object approach.
@@ -43,7 +43,7 @@ public class PageObjectExampleIT extends AbstractExampleBase {
 
   private Homepage homepage;
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public PageObjectExampleIT(TestDevice testDevice) {
     super(testDevice);
   }
@@ -56,7 +56,7 @@ public class PageObjectExampleIT extends AbstractExampleBase {
     }
   }
 
-  @Test(retryAnalyzer = RetryAnalyzer.class)
+  @Test
   public void testWithPageObjects() {
     Aem.loginToAuthor(getHomepage().getPageUrl());
     checkNavigation();

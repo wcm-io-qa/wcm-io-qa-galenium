@@ -25,6 +25,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
@@ -36,7 +37,7 @@ public class GalenSpecTestIT extends AbstractExampleBase {
       + "/conference.gspec";
   private static final String SPEC_PATH_FOR_HOMEPAGE = GaleniumConfiguration.getGalenSpecPath() + "/homepage.gspec";
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
   }

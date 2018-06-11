@@ -27,6 +27,7 @@ import com.galenframework.speclang2.pagespec.SectionFilter;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
+import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
@@ -42,7 +43,7 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
   private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
   private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = "devices")
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public ImageComparisonExampleIT(TestDevice testDevice) {
     super(testDevice);
   }
