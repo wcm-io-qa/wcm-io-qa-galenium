@@ -39,6 +39,7 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 public final class MediaQueryUtil {
 
   private static final int MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
+  private static final int MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
 
   private MediaQueryUtil() {
     // do not instantiate
@@ -70,7 +71,8 @@ public final class MediaQueryUtil {
     for (Entry<Integer, String> entry : entrySet) {
       String mediaQueryName = entry.getValue();
       int upperBound = entry.getKey();
-      mediaQueries.add(new MediaQueryInstance(mediaQueryName, lowerBound, upperBound));
+      MediaQueryInstance mediaQuery = getMediaQuery(mediaQueryName, lowerBound, upperBound);
+      mediaQueries.add(mediaQuery);
       lowerBound = upperBound + 1;
     }
     if (getLogger().isDebugEnabled()) {
@@ -80,6 +82,19 @@ public final class MediaQueryUtil {
       }
     }
     return mediaQueries;
+  }
+
+  public static MediaQueryInstance getMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
+    if (lowerBound < MIN_WIDTH) {
+      throw new GaleniumException("MediaQuery: illegal lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + MIN_WIDTH);
+    }
+    if (upperBound > MAX_WIDTH) {
+      throw new GaleniumException("MediaQuery: illegal upper bound for '" + mediaQueryName + "': " + upperBound + " < " + MAX_WIDTH);
+    }
+    if (lowerBound > upperBound) {
+      throw new GaleniumException("illegal media query lower and upper bound parameters for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
+    }
+    return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
   }
 
   public static Collection<MediaQuery> getMediaQueries(String propertyFilePath) {

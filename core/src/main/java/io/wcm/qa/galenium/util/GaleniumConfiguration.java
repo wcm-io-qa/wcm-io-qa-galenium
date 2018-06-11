@@ -66,7 +66,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
-  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_MIN_WIDTH = "galenium.mediaquery.minWidth";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN = "galenium.mediaquery.width.min";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
   private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
@@ -532,7 +533,7 @@ public final class GaleniumConfiguration {
    * <li>Key:
    *
    * <pre>
-   * galenium.mediaquery.minWidth
+   * galenium.mediaquery.width.max
    * </pre>
    *
    * </li>
@@ -540,7 +541,32 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * 240
+   * 2000
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return minimal width to use with media query instantiation
+   */
+  public static Integer getMediaQueryMaximalWidth() {
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX, 2000);
+  }
+
+  /**
+   * Height to use when instantiating devices using media queries.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.width.min
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 320
    * </pre>
    *
    * </li>
@@ -548,7 +574,7 @@ public final class GaleniumConfiguration {
    * @return minimal width to use with media query instantiation
    */
   public static Integer getMediaQueryMinimalWidth() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_MIN_WIDTH, 240);
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN, 320);
   }
 
   /**

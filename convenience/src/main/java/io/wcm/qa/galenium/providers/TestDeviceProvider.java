@@ -37,12 +37,23 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public final class TestDeviceProvider {
 
-  public static final String GALENIUM_TEST_DEVICES = "galenium.testdevices.all";
   public static final String GALENIUM_SINGLE_TEST_DEVICE = "galenium.testdevices.single";
+  public static final String GALENIUM_TEST_DEVICES = "galenium.testdevices.all";
   private static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
+  private static final String MEDIA_QUERY_TAG_PREFIX = "MQ_";
 
   private TestDeviceProvider() {
     // do not instantiate
+  }
+
+  /**
+   * @return first of the configured test devices
+   */
+  public static List<Object> getSingleTestDevice() {
+    Object testDevices = getTestDevices();
+    Object firstDevice = CollectionUtils.get(testDevices, 0);
+    List<Object> singleDeviceList = Collections.singletonList(firstDevice);
+    return singleDeviceList;
   }
 
   /**
@@ -52,7 +63,7 @@ public final class TestDeviceProvider {
     Collection<TestDevice> testDevices = new ArrayList<>();
     for (MediaQuery mediaQuery : MediaQueryUtil.getMediaQueries()) {
       for (BrowserType browserType : GaleniumConfiguration.getBrowserTypes()) {
-        TestDevice testDevice = getTestDevice(browserType, mediaQuery);
+        TestDevice testDevice = getTestDeviceForUpperBound(browserType, mediaQuery);
         testDevices.add(testDevice);
       }
     }
@@ -68,33 +79,33 @@ public final class TestDeviceProvider {
     return TestNgProviderUtil.combine(singleDeviceList);
   }
 
-  /**
-   * @return first of the configured test devices
-   */
-  public static List<Object> getSingleTestDevice() {
-    Object testDevices = getTestDevices();
-    Object firstDevice = CollectionUtils.get(testDevices, 0);
-    List<Object> singleDeviceList = Collections.singletonList(firstDevice);
-    return singleDeviceList;
-  }
-
   @DataProvider(name = GALENIUM_TEST_DEVICES)
   public static Object[][] provideTestDevices() {
     return TestNgProviderUtil.combine(getTestDevices());
   }
 
-  private static String getDeviceName(BrowserType browserType, MediaQuery mediaQuery) {
-    return browserType.name() + "_" + mediaQuery.getLowerBound();
+  private static String getDeviceName(BrowserType browserType, int screenWidth) {
+    return browserType.name() + "_" + screenWidth;
   }
 
-  private static Dimension getScreenSize(MediaQuery mediaQuery) {
-    return new Dimension(mediaQuery.getLowerBound(), MEDIA_QUERY_HEIGHT);
+  private static Dimension getScreenSize(int width) {
+    return new Dimension(width, MEDIA_QUERY_HEIGHT);
   }
 
-  private static TestDevice getTestDevice(BrowserType browserType, MediaQuery mediaQuery) {
-    String name = getDeviceName(browserType, mediaQuery);
-    Dimension screenSize = getScreenSize(mediaQuery);
-    return new TestDevice(name, browserType, screenSize);
+  private static TestDevice getTestDevice(BrowserType browserType, String mediaQueryName, int width) {
+    String name = getDeviceName(browserType, width);
+    Dimension screenSize = getScreenSize(width);
+    List<String> tags = new ArrayList<>();
+    tags.add(MEDIA_QUERY_TAG_PREFIX + mediaQueryName);
+    tags.add(browserType.name());
+    TestDevice testDevice = new TestDevice(name, browserType, screenSize, tags, null);
+    return testDevice;
+  }
+
+  private static TestDevice getTestDeviceForUpperBound(BrowserType browserType, MediaQuery mediaQuery) {
+    int upperBound = mediaQuery.getUpperBound();
+    String mediaQueryName = mediaQuery.getName();
+    return getTestDevice(browserType, mediaQueryName, upperBound);
   }
 
 
