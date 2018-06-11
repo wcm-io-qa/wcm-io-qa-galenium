@@ -40,7 +40,6 @@ public final class TestDeviceProvider {
   public static final String GALENIUM_SINGLE_TEST_DEVICE = "galenium.testdevices.single";
   public static final String GALENIUM_TEST_DEVICES = "galenium.testdevices.all";
   private static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
-  private static final String MEDIA_QUERY_TAG_PREFIX = "MQ_";
 
   private TestDeviceProvider() {
     // do not instantiate
@@ -96,7 +95,7 @@ public final class TestDeviceProvider {
     String name = getDeviceName(browserType, width);
     Dimension screenSize = getScreenSize(width);
     List<String> tags = new ArrayList<>();
-    tags.add(MEDIA_QUERY_TAG_PREFIX + mediaQueryName);
+    tags.add(mediaQueryName);
     tags.add(browserType.name());
     TestDevice testDevice = new TestDevice(name, browserType, screenSize, tags, null);
     return testDevice;
