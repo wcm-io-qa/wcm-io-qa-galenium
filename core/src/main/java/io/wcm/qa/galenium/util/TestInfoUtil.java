@@ -49,7 +49,7 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
  */
 public final class TestInfoUtil {
 
-  private static final String EXTENT_CATEGORY_PREFIX_BREAKPOINTS = System.getProperty("galenium.extent.category.breakpoints", "");
+  private static final String EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES = System.getProperty("galenium.extent.category.mediaquery", "");
   private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
   private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
 
@@ -73,10 +73,8 @@ public final class TestInfoUtil {
     }
 
     List<String> breakPoints = getBreakPoint(result);
-    if (breakPoints != null) {
-      for (String breakPoint : breakPoints) {
-        test.assignCategory(EXTENT_CATEGORY_PREFIX_BREAKPOINTS + breakPoint);
-      }
+    for (String breakPoint : breakPoints) {
+      test.assignCategory(EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES + breakPoint);
     }
   }
 

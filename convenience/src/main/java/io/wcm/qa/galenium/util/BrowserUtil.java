@@ -23,10 +23,6 @@ import static io.wcm.qa.galenium.device.BrowserType.CHROME;
 import static io.wcm.qa.galenium.device.BrowserType.FIREFOX;
 import static io.wcm.qa.galenium.device.BrowserType.IE;
 
-import org.openqa.selenium.Dimension;
-
-import com.galenframework.utils.GalenUtils;
-
 import io.wcm.qa.galenium.device.BrowserType;
 import io.wcm.qa.galenium.device.TestDevice;
 
@@ -40,15 +36,6 @@ public final class BrowserUtil {
   }
 
   /**
-   * Turn Galen syntax size string into Selenium {@link Dimension}.
-   * @param size to parse
-   * @return Selenium representation of size
-   */
-  public static Dimension getDimension(String size) {
-    return new Dimension(GalenUtils.readSize(size).width, GalenUtils.readSize(size).height);
-  }
-
-  /**
    * @return whether current browser is Chrome
    */
   public static boolean isChrome() {
@@ -56,17 +43,17 @@ public final class BrowserUtil {
   }
 
   /**
-   * @return whether current browser is Internet Explorer
-   */
-  public static boolean isInternetExplorer() {
-    return isBrowser(IE);
-  }
-
-  /**
    * @return whether current browser is Firefox
    */
   public static boolean isFirefox() {
     return isBrowser(FIREFOX);
+  }
+
+  /**
+   * @return whether current browser is Internet Explorer
+   */
+  public static boolean isInternetExplorer() {
+    return isBrowser(IE);
   }
 
   private static boolean isBrowser(BrowserType browserType) {

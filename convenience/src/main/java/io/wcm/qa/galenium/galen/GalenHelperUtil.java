@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.openqa.selenium.Dimension;
+
 import com.galenframework.browser.Browser;
 import com.galenframework.browser.SeleniumBrowser;
 import com.galenframework.page.Page;
@@ -41,6 +43,7 @@ import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
+import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
@@ -62,6 +65,16 @@ public final class GalenHelperUtil {
 
   private GalenHelperUtil() {
     // do not instantiate
+  }
+
+  /**
+   * Turn Galen syntax size string into Selenium {@link Dimension}.
+   * @param size to parse
+   * @return Selenium representation of size
+   */
+  public static Dimension getDimension(String size) {
+    java.awt.Dimension parsedSize = GalenUtils.readSize(size);
+    return new Dimension(parsedSize.width, parsedSize.height);
   }
 
   public static Browser getBrowser() {

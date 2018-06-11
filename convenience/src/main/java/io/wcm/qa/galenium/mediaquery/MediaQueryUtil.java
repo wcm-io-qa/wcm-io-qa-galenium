@@ -29,17 +29,20 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 public final class MediaQueryUtil {
 
   private static final int MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
   private static final int MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
+  private static final MediaQuery DEFAULT_MEDIA_QUERY = getMediaQuery("DEFAULT_MQ", MIN_WIDTH, MAX_WIDTH);
 
   private MediaQueryUtil() {
     // do not instantiate
@@ -98,6 +101,18 @@ public final class MediaQueryUtil {
       throw new GaleniumException("illegal media query lower and upper bound combination for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
     }
     return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
+  }
+
+  public static MediaQuery getCurrentMediaQuery() {
+    WebDriver driver = GaleniumContext.getDriver();
+    if (driver == null) {
+      return DEFAULT_MEDIA_QUERY;
+    }
+    //    if ()
+    Collection<MediaQuery> mediaQueries = getMediaQueries();
+    MediaQuery mediaQuery = null;
+
+    return mediaQuery;
   }
 
   public static Collection<MediaQuery> getMediaQueries(String propertyFilePath) {
