@@ -84,7 +84,7 @@
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
+      <artifactId>io.wcm.qa.galenium.maven-plugin</artifactId>
       <version>0.1.13-SNAPSHOT</version>
     </dependency>
 
@@ -255,7 +255,7 @@
         <plugins>
           <plugin>
             <groupId>io.wcm.qa</groupId>
-            <artifactId>io.wcm.qa.galenium.galen-specs</artifactId>
+            <artifactId>io.wcm.qa.galenium.maven-plugin</artifactId>
             <version>0.1.13-SNAPSHOT</version>
             <configuration>
               <packageRootName>io.wcm.qa.galenium.example.selectors</packageRootName>
