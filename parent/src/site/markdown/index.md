@@ -2,7 +2,7 @@
 
 Selenium Galen Integration
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.galenium/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.galenium)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.convenience/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.convenience)
 
 
 ### Documentation

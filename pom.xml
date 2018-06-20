@@ -21,14 +21,12 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.12</version>
+    <version>0.1.14</version>
     <relativePath>parent/pom.xml</relativePath>
   </parent>
 
-  <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.root</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.12</version>
 
   <name>Galenium Root</name>
   <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
@@ -43,10 +41,11 @@
   
   <modules>
     <module>parent</module>
-    <module>galenium</module>
-    <module>example-project</module>
+    <module>core</module>
+    <module>convenience</module>
+    <module>examples</module>
     <module>logging</module>
-    <module>galenium-maven-plugin</module>
+    <module>maven-plugin</module>
   </modules>
 
   <build>

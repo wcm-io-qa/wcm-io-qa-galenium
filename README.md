@@ -7,4 +7,5 @@ This project is an attempt to integrate Galen with Selenium and the other way ar
 To get an idea how it works, take a look at the [example project] and contained test examples. There's more documentation in the actual [Galenium integration library].
 
 [example project]: example-project
-[Galenium integration library]: galenium
+[Galenium integration library core]: core
+[Galenium integration convenience layer]: convenience
