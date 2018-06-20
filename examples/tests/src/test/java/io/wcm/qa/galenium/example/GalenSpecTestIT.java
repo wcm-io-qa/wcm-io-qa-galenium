@@ -19,23 +19,18 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
-
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.specs.Conference;
+import io.wcm.qa.galenium.specs.Homepage;
 
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
-
-  private static final String SPEC_PATH_FOR_CONFERENCE_PAGE = GaleniumConfiguration.getGalenSpecPath()
-      + "/conference.gspec";
-  private static final String SPEC_PATH_FOR_HOMEPAGE = GaleniumConfiguration.getGalenSpecPath() + "/homepage.gspec";
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public GalenSpecTestIT(TestDevice testDevice) {
@@ -48,14 +43,14 @@ public class GalenSpecTestIT extends AbstractExampleBase {
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
-    checkLayout("Conference Page", SPEC_PATH_FOR_CONFERENCE_PAGE);
+    Conference.check();
   }
 
   @Test
   public void checkHomepageWithGalenSpec() {
     getLogger().info("Testing Homepage");
     loadStartUrl();
-    checkLayout("Homepage", SPEC_PATH_FOR_HOMEPAGE);
+    Homepage.check();
   }
 
   @Override
