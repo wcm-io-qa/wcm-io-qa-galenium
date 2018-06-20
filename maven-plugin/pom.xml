@@ -4,13 +4,13 @@
   <parent>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <groupId>io.wcm.qa</groupId>
-    <version>0.1.13-SNAPSHOT</version>
+    <version>0.1.15-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.maven-plugin</artifactId>
-  <version>0.1.13-SNAPSHOT</version>
+  <version>0.1.15-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Galenium Galen Specs Maven Plugin</name>
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
+      <version>0.1.15-SNAPSHOT</version>
     </dependency>
     
   </dependencies>
