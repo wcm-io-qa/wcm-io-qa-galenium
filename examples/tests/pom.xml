@@ -17,9 +17,7 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -33,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.example.tests</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.13-SNAPSHOT</version>
+  <version>0.1.14-SNAPSHOT</version>
   <description>Test automation example tests.</description>
 
   <properties>
@@ -70,7 +68,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
+      <version>0.1.14-SNAPSHOT</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -81,12 +79,12 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
+      <version>0.1.14-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
+      <version>0.1.14-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
