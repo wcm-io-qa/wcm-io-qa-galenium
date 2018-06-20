@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.example.tests</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.14-SNAPSHOT</version>
+  <version>0.1.14</version>
   <description>Test automation example tests.</description>
 
   <properties>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-      <version>0.1.14-SNAPSHOT</version>
+      <version>0.1.14</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -79,12 +79,12 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.14-SNAPSHOT</version>
+      <version>0.1.14</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
-      <version>0.1.14-SNAPSHOT</version>
+      <version>0.1.14</version>
     </dependency>
 
   </dependencies>

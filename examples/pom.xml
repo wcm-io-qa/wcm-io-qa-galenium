@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.14-SNAPSHOT</version>
+  <version>0.1.14</version>
   <description>Test automation examples.</description>
 
   <modules>
