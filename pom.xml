@@ -43,7 +43,7 @@
     <module>parent</module>
     <module>core</module>
     <module>convenience</module>
-    <module>example-project</module>
+    <module>examples</module>
     <module>logging</module>
     <module>maven-plugin</module>
   </modules>

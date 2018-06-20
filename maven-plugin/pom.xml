@@ -49,7 +49,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
-          <goalPrefix>io.wcm.qa.galenium.maven-plugin</goalPrefix>
+          <goalPrefix>io.wcm.qa.galenium.</goalPrefix>
         </configuration>
       </plugin>
     </plugins>

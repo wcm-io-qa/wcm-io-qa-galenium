@@ -27,12 +27,12 @@
     <relativePath />
   </parent>
 
-  <name>Galenium Example</name>
+  <name>Galenium Example Specs</name>
   <groupId>io.wcm.qa</groupId>
-  <artifactId>io.wcm.qa.galenium.example</artifactId>
+  <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
   <packaging>jar</packaging>
   <version>0.1.13-SNAPSHOT</version>
-  <description>Test automation example.</description>
+  <description>Test automation example Galen specs.</description>
 
   <properties>
 
