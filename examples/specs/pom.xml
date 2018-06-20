@@ -17,7 +17,9 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -35,53 +37,15 @@
   <description>Test automation example Galen specs.</description>
 
   <properties>
-
-    <!-- Selenium configuration -->
-    <selenium.browser>chrome,firefox</selenium.browser>
-    <selenium.runmode>local</selenium.runmode>
-
-    <!-- TestNG configuration -->
-    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
-      http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
-    <testng.groups />
-
     <integrationtests.skip>true</integrationtests.skip>
-
-    <!-- compiler settings -->
-    <build.compiler.source>1.8</build.compiler.source>
-    <build.compiler.target>1.8</build.compiler.target>
-
-    <!-- needed by the maven-failsafe-plugin -->
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
     <!-- Galenium -->
-    <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
-    <galenium.retryMax>0</galenium.retryMax>
+    <galenium.specPath>${project.basedir}/src/test/resources/galen/specs</galenium.specPath>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
-    <galenium.ignoreVerification>false</galenium.ignoreVerification>
-    <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
-
-    <io.wcm.qa.galenium.example.sourceDir>${basedir}/src/main/java</io.wcm.qa.galenium.example.sourceDir>
+    <io.wcm.qa.galenium.example.sourceDir>${project.build.directory}/generated-sources</io.wcm.qa.galenium.example.sourceDir>
   </properties>
 
   <dependencies>
 
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-simple</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.13-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.maven-plugin</artifactId>
@@ -107,7 +71,7 @@
           </excludes>
         </configuration>
       </plugin>
-      
+
       <!-- do not deploy this example into maven repository -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -125,236 +89,114 @@
           <skipDeploy>true</skipDeploy>
         </configuration>
       </plugin>
-      
-    </plugins>
-  </build>
 
-  <profiles>
-  
-    <profile>
-      <id>example</id>
-      <properties>
-        <integrationtests.skip>false</integrationtests.skip>
-      </properties>
-      <build>
-        <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
 
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
+      <plugin>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.maven-plugin</artifactId>
+        <version>0.1.13-SNAPSHOT</version>
+        <configuration>
+          <packageRootName>io.wcm.qa.galenium.example.selectors</packageRootName>
+          <templateDirectory>${project.build.directory}/generated-resources/freemarker</templateDirectory>
+          <systemPropertyVariables>
+
+            <!-- Galenium -->
+            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+            <galenium.specPath>${galenium.specPath}</galenium.specPath>
+
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>specs</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>set-system-properties</goal>
+            </goals>
             <configuration>
-              <groups>${testNG.groups}</groups>
               <properties>
                 <property>
-                  <name>usedefaultlisteners</name>
-                  <value>false</value>
-                </property>
-                <property>
-                  <name>listener</name>
-                  <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+                  <name>galenium.report.extent.skip</name>
+                  <value>true</value>
                 </property>
               </properties>
-              <systemPropertyVariables>
-
-                <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
-
-                <!-- Galenium -->
-                <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-                <galenium.specPath>${galenium.specPath}</galenium.specPath>
-                <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
-                <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
-                <galenium.sampling.image.save>true</galenium.sampling.image.save>
-                <galenium.sampling.image.directory.expected>${galenium.specPath}/images</galenium.sampling.image.directory.expected>
-                <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
-                <galenium.sampling.text.save>true</galenium.sampling.text.save>
-                <galenium.sampling.text.directory>${project.build.directory}/sampled/texts</galenium.sampling.text.directory>
-                <galenium.sampling.text.file>${galenium.specPath}/text/expected.properties</galenium.sampling.text.file>
-                <galenium.sampling.verification.ignoreErrors>${galenium.ignoreVerification}</galenium.sampling.verification.ignoreErrors>
-
-                <!-- Galen -->
-                <galen.device>${galen.device}</galen.device>
-                <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
-
-                <!-- Selenium -->
-                <selenium.browser>${selenium.browser}</selenium.browser>
-                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-                <selenium.runmode>${selenium.runmode}</selenium.runmode>
-
-                <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
-                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-              </systemPropertyVariables>
-              <includes>
-                <include>**/*IT.java</include>
-              </includes>
             </configuration>
-          </plugin>
-
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-            <version>1.0.10</version>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-freemarker-resources</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <phase>generate-sources</phase>
             <configuration>
-              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
-              <checkFileHashes>false</checkFileHashes>
+              <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+              <includeArtifacIds>io.wcm.qa.galenium.galen-specs</includeArtifacIds>
+              <includes>**/*.ftlh</includes>
+              <excludeTransitive>true</excludeTransitive>
             </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>selenium</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>headless</id>
-      <build>
-        <plugins>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <testExcludes>**</testExcludes>
+          <includes>
+            <include>io/wcm/qa/galenium/example/selectors/**/*.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <skipIfEmpty>true</skipIfEmpty>
+          <classifier>selectors</classifier>
+          <excludes>*.xml</excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.revelc.code.formatter</groupId>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <version>2.7.2</version>
+        <executions>
+          <execution>
             <configuration>
-              <parallel>methods</parallel>
-              <threadCount>8</threadCount>
-              <groups>${testNG.groups}</groups>
-              <systemPropertyVariables>
-
-                <galenium.webdriver.chrome.headless>true</galenium.webdriver.chrome.headless>
-
-                <!-- Selenium -->
-                <selenium.browser>chrome</selenium.browser>
-                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-                <webdriver.chrome.logfile>chromedriver.log</webdriver.chrome.logfile>
-
-              </systemPropertyVariables>
-              <includes>
-                <include>**/*IT.java</include>
-              </includes>
+              <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
+              <testSourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</testSourceDirectory>
             </configuration>
-          </plugin>
-
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>galen-specs</id>
-      <properties>
-        <integrationtests.skip>true</integrationtests.skip>
-        <io.wcm.qa.galenium.example.sourceDir>${project.build.directory}/generated-sources</io.wcm.qa.galenium.example.sourceDir>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.wcm.qa</groupId>
-            <artifactId>io.wcm.qa.galenium.maven-plugin</artifactId>
-            <version>0.1.13-SNAPSHOT</version>
-            <configuration>
-              <packageRootName>io.wcm.qa.galenium.example.selectors</packageRootName>
-              <templateDirectory>${project.build.directory}/generated-resources/freemarker</templateDirectory>
-              <systemPropertyVariables>
-
-                <!-- Galenium -->
-                <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-                <galenium.specPath>${galenium.specPath}</galenium.specPath>
-
-              </systemPropertyVariables>
-            </configuration>
-            <executions>
-              <execution>
-                <phase>process-sources</phase>
-                <goals>
-                  <goal>specs</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>properties-maven-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>set-system-properties</goal>
-                </goals>
-                <configuration>
-                  <properties>
-                    <property>
-                      <name>galenium.report.extent.skip</name>
-                      <value>true</value>
-                    </property>
-                  </properties>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>unpack-freemarker-resources</id>
-                <goals>
-                  <goal>unpack-dependencies</goal>
-                </goals>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
-                  <includeArtifacIds>io.wcm.qa.galenium.galen-specs</includeArtifacIds>
-                  <includes>**/*.ftlh</includes>
-                  <excludeTransitive>true</excludeTransitive>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <testExcludes>**</testExcludes>
-              <includes>
-                <include>io/wcm/qa/galenium/example/selectors/**/*.java</include>
-              </includes>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <configuration>
-              <skipIfEmpty>true</skipIfEmpty>
-              <classifier>selectors</classifier>
-              <excludes>*.xml</excludes>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>net.revelc.code.formatter</groupId>
-            <artifactId>formatter-maven-plugin</artifactId>
-            <version>2.7.2</version>
-            <executions>
-              <execution>
-                <configuration>
-                  <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
-                  <testSourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</testSourceDirectory>
-                </configuration>
-                <goals>
-                  <goal>format</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-  </profiles>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
