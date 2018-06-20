@@ -25,8 +25,7 @@ import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Aem;
 import io.wcm.qa.galenium.interaction.Element;
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
+import io.wcm.qa.galenium.selectors.common.Navigation;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 
 /**
@@ -35,9 +34,6 @@ import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 public abstract class AbstractExampleBase extends AbstractGaleniumBase {
 
   private static final int CUTOFF_MOBILE_WIDTH = 601;
-  private static final Selector SELECTOR_NAV = SelectorFactory.fromCss("nav");
-  private static final Selector SELECTOR_NAV_LINK = SelectorFactory.fromCss("a.navlink-main");
-  private static final Selector SELECTOR_NAV_MENU_OPENER = SelectorFactory.fromCss("a.menu-opener");
   protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   protected static final String PATH_TO_HOMEPAGE = "/en.html";
 
@@ -54,7 +50,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   private void navShouldBeVisible() {
-    Element.findOrFail(SELECTOR_NAV);
+    Element.findOrFail(Navigation.SELF);
   }
 
   protected void assertRelativePath(String relativePath) {
@@ -63,7 +59,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   protected void clickConferenceNavLink() {
-    Element.clickByPartialText(SELECTOR_NAV_LINK, "conference");
+    Element.click(Navigation.LINK_TO_CONFERENCE);
   }
 
   protected abstract String getRelativePath();
@@ -87,8 +83,8 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   protected void openNav() {
     navShouldBeVisible();
     if (isMobile()) {
-      Element.click(SELECTOR_NAV_MENU_OPENER);
-      Element.findOrFail(SELECTOR_NAV_LINK);
+      Element.click(Navigation.MENU_OPENER);
+      Element.findOrFail(Navigation.LINK);
     }
   }
 

@@ -138,6 +138,7 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
+              <includeArtifactIds>io.wcm.qa.galenium.examples.specs</includeArtifactIds>
               <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
               <includes>**/*.gspec</includes>
               <excludeTransitive>true</excludeTransitive>

@@ -10,7 +10,7 @@
     public ${className(selector)}() {
       super("${selector.elementName()}", <@newLocator selector.asRelative().asLocator() />);
       setParent(${parentConstantName});    
-      setBy(By.cssSelector("${selector.asString()}"));    
+      setBy(By.cssSelector("${escapeJava(selector.asString())}"));    
     }
   
     <#list selector.children as child>
@@ -27,7 +27,7 @@
   public static final ${className(selector)} ${constantName(selector)} = new ${className(selector)}();
 </#macro>
 <#macro newLocator locator>
-new Locator("${locator.locatorType}", "${locator.locatorValue}", ${locator.index})
+new Locator("${locator.locatorType}", "${escapeJava(locator.locatorValue)}", ${locator.index})
      <#if locator.parent??>
      .withParent(<@newLocator locator.parent />)
      </#if>
@@ -61,18 +61,17 @@ public class ${className(this)} extends SelectorFromLocator {
 
   /** Special constant to access ${className(this)} as it is a root element. */
   public static final SelectorFromLocator SELF = new ${className(this)}();
+  <#list this.children as child>
+    <@constant child />
+  </#list>
 
   /**
    * Constructor.
    */
   public ${className(this)}() {
     super("${this.elementName()}", <@newLocator this.asRelative().asLocator() />);
-    setBy(By.cssSelector("${this.asString()}"));    
+    setBy(By.cssSelector("${escapeJava(this.asString())}"));    
   }
-  
-  <#list this.children as child>
-    <@constant child />
-  </#list>
 
   <#list this.children as child>
     <@innerClass child "SELF" />

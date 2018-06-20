@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.example.pageobjects.ConferencePage.PATH_TO_CONFERENCE;
 import static io.wcm.qa.galenium.util.VerificationUtil.verify;
 
 import org.testng.annotations.Factory;
@@ -30,8 +29,9 @@ import io.wcm.qa.galenium.example.pageobjects.Homepage;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
+import io.wcm.qa.galenium.selectors.common.Logo;
+import io.wcm.qa.galenium.selectors.common.Navigation;
+import io.wcm.qa.galenium.selectors.homepage.Stage;
 import io.wcm.qa.galenium.util.VerificationUtil;
 import io.wcm.qa.galenium.verification.CssClassVerification;
 import io.wcm.qa.galenium.verification.CurrentUrlVerification;
@@ -49,13 +49,6 @@ import io.wcm.qa.galenium.verification.base.Verification;
 public class VerificationIT extends AbstractExampleBase {
 
   private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";
-  private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
-  private static final Selector SELECTOR_NAV_LINK_CONFERENCE = SelectorFactory.fromCss("Navlink Conference",
-      ".navlist-main a.navlink-main[href$='" + PATH_TO_CONFERENCE + "'");
-  private static final Selector SELECTOR_NAV_LINK_HOME = SelectorFactory.fromCss("Navlink Home",
-      ".navlist-main a.navlink-main[href$='" + PATH_TO_HOMEPAGE + "'");
-  private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
-
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public VerificationIT(TestDevice testDevice) {
     super(testDevice);
@@ -65,16 +58,16 @@ public class VerificationIT extends AbstractExampleBase {
   public void verificationTest() {
     loadStartUrl();
     verify(new CurrentUrlVerification("Homepage"), new PageTitleVerification("Homepage"), new LogoVerification(),
-        new VisibilityVerification(SELECTOR_STAGE));
+        new VisibilityVerification(Stage.SELF));
     if (isMobile()) {
-      verify(new InvisibilityVerification(SELECTOR_NAV_LINK_HOME),
-          new InvisibilityVerification(SELECTOR_NAV_LINK_CONFERENCE));
+      verify(new InvisibilityVerification(Navigation.LINK_TO_HOMEPAGE),
+          new InvisibilityVerification(Navigation.LINK_TO_CONFERENCE));
     }
     else {
-      verify(new CssClassVerification(SELECTOR_NAV_LINK_HOME, CSS_CLASS_NAVLINK_ACTIVE),
-          new NoCssClassVerification(SELECTOR_NAV_LINK_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
+      verify(new CssClassVerification(Navigation.LINK_TO_HOMEPAGE, CSS_CLASS_NAVLINK_ACTIVE),
+          new NoCssClassVerification(Navigation.LINK_TO_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
-    VerificationUtil.verify(new LinkTargetVerification(SELECTOR_LOGO));
+    VerificationUtil.verify(new LinkTargetVerification(Logo.SELF));
   }
 
   @Override
@@ -85,7 +78,7 @@ public class VerificationIT extends AbstractExampleBase {
   private static final class LogoVerification extends VisualVerification {
 
     private LogoVerification() {
-      super(SELECTOR_LOGO);
+      super(Logo.SELF);
       addDifference(new BrowserDifference());
       addDifference(new ScreenWidthDifference());
       setAllowedOffset(3);

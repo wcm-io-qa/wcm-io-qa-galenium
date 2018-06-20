@@ -34,7 +34,9 @@ import freemarker.template.TemplateExceptionHandler;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSelectorMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSpecMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromStringMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ConstantNameMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.EscapeJavaMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.EscapeXmlMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
@@ -67,6 +69,7 @@ public final class FreemarkerUtil {
   public static Map<String, Object> getDataModelForSpec(SpecPojo spec, String packagePrefixSpecs) {
     Map<String, Object> model = getCommonDataModel();
     model.put("className", new ClassNameFromSpecMethod());
+    model.put("classNameFromString", new ClassNameFromStringMethod());
     model.put("specRootPackageName", packagePrefixSpecs);
     model.put("spec", spec);
     return model;
@@ -125,6 +128,7 @@ public final class FreemarkerUtil {
   private static Map<String, Object> getCommonDataModel() {
     Map<String, Object> model = new HashMap<>();
     model.put("escapeXml", new EscapeXmlMethod());
+    model.put("escapeJava", new EscapeJavaMethod());
     model.put("constantName", new ConstantNameMethod());
     model.put("packageName", new PackageNameMethod());
     return model;

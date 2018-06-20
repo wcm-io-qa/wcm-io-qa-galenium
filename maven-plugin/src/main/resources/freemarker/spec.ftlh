@@ -1,12 +1,15 @@
 <#assign classNameForSpec = className(spec) />
 package ${specRootPackageName};
 
-import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
-import static io.wcm.qa.galenium.galen.GalenLayoutChecker.handleLayoutReport;
 import static io.wcm.qa.galenium.galen.GalenHelperUtil.readSpec;
 import static io.wcm.qa.galenium.galen.GalenHelperUtil.getSectionFilter;
+import static io.wcm.qa.galenium.galen.GalenHelperUtil.getCombinedSectionFilter;
+import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
+import static io.wcm.qa.galenium.galen.GalenLayoutChecker.handleLayoutReport;
+import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import com.galenframework.reports.model.LayoutReport;
+import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
@@ -34,9 +37,12 @@ public class ${classNameForSpec} {
   private void checkSpec() {
     checkSpec(null);
   }
-  
+
   private void checkSpec(String... includeTags) {
-    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec(), getSectionFilter(includeTags));
+    SectionFilter includeFilter = getSectionFilter(includeTags);
+    SectionFilter deviceFilter = getSectionFilter(getTestDevice());
+    SectionFilter sectionFilter = getCombinedSectionFilter(deviceFilter, includeFilter);
+    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec(), sectionFilter);
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
     handleLayoutReport(layoutReport, errorMessage, successMessage);
@@ -51,7 +57,7 @@ public class ${classNameForSpec} {
 
 <#if spec.tags??>
   <#list spec.tags as tag>
-    public ${classNameForSpec} with${className(tag)}() {
+    public ${classNameForSpec} with${classNameFromString(tag)}() {
       tags.add("${tag}");
       return this;
     }
@@ -69,4 +75,5 @@ public class ${classNameForSpec} {
   private static ${classNameForSpec} instance() {
     return new ${classNameForSpec}();
   }
+
 }

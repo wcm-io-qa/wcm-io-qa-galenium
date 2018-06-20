@@ -33,15 +33,13 @@ import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
+import io.wcm.qa.galenium.selectors.common.Logo;
+import io.wcm.qa.galenium.selectors.homepage.Stage;
 
 /**
  * Example of how to use the {@link ImageComparisonSpecFactory} to compare individual elements on a page.
  */
 public class ImageComparisonExampleIT extends AbstractExampleBase {
-
-  private static final Selector SELECTOR_LOGO = SelectorFactory.fromCss("Logo", "#top");
-  private static final Selector SELECTOR_STAGE = SelectorFactory.fromCss("Stage", "#stage");
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
   public ImageComparisonExampleIT(TestDevice testDevice) {
@@ -51,8 +49,8 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
   @Test
   public void compareSomeImages() {
     loadStartUrl();
-    checkVisually(SELECTOR_STAGE);
-    checkVisually(SELECTOR_LOGO);
+    checkVisually(Stage.SELF);
+    checkVisually(Logo.SELF);
   }
 
   private void checkVisually(Selector selector) {

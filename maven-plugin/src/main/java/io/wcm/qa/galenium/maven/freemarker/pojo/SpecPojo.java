@@ -79,6 +79,7 @@ public class SpecPojo {
     for (NestedSelector selector : getSelectors()) {
       if (!selector.hasParent()) {
         rootSelectors.add(selector);
+        "".replaceAll("\"", "\\\"");
       }
     }
     return rootSelectors;

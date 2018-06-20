@@ -39,7 +39,11 @@ public final class FormatUtil {
   }
 
   public static String getClassName(File file) {
-    return FormatUtil.kebapToUpperCamel(FilenameUtils.getBaseName(file.getPath()));
+    return getClassName(FilenameUtils.getBaseName(file.getPath()));
+  }
+
+  public static String getClassName(String string) {
+    return kebapToUpperCamel(string);
   }
 
   public static String getClassName(NestedSelector selector) {

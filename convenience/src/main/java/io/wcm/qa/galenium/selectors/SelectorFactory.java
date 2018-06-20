@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.selectors;
 
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
@@ -146,7 +147,13 @@ public final class SelectorFactory {
    */
   public static Selector relativeToAbsolute(Selector parent, String childName, String relativeCssSelector) {
     String selectorString = parent.asString() + " " + relativeCssSelector;
-    String elementName = parent.elementName() + "|" + childName;
+    String parentName = parent.elementName();
+    String elementName;
+    if (StringUtils.startsWith(childName, parentName)) {
+      elementName = childName;
+    }else {
+      elementName = parentName + "." + childName;
+    }
     return fromCss(elementName, selectorString);
   }
 

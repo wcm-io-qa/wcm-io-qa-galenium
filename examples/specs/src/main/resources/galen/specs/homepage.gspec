@@ -1,8 +1,6 @@
+@import common.gspec
+
 @objects
-    page                    #page
-    site-header             header.header-site
-    navigation              #nav-main
-        link-*              ul.navlist > li.navlink
     stage                   #stage
         image               img
         overlay             div.stage-overlay
@@ -10,10 +8,19 @@
         cta-link-*          div.stageheaderLinkItem
     article                 #main article
     teaserbar               #teaserbar
-    footer                  footer.footer-site
 
 @groups
     content                 article, teaserbar
+
+= Special Navigation =
+    = Mobile =
+        @on mobile
+            navigation.link-*:
+                absent
+            navigation.link-to-conference:
+                absent
+            navigation.link-to-homepage:
+                absent
 
 = Positioning =
     = Relative =
@@ -35,8 +42,9 @@
     = Containment =
         site-header, navigation, stage, &content, teaserbar, footer:
             inside page
-        navigation.link-*:
-            inside navigation
+        @on desktop
+            navigation.link-*:
+                inside navigation
     = Alignment =
         site-header:
             aligned horizontally top page

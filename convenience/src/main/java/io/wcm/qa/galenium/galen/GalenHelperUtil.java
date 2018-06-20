@@ -34,6 +34,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.apache.commons.collections4.Bag;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.collections4.bag.HashBag;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 
 import com.galenframework.browser.Browser;
@@ -67,16 +71,6 @@ public final class GalenHelperUtil {
     // do not instantiate
   }
 
-  /**
-   * Turn Galen syntax size string into Selenium {@link Dimension}.
-   * @param size to parse
-   * @return Selenium representation of size
-   */
-  public static Dimension getDimension(String size) {
-    java.awt.Dimension parsedSize = GalenUtils.readSize(size);
-    return new Dimension(parsedSize.width, parsedSize.height);
-  }
-
   public static Browser getBrowser() {
     return new SeleniumBrowser(GaleniumContext.getDriver());
   }
@@ -88,6 +82,37 @@ public final class GalenHelperUtil {
    */
   public static Browser getBrowser(TestDevice device) {
     return new SeleniumBrowser(getDriver(device));
+  }
+
+  /**
+   * @param filtersToCombine list of SectionFilters
+   * @return section filter containing all included and excluded tags of the passed filters
+   */
+  public static SectionFilter getCombinedSectionFilter(SectionFilter... filtersToCombine) {
+    Bag<String> excludedTagBag = new HashBag<String>();
+    Bag<String> includedTagBag = new HashBag<String>();
+    for (SectionFilter sectionFilter : filtersToCombine) {
+      excludedTagBag.addAll(sectionFilter.getExcludedTags());
+      includedTagBag.addAll(sectionFilter.getIncludedTags());
+    }
+    List<String> excludedTagList = getBagAsUniqueList(excludedTagBag);
+    List<String> includedTagList = getBagAsUniqueList(includedTagBag);
+    List<String> intersection = ListUtils.intersection(includedTagList, excludedTagList);
+    if (intersection.isEmpty()) {
+      return new SectionFilter(includedTagList, excludedTagList);
+    }
+    String intersectionAsString = StringUtils.join(intersection, ", ");
+    throw new GaleniumException("tags in included and excluded collide: [" + intersectionAsString + "]");
+  }
+
+  /**
+   * Turn Galen syntax size string into Selenium {@link Dimension}.
+   * @param size to parse
+   * @return Selenium representation of size
+   */
+  public static Dimension getDimension(String size) {
+    java.awt.Dimension parsedSize = GalenUtils.readSize(size);
+    return new Dimension(parsedSize.width, parsedSize.height);
   }
 
   /**
@@ -226,6 +251,12 @@ public final class GalenHelperUtil {
       getLogger().debug("added: " + selector);
     }
     return objects;
+  }
+
+  private static List<String> getBagAsUniqueList(Bag<String> bag) {
+    List<String> excludedTagList = new ArrayList<>();
+    excludedTagList.addAll(bag.uniqueSet());
+    return excludedTagList;
   }
 
   private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
