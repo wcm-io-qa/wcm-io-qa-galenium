@@ -26,6 +26,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Marker;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
@@ -73,7 +74,8 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     getLogger().info(marker, message);
     Throwable throwable = result.getThrowable();
     if (throwable != null) {
-      getLogger().info(marker, result.getTestName() + ": " + throwable.getMessage());
+      String throwableMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
+      getLogger().info(marker, result.getTestName() + ": " + throwableMessage);
       getLogger().debug(marker, result.getTestName(), throwable);
     }
   }
