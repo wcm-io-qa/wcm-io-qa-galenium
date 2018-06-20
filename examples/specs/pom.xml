@@ -39,9 +39,8 @@
   <properties>
     <integrationtests.skip>true</integrationtests.skip>
     <!-- Galenium -->
-    <galenium.specPath>${project.basedir}/src/test/resources/galen/specs</galenium.specPath>
+    <galenium.specPath>${project.basedir}/src/main/resources/galen/specs</galenium.specPath>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
-    <io.wcm.qa.galenium.example.sourceDir>${project.build.directory}/generated-sources</io.wcm.qa.galenium.example.sourceDir>
   </properties>
 
   <dependencies>
@@ -55,7 +54,7 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
+    <sourceDirectory>${project.build.directory}/generated-sources/java</sourceDirectory>
     <plugins>
 
       <plugin>
@@ -166,9 +165,9 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <testExcludes>**</testExcludes>
-          <includes>
+          <!-- <includes>
             <include>io/wcm/qa/galenium/example/selectors/**/*.java</include>
-          </includes>
+          </includes> -->
         </configuration>
       </plugin>
       <plugin>
@@ -176,8 +175,13 @@
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <skipIfEmpty>true</skipIfEmpty>
-          <classifier>selectors</classifier>
-          <excludes>*.xml</excludes>
+          <includes>
+            <include>**/*.gspec</include>
+            <include>**/*.class</include>
+          </includes>
+          <excludes>
+            <exclude>*.xml</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>

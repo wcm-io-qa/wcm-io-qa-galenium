@@ -63,7 +63,6 @@
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
 
-    <io.wcm.qa.galenium.example.sourceDir>${basedir}/src/main/java</io.wcm.qa.galenium.example.sourceDir>
   </properties>
 
   <dependencies>
@@ -93,7 +92,6 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
     <plugins>
 
       <plugin>
@@ -140,7 +138,7 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+              <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
               <includes>**/*.gspec</includes>
               <excludeTransitive>true</excludeTransitive>
             </configuration>
