@@ -54,10 +54,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
   private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browsermob.proxy";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "galenium.suppressAutoAdjustBrowserSize";
@@ -89,9 +85,12 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
   private static final String SYSTEM_PROPERTY_NAME_SPARSE_REPORTING = "galenium.report.sparse";
-  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW = "galenium.webdriver.alwaysNew";
-  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE = "galenium.webdriver.ssl.refuse";
-  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY = "galenium.webdriver.ssl.trusted";
+  private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_ALWAYS_NEW = "galenium.webdriver.alwaysNew";
+  private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
+  private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
+  private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
+  private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_SSL_REFUSE = "galenium.webdriver.ssl.refuse";
+  private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_SSL_TRUSTED_ONLY = "galenium.webdriver.ssl.trusted";
 
   private GaleniumConfiguration() {
     // do not instantiate
@@ -145,7 +144,7 @@ public final class GaleniumConfiguration {
    * @return amount of pixel to add to width
    */
   public static int getAdditionalChromeHeadlessWidth() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
+    return Integer.getInteger(SYSTEM_PROPERTY_NAME_WEBDRIVER_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
   }
 
   /**
@@ -256,7 +255,7 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * @return browsers configured via 'selenium.browser' system property.
+   * @return browsers configured via system properties.
    */
   public static List<BrowserType> getBrowserTypes() {
     ArrayList<BrowserType> list = new ArrayList<BrowserType>();
@@ -299,7 +298,7 @@ public final class GaleniumConfiguration {
    * @return path to chrome binary or null
    */
   public static String getChromeBinaryPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH);
+    return System.getProperty(SYSTEM_PROPERTY_NAME_WEBDRIVER_CHROME_BINARY_PATH);
   }
 
   /**
@@ -788,36 +787,11 @@ public final class GaleniumConfiguration {
    * @return whether Chrome is running in headless mode
    */
   public static boolean isChromeHeadless() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEBDRIVER_CHROME_HEADLESS);
   }
 
   /**
-   * Headless Chrome Windows workaround flag.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.chrome.headless.windowsWorkaround
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return whether headless Chrome should be position off screen on Windows machines
-   */
-  public static boolean isChromeHeadlessWindowsWorkaround() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
-  }
-
-  /**
-   * Headless Chrome Windows workaround flag.
+   * Chrome image comparison workaround flag.
    * <ul>
    * <li>Key:
    *
@@ -1150,7 +1124,7 @@ public final class GaleniumConfiguration {
    * @return whether browser accepts secure SSL certificates only
    */
   public static boolean isWebDriverAcceptTrustedSslCertificatesOnly() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEBDRIVER_SSL_TRUSTED_ONLY);
   }
 
   /**
@@ -1175,7 +1149,7 @@ public final class GaleniumConfiguration {
    * @return whether to always instantiate a new webdriver for each test
    */
   public static boolean isWebDriverAlwaysNew() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEBDRIVER_ALWAYS_NEW);
   }
 
   /**
@@ -1200,6 +1174,6 @@ public final class GaleniumConfiguration {
    * @return whether browser refuses SSL certificates
    */
   public static boolean isWebDriverRefuseSslCertificates() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEBDRIVER_SSL_REFUSE);
   }
 }

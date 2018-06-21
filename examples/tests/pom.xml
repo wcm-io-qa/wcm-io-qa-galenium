@@ -60,6 +60,8 @@
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
+    <galenium.webdriver.download.chrome.version>2.40</galenium.webdriver.download.chrome.version>
+    <galenium.webdriver.download.firefox.version>0.21.0</galenium.webdriver.download.firefox.version>
 
   </properties>
 
@@ -230,6 +232,32 @@
 
         </plugins>
       </build>
+    </profile>
+    
+    <profile>
+      <id>download-driver-firefox</id>
+      <activation>
+        <property>
+          <name>galenium.webdriver.firefox</name>
+          <value>true</value>
+        </property>
+        <file>
+          <missing>${webdriver.gecko.driver}</missing>
+        </file>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>download-driver-chrome</id>
+      <activation>
+        <property>
+          <name>galenium.webdriver.chrome</name>
+          <value>true</value>
+        </property>
+        <file>
+          <missing>${webdriver.chrome.driver}</missing>
+        </file>
+      </activation>
     </profile>
 
     <profile>
