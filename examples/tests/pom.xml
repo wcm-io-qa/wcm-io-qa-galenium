@@ -17,9 +17,7 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -39,6 +37,7 @@
   <properties>
 
     <!-- Selenium configuration -->
+    <selenium.browser>chrome,firefox</selenium.browser>
     <selenium.runmode>local</selenium.runmode>
 
     <!-- TestNG configuration -->
@@ -63,8 +62,7 @@
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
     <galenium.webdriver.download.chrome.version>2.40</galenium.webdriver.download.chrome.version>
     <galenium.webdriver.download.firefox.version>0.21.0</galenium.webdriver.download.firefox.version>
-    <galenium.webdriver.firefox>false</galenium.webdriver.firefox>
-    <galenium.webdriver.chrome>true</galenium.webdriver.chrome>
+
   </properties>
 
   <dependencies>
@@ -94,13 +92,6 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-  
     <plugins>
 
       <plugin>
@@ -134,7 +125,7 @@
           <skipDeploy>true</skipDeploy>
         </configuration>
       </plugin>
-
+      
       <!-- unpack specs -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -155,7 +146,7 @@
           </execution>
         </executions>
       </plugin>
-
+      
     </plugins>
   </build>
 
@@ -206,6 +197,7 @@
                 <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
 
                 <!-- Selenium -->
+                <selenium.browser>${selenium.browser}</selenium.browser>
                 <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
                 <selenium.runmode>${selenium.runmode}</selenium.runmode>
 
@@ -218,11 +210,30 @@
             </configuration>
           </plugin>
 
+          <plugin>
+            <groupId>com.lazerycode.selenium</groupId>
+            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+            <version>1.0.10</version>
+            <configuration>
+              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
+              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
+              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
+              <checkFileHashes>false</checkFileHashes>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>selenium</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
 
         </plugins>
       </build>
     </profile>
-
+    
     <profile>
       <id>download-driver-firefox</id>
       <activation>
@@ -234,29 +245,6 @@
           <missing>${webdriver.gecko.driver}</missing>
         </file>
       </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-            <version>1.0.10</version>
-            <configuration>
-              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-              <customRepositoryMap>${project.build.directory}/classes/firefox-driver-download.xml</customRepositoryMap>
-              <checkFileHashes>false</checkFileHashes>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>selenium</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <profile>
@@ -270,29 +258,6 @@
           <missing>${webdriver.chrome.driver}</missing>
         </file>
       </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-            <version>1.0.10</version>
-            <configuration>
-              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-              <customRepositoryMap>${project.build.directory}/classes/chrome-driver-download.xml</customRepositoryMap>
-              <checkFileHashes>false</checkFileHashes>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>selenium</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <profile>
@@ -314,7 +279,7 @@
                 <!-- Selenium -->
                 <selenium.browser>chrome</selenium.browser>
                 <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-                <webdriver.chrome.logfile>${project.build.directory}/chromedriver.log</webdriver.chrome.logfile>
+                <webdriver.chrome.logfile>chromedriver.log</webdriver.chrome.logfile>
 
               </systemPropertyVariables>
               <includes>

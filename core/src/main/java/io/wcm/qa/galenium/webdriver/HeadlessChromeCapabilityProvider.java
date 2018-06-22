@@ -26,6 +26,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
 
@@ -34,8 +35,12 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
       "headless",
       // workaround (https://developers.google.com/web/updates/2017/04/headless-chrome#cli)
       "disable-gpu" };
-
+  private static final String[] ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND = new String[] {
+      // workaround for windows: there is still a window opened, so put it somewhere offscreen
+      "window-position=10000,0"
+  };
   private TestDevice device;
+
 
   HeadlessChromeCapabilityProvider(TestDevice device) {
     setDevice(device);
@@ -54,6 +59,9 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
     GaleniumReportUtil.getLogger().debug("setting up headless chrome.");
     ChromeOptions capabilities = super.getBrowserSpecificOptions();
     addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS);
+    if (GaleniumConfiguration.isChromeHeadlessWindowsWorkaround()) {
+      addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
+    }
     Dimension screenSize = getDevice().getScreenSize();
     String width = String.format("%d", screenSize.getWidth() + getAdditionalChromeHeadlessWidth());
     String height = String.format("%d", screenSize.getHeight());
