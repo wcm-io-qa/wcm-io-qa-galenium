@@ -24,12 +24,6 @@
   <body>
 
     <release version="0.1.16" date="not released yet">
-      <action type="remove" dev="apegam">
-        Removed workaround for early headless chrome issue.
-      </action>
-      <action type="update" dev="apegam">
-        Changed browser configuration.
-      </action>
     </release>
     
     <release version="0.1.14" date="2018-06-20">
