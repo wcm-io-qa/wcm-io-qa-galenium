@@ -46,8 +46,8 @@ public class AttributeVerification extends ElementBasedVerification {
    * @param expectedValue to verify against
    */
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
-    super(selector, expectedValue);
-    setAttributeName(attributeName);
+    this(selector, attributeName);
+    setExpectedValue(expectedValue);
   }
 
   /**
