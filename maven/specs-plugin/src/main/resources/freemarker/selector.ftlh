@@ -4,6 +4,10 @@
    */
   public static class ${className(selector)} extends SelectorFromLocator {
 
+    <#list selector.children as child>
+      <@constant child />
+    </#list>
+  
     /**
      * Constructor.
      */
@@ -12,14 +16,17 @@
       setParent(${parentConstantName});    
       setBy(By.cssSelector("${escapeJava(selector.asString())}"));    
     }
-  
-    <#list selector.children as child>
-      <@constant child />
+    
+    <#list interaction.methods as method>
+       ${method.head} {
+         ${method.body}
+       }
     </#list>
   
     <#list selector.children as child>
       <@innerClass child constantName(selector) />
     </#list>
+    
   }
 </#macro>
 <#macro constant selector>
