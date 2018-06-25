@@ -51,7 +51,7 @@ public class InteractionMethodPojo {
   public String getHead() {
     StringBuilder head = new StringBuilder();
     head.append("public ");
-    head.append(method.getReturnType().getCanonicalName());
+    head.append(method.getGenericReturnType().getTypeName());
     head.append(" ");
     head.append(method.getName());
     head.append("(");
@@ -70,8 +70,7 @@ public class InteractionMethodPojo {
 
   private String getParametersForCall() {
     ArrayList<String> paramStrings = new ArrayList<String>();
-    Parameter[] parameters = method.getParameters();
-    for (Parameter parameter : parameters) {
+    for (Parameter parameter : method.getParameters()) {
       if (ReflectionUtil.isSelector(parameter.getType())) {
         paramStrings.add("this");
       }
@@ -84,8 +83,7 @@ public class InteractionMethodPojo {
 
   private String getParametersForDeclaration() {
     ArrayList<String> paramStrings = new ArrayList<String>();
-    Parameter[] parameters = method.getParameters();
-    for (Parameter parameter : parameters) {
+    for (Parameter parameter : method.getParameters()) {
       if (ReflectionUtil.isSelector(parameter.getType())) {
         continue;
       }
