@@ -68,7 +68,7 @@ import org.openqa.selenium.By;
 public class ${className(this)} extends SelectorFromLocator {
 
   /** Special constant to access ${className(this)} as it is a root element. */
-  public static final SelectorFromLocator SELF = new ${className(this)}();
+  public static final ${className(this)} SELF = new ${className(this)}();
   <#list this.children as child>
     <@constant child />
   </#list>
