@@ -71,14 +71,14 @@ public class GalenSpecsMojo extends AbstractMojo {
   /**
    * Package name to generate {@link Selector} code into.
    */
-  @Parameter(defaultValue = "io.wcm.qa.galenium.specs", property = "packagePrefixSpecs", required = true)
-  private String packagePrefixSpecs;
+  @Parameter(defaultValue = "io.wcm.qa.galenium.selectors", property = "packagePrefixSelectors", required = true)
+  private String packagePrefixSelectors;
 
   /**
    * Package name to generate {@link Selector} code into.
    */
-  @Parameter(defaultValue = "io.wcm.qa.galenium.selectors", property = "packagePrefixSelectors", required = true)
-  private String packagePrefixSelectors;
+  @Parameter(defaultValue = "io.wcm.qa.galenium.specs", property = "packagePrefixSpecs", required = true)
+  private String packagePrefixSpecs;
 
   /**
    * Name of Freemarker template to use for generating top level classes.

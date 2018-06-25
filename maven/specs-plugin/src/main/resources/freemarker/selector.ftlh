@@ -46,6 +46,7 @@ package ${packageName(spec)};
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
@@ -75,6 +76,12 @@ public class ${className(this)} extends SelectorFromLocator {
 
   <#list this.children as child>
     <@innerClass child "SELF" />
+  </#list>
+  
+  <#list interaction.methods as method>
+     ${method.head} {
+       ${method.body}
+     }
   </#list>
 
 }

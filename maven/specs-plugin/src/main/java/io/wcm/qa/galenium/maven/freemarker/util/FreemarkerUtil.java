@@ -39,6 +39,7 @@ import io.wcm.qa.galenium.maven.freemarker.methods.ConstantNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.EscapeJavaMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.EscapeXmlMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
+import io.wcm.qa.galenium.maven.freemarker.pojo.InteractionPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
@@ -62,6 +63,7 @@ public final class FreemarkerUtil {
     Map<String, Object> model = getCommonDataModel();
     model.put("className", new ClassNameFromSelectorMethod());
     model.put("spec", spec);
+    model.put("interaction", new InteractionPojo());
     model.put("this", selector);
     return model;
   }

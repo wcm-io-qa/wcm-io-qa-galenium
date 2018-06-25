@@ -42,10 +42,6 @@ public final class FormatUtil {
     return getClassName(FilenameUtils.getBaseName(file.getPath()));
   }
 
-  public static String getClassName(String string) {
-    return kebapToUpperCamel(string);
-  }
-
   public static String getClassName(NestedSelector selector) {
     String elementName = selector.elementName();
     String relativeElementName = getRelativeElementName(elementName);
@@ -55,6 +51,10 @@ public final class FormatUtil {
 
   public static String getClassName(SpecPojo specPojo) {
     return kebapToUpperCamel(specPojo.getBasename());
+  }
+
+  public static String getClassName(String string) {
+    return kebapToUpperCamel(string);
   }
 
   public static String getConstantName(NestedSelector selector) {
