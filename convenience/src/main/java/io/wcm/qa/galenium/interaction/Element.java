@@ -169,7 +169,7 @@ public final class Element {
    * @param selector used to find element
    * @return matching element if it is visible or null
    */
-  public static WebElement findFast(Selector selector) {
+  public static WebElement findNow(Selector selector) {
     return find(selector, 0);
   }
 
@@ -203,7 +203,7 @@ public final class Element {
    * @param selector identifies the element
    * @return element found
    */
-  public static WebElement findOrFailFast(Selector selector) {
+  public static WebElement findOrFailNow(Selector selector) {
     return findOrFail(selector, 0);
   }
 

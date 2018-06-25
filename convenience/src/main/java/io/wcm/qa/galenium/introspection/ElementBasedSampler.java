@@ -43,7 +43,7 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
   }
 
   protected WebElement getElement() {
-    return Element.findFast(getSelector());
+    return Element.findNow(getSelector());
   }
 
   protected abstract T sampleValue(WebElement element);
