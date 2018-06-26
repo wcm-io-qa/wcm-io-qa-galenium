@@ -42,9 +42,9 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 public final class MediaQueryUtil {
 
-  private static final MediaQuery DEFAULT_MEDIA_QUERY = getNewMediaQuery("DEFAULT_MQ", MIN_WIDTH, MAX_WIDTH);
-  private static final int MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
-  private static final int MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
+  private static final int CONFIGURED_MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
+  private static final int CONFIGURED_MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
+  private static final MediaQuery DEFAULT_MEDIA_QUERY = getNewMediaQuery("DEFAULT_MQ", CONFIGURED_MIN_WIDTH, CONFIGURED_MAX_WIDTH);
 
   private MediaQueryUtil() {
     // do not instantiate
@@ -86,7 +86,7 @@ public final class MediaQueryUtil {
     Collection<MediaQuery> mediaQueries = new ArrayList<MediaQuery>();
     SortedMap<Integer, String> sortedMediaQueryMap = getSortedMediaQueryMap(mediaQueryProperties);
     Set<Entry<Integer, String>> entrySet = sortedMediaQueryMap.entrySet();
-    int lowerBound = MIN_WIDTH;
+    int lowerBound = CONFIGURED_MIN_WIDTH;
     for (Entry<Integer, String> entry : entrySet) {
       String mediaQueryName = entry.getValue();
       int upperBound = entry.getKey();
@@ -108,14 +108,14 @@ public final class MediaQueryUtil {
   }
 
   public static MediaQueryInstance getNewMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
-    if (lowerBound < MIN_WIDTH) {
-      throw new GaleniumException("MediaQuery: illegally low lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + MIN_WIDTH);
+    if (lowerBound < CONFIGURED_MIN_WIDTH) {
+      throw new GaleniumException("MediaQuery: illegally low lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + CONFIGURED_MIN_WIDTH);
     }
-    if (upperBound < MIN_WIDTH) {
-      throw new GaleniumException("MediaQuery: illegally low upper bound for '" + mediaQueryName + "': " + upperBound + " < " + MIN_WIDTH);
+    if (upperBound < CONFIGURED_MIN_WIDTH) {
+      throw new GaleniumException("MediaQuery: illegally low upper bound for '" + mediaQueryName + "': " + upperBound + " < " + CONFIGURED_MIN_WIDTH);
     }
-    if (upperBound > MAX_WIDTH) {
-      throw new GaleniumException("MediaQuery: illegally high upper bound for '" + mediaQueryName + "': " + upperBound + " > " + MAX_WIDTH);
+    if (upperBound > CONFIGURED_MAX_WIDTH) {
+      throw new GaleniumException("MediaQuery: illegally high upper bound for '" + mediaQueryName + "': " + upperBound + " > " + CONFIGURED_MAX_WIDTH);
     }
     if (lowerBound > upperBound) {
       throw new GaleniumException("illegal media query lower and upper bound combination for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
