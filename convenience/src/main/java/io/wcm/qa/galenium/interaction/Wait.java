@@ -96,10 +96,6 @@ public final class Wait {
     getLogger().trace("found URL: '" + url + "'");
   }
 
-  private static WebDriverWait getWait() {
-    return getWait(DEFAULT_TIMEOUT);
-  }
-
   private static WebDriverWait getWait(int timeOutInSeconds) {
     return getWait(timeOutInSeconds, DEFAULT_POLLING_INTERVAL);
   }
@@ -119,6 +115,11 @@ public final class Wait {
     @Override
     public Boolean apply(WebDriver arg0) {
       return this.condition.verify();
+    }
+
+    @Override
+    public String toString() {
+      return super.toString() + ": '" + condition + "'";
     }
   }
 
