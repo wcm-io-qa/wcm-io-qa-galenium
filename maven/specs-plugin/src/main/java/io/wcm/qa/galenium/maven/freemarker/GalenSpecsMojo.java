@@ -63,6 +63,12 @@ import io.wcm.qa.galenium.util.GaleniumConfiguration;
 public class GalenSpecsMojo extends AbstractMojo {
 
   /**
+   * Name of Freemarker template to use for generating top level classes.
+   */
+  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorTemplate")
+  private String interactiveSelectorTemplate;
+
+  /**
    * Root directory for generated output.
    */
   @Parameter(defaultValue = "${project.build.directory}/generated-sources/java", property = "outputDir", required = true)
@@ -152,6 +158,14 @@ public class GalenSpecsMojo extends AbstractMojo {
     }
   }
 
+  private String getInteractiveSelectorClassName() {
+    return FormatUtil.getClassName(new File(interactiveSelectorTemplate));
+  }
+
+  private String getInteractiveSelectorPackageName() {
+    return packagePrefixSelectors;
+  }
+
   private File getOutputFile(NestedSelector selector, SpecPojo spec) {
     String outputPackage = FormatUtil.getSelectorsPackageName(packagePrefixSelectors, spec);
     String className = FormatUtil.getClassName(selector);
@@ -175,8 +189,18 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   protected void generateCode() {
+    generateInteractiveSelectorCode();
     generateSelectorCode();
     generateSpecCode();
+  }
+
+  protected void generateInteractiveSelectorCode() {
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorTemplate);
+    String className = getInteractiveSelectorClassName();
+    String packageName = getInteractiveSelectorPackageName();
+    Map<String, Object> model = FreemarkerUtil.getDataModelForInteractiveSelector(packageName, className);
+    File outputFile = FreemarkerUtil.getOutputFile(outputDirectory, packageName, className);
+    FreemarkerUtil.process(template, model, outputFile);
   }
 
   protected void generateSelectorCode() {
@@ -190,7 +214,11 @@ public class GalenSpecsMojo extends AbstractMojo {
       for (NestedSelector selector : specPojo.getRootSelectors()) {
 
         getLog().info("generating data model for '" + selector.elementName() + "'");
-        Map<String, Object> dataModelForSelector = FreemarkerUtil.getDataModelForSelector(selector, specPojo);
+        Map<String, Object> dataModelForSelector = FreemarkerUtil.getDataModelForSelector(
+            selector,
+            specPojo,
+            getInteractiveSelectorPackageName(),
+            getInteractiveSelectorClassName());
 
         getLog().debug("processing template");
         FreemarkerUtil.process(template, dataModelForSelector, getOutputFile(selector, specPojo));

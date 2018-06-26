@@ -48,15 +48,20 @@ public class InteractionMethodPojo {
     return body.toString();
   }
 
-  public String getHead() {
+  public String getHeadForInterface() {
     StringBuilder head = new StringBuilder();
-    head.append("public ");
     head.append(method.getGenericReturnType().getTypeName());
     head.append(" ");
     head.append(method.getName());
     head.append("(");
     head.append(getParametersForDeclaration());
     head.append(")");
+    return head.toString();
+  }
+  public String getHead() {
+    StringBuilder head = new StringBuilder();
+    head.append("public ");
+    head.append(getHeadForInterface());
     return head.toString();
   }
 

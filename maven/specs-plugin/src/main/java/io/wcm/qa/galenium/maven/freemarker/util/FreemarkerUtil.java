@@ -59,12 +59,19 @@ public final class FreemarkerUtil {
     return cfg;
   }
 
-  public static Map<String, Object> getDataModelForSelector(NestedSelector selector, SpecPojo spec) {
+  public static Map<String, Object> getDataModelForSelector(
+      NestedSelector selector,
+      SpecPojo spec,
+      String interactiveSelectorPackage,
+      String interactiveSelectorClassName) {
     Map<String, Object> model = getCommonDataModel();
     model.put("className", new ClassNameFromSelectorMethod());
     model.put("spec", spec);
     model.put("interaction", new InteractionPojo());
+    model.put("interactiveSelectorPackage", interactiveSelectorPackage);
+    model.put("interactiveSelectorClassName", interactiveSelectorClassName);
     model.put("this", selector);
+
     return model;
   }
 
@@ -133,6 +140,16 @@ public final class FreemarkerUtil {
     model.put("escapeJava", new EscapeJavaMethod());
     model.put("constantName", new ConstantNameMethod());
     model.put("packageName", new PackageNameMethod());
+    return model;
+  }
+
+  public static Map<String, Object> getDataModelForInteractiveSelector(String packageRoot, String className) {
+    Map<String, Object> model = getCommonDataModel();
+    model.put("interactiveSelectorPackage", packageRoot);
+    model.put("interactiveSelectorClassName", className);
+
+    model.put("interaction", new InteractionPojo());
+
     return model;
   }
 

@@ -2,7 +2,7 @@
   /**
    * Java version of '${selector.elementName()}' from ${spec.filename}. 
    */
-  public static class ${className(selector)} extends SelectorFromLocator {
+  public static class ${className(selector)} extends SelectorFromLocator implements InteractiveSelector {
 
     <#list selector.children as child>
       <@constant child />
@@ -58,6 +58,8 @@ import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFactory;
 
+import ${interactiveSelectorPackage}.${interactiveSelectorClassName};
+
 import org.openqa.selenium.By;
 
 /**
@@ -65,7 +67,7 @@ import org.openqa.selenium.By;
  *
  * This is GENERATED CODE and should not be modified manually.  
  */
-public class ${className(this)} extends SelectorFromLocator {
+public class ${className(this)} extends SelectorFromLocator implements InteractiveSelector {
 
   /** Special constant to access ${className(this)} as it is a root element. */
   public static final ${className(this)} SELF = new ${className(this)}();
