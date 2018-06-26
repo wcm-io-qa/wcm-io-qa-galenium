@@ -29,9 +29,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
@@ -40,12 +42,26 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 public final class MediaQueryUtil {
 
-  private static final int MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
+  private static final MediaQuery DEFAULT_MEDIA_QUERY = getNewMediaQuery("DEFAULT_MQ", MIN_WIDTH, MAX_WIDTH);
   private static final int MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
-  private static final MediaQuery DEFAULT_MEDIA_QUERY = getMediaQuery("DEFAULT_MQ", MIN_WIDTH, MAX_WIDTH);
+  private static final int MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
 
   private MediaQueryUtil() {
     // do not instantiate
+  }
+
+  public static MediaQuery getCurrentMediaQuery() {
+    WebDriver driver = GaleniumContext.getDriver();
+    if (driver == null) {
+      return DEFAULT_MEDIA_QUERY;
+    }
+    Collection<MediaQuery> mediaQueries = getMediaQueries();
+    for (MediaQuery mediaQuery : mediaQueries) {
+      if (matchesCurrentTestDevice(mediaQuery)) {
+        return mediaQuery;
+      }
+    }
+    return DEFAULT_MEDIA_QUERY;
   }
 
   public static Collection<MediaQuery> getMediaQueries() {
@@ -74,8 +90,7 @@ public final class MediaQueryUtil {
     for (Entry<Integer, String> entry : entrySet) {
       String mediaQueryName = entry.getValue();
       int upperBound = entry.getKey();
-      MediaQueryInstance mediaQuery = getMediaQuery(mediaQueryName, lowerBound, upperBound);
-      mediaQueries.add(mediaQuery);
+      mediaQueries.add(getNewMediaQuery(mediaQueryName, lowerBound, upperBound));
       lowerBound = upperBound + 1;
     }
     if (getLogger().isDebugEnabled()) {
@@ -87,7 +102,12 @@ public final class MediaQueryUtil {
     return mediaQueries;
   }
 
-  public static MediaQueryInstance getMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
+  public static Collection<MediaQuery> getMediaQueries(String propertyFilePath) {
+    Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertyFilePath);
+    return getMediaQueries(mediaQueryProperties);
+  }
+
+  public static MediaQueryInstance getNewMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
     if (lowerBound < MIN_WIDTH) {
       throw new GaleniumException("MediaQuery: illegally low lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + MIN_WIDTH);
     }
@@ -101,23 +121,6 @@ public final class MediaQueryUtil {
       throw new GaleniumException("illegal media query lower and upper bound combination for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
     }
     return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
-  }
-
-  public static MediaQuery getCurrentMediaQuery() {
-    WebDriver driver = GaleniumContext.getDriver();
-    if (driver == null) {
-      return DEFAULT_MEDIA_QUERY;
-    }
-    //    if ()
-    Collection<MediaQuery> mediaQueries = getMediaQueries();
-    MediaQuery mediaQuery = null;
-
-    return mediaQuery;
-  }
-
-  public static Collection<MediaQuery> getMediaQueries(String propertyFilePath) {
-    Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertyFilePath);
-    return getMediaQueries(mediaQueryProperties);
   }
 
   private static Integer getIntegerValue(Entry<Object, Object> entry) {
@@ -146,6 +149,21 @@ public final class MediaQueryUtil {
       mediaQueryMap.put(intValue, mediaQueryName);
     }
     return mediaQueryMap;
+  }
+
+  private static boolean matchesCurrentTestDevice(MediaQuery mediaQuery) {
+    TestDevice testDevice = GaleniumContext.getTestDevice();
+    if (testDevice == null) {
+      return false;
+    }
+    Dimension screenSize = testDevice.getScreenSize();
+    if (screenSize.getWidth() < mediaQuery.getLowerBound()) {
+      return false;
+    }
+    if (screenSize.getWidth() > mediaQuery.getUpperBound()) {
+      return false;
+    }
+    return true;
   }
 
   private static final class MediaQueryInstance implements MediaQuery {
