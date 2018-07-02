@@ -24,12 +24,13 @@ import static java.util.Collections.emptyMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.collections4.Bag;
+import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -72,7 +73,7 @@ public final class ParsingUtil {
 
   public static Collection<String> getTags(File specFile) {
     try {
-      Collection<String> tags = new ArrayList<>();
+      Bag<String> tags = new HashBag<>();
       List<String> lines = FileUtils.readLines(specFile);
       for (String line : lines) {
         String trimmedLine = line.trim();
@@ -81,12 +82,15 @@ public final class ParsingUtil {
           String[] tagsAsArray = tagsAsString.split(",");
           for (String tag : tagsAsArray) {
             if (StringUtils.isNotBlank(tag)) {
-              tags.add(tag.trim());
+              String cleanedTag = tag.trim().replaceAll("[^A-Za-z0-9]*", "");
+              if (StringUtils.isNotBlank(cleanedTag)) {
+                tags.add(cleanedTag);
+              }
             }
           }
         }
       }
-      return tags;
+      return tags.uniqueSet();
     }
     catch (IOException ex) {
       throw new GaleniumException("when parsing '" + specFile + "'");
