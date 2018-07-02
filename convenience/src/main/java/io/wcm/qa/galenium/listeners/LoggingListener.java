@@ -34,6 +34,7 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.testng.xml.XmlSuite;
 
+import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.galenium.device.TestDevice;
@@ -82,6 +83,10 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestSkipped(ITestResult result) {
+    ExtentTest extentTest = GaleniumReportUtil.getExtentTest();
+    if (!StringUtils.equals(extentTest.getTest().getName(), result.getTestName())) {
+      GaleniumReportUtil.getExtentTest(result);
+    }
     getLogger().info("Skipped test: " + getTestName(result));
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
