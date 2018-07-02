@@ -44,6 +44,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.codehaus.plexus.util.DirectoryScanner;
 
 import freemarker.template.Template;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
@@ -91,6 +92,19 @@ public class GalenSpecsMojo extends AbstractMojo {
    */
   @Parameter(defaultValue = "selector.ftlh", property = "selectorTemplate")
   private String selectorTemplate;
+
+  /**
+   * A set of file patterns to include in the zip.
+   */
+  @Parameter(property = "includes")
+  private String[] includes;
+
+  /**
+   * A set of file patterns to exclude from the zip.
+   * @parameter alias="excludes"
+   */
+  @Parameter(property = "excludes")
+  private String[] excludes;
 
   private Collection<SpecPojo> specs = new ArrayList<>();
 
@@ -179,7 +193,16 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private Collection<File> getSpecFiles() {
-    Collection<File> specFiles = ParsingUtil.getSpecFiles();
+    DirectoryScanner directoryScanner = new DirectoryScanner();
+    directoryScanner.setIncludes(includes);
+    directoryScanner.setExcludes(excludes);
+    String galenSpecPath = GaleniumConfiguration.getGalenSpecPath();
+    directoryScanner.setBasedir(galenSpecPath);
+    Collection<File> specFiles = new ArrayList<>();
+    String[] includedFiles = directoryScanner.getIncludedFiles();
+    for (String relativeFilePath : includedFiles) {
+      specFiles.add(new File(galenSpecPath, relativeFilePath));
+    }
     getLog().debug("found " + specFiles.size() + " spec files.");
     return specFiles;
   }
