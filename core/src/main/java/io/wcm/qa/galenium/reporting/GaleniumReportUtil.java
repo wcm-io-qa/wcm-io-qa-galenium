@@ -177,7 +177,6 @@ public final class GaleniumReportUtil {
       getLogger().error("could not generate Galen report.", ex);
     }
   }
-
   /**
    * Create reports from global list of GalenTestInfos.
    */
@@ -285,14 +284,38 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Take screenshot of current browser window and add to reports.
-   * @param result to generate filename from
-   * @param driver to take screenshot from
-   * @return log message including screenshot if everything was successful
+   * @param name marker name
+   * @return marker for use with marked logger
    */
-  public static String takeScreenshot(ITestResult result, WebDriver driver) {
-    String resultName = getAlphanumericTestName(result);
-    return takeScreenshot(resultName, driver);
+  public static Marker getMarker(String name) {
+    Marker marker = MarkerFactory.getMarker(name);
+    marker.add(MARKER_EXTENT_REPORT);
+    return marker;
+  }
+
+  /**
+   * Null safe check whether {@link ExtentTest} and {@link ITestResult} have the same name.
+   * @param result
+   * @param extentTest
+   * @return whether both have a test name and it is equal
+   */
+  public static boolean haveMatchingName(ITestResult result, ExtentTest extentTest) {
+    if (result == null || extentTest == null) {
+      return false;
+    }
+    ITest test = extentTest.getTest();
+    if (test == null) {
+      return false;
+    }
+    String testNameFromResult = result.getTestName();
+    if (testNameFromResult == null) {
+      return false;
+    }
+    String testNameFromExtentTest = test.getName();
+    if (testNameFromExtentTest == null) {
+      return false;
+    }
+    return StringUtils.equals(testNameFromExtentTest, testNameFromResult);
   }
 
 
@@ -304,6 +327,17 @@ public final class GaleniumReportUtil {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
     WebDriver driver = GaleniumContext.getDriver();
     return takeScreenshot(randomAlphanumeric, driver);
+  }
+
+  /**
+   * Take screenshot of current browser window and add to reports.
+   * @param result to generate filename from
+   * @param driver to take screenshot from
+   * @return log message including screenshot if everything was successful
+   */
+  public static String takeScreenshot(ITestResult result, WebDriver driver) {
+    String resultName = getAlphanumericTestName(result);
+    return takeScreenshot(resultName, driver);
   }
 
   /**
@@ -371,16 +405,6 @@ public final class GaleniumReportUtil {
 
   private static Marker getMarker(LogStatus logStatus) {
     return getMarker(logStatus.name());
-  }
-
-  /**
-   * @param name marker name
-   * @return marker for use with marked logger
-   */
-  public static Marker getMarker(String name) {
-    Marker marker = MarkerFactory.getMarker(name);
-    marker.add(MARKER_EXTENT_REPORT);
-    return marker;
   }
 
   private static boolean isAddResult(GalenTestInfo galenTestInfo) {

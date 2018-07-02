@@ -83,11 +83,8 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestSkipped(ITestResult result) {
-    ExtentTest extentTest = GaleniumReportUtil.getExtentTest();
-    if (!StringUtils.equals(extentTest.getTest().getName(), result.getTestName())) {
-      GaleniumReportUtil.getExtentTest(result);
-    }
-    getLogger().info("Skipped test: " + getTestName(result));
+    updateExtentTest(result);
+    getLogger().info("Skipped test: " + getTestNameForInternalLogging(result));
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
     }
@@ -96,12 +93,21 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestStart(ITestResult result) {
-    getLogger().debug(getTestName(result) + ": Start in thread " + Thread.currentThread().getName());
-    GaleniumReportUtil.getExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
+    updateExtentTest(result);
+    getLogger().debug(getTestNameForInternalLogging(result) + ": Start in thread " + Thread.currentThread().getName());
+    updateExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
   }
 
-  private String getTestName(ITestResult result) {
+  private String getTestNameForInternalLogging(ITestResult result) {
     return result.getTestClass().getRealClass().getSimpleName() + "." + result.getName() + "(" + getAdditionalInfo() + ") ";
+  }
+
+  private ExtentTest updateExtentTest(ITestResult result) {
+    ExtentTest extentTest = GaleniumReportUtil.getExtentTest();
+    if (!GaleniumReportUtil.haveMatchingName(result, extentTest)) {
+      return GaleniumReportUtil.getExtentTest(result);
+    }
+    return extentTest;
   }
 
   protected String getAdditionalInfo() {
