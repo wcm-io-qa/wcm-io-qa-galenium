@@ -22,6 +22,8 @@ package io.wcm.qa.galenium.mediaquery;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -46,6 +48,9 @@ public final class MediaQueryUtil {
   private static final int CONFIGURED_MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
   private static final MediaQuery DEFAULT_MEDIA_QUERY = getNewMediaQuery("DEFAULT_MQ", CONFIGURED_MIN_WIDTH, CONFIGURED_MAX_WIDTH);
 
+  private static final Map<String, Collection<MediaQuery>> mediaQueryMapFileName = new HashMap<>();
+  private static final Map<Properties, Collection<MediaQuery>> mediaQueryMapProperties = new HashMap<>();
+
   private MediaQueryUtil() {
     // do not instantiate
   }
@@ -69,7 +74,8 @@ public final class MediaQueryUtil {
     if (StringUtils.isBlank(propertiesFilePath)) {
       throw new GaleniumException("path to media query properties is empty");
     }
-    return getMediaQueries(propertiesFilePath);
+    Collection<MediaQuery> mediaQueries = getMediaQueries(propertiesFilePath);
+    return mediaQueries;
   }
 
   public static Collection<MediaQuery> getMediaQueries(File mediaQueryPropertyFile) {
@@ -83,6 +89,9 @@ public final class MediaQueryUtil {
   }
 
   public static Collection<MediaQuery> getMediaQueries(Properties mediaQueryProperties) {
+    if (mediaQueryMapProperties.containsKey(mediaQueryProperties)) {
+      return mediaQueryMapProperties.get(mediaQueryProperties);
+    }
     Collection<MediaQuery> mediaQueries = new ArrayList<MediaQuery>();
     SortedMap<Integer, String> sortedMediaQueryMap = getSortedMediaQueryMap(mediaQueryProperties);
     Set<Entry<Integer, String>> entrySet = sortedMediaQueryMap.entrySet();
@@ -99,12 +108,18 @@ public final class MediaQueryUtil {
         getLogger().debug("  " + mediaQuery);
       }
     }
+    mediaQueryMapProperties.put(mediaQueryProperties, mediaQueries);
     return mediaQueries;
   }
 
-  public static Collection<MediaQuery> getMediaQueries(String propertyFilePath) {
-    Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertyFilePath);
-    return getMediaQueries(mediaQueryProperties);
+  public static Collection<MediaQuery> getMediaQueries(String propertiesFilePath) {
+    if (mediaQueryMapFileName.containsKey(propertiesFilePath)) {
+      return mediaQueryMapFileName.get(mediaQueryMapFileName);
+    }
+    Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertiesFilePath);
+    Collection<MediaQuery> mediaQueries = getMediaQueries(mediaQueryProperties);
+    mediaQueryMapFileName.put(propertiesFilePath, mediaQueries);
+    return mediaQueries;
   }
 
   public static MediaQueryInstance getNewMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {

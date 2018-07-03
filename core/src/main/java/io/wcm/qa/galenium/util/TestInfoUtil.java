@@ -210,7 +210,7 @@ public final class TestInfoUtil {
   static List<String> getBreakPoint(ITestResult result) {
     TestDevice testDevice = getTestDevice(result);
     if (testDevice != null) {
-      return testDevice.getTags();
+      return testDevice.getIncludeTags();
     }
 
     String name = result.getName();

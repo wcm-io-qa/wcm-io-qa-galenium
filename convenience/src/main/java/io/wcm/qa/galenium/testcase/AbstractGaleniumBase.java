@@ -22,7 +22,6 @@ package io.wcm.qa.galenium.testcase;
 import static io.wcm.qa.galenium.util.GaleniumContext.getContext;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -311,10 +310,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   protected String getBaseUrl() {
     return GaleniumConfiguration.getBaseUrl();
-  }
-
-  protected List<String> getTags() {
-    return getDevice().getTags();
   }
 
   protected void handleLayoutReport(String specName, LayoutReport layoutReport) {

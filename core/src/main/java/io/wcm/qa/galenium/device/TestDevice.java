@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.device;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
@@ -33,9 +34,10 @@ public class TestDevice {
 
   private final BrowserType browserType;
   private String chromeEmulator;
+  private List<String> includeTags;
   private final String name;
   private final Dimension screenSize;
-  private final List<String> tags;
+  private List<String> excludeTags;
 
   /**
    * @param name for display
@@ -50,15 +52,58 @@ public class TestDevice {
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
-   * @param tags Galen tags
+   * @param include Galen tags
    * @param chromeEmulator emulator like in Device-combobox
    */
-  public TestDevice(String name, BrowserType browserType, Dimension screenSize, List<String> tags, String chromeEmulator) {
+  public TestDevice(String name, BrowserType browserType, Dimension screenSize, List<String> include, String chromeEmulator) {
+    this(name, browserType, screenSize, include, null, chromeEmulator);
+  }
+
+  /**
+   * @param name for display
+   * @param browserType browser
+   * @param screenSize size when not in emulator mode
+   * @param include Galen tags
+   * @param exclude Galen tags
+   * @param chromeEmulator emulator like in Device-combobox
+   */
+  public TestDevice(String name, BrowserType browserType, Dimension screenSize, List<String> include, List<String> exclude, String chromeEmulator) {
     this.name = name;
     this.browserType = browserType;
     this.screenSize = screenSize;
-    this.tags = ListUtils.emptyIfNull(tags);
+    setIncludeTags(include);
+    setExcludeTags(exclude);
     this.chromeEmulator = chromeEmulator;
+  }
+
+  /**
+   * Overwrite all existing tags with new list.
+   * @param tags new tags or null to reset
+   */
+  public void setIncludeTags(List<String> tags) {
+    includeTags = ListUtils.emptyIfNull(tags);
+  }
+
+  /**
+   * Overwrite all existing tags with new list.
+   * @param tags new tags or null to reset
+   */
+  public void setExcludeTags(List<String> tags) {
+    excludeTags = ListUtils.emptyIfNull(tags);
+  }
+
+  /**
+   * @param tags
+   */
+  public void addIncludeTags(String... tags) {
+    CollectionUtils.addAll(includeTags, tags);
+  }
+
+  /**
+   * @param tags
+   */
+  public void addExcludeTags(String... tags) {
+    CollectionUtils.addAll(excludeTags, tags);
   }
 
   /**
@@ -76,6 +121,20 @@ public class TestDevice {
   }
 
   /**
+   * @return exclude tags to use in Galen tests and specs
+   */
+  public List<String> getExcludeTags() {
+    return excludeTags;
+  }
+
+  /**
+   * @return include tags to use in Galen tests and specs
+   */
+  public List<String> getIncludeTags() {
+    return includeTags;
+  }
+
+  /**
    * @return test device name for use in logging and test case names
    */
   public String getName() {
@@ -87,13 +146,6 @@ public class TestDevice {
    */
   public Dimension getScreenSize() {
     return screenSize;
-  }
-
-  /**
-   * @return tags to use in Galen tests and specs
-   */
-  public List<String> getTags() {
-    return tags;
   }
 
   /**
@@ -111,7 +163,7 @@ public class TestDevice {
     stringBuilder.append("_");
     stringBuilder.append(screenSize);
     stringBuilder.append("_[");
-    StringUtils.join(getTags().toArray(), "|");
+    StringUtils.join(getIncludeTags().toArray(), "|");
     stringBuilder.append("]_");
     stringBuilder.append(browserType);
     if (chromeEmulator != null) {

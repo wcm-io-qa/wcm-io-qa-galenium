@@ -23,9 +23,9 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.speclang2.pagespec.SectionFilter;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
@@ -68,8 +68,11 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
     factory.addDifference(new ScreenWidthDifference());
 
     // compare image using spec
-    LayoutReport layoutReport = GalenLayoutChecker.checkLayout("Image comparison stage",
-        factory.getPageSpecInstance(), getDevice(), new SectionFilter(getDevice().getTags(), null),
+    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(
+        "Image comparison stage",
+        factory.getPageSpecInstance(),
+        getDevice(),
+        GalenHelperUtil.getSectionFilter(getDevice()),
         getValidationListener());
     handleLayoutReport("image_comparison_" + selector.elementName() + ".gspec", layoutReport);
   }

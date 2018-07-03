@@ -157,7 +157,7 @@ public final class GalenHelperUtil {
    * @return filter ready for use with Galen
    */
   public static SectionFilter getSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
+    return new SectionFilter(device.getIncludeTags(), device.getExcludeTags());
   }
 
   /**

@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.testng.annotations.DataProvider;
 
@@ -87,6 +88,30 @@ public final class TestDeviceProvider {
     return browserType.name() + "_" + screenWidth;
   }
 
+  private static List<String> getExcludeTags(BrowserType includedBrowserType, String mediaQueryName) {
+    List<String> tags = new ArrayList<>();
+    for (MediaQuery mediaQuery : MediaQueryUtil.getMediaQueries()) {
+      if (StringUtils.equals(mediaQueryName, mediaQuery.getName())) {
+        continue;
+      }
+      tags.add(mediaQuery.getName());
+    }
+    BrowserType[] browsers = BrowserType.values();
+    for (BrowserType browserType : browsers) {
+      if (browserType != includedBrowserType) {
+        tags.add(browserType.name());
+      }
+    }
+    return tags;
+  }
+
+  private static List<String> getIncludeTags(BrowserType browserType, String mediaQueryName) {
+    List<String> tags = new ArrayList<>();
+    tags.add(mediaQueryName);
+    tags.add(browserType.name());
+    return tags;
+  }
+
   private static Dimension getScreenSize(int width) {
     return new Dimension(width, MEDIA_QUERY_HEIGHT);
   }
@@ -94,10 +119,9 @@ public final class TestDeviceProvider {
   private static TestDevice getTestDevice(BrowserType browserType, String mediaQueryName, int width) {
     String name = getDeviceName(browserType, width);
     Dimension screenSize = getScreenSize(width);
-    List<String> tags = new ArrayList<>();
-    tags.add(mediaQueryName);
-    tags.add(browserType.name());
-    TestDevice testDevice = new TestDevice(name, browserType, screenSize, tags, null);
+    TestDevice testDevice = new TestDevice(name, browserType, screenSize);
+    testDevice.setIncludeTags(getIncludeTags(browserType, mediaQueryName));
+    testDevice.setExcludeTags(getExcludeTags(browserType, mediaQueryName));
     return testDevice;
   }
 

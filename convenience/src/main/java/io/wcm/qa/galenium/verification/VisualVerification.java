@@ -21,7 +21,6 @@ package io.wcm.qa.galenium.verification;
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -33,6 +32,7 @@ import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
+import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
@@ -220,7 +220,7 @@ public class VisualVerification extends ElementBasedVerification {
     else {
       PageSpec spec = specFactory.getPageSpecInstance();
       TestDevice testDevice = getTestDevice();
-      SectionFilter tags = new SectionFilter(testDevice.getTags(), Collections.emptyList());
+      SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
       layoutReport = GalenLayoutChecker.checkLayout(specFactory.getSectionName(), spec, testDevice, tags, getValidationListener());
     }
     try {
