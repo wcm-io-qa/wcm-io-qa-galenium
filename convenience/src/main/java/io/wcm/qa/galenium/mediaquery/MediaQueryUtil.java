@@ -114,7 +114,7 @@ public final class MediaQueryUtil {
 
   public static Collection<MediaQuery> getMediaQueries(String propertiesFilePath) {
     if (mediaQueryMapFileName.containsKey(propertiesFilePath)) {
-      return mediaQueryMapFileName.get(mediaQueryMapFileName);
+      return mediaQueryMapFileName.get(propertiesFilePath);
     }
     Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertiesFilePath);
     Collection<MediaQuery> mediaQueries = getMediaQueries(mediaQueryProperties);
