@@ -32,6 +32,7 @@ import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
+import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public class SpecPojo {
 
@@ -70,7 +71,7 @@ public class SpecPojo {
   }
 
   public String getRelativeFilePath() {
-    String relativePath = FileHandlingUtil.constructRelativePath(ParsingUtil.getSpecRootDirectory(), getSpecFile());
+    String relativePath = FileHandlingUtil.constructRelativePath(getSpecRoot(), getSpecFile());
     return getUnixStyleFilePath(relativePath);
   }
 
@@ -104,6 +105,10 @@ public class SpecPojo {
       return null;
     }
     return tags;
+  }
+
+  private File getSpecRoot() {
+    return new File(GaleniumConfiguration.getGalenSpecPath());
   }
 
   private void setSpecFile(File specFile) {

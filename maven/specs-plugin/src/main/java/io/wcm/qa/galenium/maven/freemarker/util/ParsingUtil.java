@@ -43,11 +43,9 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.mock.MockPage;
 import io.wcm.qa.galenium.selectors.NestedSelector;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public final class ParsingUtil {
 
-  private static final String FILE_EXTENSION_GSPEC = "gspec";
   private static final String PATTERN_LINE_WITH_TAGS_IN_SPEC = "@on";
 
   private ParsingUtil() {
@@ -57,18 +55,6 @@ public final class ParsingUtil {
   public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
     PageSpec galenSpec = readSpec(specFile);
     return GalenHelperUtil.getObjects(galenSpec);
-  }
-
-  public static Collection<File> getSpecFiles() {
-    return FileUtils.listFiles(getSpecRootDirectory(), new String[] { FILE_EXTENSION_GSPEC }, true);
-  }
-
-  public static File getSpecRootDirectory() {
-    File file = new File(GaleniumConfiguration.getGalenSpecPath());
-    if (file.isDirectory()) {
-      return file;
-    }
-    throw new GaleniumException("spec root is not a directory: " + file);
   }
 
   public static Collection<String> getTags(File specFile) {

@@ -51,7 +51,6 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
-import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
@@ -68,6 +67,12 @@ public class GalenSpecsMojo extends AbstractMojo {
    */
   @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorTemplate")
   private String interactiveSelectorTemplate;
+
+  /**
+   * Root directory for generated output.
+   */
+  @Parameter(defaultValue = "${project.build.directory}/target/specs", property = "inputDir", required = true)
+  private File inputDirectory;
 
   /**
    * Root directory for generated output.
@@ -153,7 +158,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private boolean checkInputParams() {
-    return checkDirectory(ParsingUtil.getSpecRootDirectory()) && checkDirectory(templateDirectory);
+    return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
   }
 
   private void generateSpecCode() {
@@ -196,12 +201,11 @@ public class GalenSpecsMojo extends AbstractMojo {
     DirectoryScanner directoryScanner = new DirectoryScanner();
     directoryScanner.setIncludes(includes);
     directoryScanner.setExcludes(excludes);
-    String galenSpecPath = GaleniumConfiguration.getGalenSpecPath();
-    directoryScanner.setBasedir(galenSpecPath);
+    directoryScanner.setBasedir(inputDirectory);
     Collection<File> specFiles = new ArrayList<>();
     String[] includedFiles = directoryScanner.getIncludedFiles();
     for (String relativeFilePath : includedFiles) {
-      specFiles.add(new File(galenSpecPath, relativeFilePath));
+      specFiles.add(new File(inputDirectory, relativeFilePath));
     }
     getLog().debug("found " + specFiles.size() + " spec files.");
     return specFiles;
@@ -254,7 +258,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     // transfer system properties
     ConfigurationUtil.addToSystemProperties(systemPropertyVariables);
     System.setProperty("packageRootName", packagePrefixSelectors);
-    System.setProperty("galenium.specPath", ParsingUtil.getSpecRootDirectory().getPath());
+    System.setProperty("galenium.specPath", inputDirectory.getPath());
 
     // check input parameters
     if (!checkInputParams()) {
