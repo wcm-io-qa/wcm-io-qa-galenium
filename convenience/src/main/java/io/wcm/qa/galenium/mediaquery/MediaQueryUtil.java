@@ -122,6 +122,16 @@ public final class MediaQueryUtil {
     return mediaQueries;
   }
 
+  public static MediaQuery getMediaQueryByName(String name) {
+    Collection<MediaQuery> mediaQueries = getMediaQueries();
+    for (MediaQuery mediaQuery : mediaQueries) {
+      if (StringUtils.equals(name, mediaQuery.getName())) {
+        return mediaQuery;
+      }
+    }
+    throw new GaleniumException("did not find media query for '" + name + "'");
+  }
+
   public static MediaQueryInstance getNewMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
     if (lowerBound < CONFIGURED_MIN_WIDTH) {
       throw new GaleniumException("MediaQuery: illegally low lower bound for '" + mediaQueryName + "': " + lowerBound + " < " + CONFIGURED_MIN_WIDTH);

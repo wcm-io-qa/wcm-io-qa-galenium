@@ -56,6 +56,12 @@ public final class TestDeviceProvider {
     return singleDeviceList;
   }
 
+  public static TestDevice getTestDeviceForUpperBound(BrowserType browserType, MediaQuery mediaQuery) {
+    int upperBound = mediaQuery.getUpperBound();
+    String mediaQueryName = mediaQuery.getName();
+    return getTestDevice(browserType, mediaQueryName, upperBound);
+  }
+
   /**
    * @return configured test devices
    */
@@ -123,12 +129,6 @@ public final class TestDeviceProvider {
     testDevice.setIncludeTags(getIncludeTags(browserType, mediaQueryName));
     testDevice.setExcludeTags(getExcludeTags(browserType, mediaQueryName));
     return testDevice;
-  }
-
-  private static TestDevice getTestDeviceForUpperBound(BrowserType browserType, MediaQuery mediaQuery) {
-    int upperBound = mediaQuery.getUpperBound();
-    String mediaQueryName = mediaQuery.getName();
-    return getTestDevice(browserType, mediaQueryName, upperBound);
   }
 
 
