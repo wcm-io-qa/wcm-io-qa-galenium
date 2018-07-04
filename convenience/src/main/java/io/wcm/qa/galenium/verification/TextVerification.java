@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
@@ -70,7 +71,11 @@ public class TextVerification extends ElementBasedVerification {
 
   @Override
   protected String sampleValue() {
-    return getElement().getText();
+    WebElement element = getElement();
+    if (element == null) {
+      return StringUtils.EMPTY;
+    }
+    return element.getText();
   }
 
 }
