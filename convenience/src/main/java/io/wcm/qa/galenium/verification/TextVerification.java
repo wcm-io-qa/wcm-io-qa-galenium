@@ -41,8 +41,8 @@ public class TextVerification extends ElementBasedVerification {
    * @param expectedValue to verify against
    */
   public TextVerification(Selector selector, String expectedValue) {
-    super(selector, expectedValue);
-    setPreVerification(new VisibilityVerification(getSelector()));
+    this(selector);
+    setExpectedValue(expectedValue);
   }
 
   /**
