@@ -193,9 +193,10 @@ public abstract class VerificationBase implements Verification {
       setVerified(doVerification());
       getLogger().trace("done verifying (" + toString() + ")");
       getLogger().trace("looking for '" + getExpectedValue() + "'");
-      getLogger().trace("found: '" + getActualValue() + "'");
-      if (!isVerified() && getActualValue() != null) {
-        TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
+      String actualSample = getActualValue();
+      getLogger().trace("found: '" + actualSample + "'");
+      if (!isVerified() && actualSample != null) {
+        TextSampleManager.addNewTextSample(getExpectedKey(), actualSample);
       }
     }
     catch (GaleniumException ex) {
