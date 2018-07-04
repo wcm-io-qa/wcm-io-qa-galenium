@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
@@ -41,7 +43,8 @@ public class VisibilityVerification extends ElementBasedVerification {
 
   @Override
   protected Boolean doVerification() {
-    return getElement() != null;
+    WebElement element = getElement();
+    return element != null && element.isDisplayed();
   }
 
   @Override
