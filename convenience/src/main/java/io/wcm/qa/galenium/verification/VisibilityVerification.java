@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
@@ -50,7 +51,7 @@ public class VisibilityVerification extends ElementBasedVerification {
     try {
       return isDisplayed(getElement());
     }
-    catch (Exception ex) {
+    catch (StaleElementReferenceException ex) {
       getLogger().trace("stale element", ex);
       setElement(null);
       return isDisplayed(getElement());
