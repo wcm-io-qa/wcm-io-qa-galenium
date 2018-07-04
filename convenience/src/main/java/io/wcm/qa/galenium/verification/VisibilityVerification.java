@@ -35,7 +35,16 @@ public class VisibilityVerification extends ElementBasedVerification {
    * @param selector to identify element
    */
   public VisibilityVerification(Selector selector) {
+    this(selector, 0);
+  }
+
+  /**
+   * Constructor.
+   * @param selector to identify element
+   */
+  public VisibilityVerification(Selector selector, int timeOut) {
     super(selector);
+    setTimeout(timeOut);
   }
 
   private String getVerboseSelectorInfo() {
