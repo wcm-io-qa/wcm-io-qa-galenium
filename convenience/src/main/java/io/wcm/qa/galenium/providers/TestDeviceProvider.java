@@ -131,5 +131,4 @@ public final class TestDeviceProvider {
     return testDevice;
   }
 
-
 }

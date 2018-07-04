@@ -40,6 +40,13 @@ public class TestDevice {
   private List<String> excludeTags;
 
   /**
+   * @param profile defining the device
+   */
+  public TestDevice(DeviceProfile profile) {
+    this(profile.getName(), profile.getBrowser(), new Dimension(profile.getWidth(), profile.getHeight()));
+  }
+
+  /**
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
