@@ -41,6 +41,10 @@ public class VisibilityVerification extends ElementBasedVerification {
     return " (" + getSelector().asString() + ")";
   }
 
+  private boolean isDisplayed(WebElement element) {
+    return element != null && element.isDisplayed();
+  }
+
   @Override
   protected Boolean doVerification() {
     try {
@@ -51,10 +55,6 @@ public class VisibilityVerification extends ElementBasedVerification {
       setElement(null);
       return isDisplayed(getElement());
     }
-  }
-
-  private boolean isDisplayed(WebElement element) {
-    return element != null && element.isDisplayed();
   }
 
   @Override
