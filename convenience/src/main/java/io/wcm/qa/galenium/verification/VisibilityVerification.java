@@ -43,7 +43,17 @@ public class VisibilityVerification extends ElementBasedVerification {
 
   @Override
   protected Boolean doVerification() {
-    WebElement element = getElement();
+    try {
+      return isDisplayed(getElement());
+    }
+    catch (Exception ex) {
+      getLogger().trace("stale element", ex);
+      setElement(null);
+      return isDisplayed(getElement());
+    }
+  }
+
+  private boolean isDisplayed(WebElement element) {
     return element != null && element.isDisplayed();
   }
 
