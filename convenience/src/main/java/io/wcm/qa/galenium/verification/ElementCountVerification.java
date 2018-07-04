@@ -37,7 +37,8 @@ public class ElementCountVerification extends ElementBasedVerification {
    * @param expectedCount to verify against
    */
   public ElementCountVerification(Selector selector, int expectedCount) {
-    super(selector, Integer.toString(expectedCount));
+    super(selector);
+    setExpectedValue(Integer.toString(expectedCount));
   }
 
   @Override

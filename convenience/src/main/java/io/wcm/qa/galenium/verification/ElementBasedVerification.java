@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.interaction.Element;
@@ -41,16 +42,15 @@ abstract class ElementBasedVerification extends VerificationBase {
    * @param selector to identify element
    */
   protected ElementBasedVerification(Selector selector) {
-    super(selector.elementName());
-    setSelector(selector);
+    this(selector.elementName(), selector);
   }
 
   /**
+   * @param verificationName name to use for verification
    * @param selector to identify element
-   * @param alternativeName name to use for verification
    */
-  protected ElementBasedVerification(Selector selector, String alternativeName) {
-    super(alternativeName);
+  protected ElementBasedVerification(String verificationName, Selector selector) {
+    super(verificationName);
     setSelector(selector);
   }
 
@@ -84,6 +84,21 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   public void setElement(WebElement element) {
     this.element = element;
+  }
+
+  public void setTimeout(int timeout) {
+    this.timeout = timeout;
+  }
+
+  @Override
+  protected String getActualValue() {
+    try {
+      return super.getActualValue();
+    }
+    catch (StaleElementReferenceException ex) {
+      setElement(null);
+      return super.getActualValue();
+    }
   }
 
   protected String getElementName() {
@@ -120,9 +135,5 @@ abstract class ElementBasedVerification extends VerificationBase {
 
   protected void setSelector(Selector selector) {
     this.selector = selector;
-  }
-
-  public void setTimeout(int timeout) {
-    this.timeout = timeout;
   }
 }

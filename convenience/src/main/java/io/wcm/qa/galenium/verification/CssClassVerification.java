@@ -53,12 +53,12 @@ public class CssClassVerification extends AttributeVerification {
 
   /**
    * Constructor for resolved {@link WebElement}.
-   * @param elementName name of element for reporting
+   * @param verificationName name of element for reporting
    * @param element resolved element to test
    * @param cssClass to verify
    */
-  public CssClassVerification(String elementName, WebElement element, String cssClass) {
-    super(elementName, element, ATTRIBUTE_NAME_CLASS, cssClass);
+  public CssClassVerification(String verificationName, WebElement element, String cssClass) {
+    super(verificationName, element, ATTRIBUTE_NAME_CLASS, cssClass);
   }
 
   @Override

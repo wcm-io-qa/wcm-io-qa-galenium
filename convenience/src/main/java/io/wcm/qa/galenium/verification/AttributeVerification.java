@@ -51,23 +51,23 @@ public class AttributeVerification extends ElementBasedVerification {
   }
 
   /**
-   * @param elementName name of element for reporting
+   * @param verificationName name of element for reporting
    * @param element resolved element to test
    * @param attributeName name of attribute to check
    */
-  public AttributeVerification(String elementName, WebElement element, String attributeName) {
-    super(elementName, element);
+  public AttributeVerification(String verificationName, WebElement element, String attributeName) {
+    super(verificationName, element);
     setAttributeName(attributeName);
   }
 
   /**
-   * @param elementName name of element for reporting
+   * @param verificationName name of element for reporting
    * @param element resolved element to test
    * @param attributeName name of attribute to check
    * @param expectedValue to verify against
    */
-  public AttributeVerification(String elementName, WebElement element, String attributeName, String expectedValue) {
-    this(elementName, element, attributeName);
+  public AttributeVerification(String verificationName, WebElement element, String attributeName, String expectedValue) {
+    this(verificationName, element, attributeName);
     setExpectedValue(expectedValue);
   }
 

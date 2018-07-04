@@ -32,18 +32,19 @@ public class PageTitleVerification extends VerificationBase {
   private static final String KEY_PART_PAGE_TITLE = "title";
 
   /**
-   * @param pageName to use in reporting
+   * @param verificationName to use in reporting
    */
-  public PageTitleVerification(String pageName) {
-    super(pageName);
+  public PageTitleVerification(String verificationName) {
+    super(verificationName);
   }
 
   /**
-   * @param pageName to use in reporting
+   * @param verificationName to use in reporting
    * @param expectedTitle to verify against
    */
-  public PageTitleVerification(String pageName, String expectedTitle) {
-    super(pageName, expectedTitle);
+  public PageTitleVerification(String verificationName, String expectedTitle) {
+    this(verificationName);
+    setExpectedValue(expectedTitle);
   }
 
   @Override

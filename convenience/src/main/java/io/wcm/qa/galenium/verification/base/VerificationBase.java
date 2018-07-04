@@ -39,6 +39,7 @@ public abstract class VerificationBase implements Verification {
 
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
   private String actualValue;
+  private boolean caching;
   private SortedDifferences differences;
   private Throwable exception;
   private String expectedValue;
@@ -48,6 +49,7 @@ public abstract class VerificationBase implements Verification {
 
   protected VerificationBase(String verificationName) {
     setVerificationName(verificationName);
+    setCaching(true);
   }
 
   protected VerificationBase(String verificationName, String expectedValue) {
@@ -108,11 +110,19 @@ public abstract class VerificationBase implements Verification {
     return verificationName;
   }
 
+  public boolean isCaching() {
+    return caching;
+  }
+
   /**
    * @return whether verification was successful or null, if verification did not run yet.
    */
   public Boolean isVerified() {
     return verified;
+  }
+
+  public void setCaching(boolean caching) {
+    this.caching = caching;
   }
 
   /**
@@ -173,6 +183,8 @@ public abstract class VerificationBase implements Verification {
     try {
       setVerified(doVerification());
       getLogger().trace("done verifying (" + toString() + ")");
+      getLogger().trace("looking for '" + getExpectedValue() + "'");
+      getLogger().trace("found: '" + getActualValue() + "'");
       if (!isVerified() && getActualValue() != null) {
         TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
       }
@@ -197,7 +209,7 @@ public abstract class VerificationBase implements Verification {
    * @return actual value, defaults to {@link VerificationBase#sampleValue()}
    */
   protected String getActualValue() {
-    if (actualValue == null) {
+    if (!isCaching() || actualValue == null) {
       actualValue = sampleValue();
     }
     return actualValue;

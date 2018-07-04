@@ -39,12 +39,12 @@ public class NoCssClassVerification extends CssClassVerification {
 
   /**
    * Constructor for resolved {@link WebElement}.
-   * @param elementName name of element for reporting
+   * @param verificationName name of element for reporting
    * @param element resolved element to test
    * @param cssClass to verify
    */
-  public NoCssClassVerification(String elementName, WebElement element, String cssClass) {
-    super(elementName, element, cssClass);
+  public NoCssClassVerification(String verificationName, WebElement element, String cssClass) {
+    super(verificationName, element, cssClass);
   }
 
   @Override

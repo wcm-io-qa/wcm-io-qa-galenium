@@ -46,11 +46,11 @@ public class LinkTargetVerification extends AttributeVerification {
   }
 
   /**
-   * @param elementName for reporting
+   * @param verificationName for reporting
    * @param element resolved element to verify
    */
-  public LinkTargetVerification(String elementName, WebElement element) {
-    super(elementName, element, ATTRIBUTE_NAME_HREF);
+  public LinkTargetVerification(String verificationName, WebElement element) {
+    super(verificationName, element, ATTRIBUTE_NAME_HREF);
   }
 
 }

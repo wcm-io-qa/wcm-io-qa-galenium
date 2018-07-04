@@ -30,6 +30,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 public final class Wait {
 
@@ -110,6 +111,9 @@ public final class Wait {
 
     private VerifiableExpectedCondition(Verifiable condition) {
       this.condition = condition;
+      if (condition instanceof VerificationBase) {
+        ((VerificationBase)condition).setCaching(false);
+      }
     }
 
     @Override

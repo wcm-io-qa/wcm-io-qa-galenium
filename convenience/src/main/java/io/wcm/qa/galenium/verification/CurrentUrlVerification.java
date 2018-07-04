@@ -32,18 +32,19 @@ public class CurrentUrlVerification extends VerificationBase {
   private static final String KEY_PART_URL = "url";
 
   /**
-   * @param pageName for use in reporting
+   * @param verificationName for use in reporting
    */
-  public CurrentUrlVerification(String pageName) {
-    super(pageName);
+  public CurrentUrlVerification(String verificationName) {
+    super(verificationName);
   }
 
   /**
-   * @param pageName for use in reporting
+   * @param verificationName for use in reporting
    * @param expectedUrl to match against
    */
-  public CurrentUrlVerification(String pageName, String expectedUrl) {
-    super(pageName, expectedUrl);
+  public CurrentUrlVerification(String verificationName, String expectedUrl) {
+    this(verificationName);
+    setExpectedValue(expectedUrl);
   }
 
   @Override
