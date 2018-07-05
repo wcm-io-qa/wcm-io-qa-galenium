@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.webdriver;
 
 import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getGridHost;
 import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getGridPort;
-import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isChromeHeadless;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isHeadless;
 import static java.text.MessageFormat.format;
 
 import java.net.MalformedURLException;
@@ -34,6 +34,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ final class WebDriverFactory {
         String chromeEmulator = device.getChromeEmulator();
         boolean withEmulator = StringUtils.isNotBlank(chromeEmulator);
         ChromeEmulatorOptionsProvider emulatorProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
-        if (isChromeHeadless()) {
+        if (isHeadless()) {
           HeadlessChromeCapabilityProvider headlessProvider = new HeadlessChromeCapabilityProvider(device);
           getLogger().trace("chrome headless: " + ReflectionToStringBuilder.toString(headlessProvider, ToStringStyle.MULTI_LINE_STYLE));
           if (withEmulator) {
@@ -147,7 +148,7 @@ final class WebDriverFactory {
 
           default:
           case FIREFOX:
-            FirefoxDriver firefoxDriver = new FirefoxDriver(capabilitiesProvider.getOptions());
+            FirefoxDriver firefoxDriver = new FirefoxDriver((FirefoxOptions)capabilitiesProvider.getOptions());
             setDriver(firefoxDriver);
             break;
         }

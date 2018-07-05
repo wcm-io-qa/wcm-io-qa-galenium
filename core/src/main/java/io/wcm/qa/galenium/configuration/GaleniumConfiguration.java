@@ -56,7 +56,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
   private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browsermob.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
+  private static final String SYSTEM_PROPERTY_NAME_HEADLESS = "galenium.headless";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
   private static final String SYSTEM_PROPERTY_NAME_DEVICE_CSV = "galenium.devices.csv";
@@ -769,12 +769,12 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Headless Chrome flag.
+   * Headless browser flag.
    * <ul>
    * <li>Key:
    *
    * <pre>
-   * galenium.webdriver.chrome.headless
+   * galenium.headless
    * </pre>
    *
    * </li>
@@ -787,10 +787,10 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   * @return whether Chrome is running in headless mode
+   * @return whether browser is running in headless mode
    */
-  public static boolean isChromeHeadless() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS);
+  public static boolean isHeadless() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_HEADLESS);
   }
 
   /**
