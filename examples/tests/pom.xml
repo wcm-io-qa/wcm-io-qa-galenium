@@ -17,7 +17,9 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -123,7 +125,7 @@
           <skipDeploy>true</skipDeploy>
         </configuration>
       </plugin>
-      
+
       <!-- unpack specs -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -144,7 +146,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
     </plugins>
   </build>
 
@@ -158,11 +160,32 @@
       <build>
         <plugins>
 
+          <!-- Get CPU count to use as thread count for TestNG -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <id>get-cpu-count</id>
+                <goals>
+                  <goal>cpu-count</goal>
+                </goals>
+                <configuration>
+                  <!-- if not given, 'cpu.count' name is used -->
+                  <cpuCount>local.cpu.count</cpuCount>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <configuration>
               <groups>${testNG.groups}</groups>
+              <parallel>methods</parallel>
+              <threadCount>${local.cpu.count}</threadCount>
               <properties>
                 <property>
                   <name>usedefaultlisteners</name>
@@ -241,8 +264,6 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <configuration>
-              <parallel>methods</parallel>
-              <threadCount>8</threadCount>
               <groups>${testNG.groups}</groups>
               <systemPropertyVariables>
 
