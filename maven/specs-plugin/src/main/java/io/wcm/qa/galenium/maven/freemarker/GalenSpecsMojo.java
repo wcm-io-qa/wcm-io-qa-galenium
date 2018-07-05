@@ -46,6 +46,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import freemarker.template.Template;
+import io.wcm.qa.galenium.configuration.ConfigurationUtil;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
@@ -54,7 +55,6 @@ import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.util.ConfigurationUtil;
 
 /**
  * Goal which finds Galen specs, extracts objects and generates Java code from it.
