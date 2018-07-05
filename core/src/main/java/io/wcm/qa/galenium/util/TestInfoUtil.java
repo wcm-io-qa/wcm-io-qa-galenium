@@ -24,11 +24,13 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Marker;
 import org.testng.ITestResult;
@@ -52,6 +54,7 @@ public final class TestInfoUtil {
   private static final String EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES = System.getProperty("galenium.mediaquery.extentCategory", "");
   private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
   private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
+  private static final String EXTENT_CATEGORY_PREFIX_EMULATOR = System.getProperty("galenium.extent.category.emulator", "DEVICE-");
 
   private TestInfoUtil() {
     // do not instantiate
@@ -70,6 +73,11 @@ public final class TestInfoUtil {
     String browser = getBrowser(result);
     if (browser != null) {
       test.assignCategory(EXTENT_CATEGORY_PREFIX_BROWSER + browser);
+    }
+
+    TestDevice device = getTestDevice(result);
+    if (device != null && StringUtils.isNotBlank(device.getChromeEmulator())) {
+      test.assignCategory(EXTENT_CATEGORY_PREFIX_EMULATOR + device.getChromeEmulator());
     }
 
     List<String> breakPoints = getBreakPoint(result);
@@ -210,15 +218,12 @@ public final class TestInfoUtil {
   static List<String> getBreakPoint(ITestResult result) {
     TestDevice testDevice = getTestDevice(result);
     if (testDevice != null) {
-      return testDevice.getIncludeTags();
+      ArrayList<String> mediaQueries = new ArrayList<String>();
+      CollectionUtils.addAll(mediaQueries, testDevice.getIncludeTags());
+      mediaQueries.remove(testDevice.getBrowserType().name());
+      return mediaQueries;
     }
-
-    String name = result.getName();
-    String breakPoint = name.replaceFirst(".*profile ", "");
-    breakPoint = breakPoint.replaceFirst(" \\(.*", "");
-    ArrayList<String> breakPointFromName = new ArrayList<String>();
-    breakPointFromName.add(breakPoint);
-    return breakPointFromName;
+    return Collections.emptyList();
   }
 
   static String getBrowser(ITestResult result) {
