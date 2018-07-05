@@ -40,6 +40,7 @@ import io.wcm.qa.galenium.mediaquery.MediaQueryUtil;
 
 public final class TestDeviceUtil {
 
+  private static final File CSV_FILE_DEVICES = new File(GaleniumConfiguration.getDeviceCsvFilePath());
   static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
 
   private TestDeviceUtil() {
@@ -88,7 +89,7 @@ public final class TestDeviceUtil {
 
   public static Collection<TestDevice> getTestDevicesFromDevicesCsv() {
     Collection<TestDevice> testDevices = new ArrayList<>();
-    Collection<DeviceProfile> profiles = CsvUtil.<DeviceProfile>parseToBeans(new File("src/test/resources/devices.csv"), DeviceProfile.class);
+    Collection<DeviceProfile> profiles = CsvUtil.<DeviceProfile>parseToBeans(CSV_FILE_DEVICES, DeviceProfile.class);
     for (DeviceProfile deviceProfile : profiles) {
       testDevices.add(new TestDevice(deviceProfile));
     }

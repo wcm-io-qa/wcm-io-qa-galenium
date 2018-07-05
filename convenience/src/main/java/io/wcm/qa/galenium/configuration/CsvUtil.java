@@ -52,7 +52,7 @@ public class CsvUtil {
 
   public static CSVParser parse(File csvFile) {
     if (csvFile == null) {
-      throw new GaleniumException("error when parsing CSV: file is null");
+      throw new GaleniumException("error when checking CSV input: file is null");
     }
     if (!csvFile.isFile()) {
       throw new GaleniumException("error when reading CSV file: '" + csvFile.getPath() + "'");

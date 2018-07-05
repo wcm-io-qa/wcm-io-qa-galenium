@@ -61,9 +61,9 @@ final class WebDriverFactory {
         ChromeEmulatorOptionsProvider emulatorProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
         if (isChromeHeadless()) {
           HeadlessChromeCapabilityProvider headlessProvider = new HeadlessChromeCapabilityProvider(device);
-          getLogger().debug("chrome headless: " + ReflectionToStringBuilder.toString(headlessProvider, ToStringStyle.MULTI_LINE_STYLE));
+          getLogger().trace("chrome headless: " + ReflectionToStringBuilder.toString(headlessProvider, ToStringStyle.MULTI_LINE_STYLE));
           if (withEmulator) {
-            getLogger().debug("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
+            getLogger().trace("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
             chromeOptionProvider = new CombinedOptionsProvider(headlessProvider, emulatorProvider);
           }
           else {
@@ -71,7 +71,7 @@ final class WebDriverFactory {
           }
         }
         else if (withEmulator) {
-          getLogger().debug("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
+          getLogger().trace("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
           chromeOptionProvider = emulatorProvider;
         }
         else {

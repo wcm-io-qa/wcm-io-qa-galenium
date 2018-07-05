@@ -43,6 +43,7 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_AUTHOR_USER = "admin";
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
   private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
+  private static final String DEFAULT_DEVICE_CSV = "./target/test-classes/devices.csv";
   private static final String DEFAULT_EXPECTED_TEXTS_FILE = "./src/test/resources/galen/specs/expectedTexts.properties";
   private static final String DEFAULT_GRID_PORT = "4444";
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
@@ -58,16 +59,17 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS = "galenium.webdriver.chrome.headless";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
+  private static final String SYSTEM_PROPERTY_NAME_DEVICE_CSV = "galenium.devices.csv";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "galenium.suppressAutoAdjustBrowserSize";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
-  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
-  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN = "galenium.mediaquery.width.min";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
+  private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN = "galenium.mediaquery.width.min";
   private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
@@ -478,31 +480,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Path to media query definitions.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.mediaquery.properties
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * ./target/test-classes/mediaqueries.properties
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return path to {@link Properties} file containing media query definitions
-   */
-  public static String getMediaQueryPropertiesPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES, DEFAULT_MEDIA_QUERY_PATH);
-  }
-
-  /**
    * Height to use when instantiating devices using media queries.
    * <ul>
    * <li>Key:
@@ -575,6 +552,56 @@ public final class GaleniumConfiguration {
    */
   public static Integer getMediaQueryMinimalWidth() {
     return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN, 320);
+  }
+
+  /**
+   * Path to device profile definitions.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.devices.csv
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * ./target/test-classes/device.csv
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return path to {@link Properties} file containing media query definitions
+   */
+  public static String getDeviceCsvFilePath() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_DEVICE_CSV, DEFAULT_DEVICE_CSV);
+  }
+
+  /**
+   * Path to media query definitions.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.properties
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * ./target/test-classes/mediaqueries.properties
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return path to {@link Properties} file containing media query definitions
+   */
+  public static String getMediaQueryPropertiesPath() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES, DEFAULT_MEDIA_QUERY_PATH);
   }
 
   /**
@@ -739,31 +766,6 @@ public final class GaleniumConfiguration {
    */
   public static String getTextComparisonFile() {
     return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
-  }
-
-  /**
-   * BrowserMob Proxy flag.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.browsermob.proxy
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return whether to use BrowserMob Proxy for drivers
-   */
-  public static boolean isUseBrowserMobProxy() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 
   /**
@@ -1126,6 +1128,31 @@ public final class GaleniumConfiguration {
    */
   public static boolean isTakeScreenshotOnSuccessfulTest() {
     return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
+  }
+
+  /**
+   * BrowserMob Proxy flag.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.browsermob.proxy
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether to use BrowserMob Proxy for drivers
+   */
+  public static boolean isUseBrowserMobProxy() {
+    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 
   /**
