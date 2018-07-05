@@ -19,16 +19,26 @@
  */
 package io.wcm.qa.galenium.device;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class DeviceProfile {
 
-  private BrowserType browser;
+  private String browser;
+  private String emulator;
   private String name;
   private int screenHeight;
   private int screenWidth;
 
-  public BrowserType getBrowser() {
+  public String getBrowser() {
     return browser;
+  }
+
+  public BrowserType getBrowserType() {
+    return BrowserType.valueOf(getBrowser());
+  }
+
+  public String getEmulator() {
+    return emulator;
   }
 
   public int getHeight() {
@@ -43,8 +53,12 @@ public class DeviceProfile {
     return screenWidth;
   }
 
-  public void setBrowser(BrowserType browser) {
+  public void setBrowser(String browser) {
     this.browser = browser;
+  }
+
+  public void setEmulator(String emulator) {
+    this.emulator = emulator;
   }
 
   public void setHeight(int height) {
@@ -58,4 +72,10 @@ public class DeviceProfile {
   public void setWidth(int width) {
     this.screenWidth = width;
   }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
 }

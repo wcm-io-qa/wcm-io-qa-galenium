@@ -43,7 +43,7 @@ public class TestDevice {
    * @param profile defining the device
    */
   public TestDevice(DeviceProfile profile) {
-    this(profile.getName(), profile.getBrowser(), new Dimension(profile.getWidth(), profile.getHeight()));
+    this(profile.getName(), profile.getBrowserType(), new Dimension(profile.getWidth(), profile.getHeight()), null, profile.getEmulator());
   }
 
   /**

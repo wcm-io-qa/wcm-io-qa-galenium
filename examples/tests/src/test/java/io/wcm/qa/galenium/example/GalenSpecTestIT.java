@@ -32,7 +32,7 @@ import io.wcm.qa.galenium.specs.Homepage;
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
   }

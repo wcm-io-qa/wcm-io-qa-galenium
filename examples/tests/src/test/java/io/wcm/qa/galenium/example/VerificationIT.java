@@ -49,7 +49,8 @@ import io.wcm.qa.galenium.verification.base.Verification;
 public class VerificationIT extends AbstractExampleBase {
 
   private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public VerificationIT(TestDevice testDevice) {
     super(testDevice);
   }

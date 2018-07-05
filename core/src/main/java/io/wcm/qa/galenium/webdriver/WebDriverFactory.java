@@ -28,9 +28,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.MutableCapabilities;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -56,22 +58,26 @@ final class WebDriverFactory {
         OptionsProvider chromeOptionProvider;
         String chromeEmulator = device.getChromeEmulator();
         boolean withEmulator = StringUtils.isNotBlank(chromeEmulator);
+        ChromeEmulatorOptionsProvider emulatorProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
         if (isChromeHeadless()) {
+          HeadlessChromeCapabilityProvider headlessProvider = new HeadlessChromeCapabilityProvider(device);
+          getLogger().debug("chrome headless: " + ReflectionToStringBuilder.toString(headlessProvider, ToStringStyle.MULTI_LINE_STYLE));
           if (withEmulator) {
-            chromeOptionProvider = new CombinedOptionsProvider(
-                new HeadlessChromeCapabilityProvider(device),
-                new ChromeEmulatorOptionsProvider(chromeEmulator));
+            getLogger().debug("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
+            chromeOptionProvider = new CombinedOptionsProvider(headlessProvider, emulatorProvider);
           }
           else {
-            chromeOptionProvider = new HeadlessChromeCapabilityProvider(device);
+            chromeOptionProvider = headlessProvider;
           }
         }
         else if (withEmulator) {
-          chromeOptionProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
+          getLogger().debug("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
+          chromeOptionProvider = emulatorProvider;
         }
         else {
           chromeOptionProvider = new ChromeOptionsProvider();
         }
+        getLogger().debug("chrome provider: " + ReflectionToStringBuilder.toString(chromeOptionProvider, ToStringStyle.MULTI_LINE_STYLE));
         return chromeOptionProvider;
       case FIREFOX:
         return new FirefoxOptionsProvider();
@@ -110,14 +116,13 @@ final class WebDriverFactory {
             newTestDevice.getBrowserType(),
             Thread.currentThread().getName()));
 
-    MutableCapabilities capabilities = getDesiredCapabilitiesProvider(newTestDevice).getOptions();
-
+    OptionsProvider capabilitiesProvider = getDesiredCapabilitiesProvider(newTestDevice);
     getLogger().info("Getting driver for runmode '" + runMode + "'");
     switch (runMode) {
       case REMOTE:
         getLogger().info("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
         try {
-          setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilities));
+          setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilitiesProvider.getOptions()));
         }
         catch (MalformedURLException ex) {
           throw new RuntimeException(
@@ -131,18 +136,18 @@ final class WebDriverFactory {
       case LOCAL:
         switch (newTestDevice.getBrowserType()) {
           case CHROME:
-            ChromeDriver chromeDriver = new ChromeDriver(capabilities);
+            ChromeDriver chromeDriver = new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
             setDriver(chromeDriver);
             break;
 
           case IE:
-            InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilities);
+            InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilitiesProvider.getOptions());
             setDriver(ieDriver);
             break;
 
           default:
           case FIREFOX:
-            FirefoxDriver firefoxDriver = new FirefoxDriver(capabilities);
+            FirefoxDriver firefoxDriver = new FirefoxDriver(capabilitiesProvider.getOptions());
             setDriver(firefoxDriver);
             break;
         }

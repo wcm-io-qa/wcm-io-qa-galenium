@@ -28,7 +28,6 @@ class ChromeEmulatorOptionsProvider extends ChromeOptionsProvider {
 
   private String chromeEmulator;
 
-
   ChromeEmulatorOptionsProvider(String emulatorString) {
     setChromeEmulator(emulatorString);
   }
@@ -46,7 +45,9 @@ class ChromeEmulatorOptionsProvider extends ChromeOptionsProvider {
     getLogger().debug("setting up chrome emulator: " + getChromeEmulator());
     Map<String, String> mobileEmulation = new HashMap<String, String>();
     mobileEmulation.put("deviceName", getChromeEmulator());
-    return addChromeOption(super.getBrowserSpecificOptions(), "mobileEmulation", mobileEmulation);
+    ChromeOptions browserSpecificOptions = super.getBrowserSpecificOptions();
+    browserSpecificOptions.setCapability("mobileEmulation", mobileEmulation);
+    return browserSpecificOptions;
   }
 
 }

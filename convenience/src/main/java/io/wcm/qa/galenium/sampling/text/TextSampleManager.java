@@ -29,8 +29,8 @@ import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
-import io.wcm.qa.galenium.configuration.ConfigurationUtil;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.configuration.PropertiesUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
@@ -47,7 +47,7 @@ public final class TextSampleManager {
   private static final Properties SAMPLED_TEXTS = new Properties();
 
   static {
-    ConfigurationUtil.loadProperties(EXPECTED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
+    PropertiesUtil.loadProperties(EXPECTED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
   }
 
   private TextSampleManager() {

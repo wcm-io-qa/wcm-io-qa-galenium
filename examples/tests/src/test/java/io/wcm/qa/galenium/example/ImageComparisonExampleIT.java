@@ -41,7 +41,7 @@ import io.wcm.qa.galenium.selectors.homepage.Stage;
  */
 public class ImageComparisonExampleIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public ImageComparisonExampleIT(TestDevice testDevice) {
     super(testDevice);
   }

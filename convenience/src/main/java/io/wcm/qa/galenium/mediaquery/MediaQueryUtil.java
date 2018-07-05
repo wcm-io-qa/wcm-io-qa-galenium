@@ -35,8 +35,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
-import io.wcm.qa.galenium.configuration.ConfigurationUtil;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.configuration.PropertiesUtil;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
@@ -116,7 +116,7 @@ public final class MediaQueryUtil {
     if (mediaQueryMapFileName.containsKey(propertiesFilePath)) {
       return mediaQueryMapFileName.get(propertiesFilePath);
     }
-    Properties mediaQueryProperties = ConfigurationUtil.loadProperties(propertiesFilePath);
+    Properties mediaQueryProperties = PropertiesUtil.loadProperties(propertiesFilePath);
     Collection<MediaQuery> mediaQueries = getMediaQueries(mediaQueryProperties);
     mediaQueryMapFileName.put(propertiesFilePath, mediaQueries);
     return mediaQueries;
