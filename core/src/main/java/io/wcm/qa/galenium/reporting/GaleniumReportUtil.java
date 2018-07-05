@@ -52,7 +52,7 @@ import com.relevantcodes.extentreports.model.ITest;
 import com.relevantcodes.extentreports.model.TestAttribute;
 
 import freemarker.template.TemplateException;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 

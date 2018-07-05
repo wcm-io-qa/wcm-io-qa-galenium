@@ -19,9 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridHost;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getGridPort;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isChromeHeadless;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getGridHost;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getGridPort;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isChromeHeadless;
 import static java.text.MessageFormat.format;
 
 import java.net.MalformedURLException;
@@ -36,9 +36,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.selenium.RunMode;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**

@@ -19,10 +19,11 @@
  */
 package io.wcm.qa.galenium.listeners;
 
+
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebDriver;
@@ -36,9 +37,9 @@ import org.testng.ITestResult;
 import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;

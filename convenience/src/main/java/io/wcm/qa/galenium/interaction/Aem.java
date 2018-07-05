@@ -19,10 +19,10 @@
  */
 package io.wcm.qa.galenium.interaction;
 
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getAuthorPass;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getAuthorUser;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorPass;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAuthorUser;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebDriver;

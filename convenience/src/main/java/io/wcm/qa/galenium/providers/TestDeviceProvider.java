@@ -29,12 +29,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.testng.annotations.DataProvider;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.BrowserType;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.mediaquery.MediaQuery;
 import io.wcm.qa.galenium.mediaquery.MediaQueryUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public final class TestDeviceProvider {
 

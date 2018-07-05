@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.example.pageobjects;
 
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 
 
 abstract class AbstractPage extends AbstractWebDriverPageObject {

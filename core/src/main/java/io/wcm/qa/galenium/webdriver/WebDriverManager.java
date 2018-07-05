@@ -19,9 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isChromeHeadless;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isChromeHeadless;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,10 +35,10 @@ import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**

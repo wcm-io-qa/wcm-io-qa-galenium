@@ -29,9 +29,9 @@ import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.ConfigurationUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
  * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link Properties}

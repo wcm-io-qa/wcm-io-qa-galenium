@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.configuration;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
