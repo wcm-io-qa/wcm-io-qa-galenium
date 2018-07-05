@@ -95,7 +95,7 @@ public abstract class VerificationBase implements Verification {
   }
 
   /**
-   * Pre verification is run before this verfication to test whether it makes sense to attempt verification. Verifying
+   * Pre verification is run before this verification to test whether it makes sense to attempt verification. Verifying
    * an attribute value is futile if the element does not exist, for example.
    * @return pre verification
    */
@@ -123,6 +123,14 @@ public abstract class VerificationBase implements Verification {
 
   public void setCaching(boolean caching) {
     this.caching = caching;
+    setCachingInPreVerification(caching);
+  }
+
+  private void setCachingInPreVerification(boolean caching) {
+    Verification pre = getPreVerification();
+    if (pre != null && pre instanceof VerificationBase) {
+      ((VerificationBase)pre).setCaching(caching);
+    }
   }
 
   /**
@@ -138,6 +146,7 @@ public abstract class VerificationBase implements Verification {
 
   public void setPreVerification(Verification preVerification) {
     this.preVerification = preVerification;
+    setCachingInPreVerification(caching);
   }
 
   public void setVerified(Boolean verified) {
@@ -184,9 +193,10 @@ public abstract class VerificationBase implements Verification {
       setVerified(doVerification());
       getLogger().trace("done verifying (" + toString() + ")");
       getLogger().trace("looking for '" + getExpectedValue() + "'");
-      getLogger().trace("found: '" + getActualValue() + "'");
-      if (!isVerified() && getActualValue() != null) {
-        TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
+      String actualSample = getActualValue();
+      getLogger().trace("found: '" + actualSample + "'");
+      if (!isVerified() && actualSample != null) {
+        TextSampleManager.addNewTextSample(getExpectedKey(), actualSample);
       }
     }
     catch (GaleniumException ex) {

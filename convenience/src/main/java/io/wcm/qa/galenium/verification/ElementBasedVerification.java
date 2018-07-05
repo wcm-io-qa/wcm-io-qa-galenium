@@ -96,6 +96,7 @@ abstract class ElementBasedVerification extends VerificationBase {
       return super.getActualValue();
     }
     catch (StaleElementReferenceException ex) {
+      getLogger().trace("stale element", ex);
       setElement(null);
       return super.getActualValue();
     }

@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.verification;
 
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
@@ -32,16 +35,36 @@ public class VisibilityVerification extends ElementBasedVerification {
    * @param selector to identify element
    */
   public VisibilityVerification(Selector selector) {
+    this(selector, 0);
+  }
+
+  /**
+   * Constructor.
+   * @param selector to identify element
+   */
+  public VisibilityVerification(Selector selector, int timeOut) {
     super(selector);
+    setTimeout(timeOut);
   }
 
   private String getVerboseSelectorInfo() {
     return " (" + getSelector().asString() + ")";
   }
 
+  private boolean isDisplayed(WebElement element) {
+    return element != null && element.isDisplayed();
+  }
+
   @Override
   protected Boolean doVerification() {
-    return getElement() != null;
+    try {
+      return isDisplayed(getElement());
+    }
+    catch (StaleElementReferenceException ex) {
+      getLogger().trace("stale element", ex);
+      setElement(null);
+      return isDisplayed(getElement());
+    }
   }
 
   @Override
