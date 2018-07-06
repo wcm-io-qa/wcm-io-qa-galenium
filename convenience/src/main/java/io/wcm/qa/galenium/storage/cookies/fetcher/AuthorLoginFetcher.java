@@ -28,6 +28,7 @@ import io.wcm.qa.galenium.storage.cookies.CookieFetcher;
 /**
  * Fetches author login cookie.
  */
+@Deprecated
 public class AuthorLoginFetcher implements CookieFetcher {
 
   private static final Collection<String> COOKIE_NAMES = Arrays.asList("login-token");

@@ -24,6 +24,7 @@ import java.util.Collection;
 /**
  * Fetcher super interface.
  */
+@Deprecated
 public interface Fetcher {
 
   /**

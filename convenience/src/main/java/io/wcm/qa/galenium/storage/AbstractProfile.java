@@ -31,6 +31,7 @@ import org.openqa.selenium.WebDriver;
  * @param <F> Fetcher type
  * @param <I> item type
  */
+@Deprecated
 public abstract class AbstractProfile<F extends Fetcher, I> {
 
   private boolean initialized;

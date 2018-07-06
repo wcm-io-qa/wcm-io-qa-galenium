@@ -37,6 +37,7 @@ import io.wcm.qa.galenium.storage.cookies.CookieFetcher;
 /**
  * Combines multiple {@link CookieFetcher} into one profile that can be easily selected on a per test case basis.
  */
+@Deprecated
 public class LocalStorageProfile extends AbstractProfile<LocalStorageFetcher, Map.Entry<String, String>> {
 
   private static final String CATEGORY_PREFIX_FETCHER = "LSF_";

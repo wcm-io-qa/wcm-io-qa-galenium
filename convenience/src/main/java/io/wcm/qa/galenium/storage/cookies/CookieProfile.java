@@ -34,6 +34,7 @@ import io.wcm.qa.galenium.storage.AbstractProfile;
 /**
  * Combines multiple {@link CookieFetcher} into one profile that can be easily selected on a per test case basis.
  */
+@Deprecated
 public class CookieProfile extends AbstractProfile<CookieFetcher, Cookie> {
 
   private static final String CATEGORY_PREFIX_FETCHER = "CF_";
@@ -63,6 +64,7 @@ public class CookieProfile extends AbstractProfile<CookieFetcher, Cookie> {
   /**
    * @return fetched cookies
    */
+  @Override
   public Collection<Cookie> getFetchedItems() {
     if (!isInitialized()) {
       getLogger().warn("getting cookies before they are fetched.");

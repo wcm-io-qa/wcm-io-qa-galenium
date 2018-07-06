@@ -25,6 +25,7 @@ import io.wcm.qa.galenium.storage.Fetcher;
  * Cookie fetcher gets cookies to be used throughout test run. Standard use cases include logins and notification
  * layers.
  */
+@Deprecated
 public interface CookieFetcher extends Fetcher {
 
   // Marker interface. All methods defined in super interface.

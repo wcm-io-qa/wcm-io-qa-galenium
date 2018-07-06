@@ -38,6 +38,7 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 /**
  * Handles persisting fetched cookies so they can be used by all tests.
  */
+@SuppressWarnings("deprecation")
 public final class PersistenceUtil {
 
   private static final String CATEGORY_PREFIX_COOKIE_PROFILE = "CP_";
@@ -51,6 +52,7 @@ public final class PersistenceUtil {
    * Sets all fetched cookies from profile in current driver.
    * @param profileToApply profile to apply
    */
+  @Deprecated
   public static void applyProfileToDriver(CookieProfile profileToApply) {
     if (profileToApply == null) {
       getLogger().warn("cookie profile is null.");
@@ -89,6 +91,7 @@ public final class PersistenceUtil {
    * Sets all fetched cookies from profile in current driver.
    * @param profileToApply profile to apply
    */
+  @Deprecated
   public static void applyProfileToDriver(LocalStorageProfile profileToApply) {
     if (profileToApply == null) {
       getLogger().warn("local storage profile is null.");

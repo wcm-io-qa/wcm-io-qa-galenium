@@ -24,6 +24,7 @@ import io.wcm.qa.galenium.storage.Fetcher;
 /**
  * Implement to fetch local storage items to be used in test cases.
  */
+@Deprecated
 public interface LocalStorageFetcher extends Fetcher {
 
   // Marker interface. All methods defined in super interface.
