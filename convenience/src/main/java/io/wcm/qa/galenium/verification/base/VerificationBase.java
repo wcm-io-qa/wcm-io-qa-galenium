@@ -193,7 +193,7 @@ public abstract class VerificationBase implements Verification {
       setVerified(doVerification());
       getLogger().trace("done verifying (" + toString() + ")");
       getLogger().trace("looking for '" + getExpectedValue() + "'");
-      String actualSample = getActualValue();
+      String actualSample = getCachedValue();
       getLogger().trace("found: '" + actualSample + "'");
       if (!isVerified() && actualSample != null) {
         TextSampleManager.addNewTextSample(getExpectedKey(), actualSample);
@@ -222,6 +222,10 @@ public abstract class VerificationBase implements Verification {
     if (!isCaching() || actualValue == null) {
       actualValue = sampleValue();
     }
+    return actualValue;
+  }
+
+  protected String getCachedValue() {
     return actualValue;
   }
 

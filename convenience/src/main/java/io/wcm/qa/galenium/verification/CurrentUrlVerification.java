@@ -62,7 +62,7 @@ public class CurrentUrlVerification extends VerificationBase {
 
   @Override
   protected String getFailureMessage() {
-    return "Expected URL: '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
+    return "Expected URL: '" + getExpectedValue() + "' but found '" + getCachedValue() + "'";
   }
 
   @Override
