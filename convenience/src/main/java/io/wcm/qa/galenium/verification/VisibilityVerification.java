@@ -61,7 +61,7 @@ public class VisibilityVerification extends ElementBasedVerification {
       return isDisplayed(getElement());
     }
     catch (StaleElementReferenceException ex) {
-      getLogger().trace("stale element", ex);
+      getLogger().trace("stale element: '" + ex.getMessage() + "'");
       setElement(null);
       return isDisplayed(getElement());
     }
