@@ -191,20 +191,23 @@ public abstract class VerificationBase implements Verification {
     }
     try {
       setVerified(doVerification());
-      getLogger().trace("done verifying (" + toString() + ")");
-      getLogger().trace("looking for '" + getExpectedValue() + "'");
-      String actualSample = getCachedValue();
-      getLogger().trace("found: '" + actualSample + "'");
-      if (!isVerified() && actualSample != null) {
-        TextSampleManager.addNewTextSample(getExpectedKey(), actualSample);
-      }
     }
     catch (GaleniumException ex) {
       getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
       setException(ex);
       setVerified(false);
     }
+    afterVerification();
     return isVerified();
+  }
+
+  protected void afterVerification() {
+    getLogger().trace("looking for '" + getExpectedValue() + "'");
+    getLogger().trace("found: '" + getCachedValue() + "'");
+    if (!isVerified() && getCachedValue() != null) {
+      TextSampleManager.addNewTextSample(getExpectedKey(), getCachedValue());
+    }
+    getLogger().trace("done verifying (" + toString() + ")");
   }
 
   /**

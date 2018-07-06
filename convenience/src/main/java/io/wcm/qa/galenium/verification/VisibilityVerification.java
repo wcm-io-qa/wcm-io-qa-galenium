@@ -56,6 +56,16 @@ public class VisibilityVerification extends ElementBasedVerification {
   }
 
   @Override
+  protected void afterVerification() {
+    if (isVerified()) {
+      getLogger().trace("successfully confirmed visibility of '" + getElementName() + "'");
+    }
+    else {
+      getLogger().trace("could not confirm visibility of '" + getElementName() + "'");
+    }
+  }
+
+  @Override
   protected Boolean doVerification() {
     try {
       return isDisplayed(getElement());

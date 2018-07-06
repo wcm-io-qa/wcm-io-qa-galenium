@@ -233,6 +233,11 @@ public class VisualVerification extends ElementBasedVerification {
   }
 
   @Override
+  protected void afterVerification() {
+    // do nothing, because string based sampling does not apply here
+  }
+
+  @Override
   protected String getFailureMessage() {
     return getElementName() + ": Image comparison failed";
   }

@@ -43,6 +43,16 @@ public class InvisibilityVerification extends VisibilityVerification {
   }
 
   @Override
+  protected void afterVerification() {
+    if (isVerified()) {
+      getLogger().trace("successfully confirmed invisibility of '" + getElementName() + "'");
+    }
+    else {
+      getLogger().trace("could not confirm invisibility of '" + getElementName() + "'");
+    }
+  }
+
+  @Override
   protected Boolean doVerification() {
     return !super.doVerification();
   }
