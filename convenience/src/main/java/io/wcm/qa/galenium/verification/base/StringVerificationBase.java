@@ -31,6 +31,11 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
     super(verificationName);
   }
 
+  protected StringVerificationBase(String verificationName, String expectedValue) {
+    this(verificationName);
+    setExpectedValue(expectedValue);
+  }
+
   @Override
   protected Boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
