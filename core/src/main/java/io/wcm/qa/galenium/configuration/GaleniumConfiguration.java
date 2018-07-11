@@ -44,11 +44,11 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
   private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
   private static final String DEFAULT_DEVICE_CSV = "./target/test-classes/devices.csv";
-  private static final String DEFAULT_EXPECTED_TEXTS_FILE = "./src/test/resources/galen/specs/expectedTexts.properties";
+  private static final String DEFAULT_EXPECTED_TEXTS_FILE = "text/expectedTexts.properties";
   private static final String DEFAULT_GRID_PORT = "4444";
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
-  private static final String DEFAULT_SPEC_PATH = "./target/specs";
+  private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
@@ -81,7 +81,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE = "galenium.sampling.image.save";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_DIRECTORY = "galenium.sampling.text.directory";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY = "galenium.sampling.text.directory.expected";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY = "galenium.sampling.text.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE = "galenium.sampling.text.save";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
@@ -719,12 +720,12 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Directory to store the text samples in.
+   * Directory to retrieve the text samples from.
    * <ul>
    * <li>Key:
    *
    * <pre>
-   * galenium.sampling.text.directory
+   * galenium.sampling.text.directory.input
    * </pre>
    *
    * </li>
@@ -739,8 +740,33 @@ public final class GaleniumConfiguration {
    * </ul>
    * @return {@link RunMode} used
    */
-  public static String getTextComparisonDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_DIRECTORY, DEFAULT_REPORT_DIR);
+  public static String getTextComparisonInputDirectory() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY, DEFAULT_SPEC_PATH);
+  }
+
+  /**
+   * Directory to retrieve the text samples from.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.sampling.text.directory.input
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * "./target/galenium-reports"
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return {@link RunMode} used
+   */
+  public static String getTextComparisonOutputDirectory() {
+    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, DEFAULT_REPORT_DIR);
   }
 
   /**
