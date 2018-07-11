@@ -22,7 +22,6 @@ package io.wcm.qa.galenium.interaction;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.util.List;
@@ -34,11 +33,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.Marker;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public final class Element {
+
+  private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
 
   private Element() {
     // do not instantiate
@@ -260,6 +264,10 @@ public final class Element {
     Actions actions = new Actions(getDriver());
     actions.moveToElement(elementToScrollTo);
     actions.perform();
+  }
+
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
 }
