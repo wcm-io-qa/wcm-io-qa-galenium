@@ -45,6 +45,7 @@ public final class TextSampleManager {
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonInputDirectory();
   private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonOutputDirectory();
+  private static final File OUTPUT_FILE = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
   private static final Properties SAMPLED_TEXTS = new Properties();
 
   static {
@@ -100,7 +101,7 @@ public final class TextSampleManager {
         SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
       }
       catch (IOException ex) {
-        getLogger().error("Could not save sample texts.");
+        getLogger().error("Could not save sample texts to '" + OUTPUT_FILE + "'");
       }
       finally {
         if (writerOutputStream != null) {
@@ -108,7 +109,7 @@ public final class TextSampleManager {
             writerOutputStream.close();
           }
           catch (IOException ex) {
-            getLogger().warn("error when closing file output stream.");
+            getLogger().warn("error when closing file output stream: '" + OUTPUT_FILE + "'");
           }
         }
       }
@@ -117,9 +118,8 @@ public final class TextSampleManager {
 
   private static WriterOutputStream getOutputStream() throws IOException {
     WriterOutputStream writerOutputStream;
-    File outputFile = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
-    outputFile.getParentFile().mkdirs();
-    FileWriter fileWriter = new FileWriter(outputFile, true);
+    OUTPUT_FILE.getParentFile().mkdirs();
+    FileWriter fileWriter = new FileWriter(OUTPUT_FILE, true);
     writerOutputStream = new WriterOutputStream(fileWriter, CHARSET_UTF8);
     return writerOutputStream;
   }
