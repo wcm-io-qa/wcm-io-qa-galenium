@@ -32,11 +32,6 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
   }
 
   @Override
-  protected void persistSample(String key, String newValue) {
-    TextSampleManager.addNewTextSample(key, newValue);
-  }
-
-  @Override
   protected Boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
@@ -48,5 +43,10 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
       return TextSampleManager.getExpectedText(expectedKey);
     }
     return NO_EXPECTED_VALUE_SET;
+  }
+
+  @Override
+  protected void persistSample(String key, String newValue) {
+    TextSampleManager.addNewTextSample(key, newValue);
   }
 }

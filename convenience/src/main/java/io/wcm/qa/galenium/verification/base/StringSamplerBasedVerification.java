@@ -33,11 +33,6 @@ public abstract class StringSamplerBasedVerification extends SamplerBasedVerific
   }
 
   @Override
-  protected void persistSample(String key, String newValue) {
-    TextSampleManager.addNewTextSample(key, newValue);
-  }
-
-  @Override
   protected Boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
@@ -49,6 +44,11 @@ public abstract class StringSamplerBasedVerification extends SamplerBasedVerific
       return TextSampleManager.getExpectedText(expectedKey);
     }
     return NO_EXPECTED_VALUE_SET;
+  }
+
+  @Override
+  protected void persistSample(String key, String newValue) {
+    TextSampleManager.addNewTextSample(key, newValue);
   }
 
 }

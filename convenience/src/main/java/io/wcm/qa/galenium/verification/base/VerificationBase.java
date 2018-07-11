@@ -126,13 +126,6 @@ public abstract class VerificationBase<S> implements Verification {
     setCachingInPreVerification(caching);
   }
 
-  private void setCachingInPreVerification(boolean caching) {
-    Verification pre = getPreVerification();
-    if (pre != null && pre instanceof VerificationBase) {
-      ((VerificationBase)pre).setCaching(caching);
-    }
-  }
-
   /**
    * @param comparator to use for sorting associated differences
    */
@@ -201,6 +194,13 @@ public abstract class VerificationBase<S> implements Verification {
     return isVerified();
   }
 
+  private void setCachingInPreVerification(boolean caching) {
+    Verification pre = getPreVerification();
+    if (pre != null && pre instanceof VerificationBase) {
+      ((VerificationBase)pre).setCaching(caching);
+    }
+  }
+
   protected void afterVerification() {
     getLogger().trace("looking for '" + getExpectedValue() + "'");
     S cachedValue = getCachedValue();
@@ -211,8 +211,6 @@ public abstract class VerificationBase<S> implements Verification {
     }
     getLogger().trace("done verifying (" + toString() + ")");
   }
-
-  protected abstract void persistSample(String key, S newValue);
 
   /**
    * Override to implement verification.
@@ -230,16 +228,16 @@ public abstract class VerificationBase<S> implements Verification {
     return actualValue;
   }
 
-  protected S getCachedValue() {
-    return actualValue;
-  }
-
   /**
    * Override to supply additional info on verification. Default is empty String.
    * @return additional info about this verification
    */
   protected String getAdditionalToStringInfo() {
     return StringUtils.EMPTY;
+  }
+
+  protected S getCachedValue() {
+    return actualValue;
   }
 
   protected SortedDifferences getDifferences() {
@@ -270,8 +268,6 @@ public abstract class VerificationBase<S> implements Verification {
     return expectedValue;
   }
 
-  protected abstract S initExpectedValue();
-
   /**
    * @return message for use on failed verification
    */
@@ -300,12 +296,16 @@ public abstract class VerificationBase<S> implements Verification {
     return getPreVerification() != null;
   }
 
+  protected abstract S initExpectedValue();
+
   /**
    * @return whether to remove "Verification" from name
    */
   protected boolean isStripVerificationFromClassName() {
     return true;
   }
+
+  protected abstract void persistSample(String key, S newValue);
 
   /**
    * Override to actually sample a value.

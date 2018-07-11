@@ -212,6 +212,11 @@ public class VisualVerification extends ElementBasedVerification {
   }
 
   @Override
+  protected void afterVerification() {
+    // do nothing, because string based sampling does not apply here
+  }
+
+  @Override
   protected Boolean doVerification() {
     LayoutReport layoutReport;
     if (getValidationListener() == null) {
@@ -233,11 +238,6 @@ public class VisualVerification extends ElementBasedVerification {
   }
 
   @Override
-  protected void afterVerification() {
-    // do nothing, because string based sampling does not apply here
-  }
-
-  @Override
   protected String getFailureMessage() {
     return getElementName() + ": Image comparison failed";
   }
@@ -248,6 +248,12 @@ public class VisualVerification extends ElementBasedVerification {
   }
 
   @Override
+  protected String sampleValue() {
+    // sampling in visual verification is encapsulated in Galen functionalities
+    return null;
+  }
+
+  @Override
   protected void setDifferences(SortedDifferences differences) {
     // handle factory
     getSpecFactory().clearDifferences();
@@ -255,12 +261,6 @@ public class VisualVerification extends ElementBasedVerification {
 
     // handle self
     super.setDifferences(differences);
-  }
-
-  @Override
-  protected String sampleValue() {
-    // sampling in visual verification is encapsulated in Galen functionalities
-    return null;
   }
 
 }
