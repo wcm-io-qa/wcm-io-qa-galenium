@@ -33,15 +33,15 @@ import io.wcm.qa.galenium.selectors.common.Logo;
 import io.wcm.qa.galenium.selectors.common.Navigation;
 import io.wcm.qa.galenium.selectors.homepage.Stage;
 import io.wcm.qa.galenium.util.VerificationUtil;
-import io.wcm.qa.galenium.verification.CssClassVerification;
-import io.wcm.qa.galenium.verification.CurrentUrlVerification;
-import io.wcm.qa.galenium.verification.InvisibilityVerification;
-import io.wcm.qa.galenium.verification.LinkTargetVerification;
-import io.wcm.qa.galenium.verification.NoCssClassVerification;
-import io.wcm.qa.galenium.verification.PageTitleVerification;
-import io.wcm.qa.galenium.verification.VisibilityVerification;
-import io.wcm.qa.galenium.verification.VisualVerification;
 import io.wcm.qa.galenium.verification.base.Verification;
+import io.wcm.qa.galenium.verification.driver.CurrentUrlVerification;
+import io.wcm.qa.galenium.verification.driver.PageTitleVerification;
+import io.wcm.qa.galenium.verification.element.CssClassVerification;
+import io.wcm.qa.galenium.verification.element.InvisibilityVerification;
+import io.wcm.qa.galenium.verification.element.LinkTargetVerification;
+import io.wcm.qa.galenium.verification.element.NoCssClassVerification;
+import io.wcm.qa.galenium.verification.element.VisibilityVerification;
+import io.wcm.qa.galenium.verification.element.VisualVerification;
 
 /**
  * Showcase {@link Verification} approach.

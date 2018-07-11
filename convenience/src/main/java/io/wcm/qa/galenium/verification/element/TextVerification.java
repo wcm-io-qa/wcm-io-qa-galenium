@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;

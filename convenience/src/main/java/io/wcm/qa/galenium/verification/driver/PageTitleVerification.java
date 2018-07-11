@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification;
+package io.wcm.qa.galenium.verification.driver;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,26 +25,26 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 /**
- * Make sure current URL is a certain value.
+ * Verifies current page's title.
  */
-public class CurrentUrlVerification extends VerificationBase {
+public class PageTitleVerification extends VerificationBase {
 
-  private static final String KEY_PART_URL = "url";
+  private static final String KEY_PART_PAGE_TITLE = "title";
 
   /**
-   * @param verificationName for use in reporting
+   * @param verificationName to use in reporting
    */
-  public CurrentUrlVerification(String verificationName) {
+  public PageTitleVerification(String verificationName) {
     super(verificationName);
   }
 
   /**
-   * @param verificationName for use in reporting
-   * @param expectedUrl to match against
+   * @param verificationName to use in reporting
+   * @param expectedTitle to verify against
    */
-  public CurrentUrlVerification(String verificationName, String expectedUrl) {
+  public PageTitleVerification(String verificationName, String expectedTitle) {
     this(verificationName);
-    setExpectedValue(expectedUrl);
+    setExpectedValue(expectedTitle);
   }
 
   @Override
@@ -55,24 +55,24 @@ public class CurrentUrlVerification extends VerificationBase {
   @Override
   protected String getExpectedKey() {
     if (StringUtils.isNotBlank(super.getExpectedKey())) {
-      return super.getExpectedKey() + "." + KEY_PART_URL;
+      return super.getExpectedKey() + "." + KEY_PART_PAGE_TITLE;
     }
-    return KEY_PART_URL;
+    return KEY_PART_PAGE_TITLE;
   }
 
   @Override
   protected String getFailureMessage() {
-    return "Expected URL: '" + getExpectedValue() + "' but found '" + getCachedValue() + "'";
+    return "Expected page title: '" + getExpectedValue() + "' but found '" + getCachedValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "Found URL: '" + getExpectedValue() + "'";
+    return "Title matched '" + getExpectedValue() + "'";
   }
 
   @Override
   protected String sampleValue() {
-    return GaleniumContext.getDriver().getCurrentUrl();
+    return GaleniumContext.getDriver().getTitle();
   }
 
 }
