@@ -311,10 +311,7 @@ public abstract class VerificationBase<S> implements Verification {
    * Override to actually sample a value.
    * @return sample value to be used as actual value
    */
-  protected S sampleValue() {
-    getLogger().debug("trying to sample from " + toString());
-    return null;
-  }
+  protected abstract S sampleValue();
 
   /**
    * @param differences replaces differences on this verification

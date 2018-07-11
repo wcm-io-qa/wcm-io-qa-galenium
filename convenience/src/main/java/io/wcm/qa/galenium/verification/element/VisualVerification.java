@@ -257,4 +257,10 @@ public class VisualVerification extends ElementBasedVerification {
     super.setDifferences(differences);
   }
 
+  @Override
+  protected String sampleValue() {
+    // sampling in visual verification is encapsulated in Galen functionalities
+    return null;
+  }
+
 }

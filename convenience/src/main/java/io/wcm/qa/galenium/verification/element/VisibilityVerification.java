@@ -95,4 +95,9 @@ public class VisibilityVerification extends ElementBasedVerification {
     return successMessage + getVerboseSelectorInfo();
   }
 
+  @Override
+  protected String sampleValue() {
+    return Boolean.toString(isDisplayed(getElement()));
+  }
+
 }
