@@ -27,12 +27,12 @@ import io.wcm.qa.galenium.sampling.differences.DifferentiatedDifferences;
 import io.wcm.qa.galenium.sampling.differences.SelectorDifference;
 import io.wcm.qa.galenium.sampling.differences.StringDifference;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.verification.base.VerificationBase;
+import io.wcm.qa.galenium.verification.base.StringVerificationBase;
 
 /**
  * Base class encapsulating common functionality to verify aspects of elements.
  */
-abstract class ElementBasedVerification extends VerificationBase {
+abstract class ElementBasedVerification extends StringVerificationBase {
 
   private WebElement element;
   private Selector selector;

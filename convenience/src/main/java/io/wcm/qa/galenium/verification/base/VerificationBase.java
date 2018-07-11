@@ -30,19 +30,19 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
-import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
 /**
  * Common base for {@link Difference} aware Galenium {@link Verification}.
+ * @param <S>
  */
-public abstract class VerificationBase implements Verification {
+public abstract class VerificationBase<S> implements Verification {
 
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
-  private String actualValue;
+  private S actualValue;
   private boolean caching;
   private SortedDifferences differences;
   private Throwable exception;
-  private String expectedValue;
+  private S expectedValue;
   private Verification preVerification;
   private String verificationName;
   private Boolean verified;
@@ -52,7 +52,7 @@ public abstract class VerificationBase implements Verification {
     setCaching(true);
   }
 
-  protected VerificationBase(String verificationName, String expectedValue) {
+  protected VerificationBase(String verificationName, S expectedValue) {
     this(verificationName);
     setExpectedValue(expectedValue);
   }
@@ -203,32 +203,34 @@ public abstract class VerificationBase implements Verification {
 
   protected void afterVerification() {
     getLogger().trace("looking for '" + getExpectedValue() + "'");
-    getLogger().trace("found: '" + getCachedValue() + "'");
-    if (!isVerified() && getCachedValue() != null) {
-      TextSampleManager.addNewTextSample(getExpectedKey(), getCachedValue());
+    S cachedValue = getCachedValue();
+    getLogger().trace("found: '" + cachedValue + "'");
+    if (!isVerified() && cachedValue != null) {
+      String expectedKey = getExpectedKey();
+      persistSample(expectedKey, cachedValue);
     }
     getLogger().trace("done verifying (" + toString() + ")");
   }
 
+  protected abstract void persistSample(String key, S newValue);
+
   /**
-   * Override to use anything that is not String equivalence of actual and expected value.
+   * Override to implement verification.
    * @return whether verification was successful
    */
-  protected Boolean doVerification() {
-    return StringUtils.equals(getActualValue(), getExpectedValue());
-  }
+  protected abstract Boolean doVerification();
 
   /**
    * @return actual value, defaults to {@link VerificationBase#sampleValue()}
    */
-  protected String getActualValue() {
+  protected S getActualValue() {
     if (!isCaching() || actualValue == null) {
       actualValue = sampleValue();
     }
     return actualValue;
   }
 
-  protected String getCachedValue() {
+  protected S getCachedValue() {
     return actualValue;
   }
 
@@ -261,15 +263,14 @@ public abstract class VerificationBase implements Verification {
   /**
    * @return expected value if one was set or is retrievable from sample manager
    */
-  protected String getExpectedValue() {
+  protected S getExpectedValue() {
     if (expectedValue == null) {
-      String expectedKey = getExpectedKey();
-      if (StringUtils.isNotBlank(expectedKey)) {
-        expectedValue = TextSampleManager.getExpectedText(expectedKey);
-      }
+      expectedValue = initExpectedValue();
     }
     return expectedValue;
   }
+
+  protected abstract S initExpectedValue();
 
   /**
    * @return message for use on failed verification
@@ -310,7 +311,7 @@ public abstract class VerificationBase implements Verification {
    * Override to actually sample a value.
    * @return sample value to be used as actual value
    */
-  protected String sampleValue() {
+  protected S sampleValue() {
     getLogger().debug("trying to sample from " + toString());
     return null;
   }
@@ -324,10 +325,10 @@ public abstract class VerificationBase implements Verification {
 
   /**
    * Set expected value directly to bypass built-in sampling.
-   * @param expectedValue to use in verification
+   * @param value to use in verification
    */
-  protected void setExpectedValue(String expectedValue) {
-    this.expectedValue = expectedValue;
+  protected void setExpectedValue(S value) {
+    this.expectedValue = value;
   }
 
   protected void setVerificationName(String verificationName) {

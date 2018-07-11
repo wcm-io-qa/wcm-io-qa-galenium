@@ -22,12 +22,12 @@ package io.wcm.qa.galenium.verification.driver;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.verification.base.VerificationBase;
+import io.wcm.qa.galenium.verification.base.StringVerificationBase;
 
 /**
  * Make sure current URL is a certain value.
  */
-public class CurrentUrlVerification extends VerificationBase {
+public class CurrentUrlVerification extends StringVerificationBase {
 
   private static final String KEY_PART_URL = "url";
 
