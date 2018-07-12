@@ -21,13 +21,13 @@ package io.wcm.qa.galenium.verification.driver;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.verification.base.StringVerificationBase;
+import io.wcm.qa.galenium.introspection.PageTitleSampler;
+import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
 
 /**
  * Verifies current page's title.
  */
-public class PageTitleVerification extends StringVerificationBase {
+public class PageTitleVerification extends StringSamplerBasedVerification {
 
   private static final String KEY_PART_PAGE_TITLE = "title";
 
@@ -35,7 +35,7 @@ public class PageTitleVerification extends StringVerificationBase {
    * @param verificationName to use in reporting
    */
   public PageTitleVerification(String verificationName) {
-    super(verificationName);
+    super(verificationName, new PageTitleSampler());
   }
 
   /**
@@ -67,12 +67,7 @@ public class PageTitleVerification extends StringVerificationBase {
 
   @Override
   protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") Title matched '" + getExpectedValue() + "'";
-  }
-
-  @Override
-  protected String sampleValue() {
-    return GaleniumContext.getDriver().getTitle();
+    return "(" + getVerificationName() + ") Page title matched: '" + getExpectedValue() + "'";
   }
 
 }

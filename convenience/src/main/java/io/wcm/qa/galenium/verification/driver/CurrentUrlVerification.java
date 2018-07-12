@@ -21,13 +21,13 @@ package io.wcm.qa.galenium.verification.driver;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.util.GaleniumContext;
-import io.wcm.qa.galenium.verification.base.StringVerificationBase;
+import io.wcm.qa.galenium.introspection.CurrentUrlSampler;
+import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
 
 /**
  * Make sure current URL is a certain value.
  */
-public class CurrentUrlVerification extends StringVerificationBase {
+public class CurrentUrlVerification extends StringSamplerBasedVerification {
 
   private static final String KEY_PART_URL = "url";
 
@@ -35,7 +35,7 @@ public class CurrentUrlVerification extends StringVerificationBase {
    * @param verificationName for use in reporting
    */
   public CurrentUrlVerification(String verificationName) {
-    super(verificationName);
+    super(verificationName, new CurrentUrlSampler());
   }
 
   /**
@@ -68,11 +68,6 @@ public class CurrentUrlVerification extends StringVerificationBase {
   @Override
   protected String getSuccessMessage() {
     return "(" + getVerificationName() + ") Found URL: '" + getExpectedValue() + "'";
-  }
-
-  @Override
-  protected String sampleValue() {
-    return GaleniumContext.getDriver().getCurrentUrl();
   }
 
 }
