@@ -54,8 +54,9 @@ public class JsonVerification extends StringVerification {
     return new StringVerification(getPreprocessedKey(key), valueAsString);
   }
 
-  private void populateLeafVerifications(String actualValue) {
-    Map<String, Object> flattenedMap = JsonFlattener.flattenAsMap(actualValue);
+  private void populateLeafVerifications(String jsonAsString) {
+    getLogger().debug("generating JSON verifications for: '" + jsonAsString + "'");
+    Map<String, Object> flattenedMap = JsonFlattener.flattenAsMap(jsonAsString);
     for (Entry<String, Object> entry : flattenedMap.entrySet()) {
       Object jsonValue = entry.getValue();
       String valueAsString;
@@ -83,4 +84,18 @@ public class JsonVerification extends StringVerification {
     return getKeyPrefix() + key;
   }
 
+  @Override
+  protected String initExpectedValue() {
+    return "NO_EXPECTATIONS_TOWARDS_WHOLE_JSON_STRING";
+  }
+
+  @Override
+  protected String getSuccessMessage() {
+    return jsonLeafVerifications.getMessage();
+  }
+
+  @Override
+  protected String getFailureMessage() {
+    return jsonLeafVerifications.getMessage();
+  }
 }
