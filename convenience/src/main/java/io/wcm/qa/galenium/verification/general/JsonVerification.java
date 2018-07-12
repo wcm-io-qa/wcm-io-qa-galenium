@@ -95,7 +95,7 @@ public class JsonVerification extends StringVerification {
   protected String getSuccessMessage() {
     String message = jsonLeafVerifications.getMessage();
     if (StringUtils.isBlank(message)) {
-      return getVerificationName() + " successful";
+      return "Checked JSON for '" + getVerificationName() + "' successful";
     }
     return message;
   }
