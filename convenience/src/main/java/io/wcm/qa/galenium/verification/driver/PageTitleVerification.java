@@ -62,12 +62,12 @@ public class PageTitleVerification extends StringVerificationBase {
 
   @Override
   protected String getFailureMessage() {
-    return "Expected page title: '" + getExpectedValue() + "' but found '" + getCachedValue() + "'";
+    return "(" + getVerificationName() + ") Expected page title: '" + getExpectedValue() + "' but found '" + getCachedValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "Title matched '" + getExpectedValue() + "'";
+    return "(" + getVerificationName() + ") Title matched '" + getExpectedValue() + "'";
   }
 
   @Override

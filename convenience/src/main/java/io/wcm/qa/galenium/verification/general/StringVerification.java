@@ -19,11 +19,16 @@
  */
 package io.wcm.qa.galenium.verification.general;
 
+import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
 
 
 public class StringVerification extends StringSamplerBasedVerification {
+
+  public StringVerification(String verificationName, String sample) {
+    this(verificationName, new FixedStringSampler(sample));
+  }
 
   public StringVerification(String verificationName, StringSampler sampler) {
     super(verificationName, sampler);
@@ -31,12 +36,12 @@ public class StringVerification extends StringSamplerBasedVerification {
 
   @Override
   protected String getFailureMessage() {
-    return "String does not match: '" + getCachedValue() + "' should be '" + getExpectedValue() + "'";
+    return "(" + getVerificationName() + ") String does not match: '" + getCachedValue() + "' should be '" + getExpectedValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "String matches: '" + getCachedValue() + "'";
+    return "(" + getVerificationName() + ") String matches: '" + getCachedValue() + "'";
   }
 
 }

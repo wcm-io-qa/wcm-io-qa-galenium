@@ -34,8 +34,7 @@ import io.wcm.qa.galenium.selectors.common.Navigation;
 import io.wcm.qa.galenium.selectors.homepage.Stage;
 import io.wcm.qa.galenium.util.VerificationUtil;
 import io.wcm.qa.galenium.verification.base.Verification;
-import io.wcm.qa.galenium.verification.driver.CurrentUrlVerification;
-import io.wcm.qa.galenium.verification.driver.PageTitleVerification;
+import io.wcm.qa.galenium.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.galenium.verification.element.CssClassVerification;
 import io.wcm.qa.galenium.verification.element.InvisibilityVerification;
 import io.wcm.qa.galenium.verification.element.LinkTargetVerification;
@@ -57,9 +56,11 @@ public class VerificationIT extends AbstractExampleBase {
 
   @Test(groups = "dev")
   public void verificationTest() {
+
     loadStartUrl();
-    verify(new CurrentUrlVerification("Homepage"), new PageTitleVerification("Homepage"), new LogoVerification(),
-        new VisibilityVerification(Stage.SELF));
+
+    verify(new TitleAndUrlVerification("Homepage"), new LogoVerification(), new VisibilityVerification(Stage.SELF));
+
     if (isMobile()) {
       verify(new InvisibilityVerification(Navigation.LINK_TO_HOMEPAGE),
           new InvisibilityVerification(Navigation.LINK_TO_CONFERENCE));
@@ -68,6 +69,7 @@ public class VerificationIT extends AbstractExampleBase {
       verify(new CssClassVerification(Navigation.LINK_TO_HOMEPAGE, CSS_CLASS_NAVLINK_ACTIVE),
           new NoCssClassVerification(Navigation.LINK_TO_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
+
     VerificationUtil.verify(new LinkTargetVerification(Logo.SELF));
   }
 
@@ -85,4 +87,5 @@ public class VerificationIT extends AbstractExampleBase {
       setAllowedOffset(3);
     }
   }
+
 }
