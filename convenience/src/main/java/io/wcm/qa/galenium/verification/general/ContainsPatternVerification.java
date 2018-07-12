@@ -56,7 +56,7 @@ public class ContainsPatternVerification extends PatternBasedVerification {
 
   @Override
   protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") String contains: '" + getPattern().pattern() + "'";
+    return "(" + getVerificationName() + ") String contains: '" + getPattern().pattern() + "' (" + getCachedMatcher().group() + ")";
   }
 
 }

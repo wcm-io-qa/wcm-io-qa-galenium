@@ -69,4 +69,9 @@ public abstract class CombiningStringBasedVerification extends StringVerificatio
 
   protected abstract void populateChecks(String sample);
 
+  @Override
+  protected void afterVerification() {
+    // do nothing
+  }
+
 }

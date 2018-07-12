@@ -52,7 +52,7 @@ public class ContainsStringVerification extends StringVerification {
 
   @Override
   protected String getFailureMessage() {
-    return "(" + getVerificationName() + ") String does contain: '" + getSearchString() + "'";
+    return "(" + getVerificationName() + ") String does not contain: '" + getSearchString() + "'";
   }
 
   @Override

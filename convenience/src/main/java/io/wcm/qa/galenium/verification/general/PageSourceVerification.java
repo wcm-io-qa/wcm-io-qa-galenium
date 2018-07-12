@@ -19,8 +19,9 @@
  */
 package io.wcm.qa.galenium.verification.general;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import io.wcm.qa.galenium.introspection.PageSourceSampler;
@@ -28,67 +29,61 @@ import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
 
 public class PageSourceVerification extends CombiningStringBasedVerification {
 
-  private Collection<Pattern> mustNotPatterns = new ArrayList<Pattern>();
-  private Collection<String> mustNotStrings = new ArrayList<String>();
-  private Collection<Pattern> mustPatterns = new ArrayList<Pattern>();
-  private Collection<String> mustStrings = new ArrayList<String>();
+  private Map<Pattern, String> mustNotPatterns = new HashMap<Pattern, String>();
+  private Map<String, String> mustNotStrings = new HashMap<String, String>();
+  private Map<Pattern, String> mustPatterns = new HashMap<Pattern, String>();
+  private Map<String, String> mustStrings = new HashMap<String, String>();
 
   protected PageSourceVerification(String verificationName) {
     super(verificationName, new PageSourceSampler());
   }
 
-  public void mustContain(Pattern pattern) {
-    mustPatterns.add(pattern);
+  public void mustContain(Pattern pattern, String message) {
+    mustPatterns.put(pattern, message);
   }
 
-  public void mustContain(String string) {
-    mustStrings.add(string);
+  public void mustContain(String string, String message) {
+    mustStrings.put(string, message);
   }
 
-  public void mustContainPattern(String regex) {
-    mustContain(Pattern.compile(regex));
+  public void mustContainPattern(String regex, String message) {
+    mustContain(Pattern.compile(regex), message);
   }
 
-  public void mustNotContain(Pattern pattern) {
-    mustNotPatterns.add(pattern);
+  public void mustNotContain(Pattern pattern, String message) {
+    mustNotPatterns.put(pattern, message);
   }
 
-  public void mustNotContain(String string) {
-    mustNotStrings.add(string);
+  public void mustNotContain(String string, String message) {
+    mustNotStrings.put(string, message);
   }
 
-  public void mustNotContainPattern(String regex) {
-    mustNotContain(Pattern.compile(regex));
+  public void mustNotContainPattern(String regex, String message) {
+    mustNotContain(Pattern.compile(regex), message);
   }
 
   private void populateMustNotPatterns(String string) {
-    for (Pattern pattern : mustNotPatterns) {
-      addCheck(new DoesNotContainPatternVerification(getVerificationName(), pattern, string));
+    for (Entry<Pattern, String> pattern : mustNotPatterns.entrySet()) {
+      addCheck(new DoesNotContainPatternVerification(pattern.getValue(), pattern.getKey(), string));
     }
   }
 
   private void populateMustNotStrings(String string) {
-    for (String pattern : mustNotStrings) {
-      addCheck(new DoesNotContainStringVerification(getVerificationName(), pattern, string));
+    for (Entry<String, String> pattern : mustNotStrings.entrySet()) {
+      addCheck(new DoesNotContainStringVerification(pattern.getValue(), pattern.getKey(), string));
     }
   }
 
   private void populateMustPatterns(String string) {
-    for (Pattern pattern : mustPatterns) {
-      addCheck(new ContainsPatternVerification(getVerificationName(), pattern, string));
+    for (Entry<Pattern, String> pattern : mustPatterns.entrySet()) {
+      addCheck(new ContainsPatternVerification(pattern.getValue(), pattern.getKey(), string));
     }
   }
 
   private void populateMustStrings(String string) {
-    for (String pattern : mustStrings) {
-      addCheck(new ContainsStringVerification(getVerificationName(), pattern, string));
+    for (Entry<String, String> pattern : mustStrings.entrySet()) {
+      addCheck(new ContainsStringVerification(pattern.getValue(), pattern.getKey(), string));
     }
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    populateChecks(getActualValue());
-    return super.doVerification();
   }
 
   @Override
