@@ -96,7 +96,7 @@ public class CombinedVerification implements Verification {
   }
 
   protected void fail(Verification verification) {
-    addMessage(verification.getMessage());
+    addMessage("failed: " + verification.getMessage());
   }
 
   protected String getCombinedMessage() {
@@ -113,7 +113,7 @@ public class CombinedVerification implements Verification {
 
   protected void pass(Verification verification) {
     if (isReportSuccess()) {
-      addMessage(verification.getMessage());
+      addMessage("passed: " + verification.getMessage());
     }
   }
 

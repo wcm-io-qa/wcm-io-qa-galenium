@@ -28,20 +28,25 @@ import io.wcm.qa.galenium.verification.base.PatternBasedVerification;
 
 public class ContainsPatternVerification extends PatternBasedVerification {
 
-  public ContainsPatternVerification(String verificationName, String pattern, String sample) {
-    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
-  }
-
   public ContainsPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
+  }
+
+  public ContainsPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
+    super(verificationName, pattern, sampler);
+  }
+
+  public ContainsPatternVerification(String verificationName, String pattern, String sample) {
+    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
   }
 
   public ContainsPatternVerification(String verificationName, String pattern, StringSampler sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }
 
-  public ContainsPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
-    super(verificationName, pattern, sampler);
+  @Override
+  protected Boolean doVerification() {
+    return getActualMatcher().find();
   }
 
   @Override
@@ -52,11 +57,6 @@ public class ContainsPatternVerification extends PatternBasedVerification {
   @Override
   protected String getSuccessMessage() {
     return "(" + getVerificationName() + ") String contains: '" + getPattern().pattern() + "'";
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    return getActualMatcher().find();
   }
 
 }

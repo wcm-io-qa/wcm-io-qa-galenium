@@ -53,4 +53,8 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
     return matcher;
   }
 
+  @Override
+  protected void afterVerification() {
+    getLogger().debug("done checking '" + getVerificationName() + "'");
+  }
 }

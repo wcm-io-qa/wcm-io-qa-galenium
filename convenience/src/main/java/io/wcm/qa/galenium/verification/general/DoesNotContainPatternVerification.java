@@ -26,20 +26,20 @@ import io.wcm.qa.galenium.sampling.StringSampler;
 
 public class DoesNotContainPatternVerification extends ContainsPatternVerification {
 
-  public DoesNotContainPatternVerification(String verificationName, String pattern, String sample) {
-    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
-  }
-
   public DoesNotContainPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
   }
 
-  public DoesNotContainPatternVerification(String verificationName, String pattern, StringSampler sampler) {
-    this(verificationName, Pattern.compile(pattern), sampler);
-  }
-
   public DoesNotContainPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
+  }
+
+  public DoesNotContainPatternVerification(String verificationName, String pattern, String sample) {
+    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
+  }
+
+  public DoesNotContainPatternVerification(String verificationName, String pattern, StringSampler sampler) {
+    this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   @Override
@@ -48,12 +48,12 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
   }
 
   @Override
-  protected String getSuccessMessage() {
-    return super.getFailureMessage();
+  protected String getFailureMessage() {
+    return super.getSuccessMessage();
   }
 
   @Override
-  protected String getFailureMessage() {
-    return super.getSuccessMessage();
+  protected String getSuccessMessage() {
+    return super.getFailureMessage();
   }
 }

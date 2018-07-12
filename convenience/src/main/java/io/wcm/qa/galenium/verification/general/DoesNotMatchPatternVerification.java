@@ -26,30 +26,30 @@ import io.wcm.qa.galenium.sampling.StringSampler;
 
 public class DoesNotMatchPatternVerification extends MatchesPatternVerification {
 
-  public DoesNotMatchPatternVerification(String verificationName, String pattern, String sample) {
-    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
-  }
-
   public DoesNotMatchPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
-  }
-
-  public DoesNotMatchPatternVerification(String verificationName, String pattern, StringSampler sampler) {
-    this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   public DoesNotMatchPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
-  @Override
-  protected String getSuccessMessage() {
-    return super.getFailureMessage();
+  public DoesNotMatchPatternVerification(String verificationName, String pattern, String sample) {
+    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
+  }
+
+  public DoesNotMatchPatternVerification(String verificationName, String pattern, StringSampler sampler) {
+    this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   @Override
   protected String getFailureMessage() {
     return super.getSuccessMessage();
+  }
+
+  @Override
+  protected String getSuccessMessage() {
+    return super.getFailureMessage();
   }
 
 }

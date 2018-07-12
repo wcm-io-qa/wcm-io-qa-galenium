@@ -22,22 +22,20 @@ package io.wcm.qa.galenium.verification.general;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.github.wnameless.json.flattener.JsonFlattener;
 
+import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.verification.base.CombinedVerification;
+import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
 
-public class JsonVerification extends StringVerification {
+public class JsonVerification extends CombiningStringBasedVerification {
 
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json.";
 
-  private CombinedVerification jsonLeafVerifications = new CombinedVerification();
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
 
   public JsonVerification(String verificationName, String sample) {
-    super(verificationName, sample);
+    this(verificationName, new FixedStringSampler(sample));
   }
 
   public JsonVerification(String verificationName, StringSampler sampler) {
@@ -56,7 +54,17 @@ public class JsonVerification extends StringVerification {
     return new StringVerification(getPreprocessedKey(key), valueAsString);
   }
 
-  private void populateLeafVerifications(String jsonAsString) {
+  protected String getPreprocessedKey(String key) {
+    return getKeyPrefix() + key;
+  }
+
+  @Override
+  protected String getSuccessMessageForEmptyCheckMessages() {
+    return "Checked JSON for '" + getVerificationName() + "' successful";
+  }
+
+  @Override
+  protected void populateChecks(String jsonAsString) {
     getLogger().debug("generating JSON verifications for: '" + jsonAsString + "'");
     Map<String, Object> flattenedMap = JsonFlattener.flattenAsMap(jsonAsString);
     for (Entry<String, Object> entry : flattenedMap.entrySet()) {
@@ -68,40 +76,8 @@ public class JsonVerification extends StringVerification {
       else {
         valueAsString = "null";
       }
-      jsonLeafVerifications.addVerification(getVerification(entry.getKey(), valueAsString));
+      StringVerification verification = getVerification(entry.getKey(), valueAsString);
+      addCheck(verification);
     }
-  }
-
-  private boolean verifyLeafVerifications() {
-    return jsonLeafVerifications.verify();
-  }
-
-  @Override
-  protected Boolean doVerification() {
-    populateLeafVerifications(getActualValue());
-    return verifyLeafVerifications();
-  }
-
-  protected String getPreprocessedKey(String key) {
-    return getKeyPrefix() + key;
-  }
-
-  @Override
-  protected String initExpectedValue() {
-    return "NO_EXPECTATIONS_TOWARDS_WHOLE_JSON_STRING";
-  }
-
-  @Override
-  protected String getSuccessMessage() {
-    String message = jsonLeafVerifications.getMessage();
-    if (StringUtils.isBlank(message)) {
-      return "Checked JSON for '" + getVerificationName() + "' successful";
-    }
-    return message;
-  }
-
-  @Override
-  protected String getFailureMessage() {
-    return jsonLeafVerifications.getMessage();
   }
 }

@@ -37,6 +37,14 @@ public class ContainsStringVerification extends StringVerification {
     this.setSearchString(searchString);
   }
 
+  public String getSearchString() {
+    return searchString;
+  }
+
+  public void setSearchString(String searchString) {
+    this.searchString = searchString;
+  }
+
   @Override
   protected Boolean doVerification() {
     return StringUtils.contains(getActualValue(), getSearchString());
@@ -52,12 +60,8 @@ public class ContainsStringVerification extends StringVerification {
     return "(" + getVerificationName() + ") String contains: '" + getSearchString() + "'";
   }
 
-  public String getSearchString() {
-    return searchString;
+  @Override
+  protected void afterVerification() {
+    getLogger().debug("done checking '" + getVerificationName() + "'");
   }
-
-  public void setSearchString(String searchString) {
-    this.searchString = searchString;
-  }
-
 }

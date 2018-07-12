@@ -27,25 +27,25 @@ import io.wcm.qa.galenium.verification.base.PatternBasedVerification;
 
 public class MatchesPatternVerification extends PatternBasedVerification {
 
-  public MatchesPatternVerification(String verificationName, String pattern, String sample) {
-    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
-  }
-
   public MatchesPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
-  }
-
-  public MatchesPatternVerification(String verificationName, String pattern, StringSampler sampler) {
-    this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   public MatchesPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
+  public MatchesPatternVerification(String verificationName, String pattern, String sample) {
+    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
+  }
+
+  public MatchesPatternVerification(String verificationName, String pattern, StringSampler sampler) {
+    this(verificationName, Pattern.compile(pattern), sampler);
+  }
+
   @Override
-  protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") String matches: '" + getPattern().pattern() + "'";
+  protected Boolean doVerification() {
+    return getActualMatcher().matches();
   }
 
   @Override
@@ -54,8 +54,8 @@ public class MatchesPatternVerification extends PatternBasedVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
-    return getActualMatcher().matches();
+  protected String getSuccessMessage() {
+    return "(" + getVerificationName() + ") String matches: '" + getPattern().pattern() + "'";
   }
 
 }
