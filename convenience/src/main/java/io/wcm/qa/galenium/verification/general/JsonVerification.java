@@ -22,6 +22,8 @@ package io.wcm.qa.galenium.verification.general;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.github.wnameless.json.flattener.JsonFlattener;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
@@ -91,7 +93,11 @@ public class JsonVerification extends StringVerification {
 
   @Override
   protected String getSuccessMessage() {
-    return jsonLeafVerifications.getMessage();
+    String message = jsonLeafVerifications.getMessage();
+    if (StringUtils.isBlank(message)) {
+      return getVerificationName() + " successful";
+    }
+    return message;
   }
 
   @Override
