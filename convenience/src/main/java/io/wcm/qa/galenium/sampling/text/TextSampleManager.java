@@ -39,13 +39,13 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  */
 public final class TextSampleManager {
 
-  private static final String PATH_SEPARATOR = "/";
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final Properties EXPECTED_TEXTS = new Properties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonInputDirectory();
   private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonOutputDirectory();
   private static final File OUTPUT_FILE = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
+  private static final String PATH_SEPARATOR = "/";
   private static final Properties SAMPLED_TEXTS = new Properties();
 
   static {
@@ -84,6 +84,10 @@ public final class TextSampleManager {
     return EXPECTED_TEXTS;
   }
 
+  public static Properties getExpectedTextsForPrefix(String prefix) {
+    return PropertiesUtil.getAllPropertiesWithPrefix(EXPECTED_TEXTS, prefix);
+  }
+
   /**
    * Write all stored new text samples to disk for easy replacement of existing expected values.
    */
@@ -116,15 +120,15 @@ public final class TextSampleManager {
     }
   }
 
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
+  }
+
   private static WriterOutputStream getOutputStream() throws IOException {
     WriterOutputStream writerOutputStream;
     OUTPUT_FILE.getParentFile().mkdirs();
     FileWriter fileWriter = new FileWriter(OUTPUT_FILE, true);
     writerOutputStream = new WriterOutputStream(fileWriter, CHARSET_UTF8);
     return writerOutputStream;
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 }

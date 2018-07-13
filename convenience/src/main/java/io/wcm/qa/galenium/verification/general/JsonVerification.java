@@ -21,11 +21,14 @@ package io.wcm.qa.galenium.verification.general;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
 
 import com.github.wnameless.json.flattener.JsonFlattener;
 
 import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
 
 public class JsonVerification extends CombiningStringBasedVerification {
@@ -33,6 +36,7 @@ public class JsonVerification extends CombiningStringBasedVerification {
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
 
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
+  private boolean sparseCheck = true;
 
   public JsonVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));
@@ -46,12 +50,31 @@ public class JsonVerification extends CombiningStringBasedVerification {
     return keyPrefix;
   }
 
+  public boolean isSparseCheck() {
+    return sparseCheck;
+  }
+
   public void setKeyPrefix(String keyPrefix) {
     this.keyPrefix = keyPrefix;
   }
 
+  public void setSparseCheck(boolean sparseCheck) {
+    this.sparseCheck = sparseCheck;
+  }
+
   private StringVerification getVerification(String key, String valueAsString) {
     return new StringVerification(getExpectedAggregateKey(key), valueAsString);
+  }
+
+  private void populateFullCheck(String jsonAsString) {
+    String prefix = getExpectedKey();
+    Properties expectedTextsForPrefix = TextSampleManager.getExpectedTextsForPrefix(prefix);
+    Set<Entry<Object, Object>> entrySet = expectedTextsForPrefix.entrySet();
+    for (Entry<Object, Object> property : entrySet) {
+      String key = (String)property.getKey();
+      String value = (String)property.getValue();
+      addCheck(new StringVerification(key, value));
+    }
   }
 
   protected String getExpectedAggregateKey(String key) {
@@ -71,6 +94,15 @@ public class JsonVerification extends CombiningStringBasedVerification {
   @Override
   protected void populateChecks(String jsonAsString) {
     getLogger().debug("generating JSON verifications for: '" + jsonAsString + "'");
+    if (isSparseCheck()) {
+      populateSparseCheck(jsonAsString);
+    }
+    else {
+      populateFullCheck(jsonAsString);
+    }
+  }
+
+  protected void populateSparseCheck(String jsonAsString) {
     Map<String, Object> flattenedMap = JsonFlattener.flattenAsMap(jsonAsString);
     for (Entry<String, Object> entry : flattenedMap.entrySet()) {
       Object jsonValue = entry.getValue();
@@ -85,4 +117,5 @@ public class JsonVerification extends CombiningStringBasedVerification {
       addCheck(verification);
     }
   }
+
 }

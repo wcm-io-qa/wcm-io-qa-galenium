@@ -28,16 +28,44 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
 
 public class PropertiesUtil {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
+  private static final String REGEX_WILDCARD = ".*";
 
   private PropertiesUtil() {
     // do not instantiate
+  }
+
+  public static Properties getAllPropertiesContaining(Properties properties, String searchString) {
+    return getFilteredProperties(properties, Pattern.compile(REGEX_WILDCARD + searchString + REGEX_WILDCARD));
+  }
+
+  public static Properties getAllPropertiesWithPrefix(Properties properties, String prefix) {
+    return getFilteredProperties(properties, Pattern.compile(prefix + REGEX_WILDCARD));
+  }
+
+  public static Properties getFilteredProperties(Properties properties, Pattern filter) {
+    Properties filteredProperties = new Properties();
+    for (Entry<Object, Object> property : properties.entrySet()) {
+      Object keyObject = property.getKey();
+      if (keyObject instanceof String) {
+        String key = (String)keyObject;
+        if (filter.matcher(key).matches()) {
+          filteredProperties.put(key, property.getValue());
+        }
+      }
+      else {
+        getLogger().debug("Key was not a String when filtering: '" + keyObject + "'");
+      }
+    }
+    return filteredProperties;
   }
 
   public static Properties loadProperties(Properties properties, String filePath) {

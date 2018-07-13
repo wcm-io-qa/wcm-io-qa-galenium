@@ -46,10 +46,6 @@ public class CsvUtil {
     // do not instantiate
   }
 
-  public static CSVParser parse(String csvFilePath) {
-    return parse(new File(csvFilePath));
-  }
-
   public static CSVParser parse(File csvFile) {
     if (csvFile == null) {
       throw new GaleniumException("error when checking CSV input: file is null");
@@ -63,6 +59,10 @@ public class CsvUtil {
     catch (IOException ex) {
       throw new GaleniumException("error when parsing CSV file: '" + csvFile.getPath() + "'", ex);
     }
+  }
+
+  public static CSVParser parse(String csvFilePath) {
+    return parse(new File(csvFilePath));
   }
 
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {

@@ -46,6 +46,11 @@ public class ContainsStringVerification extends StringVerification {
   }
 
   @Override
+  protected void afterVerification() {
+    getLogger().debug("done checking '" + getVerificationName() + "'");
+  }
+
+  @Override
   protected Boolean doVerification() {
     return StringUtils.contains(getActualValue(), getSearchString());
   }
@@ -58,10 +63,5 @@ public class ContainsStringVerification extends StringVerification {
   @Override
   protected String getSuccessMessage() {
     return "(" + getVerificationName() + ") String contains: '" + getSearchString() + "'";
-  }
-
-  @Override
-  protected void afterVerification() {
-    getLogger().debug("done checking '" + getVerificationName() + "'");
   }
 }
