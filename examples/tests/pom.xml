@@ -37,7 +37,7 @@
   <description>Test automation example tests.</description>
 
   <properties>
-      <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
+    <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
   </properties>
 
@@ -122,44 +122,18 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <id>get-cpu-count</id>
-                <goals>
-                  <goal>cpu-count</goal>
-                </goals>
-                <configuration>
-                  <!-- if not given, 'cpu.count' name is used -->
-                  <cpuCount>local.cpu.count</cpuCount>
-                </configuration>
-              </execution>
-            </executions>
           </plugin>
 
+          <!-- Run UI tests -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
           </plugin>
 
+          <!-- Webdriver download -->
           <plugin>
             <groupId>com.lazerycode.selenium</groupId>
             <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-            <version>1.0.10</version>
-            <configuration>
-              <rootStandaloneServerDirectory>${project.build.directory}/driverbinaries</rootStandaloneServerDirectory>
-              <downloadedZipFileDirectory>${project.build.directory}/driverdownloadzips</downloadedZipFileDirectory>
-              <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-              <customRepositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</customRepositoryMap>
-              <checkFileHashes>false</checkFileHashes>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>selenium</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
 
         </plugins>
