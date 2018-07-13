@@ -37,10 +37,7 @@
   <description>Test automation example Galen specs.</description>
 
   <properties>
-    <integrationtests.skip>true</integrationtests.skip>
-    <!-- Galenium -->
     <galenium.specPath>${project.basedir}/src/main/resources/galen/specs</galenium.specPath>
-    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
   </properties>
 
   <dependencies>

@@ -37,15 +37,34 @@
   <description>Test automation integration parent.</description>
 
   <properties>
-    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
 
-    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
-      http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
-    <testNG.groups />
-    <selenium.browser>chrome,firefox</selenium.browser>
-    <galen.device />
-    <selenium.chromeEmulator>Google Nexus 7, Apple iPhone 6, Apple iPad,
-      Laptop with HiDPI screen, Amazon Kindle Fire HDX</selenium.chromeEmulator>
+    <!-- wcm.io QA -->
+    <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
+
+    <!-- Galenium -->
+    <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
+    <galenium.generated.class>${project.build.directory}/test-classes</galenium.generated.class>
+    <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
+    <galenium.generated.specs>${project.build.directory}/test-classes</galenium.generated.specs>
+    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
+    <galenium.sampling.image.directory.expected>${galenium.specPath}/images</galenium.sampling.image.directory.expected>
+    <galenium.sampling.image.save>true</galenium.sampling.image.save>
+    <galenium.sampling.text.directory.actual>${project.build.directory}/sampled/texts</galenium.sampling.text.directory.actual>
+    <galenium.sampling.text.directory.expected>${galenium.specPath}</galenium.sampling.text.directory.expected>
+    <galenium.sampling.text.save>true</galenium.sampling.text.save>
+    <galenium.sampling.text.file>text/expected.properties</galenium.sampling.text.file>
+    <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
+    <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
+    <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
+
+    <!-- Selenium -->
+    <selenium.browser>chrome</selenium.browser>
+    <selenium.runmode>local</selenium.runmode>
+
+    <!-- Galen -->
+    <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
+
   </properties>
 
   <dependencyManagement>
@@ -81,5 +100,90 @@
 
     </dependencies>
   </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <!-- Run UI tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <groups>${testNG.groups}</groups>
+            <parallel>methods</parallel>
+            <threadCount>${local.cpu.count}</threadCount>
+            <properties>
+              <property>
+                <name>usedefaultlisteners</name>
+                <value>false</value>
+              </property>
+              <property>
+                <name>listener</name>
+                <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+              </property>
+            </properties>
+            <systemPropertyVariables>
+
+              <io.wcm.qa.baseUrl>${io.wcm.qa.baseUrl}</io.wcm.qa.baseUrl>
+
+              <!-- Galenium -->
+              <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+              <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
+              <galenium.sampling.image.directory.actual>${galenium.sampling.image.directory.actual}</galenium.sampling.image.directory.actual>
+              <galenium.sampling.image.directory.expected>${galenium.sampling.image.directory.expected}</galenium.sampling.image.directory.expected>
+              <galenium.sampling.image.save>${galenium.sampling.image.save}</galenium.sampling.image.save>
+              <galenium.sampling.text.directory.actual>${galenium.sampling.text.directory.actual}</galenium.sampling.text.directory.actual>
+              <galenium.sampling.text.directory.expected>${galenium.sampling.text.directory.expected}</galenium.sampling.text.directory.expected>
+              <galenium.sampling.text.save>${galenium.sampling.text.save}</galenium.sampling.text.save>
+              <galenium.sampling.text.file>${galenium.sampling.text.file}</galenium.sampling.text.file>
+              <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
+              <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
+              <galenium.specPath>${galenium.specPath}</galenium.specPath>
+
+              <!-- Galen -->
+              <galen.browser.screenshots.fullPage>${galen.browser.screenshots.fullPage}</galen.browser.screenshots.fullPage>
+              <galen.device>${galen.device}</galen.device>
+
+              <!-- Selenium -->
+              <selenium.browser>${selenium.browser}</selenium.browser>
+              <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+              <selenium.runmode>${selenium.runmode}</selenium.runmode>
+
+              <!-- Webdriver -->
+              <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+              <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
+
+            </systemPropertyVariables>
+            <includes>
+              <include>**/*IT.java</include>
+            </includes>
+          </configuration>
+        </plugin>
+
+        <!-- Unpack Galen specs from JAR -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>unpack-specs</id>
+              <goals>
+                <goal>unpack-dependencies</goal>
+              </goals>
+              <phase>generate-resources</phase>
+              <configuration>
+                <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
+                <outputDirectory>${galenium.generated.specs}</outputDirectory>
+                <includes>**/*.gspec</includes>
+                <excludeTransitive>true</excludeTransitive>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
 
 </project>
