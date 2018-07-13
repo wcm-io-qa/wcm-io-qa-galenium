@@ -45,7 +45,9 @@
     <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
     <galenium.generated.class>${project.build.directory}/test-classes</galenium.generated.class>
     <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
+    <galenium.generated.java.package>io.wcm.qa.galenium.example.selectors</galenium.generated.java.package>
     <galenium.generated.specs>${project.build.directory}/test-classes</galenium.generated.specs>
+    <galenium.generated.templates>${project.build.directory}/generated-resources/freemarker</galenium.generated.templates>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
     <galenium.sampling.image.directory.expected>${galenium.specPath}/images</galenium.sampling.image.directory.expected>
@@ -131,7 +133,6 @@
           </executions>
         </plugin>
 
-
         <!-- Run UI tests -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -208,6 +209,32 @@
             </execution>
           </executions>
         </plugin>
+
+<!-- Generate Java code from Galen specs -->
+<plugin>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+        <version>0.1.15-SNAPSHOT</version>
+        <configuration>
+          <packageRootName>${galenium.generated.java.package}</packageRootName>
+          <templateDirectory>${galenium.generated.templates}</templateDirectory>
+          <systemPropertyVariables>
+
+            <!-- Galenium -->
+            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+            <galenium.specPath>${galenium.specPath}</galenium.specPath>
+
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>specs</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
         <!-- Webdriver download -->
         <plugin>

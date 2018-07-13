@@ -79,26 +79,6 @@
       <plugin>
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-        <version>0.1.15-SNAPSHOT</version>
-        <configuration>
-          <packageRootName>io.wcm.qa.galenium.example.selectors</packageRootName>
-          <templateDirectory>${project.build.directory}/generated-resources/freemarker</templateDirectory>
-          <systemPropertyVariables>
-
-            <!-- Galenium -->
-            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-            <galenium.specPath>${galenium.specPath}</galenium.specPath>
-
-          </systemPropertyVariables>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>specs</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
       <plugin>
