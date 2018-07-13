@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2017 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.galenium.integration</artifactId>
+    <version>0.1.15-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <name>Galenium Integration Parent</name>
+  <groupId>io.wcm.qa</groupId>
+  <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
+  <packaging>pom</packaging>
+  <version>0.1.15-SNAPSHOT</version>
+  <description>Test automation integration parent.</description>
+
+  <properties>
+
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Galenium internal dependencies -->
+      <dependency>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+        <version>0.1.15-SNAPSHOT</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <!-- Unpack Galen specs from JAR -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>unpack-specs</id>
+              <goals>
+                <goal>unpack-dependencies</goal>
+              </goals>
+              <phase>generate-resources</phase>
+              <configuration>
+                <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
+                <outputDirectory>${galenium.generated.specs}</outputDirectory>
+                <includes>**/*.gspec</includes>
+                <excludeTransitive>true</excludeTransitive>
+              </configuration>
+            </execution>
+            <execution>
+              <id>unpack-freemarker-resources</id>
+              <goals>
+                <goal>unpack-dependencies</goal>
+              </goals>
+              <phase>generate-sources</phase>
+              <configuration>
+                <outputDirectory>${galenium.generated.templates}</outputDirectory>
+                <includeArtifacIds>io.wcm.qa.galenium.specs-maven-plugin</includeArtifacIds>
+                <includes>**/*.ftlh</includes>
+                <excludeTransitive>true</excludeTransitive>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Generate Java code from Galen specs -->
+        <plugin>
+          <groupId>io.wcm.qa</groupId>
+          <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+          <version>0.1.15-SNAPSHOT</version>
+          <configuration>
+            <packageRootName>${galenium.generated.java.package}</packageRootName>
+            <templateDirectory>${galenium.generated.templates}/freemarker</templateDirectory>
+            <systemPropertyVariables>
+
+              <!-- Galenium -->
+              <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+              <galenium.specPath>${galenium.specPath}</galenium.specPath>
+
+            </systemPropertyVariables>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>process-sources</phase>
+              <goals>
+                <goal>specs</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Do not initialize ExtentReport when generating specs -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>properties-maven-plugin</artifactId>
+          <version>1.0.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>set-system-properties</goal>
+              </goals>
+              <configuration>
+                <properties>
+                  <property>
+                    <name>galenium.report.extent.skip</name>
+                    <value>true</value>
+                  </property>
+                </properties>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+  
+</project>

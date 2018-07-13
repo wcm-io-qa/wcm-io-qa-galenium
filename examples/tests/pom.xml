@@ -24,9 +24,9 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.galenium.integration</artifactId>
+    <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
     <version>0.1.15-SNAPSHOT</version>
-    <relativePath>../../integration</relativePath>
+    <relativePath>../../integration/ui-tests</relativePath>
   </parent>
 
   <name>Galenium Example Tests</name>
@@ -60,6 +60,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
+      <version>0.1.15-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

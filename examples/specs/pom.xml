@@ -24,9 +24,9 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.galenium.integration</artifactId>
+    <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
     <version>0.1.15-SNAPSHOT</version>
-    <relativePath>../../integration</relativePath>
+    <relativePath>../../integration/specs</relativePath>
   </parent>
 
   <name>Galenium Example Specs</name>
@@ -39,6 +39,7 @@
   <properties>
     <galenium.specPath>${project.basedir}/src/main/resources/galen/specs</galenium.specPath>
     <galenium.report.extent.skip>true</galenium.report.extent.skip>
+    <galenium.generated.generate>true</galenium.generated.generate>
   </properties>
 
   <dependencies>
@@ -84,29 +85,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unpack-freemarker-resources</id>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <phase>generate-sources</phase>
-            <configuration>
-              <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
-              <includeArtifacIds>io.wcm.qa.galenium.galen-specs</includeArtifacIds>
-              <includes>**/*.ftlh</includes>
-              <excludeTransitive>true</excludeTransitive>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <testExcludes>**</testExcludes>
-          <!-- <includes> <include>io/wcm/qa/galenium/example/selectors/**/*.java</include> 
-            </includes> -->
         </configuration>
       </plugin>
       <plugin>
