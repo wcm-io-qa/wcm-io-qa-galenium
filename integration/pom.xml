@@ -229,8 +229,60 @@
           </executions>
         </plugin>
 
+        <!-- do not deploy this example into maven repository -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+
+        <!-- do not generate site for this project -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <skipDeploy>true</skipDeploy>
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
 
+  <profiles>
+    <profile>
+      <activation>
+        <property>
+          <name>galenium.report.extent.skip</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>set-system-properties</goal>
+                </goals>
+                <configuration>
+                  <properties>
+                    <property>
+                      <name>galenium.report.extent.skip</name>
+                      <value>true</value>
+                    </property>
+                  </properties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
