@@ -30,7 +30,7 @@ import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
 
 public class JsonVerification extends CombiningStringBasedVerification {
 
-  private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json.";
+  private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
 
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
 
@@ -51,11 +51,16 @@ public class JsonVerification extends CombiningStringBasedVerification {
   }
 
   private StringVerification getVerification(String key, String valueAsString) {
-    return new StringVerification(getPreprocessedKey(key), valueAsString);
+    return new StringVerification(getExpectedAggregateKey(key), valueAsString);
   }
 
-  protected String getPreprocessedKey(String key) {
-    return getKeyPrefix() + key;
+  protected String getExpectedAggregateKey(String key) {
+    return getExpectedKey() + "." + key;
+  }
+
+  @Override
+  protected String getExpectedKey() {
+    return super.getExpectedKey() + "." + getKeyPrefix();
   }
 
   @Override
