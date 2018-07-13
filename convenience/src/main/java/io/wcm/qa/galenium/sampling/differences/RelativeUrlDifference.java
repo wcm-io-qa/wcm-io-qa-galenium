@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,23 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-import io.wcm.qa.galenium.device.BrowserType;
-import io.wcm.qa.galenium.device.TestDevice;
-import io.wcm.qa.galenium.util.GaleniumContext;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-/**
- * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
- */
-public class BrowserDifference extends DifferenceBase {
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+
+public class RelativeUrlDifference extends UrlDifference {
 
   @Override
   public String getTag() {
-    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
+    String fullUrl = super.getTag();
+    try {
+      URL url = new URL(fullUrl);
+      return url.getPath();
+    }
+    catch (MalformedURLException ex) {
+      throw new GaleniumException("could not parse URL: '" + fullUrl + "'", ex);
+    }
   }
 
 }

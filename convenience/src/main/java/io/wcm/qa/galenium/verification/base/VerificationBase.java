@@ -253,7 +253,7 @@ public abstract class VerificationBase<S> implements Verification {
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asPropertyKey();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return expectedKey + "." + getVerificationName().toLowerCase();
+      return getVerificationName().toLowerCase() + "." + expectedKey;
     }
     return getVerificationName().toLowerCase();
   }

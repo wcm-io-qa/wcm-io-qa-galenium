@@ -26,8 +26,8 @@ import io.wcm.qa.galenium.sampling.StringSampler;
 
 public abstract class PatternBasedVerification extends StringSamplerBasedVerification {
 
-  private Pattern pattern;
   private Matcher matcher;
+  private Pattern pattern;
 
   protected PatternBasedVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, sampler);
@@ -42,6 +42,11 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
     this.pattern = pattern;
   }
 
+  @Override
+  protected void afterVerification() {
+    getLogger().debug("done checking '" + getVerificationName() + "'");
+  }
+
   protected Matcher getActualMatcher() {
     if (matcher == null || !isCaching()) {
       matcher = getPattern().matcher(getActualValue());
@@ -51,10 +56,5 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
 
   protected Matcher getCachedMatcher() {
     return matcher;
-  }
-
-  @Override
-  protected void afterVerification() {
-    getLogger().debug("done checking '" + getVerificationName() + "'");
   }
 }

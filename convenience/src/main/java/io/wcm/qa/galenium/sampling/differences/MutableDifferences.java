@@ -123,9 +123,15 @@ public class MutableDifferences implements Differences {
   protected String joinTagsWith(Collection<Difference> collection, String separator) {
     List<String> list = new ArrayList<String>();
     for (Difference difference : collection) {
-      list.add(difference.getTag());
+      list.add(getCleanTag(difference, separator));
     }
     return StringUtils.join(list, separator).toLowerCase();
+  }
+
+  protected String getCleanTag(Difference difference, String separator) {
+    String tag = difference.getTag();
+    tag = tag.toLowerCase();
+    return tag.replaceAll("[^\\w\\d_]+", "_");
   }
 
   protected String joinTagsWith(String separator) {
