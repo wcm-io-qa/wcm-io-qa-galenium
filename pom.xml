@@ -44,6 +44,7 @@
     <module>core</module>
     <module>convenience</module>
     <module>examples</module>
+    <module>integration</module>
     <module>logging</module>
     <module>maven/specs-plugin</module>
   </modules>

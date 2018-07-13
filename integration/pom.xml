@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2017 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.maven</groupId>
+    <artifactId>io.wcm.maven.global-parent</artifactId>
+    <version>20</version>
+    <relativePath />
+  </parent>
+
+  <name>Galenium Integration Parent</name>
+  <groupId>io.wcm.qa</groupId>
+  <artifactId>io.wcm.qa.galenium.integration</artifactId>
+  <packaging>pom</packaging>
+  <version>0.1.15-SNAPSHOT</version>
+  <description>Test automation integration parent.</description>
+
+  <properties>
+    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+
+    <!-- workaround for -Dgroups=xyz conflicting javadoc plugin with testNG 
+      http://stackoverflow.com/questions/24441210/maven-3-javadoc-plugin-conflicts-with-testng-groups -->
+    <testNG.groups />
+    <selenium.browser>chrome,firefox</selenium.browser>
+    <galen.device />
+    <selenium.chromeEmulator>Google Nexus 7, Apple iPhone 6, Apple iPad,
+      Laptop with HiDPI screen, Amazon Kindle Fire HDX</selenium.chromeEmulator>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Galenium internal dependencies -->
+      <dependency>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+        <version>0.1.15-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.convenience</artifactId>
+        <version>0.1.15-SNAPSHOT</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.logging</artifactId>
+        <version>0.1.15-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.wcm.qa</groupId>
+        <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
+        <version>0.1.15-SNAPSHOT</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>
