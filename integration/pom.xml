@@ -81,34 +81,32 @@
     <com.lazerycode.selenium.driver-binary-downloader-maven-plugin>1.0.10</com.lazerycode.selenium.driver-binary-downloader-maven-plugin>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
+  <dependencies>
 
-      <!-- Galenium internal dependencies -->
-      <dependency>
-        <groupId>io.wcm.qa</groupId>
-        <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-        <version>0.1.15-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.wcm.qa</groupId>
-        <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-        <version>0.1.15-SNAPSHOT</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>io.wcm.qa</groupId>
-        <artifactId>io.wcm.qa.galenium.logging</artifactId>
-        <version>0.1.15-SNAPSHOT</version>
-      </dependency>
+    <!-- Galenium internal dependencies -->
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+      <version>0.1.15-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.convenience</artifactId>
+      <version>0.1.15-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.logging</artifactId>
+      <version>0.1.15-SNAPSHOT</version>
+    </dependency>
 
-    </dependencies>
-  </dependencyManagement>
+  </dependencies>
 
   <build>
     <pluginManagement>
