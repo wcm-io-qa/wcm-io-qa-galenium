@@ -121,7 +121,7 @@
               <groups>${testNG.groups}</groups>
               <systemPropertyVariables>
 
-                <galenium.webdriver.chrome.headless>true</galenium.webdriver.chrome.headless>
+                <galenium.webdriver.headless>true</galenium.webdriver.headless>
 
                 <!-- Selenium -->
                 <selenium.browser>chrome</selenium.browser>
