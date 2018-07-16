@@ -99,6 +99,10 @@
               <!-- Galenium -->
               <galenium.browsermob.proxy>${galenium.browsermob.proxy}</galenium.browsermob.proxy>
               <galenium.headless>${galenium.headless}</galenium.headless>
+              <galenium.mediaquery.height>${galenium.mediaquery.height}</galenium.mediaquery.height>
+              <galenium.mediaquery.properties>${galenium.mediaquery.properties}</galenium.mediaquery.properties>
+              <galenium.mediaquery.width.max>${galenium.mediaquery.width.max}</galenium.mediaquery.width.max>
+              <galenium.mediaquery.width.min>${galenium.mediaquery.width.min}</galenium.mediaquery.width.min>
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
               <galenium.sampling.image.directory.actual>${galenium.sampling.image.directory.actual}</galenium.sampling.image.directory.actual>
