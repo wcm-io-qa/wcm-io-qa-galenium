@@ -33,7 +33,7 @@ import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 
 /**
  * Common base for {@link Difference} aware Galenium {@link Verification}.
- * @param <S>
+ * @param <S> sample type
  */
 public abstract class VerificationBase<S> implements Verification {
 

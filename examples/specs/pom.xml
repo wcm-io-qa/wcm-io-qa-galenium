@@ -40,15 +40,6 @@
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
   </properties>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-    </dependency>
-
-  </dependencies>
-
   <build>
     <sourceDirectory>${galenium.generated.java}</sourceDirectory>
     <plugins>
