@@ -174,7 +174,8 @@
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
           <version>0.1.15-SNAPSHOT</version>
           <configuration>
-            <packageRootName>${galenium.generated.java.package}</packageRootName>
+            <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
+            <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>
             <templateDirectory>${galenium.generated.templates}/freemarker</templateDirectory>
             <systemPropertyVariables>
 

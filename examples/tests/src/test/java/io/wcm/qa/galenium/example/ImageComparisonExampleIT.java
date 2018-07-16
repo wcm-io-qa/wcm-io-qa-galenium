@@ -25,6 +25,8 @@ import org.testng.annotations.Test;
 import com.galenframework.reports.model.LayoutReport;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.example.selectors.common.Logo;
+import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
@@ -33,8 +35,6 @@ import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.common.Logo;
-import io.wcm.qa.galenium.selectors.homepage.Stage;
 
 /**
  * Example of how to use the {@link ImageComparisonSpecFactory} to compare individual elements on a page.

@@ -48,9 +48,11 @@
 
     <!-- Galenium -->
     <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
-    <galenium.generated.class>${project.build.directory}/test-classes</galenium.generated.class>
+    <galenium.generated.class>${project.build.directory}/classes</galenium.generated.class>
     <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
-    <galenium.generated.java.package>io.wcm.qa.galenium.example.selectors</galenium.generated.java.package>
+    <galenium.generated.java.package>io.wcm.qa.galenium.example</galenium.generated.java.package>
+    <galenium.generated.java.package.selectors>${galenium.generated.java.package}.selectors</galenium.generated.java.package.selectors>
+    <galenium.generated.java.package.specs>${galenium.generated.java.package}.specs</galenium.generated.java.package.specs>
     <galenium.generated.specs>${project.build.directory}/test-classes</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
