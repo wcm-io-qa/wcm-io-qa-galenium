@@ -77,6 +77,10 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>net.revelc.code.formatter</groupId>
+        <artifactId>formatter-maven-plugin</artifactId>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -141,6 +145,21 @@
           </executions>
         </plugin>
 
+        <!-- Format generated code -->
+        <plugin>
+          <groupId>net.revelc.code.formatter</groupId>
+          <artifactId>formatter-maven-plugin</artifactId>
+          <version>2.7.2</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>format</goal>
+              </goals>
+              <phase>process-resources</phase>
+            </execution>
+          </executions>
+        </plugin>
+        
       </plugins>
     </pluginManagement>
   </build>
