@@ -38,7 +38,6 @@
 
   <properties>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
-    <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
   </properties>
 
   <dependencies>
@@ -68,12 +67,6 @@
         </configuration>
       </plugin>
 
-      <!-- unpack specs -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-
       <!-- Skip UI tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -96,52 +89,19 @@
       <build>
         <plugins>
 
-          <!-- Get CPU count to use as thread count for TestNG -->
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-          </plugin>
-
           <!-- Run UI tests -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
           </plugin>
 
           <!-- Webdriver download -->
           <plugin>
             <groupId>com.lazerycode.selenium</groupId>
             <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          </plugin>
-
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>headless</id>
-      <build>
-        <plugins>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <groups>${testNG.groups}</groups>
-              <systemPropertyVariables>
-
-                <galenium.webdriver.headless>true</galenium.webdriver.headless>
-
-                <!-- Selenium -->
-                <selenium.browser>chrome</selenium.browser>
-                <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
-                <webdriver.chrome.logfile>chromedriver.log</webdriver.chrome.logfile>
-
-              </systemPropertyVariables>
-              <includes>
-                <include>**/*IT.java</include>
-              </includes>
-            </configuration>
           </plugin>
 
         </plugins>

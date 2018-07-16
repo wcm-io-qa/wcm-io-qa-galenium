@@ -48,25 +48,25 @@
 
     <!-- Galenium -->
     <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
-    <galenium.generated.class>${project.build.directory}/classes</galenium.generated.class>
+    <galenium.generated.class>${project.build.outputDirectory}</galenium.generated.class>
     <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
     <galenium.generated.java.package>io.wcm.qa.galenium.example</galenium.generated.java.package>
     <galenium.generated.java.package.selectors>${galenium.generated.java.package}.selectors</galenium.generated.java.package.selectors>
     <galenium.generated.java.package.specs>${galenium.generated.java.package}.specs</galenium.generated.java.package.specs>
-    <galenium.generated.specs>${project.build.directory}/test-classes</galenium.generated.specs>
+    <galenium.generated.specs>${project.build.outputDirectory}</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
-    <galenium.sampling.image.directory.expected>${galenium.specPath}/images</galenium.sampling.image.directory.expected>
+    <galenium.sampling.image.directory.expected>${project.build.directory}/test-classes/images</galenium.sampling.image.directory.expected>
     <galenium.sampling.image.save>true</galenium.sampling.image.save>
-    <galenium.sampling.text.directory.actual>${project.build.directory}/sampled/texts</galenium.sampling.text.directory.actual>
-    <galenium.sampling.text.directory.expected>${galenium.specPath}</galenium.sampling.text.directory.expected>
+    <galenium.sampling.text.directory.actual>${project.build.directory}/sampled/text</galenium.sampling.text.directory.actual>
+    <galenium.sampling.text.directory.expected>${project.build.directory}/test-classes/text</galenium.sampling.text.directory.expected>
     <galenium.sampling.text.save>true</galenium.sampling.text.save>
-    <galenium.sampling.text.file>text/expected.properties</galenium.sampling.text.file>
+    <galenium.sampling.text.file>expected.properties</galenium.sampling.text.file>
     <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
-    <galenium.specPath>${project.build.directory}/test-classes/galen/specs</galenium.specPath>
+    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
     <galenium.webdriver.download.repositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
     <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>

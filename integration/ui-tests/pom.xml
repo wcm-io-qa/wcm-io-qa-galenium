@@ -36,11 +36,23 @@
   <version>0.1.15-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
-  <properties>
-
-  </properties>
 
   <build>
+    <plugins>
+
+      <!-- Count CPUs -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Unpack Galen specs from JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+    </plugins>
+
     <pluginManagement>
       <plugins>
 
@@ -165,5 +177,5 @@
       </plugins>
     </pluginManagement>
   </build>
-  
+
 </project>
