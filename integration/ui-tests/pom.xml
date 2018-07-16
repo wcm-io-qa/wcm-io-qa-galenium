@@ -97,6 +97,7 @@
               <io.wcm.qa.baseUrl>${io.wcm.qa.baseUrl}</io.wcm.qa.baseUrl>
 
               <!-- Galenium -->
+              <galenium.browsermob.proxy>${galenium.browsermob.proxy}</galenium.browsermob.proxy>
               <galenium.headless>${galenium.headless}</galenium.headless>
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
