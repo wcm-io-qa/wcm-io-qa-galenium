@@ -33,8 +33,8 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.NetworkMode;
 import com.relevantcodes.extentreports.model.Test;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
  * Handles closing of reports a little more gracefully than the original.

@@ -30,12 +30,12 @@ class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities>
   private OptionsProvider p2;
 
   CombinedOptionsProvider(OptionsProvider provider1, OptionsProvider provider2) {
+    p1 = provider1;
+    p2 = provider2;
     getLogger().debug("Creating combined provider with " + p1 + " and " + p2);
     if (p1 == null || p2 == null) {
       throw new GaleniumException("cannot combine null OptionsProvider.");
     }
-    p1 = provider1;
-    p2 = provider2;
   }
 
   @Override

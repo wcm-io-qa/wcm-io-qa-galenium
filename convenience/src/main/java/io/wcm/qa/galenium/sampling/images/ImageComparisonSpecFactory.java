@@ -41,6 +41,7 @@ import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Mouse;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
@@ -48,7 +49,6 @@ import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.BrowserUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
  * Factory for fileless image comparison specs.

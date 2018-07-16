@@ -22,8 +22,8 @@ package io.wcm.qa.galenium.webdriver;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
 

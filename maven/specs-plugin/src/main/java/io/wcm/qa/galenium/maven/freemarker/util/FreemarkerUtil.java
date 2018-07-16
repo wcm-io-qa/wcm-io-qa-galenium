@@ -31,6 +31,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSelectorMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSpecMethod;
@@ -42,7 +43,6 @@ import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.pojo.InteractionPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.selectors.NestedSelector;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 public final class FreemarkerUtil {
 

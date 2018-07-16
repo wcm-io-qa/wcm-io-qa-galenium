@@ -31,7 +31,7 @@ import io.wcm.qa.galenium.util.BrowserUtil;
  */
 public class NavigationExampleIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)
   public NavigationExampleIT(TestDevice testDevice) {
     super(testDevice);
   }

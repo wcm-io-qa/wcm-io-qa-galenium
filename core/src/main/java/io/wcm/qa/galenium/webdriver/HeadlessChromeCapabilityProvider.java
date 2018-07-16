@@ -19,14 +19,14 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getAdditionalChromeHeadlessWidth;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getAdditionalChromeHeadlessWidth;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
 

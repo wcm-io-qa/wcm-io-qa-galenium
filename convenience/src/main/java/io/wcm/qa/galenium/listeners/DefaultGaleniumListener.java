@@ -35,8 +35,8 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.testng.annotations.ITestAnnotation;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 /**
  * Listener to manage WebDriver management, reporting and screenshots. This listener is just a container for other

@@ -25,7 +25,7 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 /**
  * {@link TestDevice} based {@link Difference}.
  */
-public class ScreenWidthDifference implements Difference {
+public class ScreenWidthDifference extends DifferenceBase {
 
   @Override
   public String getName() {

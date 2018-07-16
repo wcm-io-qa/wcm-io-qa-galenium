@@ -19,11 +19,11 @@
  */
 package io.wcm.qa.galenium.sampling.images;
 
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getActualImagesDirectory;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getExpectedImagesDirectory;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_WARN;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getActualImagesDirectory;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.getExpectedImagesDirectory;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -46,10 +46,10 @@ import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.interaction.Mouse;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 
 /**

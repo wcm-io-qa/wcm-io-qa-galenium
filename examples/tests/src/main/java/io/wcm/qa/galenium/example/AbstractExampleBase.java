@@ -22,10 +22,10 @@ package io.wcm.qa.galenium.example;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.example.selectors.common.Navigation;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Aem;
 import io.wcm.qa.galenium.interaction.Element;
-import io.wcm.qa.galenium.selectors.common.Navigation;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 
 /**

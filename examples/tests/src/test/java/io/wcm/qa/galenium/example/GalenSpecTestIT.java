@@ -23,16 +23,16 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.example.specs.Conference;
+import io.wcm.qa.galenium.example.specs.Homepage;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.specs.Conference;
-import io.wcm.qa.galenium.specs.Homepage;
 
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
   }

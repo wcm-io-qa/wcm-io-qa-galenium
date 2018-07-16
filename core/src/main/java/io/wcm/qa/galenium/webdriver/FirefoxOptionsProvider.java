@@ -23,6 +23,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+
 
 class FirefoxOptionsProvider extends OptionsProvider<FirefoxOptions> {
 
@@ -34,6 +36,8 @@ class FirefoxOptionsProvider extends OptionsProvider<FirefoxOptions> {
     firefoxProfile.setAcceptUntrustedCertificates(true);
     firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
     options.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
+    boolean headless = GaleniumConfiguration.isHeadless();
+    options.setHeadless(headless);
     return options;
   }
 

@@ -30,27 +30,29 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
-import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
 /**
  * Common base for {@link Difference} aware Galenium {@link Verification}.
+ * @param <S> sample type
  */
-public abstract class VerificationBase implements Verification {
+public abstract class VerificationBase<S> implements Verification {
 
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
-  private String actualValue;
+  private S actualValue;
+  private boolean caching;
   private SortedDifferences differences;
   private Throwable exception;
-  private String expectedValue;
+  private S expectedValue;
   private Verification preVerification;
   private String verificationName;
   private Boolean verified;
 
   protected VerificationBase(String verificationName) {
     setVerificationName(verificationName);
+    setCaching(true);
   }
 
-  protected VerificationBase(String verificationName, String expectedValue) {
+  protected VerificationBase(String verificationName, S expectedValue) {
     this(verificationName);
     setExpectedValue(expectedValue);
   }
@@ -93,7 +95,7 @@ public abstract class VerificationBase implements Verification {
   }
 
   /**
-   * Pre verification is run before this verfication to test whether it makes sense to attempt verification. Verifying
+   * Pre verification is run before this verification to test whether it makes sense to attempt verification. Verifying
    * an attribute value is futile if the element does not exist, for example.
    * @return pre verification
    */
@@ -108,11 +110,20 @@ public abstract class VerificationBase implements Verification {
     return verificationName;
   }
 
+  public boolean isCaching() {
+    return caching;
+  }
+
   /**
    * @return whether verification was successful or null, if verification did not run yet.
    */
   public Boolean isVerified() {
     return verified;
+  }
+
+  public void setCaching(boolean caching) {
+    this.caching = caching;
+    setCachingInPreVerification(caching);
   }
 
   /**
@@ -128,6 +139,7 @@ public abstract class VerificationBase implements Verification {
 
   public void setPreVerification(Verification preVerification) {
     this.preVerification = preVerification;
+    setCachingInPreVerification(caching);
   }
 
   public void setVerified(Boolean verified) {
@@ -172,32 +184,45 @@ public abstract class VerificationBase implements Verification {
     }
     try {
       setVerified(doVerification());
-      getLogger().trace("done verifying (" + toString() + ")");
-      if (!isVerified() && getActualValue() != null) {
-        TextSampleManager.addNewTextSample(getExpectedKey(), getActualValue());
-      }
     }
     catch (GaleniumException ex) {
       getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
       setException(ex);
       setVerified(false);
     }
+    afterVerification();
     return isVerified();
   }
 
+  private void setCachingInPreVerification(boolean caching) {
+    Verification pre = getPreVerification();
+    if (pre != null && pre instanceof VerificationBase) {
+      ((VerificationBase)pre).setCaching(caching);
+    }
+  }
+
+  protected void afterVerification() {
+    getLogger().trace("looking for '" + getExpectedValue() + "'");
+    S cachedValue = getCachedValue();
+    getLogger().trace("found: '" + cachedValue + "'");
+    if (!isVerified() && cachedValue != null) {
+      String expectedKey = getExpectedKey();
+      persistSample(expectedKey, cachedValue);
+    }
+    getLogger().trace("done verifying (" + toString() + ")");
+  }
+
   /**
-   * Override to use anything that is not String equivalence of actual and expected value.
+   * Override to implement verification.
    * @return whether verification was successful
    */
-  protected Boolean doVerification() {
-    return StringUtils.equals(getActualValue(), getExpectedValue());
-  }
+  protected abstract Boolean doVerification();
 
   /**
    * @return actual value, defaults to {@link VerificationBase#sampleValue()}
    */
-  protected String getActualValue() {
-    if (actualValue == null) {
+  protected S getActualValue() {
+    if (!isCaching() || actualValue == null) {
       actualValue = sampleValue();
     }
     return actualValue;
@@ -209,6 +234,10 @@ public abstract class VerificationBase implements Verification {
    */
   protected String getAdditionalToStringInfo() {
     return StringUtils.EMPTY;
+  }
+
+  protected S getCachedValue() {
+    return actualValue;
   }
 
   protected SortedDifferences getDifferences() {
@@ -224,7 +253,7 @@ public abstract class VerificationBase implements Verification {
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asPropertyKey();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return expectedKey + "." + getVerificationName().toLowerCase();
+      return getVerificationName().toLowerCase() + "." + expectedKey;
     }
     return getVerificationName().toLowerCase();
   }
@@ -232,12 +261,9 @@ public abstract class VerificationBase implements Verification {
   /**
    * @return expected value if one was set or is retrievable from sample manager
    */
-  protected String getExpectedValue() {
+  protected S getExpectedValue() {
     if (expectedValue == null) {
-      String expectedKey = getExpectedKey();
-      if (StringUtils.isNotBlank(expectedKey)) {
-        expectedValue = TextSampleManager.getExpectedText(expectedKey);
-      }
+      expectedValue = initExpectedValue();
     }
     return expectedValue;
   }
@@ -270,6 +296,8 @@ public abstract class VerificationBase implements Verification {
     return getPreVerification() != null;
   }
 
+  protected abstract S initExpectedValue();
+
   /**
    * @return whether to remove "Verification" from name
    */
@@ -277,14 +305,13 @@ public abstract class VerificationBase implements Verification {
     return true;
   }
 
+  protected abstract void persistSample(String key, S newValue);
+
   /**
    * Override to actually sample a value.
    * @return sample value to be used as actual value
    */
-  protected String sampleValue() {
-    getLogger().debug("trying to sample from " + toString());
-    return null;
-  }
+  protected abstract S sampleValue();
 
   /**
    * @param differences replaces differences on this verification
@@ -295,10 +322,10 @@ public abstract class VerificationBase implements Verification {
 
   /**
    * Set expected value directly to bypass built-in sampling.
-   * @param expectedValue to use in verification
+   * @param value to use in verification
    */
-  protected void setExpectedValue(String expectedValue) {
-    this.expectedValue = expectedValue;
+  protected void setExpectedValue(S value) {
+    this.expectedValue = value;
   }
 
   protected void setVerificationName(String verificationName) {

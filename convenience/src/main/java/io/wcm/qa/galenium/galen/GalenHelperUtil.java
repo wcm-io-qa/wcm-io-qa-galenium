@@ -64,7 +64,6 @@ public final class GalenHelperUtil {
 
   private static final Map<String, Object> EMPTY_JS_VARS = null;
   private static final Properties EMPTY_PROPERTIES = new Properties();
-  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
   private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
 
   private GalenHelperUtil() {
@@ -157,7 +156,7 @@ public final class GalenHelperUtil {
    * @return filter ready for use with Galen
    */
   public static SectionFilter getSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
+    return new SectionFilter(device.getIncludeTags(), device.getExcludeTags());
   }
 
   /**

@@ -17,14 +17,16 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>19</version>
-    <relativePath />
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
+    <version>0.1.15-SNAPSHOT</version>
+    <relativePath>../../integration/specs</relativePath>
   </parent>
 
   <name>Galenium Example Specs</name>
@@ -35,24 +37,11 @@
   <description>Test automation example Galen specs.</description>
 
   <properties>
-    <integrationtests.skip>true</integrationtests.skip>
-    <!-- Galenium -->
-    <galenium.specPath>${project.basedir}/src/main/resources/galen/specs</galenium.specPath>
-    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
   </properties>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
-    </dependency>
-
-  </dependencies>
-
   <build>
-    <sourceDirectory>${project.build.directory}/generated-sources/java</sourceDirectory>
+    <sourceDirectory>${galenium.generated.java}</sourceDirectory>
     <plugins>
 
       <plugin>
@@ -69,24 +58,6 @@
         </configuration>
       </plugin>
 
-      <!-- do not deploy this example into maven repository -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -98,76 +69,21 @@
       <plugin>
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-        <version>0.1.15-SNAPSHOT</version>
-        <configuration>
-          <packageRootName>io.wcm.qa.galenium.example.selectors</packageRootName>
-          <templateDirectory>${project.build.directory}/generated-resources/freemarker</templateDirectory>
-          <systemPropertyVariables>
-
-            <!-- Galenium -->
-            <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
-            <galenium.specPath>${galenium.specPath}</galenium.specPath>
-
-          </systemPropertyVariables>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>specs</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>properties-maven-plugin</artifactId>
-        <version>1.0.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>set-system-properties</goal>
-            </goals>
-            <configuration>
-              <properties>
-                <property>
-                  <name>galenium.report.extent.skip</name>
-                  <value>true</value>
-                </property>
-              </properties>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unpack-freemarker-resources</id>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <phase>generate-sources</phase>
-            <configuration>
-              <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
-              <includeArtifacIds>io.wcm.qa.galenium.galen-specs</includeArtifacIds>
-              <includes>**/*.ftlh</includes>
-              <excludeTransitive>true</excludeTransitive>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <testExcludes>**</testExcludes>
-          <!-- <includes>
-            <include>io/wcm/qa/galenium/example/selectors/**/*.java</include>
-          </includes> -->
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -185,18 +101,6 @@
       <plugin>
         <groupId>net.revelc.code.formatter</groupId>
         <artifactId>formatter-maven-plugin</artifactId>
-        <version>2.7.2</version>
-        <executions>
-          <execution>
-            <configuration>
-              <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
-              <testSourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</testSourceDirectory>
-            </configuration>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

@@ -27,6 +27,7 @@ import java.net.URI;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Proxy;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;

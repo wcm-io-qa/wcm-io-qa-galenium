@@ -26,12 +26,7 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 /**
  * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
  */
-public class BrowserDifference implements Difference {
-
-  @Override
-  public String getName() {
-    return "browser";
-  }
+public class BrowserDifference extends DifferenceBase {
 
   @Override
   public String getTag() {

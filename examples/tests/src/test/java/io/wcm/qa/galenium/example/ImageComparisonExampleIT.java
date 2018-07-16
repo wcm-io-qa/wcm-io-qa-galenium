@@ -23,9 +23,11 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.speclang2.pagespec.SectionFilter;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.example.selectors.common.Logo;
+import io.wcm.qa.galenium.example.selectors.homepage.Stage;
+import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
@@ -33,15 +35,13 @@ import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.images.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.common.Logo;
-import io.wcm.qa.galenium.selectors.homepage.Stage;
 
 /**
  * Example of how to use the {@link ImageComparisonSpecFactory} to compare individual elements on a page.
  */
 public class ImageComparisonExampleIT extends AbstractExampleBase {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public ImageComparisonExampleIT(TestDevice testDevice) {
     super(testDevice);
   }
@@ -68,8 +68,11 @@ public class ImageComparisonExampleIT extends AbstractExampleBase {
     factory.addDifference(new ScreenWidthDifference());
 
     // compare image using spec
-    LayoutReport layoutReport = GalenLayoutChecker.checkLayout("Image comparison stage",
-        factory.getPageSpecInstance(), getDevice(), new SectionFilter(getDevice().getTags(), null),
+    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(
+        "Image comparison stage",
+        factory.getPageSpecInstance(),
+        getDevice(),
+        GalenHelperUtil.getSectionFilter(getDevice()),
         getValidationListener());
     handleLayoutReport("image_comparison_" + selector.elementName() + ".gspec", layoutReport);
   }

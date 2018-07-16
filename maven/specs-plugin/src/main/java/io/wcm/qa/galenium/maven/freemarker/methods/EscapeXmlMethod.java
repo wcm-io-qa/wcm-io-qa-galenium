@@ -19,13 +19,18 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.methods;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
 public class EscapeXmlMethod extends AbstractTemplateMethod<String> {
 
   @Override
   protected String exec(String input) {
-    return StringEscapeUtils.escapeXml11(input);
+    return escapeJavaDoc(input);
+  }
+
+  protected String escapeJavaDoc(String input) {
+    return input
+        .replaceAll("&", "&amp;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("<", "&lt;");
   }
 
 }

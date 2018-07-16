@@ -19,8 +19,8 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isWebDriverAcceptTrustedSslCertificatesOnly;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isWebDriverRefuseSslCertificates;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isWebDriverAcceptTrustedSslCertificatesOnly;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isWebDriverRefuseSslCertificates;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,9 +33,9 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.BrowserMobUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
 

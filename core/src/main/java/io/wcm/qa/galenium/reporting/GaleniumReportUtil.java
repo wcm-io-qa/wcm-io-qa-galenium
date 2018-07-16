@@ -52,7 +52,7 @@ import com.relevantcodes.extentreports.model.ITest;
 import com.relevantcodes.extentreports.model.TestAttribute;
 
 import freemarker.template.TemplateException;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 
@@ -104,11 +104,16 @@ public final class GaleniumReportUtil {
   // TestNG
   private static final String PATH_TESTNG_REPORT_XML = PATH_REPORT_ROOT + "/testng.xml";
 
+  private static final Logger INTERNAL_LOGGER = LoggerFactory.getLogger(GaleniumReportUtil.class);
+
   static {
+    INTERNAL_LOGGER.info("initializing GaleniumReportUtil");
     if (GaleniumConfiguration.isSkipExtentReports()) {
+      INTERNAL_LOGGER.info("skipping ExtentReports initialization");
       EXTENT_REPORTS = null;
     }
     else {
+      INTERNAL_LOGGER.info("initializing ExtentReports: " + PATH_EXTENT_REPORTS_REPORT);
       EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT, NetworkMode.OFFLINE);
 
       File reportConfig = GaleniumConfiguration.getReportConfig();
@@ -116,6 +121,7 @@ public final class GaleniumReportUtil {
         EXTENT_REPORTS.loadConfig(reportConfig);
       }
 
+      INTERNAL_LOGGER.info("starting reporter: " + PATH_EXTENT_REPORTS_DB);
       EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
 
       Runtime.getRuntime().addShutdownHook(new ExtentReportShutdownHook());

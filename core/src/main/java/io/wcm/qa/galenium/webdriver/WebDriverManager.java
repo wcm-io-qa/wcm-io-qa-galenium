@@ -19,9 +19,9 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isHeadless;
+import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isChromeHeadless;
-import static io.wcm.qa.galenium.util.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,10 +35,10 @@ import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.GaleniumConfiguration;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
@@ -123,7 +123,7 @@ public final class WebDriverManager {
           GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getCurrentDriver(), screenSize.width, screenSize.height);
         }
         catch (WebDriverException ex) {
-          if (!isChromeHeadless()) {
+          if (!isHeadless()) {
             // headless chrome does not have a window target
             logDebug("Exception when resizing browser", ex);
           }
@@ -136,7 +136,7 @@ public final class WebDriverManager {
       getLogger().trace("driver for test device: " + testDevice);
       getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
       Dimension windowSize = getWindowSize();
-      if (windowSize == null && GaleniumConfiguration.isChromeHeadless()) {
+      if (windowSize == null && GaleniumConfiguration.isHeadless()) {
         getLogger().trace("driver window size: none (headless)");
       }
       else if (windowSize == null) {
@@ -154,7 +154,7 @@ public final class WebDriverManager {
       return getCurrentDriver().manage().window().getSize();
     }
     catch (NullPointerException | WebDriverException ex) {
-      if (!GaleniumConfiguration.isChromeHeadless()) {
+      if (!GaleniumConfiguration.isHeadless()) {
         getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
       }
     }
