@@ -55,6 +55,7 @@
     <galenium.generated.java.package.specs>${galenium.generated.java.package}.specs</galenium.generated.java.package.specs>
     <galenium.generated.specs>${project.build.outputDirectory}</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
+    <galenium.headless>true</galenium.headless>
     <galenium.mediaquery.height>800</galenium.mediaquery.height>
     <galenium.mediaquery.properties>${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
     <galenium.mediaquery.width.max>2000</galenium.mediaquery.width.max>
@@ -151,20 +152,58 @@
           </executions>
         </plugin>
 
+        <!-- Copy specs from source directories -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <!-- here the phase you need -->
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${galenium.specPath}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>src/main/resources/galen/specs</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                  <resource>
+                    <directory>src/test/resources/galen/specs</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
         <!-- Generate Java code from Galen specs -->
         <plugin>
           <groupId>io.wcm.qa</groupId>
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
           <version>0.1.15-SNAPSHOT</version>
           <configuration>
-            <packageRootName>${galenium.generated.java.package}</packageRootName>
+            <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
+            <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>
             <templateDirectory>${galenium.generated.templates}/freemarker</templateDirectory>
+            <inputDirectory>${galenium.specPath}</inputDirectory>
+            <outputDirectory>${galenium.generated.java}</outputDirectory>
+            <selectorIncludes>
+              <include>**/*.gspec</include>
+            </selectorIncludes>
+            <specIncludes>
+              <include>**/*.gspec</include>
+            </specIncludes>
             <systemPropertyVariables>
 
               <!-- Galenium -->
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
-
+              <galenium.report.extent.skip>${galenium.report.extent.skip}</galenium.report.extent.skip>
             </systemPropertyVariables>
           </configuration>
           <executions>

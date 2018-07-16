@@ -99,19 +99,31 @@ public class GalenSpecsMojo extends AbstractMojo {
   private String selectorTemplate;
 
   /**
-   * A set of file patterns to include in the zip.
+   * A set of file patterns to include in selector generation.
    */
-  @Parameter(property = "includes")
-  private String[] includes;
+  @Parameter(property = "selectorIncludes")
+  private String[] selectorIncludes;
 
   /**
-   * A set of file patterns to exclude from the zip.
-   * @parameter alias="excludes"
+   * A set of file patterns to exclude from selector generation.
    */
-  @Parameter(property = "excludes")
-  private String[] excludes;
+  @Parameter(property = "selectorExcludes")
+  private String[] selectorExcludes;
 
-  private Collection<SpecPojo> specs = new ArrayList<>();
+  /**
+   * A set of file patterns to include in spec generation.
+   */
+  @Parameter(property = "specIncludes")
+  private String[] specIncludes;
+
+  /**
+   * A set of file patterns to exclude from spec generation.
+   */
+  @Parameter(property = "specExcludes")
+  private String[] specExcludes;
+
+  private Collection<SpecPojo> specsForSelectors = new ArrayList<>();
+  private Collection<SpecPojo> specsForSpecs = new ArrayList<>();
 
   /**
    * Name of Freemarker template to use for recursively generating static inner classes.
@@ -166,7 +178,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     getLog().info("fetching template");
     Template template = FreemarkerUtil.getTemplate(templateDirectory, specTemplate);
 
-    for (SpecPojo specPojo : specs) {
+    for (SpecPojo specPojo : specsForSpecs) {
 
       getLog().info("generating data model for '" + specPojo.getSpecFile().getPath() + "'");
       Map<String, Object> dataModelForSpec = FreemarkerUtil.getDataModelForSpec(specPojo, packagePrefixSpecs);
@@ -197,13 +209,16 @@ public class GalenSpecsMojo extends AbstractMojo {
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private Collection<File> getSpecFiles() {
-    DirectoryScanner directoryScanner = new DirectoryScanner();
-    directoryScanner.setIncludes(includes);
-    directoryScanner.setExcludes(excludes);
-    directoryScanner.setBasedir(inputDirectory);
+  private Collection<File> getSpecFilesForSpecs() {
+    return getSpecFiles(getIncludedFilesForSpecs());
+  }
+
+  private Collection<File> getSpecFilesForSelectors() {
+    return getSpecFiles(getIncludedFilesForSelectors());
+  }
+
+  private Collection<File> getSpecFiles(String[] includedFiles) {
     Collection<File> specFiles = new ArrayList<>();
-    String[] includedFiles = directoryScanner.getIncludedFiles();
     for (String relativeFilePath : includedFiles) {
       specFiles.add(new File(inputDirectory, relativeFilePath));
     }
@@ -211,17 +226,39 @@ public class GalenSpecsMojo extends AbstractMojo {
     return specFiles;
   }
 
-  private void storeSpec(SpecPojo specPojo) {
-    specs.add(specPojo);
+  private String[] getIncludedFilesForSpecs() {
+    return getIncludedFiles(inputDirectory, selectorIncludes, selectorExcludes);
   }
 
-  protected void generateCode() {
+  private String[] getIncludedFilesForSelectors() {
+    return getIncludedFiles(inputDirectory, selectorIncludes, selectorExcludes);
+  }
+
+  private String[] getIncludedFiles(File inputFolder, String[] includes, String[] excludes) {
+    DirectoryScanner directoryScanner = new DirectoryScanner();
+    directoryScanner.setIncludes(includes);
+    directoryScanner.setExcludes(excludes);
+    directoryScanner.setBasedir(inputFolder);
+    directoryScanner.scan();
+    String[] includedFiles = directoryScanner.getIncludedFiles();
+    return includedFiles;
+  }
+
+  private void storeSpecForSelector(SpecPojo specPojo) {
+    specsForSelectors.add(specPojo);
+  }
+
+  private void storeSpecForSpec(SpecPojo specPojo) {
+    specsForSpecs.add(specPojo);
+  }
+
+  private void generateCode() {
     generateInteractiveSelectorCode();
     generateSelectorCode();
     generateSpecCode();
   }
 
-  protected void generateInteractiveSelectorCode() {
+  private void generateInteractiveSelectorCode() {
     Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorTemplate);
     String className = getInteractiveSelectorClassName();
     String packageName = getInteractiveSelectorPackageName();
@@ -235,7 +272,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     getLog().info("fetching template");
     Template template = FreemarkerUtil.getTemplate(templateDirectory, selectorTemplate);
 
-    for (SpecPojo specPojo : specs) {
+    for (SpecPojo specPojo : specsForSelectors) {
 
       getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
       for (NestedSelector selector : specPojo.getRootSelectors()) {
@@ -269,12 +306,13 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   protected void parseSpecs() {
-    getLog().info("collecting spec files");
-    Collection<File> specFiles = getSpecFiles();
-
-    getLog().info("processing spec files");
-    for (File specFile : specFiles) {
-      storeSpec(new SpecPojo(specFile));
+    getLog().info("processing spec files for selectors");
+    for (File specFile : getSpecFilesForSelectors()) {
+      storeSpecForSelector(new SpecPojo(specFile));
+    }
+    getLog().info("processing spec files for specs");
+    for (File specFile : getSpecFilesForSpecs()) {
+      storeSpecForSpec(new SpecPojo(specFile));
     }
   }
 

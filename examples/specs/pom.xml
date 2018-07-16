@@ -36,10 +36,6 @@
   <version>0.1.15-SNAPSHOT</version>
   <description>Test automation example Galen specs.</description>
 
-  <properties>
-    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
-  </properties>
-
   <build>
     <sourceDirectory>${galenium.generated.java}</sourceDirectory>
     <plugins>
