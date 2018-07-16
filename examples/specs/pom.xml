@@ -37,7 +37,7 @@
   <description>Test automation example Galen specs.</description>
 
   <properties>
-    <galenium.specPath>${project.basedir}/src/main/resources/galen/specs</galenium.specPath>
+    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
   </properties>
 
   <dependencies>
@@ -92,6 +92,7 @@
           <testExcludes>**</testExcludes>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -109,18 +110,6 @@
       <plugin>
         <groupId>net.revelc.code.formatter</groupId>
         <artifactId>formatter-maven-plugin</artifactId>
-        <version>2.7.2</version>
-        <executions>
-          <execution>
-            <configuration>
-              <sourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</sourceDirectory>
-              <testSourceDirectory>${io.wcm.qa.galenium.example.sourceDir}</testSourceDirectory>
-            </configuration>
-            <goals>
-              <goal>format</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

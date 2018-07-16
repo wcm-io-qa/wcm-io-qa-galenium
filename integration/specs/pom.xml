@@ -36,10 +36,6 @@
   <version>0.1.15-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
-  <properties>
-
-  </properties>
-
   <dependencyManagement>
     <dependencies>
 
@@ -77,15 +73,29 @@
           </execution>
         </executions>
       </plugin>
+      
       <plugin>
         <groupId>net.revelc.code.formatter</groupId>
         <artifactId>formatter-maven-plugin</artifactId>
       </plugin>
+
+      <!-- Unpack Freemarker resources and optional Galen specs from JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+        <!-- Copy specs from source directories -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+        </plugin>
+
     </plugins>
     <pluginManagement>
       <plugins>
 
-        <!-- Unpack Galen specs from JAR -->
+        <!-- Unpack Freemarker resources and optional Galen specs from JAR -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
@@ -114,6 +124,36 @@
                 <includeArtifacIds>io.wcm.qa.galenium.specs-maven-plugin</includeArtifacIds>
                 <includes>**/*.ftlh</includes>
                 <excludeTransitive>true</excludeTransitive>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Copy specs from source directories -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <!-- here the phase you need -->
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${galenium.specPath}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>src/main/resources/galen/specs</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                  <resource>
+                    <directory>src/test/resources/galen/specs</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
               </configuration>
             </execution>
           </executions>
@@ -159,7 +199,7 @@
             </execution>
           </executions>
         </plugin>
-        
+
       </plugins>
     </pluginManagement>
   </build>
