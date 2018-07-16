@@ -41,6 +41,7 @@ public class VisibilityVerification extends ElementBasedVerification {
   /**
    * Constructor.
    * @param selector to identify element
+   * @param timeOut how many seconds to wait
    */
   public VisibilityVerification(Selector selector, int timeOut) {
     super(selector);

@@ -35,7 +35,7 @@ public class InvisibilityVerification extends VisibilityVerification {
 
   /**
    * @param selector to identify element
-   * @param timeOut
+   * @param timeOut how many seconds to wait
    */
   public InvisibilityVerification(Selector selector, int timeOut) {
     super(selector);
