@@ -97,6 +97,7 @@
               <io.wcm.qa.baseUrl>${io.wcm.qa.baseUrl}</io.wcm.qa.baseUrl>
 
               <!-- Galenium -->
+              <galenium.headless>${galenium.headless}</galenium.headless>
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
               <galenium.sampling.image.directory.actual>${galenium.sampling.image.directory.actual}</galenium.sampling.image.directory.actual>
@@ -109,7 +110,6 @@
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
-              <galenium.webdriver.headless>${galenium.webdriver.headless}</galenium.webdriver.headless>
 
               <!-- Galen -->
               <galen.browser.screenshots.fullPage>${galen.browser.screenshots.fullPage}</galen.browser.screenshots.fullPage>

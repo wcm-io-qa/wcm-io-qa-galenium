@@ -70,7 +70,6 @@
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
     <galenium.webdriver.download.repositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
     <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
-    <galenium.webdriver.headless>true</galenium.webdriver.headless>
 
     <!-- Selenium -->
     <selenium.browser>chrome</selenium.browser>
