@@ -38,8 +38,6 @@
 
   <properties>
     <galenium.specPath>${project.basedir}/src/main/resources/galen/specs</galenium.specPath>
-    <galenium.report.extent.skip>true</galenium.report.extent.skip>
-    <galenium.generated.generate>true</galenium.generated.generate>
   </properties>
 
   <dependencies>

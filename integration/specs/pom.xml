@@ -29,7 +29,7 @@
     <relativePath>..</relativePath>
   </parent>
 
-  <name>Galenium Integration Parent</name>
+  <name>Galenium Galen-Spec Integration Parent</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
   <packaging>pom</packaging>
@@ -54,6 +54,30 @@
   </dependencyManagement>
 
   <build>
+    <plugins>
+
+      <!-- Do not initialize ExtentReport when generating specs -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>set-system-properties</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <property>
+                  <name>galenium.report.extent.skip</name>
+                  <value>true</value>
+                </property>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
     <pluginManagement>
       <plugins>
 
@@ -104,7 +128,7 @@
               <!-- Galenium -->
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
-
+              <galenium.report.extent.skip>${galenium.report.extent.skip}</galenium.report.extent.skip>
             </systemPropertyVariables>
           </configuration>
           <executions>
@@ -117,30 +141,8 @@
           </executions>
         </plugin>
 
-        <!-- Do not initialize ExtentReport when generating specs -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>properties-maven-plugin</artifactId>
-          <version>1.0.0</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>set-system-properties</goal>
-              </goals>
-              <configuration>
-                <properties>
-                  <property>
-                    <name>galenium.report.extent.skip</name>
-                    <value>true</value>
-                  </property>
-                </properties>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-
       </plugins>
     </pluginManagement>
   </build>
-  
+
 </project>

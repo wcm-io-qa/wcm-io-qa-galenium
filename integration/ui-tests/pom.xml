@@ -29,7 +29,7 @@
     <relativePath>..</relativePath>
   </parent>
 
-  <name>Galenium Integration Parent</name>
+  <name>Galenium UI-Tests Integration Parent</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
@@ -97,6 +97,7 @@
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
+              <galenium.webdriver.headless>${galenium.webdriver.headless}</galenium.webdriver.headless>
 
               <!-- Galen -->
               <galen.browser.screenshots.fullPage>${galen.browser.screenshots.fullPage}</galen.browser.screenshots.fullPage>
@@ -117,6 +118,7 @@
             </includes>
           </configuration>
         </plugin>
+
 
         <!-- Unpack Galen specs from JAR -->
         <plugin>

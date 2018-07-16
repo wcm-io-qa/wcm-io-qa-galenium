@@ -88,28 +88,6 @@
       </plugin>
 
     </plugins>
-    <pluginManagement>
-      <plugins>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <configuration>
-            <skip>${integrationtests-skip}</skip>
-            <properties>
-              <property>
-                <name>usedefaultlisteners</name>
-                <value>true</value>
-              </property>
-            </properties>
-            <systemPropertyVariables>
-              <galenium.reportDirectory>${project.build.directory}/galen-reports</galenium.reportDirectory>
-            </systemPropertyVariables>
-          </configuration>
-        </plugin>
-
-      </plugins>
-    </pluginManagement>
   </build>
 
   <distributionManagement>
