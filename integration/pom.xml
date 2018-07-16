@@ -69,6 +69,7 @@
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
     <galenium.webdriver.download.repositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
     <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
+    <galenium.webdriver.headless>true</galenium.webdriver.headless>
 
     <!-- Selenium -->
     <selenium.browser>chrome</selenium.browser>
@@ -165,6 +166,7 @@
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
+              <galenium.webdriver.headless>${galenium.webdriver.headless}</galenium.webdriver.headless>
 
               <!-- Galen -->
               <galen.browser.screenshots.fullPage>${galen.browser.screenshots.fullPage}</galen.browser.screenshots.fullPage>
@@ -276,72 +278,4 @@
     </pluginManagement>
   </build>
 
-  <!-- Generate code from Galen specs -->
-  <profiles>
-    <profile>
-      <id>generate-classes-from-specs</id>
-      <activation>
-        <property>
-          <name>galenium.generated.generate</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>unpack-freemarker-resources</id>
-                <goals>
-                  <goal>unpack-dependencies</goal>
-                </goals>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <outputDirectory>${galenium.generated.templates}</outputDirectory>
-                  <includeArtifacIds>io.wcm.qa.galenium.specs-maven-plugin</includeArtifacIds>
-                  <includes>**/*.ftlh</includes>
-                  <excludeTransitive>true</excludeTransitive>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>skip-extent-report-initialization</id>
-      <activation>
-        <property>
-          <name>galenium.report.extent.skip</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>properties-maven-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>set-system-properties</goal>
-                </goals>
-                <configuration>
-                  <properties>
-                    <property>
-                      <name>galenium.report.extent.skip</name>
-                      <value>true</value>
-                    </property>
-                  </properties>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
