@@ -45,7 +45,7 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
   private static final String DEFAULT_DEVICE_CSV = "./target/test-classes/devices.csv";
   private static final String DEFAULT_EXPECTED_TEXTS_FILE = "text/expectedTexts.properties";
-  private static final String DEFAULT_GRID_PORT = "4444";
+  private static final int DEFAULT_GRID_PORT = 4444;
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
@@ -122,7 +122,7 @@ public final class GaleniumConfiguration {
    * @return path to root folder
    */
   public static String getActualImagesDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
   }
 
   /**
@@ -148,7 +148,7 @@ public final class GaleniumConfiguration {
    * @return amount of pixel to add to width
    */
   public static int getAdditionalChromeHeadlessWidth() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
+    return asInteger(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
   }
 
   /**
@@ -173,7 +173,7 @@ public final class GaleniumConfiguration {
    * @return password to author instance
    */
   public static String getAuthorPass() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_PASS, DEFAULT_AUTHOR_PASS);
+    return asString(SYSTEM_PROPERTY_NAME_AUTHOR_PASS, DEFAULT_AUTHOR_PASS);
   }
 
   /**
@@ -198,7 +198,7 @@ public final class GaleniumConfiguration {
    * @return username for author instance
    */
   public static String getAuthorUser() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_AUTHOR_USER, DEFAULT_AUTHOR_USER);
+    return asString(SYSTEM_PROPERTY_NAME_AUTHOR_USER, DEFAULT_AUTHOR_USER);
   }
 
   /**
@@ -224,7 +224,7 @@ public final class GaleniumConfiguration {
    * @return base URL with HTTP basic auth, if configured
    */
   public static String getBaseUrl() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_BASE_URL, DEFAULT_BASE_URL);
+    return asString(SYSTEM_PROPERTY_NAME_BASE_URL, DEFAULT_BASE_URL);
   }
 
   /**
@@ -250,7 +250,7 @@ public final class GaleniumConfiguration {
    */
   public static Level getBrowserLogLevel() {
     try {
-      return Level.parse(System.getProperty(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, DEFAULT_BROWSER_LOG_LEVEL));
+      return Level.parse(asString(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, DEFAULT_BROWSER_LOG_LEVEL));
     }
     catch (IllegalArgumentException ex) {
       getLogger().info("could not parse browser log level, using INFO level.", ex);
@@ -264,7 +264,7 @@ public final class GaleniumConfiguration {
   public static List<BrowserType> getBrowserTypes() {
     ArrayList<BrowserType> list = new ArrayList<BrowserType>();
 
-    String browsers = System.getProperty("selenium.browser");
+    String browsers = asString("selenium.browser");
     if (StringUtils.isNotBlank(browsers)) {
       for (String browserTypeString : browsers.split(",")) {
         try {
@@ -302,257 +302,7 @@ public final class GaleniumConfiguration {
    * @return path to chrome binary or null
    */
   public static String getChromeBinaryPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH);
-  }
-
-  /**
-   * Path to root folder of expected image samples to verify against.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.image.directory.expected
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * "./target/specs"
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return path to root folder of expected image samples
-   */
-  public static String getExpectedImagesDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED, DEFAULT_SPEC_PATH);
-  }
-
-  /**
-   * Path to root folder containing Galen JS tests.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.jsTestPath
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * {@link #getGalenSpecPath()}
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return path to root folder of Galen JS tests
-   */
-  public static String getGalenJsTestPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH, getGalenSpecPath());
-  }
-
-  /**
-   * Path to root folder containing Galen specs.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.specPath
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * "./target/specs"
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return path to root folder of Galen specs
-   */
-  public static String getGalenSpecPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH, DEFAULT_SPEC_PATH);
-  }
-
-  /**
-   * Selenium Grid hostname or address.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * selenium.host
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return Selenium Grid host
-   */
-  public static String getGridHost() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_HOST);
-  }
-
-  /**
-   * Selenium Grid port number.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * selenium.port
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * 4444
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return Selenium Grid port number
-   */
-  public static int getGridPort() {
-    return Integer.parseInt(System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_PORT, DEFAULT_GRID_PORT));
-  }
-
-  /**
-   * HTTP password to use in HTTP basic auth.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * io.wcm.qa.http.pass
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return HTTP password
-   */
-  public static String getHttpPass() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_PASS);
-  }
-
-  /**
-   * HTTP username to use in HTTP basic auth.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * io.wcm.qa.http.user
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return HTTP username
-   */
-  public static String getHttpUser() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_HTTP_USER);
-  }
-
-  /**
-   * Height to use when instantiating devices using media queries.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.mediaquery.height
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * 800
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return height for use with device creation
-   */
-  public static Integer getMediaQueryHeight() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT, 800);
-  }
-
-  /**
-   * Height to use when instantiating devices using media queries.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.mediaquery.width.max
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * 2000
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return minimal width to use with media query instantiation
-   */
-  public static Integer getMediaQueryMaximalWidth() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX, 2000);
-  }
-
-  /**
-   * Height to use when instantiating devices using media queries.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.mediaquery.width.min
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * 320
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return minimal width to use with media query instantiation
-   */
-  public static Integer getMediaQueryMinimalWidth() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN, 320);
+    return asString(SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH);
   }
 
   /**
@@ -577,7 +327,257 @@ public final class GaleniumConfiguration {
    * @return path to {@link Properties} file containing media query definitions
    */
   public static String getDeviceCsvFilePath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_DEVICE_CSV, DEFAULT_DEVICE_CSV);
+    return asString(SYSTEM_PROPERTY_NAME_DEVICE_CSV, DEFAULT_DEVICE_CSV);
+  }
+
+  /**
+   * Path to root folder of expected image samples to verify against.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.sampling.image.directory.expected
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * "./target/specs"
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return path to root folder of expected image samples
+   */
+  public static String getExpectedImagesDirectory() {
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED, DEFAULT_SPEC_PATH);
+  }
+
+  /**
+   * Path to root folder containing Galen JS tests.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.jsTestPath
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * {@link #getGalenSpecPath()}
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return path to root folder of Galen JS tests
+   */
+  public static String getGalenJsTestPath() {
+    return asString(SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH, getGalenSpecPath());
+  }
+
+  /**
+   * Path to root folder containing Galen specs.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.specPath
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * "./target/specs"
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return path to root folder of Galen specs
+   */
+  public static String getGalenSpecPath() {
+    return asString(SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH, DEFAULT_SPEC_PATH);
+  }
+
+  /**
+   * Selenium Grid hostname or address.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * selenium.host
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * null
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return Selenium Grid host
+   */
+  public static String getGridHost() {
+    return asString(SYSTEM_PROPERTY_NAME_SELENIUM_HOST);
+  }
+
+  /**
+   * Selenium Grid port number.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * selenium.port
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 4444
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return Selenium Grid port number
+   */
+  public static int getGridPort() {
+    return asInteger(SYSTEM_PROPERTY_NAME_SELENIUM_PORT, DEFAULT_GRID_PORT);
+  }
+
+  /**
+   * HTTP password to use in HTTP basic auth.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * io.wcm.qa.http.pass
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * null
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return HTTP password
+   */
+  public static String getHttpPass() {
+    return asString(SYSTEM_PROPERTY_NAME_HTTP_PASS);
+  }
+
+  /**
+   * HTTP username to use in HTTP basic auth.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * io.wcm.qa.http.user
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * null
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return HTTP username
+   */
+  public static String getHttpUser() {
+    return asString(SYSTEM_PROPERTY_NAME_HTTP_USER);
+  }
+
+  /**
+   * Height to use when instantiating devices using media queries.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.height
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 800
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return height for use with device creation
+   */
+  public static Integer getMediaQueryHeight() {
+    return asInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT, 800);
+  }
+
+  /**
+   * Height to use when instantiating devices using media queries.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.width.max
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 2000
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return minimal width to use with media query instantiation
+   */
+  public static Integer getMediaQueryMaximalWidth() {
+    return asInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX, 2000);
+  }
+
+  /**
+   * Height to use when instantiating devices using media queries.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.mediaquery.width.min
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 320
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return minimal width to use with media query instantiation
+   */
+  public static Integer getMediaQueryMinimalWidth() {
+    return asInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN, 320);
   }
 
   /**
@@ -602,7 +602,7 @@ public final class GaleniumConfiguration {
    * @return path to {@link Properties} file containing media query definitions
    */
   public static String getMediaQueryPropertiesPath() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES, DEFAULT_MEDIA_QUERY_PATH);
+    return asString(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES, DEFAULT_MEDIA_QUERY_PATH);
   }
 
   /**
@@ -627,7 +627,7 @@ public final class GaleniumConfiguration {
    * @return HTTP username
    */
   public static int getNumberOfBrowserInstantiationRetries() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX, 0);
+    return asInteger(SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX, 0);
   }
 
   /**
@@ -652,21 +652,14 @@ public final class GaleniumConfiguration {
    * @return maximum number of retries
    */
   public static int getNumberOfRetries() {
-    return Integer.getInteger(SYSTEM_PROPERTY_NAME_RETRY_MAX, 2);
+    return asInteger(SYSTEM_PROPERTY_NAME_RETRY_MAX, 2);
   }
 
   /**
    * @return config file for ExtentReports
    */
   public static File getReportConfig() {
-    String configPath = System.getProperty(SYSTEM_PROPERTY_NAME_REPORT_CONFIG);
-    if (StringUtils.isNotBlank(configPath)) {
-      File configFile = new File(configPath);
-      if (configFile.isFile()) {
-        return configFile;
-      }
-    }
-    return null;
+    return asFile(SYSTEM_PROPERTY_NAME_REPORT_CONFIG);
   }
 
   /**
@@ -691,7 +684,7 @@ public final class GaleniumConfiguration {
    * @return root folder for storing report artefacts
    */
   public static String getReportDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY, DEFAULT_REPORT_DIR);
+    return asString(SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY, DEFAULT_REPORT_DIR);
   }
 
   /**
@@ -716,57 +709,7 @@ public final class GaleniumConfiguration {
    * @return {@link RunMode} used
    */
   public static RunMode getRunMode() {
-    return RunMode.valueOf(System.getProperty(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE).toUpperCase());
-  }
-
-  /**
-   * Directory to retrieve the text samples from.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.text.directory.input
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * "./target/galenium-reports"
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return {@link RunMode} used
-   */
-  public static String getTextComparisonInputDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY, DEFAULT_SPEC_PATH);
-  }
-
-  /**
-   * Directory to retrieve the text samples from.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.text.directory.input
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * "./target/galenium-reports"
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return {@link RunMode} used
-   */
-  public static String getTextComparisonOutputDirectory() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, DEFAULT_REPORT_DIR);
+    return RunMode.valueOf(asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE).toUpperCase());
   }
 
   /**
@@ -791,16 +734,16 @@ public final class GaleniumConfiguration {
    * @return path to expected texts file
    */
   public static String getTextComparisonFile() {
-    return System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
   }
 
   /**
-   * Headless browser flag.
+   * Directory to retrieve the text samples from.
    * <ul>
    * <li>Key:
    *
    * <pre>
-   * galenium.headless
+   * galenium.sampling.text.directory.input
    * </pre>
    *
    * </li>
@@ -808,15 +751,40 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * false
+   * "./target/galenium-reports"
    * </pre>
    *
    * </li>
    * </ul>
-   * @return whether browser is running in headless mode
+   * @return {@link RunMode} used
    */
-  public static boolean isHeadless() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_HEADLESS);
+  public static String getTextComparisonInputDirectory() {
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY, DEFAULT_SPEC_PATH);
+  }
+
+  /**
+   * Directory to retrieve the text samples from.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.sampling.text.directory.input
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * "./target/galenium-reports"
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return {@link RunMode} used
+   */
+  public static String getTextComparisonOutputDirectory() {
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, DEFAULT_REPORT_DIR);
   }
 
   /**
@@ -841,7 +809,7 @@ public final class GaleniumConfiguration {
    * @return whether headless Chrome should be position off screen on Windows machines
    */
   public static boolean isChromeHeadlessWindowsWorkaround() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
+    return asBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
   }
 
   /**
@@ -866,11 +834,36 @@ public final class GaleniumConfiguration {
    * @return whether to use workaround to fix Chrome's image comparison behavior
    */
   public static boolean isFixChromeImageComparison() {
-    if (System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX) == null) {
+    if (asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX) == null) {
       // default is to fix chrome behavior
       return true;
     }
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX);
+  }
+
+  /**
+   * Headless browser flag.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.headless
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * false
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return whether browser is running in headless mode
+   */
+  public static boolean isHeadless() {
+    return asBoolean(SYSTEM_PROPERTY_NAME_HEADLESS);
   }
 
   /**
@@ -896,7 +889,7 @@ public final class GaleniumConfiguration {
    * @return whether to use lazy web driver initialization
    */
   public static boolean isLazyWebDriverInitialization() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
+    return asBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
   }
 
   /**
@@ -921,7 +914,7 @@ public final class GaleniumConfiguration {
    * @return whether TestNG is used
    */
   public static boolean isNoTestNg() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_NO_TESTNG);
+    return asBoolean(SYSTEM_PROPERTY_NAME_NO_TESTNG);
   }
 
   /**
@@ -947,7 +940,7 @@ public final class GaleniumConfiguration {
    * @return whether to skip reporting of successful tests
    */
   public static boolean isOnlyReportGalenErrors() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY);
+    return asBoolean(SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY);
   }
 
   /**
@@ -972,10 +965,10 @@ public final class GaleniumConfiguration {
    * @return whether to ignore errors when validating samples
    */
   public static boolean isSamplingVerificationIgnore() {
-    if (System.getProperty(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS) == null) {
+    if (asString(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS) == null) {
       return isSaveSampledTexts();
     }
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS);
   }
 
   /**
@@ -1000,7 +993,7 @@ public final class GaleniumConfiguration {
    * @return whether to save sampled images to disk
    */
   public static boolean isSaveSampledImages() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE);
   }
 
   /**
@@ -1025,7 +1018,7 @@ public final class GaleniumConfiguration {
    * @return whether to save sampled texts to disk
    */
   public static boolean isSaveSampledTexts() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
   }
 
   /**
@@ -1050,7 +1043,7 @@ public final class GaleniumConfiguration {
    * @return whether TestNG is used
    */
   public static boolean isSkipExtentReports() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT);
+    return asBoolean(SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT);
   }
 
   /**
@@ -1077,7 +1070,7 @@ public final class GaleniumConfiguration {
    * @return whether to use sparse reporting on this run
    */
   public static boolean isSparseReporting() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SPARSE_REPORTING);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SPARSE_REPORTING);
   }
 
   /**
@@ -1103,7 +1096,7 @@ public final class GaleniumConfiguration {
    * @return whether to skip automatic adjusting of browser size
    */
   public static boolean isSuppressAutoAdjustBrowserSize() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
+    return asBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
   }
 
   /**
@@ -1128,7 +1121,7 @@ public final class GaleniumConfiguration {
    * @return whether to take and store screenshots of skipped tests for reporting
    */
   public static boolean isTakeScreenshotOnSkippedTest() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED);
   }
 
   /**
@@ -1153,7 +1146,7 @@ public final class GaleniumConfiguration {
    * @return whether to take and store screenshots of successful tests for reporting
    */
   public static boolean isTakeScreenshotOnSuccessfulTest() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
+    return asBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
   }
 
   /**
@@ -1178,7 +1171,7 @@ public final class GaleniumConfiguration {
    * @return whether to use BrowserMob Proxy for drivers
    */
   public static boolean isUseBrowserMobProxy() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
+    return asBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 
   /**
@@ -1203,7 +1196,7 @@ public final class GaleniumConfiguration {
    * @return whether browser accepts secure SSL certificates only
    */
   public static boolean isWebDriverAcceptTrustedSslCertificatesOnly() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY);
+    return asBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY);
   }
 
   /**
@@ -1228,7 +1221,7 @@ public final class GaleniumConfiguration {
    * @return whether to always instantiate a new webdriver for each test
    */
   public static boolean isWebDriverAlwaysNew() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
+    return asBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
   }
 
   /**
@@ -1253,6 +1246,33 @@ public final class GaleniumConfiguration {
    * @return whether browser refuses SSL certificates
    */
   public static boolean isWebDriverRefuseSslCertificates() {
-    return Boolean.getBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);
+    return asBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);
+  }
+
+  private static boolean asBoolean(String systemPropertyName) {
+    return Boolean.getBoolean(systemPropertyName);
+  }
+
+  private static File asFile(String systemPropertyName) {
+    String filePath = asString(systemPropertyName);
+    if (StringUtils.isNotBlank(filePath)) {
+      File file = new File(filePath);
+      if (file.isFile()) {
+        return file;
+      }
+    }
+    return null;
+  }
+
+  private static Integer asInteger(String systemPropertyName, int defaultValue) {
+    return Integer.getInteger(systemPropertyName, defaultValue);
+  }
+
+  private static String asString(String systemPropertyName) {
+    return System.getProperty(systemPropertyName);
+  }
+
+  private static String asString(String systemPropertyName, String defaultValue) {
+    return System.getProperty(systemPropertyName, defaultValue);
   }
 }
