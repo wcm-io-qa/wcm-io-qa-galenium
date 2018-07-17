@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.general;
+package io.wcm.qa.galenium.verification.string;
 
 import java.util.Map;
 import java.util.Map.Entry;

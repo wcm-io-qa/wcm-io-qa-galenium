@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.general;
+package io.wcm.qa.galenium.verification.string;
 
 import java.util.regex.Pattern;
 
@@ -25,38 +25,37 @@ import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.verification.base.PatternBasedVerification;
 
+public class MatchesPatternVerification extends PatternBasedVerification {
 
-public class ContainsPatternVerification extends PatternBasedVerification {
-
-  public ContainsPatternVerification(String verificationName, Pattern pattern, String sample) {
+  public MatchesPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
   }
 
-  public ContainsPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
+  public MatchesPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
-  public ContainsPatternVerification(String verificationName, String pattern, String sample) {
+  public MatchesPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
   }
 
-  public ContainsPatternVerification(String verificationName, String pattern, StringSampler sampler) {
+  public MatchesPatternVerification(String verificationName, String pattern, StringSampler sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   @Override
   protected Boolean doVerification() {
-    return getActualMatcher().find();
+    return getActualMatcher().matches();
   }
 
   @Override
   protected String getFailureMessage() {
-    return "(" + getVerificationName() + ") String does not contain: '" + getPattern().pattern() + "'";
+    return "(" + getVerificationName() + ") String does not match: '" + getPattern().pattern() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") String contains: '" + getPattern().pattern() + "' (" + getCachedMatcher().group() + ")";
+    return "(" + getVerificationName() + ") String matches: '" + getPattern().pattern() + "'";
   }
 
 }

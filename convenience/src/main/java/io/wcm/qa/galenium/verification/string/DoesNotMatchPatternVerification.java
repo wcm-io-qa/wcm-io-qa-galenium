@@ -17,45 +17,39 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.general;
+package io.wcm.qa.galenium.verification.string;
 
 import java.util.regex.Pattern;
 
 import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.verification.base.PatternBasedVerification;
 
-public class MatchesPatternVerification extends PatternBasedVerification {
+public class DoesNotMatchPatternVerification extends MatchesPatternVerification {
 
-  public MatchesPatternVerification(String verificationName, Pattern pattern, String sample) {
+  public DoesNotMatchPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
   }
 
-  public MatchesPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
+  public DoesNotMatchPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
-  public MatchesPatternVerification(String verificationName, String pattern, String sample) {
+  public DoesNotMatchPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
   }
 
-  public MatchesPatternVerification(String verificationName, String pattern, StringSampler sampler) {
+  public DoesNotMatchPatternVerification(String verificationName, String pattern, StringSampler sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   @Override
-  protected Boolean doVerification() {
-    return getActualMatcher().matches();
-  }
-
-  @Override
   protected String getFailureMessage() {
-    return "(" + getVerificationName() + ") String does not match: '" + getPattern().pattern() + "'";
+    return super.getSuccessMessage();
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") String matches: '" + getPattern().pattern() + "'";
+    return super.getFailureMessage();
   }
 
 }

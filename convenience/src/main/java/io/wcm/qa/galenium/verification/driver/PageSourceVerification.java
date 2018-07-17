@@ -26,10 +26,10 @@ import java.util.regex.Pattern;
 
 import io.wcm.qa.galenium.sampling.driver.PageSourceSampler;
 import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
-import io.wcm.qa.galenium.verification.general.ContainsPatternVerification;
-import io.wcm.qa.galenium.verification.general.ContainsStringVerification;
-import io.wcm.qa.galenium.verification.general.DoesNotContainPatternVerification;
-import io.wcm.qa.galenium.verification.general.DoesNotContainStringVerification;
+import io.wcm.qa.galenium.verification.string.ContainsPatternVerification;
+import io.wcm.qa.galenium.verification.string.ContainsStringVerification;
+import io.wcm.qa.galenium.verification.string.DoesNotContainPatternVerification;
+import io.wcm.qa.galenium.verification.string.DoesNotContainStringVerification;
 
 public class PageSourceVerification extends CombiningStringBasedVerification {
 

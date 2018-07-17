@@ -17,29 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.general;
+package io.wcm.qa.galenium.verification.string;
 
-import java.util.regex.Pattern;
-
-import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
 
-public class DoesNotContainPatternVerification extends ContainsPatternVerification {
+public class DoesNotContainStringVerification extends ContainsStringVerification {
 
-  public DoesNotContainPatternVerification(String verificationName, Pattern pattern, String sample) {
-    this(verificationName, pattern, new FixedStringSampler(sample));
+  public DoesNotContainStringVerification(String verificationName, String searchString, String sample) {
+    super(verificationName, searchString, sample);
   }
 
-  public DoesNotContainPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
-    super(verificationName, pattern, sampler);
-  }
-
-  public DoesNotContainPatternVerification(String verificationName, String pattern, String sample) {
-    this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
-  }
-
-  public DoesNotContainPatternVerification(String verificationName, String pattern, StringSampler sampler) {
-    this(verificationName, Pattern.compile(pattern), sampler);
+  public DoesNotContainStringVerification(String verificationName, String searchString, StringSampler sampler) {
+    super(verificationName, searchString, sampler);
   }
 
   @Override

@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.base;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.verification.general.StringVerification;
+import io.wcm.qa.galenium.verification.string.StringVerification;
 
 public abstract class CombiningStringBasedVerification extends StringVerification {
 
