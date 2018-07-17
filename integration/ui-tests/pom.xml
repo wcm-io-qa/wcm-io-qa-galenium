@@ -36,6 +36,17 @@
   <version>0.1.15-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
+  <dependencies>
+
+    <!-- Resources for UI test projects -->
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
+      <version>0.1.15-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>
@@ -152,6 +163,19 @@
                 <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
                 <outputDirectory>${galenium.generated.specs}</outputDirectory>
                 <includes>**/*.gspec</includes>
+                <excludeTransitive>true</excludeTransitive>
+              </configuration>
+            </execution>
+            <execution>
+              <id>unpack-ui-test-resources</id>
+              <goals>
+                <goal>unpack-dependencies</goal>
+              </goals>
+              <phase>generate-resources</phase>
+              <configuration>
+                <includeArtifactIds>io.wcm.qa.galenium.integration.resources</includeArtifactIds>
+                <outputDirectory>${galenium.resources.directory}</outputDirectory>
+                <includes>**/*.xml</includes>
                 <excludeTransitive>true</excludeTransitive>
               </configuration>
             </execution>

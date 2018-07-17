@@ -44,6 +44,12 @@
 
   <properties>
 
+    <!-- activated with command line switch in local and CI scripts -->
+    <integrationtests.skip>true</integrationtests.skip>
+
+    <!-- no need for Javadoc in test project -->
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+
     <!-- wcm.io QA -->
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
 
@@ -62,6 +68,7 @@
     <galenium.mediaquery.width.max>2000</galenium.mediaquery.width.max>
     <galenium.mediaquery.width.min>360</galenium.mediaquery.width.min>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
     <galenium.sampling.image.directory.expected>${project.build.directory}/test-classes/images</galenium.sampling.image.directory.expected>
@@ -74,7 +81,7 @@
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
-    <galenium.webdriver.download.repositoryMap>${basedir}/src/main/resources/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
+    <galenium.webdriver.download.repositoryMap>${galenium.resources.directory}/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
     <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
 
     <!-- Selenium -->
@@ -106,12 +113,6 @@
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
       <version>0.1.15-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>

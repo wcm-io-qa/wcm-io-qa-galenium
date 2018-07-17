@@ -23,10 +23,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>20</version>
-    <relativePath />
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.galenium.integration</artifactId>
+    <version>0.1.15-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
 
   <name>Galenium Integration Resources</name>
