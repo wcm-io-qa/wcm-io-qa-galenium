@@ -17,17 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.introspection;
+package io.wcm.qa.galenium.sampling.stability;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.util.GaleniumContext;
+import org.openqa.selenium.Dimension;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.element.SizeSampler;
+import io.wcm.qa.galenium.selectors.Selector;
 
-public class PageSourceSampler implements StringSampler {
+public class StableSize extends Stability<Dimension> {
+
+  public StableSize(Selector selector) {
+    super(new SizeSampler(selector));
+  }
 
   @Override
-  public String sampleValue() {
-    return GaleniumContext.getDriver().getPageSource();
+  protected boolean checkForEquality(Dimension value1, Dimension value2) {
+    GaleniumReportUtil.getLogger().trace("comparing sizes: '" + value1 + "' <> '" + value2 + "'");
+    return value1.equals(value2);
   }
 
 }

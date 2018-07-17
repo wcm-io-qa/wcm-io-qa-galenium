@@ -17,26 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.introspection;
+package io.wcm.qa.galenium.sampling.element;
 
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.selectors.Selector;
 
-public class LocationSampler extends ElementBasedSampler<Point> {
 
-  public LocationSampler(Selector selector) {
-    super(selector);
+public abstract class SelectorBasedSampler<T> implements Sampler<T> {
+
+  private Selector selector;
+
+  public SelectorBasedSampler(Selector selector) {
+    setSelector(selector);
   }
 
-  @Override
-  protected Point sampleValue(WebElement element) {
-    Point location = element.getLocation();
-    GaleniumReportUtil.getLogger().trace("Sampled location for '" + getSelector().elementName() + "': " + location);
-    return location;
+  public Selector getSelector() {
+    return selector;
   }
 
+  public void setSelector(Selector selector) {
+    this.selector = selector;
+  }
 
 }

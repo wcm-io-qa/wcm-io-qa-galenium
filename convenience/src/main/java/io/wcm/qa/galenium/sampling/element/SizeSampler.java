@@ -17,26 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.introspection;
+package io.wcm.qa.galenium.sampling.element;
 
-import io.wcm.qa.galenium.sampling.Sampler;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.galenium.selectors.Selector;
 
 
-public abstract class SelectorBasedSampler<T> implements Sampler<T> {
+public class SizeSampler extends ElementBasedSampler<Dimension> {
 
-  private Selector selector;
-
-  public SelectorBasedSampler(Selector selector) {
-    setSelector(selector);
+  public SizeSampler(Selector selector) {
+    super(selector);
   }
 
-  public Selector getSelector() {
-    return selector;
-  }
-
-  public void setSelector(Selector selector) {
-    this.selector = selector;
+  @Override
+  protected Dimension sampleValue(WebElement element) {
+    return element.getSize();
   }
 
 }

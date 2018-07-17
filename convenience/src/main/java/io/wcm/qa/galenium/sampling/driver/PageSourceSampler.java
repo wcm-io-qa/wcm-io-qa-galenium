@@ -17,17 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.introspection;
+package io.wcm.qa.galenium.sampling.driver;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 
-public class PageTitleSampler implements StringSampler {
+public class PageSourceSampler implements StringSampler {
 
   @Override
   public String sampleValue() {
-    return GaleniumContext.getDriver().getTitle();
+    return GaleniumContext.getDriver().getPageSource();
   }
 
 }

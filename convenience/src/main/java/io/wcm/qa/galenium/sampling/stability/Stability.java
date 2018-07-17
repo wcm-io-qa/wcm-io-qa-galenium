@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.introspection;
+package io.wcm.qa.galenium.sampling.stability;
 
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.verification.base.Verifiable;

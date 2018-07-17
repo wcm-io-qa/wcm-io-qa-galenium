@@ -17,15 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.general;
+package io.wcm.qa.galenium.verification.driver;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import io.wcm.qa.galenium.introspection.PageSourceSampler;
+import io.wcm.qa.galenium.sampling.driver.PageSourceSampler;
 import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
+import io.wcm.qa.galenium.verification.general.ContainsPatternVerification;
+import io.wcm.qa.galenium.verification.general.ContainsStringVerification;
+import io.wcm.qa.galenium.verification.general.DoesNotContainPatternVerification;
+import io.wcm.qa.galenium.verification.general.DoesNotContainStringVerification;
 
 public class PageSourceVerification extends CombiningStringBasedVerification {
 

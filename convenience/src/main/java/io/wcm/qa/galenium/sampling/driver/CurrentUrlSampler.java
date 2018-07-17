@@ -17,23 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.introspection;
+package io.wcm.qa.galenium.sampling.driver;
 
-import org.openqa.selenium.Point;
+import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.Selector;
 
-public class StablePosition extends Stability<Point> {
-
-  public StablePosition(Selector selector) {
-    super(new LocationSampler(selector));
-  }
+public class CurrentUrlSampler implements StringSampler {
 
   @Override
-  protected boolean checkForEquality(Point value1, Point value2) {
-    GaleniumReportUtil.getLogger().trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
-    return value1.equals(value2);
+  public String sampleValue() {
+    return GaleniumContext.getDriver().getCurrentUrl();
   }
 
 }

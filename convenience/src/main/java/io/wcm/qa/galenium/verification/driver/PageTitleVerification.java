@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.driver;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.introspection.PageTitleSampler;
+import io.wcm.qa.galenium.sampling.driver.PageTitleSampler;
 import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
 
 /**
