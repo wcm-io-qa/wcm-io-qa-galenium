@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.images;
+package io.wcm.qa.galenium.imagecomparison;
 
 import static java.util.Locale.ENGLISH;
 
