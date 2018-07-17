@@ -28,8 +28,8 @@ import com.github.wnameless.json.flattener.JsonFlattener;
 
 import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
+import io.wcm.qa.galenium.verification.util.TextSampleManager;
 
 public class JsonVerification extends CombiningStringBasedVerification {
 

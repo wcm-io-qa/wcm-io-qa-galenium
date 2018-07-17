@@ -34,9 +34,9 @@ import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
+import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
-import io.wcm.qa.galenium.sampling.images.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.selectors.Selector;
 
 /**
