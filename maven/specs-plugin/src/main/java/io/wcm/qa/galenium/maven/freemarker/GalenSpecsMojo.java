@@ -227,7 +227,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private String[] getIncludedFilesForSpecs() {
-    return getIncludedFiles(inputDirectory, selectorIncludes, selectorExcludes);
+    return getIncludedFiles(inputDirectory, specIncludes, specExcludes);
   }
 
   private String[] getIncludedFilesForSelectors() {
