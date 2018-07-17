@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.listeners;
 import org.testng.ITestContext;
 import org.testng.TestListenerAdapter;
 
-import io.wcm.qa.galenium.verification.util.TextSampleManager;
+import io.wcm.qa.galenium.sampling.text.TextSampleManager;
 
 /**
  * Handles persisting text samples at the end of test run.
