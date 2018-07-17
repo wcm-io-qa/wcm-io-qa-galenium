@@ -17,23 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.stability;
+package io.wcm.qa.galenium.verification.stability;
 
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.element.SizeSampler;
+import io.wcm.qa.galenium.sampling.driver.LocationSampler;
 import io.wcm.qa.galenium.selectors.Selector;
 
-public class StableSize extends Stability<Dimension> {
+public class StablePosition extends Stability<Point> {
 
-  public StableSize(Selector selector) {
-    super(new SizeSampler(selector));
+  public StablePosition(Selector selector) {
+    super(new LocationSampler(selector));
   }
 
   @Override
-  protected boolean checkForEquality(Dimension value1, Dimension value2) {
-    GaleniumReportUtil.getLogger().trace("comparing sizes: '" + value1 + "' <> '" + value2 + "'");
+  protected boolean checkForEquality(Point value1, Point value2) {
+    GaleniumReportUtil.getLogger().trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
     return value1.equals(value2);
   }
 
