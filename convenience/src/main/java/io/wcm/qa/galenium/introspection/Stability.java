@@ -65,8 +65,8 @@ public abstract class Stability<T> implements Verifiable {
   }
 
   /**
-   * @param value1 old value (guarantueed to not be null)
-   * @param value2 new value (guarantueed to not be null)
+   * @param value1 old value (guaranteed to not be null)
+   * @param value2 new value (guaranteed to not be null)
    * @return whether the two values are equal
    */
   protected abstract boolean checkForEquality(T value1, T value2);
