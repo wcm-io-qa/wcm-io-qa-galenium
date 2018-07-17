@@ -25,7 +25,7 @@
             <version id="${galenium.webdriver.download.chrome.version}">
                 <bitrate thirtytwobit="true" sixtyfourbit="true">
                     <filelocation>http://chromedriver.storage.googleapis.com/${galenium.webdriver.download.chrome.version}/chromedriver_win32.zip</filelocation>
-                    <hash>847bf2497eab7aac5cf0622e49939f976087aae4</hash>
+                    <hash>DO_NOT_CHECK</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
             </version>
@@ -36,12 +36,12 @@
             <version id="${galenium.webdriver.download.chrome.version}">
                 <bitrate sixtyfourbit="true">
                     <filelocation>http://chromedriver.storage.googleapis.com/${galenium.webdriver.download.chrome.version}/chromedriver_linux64.zip</filelocation>
-                    <hash>917f9e939e816c4f4487b2ebfddb21ecc77a4a9c</hash>
+                    <hash>DO_NOT_CHECK</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
                 <bitrate thirtytwobit="true">
                     <filelocation>http://chromedriver.storage.googleapis.com/${galenium.webdriver.download.chrome.version}/chromedriver_linux32.zip</filelocation>
-                    <hash>b4bc392b16a62988cf0aa8e609e7edcc7a13ecc8</hash>
+                    <hash>DO_NOT_CHECK</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
             </version>
@@ -52,7 +52,7 @@
             <version id="${galenium.webdriver.download.chrome.version}">
                 <bitrate thirtytwobit="true" sixtyfourbit="true">
                     <filelocation>http://chromedriver.storage.googleapis.com/${galenium.webdriver.download.chrome.version}/chromedriver_mac64.zip</filelocation>
-                    <hash>8343cb5ed784c1c23c90ecfa86da0dc058d68c89</hash>
+                    <hash>DO_NOT_CHECK</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
             </version>
