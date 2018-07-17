@@ -83,6 +83,7 @@
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
     <galenium.webdriver.download.repositoryMap>${galenium.resources.directory}/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
     <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
+    <galenium.webdriver.download.chrome.version>2.40</galenium.webdriver.download.chrome.version>
 
     <!-- Selenium -->
     <selenium.browser>chrome</selenium.browser>
@@ -166,7 +167,7 @@
           <artifactId>maven-resources-plugin</artifactId>
           <executions>
             <execution>
-              <id>copy-resources</id>
+              <id>copy-specs</id>
               <!-- here the phase you need -->
               <phase>validate</phase>
               <goals>

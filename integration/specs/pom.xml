@@ -29,7 +29,7 @@
     <relativePath>..</relativePath>
   </parent>
 
-  <name>Galenium Galen-Spec Integration Parent</name>
+  <name>Galenium Integration Galen-Spec Parent</name>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
   <packaging>pom</packaging>
