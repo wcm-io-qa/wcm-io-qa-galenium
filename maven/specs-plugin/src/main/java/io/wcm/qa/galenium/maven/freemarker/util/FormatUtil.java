@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.CaseFormat;
 
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
-import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 public final class FormatUtil {
 

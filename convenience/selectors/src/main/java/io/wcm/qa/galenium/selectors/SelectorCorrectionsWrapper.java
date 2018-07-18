@@ -24,6 +24,8 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.selectors.base.Selector;
+
 
 /**
  * Convenience wrapper to add corrections to Galen {@link Locator} returned by this {@link Selector}.

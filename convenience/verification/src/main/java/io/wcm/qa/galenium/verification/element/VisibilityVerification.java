@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.element;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.sampling.element.VisibilitySampler;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.verification.element.base.ElementBasedVerification;
 
 /**

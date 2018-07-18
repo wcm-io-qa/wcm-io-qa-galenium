@@ -17,24 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.stability;
+package io.wcm.qa.galenium.sampling;
 
-import org.openqa.selenium.Point;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.element.LocationSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+public interface CachingSampler<T> extends Sampler<T> {
 
-public class StablePosition extends Stability<Point> {
+  boolean isCaching();
 
-  public StablePosition(Selector selector) {
-    super(new LocationSampler(selector));
-  }
-
-  @Override
-  protected boolean checkForEquality(Point value1, Point value2) {
-    GaleniumReportUtil.getLogger().trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
-    return value1.equals(value2);
-  }
-
+  void setCaching(boolean activateCache);
 }

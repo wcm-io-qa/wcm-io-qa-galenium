@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.element.base;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.element.ElementBasedStringSampler;
+import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
 import io.wcm.qa.galenium.verification.util.TextSampleManager;
 
 public abstract class ElementBasedStringVerification<S extends ElementBasedStringSampler> extends ElementBasedVerification<S, String> {
@@ -31,9 +31,6 @@ public abstract class ElementBasedStringVerification<S extends ElementBasedStrin
   protected ElementBasedStringVerification(String verificationName, S sampler) {
     super(verificationName, sampler);
   }
-
-  @Override
-  protected abstract Boolean doVerification();
 
   @Override
   protected String initExpectedValue() {

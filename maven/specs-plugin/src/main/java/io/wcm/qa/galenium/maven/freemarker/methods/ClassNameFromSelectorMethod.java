@@ -20,7 +20,7 @@
 package io.wcm.qa.galenium.maven.freemarker.methods;
 
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
-import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 
 public class ClassNameFromSelectorMethod extends AbstractTemplateMethod<NestedSelector> {

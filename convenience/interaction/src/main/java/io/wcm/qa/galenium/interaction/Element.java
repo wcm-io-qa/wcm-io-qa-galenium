@@ -38,7 +38,7 @@ import org.slf4j.Marker;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 public final class Element {
 

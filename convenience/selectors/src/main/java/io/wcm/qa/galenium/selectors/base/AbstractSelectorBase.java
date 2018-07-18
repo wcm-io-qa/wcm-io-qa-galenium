@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.base;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -27,7 +27,7 @@ import com.galenframework.specs.page.Locator;
 /**
  * Base class for the different {@link Selector} implementations.
  */
-abstract class AbstractSelectorBase implements Selector {
+public abstract class AbstractSelectorBase implements Selector {
 
   private static final String REGEX_NAME_CLEANING = "[^a-zA-Z0-9.]+";
 

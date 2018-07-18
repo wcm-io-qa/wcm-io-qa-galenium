@@ -23,7 +23,10 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-class FixedValueSelector extends AbstractSelectorBase {
+import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
+import io.wcm.qa.galenium.selectors.base.Selector;
+
+public class FixedValueSelector extends AbstractSelectorBase {
 
   private String elementName;
 

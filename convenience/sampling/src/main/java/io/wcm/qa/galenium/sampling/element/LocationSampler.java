@@ -23,7 +23,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.sampling.element.base.ElementBasedSampler;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 public class LocationSampler extends ElementBasedSampler<Point> {
 

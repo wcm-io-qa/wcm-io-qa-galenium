@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.element.base;
 
-import io.wcm.qa.galenium.sampling.element.SelectorBasedSampler;
+import io.wcm.qa.galenium.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
 
 

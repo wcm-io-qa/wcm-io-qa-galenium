@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 public final class IFrame {

@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.base;
 
+import io.wcm.qa.galenium.sampling.CachingSampler;
 import io.wcm.qa.galenium.sampling.Sampler;
 
 public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends VerificationBase<T> {
@@ -28,6 +29,24 @@ public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends 
   protected SamplerBasedVerification(String verificationName, S sampler) {
     super(verificationName);
     this.setSampler(sampler);
+  }
+
+  @Override
+  public void setCaching(boolean activateCaching) {
+    super.setCaching(activateCaching);
+    if (getSampler() instanceof CachingSampler) {
+      ((CachingSampler)getSampler()).setCaching(activateCaching);
+    }
+  }
+
+  @Override
+  public boolean isCaching() {
+    if (getSampler() instanceof CachingSampler) {
+      return ((CachingSampler)getSampler()).isCaching();
+    }
+
+    // if caching cannot be deactivated, sampler is assumed to be caching
+    return true;
   }
 
   public S getSampler() {

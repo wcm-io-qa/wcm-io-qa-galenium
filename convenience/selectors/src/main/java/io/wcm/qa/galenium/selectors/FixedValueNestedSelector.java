@@ -25,6 +25,9 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.selectors.base.NestedSelector;
+import io.wcm.qa.galenium.selectors.base.Selector;
+
 public class FixedValueNestedSelector extends FixedValueSelector implements NestedSelector {
 
   private Selector absolute;

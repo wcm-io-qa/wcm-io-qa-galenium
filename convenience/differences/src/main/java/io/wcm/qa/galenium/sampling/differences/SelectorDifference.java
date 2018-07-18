@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Difference based on selector name.

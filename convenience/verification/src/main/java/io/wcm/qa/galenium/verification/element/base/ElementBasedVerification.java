@@ -19,8 +19,8 @@
  */
 package io.wcm.qa.galenium.verification.element.base;
 
-import io.wcm.qa.galenium.sampling.element.ElementBasedSampler;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.sampling.element.base.ElementBasedSampler;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Base class encapsulating common functionality to verify aspects of elements.

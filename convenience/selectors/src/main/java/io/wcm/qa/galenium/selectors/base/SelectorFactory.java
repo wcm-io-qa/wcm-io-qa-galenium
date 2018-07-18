@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.base;
 
 import java.util.Collection;
 
@@ -27,6 +27,10 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.selectors.FixedValueNestedSelector;
+import io.wcm.qa.galenium.selectors.FixedValueSelector;
+import io.wcm.qa.galenium.selectors.SelectorFromLocator;
+import io.wcm.qa.galenium.selectors.SelectorFromString;
 
 /**
  * Creates Selectors for use with Galenium.

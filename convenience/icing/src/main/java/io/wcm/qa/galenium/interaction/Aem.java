@@ -28,8 +28,8 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.SelectorFactory;
+import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.base.SelectorFactory;
 
 /**
  * AEM specific utility methods.

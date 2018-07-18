@@ -222,7 +222,11 @@ public abstract class VerificationBase<S> implements Verification {
    * @return actual value, defaults to {@link VerificationBase#sampleValue()}
    */
   protected S getActualValue() {
-    if (!isCaching() || actualValue == null) {
+    if (!isCaching()) {
+      getLogger().trace("invalidating cache for: '" + toString() + "'");
+      actualValue = null;
+    }
+    if (actualValue == null) {
       actualValue = sampleValue();
     }
     return actualValue;

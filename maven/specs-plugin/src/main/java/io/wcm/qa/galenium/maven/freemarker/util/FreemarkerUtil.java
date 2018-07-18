@@ -42,7 +42,7 @@ import io.wcm.qa.galenium.maven.freemarker.methods.EscapeXmlMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.pojo.InteractionPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
-import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 public final class FreemarkerUtil {
 

@@ -17,24 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.stability;
+package io.wcm.qa.galenium.sampling.element.base;
 
-import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.element.LocationSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-public class StablePosition extends Stability<Point> {
 
-  public StablePosition(Selector selector) {
-    super(new LocationSampler(selector));
+public abstract class ElementBasedStringSampler extends ElementBasedSampler<String> {
+
+  public ElementBasedStringSampler(Selector selector) {
+    this(selector, 0);
+  }
+
+  public ElementBasedStringSampler(Selector selector, int timeOut) {
+    super(selector, timeOut);
   }
 
   @Override
-  protected boolean checkForEquality(Point value1, Point value2) {
-    GaleniumReportUtil.getLogger().trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
-    return value1.equals(value2);
-  }
+  protected abstract String sampleValue(WebElement element);
 
 }

@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.element;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.sampling.element.TextSampler;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.verification.element.base.ElementBasedStringVerification;
 
 /**
@@ -34,7 +34,7 @@ public class TextVerification extends ElementBasedStringVerification<TextSampler
    * @param selector to identify element
    */
   public TextVerification(Selector selector) {
-    super(selector + "[text]", new TextSampler(selector));
+    super(selector.elementName(), new TextSampler(selector));
     setPreVerification(new VisibilityVerification(selector));
   }
 

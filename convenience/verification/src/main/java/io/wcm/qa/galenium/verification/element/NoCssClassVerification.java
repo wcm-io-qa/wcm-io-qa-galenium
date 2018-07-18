@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Make sure a certain CSS class is not set on an element.

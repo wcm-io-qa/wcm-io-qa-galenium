@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.selectors;
 
+import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
+import io.wcm.qa.galenium.selectors.base.Selector;
+
 /**
  * Implementation of {@link Selector} interface.
  */

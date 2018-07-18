@@ -23,7 +23,7 @@ import org.openqa.selenium.Dimension;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.element.SizeSampler;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 public class StableSize extends Stability<Dimension> {
 

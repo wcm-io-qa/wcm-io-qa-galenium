@@ -17,24 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.element;
+package io.wcm.qa.galenium.sampling.element.base;
 
-import org.openqa.selenium.WebElement;
+import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
-import io.wcm.qa.galenium.selectors.Selector;
 
+public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
 
-public abstract class ElementBasedStringSampler extends ElementBasedSampler<String> {
+  private Selector selector;
 
-  public ElementBasedStringSampler(Selector selector) {
-    this(selector, 0);
+  public SelectorBasedSampler(Selector selector) {
+    setSelector(selector);
   }
 
-  public ElementBasedStringSampler(Selector selector, int timeOut) {
-    super(selector, timeOut);
+  public Selector getSelector() {
+    return selector;
   }
 
-  @Override
-  protected abstract String sampleValue(WebElement element);
+  public void setSelector(Selector selector) {
+    this.selector = selector;
+  }
 
 }

@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 public class EmptyTextVerification extends TextVerification {
 
@@ -44,4 +44,10 @@ public class EmptyTextVerification extends TextVerification {
     return "(" + getVerificationName() + ") Text is empty.";
   }
 
+  @Override
+  protected void afterVerification() {
+    getLogger().trace("looking for empty text");
+    getLogger().trace("found: '" + getCachedValue() + "'");
+    getLogger().trace("done verifying (" + toString() + ")");
+  }
 }

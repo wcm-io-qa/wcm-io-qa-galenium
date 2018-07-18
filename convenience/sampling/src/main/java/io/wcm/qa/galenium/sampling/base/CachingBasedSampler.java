@@ -17,26 +17,31 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.element;
+package io.wcm.qa.galenium.sampling.base;
 
-import io.wcm.qa.galenium.sampling.Sampler;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.sampling.CachingSampler;
 
+public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
-public abstract class SelectorBasedSampler<T> implements Sampler<T> {
+  private T cachedValue;
+  private boolean caching;
 
-  private Selector selector;
-
-  public SelectorBasedSampler(Selector selector) {
-    setSelector(selector);
+  @Override
+  public boolean isCaching() {
+    return caching;
   }
 
-  public Selector getSelector() {
-    return selector;
+  @Override
+  public void setCaching(boolean activateCache) {
+    this.caching = activateCache;
   }
 
-  public void setSelector(Selector selector) {
-    this.selector = selector;
+  protected T getCachedValue() {
+    return cachedValue;
+  }
+
+  protected void setCachedValue(T cachedValue) {
+    this.cachedValue = cachedValue;
   }
 
 }

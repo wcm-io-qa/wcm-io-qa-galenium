@@ -20,7 +20,8 @@
 package io.wcm.qa.galenium.sampling.element;
 
 import io.wcm.qa.galenium.interaction.Element;
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.sampling.element.base.SelectorBasedSampler;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 public class ElementCountSampler extends SelectorBasedSampler<Integer> {
 

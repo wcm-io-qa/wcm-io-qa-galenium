@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.maven.freemarker.util;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 public final class ReflectionUtil {
 

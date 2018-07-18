@@ -21,6 +21,9 @@ package io.wcm.qa.galenium.selectors;
 
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.selectors.base.AbstractNestedSelectorBase;
+import io.wcm.qa.galenium.selectors.base.Selector;
+
 /**
  * Turns a Galen {@link Locator} object into a Galenium {@link Selector}.
  */
