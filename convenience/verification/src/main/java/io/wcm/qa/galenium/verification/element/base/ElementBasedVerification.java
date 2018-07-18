@@ -17,18 +17,40 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.element;
+package io.wcm.qa.galenium.verification.element.base;
 
 import io.wcm.qa.galenium.sampling.element.ElementBasedSampler;
-import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Base class encapsulating common functionality to verify aspects of elements.
  */
-abstract class ElementBasedVerification<T> extends SamplerBasedVerification<ElementBasedSampler<T>, T> {
+public abstract class ElementBasedVerification<S extends ElementBasedSampler<T>, T> extends SelectorBasedVerification<S, T> {
 
-  protected ElementBasedVerification(String verificationName, ElementBasedSampler<T> sampler) {
+  protected ElementBasedVerification(String verificationName, S sampler) {
     super(verificationName, sampler);
   }
 
+  /**
+   * @return the time out used by the element based sampler
+   */
+  public int getTimeout() {
+    return getSampler().getTimeOut();
+  }
+
+  /**
+   * Sets time out in sampler.
+   * @param timeOut to set in element based sampler
+   */
+  public void setTimeout(int timeOut) {
+    getSampler().setTimeOut(timeOut);
+  }
+
+  protected String getElementName() {
+    return getSelector().elementName();
+  }
+
+  protected Selector getSelector() {
+    return getSampler().getSelector();
+  }
 }

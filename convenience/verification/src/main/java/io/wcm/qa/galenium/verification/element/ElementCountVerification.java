@@ -19,37 +19,43 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.galenium.interaction.Element;
+import io.wcm.qa.galenium.sampling.element.ElementCountSampler;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.verification.element.base.SelectorBasedVerification;
+import io.wcm.qa.galenium.verification.util.TextSampleManager;
 
 /**
  * Make sure a certain number of elements are present.
  */
-public class ElementCountVerification extends ElementBasedVerification {
+public class ElementCountVerification extends SelectorBasedVerification<ElementCountSampler, Integer> {
+
+  public ElementCountVerification(Selector selector) {
+    super("count(" + selector.elementName() + ")", new ElementCountSampler(selector));
+  }
 
   /**
    * @param selector to identify element
    * @param expectedCount to verify against
    */
   public ElementCountVerification(Selector selector, int expectedCount) {
-    super(selector);
-    setExpectedValue(Integer.toString(expectedCount));
+    this(selector);
+    setExpectedValue(expectedCount);
   }
 
   @Override
   protected Boolean doVerification() {
-    String elementCount = sampleValue();
-    return StringUtils.equals(elementCount, getExpectedValue());
+    return sampleValue() == getExpectedValue();
+  }
+
+  protected String getElementName() {
+    return getSampler().getSelector().elementName();
   }
 
   @Override
   protected String getFailureMessage() {
-    return "Expected " + getExpectedValue() + " elements matching " + getElementName() + " but found " + getActualValue();
+    return "Expected " + getExpectedValue() + " elements matching " + getElementName() + " but found " + getCachedValue();
   }
 
   @Override
@@ -58,9 +64,17 @@ public class ElementCountVerification extends ElementBasedVerification {
   }
 
   @Override
-  protected String sampleValue() {
-    List<WebElement> elements = Element.findAll(getSelector());
-    return Integer.toString(elements.size());
+  protected Integer initExpectedValue() {
+    String expectedKey = getExpectedKey();
+    if (StringUtils.isNotBlank(expectedKey)) {
+      return Integer.parseInt(TextSampleManager.getExpectedText(expectedKey));
+    }
+    return 0;
+  }
+
+  @Override
+  protected void persistSample(String key, Integer newValue) {
+    TextSampleManager.addNewTextSample(key, Integer.toString(newValue));
   }
 
 }

@@ -25,14 +25,22 @@ import io.wcm.qa.galenium.verification.base.Verifiable;
 
 public abstract class Stability<T> implements Verifiable {
 
-  private Sampler<T> sampler;
-
   private boolean firstRun = true;
 
   private T oldSampleValue;
 
+  private Sampler<T> sampler;
+
   public Stability(Sampler<T> sampler) {
     setSampler(sampler);
+  }
+
+  public Sampler<T> getSampler() {
+    return sampler;
+  }
+
+  public void setSampler(Sampler<T> sampler) {
+    this.sampler = sampler;
   }
 
   @Override
@@ -64,21 +72,6 @@ public abstract class Stability<T> implements Verifiable {
     return checkForEquality(getOldSampleValue(), currentSampleValue);
   }
 
-  /**
-   * @param value1 old value (guaranteed to not be null)
-   * @param value2 new value (guaranteed to not be null)
-   * @return whether the two values are equal
-   */
-  protected abstract boolean checkForEquality(T value1, T value2);
-
-  public Sampler<T> getSampler() {
-    return sampler;
-  }
-
-  public void setSampler(Sampler<T> sampler) {
-    this.sampler = sampler;
-  }
-
   private T getOldSampleValue() {
     return oldSampleValue;
   }
@@ -86,5 +79,12 @@ public abstract class Stability<T> implements Verifiable {
   private void setOldSampleValue(T oldSampleValue) {
     this.oldSampleValue = oldSampleValue;
   }
+
+  /**
+   * @param value1 old value (guaranteed to not be null)
+   * @param value2 new value (guaranteed to not be null)
+   * @return whether the two values are equal
+   */
+  protected abstract boolean checkForEquality(T value1, T value2);
 
 }

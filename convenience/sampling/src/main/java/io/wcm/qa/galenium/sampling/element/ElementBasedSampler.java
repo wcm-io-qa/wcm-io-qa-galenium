@@ -28,8 +28,19 @@ import io.wcm.qa.galenium.selectors.Selector;
 
 public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
 
+  private int timeOut;
+
   public ElementBasedSampler(Selector selector) {
+    this(selector, 0);
+  }
+
+  public ElementBasedSampler(Selector selector, int timeOut) {
     super(selector);
+    setTimeOut(timeOut);
+  }
+
+  public int getTimeOut() {
+    return timeOut;
   }
 
   @Override
@@ -42,8 +53,12 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
     return null;
   }
 
+  public void setTimeOut(int timeOut) {
+    this.timeOut = timeOut;
+  }
+
   protected WebElement getElement() {
-    return Element.findNow(getSelector());
+    return Element.find(getSelector(), getTimeOut());
   }
 
   protected abstract T sampleValue(WebElement element);

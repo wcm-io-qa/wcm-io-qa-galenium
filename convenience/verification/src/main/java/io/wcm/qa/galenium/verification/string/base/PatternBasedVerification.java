@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.base;
+package io.wcm.qa.galenium.verification.string.base;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

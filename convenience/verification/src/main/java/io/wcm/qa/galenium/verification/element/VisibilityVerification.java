@@ -19,16 +19,16 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
-
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.sampling.element.VisibilitySampler;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.verification.element.base.ElementBasedVerification;
 
 /**
  * Verifies that an element is visible on page.
  */
-public class VisibilityVerification extends ElementBasedVerification {
+public class VisibilityVerification extends ElementBasedVerification<VisibilitySampler, Boolean> {
 
   /**
    * Constructor.
@@ -44,16 +44,12 @@ public class VisibilityVerification extends ElementBasedVerification {
    * @param timeOut how many seconds to wait
    */
   public VisibilityVerification(Selector selector, int timeOut) {
-    super(selector);
+    super(selector.elementName(), new VisibilitySampler(selector, timeOut));
     setTimeout(timeOut);
   }
 
   private String getVerboseSelectorInfo() {
     return " (" + getSelector().asString() + ")";
-  }
-
-  private boolean isDisplayed(WebElement element) {
-    return element != null && element.isDisplayed();
   }
 
   @Override
@@ -68,14 +64,7 @@ public class VisibilityVerification extends ElementBasedVerification {
 
   @Override
   protected Boolean doVerification() {
-    try {
-      return isDisplayed(getElement());
-    }
-    catch (StaleElementReferenceException ex) {
-      getLogger().trace("stale element: '" + ex.getMessage() + "'");
-      setElement(null);
-      return isDisplayed(getElement());
-    }
+    return getActualValue();
   }
 
   @Override
@@ -97,8 +86,12 @@ public class VisibilityVerification extends ElementBasedVerification {
   }
 
   @Override
-  protected String sampleValue() {
-    return Boolean.toString(isDisplayed(getElement()));
+  protected Boolean initExpectedValue() {
+    throw new GaleniumException("no need to init expected value, because always expects visibility");
   }
 
+  @Override
+  protected void persistSample(String key, Boolean newValue) {
+    throw new GaleniumException("no need to persist expected value, because always expects visibility");
+  }
 }

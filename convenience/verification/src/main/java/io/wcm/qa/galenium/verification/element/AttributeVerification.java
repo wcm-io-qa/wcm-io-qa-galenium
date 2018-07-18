@@ -19,25 +19,24 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import org.openqa.selenium.WebElement;
+import org.apache.commons.lang3.StringUtils;
 
+import io.wcm.qa.galenium.sampling.element.AttributeSampler;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.verification.element.base.ElementBasedStringVerification;
 
 /**
  * Make sure an attribute is set on an element.
  */
-public class AttributeVerification extends ElementBasedVerification {
-
-  private String attributeName;
+public class AttributeVerification extends ElementBasedStringVerification<AttributeSampler> {
 
   /**
    * @param selector to identify element
    * @param attributeName name of attribute to check
    */
   public AttributeVerification(Selector selector, String attributeName) {
-    super(selector);
-    setAttributeName(attributeName);
-    setPreVerification(new VisibilityVerification(getSelector()));
+    super(selector.elementName(), new AttributeSampler(selector, attributeName));
+    setPreVerification(new VisibilityVerification(selector));
   }
 
   /**
@@ -50,34 +49,29 @@ public class AttributeVerification extends ElementBasedVerification {
     setExpectedValue(expectedValue);
   }
 
-  /**
-   * @param verificationName name of element for reporting
-   * @param element resolved element to test
-   * @param attributeName name of attribute to check
-   */
-  public AttributeVerification(String verificationName, WebElement element, String attributeName) {
-    super(verificationName, element);
-    setAttributeName(attributeName);
-  }
-
-  /**
-   * @param verificationName name of element for reporting
-   * @param element resolved element to test
-   * @param attributeName name of attribute to check
-   * @param expectedValue to verify against
-   */
-  public AttributeVerification(String verificationName, WebElement element, String attributeName, String expectedValue) {
-    this(verificationName, element, attributeName);
-    setExpectedValue(expectedValue);
+  @Override
+  protected void afterVerification() {
+    getLogger().trace("looking for '" + getExpectedValue() + "'");
+    String cachedValue = getCachedValue();
+    getLogger().trace("found: '" + cachedValue + "'");
+    if (!isVerified() && cachedValue != null) {
+      String expectedKey = getExpectedKey();
+      persistSample(expectedKey, cachedValue);
+    }
+    getLogger().trace("done verifying (" + toString() + ")");
   }
 
   @Override
-  protected String getAdditionalToStringInfo() {
-    return getElementName() + "[" + getAttributeName() + "]: '" + getExpectedValue() + "'";
+  protected Boolean doVerification() {
+    return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 
   protected String getAttributeName() {
-    return attributeName;
+    return getSampler().getAttributeName();
+  }
+
+  protected String getElementWithAttributeName() {
+    return getElementName() + "[" + getAttributeName() + "]";
   }
 
   @Override
@@ -87,20 +81,11 @@ public class AttributeVerification extends ElementBasedVerification {
 
   @Override
   protected String getFailureMessage() {
-    return getElementName() + "[" + getAttributeName() + "] should be '" + getExpectedValue() + "', but was '" + getActualValue() + "'";
+    return getElementWithAttributeName() + " should be '" + getExpectedValue() + "', but was '" + getCachedValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return getElementName() + "[" + getAttributeName() + "] was '" + getActualValue() + "' as expected";
-  }
-
-  @Override
-  protected String sampleValue() {
-    return getElement().getAttribute(getAttributeName());
-  }
-
-  protected void setAttributeName(String attributeName) {
-    this.attributeName = attributeName;
+    return getElementWithAttributeName() + " was '" + getCachedValue() + "' as expected";
   }
 }

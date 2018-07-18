@@ -21,7 +21,6 @@ package io.wcm.qa.galenium.verification.element;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
@@ -49,16 +48,6 @@ public class CssClassVerification extends AttributeVerification {
   public CssClassVerification(Selector selector, String cssClass) {
     super(selector, ATTRIBUTE_NAME_CLASS, cssClass);
     setExpectedValue(cssClass);
-  }
-
-  /**
-   * Constructor for resolved {@link WebElement}.
-   * @param verificationName name of element for reporting
-   * @param element resolved element to test
-   * @param cssClass to verify
-   */
-  public CssClassVerification(String verificationName, WebElement element, String cssClass) {
-    super(verificationName, element, ATTRIBUTE_NAME_CLASS, cssClass);
   }
 
   @Override

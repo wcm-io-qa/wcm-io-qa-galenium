@@ -17,30 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.base;
+package io.wcm.qa.galenium.verification.element.base;
 
-import io.wcm.qa.galenium.sampling.Sampler;
+import io.wcm.qa.galenium.sampling.element.SelectorBasedSampler;
+import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
 
-public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends VerificationBase<T> {
 
-  private S sampler;
+public abstract class SelectorBasedVerification<S extends SelectorBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 
-  protected SamplerBasedVerification(String verificationName, S sampler) {
-    super(verificationName);
-    this.setSampler(sampler);
-  }
-
-  public S getSampler() {
-    return sampler;
-  }
-
-  public void setSampler(S sampler) {
-    this.sampler = sampler;
-  }
-
-  @Override
-  protected T sampleValue() {
-    return getSampler().sampleValue();
+  protected SelectorBasedVerification(String verificationName, S sampler) {
+    super(verificationName, sampler);
   }
 
 }

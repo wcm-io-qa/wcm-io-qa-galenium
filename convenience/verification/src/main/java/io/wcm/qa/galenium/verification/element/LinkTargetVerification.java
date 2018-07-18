@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import org.openqa.selenium.WebElement;
-
 import io.wcm.qa.galenium.selectors.Selector;
 
 /**
@@ -43,14 +41,6 @@ public class LinkTargetVerification extends AttributeVerification {
    */
   public LinkTargetVerification(Selector selector, String expectedValue) {
     super(selector, ATTRIBUTE_NAME_HREF, expectedValue);
-  }
-
-  /**
-   * @param verificationName for reporting
-   * @param element resolved element to verify
-   */
-  public LinkTargetVerification(String verificationName, WebElement element) {
-    super(verificationName, element, ATTRIBUTE_NAME_HREF);
   }
 
 }

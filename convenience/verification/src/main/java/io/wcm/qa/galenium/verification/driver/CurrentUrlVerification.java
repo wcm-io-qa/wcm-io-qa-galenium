@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.driver;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.sampling.driver.CurrentUrlSampler;
-import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
+import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerification;
 
 /**
  * Make sure current URL is a certain value.

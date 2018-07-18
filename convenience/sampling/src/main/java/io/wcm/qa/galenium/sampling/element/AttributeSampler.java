@@ -17,31 +17,37 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.element;
+package io.wcm.qa.galenium.sampling.element;
 
-import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.Selector;
 
-public class EmptyTextVerification extends TextVerification {
 
-  public EmptyTextVerification(Selector selector) {
-    super(selector);
+public class AttributeSampler extends ElementBasedStringSampler {
+
+  private String attributeName;
+
+  public AttributeSampler(Selector selector, String attributeName) {
+    this(selector, attributeName, 0);
+  }
+
+  public AttributeSampler(Selector selector, String attributeName, int timeOut) {
+    super(selector, timeOut);
+    setAttributeName(attributeName);
+  }
+
+  public String getAttributeName() {
+    return attributeName;
   }
 
   @Override
-  protected Boolean doVerification() {
-    return StringUtils.isBlank(getActualValue());
+  protected String sampleValue(WebElement element) {
+    return element.getAttribute(getAttributeName());
   }
 
-  @Override
-  protected String getFailureMessage() {
-    return "(" + getVerificationName() + ") Text is not empty: '" + getCachedValue() + "'";
-  }
-
-  @Override
-  protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") Text is empty.";
+  protected void setAttributeName(String attributeName) {
+    this.attributeName = attributeName;
   }
 
 }

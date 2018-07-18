@@ -19,9 +19,9 @@
  */
 package io.wcm.qa.galenium.verification.string;
 
-import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
+import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
+import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerification;
 
 
 public class StringVerification extends StringSamplerBasedVerification {

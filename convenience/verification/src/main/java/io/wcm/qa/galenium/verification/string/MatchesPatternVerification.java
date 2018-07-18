@@ -21,9 +21,9 @@ package io.wcm.qa.galenium.verification.string;
 
 import java.util.regex.Pattern;
 
-import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.verification.base.PatternBasedVerification;
+import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
+import io.wcm.qa.galenium.verification.string.base.PatternBasedVerification;
 
 public class MatchesPatternVerification extends PatternBasedVerification {
 

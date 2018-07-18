@@ -20,21 +20,22 @@
 package io.wcm.qa.galenium.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.galenium.sampling.element.TextSampler;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.verification.element.base.ElementBasedStringVerification;
 
 /**
  * Verifies text of element.
  */
-public class TextVerification extends ElementBasedVerification {
+public class TextVerification extends ElementBasedStringVerification<TextSampler> {
 
   /**
    * @param selector to identify element
    */
   public TextVerification(Selector selector) {
-    super(selector);
-    setPreVerification(new VisibilityVerification(getSelector()));
+    super(selector + "[text]", new TextSampler(selector));
+    setPreVerification(new VisibilityVerification(selector));
   }
 
   /**
@@ -46,12 +47,9 @@ public class TextVerification extends ElementBasedVerification {
     setExpectedValue(expectedValue);
   }
 
-  /**
-   * @param elementName to use in reporting
-   * @param element resolved {@link WebElement} from Selenium
-   */
-  public TextVerification(String elementName, WebElement element) {
-    super(elementName, element);
+  @Override
+  protected Boolean doVerification() {
+    return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 
   @Override
@@ -61,21 +59,12 @@ public class TextVerification extends ElementBasedVerification {
 
   @Override
   protected String getFailureMessage() {
-    return getElementName() + " should have text '" + getExpectedValue() + "' but found '" + getActualValue() + "'";
+    return getElementName() + " should have text '" + getExpectedValue() + "' but found '" + getCachedValue() + "'";
   }
 
   @Override
   protected String getSuccessMessage() {
     return getElementName() + " has text '" + getExpectedValue() + "'";
-  }
-
-  @Override
-  protected String sampleValue() {
-    WebElement element = getElement();
-    if (element == null) {
-      return StringUtils.EMPTY;
-    }
-    return element.getText();
   }
 
 }

@@ -35,13 +35,15 @@ public class EmptyStringVerification extends StringVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
-    return StringUtils.isBlank(getActualValue());
+  protected void afterVerification() {
+    String cachedValue = getCachedValue();
+    getLogger().trace("found: '" + cachedValue + "'");
+    getLogger().trace("done verifying (" + toString() + ")");
   }
 
   @Override
-  protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") String is empty.";
+  protected Boolean doVerification() {
+    return StringUtils.isBlank(getActualValue());
   }
 
   @Override
@@ -50,9 +52,7 @@ public class EmptyStringVerification extends StringVerification {
   }
 
   @Override
-  protected void afterVerification() {
-    String cachedValue = getCachedValue();
-    getLogger().trace("found: '" + cachedValue + "'");
-    getLogger().trace("done verifying (" + toString() + ")");
+  protected String getSuccessMessage() {
+    return "(" + getVerificationName() + ") String is empty.";
   }
 }

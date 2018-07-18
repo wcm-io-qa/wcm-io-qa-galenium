@@ -32,17 +32,19 @@ import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.sampling.differences.Difference;
 import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 /**
  * Make sure an element looks like a sample image.
  */
-public class VisualVerification extends ElementBasedVerification {
+public class VisualVerification extends VerificationBase<Object> {
 
   private ImageComparisonSpecFactory specFactory;
 
@@ -50,9 +52,9 @@ public class VisualVerification extends ElementBasedVerification {
    * @param selector to identify element
    */
   public VisualVerification(Selector selector) {
-    super(selector);
-    setPreVerification(new VisibilityVerification(getSelector()));
-    setSpecFactory(new ImageComparisonSpecFactory(getSelector()));
+    super("Visual(" + selector.elementName() + ")");
+    setPreVerification(new VisibilityVerification(selector));
+    setSpecFactory(new ImageComparisonSpecFactory(selector));
   }
 
   @Override
@@ -213,7 +215,7 @@ public class VisualVerification extends ElementBasedVerification {
 
   @Override
   protected void afterVerification() {
-    // do nothing, because string based sampling does not apply here
+    getLogger().debug("done verifying: " + getVerificationName());
   }
 
   @Override
@@ -239,18 +241,27 @@ public class VisualVerification extends ElementBasedVerification {
 
   @Override
   protected String getFailureMessage() {
-    return getElementName() + ": Image comparison failed";
+    return getVerificationName() + ": Image comparison failed";
   }
 
   @Override
   protected String getSuccessMessage() {
-    return getElementName() + ": Image comparison successful";
+    return getVerificationName() + ": Image comparison successful";
+  }
+
+  @Override
+  protected Object initExpectedValue() {
+    throw new GaleniumException("expected value handled in spec factory.");
+  }
+
+  @Override
+  protected void persistSample(String key, Object newValue) {
+    throw new GaleniumException("persistence handled in validation listener.");
   }
 
   @Override
   protected String sampleValue() {
-    // sampling in visual verification is encapsulated in Galen functionalities
-    return null;
+    throw new GaleniumException("sampling handled by Galen when evalutation spec.");
   }
 
   @Override
