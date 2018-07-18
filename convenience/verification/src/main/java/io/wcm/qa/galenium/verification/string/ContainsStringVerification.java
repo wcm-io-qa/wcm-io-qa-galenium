@@ -21,8 +21,8 @@ package io.wcm.qa.galenium.verification.string;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 public class ContainsStringVerification extends StringVerification {
 

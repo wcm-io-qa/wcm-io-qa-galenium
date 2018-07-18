@@ -26,8 +26,8 @@ import java.util.Set;
 
 import com.github.wnameless.json.flattener.JsonFlattener;
 
-import io.wcm.qa.galenium.sampling.FixedStringSampler;
 import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
 import io.wcm.qa.galenium.verification.util.TextSampleManager;
 

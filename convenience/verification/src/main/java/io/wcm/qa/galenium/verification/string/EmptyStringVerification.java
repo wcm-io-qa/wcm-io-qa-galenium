@@ -19,29 +19,34 @@
  */
 package io.wcm.qa.galenium.verification.string;
 
+import org.apache.commons.lang3.StringUtils;
+
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
-import io.wcm.qa.galenium.verification.base.StringSamplerBasedVerification;
 
+public class EmptyStringVerification extends StringVerification {
 
-public class StringVerification extends StringSamplerBasedVerification {
-
-  public StringVerification(String verificationName, String sample) {
+  public EmptyStringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));
   }
 
-  public StringVerification(String verificationName, StringSampler sampler) {
+  public EmptyStringVerification(String verificationName, StringSampler sampler) {
     super(verificationName, sampler);
   }
 
   @Override
-  protected String getFailureMessage() {
-    return "(" + getVerificationName() + ") String does not match: '" + getCachedValue() + "' should be '" + getExpectedValue() + "'";
+  protected Boolean doVerification() {
+    return StringUtils.isBlank(getActualValue());
   }
 
   @Override
   protected String getSuccessMessage() {
-    return "(" + getVerificationName() + ") String matches: '" + getCachedValue() + "'";
+    return "(" + getVerificationName() + ") String is empty.";
+  }
+
+  @Override
+  protected String getFailureMessage() {
+    return "(" + getVerificationName() + ") String is not empty: '" + getCachedValue() + "'";
   }
 
 }
