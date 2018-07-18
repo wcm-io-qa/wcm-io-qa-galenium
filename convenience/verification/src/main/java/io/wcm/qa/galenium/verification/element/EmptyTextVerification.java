@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,18 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import io.wcm.qa.galenium.sampling.element.ElementBasedSampler;
-import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
+import org.openqa.selenium.WebElement;
 
-/**
- * Base class encapsulating common functionality to verify aspects of elements.
- */
-abstract class ElementBasedVerification<T> extends SamplerBasedVerification<ElementBasedSampler<T>, T> {
+import io.wcm.qa.galenium.selectors.Selector;
 
-  protected ElementBasedVerification(String verificationName, ElementBasedSampler<T> sampler) {
-    super(verificationName, sampler);
+public class EmptyTextVerification extends TextVerification {
+
+  public EmptyTextVerification(Selector selector) {
+    super(selector);
+  }
+
+  public EmptyTextVerification(String elementName, WebElement element) {
+    super(elementName, element);
   }
 
 }
