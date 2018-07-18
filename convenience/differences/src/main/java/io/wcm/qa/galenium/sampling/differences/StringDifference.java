@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
+import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
+
 /**
  * Simple {@link Difference} using the string assigned in constructor.
  */

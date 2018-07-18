@@ -17,28 +17,34 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.sampling.differences.util;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Comparator;
 
-abstract class DifferenceBase implements Difference {
+import io.wcm.qa.galenium.sampling.differences.base.Difference;
 
-  private static final String CLASS_NAME_PART_DIFFERENCE = "difference";
-  private String name;
+/**
+ * Sort differences by their name.
+ */
+public class DifferenceNameComparator implements Comparator<Difference> {
 
   @Override
-  public String getName() {
-    if (StringUtils.isBlank(name)) {
-      String simpleName = getClass().getSimpleName();
-      simpleName = StringUtils.removeStartIgnoreCase(simpleName, CLASS_NAME_PART_DIFFERENCE);
-      simpleName = StringUtils.removeEndIgnoreCase(simpleName, CLASS_NAME_PART_DIFFERENCE);
-      return simpleName;
-    }
-    return name;
-  }
+  public int compare(Difference arg0, Difference arg1) {
 
-  public void setName(String name) {
-    this.name = name;
+    if (arg0 == null && arg1 == null || arg0 == arg1) {
+      return 0;
+    }
+    if (arg0 == null) {
+      return -1;
+    }
+    if (arg1 == null) {
+      return 1;
+    }
+
+    String name0 = arg0.getName();
+    String name1 = arg1.getName();
+
+    return name0.compareTo(name1);
   }
 
 }
