@@ -17,8 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling;
+package io.wcm.qa.galenium.sampling.string;
 
+import io.wcm.qa.galenium.sampling.StringSampler;
 
 public class FixedStringSampler implements StringSampler {
 
