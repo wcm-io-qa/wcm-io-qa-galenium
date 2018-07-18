@@ -17,13 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.driver;
+package io.wcm.qa.galenium.sampling.element;
 
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.element.ElementBasedSampler;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class LocationSampler extends ElementBasedSampler<Point> {

@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.stability;
 import org.openqa.selenium.Point;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.driver.LocationSampler;
+import io.wcm.qa.galenium.sampling.element.LocationSampler;
 import io.wcm.qa.galenium.selectors.Selector;
 
 public class StablePosition extends Stability<Point> {
