@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.util.VerificationUtil.verify;
+import static io.wcm.qa.galenium.verification.util.VerificationUtil.verify;
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
@@ -32,7 +32,6 @@ import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
 import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
-import io.wcm.qa.galenium.util.VerificationUtil;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.galenium.verification.element.CssClassVerification;
@@ -41,6 +40,7 @@ import io.wcm.qa.galenium.verification.element.LinkTargetVerification;
 import io.wcm.qa.galenium.verification.element.NoCssClassVerification;
 import io.wcm.qa.galenium.verification.element.VisibilityVerification;
 import io.wcm.qa.galenium.verification.element.VisualVerification;
+import io.wcm.qa.galenium.verification.util.VerificationUtil;
 
 /**
  * Showcase {@link Verification} approach.

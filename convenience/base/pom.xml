@@ -17,23 +17,12 @@
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <version>0.1.15-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience</name>
-  <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-  <packaging>pom</packaging>
-
-  <modules>
-    <module>base</module>
-    <module>differences</module>
-    <module>galen</module>
-    <module>icing</module>
-    <module>interaction</module>
-    <module>sampling</module>
-    <module>selectors</module>
-    <module>verification</module>
-  </modules>
+  <name>Galenium Convenience Base</name>
+  <artifactId>io.wcm.qa.galenium.convenience.base</artifactId>
+  <packaging>jar</packaging>
 
   <dependencies>
 

@@ -17,45 +17,19 @@
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <version>0.1.15-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience</name>
-  <artifactId>io.wcm.qa.galenium.convenience</artifactId>
-  <packaging>pom</packaging>
-
-  <modules>
-    <module>base</module>
-    <module>differences</module>
-    <module>galen</module>
-    <module>icing</module>
-    <module>interaction</module>
-    <module>sampling</module>
-    <module>selectors</module>
-    <module>verification</module>
-  </modules>
+  <name>Galenium Convenience Interaction</name>
+  <artifactId>io.wcm.qa.galenium.convenience.interaction</artifactId>
+  <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.core</artifactId>
+      <artifactId>io.wcm.qa.galenium.convenience.selectors</artifactId>
       <version>0.1.15-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-csv</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.wnameless</groupId>
-      <artifactId>json-flattener</artifactId>
     </dependency>
 
   </dependencies>
