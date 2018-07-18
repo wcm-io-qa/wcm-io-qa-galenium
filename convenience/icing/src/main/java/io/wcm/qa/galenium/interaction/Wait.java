@@ -112,7 +112,9 @@ public final class Wait {
     private VerifiableExpectedCondition(Verifiable condition) {
       this.condition = condition;
       if (condition instanceof VerificationBase) {
-        ((VerificationBase)condition).setCaching(false);
+        VerificationBase verification = (VerificationBase)condition;
+        getLogger().debug("disable caching for '" + verification.getVerificationName() + "'");
+        verification.setCaching(false);
       }
     }
 
