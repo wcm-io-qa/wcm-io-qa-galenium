@@ -64,6 +64,9 @@ abstract class ElementBasedVerification extends StringVerificationBase {
   }
 
   public WebElement getElement() {
+    if (!isCaching()) {
+      element = null;
+    }
     if (element == null) {
       element = Element.find(getSelector(), getTimeout());
     }
