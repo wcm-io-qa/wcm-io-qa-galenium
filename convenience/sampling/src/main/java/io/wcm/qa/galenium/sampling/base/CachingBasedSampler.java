@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.sampling.base;
 
+import org.slf4j.Logger;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.CachingSampler;
 
 public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
@@ -42,6 +45,10 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
   protected void setCachedValue(T cachedValue) {
     this.cachedValue = cachedValue;
+  }
+
+  public Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
 }
