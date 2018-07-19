@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.verification.stability;
 
+import org.slf4j.Logger;
+
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.CachingSampler;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.verification.base.Verifiable;
@@ -49,6 +52,7 @@ public abstract class Stability<T> implements Verifiable {
 
   @Override
   public boolean verify() {
+    getLogger().debug(getClass().getSimpleName() + ": checking for stability");
     T currentSampleValue = getSampler().sampleValue();
     if (firstRun) {
       setOldSampleValue(currentSampleValue);
@@ -72,23 +76,27 @@ public abstract class Stability<T> implements Verifiable {
     else if (currentSampleValue == null) {
       return false;
     }
-
+    getLogger().trace(getClass().getSimpleName() + ": both samples are non-null, now checking for equality.");
     return checkForEquality(getOldSampleValue(), currentSampleValue);
   }
 
-  private T getOldSampleValue() {
+  protected T getOldSampleValue() {
     return oldSampleValue;
   }
 
-  private void setOldSampleValue(T oldSampleValue) {
+  protected void setOldSampleValue(T oldSampleValue) {
     this.oldSampleValue = oldSampleValue;
   }
 
   /**
-   * @param value1 old value (guaranteed to not be null)
-   * @param value2 new value (guaranteed to not be null)
+   * @param oldValue old value (guaranteed to not be null)
+   * @param newValue new value (guaranteed to not be null)
    * @return whether the two values are equal
    */
-  protected abstract boolean checkForEquality(T value1, T value2);
+  protected abstract boolean checkForEquality(T oldValue, T newValue);
+
+  protected Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
+  }
 
 }

@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.sampling.transform.base;
 
+import io.wcm.qa.galenium.sampling.CachingSampler;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
 
@@ -47,4 +48,23 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
 
   protected abstract O transform(I inputSample);
 
+  @Override
+  public void setCaching(boolean activateCache) {
+    super.setCaching(activateCache);
+    if (isCachingInput()) {
+      ((CachingSampler)getInput()).setCaching(activateCache);
+    }
+  }
+
+  protected boolean isCachingInput() {
+    return getInput() instanceof CachingSampler;
+  }
+
+  @Override
+  public boolean isCaching() {
+    if (isCachingInput()) {
+      return super.isCaching() && ((CachingSampler)getInput()).isCaching();
+    }
+    return super.isCaching();
+  }
 }
