@@ -30,19 +30,19 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     setInput(inputSampler);
   }
 
+  @Override
+  public O sampleValue() {
+    I inputSample = getInput().sampleValue();
+    O outputSample = transform(inputSample);
+    return outputSample;
+  }
+
   protected S getInput() {
     return input;
   }
 
   protected void setInput(S input) {
     this.input = input;
-  }
-
-  @Override
-  public O sampleValue() {
-    I inputSample = getInput().sampleValue();
-    O outputSample = transform(inputSample);
-    return outputSample;
   }
 
   protected abstract O transform(I inputSample);

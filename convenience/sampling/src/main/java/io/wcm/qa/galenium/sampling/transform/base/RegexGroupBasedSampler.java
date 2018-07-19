@@ -30,16 +30,16 @@ public abstract class RegexGroupBasedSampler<S extends Sampler<String>> extends 
 
   private boolean includeWholeMatchGroup = true;
 
-  public RegexGroupBasedSampler(S inputSampler, String regex, int flags) {
-    super(inputSampler, regex, flags);
-  }
-
   public RegexGroupBasedSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
   public RegexGroupBasedSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
+  }
+
+  public RegexGroupBasedSampler(S inputSampler, String regex, int flags) {
+    super(inputSampler, regex, flags);
   }
 
   protected void addAllGroups(Collection<String> results, Matcher matcher) {

@@ -21,60 +21,63 @@ package io.wcm.qa.galenium.verification.string;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
 
-import com.github.wnameless.json.flattener.JsonFlattener;
+import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
-import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
-import io.wcm.qa.galenium.verification.base.CombiningStringBasedVerification;
-import io.wcm.qa.galenium.verification.util.TextSampleManager;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.sampling.Sampler;
+import io.wcm.qa.galenium.sampling.transform.JsonSampler;
+import io.wcm.qa.galenium.verification.base.CombinedVerification;
+import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
 
-public class JsonVerification extends CombiningStringBasedVerification {
+
+public class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
 
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
+  private CombinedVerification combinedVerification = new CombinedVerification();
 
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
-  private boolean sparseCheck = true;
 
-  public JsonVerification(String verificationName, String sample) {
-    this(verificationName, new FixedStringSampler(sample));
-  }
-
-  public JsonVerification(String verificationName, StringSampler sampler) {
-    super(verificationName, sampler);
+  protected JsonVerification(String verificationName, S sampler) {
+    super(verificationName, new JsonSampler<S>(sampler));
   }
 
   public String getKeyPrefix() {
     return keyPrefix;
   }
 
-  public boolean isSparseCheck() {
-    return sparseCheck;
-  }
-
   public void setKeyPrefix(String keyPrefix) {
     this.keyPrefix = keyPrefix;
   }
 
-  public void setSparseCheck(boolean sparseCheck) {
-    this.sparseCheck = sparseCheck;
+  private void addCheck(StringVerification verification) {
+    getCombinedVerification().addVerification(verification);
   }
 
-  private StringVerification getVerification(String key, String valueAsString) {
-    return new StringVerification(getExpectedAggregateKey(key), valueAsString);
+  private String getEmptySuccessMessageSubsitute() {
+    return toString() + " successfully verified JSON";
   }
 
-  private void populateFullCheck(String jsonAsString) {
-    String prefix = getExpectedKey();
-    Properties expectedTextsForPrefix = TextSampleManager.getExpectedTextsForPrefix(prefix);
-    Set<Entry<Object, Object>> entrySet = expectedTextsForPrefix.entrySet();
-    for (Entry<Object, Object> property : entrySet) {
-      String key = (String)property.getKey();
-      String value = (String)property.getValue();
-      addCheck(new StringVerification(key, value));
-    }
+  private StringVerification getStringVerification(String key, String value) {
+    return new StringVerification(getExpectedAggregateKey(key), value);
+  }
+
+  private boolean verifyChecks() {
+    return getCombinedVerification().verify();
+  }
+
+  @Override
+  protected Boolean doVerification() {
+    populateChecks();
+    return verifyChecks();
+  }
+
+  protected String getCombinedMessage() {
+    return getCombinedVerification().getMessage();
+  }
+
+  protected CombinedVerification getCombinedVerification() {
+    return combinedVerification;
   }
 
   protected String getExpectedAggregateKey(String key) {
@@ -87,35 +90,38 @@ public class JsonVerification extends CombiningStringBasedVerification {
   }
 
   @Override
-  protected String getSuccessMessageForEmptyCheckMessages() {
-    return "Checked JSON for '" + getVerificationName() + "' successful";
+  protected String getFailureMessage() {
+    return getCombinedMessage();
   }
 
   @Override
-  protected void populateChecks(String jsonAsString) {
-    getLogger().debug("generating JSON verifications for: '" + jsonAsString + "'");
-    if (isSparseCheck()) {
-      populateSparseCheck(jsonAsString);
+  protected String getSuccessMessage() {
+    String message = getCombinedMessage();
+    if (StringUtils.isNotBlank(message)) {
+      return message;
     }
-    else {
-      populateFullCheck(jsonAsString);
+    return getEmptySuccessMessageSubsitute();
+  }
+
+  @Override
+  protected Map<String, String> initExpectedValue() {
+    throw new GaleniumException("there is no top level expected value, because everything is handled in combined verification.");
+  }
+
+  @Override
+  protected void persistSample(String key, Map<String, String> newValue) {
+    throw new GaleniumException("there is no top level sample persistence, because everything is handled in combined verification.");
+  }
+
+  protected void populateChecks() {
+    Map<String, String> sample = getSampler().sampleValue();
+    for (Entry<String, String> entry : sample.entrySet()) {
+      addCheck(getStringVerification(entry.getKey(), entry.getValue()));
     }
   }
 
-  protected void populateSparseCheck(String jsonAsString) {
-    Map<String, Object> flattenedMap = JsonFlattener.flattenAsMap(jsonAsString);
-    for (Entry<String, Object> entry : flattenedMap.entrySet()) {
-      Object jsonValue = entry.getValue();
-      String valueAsString;
-      if (jsonValue != null) {
-        valueAsString = jsonValue.toString();
-      }
-      else {
-        valueAsString = "null";
-      }
-      StringVerification verification = getVerification(entry.getKey(), valueAsString);
-      addCheck(verification);
-    }
+  protected void setCombinedVerification(CombinedVerification combinedVerification) {
+    this.combinedVerification = combinedVerification;
   }
 
 }

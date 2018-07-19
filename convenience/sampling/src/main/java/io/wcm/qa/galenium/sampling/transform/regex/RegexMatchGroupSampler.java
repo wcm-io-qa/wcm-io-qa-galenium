@@ -29,16 +29,16 @@ import io.wcm.qa.galenium.sampling.transform.base.RegexGroupBasedSampler;
 
 public class RegexMatchGroupSampler<S extends Sampler<String>> extends RegexGroupBasedSampler<S> {
 
-  public RegexMatchGroupSampler(S inputSampler, String regex, int flags) {
-    super(inputSampler, regex, flags);
-  }
-
   public RegexMatchGroupSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
   public RegexMatchGroupSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
+  }
+
+  public RegexMatchGroupSampler(S inputSampler, String regex, int flags) {
+    super(inputSampler, regex, flags);
   }
 
   @Override

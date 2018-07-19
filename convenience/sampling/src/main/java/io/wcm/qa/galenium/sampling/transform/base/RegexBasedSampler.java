@@ -53,19 +53,19 @@ public abstract class RegexBasedSampler<S extends Sampler<String>, O> extends Tr
     this.pattern = pattern;
   }
 
+  protected Matcher getMatcher(String inputSample) {
+    return getPattern().matcher(inputSample);
+  }
+
   protected String handleNoMatch() {
     return StringUtils.EMPTY;
   }
 
-  protected Matcher getMatcher(String inputSample) {
-    return getPattern().matcher(inputSample);
-  }
+  protected abstract O transform(Matcher matcher);
 
   @Override
   protected O transform(String inputSample) {
     Matcher matcher = getMatcher(inputSample);
     return transform(matcher);
   }
-
-  protected abstract O transform(Matcher matcher);
 }

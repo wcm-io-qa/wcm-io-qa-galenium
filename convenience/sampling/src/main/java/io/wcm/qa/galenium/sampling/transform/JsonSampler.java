@@ -19,7 +19,10 @@
  */
 package io.wcm.qa.galenium.sampling.transform;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.github.wnameless.json.flattener.JsonFlattener;
 
@@ -27,15 +30,33 @@ import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.transform.base.TransformationBasedSampler;
 
 
-public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, Object>> {
+public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, String>> {
+
+  private static final String STRING_REPRESENTATION_NULL = "null";
 
   public JsonSampler(S inputSampler) {
     super(inputSampler);
   }
 
+  private String asString(Entry<String, Object> entry) {
+    Object value = entry.getValue();
+    if (value == null) {
+      return STRING_REPRESENTATION_NULL;
+    }
+    return value.toString();
+  }
+
+  private Map<String, String> ensureOnlyStringValues(Map<String, Object> mapWithObjects) {
+    Map<String, String> stringOnlyMap = new HashMap<String, String>();
+    for (Entry<String, Object> entry : mapWithObjects.entrySet()) {
+      stringOnlyMap.put(entry.getKey(), asString(entry));
+    }
+    return stringOnlyMap;
+  }
+
   @Override
-  protected Map<String, Object> transform(String inputSample) {
-    return JsonFlattener.flattenAsMap(inputSample);
+  protected Map<String, String> transform(String inputSample) {
+    return ensureOnlyStringValues(JsonFlattener.flattenAsMap(inputSample));
   }
 
 }
