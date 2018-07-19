@@ -329,11 +329,6 @@ public final class GalenLayoutChecker {
   private static final class TracingValidationListener implements ValidationListener {
 
     @Override
-    public String toString() {
-      return "Tracing Validation Listener";
-    }
-
-    @Override
     public void onAfterObject(PageValidation pageValidation, String objectName) {
       getLogger().trace("AfterObject(PageValidation pageValidation, String objectName)");
     }
@@ -401,6 +396,11 @@ public final class GalenLayoutChecker {
     @Override
     public void onSubLayout(PageValidation pageValidation, String objectName) {
       getLogger().trace("SubLayout(PageValidation pageValidation, String objectName)");
+    }
+
+    @Override
+    public String toString() {
+      return "Tracing Validation Listener";
     }
   }
 

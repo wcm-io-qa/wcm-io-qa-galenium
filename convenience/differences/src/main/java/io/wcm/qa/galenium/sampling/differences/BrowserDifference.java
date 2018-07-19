@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.sampling.differences;
 
 import io.wcm.qa.galenium.device.BrowserType;
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**

@@ -36,8 +36,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
-import io.wcm.qa.galenium.sampling.differences.Difference;
-import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
+import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.sampling.differences.util.SortedDifferences;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 

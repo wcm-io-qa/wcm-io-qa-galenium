@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.sampling.differences.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +25,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+
+import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.sampling.differences.base.Differences;
 
 /**
  * Holds dimensions of potential differences for samples and supplies them either as file path or property key.

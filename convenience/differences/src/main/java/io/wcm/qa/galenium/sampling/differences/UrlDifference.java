@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
+import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 public abstract class UrlDifference extends DifferenceBase {

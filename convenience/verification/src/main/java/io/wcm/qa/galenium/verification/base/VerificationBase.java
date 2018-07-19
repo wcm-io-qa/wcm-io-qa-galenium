@@ -28,8 +28,8 @@ import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.differences.Difference;
-import io.wcm.qa.galenium.sampling.differences.SortedDifferences;
+import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.sampling.differences.util.SortedDifferences;
 
 /**
  * Common base for {@link Difference} aware Galenium {@link Verification}.

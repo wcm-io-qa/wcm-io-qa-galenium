@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.galenium.sampling.differences;
 
+import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
+
 /**
  * Integer based difference for use with index or count values.
  */

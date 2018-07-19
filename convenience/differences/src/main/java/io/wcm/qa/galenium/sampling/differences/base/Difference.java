@@ -17,22 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
-
+package io.wcm.qa.galenium.sampling.differences.base;
 
 /**
- * Provides root keys for persisting of samples.
+ * Encapsulates one difference impacting a sample.
  */
-public interface Differences extends Iterable<Difference> {
+public interface Difference {
 
   /**
-   * @return differences' tags concatenated with '/' and/or '-'
+   * @return a descriptive name for this difference type
    */
-  String asFilePath();
+  String getName();
 
   /**
-   * @return differences' tags concatenated with '.'
+   * The current value for the differing part of current difference instance.
+   * @return a short, simple string representation to be used in folder names or property keys
    */
-  String asPropertyKey();
+  String getTag();
 
 }

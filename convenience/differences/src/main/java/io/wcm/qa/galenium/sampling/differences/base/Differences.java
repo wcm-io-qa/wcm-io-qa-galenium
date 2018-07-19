@@ -17,32 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.sampling.differences.base;
 
-import java.util.Comparator;
 
 /**
- * Sort differences by their name.
+ * Provides root keys for persisting of samples.
  */
-public class DifferenceNameComparator implements Comparator<Difference> {
+public interface Differences extends Iterable<Difference> {
 
-  @Override
-  public int compare(Difference arg0, Difference arg1) {
+  /**
+   * @return differences' tags concatenated with '/' and/or '-'
+   */
+  String asFilePath();
 
-    if (arg0 == null && arg1 == null || arg0 == arg1) {
-      return 0;
-    }
-    if (arg0 == null) {
-      return -1;
-    }
-    if (arg1 == null) {
-      return 1;
-    }
-
-    String name0 = arg0.getName();
-    String name1 = arg1.getName();
-
-    return name0.compareTo(name1);
-  }
+  /**
+   * @return differences' tags concatenated with '.'
+   */
+  String asPropertyKey();
 
 }
