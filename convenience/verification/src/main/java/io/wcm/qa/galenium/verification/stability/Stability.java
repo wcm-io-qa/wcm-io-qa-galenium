@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.stability;
 
+import io.wcm.qa.galenium.sampling.CachingSampler;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 
@@ -40,6 +41,9 @@ public abstract class Stability<T> implements Verifiable {
   }
 
   public void setSampler(Sampler<T> sampler) {
+    if (sampler instanceof CachingSampler) {
+      ((CachingSampler)sampler).setCaching(false);
+    }
     this.sampler = sampler;
   }
 
