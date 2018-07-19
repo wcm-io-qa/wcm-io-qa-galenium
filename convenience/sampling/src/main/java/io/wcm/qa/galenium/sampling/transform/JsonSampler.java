@@ -22,7 +22,6 @@ package io.wcm.qa.galenium.sampling.transform;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.github.wnameless.json.flattener.JsonFlattener;
 
@@ -56,6 +55,7 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
 
   @Override
   protected Map<String, String> transform(String inputSample) {
+    getLogger().debug("JsonSampler: attempting to parse '" + inputSample + "'");
     return ensureOnlyStringValues(JsonFlattener.flattenAsMap(inputSample));
   }
 

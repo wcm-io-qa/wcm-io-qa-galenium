@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.verification.string;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
@@ -33,6 +34,7 @@ import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
 
 public class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
 
+  private static final Map<String, String> EMPTY_EXPECTED_VALUE = MapUtils.emptyIfNull(null);
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
   private CombinedVerification combinedVerification = new CombinedVerification();
 
@@ -40,6 +42,7 @@ public class JsonVerification<S extends Sampler<String>> extends SamplerBasedVer
 
   protected JsonVerification(String verificationName, S sampler) {
     super(verificationName, new JsonSampler<S>(sampler));
+    setExpectedValue(EMPTY_EXPECTED_VALUE);
   }
 
   public String getKeyPrefix() {
@@ -64,6 +67,11 @@ public class JsonVerification<S extends Sampler<String>> extends SamplerBasedVer
 
   private boolean verifyChecks() {
     return getCombinedVerification().verify();
+  }
+
+  @Override
+  protected void afterVerification() {
+    getLogger().trace("done verifying (" + toString() + ")");
   }
 
   @Override
