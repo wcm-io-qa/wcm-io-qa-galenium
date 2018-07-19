@@ -42,11 +42,6 @@
       <artifactId>commons-beanutils</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.github.wnameless</groupId>
-      <artifactId>json-flattener</artifactId>
-    </dependency>
-
   </dependencies>
 
   <build>
