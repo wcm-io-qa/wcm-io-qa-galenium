@@ -54,6 +54,7 @@
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
 
     <!-- Galenium -->
+    <galenium.browser>chrome</galenium.browser>
     <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
     <galenium.generated.class>${project.build.outputDirectory}</galenium.generated.class>
     <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
@@ -81,12 +82,14 @@
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
-    <galenium.webdriver.download.repositoryMap>${galenium.resources.directory}/RepositoryMap.xml</galenium.webdriver.download.repositoryMap>
-    <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
     <galenium.webdriver.download.chrome.version>2.40</galenium.webdriver.download.chrome.version>
+    <galenium.webdriver.download.firefox.version>0.20.0</galenium.webdriver.download.firefox.version>
+    <galenium.webdriver.download.repository.folder>${galenium.resources.directory}/driverdownload</galenium.webdriver.download.repository.folder>
+    <galenium.webdriver.download.repository.file>${galenium.browser}.xml</galenium.webdriver.download.repository.file>
+    <galenium.webdriver.download.repositoryMap>${galenium.webdriver.download.repository.folder}/${galenium.webdriver.download.repository.file}</galenium.webdriver.download.repositoryMap>
+    <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
 
     <!-- Selenium -->
-    <selenium.browser>chrome</selenium.browser>
     <selenium.runmode>local</selenium.runmode>
 
     <!-- Galen -->
@@ -124,6 +127,32 @@
               <configuration>
                 <!-- if not given, 'cpu.count' name is used -->
                 <cpuCount>local.cpu.count</cpuCount>
+              </configuration>
+            </execution>
+            <execution>
+              <id>set-selenium-browsers-from-galenium-property</id>
+              <goals>
+                <goal>regex-properties</goal>
+              </goals>
+              <configuration>
+                <regexPropertySettings>
+                  <regexPropertySetting>
+                    <name>selenium.browser</name>
+                    <value>${galenium.browser}</value>
+                    <regex>^[^-]+$</regex>
+                    <replacement>$0</replacement>
+                    <toLowerCase>true</toLowerCase>
+                    <failIfNoMatch>false</failIfNoMatch>
+                  </regexPropertySetting>
+                  <regexPropertySetting>
+                    <name>selenium.browser</name>
+                    <value>${galenium.browser}</value>
+                    <regex>^([^-]+)-([^-]+)$</regex>
+                    <replacement>$1,$2</replacement>
+                    <toLowerCase>true</toLowerCase>
+                    <failIfNoMatch>false</failIfNoMatch>
+                  </regexPropertySetting>
+                </regexPropertySettings>
               </configuration>
             </execution>
           </executions>
