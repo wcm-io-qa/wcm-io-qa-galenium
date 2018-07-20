@@ -21,7 +21,7 @@
   </parent>
 
   <name>Galenium Convenience</name>
-  <artifactId>io.wcm.qa.galenium.convenience</artifactId>
+  <artifactId>io.wcm.qa.galenium.modules</artifactId>
   <packaging>pom</packaging>
 
   <modules>

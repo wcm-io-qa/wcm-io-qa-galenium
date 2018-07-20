@@ -47,12 +47,12 @@
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.icing</artifactId>
+      <artifactId>io.wcm.qa.galenium.icing</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.verification</artifactId>
+      <artifactId>io.wcm.qa.galenium.verification</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
 
