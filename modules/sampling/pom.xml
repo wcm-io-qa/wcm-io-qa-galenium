@@ -20,26 +20,21 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Icing</name>
-  <artifactId>io.wcm.qa.galenium.convenience.icing</artifactId>
+  <name>Galenium Convenience Sampling</name>
+  <artifactId>io.wcm.qa.galenium.sampling</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.interaction</artifactId>
+      <artifactId>io.wcm.qa.galenium.interaction</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
+
     <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.verification</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.galen</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
+      <groupId>com.github.wnameless</groupId>
+      <artifactId>json-flattener</artifactId>
     </dependency>
 
   </dependencies>

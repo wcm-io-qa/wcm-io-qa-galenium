@@ -20,25 +20,25 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Verification</name>
-  <artifactId>io.wcm.qa.galenium.convenience.verification</artifactId>
+  <name>Galenium Convenience Galen</name>
+  <artifactId>io.wcm.qa.galenium.galen</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.differences</artifactId>
+      <artifactId>io.wcm.qa.galenium.base</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.galen</artifactId>
+      <artifactId>io.wcm.qa.galenium.differences</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.sampling</artifactId>
+      <artifactId>io.wcm.qa.galenium.interaction</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
 

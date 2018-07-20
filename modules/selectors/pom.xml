@@ -20,15 +20,15 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Interaction</name>
-  <artifactId>io.wcm.qa.galenium.convenience.interaction</artifactId>
+  <name>Galenium Convenience Selectors</name>
+  <artifactId>io.wcm.qa.galenium.selectors</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.selectors</artifactId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
 

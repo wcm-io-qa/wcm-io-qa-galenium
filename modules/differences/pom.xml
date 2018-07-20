@@ -21,14 +21,14 @@
   </parent>
 
   <name>Galenium Convenience Differences</name>
-  <artifactId>io.wcm.qa.galenium.convenience.differences</artifactId>
+  <artifactId>io.wcm.qa.galenium.differences</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.selectors</artifactId>
+      <artifactId>io.wcm.qa.galenium.selectors</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
 

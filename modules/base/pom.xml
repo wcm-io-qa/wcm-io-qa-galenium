@@ -20,26 +20,26 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Galen</name>
-  <artifactId>io.wcm.qa.galenium.convenience.galen</artifactId>
+  <name>Galenium Convenience Base</name>
+  <artifactId>io.wcm.qa.galenium.base</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.base</artifactId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
+
     <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.differences</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
     </dependency>
+
     <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.interaction</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
     </dependency>
 
   </dependencies>

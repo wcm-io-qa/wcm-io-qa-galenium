@@ -20,21 +20,16 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Sampling</name>
-  <artifactId>io.wcm.qa.galenium.convenience.sampling</artifactId>
+  <name>Galenium Convenience Interaction</name>
+  <artifactId>io.wcm.qa.galenium.interaction</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.convenience.interaction</artifactId>
+      <artifactId>io.wcm.qa.galenium.selectors</artifactId>
       <version>0.1.15-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.wnameless</groupId>
-      <artifactId>json-flattener</artifactId>
     </dependency>
 
   </dependencies>
