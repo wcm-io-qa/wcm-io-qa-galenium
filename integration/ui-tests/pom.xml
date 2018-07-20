@@ -246,4 +246,48 @@
     </pluginManagement>
   </build>
 
+  <profiles>
+    <profile>
+      <id>chrome-binary-path</id>
+      <activation>
+        <property>
+          <name>webdriver.chrome.binary</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <webdriver.chrome.binary>${webdriver.chrome.binary}</webdriver.chrome.binary>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>firefox-binary-path</id>
+      <activation>
+        <property>
+          <name>webdriver.firefox.bin</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <webdriver.firefox.bin>${webdriver.firefox.bin}</webdriver.firefox.bin>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
