@@ -96,7 +96,7 @@
     <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
 
     <!-- Webdriver download -->
-    <com.lazerycode.selenium.driver-binary-downloader-maven-plugin>1.0.10</com.lazerycode.selenium.driver-binary-downloader-maven-plugin>
+    <com.lazerycode.selenium.driver-binary-downloader-maven-plugin>1.0.17</com.lazerycode.selenium.driver-binary-downloader-maven-plugin>
   </properties>
 
   <dependencies>
@@ -113,50 +113,6 @@
   <build>
     <pluginManagement>
       <plugins>
-
-        <!-- Get CPU count to use as thread count for TestNG -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>get-cpu-count</id>
-              <goals>
-                <goal>cpu-count</goal>
-              </goals>
-              <configuration>
-                <!-- if not given, 'cpu.count' name is used -->
-                <cpuCount>local.cpu.count</cpuCount>
-              </configuration>
-            </execution>
-            <execution>
-              <id>set-selenium-browsers-from-galenium-property</id>
-              <goals>
-                <goal>regex-properties</goal>
-              </goals>
-              <configuration>
-                <regexPropertySettings>
-                  <regexPropertySetting>
-                    <name>selenium.browser</name>
-                    <value>${galenium.browser}</value>
-                    <regex>^[^-]+$</regex>
-                    <replacement>$0</replacement>
-                    <toLowerCase>true</toLowerCase>
-                    <failIfNoMatch>false</failIfNoMatch>
-                  </regexPropertySetting>
-                  <regexPropertySetting>
-                    <name>selenium.browser</name>
-                    <value>${galenium.browser}</value>
-                    <regex>^([^-]+)-([^-]+)$</regex>
-                    <replacement>$1,$2</replacement>
-                    <toLowerCase>true</toLowerCase>
-                    <failIfNoMatch>false</failIfNoMatch>
-                  </regexPropertySetting>
-                </regexPropertySettings>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
 
         <!-- Unpack Galen specs from JAR -->
         <plugin>

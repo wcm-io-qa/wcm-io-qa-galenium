@@ -48,11 +48,6 @@
                     <hash>DO_NOT_CHECK</hash>
                     <hashtype>sha1</hashtype>
                 </bitrate>
-                <bitrate arm="true">
-                    <filelocation>https://github.com/mozilla/geckodriver/releases/download/v${galenium.webdriver.download.firefox.version}/geckodriver-v${galenium.webdriver.download.firefox.version}-arm7hf.tar.gz</filelocation>
-                    <hash>DO_NOT_CHECK</hash>
-                    <hashtype>sha1</hashtype>
-                </bitrate>
             </version>
         </driver>
     </linux>

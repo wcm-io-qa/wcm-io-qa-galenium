@@ -78,12 +78,12 @@
     <pluginManagement>
       <plugins>
 
-        <!-- Get CPU count to use as thread count for TestNG -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <executions>
             <execution>
+              <!-- Get CPU count to use as thread count for TestNG -->
               <id>get-cpu-count</id>
               <goals>
                 <goal>cpu-count</goal>
@@ -91,6 +91,34 @@
               <configuration>
                 <!-- if not given, 'cpu.count' name is used -->
                 <cpuCount>local.cpu.count</cpuCount>
+              </configuration>
+            </execution>
+            <execution>
+              <!-- Set browser for Selenium from Galenium property -->
+              <id>set-single-selenium-browser-from-galenium-property</id>
+              <goals>
+                <goal>regex-property</goal>
+              </goals>
+              <configuration>
+                <name>galenium.selenium.browser</name>
+                <value>${galenium.browser}</value>
+                <regex>^[^-]+$</regex>
+                <replacement>${galenium.browser}</replacement>
+                <failIfNoMatch>false</failIfNoMatch>
+              </configuration>
+            </execution>
+            <execution>
+              <!-- Set browsers for Selenium from Galenium property -->
+              <id>set-two-selenium-browsers-from-galenium-property</id>
+              <goals>
+                <goal>regex-property</goal>
+              </goals>
+              <configuration>
+                <name>galenium.selenium.browser</name>
+                <value>${galenium.browser}</value>
+                <regex>^([^-]+)-([^-]+)$</regex>
+                <replacement>$1,$2</replacement>
+                <failIfNoMatch>false</failIfNoMatch>
               </configuration>
             </execution>
           </executions>
@@ -143,7 +171,7 @@
               <galen.device>${galen.device}</galen.device>
 
               <!-- Selenium -->
-              <selenium.browser>${selenium.browser}</selenium.browser>
+              <selenium.browser>${galenium.selenium.browser}</selenium.browser>
               <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
               <selenium.runmode>${selenium.runmode}</selenium.runmode>
 

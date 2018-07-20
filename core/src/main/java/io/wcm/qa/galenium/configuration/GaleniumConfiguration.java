@@ -88,6 +88,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED = "galenium.screenshotOnSkipped";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS = "galenium.screenshotOnSuccess";
+  private static final String SYSTEM_PROPERTY_NAME_SELENIUM_BROWSER = "selenium.browser";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_HOST = "selenium.host";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
@@ -264,7 +265,7 @@ public final class GaleniumConfiguration {
   public static List<BrowserType> getBrowserTypes() {
     ArrayList<BrowserType> list = new ArrayList<BrowserType>();
 
-    String browsers = asString("selenium.browser");
+    String browsers = asString(SYSTEM_PROPERTY_NAME_SELENIUM_BROWSER);
     if (StringUtils.isNotBlank(browsers)) {
       for (String browserTypeString : browsers.split(",")) {
         try {
@@ -277,6 +278,7 @@ public final class GaleniumConfiguration {
       return Collections.unmodifiableList(list);
     }
 
+    getLogger().warn("No browser configured: using Chrome");
     return Arrays.asList(BrowserType.CHROME);
   }
 

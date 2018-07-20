@@ -37,11 +37,12 @@ import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.mediaquery.MediaQuery;
 import io.wcm.qa.galenium.mediaquery.MediaQueryUtil;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 public final class TestDeviceUtil {
 
   private static final File CSV_FILE_DEVICES = new File(GaleniumConfiguration.getDeviceCsvFilePath());
-  static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
+  private static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
 
   private TestDeviceUtil() {
     // do not instantiate
@@ -91,7 +92,13 @@ public final class TestDeviceUtil {
     Collection<TestDevice> testDevices = new ArrayList<>();
     Collection<DeviceProfile> profiles = CsvUtil.<DeviceProfile>parseToBeans(CSV_FILE_DEVICES, DeviceProfile.class);
     for (DeviceProfile deviceProfile : profiles) {
-      testDevices.add(new TestDevice(deviceProfile));
+      if (isProfileMatchesBrowsers(deviceProfile)) {
+        GaleniumReportUtil.getLogger().debug("adding device: " + deviceProfile);
+        testDevices.add(new TestDevice(deviceProfile));
+      }
+      else {
+        GaleniumReportUtil.getLogger().debug("skipping device: " + deviceProfile);
+      }
     }
     return testDevices;
   }
@@ -135,6 +142,11 @@ public final class TestDeviceUtil {
     testDevice.setIncludeTags(getIncludeTags(browserType, mediaQueryName));
     testDevice.setExcludeTags(getExcludeTags(browserType, mediaQueryName));
     return testDevice;
+  }
+
+  private static boolean isProfileMatchesBrowsers(DeviceProfile deviceProfile) {
+    List<BrowserType> browserTypes = GaleniumConfiguration.getBrowserTypes();
+    return browserTypes.contains(deviceProfile.getBrowserType());
   }
 
 }
