@@ -58,9 +58,9 @@ public class GaleniumContext {
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
-  private VerificationStrategy verificationStrategy = (GaleniumConfiguration.isSamplingVerificationIgnore()
+  private VerificationStrategy verificationStrategy = GaleniumConfiguration.isSamplingVerificationIgnore()
       ? new IgnoreFailuresStrategy()
-      : new DefaultVerificationStrategy());
+      : new DefaultVerificationStrategy();
 
   /**
    * Assertion to use. Default is {@link GaleniumAssertion}.
