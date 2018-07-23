@@ -55,7 +55,7 @@ public final class Element {
   public static void click(Selector selector) {
     WebElement element = findOrFail(selector);
     element.click();
-    getLogger().debug(MARKER_PASS, "clicked '" + selector.elementName() + "'");
+    getLogger().info(MARKER_PASS, "clicked '" + selector.elementName() + "'");
   }
 
   /**
@@ -67,7 +67,7 @@ public final class Element {
     getLogger().debug("looking for pattern: " + searchStr);
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
-      getLogger().debug("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
+      getLogger().info("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
       element.click();
     }
     else {
@@ -85,7 +85,7 @@ public final class Element {
     for (WebElement element : elements) {
       getLogger().debug("found element with " + selector.elementName() + ": " + element);
       if (element.isDisplayed()) {
-        getLogger().debug("clicking element: " + element);
+        getLogger().info(MARKER_PASS, "clicking element: " + element);
         element.click();
         return;
       }
@@ -100,7 +100,7 @@ public final class Element {
     WebElement element = find(selector, 30);
     if (element != null) {
       element.click();
-      getLogger().debug(MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
+      getLogger().info(MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
     }
     else {
       getLogger().debug("did not click optional '" + selector.elementName() + "'");
