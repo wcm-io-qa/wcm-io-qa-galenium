@@ -39,4 +39,8 @@ public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
     this.selector = selector;
   }
 
+  protected String getElementName() {
+    return getSelector().elementName();
+  }
+
 }

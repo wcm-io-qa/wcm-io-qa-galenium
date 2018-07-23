@@ -19,8 +19,7 @@
  */
 package io.wcm.qa.galenium.sampling.element.base;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
-
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.interaction.Element;
@@ -46,6 +45,21 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
 
   @Override
   public T sampleValue() {
+    try {
+      return attemptSampling();
+    }
+    catch (StaleElementReferenceException ex) {
+      getLogger().debug("caught StaleElementReferencesException: '" + getElementName() + "'");
+      invalidateCache();
+      return attemptSampling();
+    }
+  }
+
+  public void setTimeOut(int timeOut) {
+    this.timeOut = timeOut;
+  }
+
+  protected T attemptSampling() {
     if (isCaching()) {
       if (getCachedValue() == null) {
         sampleWithCaching();
@@ -57,10 +71,6 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
       return handleNoElementFound();
     }
     return sampleValue(element);
-  }
-
-  public void setTimeOut(int timeOut) {
-    this.timeOut = timeOut;
   }
 
   protected WebElement findElement() {
@@ -88,6 +98,12 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
     T noSampleFoundValue = getNoSampleFoundValue();
     getLogger().debug("did not find '" + getSelector().elementName() + "' when trying to sample. Returning: '" + noSampleFoundValue + "'");
     return noSampleFoundValue;
+  }
+
+  @Override
+  protected void invalidateCache() {
+    super.invalidateCache();
+    cachedElement = null;
   }
 
   protected abstract T sampleValue(WebElement elementToSampleFrom);

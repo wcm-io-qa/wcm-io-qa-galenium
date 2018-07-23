@@ -51,4 +51,9 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
     this.cachedValue = cachedValue;
   }
 
+  protected void invalidateCache() {
+    getLogger().debug("invalidating cache: " + getClass().getSimpleName());
+    setCachedValue(null);
+  }
+
 }
