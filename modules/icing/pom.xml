@@ -20,7 +20,7 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Icing</name>
+  <name>Galenium Icing</name>
   <artifactId>io.wcm.qa.galenium.icing</artifactId>
   <packaging>jar</packaging>
 

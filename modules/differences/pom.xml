@@ -20,7 +20,7 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Differences</name>
+  <name>Galenium Differences</name>
   <artifactId>io.wcm.qa.galenium.differences</artifactId>
   <packaging>jar</packaging>
 

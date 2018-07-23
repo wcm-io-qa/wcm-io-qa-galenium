@@ -20,7 +20,7 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Sampling</name>
+  <name>Galenium Sampling</name>
   <artifactId>io.wcm.qa.galenium.sampling</artifactId>
   <packaging>jar</packaging>
 

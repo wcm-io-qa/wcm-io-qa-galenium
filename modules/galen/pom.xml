@@ -20,7 +20,7 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Galen</name>
+  <name>Galenium Galen</name>
   <artifactId>io.wcm.qa.galenium.galen</artifactId>
   <packaging>jar</packaging>
 

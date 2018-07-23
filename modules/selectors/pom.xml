@@ -20,7 +20,7 @@
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience Selectors</name>
+  <name>Galenium Selectors</name>
   <artifactId>io.wcm.qa.galenium.selectors</artifactId>
   <packaging>jar</packaging>
 
