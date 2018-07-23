@@ -19,6 +19,10 @@
  */
 package io.wcm.qa.galenium.webdriver;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -61,6 +65,31 @@ class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
     getLogger().debug("creating capabilities for Chrome");
     ChromeOptions options = newOptions();
     return augmentOptions(options);
+  }
+
+  @Override
+  protected void log(ChromeOptions options) {
+    if (getLogger().isTraceEnabled()) {
+      getLogger().trace("generated capabilities: " + options);
+      Object chromeOptionsCapability = options.getCapability(ChromeOptions.CAPABILITY);
+      if (chromeOptionsCapability != null) {
+        if (chromeOptionsCapability instanceof ChromeOptions) {
+          ChromeOptions chromeOptions = (ChromeOptions)chromeOptionsCapability;
+          Map<String, Object> json = chromeOptions.toJson();
+          Set<Entry<String, Object>> entrySet = json.entrySet();
+          StringBuilder sb = new StringBuilder();
+          sb.append("chromeOptions:\n");
+          for (Entry<String, Object> entry : entrySet) {
+            sb.append("'");
+            sb.append(entry.getKey());
+            sb.append("': '");
+            sb.append(entry.getValue());
+            sb.append("'");
+          }
+          getLogger().trace(sb.toString());
+        }
+      }
+    }
   }
 
   @Override

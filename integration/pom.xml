@@ -16,7 +16,6 @@
   limitations under the License.
   #L%
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -81,6 +80,7 @@
     <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
+    <galenium.webdriver.browser.loglevel>INFO</galenium.webdriver.browser.loglevel>
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
     <galenium.webdriver.download.chrome.version>2.40</galenium.webdriver.download.chrome.version>
     <galenium.webdriver.download.firefox.version>0.21.0</galenium.webdriver.download.firefox.version>
@@ -194,27 +194,6 @@
               <phase>process-sources</phase>
               <goals>
                 <goal>specs</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <!-- Webdriver download -->
-        <plugin>
-          <groupId>com.lazerycode.selenium</groupId>
-          <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          <version>${com.lazerycode.selenium.driver-binary-downloader-maven-plugin}</version>
-          <configuration>
-            <rootStandaloneServerDirectory>${galenium.webdriver.download.binaries}</rootStandaloneServerDirectory>
-            <downloadedZipFileDirectory>${galenium.webdriver.download.zips}</downloadedZipFileDirectory>
-            <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-            <customRepositoryMap>${galenium.webdriver.download.repositoryMap}</customRepositoryMap>
-            <checkFileHashes>false</checkFileHashes>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>selenium</goal>
               </goals>
             </execution>
           </executions>

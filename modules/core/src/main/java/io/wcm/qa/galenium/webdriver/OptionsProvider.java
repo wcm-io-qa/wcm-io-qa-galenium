@@ -22,14 +22,7 @@ package io.wcm.qa.galenium.webdriver;
 import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isWebDriverAcceptTrustedSslCertificatesOnly;
 import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isWebDriverRefuseSslCertificates;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 
@@ -44,35 +37,13 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
    */
   public O getOptions() {
     O options = getBrowserSpecificOptions();
-    options = mergeOptions(options);
+    options = mergeCommonOptions(options);
     GaleniumReportUtil.getLogger().info("Done generating capabilities");
     log(options);
     return options;
   }
 
-  private void log(O options) {
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("generated capabilities: " + options);
-      Object chromeOptionsCapability = options.getCapability(ChromeOptions.CAPABILITY);
-      if (chromeOptionsCapability != null) {
-        if (chromeOptionsCapability instanceof ChromeOptions) {
-          ChromeOptions chromeOptions = (ChromeOptions)chromeOptionsCapability;
-            Map<String, Object> json = chromeOptions.toJson();
-          Set<Entry<String, Object>> entrySet = json.entrySet();
-          StringBuilder sb = new StringBuilder();
-          sb.append("chromeOptions:\n");
-          for (Entry<String, Object> entry : entrySet) {
-            sb.append("'");
-            sb.append(entry.getKey());
-            sb.append("': '");
-            sb.append(entry.getValue());
-            sb.append("'");
-          }
-          getLogger().trace(sb.toString());
-        }
-      }
-    }
-  }
+  protected abstract void log(O options);
 
   /**
    * Capabilities specific to this browser type. These are automatically included in {@link #getOptions()}.
@@ -82,11 +53,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   protected abstract O getBrowserSpecificOptions();
 
   protected O getCommonOptions() {
-    // Request browser logging capabilities for capturing console.log output
-    LoggingPreferences loggingPrefs = new LoggingPreferences();
-    loggingPrefs.enable(LogType.BROWSER, GaleniumConfiguration.getBrowserLogLevel());
     O options = newOptions();
-    options.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
     options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, !isWebDriverRefuseSslCertificates());
     options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, !isWebDriverAcceptTrustedSslCertificatesOnly());
 
@@ -101,7 +68,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   }
 
   @SuppressWarnings("unchecked")
-  protected O mergeOptions(O options) {
+  protected O mergeCommonOptions(O options) {
     return (O)options.merge(getCommonOptions());
   }
 

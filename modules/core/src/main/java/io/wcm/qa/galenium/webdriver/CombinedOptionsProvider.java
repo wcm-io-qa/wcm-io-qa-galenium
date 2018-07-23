@@ -49,4 +49,9 @@ class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities>
     return p1.newOptions();
   }
 
+  @Override
+  protected void log(MutableCapabilities options) {
+    getLogger().trace("combined options: " + options);
+  }
+
 }

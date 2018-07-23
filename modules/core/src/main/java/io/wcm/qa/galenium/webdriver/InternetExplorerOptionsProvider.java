@@ -35,4 +35,9 @@ class InternetExplorerOptionsProvider extends OptionsProvider<InternetExplorerOp
     return new InternetExplorerOptions();
   }
 
+  @Override
+  protected void log(InternetExplorerOptions options) {
+    getLogger().trace("Internet Explorer options: " + options);
+  }
+
 }
