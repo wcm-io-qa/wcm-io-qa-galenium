@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.verification.util.VerificationUtil.verify;
+import static io.wcm.qa.galenium.verification.util.Check.verify;
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
@@ -40,7 +40,7 @@ import io.wcm.qa.galenium.verification.element.LinkTargetVerification;
 import io.wcm.qa.galenium.verification.element.NoCssClassVerification;
 import io.wcm.qa.galenium.verification.element.VisibilityVerification;
 import io.wcm.qa.galenium.verification.element.VisualVerification;
-import io.wcm.qa.galenium.verification.util.VerificationUtil;
+import io.wcm.qa.galenium.verification.util.Check;
 
 /**
  * Showcase {@link Verification} approach.
@@ -70,7 +70,7 @@ public class VerificationIT extends AbstractExampleBase {
           new NoCssClassVerification(Navigation.LINK_TO_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
 
-    VerificationUtil.verify(new LinkTargetVerification(Logo.SELF));
+    Check.verify(new LinkTargetVerification(Logo.SELF));
   }
 
   @Override
