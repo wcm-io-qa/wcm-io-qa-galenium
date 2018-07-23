@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.listeners;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.IConfigurationListener2;
@@ -89,7 +90,8 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       logMsg.append("Testcase: ").append(getTestName(result)).append(System.lineSeparator());
       Throwable throwable = result.getThrowable();
       logMsg.append("Location: ").append(getLineThatThrew(throwable)).append(System.lineSeparator());
-      logMsg.append("Error: ").append(throwable.getMessage()).append(System.lineSeparator());
+      String errorMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
+      logMsg.append("Error: ").append(errorMessage).append(System.lineSeparator());
 
       WebDriver driver = getDriver();
       if (driver != null) {
