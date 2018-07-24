@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.util;
+package io.wcm.qa.galenium.persistence.util;
 
 import java.io.File;
 import java.io.FileWriter;

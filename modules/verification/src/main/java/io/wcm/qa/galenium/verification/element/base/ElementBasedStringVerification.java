@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.element.base;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
-import io.wcm.qa.galenium.verification.util.TextSampleManager;
+import io.wcm.qa.galenium.persistence.util.TextSampleManager;
 
 public abstract class ElementBasedStringVerification<S extends ElementBasedStringSampler> extends ElementBasedVerification<S, String> {
 

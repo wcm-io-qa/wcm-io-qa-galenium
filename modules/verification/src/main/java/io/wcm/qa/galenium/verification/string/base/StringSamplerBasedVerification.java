@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
-import io.wcm.qa.galenium.verification.util.TextSampleManager;
+import io.wcm.qa.galenium.persistence.util.TextSampleManager;
 
 public abstract class StringSamplerBasedVerification extends SamplerBasedVerification<StringSampler, String> {
 

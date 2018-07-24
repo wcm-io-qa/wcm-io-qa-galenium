@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.sampling.element.ElementCountSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.verification.element.base.SelectorBasedVerification;
-import io.wcm.qa.galenium.verification.util.TextSampleManager;
+import io.wcm.qa.galenium.persistence.util.TextSampleManager;
 
 /**
  * Make sure a certain number of elements are present.
