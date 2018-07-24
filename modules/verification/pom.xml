@@ -28,11 +28,6 @@
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.differences</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galen</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>

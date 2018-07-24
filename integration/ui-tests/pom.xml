@@ -59,11 +59,6 @@
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.verification</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
-    </dependency>
 
   </dependencies>
 

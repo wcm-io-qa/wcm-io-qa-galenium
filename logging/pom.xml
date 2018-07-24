@@ -35,6 +35,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
+      <version>0.1.15-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
     </dependency>
@@ -42,12 +48,6 @@
     <dependency>
       <groupId>com.relevantcodes</groupId>
       <artifactId>extentreports</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.core</artifactId>
-      <version>0.1.15-SNAPSHOT</version>
     </dependency>
         
     <dependency>
