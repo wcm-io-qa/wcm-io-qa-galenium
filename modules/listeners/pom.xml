@@ -28,8 +28,13 @@
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.verification</artifactId>
+      <artifactId>io.wcm.qa.galenium.base</artifactId>
       <version>0.1.15-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
     </dependency>
 
   </dependencies>
