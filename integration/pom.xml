@@ -49,6 +49,10 @@
     <!-- no need for Javadoc in test project -->
     <maven.javadoc.skip>true</maven.javadoc.skip>
 
+    <!-- compiler settings (override for properties from io.wcm.maven.global-parent) -->
+    <build.compiler.source>1.8</build.compiler.source>
+    <build.compiler.target>1.8</build.compiler.target>
+
     <!-- wcm.io QA -->
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
 
