@@ -45,12 +45,6 @@
     <dependency>
       <groupId>com.galenframework</groupId>
       <artifactId>galen-java-support</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.seleniumhq.selenium</groupId>
-          <artifactId>selenium-java</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
