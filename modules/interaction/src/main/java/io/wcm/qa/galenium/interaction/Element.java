@@ -71,7 +71,7 @@ public final class Element {
       element.click();
     }
     else {
-      getLogger().debug("did not find anything for: " + searchStr + " AND " + selector.elementName());
+      getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
     }
   }
 
