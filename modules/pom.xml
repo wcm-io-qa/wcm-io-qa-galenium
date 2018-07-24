@@ -25,7 +25,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>base</module>
     <module>core</module>
     <module>differences</module>
     <module>galen</module>

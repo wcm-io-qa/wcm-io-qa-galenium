@@ -28,7 +28,7 @@
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.base</artifactId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
       <version>0.1.15-SNAPSHOT</version>
     </dependency>
 
