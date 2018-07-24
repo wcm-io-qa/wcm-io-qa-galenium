@@ -35,7 +35,7 @@ public class ${classNameForSpec} {
   private Collection<String> tags = new ArrayList<>();</#if>
 
   private void checkSpec() {
-    checkSpec(null);
+    checkSpec((String[])null);
   }
 
   private void checkSpec(String... includeTags) {
