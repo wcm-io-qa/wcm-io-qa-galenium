@@ -30,7 +30,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 
@@ -40,21 +39,10 @@ import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 class FirefoxOptionsProvider extends OptionsProvider<FirefoxOptions> {
 
   private static final Level LOG_LEVEL_BROWSER = GaleniumConfiguration.getBrowserLogLevel();
-  private static final Level LOG_LEVEL_SEVERE = Level.SEVERE;
   private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_FIREFOX_BIN = "webdriver.firefox.bin";
 
-  private void addLoggingPreferences(FirefoxOptions options) {
-    options.setLogLevel(FirefoxDriverLogLevel.WARN);
-
-    // Request browser logging capabilities for capturing console.log output
-    LoggingPreferences loggingPrefs = new LoggingPreferences();
-    loggingPrefs.enable(LogType.BROWSER, LOG_LEVEL_BROWSER);
-    loggingPrefs.enable(LogType.CLIENT, LOG_LEVEL_SEVERE);
-    loggingPrefs.enable(LogType.DRIVER, LOG_LEVEL_SEVERE);
-    loggingPrefs.enable(LogType.PERFORMANCE, LOG_LEVEL_SEVERE);
-    loggingPrefs.enable(LogType.PROFILER, LOG_LEVEL_SEVERE);
-    loggingPrefs.enable(LogType.SERVER, LOG_LEVEL_SEVERE);
-    options.setCapability(CapabilityType.LOGGING_PREFS, loggingPrefs);
+  private void configureLogging(FirefoxOptions options) {
+    options.setLogLevel(FirefoxDriverLogLevel.fromLevel(LOG_LEVEL_BROWSER));
   }
 
   private void addProfile(FirefoxOptions options) {
@@ -121,7 +109,7 @@ class FirefoxOptionsProvider extends OptionsProvider<FirefoxOptions> {
     getLogger().debug("creating capabilities for Firefox");
     FirefoxOptions options = newOptions();
     addProfile(options);
-    addLoggingPreferences(options);
+    configureLogging(options);
     setHeadless(options);
     setBinary(options);
     return options;

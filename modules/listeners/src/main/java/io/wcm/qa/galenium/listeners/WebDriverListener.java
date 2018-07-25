@@ -49,7 +49,7 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  */
 public class WebDriverListener implements ITestListener {
 
-  private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("webdriver");
+  private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("galenium.webdriver");
   private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
 
   @Override
