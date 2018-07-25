@@ -17,12 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.stability;
+package io.wcm.qa.galenium.verification.proxy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.wcm.qa.galenium.sampling.proxy.HarEntrySampler;
+import io.wcm.qa.galenium.verification.stability.Stability;
 import net.lightbody.bmp.core.har.HarEntry;
 
 public class HarStability extends Stability<List<HarEntry>> {

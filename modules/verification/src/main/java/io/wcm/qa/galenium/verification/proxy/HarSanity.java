@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.verification.stability;
+package io.wcm.qa.galenium.verification.proxy;
 
 import java.util.List;
 
@@ -36,9 +36,14 @@ public class HarSanity extends HarStability {
   }
 
   private boolean checkSanity(List<HarEntry> newList) {
+    if (newList.isEmpty()) {
+      // we want samples
+      return false;
+    }
     for (HarEntry harEntry : newList) {
       HarResponse response = harEntry.getResponse();
       if (response.getStatus() == 0) {
+        // zero status means request not finished
         getLogger().debug("found response with response status 0: " + response);
         return false;
       }
