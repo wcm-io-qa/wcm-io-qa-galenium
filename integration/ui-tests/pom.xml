@@ -208,6 +208,8 @@
                 <outputDirectory>${galenium.generated.specs}</outputDirectory>
                 <includes>**/*.gspec</includes>
                 <excludeTransitive>true</excludeTransitive>
+                <overWriteReleases>true</overWriteReleases>
+                <overWriteSnapshots>true</overWriteSnapshots>
               </configuration>
             </execution>
             <execution>
@@ -221,6 +223,8 @@
                 <outputDirectory>${galenium.resources.directory}</outputDirectory>
                 <includes>**/*.xml</includes>
                 <excludeTransitive>true</excludeTransitive>
+                <overWriteReleases>true</overWriteReleases>
+                <overWriteSnapshots>true</overWriteSnapshots>
               </configuration>
             </execution>
           </executions>
