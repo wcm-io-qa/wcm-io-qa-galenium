@@ -90,7 +90,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       logMsg.append("Testcase: ").append(getTestName(result)).append(System.lineSeparator());
       Throwable throwable = result.getThrowable();
       logMsg.append("Location: ").append(getLineThatThrew(throwable)).append(System.lineSeparator());
-      String errorMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
+      String errorMessage = getHtmlEscapedMessage(throwable);
       logMsg.append("Error: ").append(errorMessage).append(System.lineSeparator());
 
       WebDriver driver = getDriver();
@@ -119,6 +119,12 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
     finally {
       GaleniumReportUtil.endExtentTest(result, LogStatus.FAIL, logMsgHtml);
     }
+  }
+
+  protected String getHtmlEscapedMessage(Throwable throwable) {
+    String escapedMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
+    String doubleEscapedMessage = StringEscapeUtils.escapeHtml4(escapedMessage);
+    return doubleEscapedMessage;
   }
 
   private void logStacktrace(Throwable throwable) {
