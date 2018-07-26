@@ -121,22 +121,6 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
     }
   }
 
-  protected String getHtmlEscapedMessage(Throwable throwable) {
-    String escapedMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
-    String doubleEscapedMessage = StringEscapeUtils.escapeHtml4(escapedMessage);
-    return doubleEscapedMessage;
-  }
-
-  private void logStacktrace(Throwable throwable) {
-    if (getLogger().isDebugEnabled()) {
-      GaleniumReportUtil.getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "Full stacktrace", throwable);
-      Throwable cause = throwable.getCause();
-      if (cause != null) {
-        logStacktrace(cause);
-      }
-    }
-  }
-
   @Override
   public void onTestSkipped(ITestResult result) {
     // nothing to do
@@ -169,6 +153,11 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
     return WebDriverManager.getCurrentDriver();
   }
 
+  private String getHtmlEscapedMessage(Throwable throwable) {
+    String escapedMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
+    return escapedMessage;
+  }
+
   private String getLineThatThrew(Throwable t) {
     StackTraceElement[] stackTraceLines = t.getStackTrace();
     for (StackTraceElement stackTraceLine : stackTraceLines) {
@@ -182,6 +171,16 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
 
   private String getTestDuration(ITestResult result) {
     return Long.toString(result.getEndMillis() - result.getStartMillis()) + "ms";
+  }
+
+  private void logStacktrace(Throwable throwable) {
+    if (getLogger().isDebugEnabled()) {
+      GaleniumReportUtil.getLogger().debug(GaleniumReportUtil.MARKER_FAIL, "Full stacktrace", throwable);
+      Throwable cause = throwable.getCause();
+      if (cause != null) {
+        logStacktrace(cause);
+      }
+    }
   }
 
   private void takeScreenshot(ITestResult result) {
