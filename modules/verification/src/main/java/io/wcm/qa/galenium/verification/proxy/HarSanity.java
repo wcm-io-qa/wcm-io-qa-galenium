@@ -22,6 +22,7 @@ package io.wcm.qa.galenium.verification.proxy;
 import java.util.List;
 
 import net.lightbody.bmp.core.har.HarEntry;
+import net.lightbody.bmp.core.har.HarRequest;
 import net.lightbody.bmp.core.har.HarResponse;
 
 public class HarSanity extends HarStability {
@@ -44,8 +45,14 @@ public class HarSanity extends HarStability {
       HarResponse response = harEntry.getResponse();
       if (response.getStatus() == 0) {
         // zero status means request not finished
-        getLogger().debug("found response with response status 0: " + response);
+        HarRequest request = harEntry.getRequest();
+        if (request == null) {
+          getLogger().debug("found entry with response status 0 and NULL request.");
+        }
+        else {
+          getLogger().debug("found entry with response status 0: " + request.getMethod() + "('" + request.getUrl() + "')");
         return false;
+        }
       }
     }
     return true;
