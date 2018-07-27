@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.differences.base;
 
 
 /**
- * Provides root keys for persisting of samples.
+ * Provides Difference based keys for persisting samples and naming tests.
  */
 public interface Differences extends Iterable<Difference> {
 
