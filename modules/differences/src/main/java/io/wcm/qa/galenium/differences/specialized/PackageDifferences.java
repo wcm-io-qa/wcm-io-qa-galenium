@@ -34,13 +34,13 @@ public class PackageDifferences implements Differences {
   private MutableDifferences differences;
   private boolean dirty;
   private Package mainPackage;
-  private Package rootPackage;
+  private String rootPackage;
 
   public PackageDifferences(Package p) {
     setPackage(p);
   }
 
-  public PackageDifferences(Package p, Package root) {
+  public PackageDifferences(Package p, String root) {
     this(p);
     setRootPackage(root);
   }
@@ -61,7 +61,7 @@ public class PackageDifferences implements Differences {
     return mainPackage;
   }
 
-  public Package getRootPackage() {
+  public String getRootPackage() {
     return rootPackage;
   }
 
@@ -76,7 +76,7 @@ public class PackageDifferences implements Differences {
     setDirty();
   }
 
-  public void setRootPackage(Package rootPackage) {
+  public void setRootPackage(String rootPackage) {
     this.rootPackage = rootPackage;
     setDirty();
   }
@@ -88,8 +88,11 @@ public class PackageDifferences implements Differences {
   private String getRelativePackageName() {
     String mainName = getMainPackage().getName();
     if (hasRootPackage()) {
-      String rootName = getRootPackage().getName();
-      return StringUtils.removeStart(mainName, rootName);
+      String rootName = getRootPackage();
+      if (StringUtils.equals(mainName, rootName)) {
+        return "";
+      }
+      return StringUtils.removeStart(mainName, rootName + ".");
     }
     return mainName;
   }
@@ -100,9 +103,9 @@ public class PackageDifferences implements Differences {
 
   private void initialize() {
     if (isDirty()) {
+      setDifferences(new MutableDifferences());
       String[] splitUpPackageName = getRelativePackageName().split("\\.");
       for (String namePart : splitUpPackageName) {
-        setDifferences(new MutableDifferences());
         getDifferences().add(new StringDifference(namePart));
       }
       setClean();

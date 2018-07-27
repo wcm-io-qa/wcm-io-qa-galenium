@@ -22,13 +22,12 @@ package io.wcm.qa.galenium.differences.generic;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
+import io.wcm.qa.galenium.differences.util.DifferenceUtil;
 
 /**
  * Holds dimensions of potential differences for samples and supplies them either as file path or property key.
@@ -121,33 +120,11 @@ public class MutableDifferences implements Differences {
   }
 
   private String joinNamesWith(String separator) {
-    return joinNamesWith(getDifferences(), separator);
-  }
-
-  protected String joinNamesWith(Collection<Difference> collection, String separator) {
-    List<String> list = new ArrayList<String>();
-    for (Difference difference : collection) {
-      list.add(difference.getName());
-    }
-    return StringUtils.join(list, separator).toLowerCase();
-  }
-
-  protected String joinTagsWith(Collection<Difference> collection, String separator) {
-    List<String> list = new ArrayList<String>();
-    for (Difference difference : collection) {
-      list.add(getCleanTag(difference, separator));
-    }
-    return StringUtils.join(list, separator).toLowerCase();
-  }
-
-  protected String getCleanTag(Difference difference, String separator) {
-    String tag = difference.getTag();
-    tag = tag.toLowerCase();
-    return tag.replaceAll("[^\\w\\d_]+", "_");
+    return DifferenceUtil.joinNamesWith(getDifferences(), separator);
   }
 
   protected String joinTagsWith(String separator) {
-    return joinTagsWith(getDifferences(), separator);
+    return DifferenceUtil.joinTagsWith(getDifferences(), separator);
   }
 
 }

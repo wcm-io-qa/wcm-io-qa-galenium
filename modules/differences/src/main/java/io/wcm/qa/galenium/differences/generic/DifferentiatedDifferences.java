@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.util.DifferenceUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
@@ -46,8 +47,8 @@ public class DifferentiatedDifferences extends SortedDifferences {
     ArrayList<Difference> differencesAsList = new ArrayList<Difference>();
     differencesAsList.addAll(differences);
 
-    String folderPart = joinTagsWith(differencesAsList.subList(0, pivotIndex), "/");
-    String filePart = joinTagsWith(differencesAsList.subList(pivotIndex, differencesTotalCount), "/");
+    String folderPart = DifferenceUtil.joinTagsWith(differencesAsList.subList(0, pivotIndex), "/");
+    String filePart = DifferenceUtil.joinTagsWith(differencesAsList.subList(pivotIndex, differencesTotalCount), "/");
 
     return folderPart + "/" + filePart;
   }

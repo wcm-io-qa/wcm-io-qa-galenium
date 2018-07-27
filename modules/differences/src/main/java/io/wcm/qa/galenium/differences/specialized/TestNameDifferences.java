@@ -38,6 +38,10 @@ public class TestNameDifferences implements Differences {
     return this.getAdditionalDifferences().add(difference);
   }
 
+  public void setRootPackage(String rootPackage) {
+    getClassDifferences().setRootPackage(rootPackage);
+  }
+
   public boolean addAdditionalDifferences(Differences toBeAppended) {
     return getAdditionalDifferences().addAll(toBeAppended);
   }

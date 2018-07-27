@@ -23,7 +23,7 @@ package io.wcm.qa.galenium.differences.difference;
 public class ClassNameDifference extends StringDifference {
 
   public ClassNameDifference(Class clazz) {
-    super(clazz.getName());
+    super(clazz.getSimpleName());
   }
 
 }

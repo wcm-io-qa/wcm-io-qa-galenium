@@ -315,6 +315,10 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     return GaleniumConfiguration.getBaseUrl();
   }
 
+  protected TestNameDifferences getNameDifferences() {
+    return nameDifferences;
+  }
+
   protected void handleLayoutReport(String specName, LayoutReport layoutReport) {
     String errorMessage = "FAILED: Layoutcheck " + specName + " with device " + getDevice();
     String successMessage = "successfully ran spec: " + specName;
@@ -334,6 +338,10 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     this.device = device;
   }
 
+  protected void setNameDifferences(TestNameDifferences nameDifferences) {
+    this.nameDifferences = nameDifferences;
+  }
+
   protected void skipTest(String skipMessage) {
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
     throw new SkipException(skipMessage);
@@ -342,14 +350,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   protected void skipTest(String skipMessage, Throwable ex) {
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
-  }
-
-  protected TestNameDifferences getNameDifferences() {
-    return nameDifferences;
-  }
-
-  protected void setNameDifferences(TestNameDifferences nameDifferences) {
-    this.nameDifferences = nameDifferences;
   }
 
 }

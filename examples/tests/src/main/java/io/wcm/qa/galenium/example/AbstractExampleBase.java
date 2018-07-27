@@ -33,6 +33,7 @@ import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
  */
 public abstract class AbstractExampleBase extends AbstractGaleniumBase {
 
+  private static final String ROOT_PACKAGE_FOR_TESTS = "io.wcm.qa";
   private static final int CUTOFF_MOBILE_WIDTH = 601;
   protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   protected static final String PATH_TO_HOMEPAGE = "/en.html";
@@ -42,11 +43,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
    */
   public AbstractExampleBase(TestDevice testDevice) {
     super(testDevice);
-  }
-
-  @Override
-  public String getTestName() {
-    return "Example." + super.getTestName();
+    getNameDifferences().setRootPackage(ROOT_PACKAGE_FOR_TESTS);
   }
 
   private void navShouldBeVisible() {

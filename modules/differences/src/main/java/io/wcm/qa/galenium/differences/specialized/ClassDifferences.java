@@ -46,7 +46,7 @@ public class ClassDifferences implements Differences {
     return getDifferences().asPropertyKey();
   }
 
-  public Package getRootPackage() {
+  public String getRootPackage() {
     return getPackageDifferences().getRootPackage();
   }
 
@@ -64,7 +64,7 @@ public class ClassDifferences implements Differences {
     setPackageDifferences(new PackageDifferences(p));
   }
 
-  public void setRootPackage(Package rootPackage) {
+  public void setRootPackage(String rootPackage) {
     getPackageDifferences().setRootPackage(rootPackage);
   }
 

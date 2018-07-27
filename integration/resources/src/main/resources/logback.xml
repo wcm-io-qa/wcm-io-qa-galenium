@@ -44,7 +44,7 @@
   <if
     condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
     <then>
-      <logger name="Example" level="INFO">
+      <logger name="galenium.example" level="INFO">
         <appender-ref ref="EXTENT" />
       </logger>
       <turboFilter
@@ -54,7 +54,7 @@
       </turboFilter>
     </then>
     <else>
-      <logger name="Example" level="TRACE">
+      <logger name="galenium.example" level="TRACE">
         <appender-ref ref="EXTENT" />
       </logger>
     </else>
