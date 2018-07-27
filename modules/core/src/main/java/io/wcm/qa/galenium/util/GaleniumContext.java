@@ -52,7 +52,7 @@ public class GaleniumContext {
   };
 
   private Map<String, Object> additionalMappings = new HashMap<String, Object>();
-  private Assertion assertion = new GaleniumAssertion();
+  private GaleniumAssertion assertion = new GaleniumAssertion();
   private WebDriver driver;
   private ExtentTest extentTest;
   private String testDescription;
@@ -66,7 +66,7 @@ public class GaleniumContext {
    * Assertion to use. Default is {@link GaleniumAssertion}.
    * @param assertion can be soft assertion
    */
-  public void setAssertion(Assertion assertion) {
+  public void setAssertion(GaleniumAssertion assertion) {
     this.assertion = assertion;
   }
 
@@ -147,7 +147,7 @@ public class GaleniumContext {
   /**
    * @return {@link Assertion} to use
    */
-  public static Assertion getAssertion() {
+  public static GaleniumAssertion getAssertion() {
     return THREAD_LOCAL_CONTEXT.get().assertion;
   }
 

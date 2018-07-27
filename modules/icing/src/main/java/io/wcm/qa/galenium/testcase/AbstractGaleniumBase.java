@@ -28,13 +28,13 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.testng.ITest;
 import org.testng.SkipException;
-import org.testng.asserts.Assertion;
 
 import com.galenframework.reports.model.LayoutReport;
 
 import io.wcm.qa.galenium.assertions.GaleniumAssertion;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.specialized.TestNameDifferences;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.interaction.Element;
@@ -49,6 +49,7 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
 public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   private TestDevice device;
+  private TestNameDifferences nameDifferences = new TestNameDifferences();
 
   /**
    * Constructor.
@@ -56,6 +57,8 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
+    getNameDifferences().setTestDevice(testDevice);
+    getNameDifferences().setClass(getClass());
   }
 
   /**
@@ -76,7 +79,7 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   @Override
   public String getTestName() {
-    return getClass().getSimpleName() + "/" + getDevice();
+    return getNameDifferences().asPropertyKey();
   }
 
   protected void assertElementNotVisible(String message, Selector selector) {
@@ -299,8 +302,8 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     getAssertion().fail(message, realCause);
   }
 
-  protected Assertion getAssertion() {
-    Assertion assertion = GaleniumContext.getAssertion();
+  protected GaleniumAssertion getAssertion() {
+    GaleniumAssertion assertion = GaleniumContext.getAssertion();
     if (assertion == null) {
       assertion = new GaleniumAssertion();
       getContext().setAssertion(assertion);
@@ -323,7 +326,7 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     }
   }
 
-  protected void setAssertion(Assertion assertion) {
+  protected void setAssertion(GaleniumAssertion assertion) {
     getContext().setAssertion(assertion);
   }
 
@@ -339,6 +342,14 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   protected void skipTest(String skipMessage, Throwable ex) {
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
+  }
+
+  protected TestNameDifferences getNameDifferences() {
+    return nameDifferences;
+  }
+
+  protected void setNameDifferences(TestNameDifferences nameDifferences) {
+    this.nameDifferences = nameDifferences;
   }
 
 }

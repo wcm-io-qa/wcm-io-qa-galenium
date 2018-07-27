@@ -17,22 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.base;
+package io.wcm.qa.galenium.differences.difference;
 
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- * Provides root keys for persisting of samples.
+ * Difference based on selector name.
  */
-public interface Differences extends Iterable<Difference> {
+public class SelectorDifference extends StringDifference {
 
   /**
-   * @return differences' tags concatenated with '/' and/or '-'
+   * @param selector to get name from
    */
-  String asFilePath();
-
-  /**
-   * @return differences' tags concatenated with '.'
-   */
-  String asPropertyKey();
+  public SelectorDifference(Selector selector) {
+    super(selector.elementName());
+  }
 
 }

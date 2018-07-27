@@ -21,8 +21,8 @@ package io.wcm.qa.galenium.verification.string.base;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.verification.base.VerificationBase;
 import io.wcm.qa.galenium.persistence.util.TextSampleManager;
+import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 public abstract class StringVerificationBase extends VerificationBase<String> {
 

@@ -17,17 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.util;
+package io.wcm.qa.galenium.differences.generic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
-import io.wcm.qa.galenium.sampling.differences.base.Differences;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.Differences;
 
 /**
  * Holds dimensions of potential differences for samples and supplies them either as file path or property key.
@@ -48,10 +49,18 @@ public class MutableDifferences implements Differences {
   /**
    * See {@link ArrayList#addAll(Collection)}
    * @param toBeAppended Collection of differences to be appended
-   * @return true
+   * @return if differences changed after appending
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
     return getDifferences().addAll(toBeAppended);
+  }
+
+  /**
+   * @param toBeAppended Collection of differences to be appended
+   * @return if differences changed after appending
+   */
+  public boolean addAll(Differences toBeAppended) {
+    return CollectionUtils.addAll(getDifferences(), toBeAppended);
   }
 
   /* (non-Javadoc)

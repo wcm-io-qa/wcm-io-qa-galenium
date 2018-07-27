@@ -26,10 +26,10 @@ import java.util.Comparator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
-import io.wcm.qa.galenium.sampling.differences.util.SortedDifferences;
 
 /**
  * Common base for {@link Difference} aware Galenium {@link Verification}.

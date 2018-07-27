@@ -17,14 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.util;
+package io.wcm.qa.galenium.differences.generic;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.Difference;
 
 /**
  * Differences are stored in a sorted way to get a consistent hierarchy.

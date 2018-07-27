@@ -42,11 +42,11 @@ import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Mouse;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
-import io.wcm.qa.galenium.sampling.differences.util.SortedDifferences;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.BrowserUtil;
 

@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,25 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.base;
+package io.wcm.qa.galenium.differences.difference;
 
-/**
- * Encapsulates one difference impacting a sample.
- */
-public interface Difference {
+import java.net.MalformedURLException;
+import java.net.URL;
 
-  /**
-   * @return a descriptive name for this difference type
-   */
-  String getName();
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 
-  /**
-   * The current value for the differing part of current difference instance.
-   * @return a short, simple string representation to be used in folder names or property keys
-   */
-  String getTag();
+public class RelativeUrlDifference extends UrlDifference {
+
+  @Override
+  public String getTag() {
+    String fullUrl = super.getTag();
+    try {
+      URL url = new URL(fullUrl);
+      return url.getPath();
+    }
+    catch (MalformedURLException ex) {
+      throw new GaleniumException("could not parse URL: '" + fullUrl + "'", ex);
+    }
+  }
 
 }

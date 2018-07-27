@@ -17,13 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.util;
+package io.wcm.qa.galenium.differences.generic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
 
 /**
  * Differences are sorted and a cut off value determines which part goes into the folder name and which part into the

@@ -17,34 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.util;
+package io.wcm.qa.galenium.differences.difference;
 
-import java.util.Comparator;
-
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
+import io.wcm.qa.galenium.device.BrowserType;
+import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * Sort differences by their name.
+ * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
  */
-public class DifferenceNameComparator implements Comparator<Difference> {
+public class BrowserDifference extends DifferenceBase {
 
   @Override
-  public int compare(Difference arg0, Difference arg1) {
-
-    if (arg0 == null && arg1 == null || arg0 == arg1) {
-      return 0;
-    }
-    if (arg0 == null) {
-      return -1;
-    }
-    if (arg1 == null) {
-      return 1;
-    }
-
-    String name0 = arg0.getName();
-    String name1 = arg1.getName();
-
-    return name0.compareTo(name1);
+  public String getTag() {
+    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
   }
 
 }

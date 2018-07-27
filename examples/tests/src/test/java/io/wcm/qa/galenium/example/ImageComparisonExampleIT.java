@@ -25,6 +25,8 @@ import org.testng.annotations.Test;
 import com.galenframework.reports.model.LayoutReport;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.difference.BrowserDifference;
+import io.wcm.qa.galenium.differences.difference.ScreenWidthDifference;
 import io.wcm.qa.galenium.example.selectors.common.Logo;
 import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
@@ -32,8 +34,6 @@ import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
-import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**

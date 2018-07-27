@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.differences.generic;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
+import java.io.File;
 
-/**
- * Difference based on selector name.
- */
-public class SelectorDifference extends StringDifference {
+public class TextPersistenceDifference extends LayeredDifferences {
 
-  /**
-   * @param selector to get name from
-   */
-  public SelectorDifference(Selector selector) {
-    super(selector.elementName());
+  @Override
+  public String asFilePath() {
+    return new File(getPrimary().asFilePath(), getSecondary().asPropertyKey()).getPath();
+  }
+
+  @Override
+  public String asPropertyKey() {
+    return getTertiary().asPropertyKey();
   }
 
 }

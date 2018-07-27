@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.differences.difference;
 
-import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
 
 /**
  * Integer based difference for use with index or count values.

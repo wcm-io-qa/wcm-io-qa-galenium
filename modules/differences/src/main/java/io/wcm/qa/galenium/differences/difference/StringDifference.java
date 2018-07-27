@@ -17,22 +17,32 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.differences.difference;
 
-import io.wcm.qa.galenium.device.BrowserType;
-import io.wcm.qa.galenium.device.TestDevice;
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
-import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
-import io.wcm.qa.galenium.util.GaleniumContext;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
 
 /**
- * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
+ * Simple {@link Difference} using the string assigned in constructor.
  */
-public class BrowserDifference extends DifferenceBase {
+public class StringDifference extends DifferenceBase {
+
+  private String tag;
+
+  /**
+   * @param tag to use
+   */
+  public StringDifference(String tag) {
+    setTag(tag);
+  }
 
   @Override
   public String getTag() {
-    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
+    return tag;
+  }
+
+  protected void setTag(String tag) {
+    this.tag = tag;
   }
 
 }

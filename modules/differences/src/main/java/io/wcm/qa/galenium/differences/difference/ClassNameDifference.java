@@ -17,17 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.differences.difference;
 
-import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
-import io.wcm.qa.galenium.util.GaleniumContext;
 
-public abstract class UrlDifference extends DifferenceBase {
+public class ClassNameDifference extends StringDifference {
 
-  @Override
-  public String getTag() {
-    return GaleniumContext.getDriver().getCurrentUrl();
+  public ClassNameDifference(Class clazz) {
+    super(clazz.getName());
   }
-
 
 }

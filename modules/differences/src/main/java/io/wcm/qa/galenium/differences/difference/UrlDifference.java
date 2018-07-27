@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,32 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences;
+package io.wcm.qa.galenium.differences.difference;
 
-import io.wcm.qa.galenium.sampling.differences.base.Difference;
-import io.wcm.qa.galenium.sampling.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
-/**
- * Simple {@link Difference} using the string assigned in constructor.
- */
-public class StringDifference extends DifferenceBase {
-
-  private String tag;
-
-  /**
-   * @param tag to use
-   */
-  public StringDifference(String tag) {
-    setTag(tag);
-  }
+public abstract class UrlDifference extends DifferenceBase {
 
   @Override
   public String getTag() {
-    return tag;
+    return GaleniumContext.getDriver().getCurrentUrl();
   }
 
-  protected void setTag(String tag) {
-    this.tag = tag;
-  }
 
 }

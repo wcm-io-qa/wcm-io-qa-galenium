@@ -17,28 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.differences.base;
+package io.wcm.qa.galenium.differences.difference;
 
-import org.apache.commons.lang3.StringUtils;
+import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
-public abstract class DifferenceBase implements Difference {
-
-  private static final String CLASS_NAME_PART_DIFFERENCE = "difference";
-  private String name;
+/**
+ * {@link TestDevice} based {@link Difference}.
+ */
+public class ScreenWidthDifference extends DifferenceBase {
 
   @Override
   public String getName() {
-    if (StringUtils.isBlank(name)) {
-      String simpleName = getClass().getSimpleName();
-      simpleName = StringUtils.removeStartIgnoreCase(simpleName, CLASS_NAME_PART_DIFFERENCE);
-      simpleName = StringUtils.removeEndIgnoreCase(simpleName, CLASS_NAME_PART_DIFFERENCE);
-      return simpleName;
-    }
-    return name;
+    return "width";
   }
 
-  public void setName(String name) {
-    this.name = name;
+  @Override
+  public String getTag() {
+    return Integer.toString(GaleniumContext.getTestDevice().getScreenSize().getWidth());
   }
 
 }

@@ -25,13 +25,13 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.difference.BrowserDifference;
+import io.wcm.qa.galenium.differences.difference.ScreenWidthDifference;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
 import io.wcm.qa.galenium.example.selectors.common.Logo;
 import io.wcm.qa.galenium.example.selectors.common.Navigation;
 import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
-import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.galenium.verification.element.CssClassVerification;
