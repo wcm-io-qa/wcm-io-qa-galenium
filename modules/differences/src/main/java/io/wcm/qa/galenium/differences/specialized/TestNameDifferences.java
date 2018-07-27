@@ -27,7 +27,10 @@ import io.wcm.qa.galenium.differences.base.Differences;
 import io.wcm.qa.galenium.differences.generic.LayeredDifferences;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 
-
+/**
+ * Used to generate test names from Differences. Uses class, package and test device information. Allows additional
+ * differences.
+ */
 public class TestNameDifferences implements Differences {
 
   private TestDeviceDifferences deviceDifferences;
