@@ -104,4 +104,16 @@ public class TestDeviceDifferences implements Differences {
     return new StringDifference(getDevice().getBrowserType().name());
   }
 
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("TestDevice(browser=");
+    stringBuilder.append(getBrowserDifference());
+    stringBuilder.append("|screen=");
+    stringBuilder.append(getScreenSizeDifference());
+    stringBuilder.append("|emulator=");
+    stringBuilder.append(getEmulatorDifference());
+    stringBuilder.append(")");
+    return stringBuilder.toString();
+  }
 }

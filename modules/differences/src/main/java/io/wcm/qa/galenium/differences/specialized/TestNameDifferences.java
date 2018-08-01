@@ -125,7 +125,7 @@ public class TestNameDifferences implements Differences {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("(class=");
+    stringBuilder.append("TestName(class=");
     stringBuilder.append(getClassDifferences().toString());
     stringBuilder.append("|device=");
     stringBuilder.append(getDeviceDifferences().toString());

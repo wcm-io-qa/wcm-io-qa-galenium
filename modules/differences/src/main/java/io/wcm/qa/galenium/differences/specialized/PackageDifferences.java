@@ -150,6 +150,7 @@ public class PackageDifferences implements Differences {
 
   @Override
   public String toString() {
-    return getDifferences().toString();
+    initialize();
+    return "Package(" + getDifferences() + ")";
   }
 }
