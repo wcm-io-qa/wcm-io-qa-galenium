@@ -26,12 +26,17 @@ import io.wcm.qa.galenium.differences.base.Differences;
 import io.wcm.qa.galenium.differences.difference.ClassNameDifference;
 import io.wcm.qa.galenium.differences.generic.MutableDifferences;
 
-
+/**
+ * Class and package name differences constructed from class object.
+ */
 public class ClassDifferences implements Differences {
 
   private Difference classDifference;
   private PackageDifferences packageDifferences;
 
+  /**
+   * @param clazz to extract class and package name from
+   */
   public ClassDifferences(Class clazz) {
     setClass(clazz);
   }
@@ -55,15 +60,24 @@ public class ClassDifferences implements Differences {
     return getDifferences().iterator();
   }
 
+  /**
+   * @param clazz to extract class and package name from
+   */
   public void setClass(Class clazz) {
     setClassDifference(new ClassNameDifference(clazz));
     setPackage(clazz.getPackage());
   }
 
+  /**
+   * @param p to extract package name from
+   */
   public void setPackage(Package p) {
     setPackageDifferences(new PackageDifferences(p));
   }
 
+  /**
+   * @param rootPackage will be removed from beginning of package name
+   */
   public void setRootPackage(String rootPackage) {
     getPackageDifferences().setRootPackage(rootPackage);
   }

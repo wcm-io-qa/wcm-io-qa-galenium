@@ -24,6 +24,9 @@ import java.net.URL;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
+/**
+ * Uses URL path relative to host as difference.
+ */
 public class RelativeUrlDifference extends UrlDifference {
 
   @Override

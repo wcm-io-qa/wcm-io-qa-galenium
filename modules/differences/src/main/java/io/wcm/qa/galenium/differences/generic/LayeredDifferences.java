@@ -24,7 +24,9 @@ import java.util.Iterator;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
 
-
+/**
+ * Three layers of differences.
+ */
 public class LayeredDifferences implements Differences {
 
   private Differences primary;
@@ -41,6 +43,9 @@ public class LayeredDifferences implements Differences {
     return getCombinedDifferences().asFilePath();
   }
 
+  /**
+   * @return all three layers as one {@link Differences} object
+   */
   public Differences getCombinedDifferences() {
     MutableDifferences mutableDifferences = new MutableDifferences();
     mutableDifferences.addAll(getPrimary());

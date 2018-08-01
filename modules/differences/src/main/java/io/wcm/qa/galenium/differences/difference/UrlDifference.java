@@ -22,6 +22,9 @@ package io.wcm.qa.galenium.differences.difference;
 import io.wcm.qa.galenium.differences.base.DifferenceBase;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
+/**
+ * Uses current URL as difference.
+ */
 public abstract class UrlDifference extends DifferenceBase {
 
   @Override
