@@ -31,16 +31,25 @@ import io.wcm.qa.galenium.differences.difference.StringDifference;
 import io.wcm.qa.galenium.differences.generic.MutableDifferences;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
+/**
+ * Browser and horizontal viewport size as differences.
+ */
 public class TestDeviceDifferences implements Differences {
 
   private TestDevice device;
   private MutableDifferences differences;
 
-
+  /**
+   * Constructor.
+   */
   public TestDeviceDifferences() {
     super();
   }
 
+  /**
+   * Constructor.
+   * @param device to base differences on
+   */
   public TestDeviceDifferences(TestDevice device) {
     setDevice(device);
   }

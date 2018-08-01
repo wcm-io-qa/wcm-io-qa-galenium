@@ -28,7 +28,9 @@ import io.wcm.qa.galenium.differences.base.Differences;
 import io.wcm.qa.galenium.differences.difference.StringDifference;
 import io.wcm.qa.galenium.differences.generic.MutableDifferences;
 
-
+/**
+ * Package name as differences. Allows relative package names by setting root package name.
+ */
 public class PackageDifferences implements Differences {
 
   private MutableDifferences differences;
@@ -36,10 +38,17 @@ public class PackageDifferences implements Differences {
   private Package mainPackage;
   private String rootPackage;
 
+  /**
+   * @param p to base name on
+   */
   public PackageDifferences(Package p) {
     setPackage(p);
   }
 
+  /**
+   * @param p to base name on
+   * @param root to remove from beginning of package name
+   */
   public PackageDifferences(Package p, String root) {
     this(p);
     setRootPackage(root);
@@ -71,11 +80,17 @@ public class PackageDifferences implements Differences {
     return getDifferences().iterator();
   }
 
+  /**
+   * @param p to base name on
+   */
   public void setPackage(Package p) {
     setMainPackage(p);
     setDirty();
   }
 
+  /**
+   * @param rootPackage to remove from beginning of package name
+   */
   public void setRootPackage(String rootPackage) {
     this.rootPackage = rootPackage;
     setDirty();
@@ -133,4 +148,8 @@ public class PackageDifferences implements Differences {
     setDirty();
   }
 
+  @Override
+  public String toString() {
+    return getDifferences().toString();
+  }
 }

@@ -105,4 +105,14 @@ public class ClassDifferences implements Differences {
     this.packageDifferences = packageDifferences;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("(package=");
+    stringBuilder.append(getPackageDifferences().toString());
+    stringBuilder.append("|class=");
+    stringBuilder.append(getClassDifference().toString());
+    stringBuilder.append(")");
+    return stringBuilder.toString();
+  }
 }
