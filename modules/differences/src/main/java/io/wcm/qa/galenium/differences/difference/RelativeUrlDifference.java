@@ -29,6 +29,21 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
  */
 public class RelativeUrlDifference extends UrlDifference {
 
+
+  /**
+   * Uses current URL from driver.
+   */
+  public RelativeUrlDifference() {
+    super();
+  }
+
+  /**
+   * Uses current URL from driver.
+   */
+  public RelativeUrlDifference(String url) {
+    super(url);
+  }
+
   @Override
   public String getTag() {
     String fullUrl = super.getTag();

@@ -27,9 +27,33 @@ import io.wcm.qa.galenium.util.GaleniumContext;
  */
 public abstract class UrlDifference extends DifferenceBase {
 
+  private String url;
+
+  /**
+   * Uses current URL from driver.
+   */
+  public UrlDifference() {
+    this(null);
+  }
+
+  /**
+   * Uses URL from param.
+   * @param url URL to use as difference
+   */
+  public UrlDifference(String url) {
+    this.url = url;
+  }
+
   @Override
   public String getTag() {
-    return GaleniumContext.getDriver().getCurrentUrl();
+    return getUrl();
+  }
+
+  private String getUrl() {
+    if (url == null) {
+      url = GaleniumContext.getDriver().getCurrentUrl();
+    }
+    return url;
   }
 
 
