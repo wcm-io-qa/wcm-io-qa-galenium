@@ -63,23 +63,23 @@ public final class Element {
    * @param selector identifies the elements to be checked for partial text
    * @param searchStr string to be found as part of text of element
    */
-  public static void clickByPartialText(Selector selector, String searchStr) {
+  public static boolean clickByPartialText(Selector selector, String searchStr) {
     getLogger().debug("looking for pattern: " + searchStr);
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
       getLogger().info("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
       element.click();
+      return true;
     }
-    else {
-      getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
-    }
+    getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
+    return false;
   }
 
   /**
    * Click first element only even if many are found.
    * @param selector identifies the element
    */
-  public static void clickFirstVisibleOfMany(Selector selector) {
+  public static boolean clickFirstVisibleOfMany(Selector selector) {
     List<WebElement> elements = findAll(selector);
 
     for (WebElement element : elements) {
@@ -87,24 +87,25 @@ public final class Element {
       if (element.isDisplayed()) {
         getLogger().info(MARKER_PASS, "clicking element: " + element);
         element.click();
-        return;
+        return true;
       }
     }
+    return false;
   }
 
   /**
    * Click element only if it is visible and don't fail if element cannot be found.
    * @param selector identifies the element
    */
-  public static void clickIfVisible(Selector selector) {
-    WebElement element = find(selector, 30);
+  public static boolean clickIfVisible(Selector selector) {
+    WebElement element = find(selector);
     if (element != null) {
       element.click();
       getLogger().info(MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
+      return true;
     }
-    else {
-      getLogger().debug("did not click optional '" + selector.elementName() + "'");
-    }
+    getLogger().debug("did not click optional '" + selector.elementName() + "'");
+    return false;
   }
 
   /**
@@ -242,8 +243,22 @@ public final class Element {
     return ArrayUtils.contains(split, cssClass);
   }
 
+  /**
+   * @param selector identifies element
+   * @return whether elment can be found and is displayed
+   */
   public static boolean isVisible(Selector selector) {
-    return find(selector) != null;
+    WebElement element = find(selector);
+    return isVisible(element);
+  }
+
+  /**
+   * @param selector identifies element
+   * @return whether elment can be found and is displayed now
+   */
+  public static boolean isVisibleNow(Selector selector) {
+    WebElement element = findNow(selector);
+    return isVisible(element);
   }
 
   /**
@@ -268,6 +283,10 @@ public final class Element {
 
   private static Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER);
+  }
+
+  private static boolean isVisible(WebElement element) {
+    return element != null && element.isDisplayed();
   }
 
 }
