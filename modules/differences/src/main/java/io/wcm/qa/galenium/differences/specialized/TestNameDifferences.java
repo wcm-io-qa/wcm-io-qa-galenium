@@ -122,4 +122,16 @@ public class TestNameDifferences implements Differences {
     return additionalDifferences;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("(class=");
+    stringBuilder.append(getClassDifferences().toString());
+    stringBuilder.append("|device=");
+    stringBuilder.append(getDeviceDifferences().toString());
+    stringBuilder.append("|additional=");
+    stringBuilder.append(getAdditionalDifferences().toString());
+    stringBuilder.append(")");
+    return stringBuilder.toString();
+  }
 }
