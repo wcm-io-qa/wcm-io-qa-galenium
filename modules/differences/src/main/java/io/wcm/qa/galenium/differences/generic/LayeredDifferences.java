@@ -83,4 +83,15 @@ public class LayeredDifferences implements Differences {
     this.tertiary = tertiary;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("(primary=");
+    stringBuilder.append(getPrimary());
+    stringBuilder.append("|secondary=");
+    stringBuilder.append(getSecondary());
+    stringBuilder.append("|tertiary=");
+    stringBuilder.append(getTertiary());
+    return stringBuilder.toString();
+  }
 }
