@@ -32,6 +32,9 @@ import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
+/**
+ * Wraps WebDriverWait functionalities.
+ */
 public final class Wait {
 
   private static final int DEFAULT_POLLING_INTERVAL = 100;
@@ -50,11 +53,22 @@ public final class Wait {
     forCondition(condition, timeOut);
   }
 
+  /**
+   * Waits for {@link Verifiable} or {@link Verification}.
+   * @param condition to wait for
+   * @param timeOut how many seconds to wait
+   */
   public static void forCondition(Verifiable condition, int timeOut) {
     int pollingInterval = DEFAULT_POLLING_INTERVAL;
     forCondition(condition, timeOut, pollingInterval);
   }
 
+  /**
+   * Waits for {@link Verifiable} or {@link Verification}.
+   * @param condition to wait for
+   * @param timeOut how many seconds to wait
+   * @param pollingInterval how many milliseconds between attempts
+   */
   public static void forCondition(Verifiable condition, int timeOut, int pollingInterval) {
     WebDriverWait wait = getWait(timeOut, pollingInterval);
     VerifiableExpectedCondition verifiableCondition = new VerifiableExpectedCondition(condition);

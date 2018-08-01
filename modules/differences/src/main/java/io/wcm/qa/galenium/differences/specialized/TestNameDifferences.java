@@ -37,22 +37,44 @@ public class TestNameDifferences implements Differences {
   private ClassDifferences classDifferences;
   private SortedDifferences additionalDifferences = new SortedDifferences();
 
+  /**
+   * Will be appended to end of test name.
+   * @param difference to add
+   * @return true if this collection changed as a result of the call
+   */
   public boolean addAdditionalDifference(Difference difference) {
-    return this.getAdditionalDifferences().add(difference);
+    return getAdditionalDifferences().add(difference);
   }
 
+  /**
+   * Name part from package will be relative to root package.
+   * @param rootPackage package name to use in relativization
+   */
   public void setRootPackage(String rootPackage) {
     getClassDifferences().setRootPackage(rootPackage);
   }
 
+  /**
+   * Will be appended to end of test name.
+   * @param toBeAppended multiple differences to add
+   * @return true if this collection changed as a result of the call
+   */
   public boolean addAdditionalDifferences(Differences toBeAppended) {
     return getAdditionalDifferences().addAll(toBeAppended);
   }
 
+  /**
+   * Package and class name will be used in test name.
+   * @param testClass to use for class and package name
+   */
   public void setClass(Class testClass) {
     setClassDifferences(new ClassDifferences(testClass));
   }
 
+  /**
+   * Browser and viewport width are added to middle of test name.
+   * @param device to use for differences
+   */
   public void setTestDevice(TestDevice device) {
     setDeviceDifferences(new TestDeviceDifferences(device));
   }
