@@ -59,15 +59,22 @@ public final class NameUtil {
     if (StringUtils.length(cleaned) <= maxLength) {
       return cleaned;
     }
-    String md5Hash = Md5Util.getMd5AsAscii(getUtf8Bytes(input));
-    getLogger().trace("abbreviating to " + maxLength + " with: " + md5Hash);
-    String firstPartOfMd5 = md5Hash.substring(0, 6);
-    String abbreviated = StringUtils.abbreviateMiddle(cleaned, firstPartOfMd5, maxLength);
+    String abbreviated = StringUtils.abbreviateMiddle(cleaned, getFittingMd5String(input, maxLength), maxLength);
     getLogger().trace("abbreviated String: " + abbreviated);
     if (abbreviated.length() > maxLength) {
       throw new GaleniumException("could not abbreviate to " + maxLength + ": '" + abbreviated + "'");
     }
     return abbreviated;
+  }
+
+  private static String getFittingMd5String(String input, int maxTotalStringLength) {
+    String md5Hash = Md5Util.getMd5AsAscii(getUtf8Bytes(input));
+    getLogger().trace("abbreviating to " + maxTotalStringLength + " with: " + md5Hash);
+    int maximumMd5Length = maxTotalStringLength / 3;
+    if (md5Hash.length() > maximumMd5Length) {
+      return md5Hash.substring(0, maximumMd5Length);
+    }
+    return md5Hash;
   }
 
   private static String cleanCharacters(String dirty) {
