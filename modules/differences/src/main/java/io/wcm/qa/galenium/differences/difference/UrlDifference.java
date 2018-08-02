@@ -19,7 +19,11 @@
  */
 package io.wcm.qa.galenium.differences.difference;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
@@ -46,14 +50,23 @@ public abstract class UrlDifference extends DifferenceBase {
 
   @Override
   public String getTag() {
-    return getUrl();
+    return getUrlAsString();
   }
 
-  private String getUrl() {
+  protected String getUrlAsString() {
     if (url == null) {
       url = GaleniumContext.getDriver().getCurrentUrl();
     }
     return url;
+  }
+
+  protected URL getUrl() {
+    try {
+      return new URL(getUrlAsString());
+    }
+    catch (MalformedURLException ex) {
+      throw new GaleniumException("could not parse URL: '" + getUrlAsString() + "'", ex);
+    }
   }
 
 

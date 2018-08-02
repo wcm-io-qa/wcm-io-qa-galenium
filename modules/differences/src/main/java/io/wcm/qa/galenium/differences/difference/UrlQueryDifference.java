@@ -20,28 +20,27 @@
 package io.wcm.qa.galenium.differences.difference;
 
 /**
- * Uses URL path relative to host as difference.
+ * Uses the query parameters to URL as difference.
  */
-public class RelativeUrlDifference extends UrlDifference {
-
+public class UrlQueryDifference extends UrlDifference {
 
   /**
-   * Uses current URL from driver.
+   * @param url to extract parameters from
    */
-  public RelativeUrlDifference() {
-    super();
+  public UrlQueryDifference(String url) {
+    super(url);
   }
 
   /**
-   * Uses current URL from driver.
+   * Uses current URL.
    */
-  public RelativeUrlDifference(String url) {
-    super(url);
+  public UrlQueryDifference() {
+    super();
   }
 
   @Override
   public String getTag() {
-    return getUrl().getPath();
+    return getUrl().getQuery();
   }
 
 }
