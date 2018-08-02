@@ -19,12 +19,21 @@
  */
 package io.wcm.qa.galenium.format;
 
+import org.apache.commons.io.Charsets;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Utility methods to get solid names for code, tests and files.
  */
 public final class NameUtil {
+
+  private static final String CLEANING_REGEX = "\\W+";
+  private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.naming");
 
   private NameUtil() {
     // do not instantiate
@@ -37,8 +46,45 @@ public final class NameUtil {
 
   private static String anyToKebap(String input) {
     throw new GaleniumException("name formatting not implemented yet.");
-    //    return null;
   }
 
+  /**
+   * Get string input sanitized for use in names.
+   * @param input to clean and shorten
+   * @param maxLength maximal length of returned clean version
+   * @return cleaned version respecting the maximal length
+   */
+  public static String getSanitized(String input, int maxLength) {
+    String cleaned = cleanCharacters(input);
+    if (StringUtils.length(cleaned) <= maxLength) {
+      return cleaned;
+    }
+    String md5Hash = Md5Util.getMd5AsAscii(getUtf8Bytes(input));
+    getLogger().trace("abbreviating to " + maxLength + " with: " + md5Hash);
+    String firstPartOfMd5 = md5Hash.substring(0, 6);
+    String abbreviated = StringUtils.abbreviateMiddle(cleaned, firstPartOfMd5, maxLength);
+    getLogger().trace("abbreviated String: " + abbreviated);
+    if (abbreviated.length() > maxLength) {
+      throw new GaleniumException("could not abbreviate to " + maxLength + ": '" + abbreviated + "'");
+    }
+    return abbreviated;
+  }
+
+  private static String cleanCharacters(String dirty) {
+    if (StringUtils.isNotBlank(dirty)) {
+      String clean = dirty.replaceAll(CLEANING_REGEX, "_");
+      getLogger().trace("cleaned string: " + clean);
+      return clean;
+    }
+    return StringUtils.stripToEmpty(dirty);
+  }
+
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MARKER);
+  }
+
+  private static byte[] getUtf8Bytes(String input) {
+    return input.getBytes(Charsets.UTF_8);
+  }
 
 }
