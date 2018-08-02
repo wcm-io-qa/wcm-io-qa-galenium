@@ -31,7 +31,7 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 public class BrowserDifference extends DifferenceBase {
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
   }
 

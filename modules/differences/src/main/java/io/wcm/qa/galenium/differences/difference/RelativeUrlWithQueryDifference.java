@@ -44,7 +44,7 @@ public class RelativeUrlWithQueryDifference extends UrlDifference {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     URL url = getUrl();
     if (StringUtils.isNotBlank(url.getQuery())) {
       return url.getPath() + url.getQuery();

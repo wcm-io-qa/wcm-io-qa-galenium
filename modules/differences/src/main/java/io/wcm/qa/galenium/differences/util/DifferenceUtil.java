@@ -40,15 +40,10 @@ public final class DifferenceUtil {
     return StringUtils.join(list, separator);
   }
 
-  public static String getCleanTag(Difference difference) {
-    String tag = difference.getTag();
-    return tag.replaceAll("[^\\w\\d_]+", "_");
-  }
-
   public static String joinTagsWith(Iterable<Difference> differences, String separator) {
     List<String> list = new ArrayList<String>();
     for (Difference difference : differences) {
-      list.add(getCleanTag(difference));
+      list.add(difference.getTag());
     }
     return StringUtils.join(list, separator);
   }

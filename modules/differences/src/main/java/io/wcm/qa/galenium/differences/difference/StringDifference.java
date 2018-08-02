@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium.differences.difference;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.DifferenceBase;
 
@@ -39,7 +37,7 @@ public class StringDifference extends DifferenceBase {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return tag;
   }
 
@@ -49,11 +47,7 @@ public class StringDifference extends DifferenceBase {
 
   @Override
   public String getName() {
-    return super.getName() + "." + getNameCompatibleTag();
-  }
-
-  private String getNameCompatibleTag() {
-    return StringUtils.abbreviateMiddle(getTag().replaceAll("[^a-zA-Z]*", "_"), "..", 20);
+    return super.getName() + "." + getTag();
   }
 
 }

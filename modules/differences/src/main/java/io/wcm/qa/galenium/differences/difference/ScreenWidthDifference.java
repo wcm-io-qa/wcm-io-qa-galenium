@@ -35,7 +35,7 @@ public class ScreenWidthDifference extends DifferenceBase {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return Integer.toString(GaleniumContext.getTestDevice().getScreenSize().getWidth());
   }
 

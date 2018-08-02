@@ -54,7 +54,7 @@ public class IntegerDifference extends DifferenceBase {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return Integer.toString(getIndex());
   }
 

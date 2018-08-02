@@ -21,8 +21,14 @@ package io.wcm.qa.galenium.differences.base;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.wcm.qa.galenium.format.NameUtil;
+
+/**
+ * Basic functionality needed by most {@link Difference} implementations.
+ */
 public abstract class DifferenceBase implements Difference {
 
+  private static final int MAX_TAG_LENGTH = 20;
   private static final String CLASS_NAME_PART_DIFFERENCE = "difference";
   private String name;
 
@@ -36,6 +42,13 @@ public abstract class DifferenceBase implements Difference {
     }
     return name;
   }
+
+  @Override
+  public String getTag() {
+    return NameUtil.getSanitized(getRawTag(), MAX_TAG_LENGTH);
+  }
+
+  protected abstract String getRawTag();
 
   public void setName(String name) {
     this.name = name;

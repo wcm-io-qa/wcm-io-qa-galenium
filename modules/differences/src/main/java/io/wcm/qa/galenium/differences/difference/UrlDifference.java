@@ -49,7 +49,7 @@ public abstract class UrlDifference extends DifferenceBase {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return getUrlAsString();
   }
 

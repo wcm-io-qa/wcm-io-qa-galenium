@@ -39,7 +39,7 @@ public class UrlQueryDifference extends UrlDifference {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return getUrl().getQuery();
   }
 

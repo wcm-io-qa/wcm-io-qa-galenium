@@ -40,7 +40,7 @@ public class RelativeUrlDifference extends UrlDifference {
   }
 
   @Override
-  public String getTag() {
+  protected String getRawTag() {
     return getUrl().getPath();
   }
 
