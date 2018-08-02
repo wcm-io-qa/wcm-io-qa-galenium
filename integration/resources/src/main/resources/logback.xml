@@ -21,6 +21,13 @@
     <OnMatch>NEUTRAL</OnMatch>
   </turboFilter>
 
+  <!-- Name sanitization logging -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.naming</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
   <!-- Internal GaleniumReportUtil logging -->
   <turboFilter
     class="ch.qos.logback.classic.turbo.MarkerFilter">
