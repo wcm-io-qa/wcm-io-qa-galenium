@@ -22,11 +22,17 @@ package io.wcm.qa.galenium.sampling.element.base;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-
+/**
+ * Selector based sampling.
+ * @param <T> type of sample
+ */
 public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
 
   private Selector selector;
 
+  /**
+   * @param selector to identify element(s)
+   */
   public SelectorBasedSampler(Selector selector) {
     setSelector(selector);
   }

@@ -25,15 +25,26 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Base class for element sampling.
+ * @param <T> type to return as sample
+ */
 public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
 
   private WebElement cachedElement;
   private int timeOut;
 
+  /**
+   * @param selector to identify element
+   */
   public ElementBasedSampler(Selector selector) {
     this(selector, 0);
   }
 
+  /**
+   * @param selector to identify element
+   * @param timeOut how many seconds to wait
+   */
   public ElementBasedSampler(Selector selector, int timeOut) {
     super(selector);
     setTimeOut(timeOut);

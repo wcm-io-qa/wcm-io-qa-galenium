@@ -23,13 +23,22 @@ import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-
+/**
+ * Base class for String sampling from elements.
+ */
 public abstract class ElementBasedStringSampler extends ElementBasedSampler<String> {
 
+  /**
+   * @param selector identifies element
+   */
   public ElementBasedStringSampler(Selector selector) {
     this(selector, 0);
   }
 
+  /**
+   * @param selector identifies element
+   * @param timeOut how many seconds to wait
+   */
   public ElementBasedStringSampler(Selector selector, int timeOut) {
     super(selector, timeOut);
   }

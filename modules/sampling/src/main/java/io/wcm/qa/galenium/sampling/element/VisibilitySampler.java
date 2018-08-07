@@ -21,24 +21,27 @@ package io.wcm.qa.galenium.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-
+/**
+ * Existence and visibility of element.
+ */
 public class VisibilitySampler extends ElementBasedSampler<Boolean> {
 
+  /**
+   * @param selector to identify element
+   */
   public VisibilitySampler(Selector selector) {
     this(selector, 0);
   }
 
+  /**
+   * @param selector to identify element
+   * @param timeOut how many seconds to wait
+   */
   public VisibilitySampler(Selector selector, int timeOut) {
     super(selector, timeOut);
-  }
-
-  @Override
-  public Boolean sampleValue() {
-    return isDisplayed(getElement());
   }
 
   private Boolean isDisplayed(WebElement element) {
@@ -47,7 +50,11 @@ public class VisibilitySampler extends ElementBasedSampler<Boolean> {
 
   @Override
   protected Boolean sampleValue(WebElement element) {
-    throw new GaleniumException("visibility sampler handles its own sampling and must not invoke sampleValue(WebElement)");
+    return isDisplayed(element);
   }
 
+  @Override
+  protected Boolean handleNoElementFound() {
+    return false;
+  }
 }
