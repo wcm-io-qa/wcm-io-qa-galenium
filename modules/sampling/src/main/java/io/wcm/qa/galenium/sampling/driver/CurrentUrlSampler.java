@@ -19,11 +19,13 @@
  */
 package io.wcm.qa.galenium.sampling.driver;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
-
-public class CurrentUrlSampler implements StringSampler {
+/**
+ * Samples current URL from Webdriver.
+ */
+public class CurrentUrlSampler extends CachingBasedSampler<String> {
 
   @Override
   public String sampleValue() {
