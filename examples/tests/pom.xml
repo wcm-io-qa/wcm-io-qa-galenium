@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
-    <version>0.1.16</version>
+    <version>0.1.17-SNAPSHOT</version>
     <relativePath>../../integration/ui-tests</relativePath>
   </parent>
 
@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples.tests</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.16</version>
+  <version>0.1.17-SNAPSHOT</version>
   <description>Test automation example tests.</description>
 
   <properties>
@@ -43,7 +43,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.17-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
