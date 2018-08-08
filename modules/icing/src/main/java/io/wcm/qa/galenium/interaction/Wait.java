@@ -22,11 +22,13 @@ package io.wcm.qa.galenium.interaction;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
@@ -72,7 +74,16 @@ public final class Wait {
   public static void forCondition(Verifiable condition, int timeOut, int pollingInterval) {
     WebDriverWait wait = getWait(timeOut, pollingInterval);
     VerifiableExpectedCondition verifiableCondition = new VerifiableExpectedCondition(condition);
-    wait.until(verifiableCondition);
+    try {
+      wait.until(verifiableCondition);
+    }
+    catch (TimeoutException ex) {
+      if (verifiableCondition.isVerification()) {
+        Verification verification = (Verification)verifiableCondition.getVerifiable();
+        throw new GaleniumException(verification.getMessage(), ex);
+      }
+      throw ex;
+    }
   }
 
   /**
@@ -133,6 +144,14 @@ public final class Wait {
           getLogger().warn("waiting for a caching verification is not a sensible thing to do. Offending verification: '" + verification + "'");
         }
       }
+    }
+
+    public boolean isVerification() {
+      return getVerifiable() instanceof Verification;
+    }
+
+    public Verifiable getVerifiable() {
+      return condition;
     }
 
     @Override
