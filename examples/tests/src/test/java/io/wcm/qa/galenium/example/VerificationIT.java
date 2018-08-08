@@ -19,29 +19,28 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.util.VerificationUtil.verify;
+import static io.wcm.qa.galenium.verification.util.Check.verify;
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.difference.BrowserDifference;
+import io.wcm.qa.galenium.differences.difference.ScreenWidthDifference;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
+import io.wcm.qa.galenium.example.selectors.common.Logo;
+import io.wcm.qa.galenium.example.selectors.common.Navigation;
+import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.sampling.differences.BrowserDifference;
-import io.wcm.qa.galenium.sampling.differences.ScreenWidthDifference;
-import io.wcm.qa.galenium.selectors.common.Logo;
-import io.wcm.qa.galenium.selectors.common.Navigation;
-import io.wcm.qa.galenium.selectors.homepage.Stage;
-import io.wcm.qa.galenium.util.VerificationUtil;
-import io.wcm.qa.galenium.verification.CssClassVerification;
-import io.wcm.qa.galenium.verification.CurrentUrlVerification;
-import io.wcm.qa.galenium.verification.InvisibilityVerification;
-import io.wcm.qa.galenium.verification.LinkTargetVerification;
-import io.wcm.qa.galenium.verification.NoCssClassVerification;
-import io.wcm.qa.galenium.verification.PageTitleVerification;
-import io.wcm.qa.galenium.verification.VisibilityVerification;
-import io.wcm.qa.galenium.verification.VisualVerification;
 import io.wcm.qa.galenium.verification.base.Verification;
+import io.wcm.qa.galenium.verification.driver.TitleAndUrlVerification;
+import io.wcm.qa.galenium.verification.element.CssClassVerification;
+import io.wcm.qa.galenium.verification.element.InvisibilityVerification;
+import io.wcm.qa.galenium.verification.element.LinkTargetVerification;
+import io.wcm.qa.galenium.verification.element.NoCssClassVerification;
+import io.wcm.qa.galenium.verification.element.VisibilityVerification;
+import io.wcm.qa.galenium.verification.element.VisualVerification;
+import io.wcm.qa.galenium.verification.util.Check;
 
 /**
  * Showcase {@link Verification} approach.
@@ -49,16 +48,19 @@ import io.wcm.qa.galenium.verification.base.Verification;
 public class VerificationIT extends AbstractExampleBase {
 
   private static final String CSS_CLASS_NAVLINK_ACTIVE = "navlink-active";
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES)
+
+  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public VerificationIT(TestDevice testDevice) {
     super(testDevice);
   }
 
   @Test(groups = "dev")
   public void verificationTest() {
+
     loadStartUrl();
-    verify(new CurrentUrlVerification("Homepage"), new PageTitleVerification("Homepage"), new LogoVerification(),
-        new VisibilityVerification(Stage.SELF));
+
+    verify(new TitleAndUrlVerification("Homepage"), new LogoVerification(), new VisibilityVerification(Stage.SELF));
+
     if (isMobile()) {
       verify(new InvisibilityVerification(Navigation.LINK_TO_HOMEPAGE),
           new InvisibilityVerification(Navigation.LINK_TO_CONFERENCE));
@@ -67,7 +69,8 @@ public class VerificationIT extends AbstractExampleBase {
       verify(new CssClassVerification(Navigation.LINK_TO_HOMEPAGE, CSS_CLASS_NAVLINK_ACTIVE),
           new NoCssClassVerification(Navigation.LINK_TO_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
-    VerificationUtil.verify(new LinkTargetVerification(Logo.SELF));
+
+    Check.verify(new LinkTargetVerification(Logo.SELF));
   }
 
   @Override
@@ -84,4 +87,5 @@ public class VerificationIT extends AbstractExampleBase {
       setAllowedOffset(3);
     }
   }
+
 }
