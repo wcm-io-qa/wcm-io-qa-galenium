@@ -18,7 +18,7 @@
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience</name>
+  <name>Galenium Modules</name>
   <artifactId>io.wcm.qa.galenium.modules</artifactId>
   <packaging>pom</packaging>
 
