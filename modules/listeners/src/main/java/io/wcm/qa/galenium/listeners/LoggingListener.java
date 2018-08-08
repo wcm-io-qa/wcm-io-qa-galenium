@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.listeners;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
+import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_SKIP;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import java.util.Map.Entry;
@@ -84,11 +84,18 @@ public class LoggingListener extends TestListenerAdapter {
   @Override
   public void onTestSkipped(ITestResult result) {
     updateExtentTest(result);
-    getLogger().info("Skipped test: " + getTestNameForInternalLogging(result));
+    StringBuilder skipMessage = new StringBuilder();
+    skipMessage.append("Skipped test: ");
+    skipMessage.append(getTestNameForInternalLogging(result));
+    if (result.getThrowable() != null) {
+      getLogger().info(MARKER_SKIP, skipMessage.toString(), result.getThrowable());
+    }
+    else {
+      getLogger().info(MARKER_SKIP, skipMessage.toString());
+    }
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
     }
-    GaleniumReportUtil.getLogger().info(GaleniumReportUtil.MARKER_SKIP, "SKIPPED");
   }
 
   @Override
@@ -124,6 +131,10 @@ public class LoggingListener extends TestListenerAdapter {
     if (driver != null) {
       GaleniumReportUtil.takeScreenshot(result, driver);
     }
+  }
+
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
 }
