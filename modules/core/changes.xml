@@ -24,6 +24,69 @@
   <body>
 
     <release version="0.1.16" date="not released yet">
+      <action type="update" dev="apegam">
+        Now using Maven Plugin API 3.5.4. 
+      </action>
+      <action type="update" dev="apegam">
+        Now using Selenium 3.13.0. 
+      </action>
+      <action type="add" dev="apegam">
+        Name sanitization and shortening using MD5 infixes.
+      </action>
+      <action type="update" dev="apegam">
+        Better logging configuration.
+      </action>
+      <action type="add" dev="apegam">
+        Integration modules to use as parents for test projects.
+      </action>
+      <action type="update" dev="apegam">
+        Clean up POMs.
+      </action>
+      <action type="update" dev="apegam">
+        A lot of name changes.
+      </action>
+      <action type="add" dev="apegam">
+        JSON verification.
+      </action>
+      <action type="add" dev="apegam">
+        Use BrowserMob for Har sampling, stability, and sanity.
+      </action>
+      <action type="update" dev="apegam">
+        Test names are now based on Differences.
+      </action>
+      <action type="update" dev="apegam">
+        Stability is now a verification.
+      </action>
+      <action type="update" dev="apegam">
+        Only download drivers for browsers used in test run.
+      </action>
+      <action type="add" dev="apegam">
+        Media query support in device data providers.
+      </action>
+      <action type="add" dev="apegam">
+        CSV based device configuration.
+      </action>
+      <action type="update" dev="apegam">
+        Moved caching from Verifications to Samplers.
+      </action>
+      <action type="add" dev="apegam">
+        Sampler based Verifications.
+      </action>
+      <action type="update" dev="apegam">
+        Default thread count for tests is now CPU count. 
+      </action>
+      <action type="add" dev="apegam">
+        Includes/excludes for Galen specs used in code generation.
+      </action>
+      <action type="update" dev="apegam">
+        Maven module structure. 
+      </action>
+      <action type="add" dev="apegam">
+        Support for headless Firefox. 
+      </action>
+      <action type="update" dev="apegam">
+        New webdriver configuration. 
+      </action>
     </release>
     
     <release version="0.1.14" date="2018-06-20">
