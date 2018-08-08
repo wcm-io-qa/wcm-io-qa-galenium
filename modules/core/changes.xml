@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.16" date="not released yet">
+      <action type="fix" dev="apegam">
+        NPE in isVerified under certain conditions. 
+      </action>
       <action type="update" dev="apegam">
         Now using Maven Plugin API 3.5.4. 
       </action>
