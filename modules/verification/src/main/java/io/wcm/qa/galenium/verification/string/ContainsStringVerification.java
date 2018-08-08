@@ -51,7 +51,7 @@ public class ContainsStringVerification extends StringVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.contains(getActualValue(), getSearchString());
   }
 

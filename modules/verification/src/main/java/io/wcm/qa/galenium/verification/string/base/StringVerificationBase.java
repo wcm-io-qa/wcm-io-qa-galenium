@@ -38,7 +38,7 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 

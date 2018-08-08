@@ -44,7 +44,7 @@ public class MatchesPatternVerification extends PatternBasedVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return getActualMatcher().matches();
   }
 

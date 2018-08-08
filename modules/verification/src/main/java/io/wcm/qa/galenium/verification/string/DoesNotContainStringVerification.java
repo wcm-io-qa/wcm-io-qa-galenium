@@ -32,7 +32,7 @@ public class DoesNotContainStringVerification extends ContainsStringVerification
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return !super.doVerification();
   }
 

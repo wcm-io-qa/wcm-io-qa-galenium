@@ -46,7 +46,7 @@ public abstract class CombiningStringBasedVerification extends StringVerificatio
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     populateChecks(getActualValue());
     return verifyChecks();
   }

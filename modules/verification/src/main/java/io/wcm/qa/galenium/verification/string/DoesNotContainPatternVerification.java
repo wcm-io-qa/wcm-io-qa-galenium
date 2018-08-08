@@ -43,7 +43,7 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return !super.doVerification();
   }
 

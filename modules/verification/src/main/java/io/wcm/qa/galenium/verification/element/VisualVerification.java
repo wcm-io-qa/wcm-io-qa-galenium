@@ -219,7 +219,7 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     LayoutReport layoutReport;
     if (getValidationListener() == null) {
       layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());

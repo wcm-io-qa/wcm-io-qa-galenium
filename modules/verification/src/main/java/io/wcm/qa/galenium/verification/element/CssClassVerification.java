@@ -51,7 +51,7 @@ public class CssClassVerification extends AttributeVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     String cssClasses = getActualValue();
     if (StringUtils.isBlank(cssClasses)) {
       return false;

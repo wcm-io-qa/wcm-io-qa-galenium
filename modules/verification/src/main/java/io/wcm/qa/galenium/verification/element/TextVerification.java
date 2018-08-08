@@ -48,7 +48,7 @@ public class TextVerification extends ElementBasedStringVerification<TextSampler
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 

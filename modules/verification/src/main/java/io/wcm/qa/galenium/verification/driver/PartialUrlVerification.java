@@ -42,7 +42,7 @@ public class PartialUrlVerification extends CurrentUrlVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.contains(getActualValue(), getExpectedValue());
   }
 

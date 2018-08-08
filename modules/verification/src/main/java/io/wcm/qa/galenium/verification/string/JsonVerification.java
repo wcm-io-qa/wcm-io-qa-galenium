@@ -75,7 +75,7 @@ public class JsonVerification<S extends Sampler<String>> extends SamplerBasedVer
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     populateChecks();
     return verifyChecks();
   }

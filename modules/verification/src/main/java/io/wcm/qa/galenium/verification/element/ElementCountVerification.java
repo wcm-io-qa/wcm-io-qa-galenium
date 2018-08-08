@@ -45,7 +45,7 @@ public class ElementCountVerification extends SelectorBasedVerification<ElementC
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return sampleValue() == getExpectedValue();
   }
 

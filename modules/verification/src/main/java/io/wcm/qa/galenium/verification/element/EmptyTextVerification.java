@@ -30,7 +30,7 @@ public class EmptyTextVerification extends TextVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.isBlank(getActualValue());
   }
 

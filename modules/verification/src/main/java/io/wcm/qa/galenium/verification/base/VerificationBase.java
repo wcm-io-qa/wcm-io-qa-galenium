@@ -216,7 +216,7 @@ public abstract class VerificationBase<S> implements Verification {
    * Override to implement verification.
    * @return whether verification was successful
    */
-  protected abstract Boolean doVerification();
+  protected abstract boolean doVerification();
 
   /**
    * @return actual value, defaults to {@link VerificationBase#sampleValue()}

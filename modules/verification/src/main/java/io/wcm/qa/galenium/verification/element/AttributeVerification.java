@@ -62,7 +62,7 @@ public class AttributeVerification extends ElementBasedStringVerification<Attrib
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 

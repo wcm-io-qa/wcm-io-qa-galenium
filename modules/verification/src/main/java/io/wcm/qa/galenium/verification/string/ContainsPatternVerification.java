@@ -45,7 +45,7 @@ public class ContainsPatternVerification extends PatternBasedVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return getActualMatcher().find();
   }
 

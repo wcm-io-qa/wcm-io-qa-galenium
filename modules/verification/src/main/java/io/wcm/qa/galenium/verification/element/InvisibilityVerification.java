@@ -53,7 +53,7 @@ public class InvisibilityVerification extends VisibilityVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     Boolean visibilityResult = super.doVerification();
     getLogger().debug("visibility was '" + visibilityResult + "' when checking for invisibility");
     return !visibilityResult;

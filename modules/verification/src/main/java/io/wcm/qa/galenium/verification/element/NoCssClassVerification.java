@@ -36,7 +36,7 @@ public class NoCssClassVerification extends CssClassVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return !super.doVerification();
   }
 

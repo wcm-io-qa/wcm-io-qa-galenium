@@ -37,7 +37,7 @@ public abstract class StringSamplerBasedVerification extends SamplerBasedVerific
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 

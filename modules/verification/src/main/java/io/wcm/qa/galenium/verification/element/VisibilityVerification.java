@@ -63,8 +63,12 @@ public class VisibilityVerification extends ElementBasedVerification<VisibilityS
   }
 
   @Override
-  protected Boolean doVerification() {
-    return getActualValue();
+  protected boolean doVerification() {
+    Boolean actualValue = getActualValue();
+    if (actualValue != null) {
+      return actualValue;
+    }
+    return false;
   }
 
   @Override

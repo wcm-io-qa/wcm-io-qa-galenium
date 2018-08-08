@@ -42,7 +42,7 @@ public class EmptyStringVerification extends StringVerification {
   }
 
   @Override
-  protected Boolean doVerification() {
+  protected boolean doVerification() {
     return StringUtils.isBlank(getActualValue());
   }
 
