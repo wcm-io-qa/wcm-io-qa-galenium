@@ -35,31 +35,6 @@
     <module>verification</module>
   </modules>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.core</artifactId>
-      <version>0.1.17-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-csv</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.wnameless</groupId>
-      <artifactId>json-flattener</artifactId>
-    </dependency>
-
-  </dependencies>
-
   <build>
     <plugins>
 
