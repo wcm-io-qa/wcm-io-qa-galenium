@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.17-SNAPSHOT</version>
+  <version>0.1.18-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
   <modules>
@@ -105,7 +105,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.17-SNAPSHOT</version>
+      <version>0.1.18-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
@@ -168,7 +168,7 @@
         <plugin>
           <groupId>io.wcm.qa</groupId>
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-          <version>0.1.17-SNAPSHOT</version>
+          <version>0.1.18-SNAPSHOT</version>
           <configuration>
             <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
             <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>
