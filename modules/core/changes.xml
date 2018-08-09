@@ -25,6 +25,9 @@
 
     <release version="0.1.18" date="2018-08-09">
       <action type="update" dev="apegam">
+        Use JSONFlattener instead of GSon to get grid host.
+      </action>
+      <action type="update" dev="apegam">
         Now using Selenium 3.14.0.
       </action>
       <action type="update" dev="apegam">
