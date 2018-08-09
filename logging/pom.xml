@@ -23,17 +23,22 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.18</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <artifactId>io.wcm.qa.galenium.logging</artifactId>
-  <groupId>io.wcm.qa</groupId>
   <packaging>jar</packaging>
   <name>Galenium Logging</name>
   <description>Galenium SLF4J ExtentReports Binding</description>
 
   <dependencies>
+
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
+      <version>0.1.18</version>
+    </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -43,12 +48,6 @@
     <dependency>
       <groupId>com.relevantcodes</groupId>
       <artifactId>extentreports</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.galenium</artifactId>
-      <version>0.1.8</version>
     </dependency>
         
     <dependency>

@@ -2,12 +2,13 @@
 
 Selenium Galen Integration
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.galenium/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.galenium)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration)
 
 
 ### Documentation
 
 * [Usage][usage]
+* [Concepts][concepts]
 * [API documentation][apidocs]
 * [Changelog][changelog]
 
@@ -27,5 +28,6 @@ Features:
 
 
 [usage]: usage.html
+[concepts]: concepts.html
 [apidocs]: galenium/apidocs/
 [changelog]: galenium/changes-report.html

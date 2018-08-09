@@ -1,0 +1,52 @@
+@import common.gspec
+
+@objects
+    stage                   #stage
+        image               img
+        overlay             div.stage-overlay
+        title               div.stage-title
+        cta-link-*          div.stageheaderLinkItem
+    article                 #main article
+    teaserbar               #teaserbar
+
+@groups
+    content                 article, teaserbar
+
+= Special Navigation =
+    = Mobile =
+        @on mobile
+            navigation.link-*:
+                absent
+            navigation.link-to-conference:
+                absent
+            navigation.link-to-homepage:
+                absent
+
+= Positioning =
+    = Relative =
+        site-header:
+            above navigation
+            above stage
+            above footer
+        navigation:
+            above stage ~ 0px
+            above footer
+        &content:
+            below stage
+            below navigation
+            below site-header
+        article:
+            above footer 
+        teaserbar:
+            above footer ~ 0px
+    = Containment =
+        site-header, navigation, stage, &content, teaserbar, footer:
+            inside page
+        @on desktop
+            navigation.link-*:
+                inside navigation
+    = Alignment =
+        site-header:
+            aligned horizontally top page
+        footer:
+            aligned horizontally bottom page 1px
