@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.16</version>
+  <version>0.1.18</version>
   <description>Test automation integration parent.</description>
 
   <modules>
@@ -81,6 +81,7 @@
     <galenium.sampling.text.file>expected.properties</galenium.sampling.text.file>
     <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
+    <galenium.screenshotOnSuccess>true</galenium.screenshotOnSuccess>
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.webdriver.browser.loglevel>INFO</galenium.webdriver.browser.loglevel>
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
@@ -107,7 +108,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
     </dependency>
 
   </dependencies>
@@ -170,7 +171,7 @@
         <plugin>
           <groupId>io.wcm.qa</groupId>
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-          <version>0.1.16</version>
+          <version>0.1.18</version>
           <configuration>
             <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
             <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>

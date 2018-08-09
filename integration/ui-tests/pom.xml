@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>0.1.16</version>
+    <version>0.1.18</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.16</version>
+  <version>0.1.18</version>
   <description>Test automation integration parent.</description>
 
   <dependencies>
@@ -39,23 +39,23 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.listeners</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
     </dependency>
 
   </dependencies>
@@ -166,6 +166,7 @@
               <galenium.sampling.text.file>${galenium.sampling.text.file}</galenium.sampling.text.file>
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
+              <galenium.screenshotOnSuccess>${galenium.screenshotOnSuccess}</galenium.screenshotOnSuccess>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
               <galenium.webdriver.browser.loglevel>${galenium.webdriver.browser.loglevel}</galenium.webdriver.browser.loglevel>
 

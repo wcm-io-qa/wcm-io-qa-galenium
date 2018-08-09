@@ -14,11 +14,11 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.16</version>
+    <version>0.1.18</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Convenience</name>
+  <name>Galenium Modules</name>
   <artifactId>io.wcm.qa.galenium.modules</artifactId>
   <packaging>pom</packaging>
 
@@ -34,31 +34,6 @@
     <module>selectors</module>
     <module>verification</module>
   </modules>
-
-  <dependencies>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.core</artifactId>
-      <version>0.1.16</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-csv</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.wnameless</groupId>
-      <artifactId>json-flattener</artifactId>
-    </dependency>
-
-  </dependencies>
 
   <build>
     <plugins>

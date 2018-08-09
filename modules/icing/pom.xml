@@ -14,7 +14,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>0.1.16</version>
+    <version>0.1.18</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -27,12 +27,12 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.verification</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galen</artifactId>
-      <version>0.1.16</version>
+      <version>0.1.18</version>
     </dependency>
 
   </dependencies>

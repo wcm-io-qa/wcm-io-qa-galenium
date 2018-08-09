@@ -31,13 +31,13 @@ class InternetExplorerOptionsProvider extends OptionsProvider<InternetExplorerOp
   }
 
   @Override
-  protected InternetExplorerOptions newOptions() {
-    return new InternetExplorerOptions();
+  protected void log(InternetExplorerOptions options) {
+    getLogger().trace("Internet Explorer options: " + options);
   }
 
   @Override
-  protected void log(InternetExplorerOptions options) {
-    getLogger().trace("Internet Explorer options: " + options);
+  protected InternetExplorerOptions newOptions() {
+    return new InternetExplorerOptions();
   }
 
 }

@@ -22,10 +22,10 @@ package io.wcm.qa.galenium.util;
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Map;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -36,9 +36,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.github.wnameless.json.flattener.JsonFlattener;
 
 /**
  * Utility class to fetch name of Selenium Grid node.
@@ -85,9 +83,13 @@ public final class GridHostExtractor {
       URL sessionURL = new URL("http://" + hostname + ":" + port + "/grid/api/testsession?session=" + session);
       BasicHttpEntityEnclosingRequest r = new BasicHttpEntityEnclosingRequest("POST", sessionURL.toExternalForm());
       HttpResponse response = client.execute(host, r);
-      JsonObject object = extractObject(response);
+      Map<String, Object> jsonAsMap = extractObject(response);
       client.close();
-      return object.get("proxyId").getAsString();
+      Object proxyId = jsonAsMap.get("proxyId");
+      if (proxyId != null) {
+        return proxyId.toString();
+      }
+      return NO_HOST_RETRIEVED;
     }
     catch (RuntimeException | IOException ex) {
       return NO_HOST_RETRIEVED;
@@ -95,17 +97,10 @@ public final class GridHostExtractor {
 
   }
 
-  private static JsonObject extractObject(HttpResponse resp) throws IOException {
-    BufferedReader rd = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
-    StringBuffer s = new StringBuffer();
-    String line;
-    while ((line = rd.readLine()) != null) {
-      s.append(line);
-    }
-    rd.close();
-    JsonParser parser = new JsonParser();
-    JsonElement parsed = parser.parse(s.toString());
-    JsonObject objToReturn = parsed.getAsJsonObject();
-    return objToReturn;
+  private static Map<String, Object> extractObject(HttpResponse resp) throws IOException {
+    InputStreamReader jsonReader = new InputStreamReader(resp.getEntity().getContent());
+    JsonFlattener jsonFlattener = new JsonFlattener(jsonReader);
+    return jsonFlattener.flattenAsMap();
   }
+
 }

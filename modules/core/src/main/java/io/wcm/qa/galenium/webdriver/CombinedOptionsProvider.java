@@ -23,8 +23,7 @@ import org.openqa.selenium.MutableCapabilities;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
-class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities>
-{
+class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities> {
 
   private OptionsProvider p1;
   private OptionsProvider p2;
@@ -45,13 +44,13 @@ class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities>
   }
 
   @Override
-  protected MutableCapabilities newOptions() {
-    return p1.newOptions();
+  protected void log(MutableCapabilities options) {
+    getLogger().trace("combined options: " + options);
   }
 
   @Override
-  protected void log(MutableCapabilities options) {
-    getLogger().trace("combined options: " + options);
+  protected MutableCapabilities newOptions() {
+    return p1.newOptions();
   }
 
 }

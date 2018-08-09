@@ -84,6 +84,10 @@ public final class TextSampleManager {
     return EXPECTED_TEXTS;
   }
 
+  /**
+   * @param prefix used to filter properties
+   * @return new Properties containing only entries starting with the prefix
+   */
   public static Properties getExpectedTextsForPrefix(String prefix) {
     return PropertiesUtil.getAllPropertiesWithPrefix(EXPECTED_TEXTS, prefix);
   }
