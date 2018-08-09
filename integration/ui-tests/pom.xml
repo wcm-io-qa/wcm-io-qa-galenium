@@ -166,6 +166,7 @@
               <galenium.sampling.text.file>${galenium.sampling.text.file}</galenium.sampling.text.file>
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
+              <galenium.screenshotOnSuccess>${galenium.screenshotOnSuccess}</galenium.screenshotOnSuccess>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
               <galenium.webdriver.browser.loglevel>${galenium.webdriver.browser.loglevel}</galenium.webdriver.browser.loglevel>
 
