@@ -20,9 +20,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>20</version>
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.parent_toplevel</artifactId>
+    <version>1.0.0</version>
     <relativePath />
   </parent>
 
