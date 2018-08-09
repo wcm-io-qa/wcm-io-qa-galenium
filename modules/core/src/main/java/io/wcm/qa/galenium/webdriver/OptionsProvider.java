@@ -43,8 +43,6 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
     return options;
   }
 
-  protected abstract void log(O options);
-
   /**
    * Capabilities specific to this browser type. These are automatically included in {@link #getOptions()}.
    * Override when implementing new browser types.
@@ -66,6 +64,8 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   protected Logger getLogger() {
     return WebDriverManager.getLogger();
   }
+
+  protected abstract void log(O options);
 
   @SuppressWarnings("unchecked")
   protected O mergeCommonOptions(O options) {

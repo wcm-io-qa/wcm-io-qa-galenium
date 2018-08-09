@@ -39,8 +39,8 @@ import net.lightbody.bmp.proxy.auth.AuthType;
  */
 public final class BrowserMobUtil {
 
-  private static String BROWSER_MOB_PROXY = "galenium.proxy.browserMob";
-  private static String SELENIUM_PROXY = "galenium.proxy.selenium";
+  private static final String BROWSER_MOB_PROXY = "galenium.proxy.browserMob";
+  private static final String SELENIUM_PROXY = "galenium.proxy.selenium";
 
   private BrowserMobUtil() {
     // do not instantiate
@@ -108,6 +108,10 @@ public final class BrowserMobUtil {
 
   }
 
+  /**
+   * BrowserMob Proxy from Galenium context.
+   * @return the BMP for the current thread
+   */
   public static BrowserMobProxy getBrowserMobProxy() {
     if (!GaleniumConfiguration.isUseBrowserMobProxy()) {
       throw new GaleniumException("set 'galenium.browsermob.proxy' to true before fetching browsermob proxy.");

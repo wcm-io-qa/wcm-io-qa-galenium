@@ -41,15 +41,15 @@ class FirefoxOptionsProvider extends OptionsProvider<FirefoxOptions> {
   private static final Level LOG_LEVEL_BROWSER = GaleniumConfiguration.getBrowserLogLevel();
   private static final String SYSTEM_PROPERTY_NAME_WEBDRIVER_FIREFOX_BIN = "webdriver.firefox.bin";
 
-  private void configureLogging(FirefoxOptions options) {
-    options.setLogLevel(FirefoxDriverLogLevel.fromLevel(LOG_LEVEL_BROWSER));
-  }
-
   private void addProfile(FirefoxOptions options) {
     FirefoxProfile firefoxProfile = new FirefoxProfile();
     firefoxProfile.setAcceptUntrustedCertificates(true);
     firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
     options.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
+  }
+
+  private void configureLogging(FirefoxOptions options) {
+    options.setLogLevel(FirefoxDriverLogLevel.fromLevel(LOG_LEVEL_BROWSER));
   }
 
   private void logBinary(FirefoxOptions options) {
