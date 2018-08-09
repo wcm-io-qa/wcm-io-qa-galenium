@@ -26,6 +26,7 @@
     <relativePath />
   </parent>
 
+
   <name>Galenium</name>
   <artifactId>io.wcm.qa.galenium.parent</artifactId>
   <packaging>pom</packaging>
