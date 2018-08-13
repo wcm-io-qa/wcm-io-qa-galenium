@@ -33,9 +33,10 @@ import io.wcm.qa.galenium.differences.generic.SortedDifferences;
  */
 public class TestNameDifferences implements Differences {
 
-  private TestDeviceDifferences deviceDifferences;
-  private ClassDifferences classDifferences;
   private SortedDifferences additionalDifferences = new SortedDifferences();
+  private ClassDifferences classDifferences;
+  private int classNameMaxLength = -1;
+  private TestDeviceDifferences deviceDifferences;
 
   /**
    * Will be appended to end of test name.
@@ -47,14 +48,6 @@ public class TestNameDifferences implements Differences {
   }
 
   /**
-   * Name part from package will be relative to root package.
-   * @param rootPackage package name to use in relativization
-   */
-  public void setRootPackage(String rootPackage) {
-    getClassDifferences().setRootPackage(rootPackage);
-  }
-
-  /**
    * Will be appended to end of test name.
    * @param toBeAppended multiple differences to add
    * @return true if this collection changed as a result of the call
@@ -63,12 +56,46 @@ public class TestNameDifferences implements Differences {
     return getAdditionalDifferences().addAll(toBeAppended);
   }
 
+  @Override
+  public String asFilePath() {
+    return getCombinedDifferences().asFilePath();
+  }
+
+  @Override
+  public String asPropertyKey() {
+    return getCombinedDifferences().asPropertyKey();
+  }
+
+  public int getClassNameMaxLength() {
+    return classNameMaxLength;
+  }
+
+  @Override
+  public Iterator<Difference> iterator() {
+    return getCombinedDifferences().iterator();
+  }
+
   /**
    * Package and class name will be used in test name.
    * @param testClass to use for class and package name
    */
   public void setClass(Class testClass) {
     setClassDifferences(new ClassDifferences(testClass));
+  }
+
+  public void setClassNameMaxLength(int maxLength) {
+    classNameMaxLength = maxLength;
+    if (getClassDifferences() != null && maxLength > 0) {
+      getClassDifferences().setClassNameMaxLength(maxLength);
+    }
+  }
+
+  /**
+   * Name part from package will be relative to root package.
+   * @param rootPackage package name to use in relativization
+   */
+  public void setRootPackage(String rootPackage) {
+    getClassDifferences().setRootPackage(rootPackage);
   }
 
   /**
@@ -80,18 +107,24 @@ public class TestNameDifferences implements Differences {
   }
 
   @Override
-  public Iterator<Difference> iterator() {
-    return getCombinedDifferences().iterator();
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("TestName(class=");
+    stringBuilder.append(getClassDifferences().toString());
+    stringBuilder.append("|device=");
+    stringBuilder.append(getDeviceDifferences().toString());
+    stringBuilder.append("|additional=");
+    stringBuilder.append(getAdditionalDifferences().toString());
+    stringBuilder.append(")");
+    return stringBuilder.toString();
   }
 
-  @Override
-  public String asFilePath() {
-    return getCombinedDifferences().asFilePath();
+  private SortedDifferences getAdditionalDifferences() {
+    return additionalDifferences;
   }
 
-  @Override
-  public String asPropertyKey() {
-    return getCombinedDifferences().asPropertyKey();
+  private ClassDifferences getClassDifferences() {
+    return classDifferences;
   }
 
   private Differences getCombinedDifferences() {
@@ -106,32 +139,14 @@ public class TestNameDifferences implements Differences {
     return deviceDifferences;
   }
 
-  private void setDeviceDifferences(TestDeviceDifferences deviceDifferences) {
-    this.deviceDifferences = deviceDifferences;
-  }
-
-  private ClassDifferences getClassDifferences() {
-    return classDifferences;
-  }
-
   private void setClassDifferences(ClassDifferences classDifferences) {
+    if (getClassNameMaxLength() > 0) {
+      classDifferences.setClassNameMaxLength(getClassNameMaxLength());
+    }
     this.classDifferences = classDifferences;
   }
 
-  private SortedDifferences getAdditionalDifferences() {
-    return additionalDifferences;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("TestName(class=");
-    stringBuilder.append(getClassDifferences().toString());
-    stringBuilder.append("|device=");
-    stringBuilder.append(getDeviceDifferences().toString());
-    stringBuilder.append("|additional=");
-    stringBuilder.append(getAdditionalDifferences().toString());
-    stringBuilder.append(")");
-    return stringBuilder.toString();
+  private void setDeviceDifferences(TestDeviceDifferences deviceDifferences) {
+    this.deviceDifferences = deviceDifferences;
   }
 }

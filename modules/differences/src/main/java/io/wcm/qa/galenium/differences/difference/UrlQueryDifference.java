@@ -25,17 +25,17 @@ package io.wcm.qa.galenium.differences.difference;
 public class UrlQueryDifference extends UrlDifference {
 
   /**
-   * @param url to extract parameters from
-   */
-  public UrlQueryDifference(String url) {
-    super(url);
-  }
-
-  /**
    * Uses current URL.
    */
   public UrlQueryDifference() {
     super();
+  }
+
+  /**
+   * @param url to extract parameters from
+   */
+  public UrlQueryDifference(String url) {
+    super(url);
   }
 
   @Override

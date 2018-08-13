@@ -53,11 +53,6 @@ public class IntegerDifference extends DifferenceBase {
     return index;
   }
 
-  @Override
-  protected String getRawTag() {
-    return Integer.toString(getIndex());
-  }
-
   /**
    * Increment aka increase index by one.
    */
@@ -67,6 +62,11 @@ public class IntegerDifference extends DifferenceBase {
 
   public void setIndex(int index) {
     this.index = index;
+  }
+
+  @Override
+  protected String getRawTag() {
+    return Integer.toString(getIndex());
   }
 
 }

@@ -31,7 +31,7 @@ import io.wcm.qa.galenium.differences.generic.MutableDifferences;
  */
 public class ClassDifferences implements Differences {
 
-  private Difference classDifference;
+  private ClassNameDifference classDifference;
   private PackageDifferences packageDifferences;
 
   /**
@@ -69,6 +69,14 @@ public class ClassDifferences implements Differences {
   }
 
   /**
+   * Set maximum length of class name in rendered keys.
+   * @param maxLength when to start shortening class name differnce key
+   */
+  public void setClassNameMaxLength(int maxLength) {
+    getClassDifference().setMaxTagLength(maxLength);
+  }
+
+  /**
    * @param p to extract package name from
    */
   public void setPackage(Package p) {
@@ -82,7 +90,18 @@ public class ClassDifferences implements Differences {
     getPackageDifferences().setRootPackage(rootPackage);
   }
 
-  private Difference getClassDifference() {
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("Class(package=");
+    stringBuilder.append(getPackageDifferences().toString());
+    stringBuilder.append("|class=");
+    stringBuilder.append(getClassDifference().toString());
+    stringBuilder.append(")");
+    return stringBuilder.toString();
+  }
+
+  private ClassNameDifference getClassDifference() {
     return classDifference;
   }
 
@@ -97,22 +116,11 @@ public class ClassDifferences implements Differences {
     return packageDifferences;
   }
 
-  private void setClassDifference(Difference classDifference) {
+  private void setClassDifference(ClassNameDifference classDifference) {
     this.classDifference = classDifference;
   }
 
   private void setPackageDifferences(PackageDifferences packageDifferences) {
     this.packageDifferences = packageDifferences;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("Class(package=");
-    stringBuilder.append(getPackageDifferences().toString());
-    stringBuilder.append("|class=");
-    stringBuilder.append(getClassDifference().toString());
-    stringBuilder.append(")");
-    return stringBuilder.toString();
   }
 }

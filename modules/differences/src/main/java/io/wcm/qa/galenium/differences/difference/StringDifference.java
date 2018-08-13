@@ -37,17 +37,17 @@ public class StringDifference extends DifferenceBase {
   }
 
   @Override
+  public String getName() {
+    return super.getName() + "." + getTag();
+  }
+
+  @Override
   protected String getRawTag() {
     return tag;
   }
 
   protected void setTag(String tag) {
     this.tag = tag;
-  }
-
-  @Override
-  public String getName() {
-    return super.getName() + "." + getTag();
   }
 
 }

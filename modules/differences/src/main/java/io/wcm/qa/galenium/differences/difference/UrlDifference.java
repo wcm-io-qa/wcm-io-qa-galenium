@@ -53,13 +53,6 @@ public abstract class UrlDifference extends DifferenceBase {
     return getUrlAsString();
   }
 
-  protected String getUrlAsString() {
-    if (url == null) {
-      url = GaleniumContext.getDriver().getCurrentUrl();
-    }
-    return url;
-  }
-
   protected URL getUrl() {
     try {
       return new URL(getUrlAsString());
@@ -67,6 +60,13 @@ public abstract class UrlDifference extends DifferenceBase {
     catch (MalformedURLException ex) {
       throw new GaleniumException("could not parse URL: '" + getUrlAsString() + "'", ex);
     }
+  }
+
+  protected String getUrlAsString() {
+    if (url == null) {
+      url = GaleniumContext.getDriver().getCurrentUrl();
+    }
+    return url;
   }
 
 

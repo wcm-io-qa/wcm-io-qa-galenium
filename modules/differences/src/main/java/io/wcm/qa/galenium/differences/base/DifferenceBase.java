@@ -28,9 +28,14 @@ import io.wcm.qa.galenium.format.NameUtil;
  */
 public abstract class DifferenceBase implements Difference {
 
-  private static final int MAX_TAG_LENGTH = 20;
   private static final String CLASS_NAME_PART_DIFFERENCE = "difference";
+  private static final int DEFAULT_MAX_TAG_LENGTH = 20;
+  private int maxTagLength = DEFAULT_MAX_TAG_LENGTH;
   private String name;
+
+  public int getMaxTagLength() {
+    return maxTagLength;
+  }
 
   @Override
   public String getName() {
@@ -45,10 +50,12 @@ public abstract class DifferenceBase implements Difference {
 
   @Override
   public String getTag() {
-    return NameUtil.getSanitized(getRawTag(), MAX_TAG_LENGTH);
+    return NameUtil.getSanitized(getRawTag(), getMaxTagLength());
   }
 
-  protected abstract String getRawTag();
+  public void setMaxTagLength(int maxTagLength) {
+    this.maxTagLength = maxTagLength;
+  }
 
   public void setName(String name) {
     this.name = name;
@@ -58,5 +65,7 @@ public abstract class DifferenceBase implements Difference {
   public String toString() {
     return getName() + ": '" + getTag() + "'";
   }
+
+  protected abstract String getRawTag();
 
 }

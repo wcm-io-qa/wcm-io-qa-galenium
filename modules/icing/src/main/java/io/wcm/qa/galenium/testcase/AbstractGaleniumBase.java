@@ -59,6 +59,7 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     setDevice(testDevice);
     getNameDifferences().setTestDevice(testDevice);
     getNameDifferences().setClass(getClass());
+    getNameDifferences().setClassNameMaxLength(30);
   }
 
   /**

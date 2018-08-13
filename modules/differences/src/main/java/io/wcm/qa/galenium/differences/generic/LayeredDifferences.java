@@ -34,13 +34,13 @@ public class LayeredDifferences implements Differences {
   private Differences tertiary;
 
   @Override
-  public Iterator<Difference> iterator() {
-    return getCombinedDifferences().iterator();
+  public String asFilePath() {
+    return getCombinedDifferences().asFilePath();
   }
 
   @Override
-  public String asFilePath() {
-    return getCombinedDifferences().asFilePath();
+  public String asPropertyKey() {
+    return getCombinedDifferences().asPropertyKey();
   }
 
   /**
@@ -54,29 +54,29 @@ public class LayeredDifferences implements Differences {
     return mutableDifferences;
   }
 
-  @Override
-  public String asPropertyKey() {
-    return getCombinedDifferences().asPropertyKey();
-  }
-
   public Differences getPrimary() {
     return primary;
-  }
-
-  public void setPrimary(Differences primary) {
-    this.primary = primary;
   }
 
   public Differences getSecondary() {
     return secondary;
   }
 
-  public void setSecondary(Differences secondary) {
-    this.secondary = secondary;
-  }
-
   public Differences getTertiary() {
     return tertiary;
+  }
+
+  @Override
+  public Iterator<Difference> iterator() {
+    return getCombinedDifferences().iterator();
+  }
+
+  public void setPrimary(Differences primary) {
+    this.primary = primary;
+  }
+
+  public void setSecondary(Differences secondary) {
+    this.secondary = secondary;
   }
 
   public void setTertiary(Differences tertiary) {

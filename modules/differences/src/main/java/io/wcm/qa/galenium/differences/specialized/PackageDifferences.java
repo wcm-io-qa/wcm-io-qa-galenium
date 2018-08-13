@@ -96,6 +96,12 @@ public class PackageDifferences implements Differences {
     setDirty();
   }
 
+  @Override
+  public String toString() {
+    initialize();
+    return "Package(" + getDifferences() + ")";
+  }
+
   private MutableDifferences getDifferences() {
     return differences;
   }
@@ -146,11 +152,5 @@ public class PackageDifferences implements Differences {
   private void setMainPackage(Package mainPackage) {
     this.mainPackage = mainPackage;
     setDirty();
-  }
-
-  @Override
-  public String toString() {
-    initialize();
-    return "Package(" + getDifferences() + ")";
   }
 }

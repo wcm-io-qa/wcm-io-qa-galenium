@@ -55,11 +55,6 @@ public class TestDeviceDifferences implements Differences {
   }
 
   @Override
-  public Iterator<Difference> iterator() {
-    return getDifferences().iterator();
-  }
-
-  @Override
   public String asFilePath() {
     return getDifferences().asFilePath();
   }
@@ -69,15 +64,41 @@ public class TestDeviceDifferences implements Differences {
     return getDifferences().asPropertyKey();
   }
 
+  @Override
+  public Iterator<Difference> iterator() {
+    return getDifferences().iterator();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("TestDevice(browser=");
+    stringBuilder.append(getBrowserDifference());
+    stringBuilder.append("|screen=");
+    stringBuilder.append(getScreenSizeDifference());
+    stringBuilder.append("|emulator=");
+    stringBuilder.append(getEmulatorDifference());
+    stringBuilder.append(")");
+    return stringBuilder.toString();
+  }
+
+  private Difference getBrowserDifference() {
+    return new StringDifference(getDevice().getBrowserType().name());
+  }
+
+  private Difference getEmulatorDifference() {
+    return new StringDifference(getDevice().getChromeEmulator());
+  }
+
+  private Difference getScreenSizeDifference() {
+    return new IntegerDifference(getDevice().getScreenSize().getWidth());
+  }
+
   protected TestDevice getDevice() {
     if (device == null) {
       device = GaleniumContext.getTestDevice();
     }
     return device;
-  }
-
-  protected void setDevice(TestDevice device) {
-    this.device = device;
   }
 
   protected MutableDifferences getDifferences() {
@@ -92,28 +113,7 @@ public class TestDeviceDifferences implements Differences {
     return differences;
   }
 
-  private Difference getEmulatorDifference() {
-    return new StringDifference(getDevice().getChromeEmulator());
-  }
-
-  private Difference getScreenSizeDifference() {
-    return new IntegerDifference(getDevice().getScreenSize().getWidth());
-  }
-
-  private Difference getBrowserDifference() {
-    return new StringDifference(getDevice().getBrowserType().name());
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("TestDevice(browser=");
-    stringBuilder.append(getBrowserDifference());
-    stringBuilder.append("|screen=");
-    stringBuilder.append(getScreenSizeDifference());
-    stringBuilder.append("|emulator=");
-    stringBuilder.append(getEmulatorDifference());
-    stringBuilder.append(")");
-    return stringBuilder.toString();
+  protected void setDevice(TestDevice device) {
+    this.device = device;
   }
 }
