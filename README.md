@@ -4,8 +4,10 @@
 
 This project is an attempt to integrate Galen with Selenium and the other way around in a Maven project. It uses TestNG as a test runner. Galen and ExtentReports provide the reporting.
 
-To get an idea how it works, take a look at the [example project] and contained test examples. There's more documentation in the actual [Galenium integration library].
+To get an idea how it works, take a look at the [example projects] and test examples.
 
-[example project]: example-project
-[Galenium integration library core]: core
-[Galenium integration convenience layer]: convenience
+To integrate into your project you inherit from the [spec generation] and [UI testing] POMs.
+
+[example projects]: examples
+[spec generation]: integration/specs
+[UI testing]: integration/ui-tests
