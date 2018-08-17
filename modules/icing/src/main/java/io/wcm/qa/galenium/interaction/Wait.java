@@ -29,17 +29,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
+import io.wcm.qa.galenium.verification.element.InvisibilityVerification;
+import io.wcm.qa.galenium.verification.element.VisibilityVerification;
 
 /**
  * Wraps WebDriverWait functionalities.
  */
 public final class Wait {
 
-  private static final int DEFAULT_POLLING_INTERVAL = 100;
+  private static final int DEFAULT_NUMBER_OF_POLLS_PER_CALL = 5;
   private static final int DEFAULT_TIMEOUT = 1;
 
   private Wait() {
@@ -58,11 +61,11 @@ public final class Wait {
   /**
    * Waits for {@link Verifiable} or {@link Verification}.
    * @param condition to wait for
-   * @param timeOut how many seconds to wait
+   * @param timeout how many seconds to wait
    */
-  public static void forCondition(Verifiable condition, int timeOut) {
-    int pollingInterval = DEFAULT_POLLING_INTERVAL;
-    forCondition(condition, timeOut, pollingInterval);
+  public static void forCondition(Verifiable condition, int timeout) {
+    int pollingInterval = getPollingIntervalForTimeout(timeout);
+    forCondition(condition, timeout, pollingInterval);
   }
 
   /**
@@ -103,6 +106,23 @@ public final class Wait {
   }
 
   /**
+   * Wait for element to be invisible or not in page.
+   * @param selector identifies element
+   */
+  public static void forInvisibility(Selector selector) {
+    forCondition(new InvisibilityVerification(selector), DEFAULT_TIMEOUT);
+  }
+
+  /**
+   * Wait for element to be invisible or not in page.
+   * @param selector identifies element
+   * @param timeout how many seconds to wait
+   */
+  public static void forInvisibility(Selector selector, int timeout) {
+    forCondition(new InvisibilityVerification(selector), timeout);
+  }
+
+  /**
    * Load URL and wait for it to be loaded.
    * @param url to load
    */
@@ -122,8 +142,30 @@ public final class Wait {
     getLogger().trace("found URL: '" + url + "'");
   }
 
+  /**
+   * Wait for element to be visible.
+   * @param selector identifies element
+   */
+  public static void forVisibility(Selector selector) {
+    forCondition(new VisibilityVerification(selector), DEFAULT_TIMEOUT);
+  }
+
+  /**
+   * Wait for element to be visible.
+   * @param selector identifies element
+   * @param timeout how many seconds to wait
+   */
+  public static void forVisibility(Selector selector, int timeout) {
+    forCondition(new VisibilityVerification(selector), timeout);
+  }
+
+  private static int getPollingIntervalForTimeout(int timeoutInSeconds) {
+    int timeoutInMillis = timeoutInSeconds * 1000;
+    return timeoutInMillis / DEFAULT_NUMBER_OF_POLLS_PER_CALL;
+  }
+
   private static WebDriverWait getWait(int timeOutInSeconds) {
-    return getWait(timeOutInSeconds, DEFAULT_POLLING_INTERVAL);
+    return getWait(timeOutInSeconds, getPollingIntervalForTimeout(timeOutInSeconds));
   }
 
   private static WebDriverWait getWait(int timeOutInSeconds, int pollingInterval) {
@@ -146,17 +188,17 @@ public final class Wait {
       }
     }
 
-    public boolean isVerification() {
-      return getVerifiable() instanceof Verification;
+    @Override
+    public Boolean apply(WebDriver arg0) {
+      return this.condition.verify();
     }
 
     public Verifiable getVerifiable() {
       return condition;
     }
 
-    @Override
-    public Boolean apply(WebDriver arg0) {
-      return this.condition.verify();
+    public boolean isVerification() {
+      return getVerifiable() instanceof Verification;
     }
 
     @Override
