@@ -132,6 +132,9 @@ public final class Mouse {
     click();
   }
 
+  /**
+   * Click at current position.
+   */
   public static void click() {
     getLogger().debug("Clicking at current position.");
     getActions().click().perform();
