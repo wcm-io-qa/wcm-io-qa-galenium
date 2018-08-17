@@ -40,6 +40,9 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Utility methods for interaction with web elements.
+ */
 public final class Element {
 
   private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");

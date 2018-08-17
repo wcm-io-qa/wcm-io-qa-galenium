@@ -26,24 +26,39 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
+/**
+ * Utility methods for switching IFrames.
+ */
 public final class IFrame {
 
   private IFrame() {
     // do not instantiate
   }
 
+  /**
+   * @param selector identifies IFrame to switch to
+   */
   public static void switchTo(Selector selector) {
     switchTo(Element.findOrFailNow(selector));
   }
 
+  /**
+   * @param iFrameElement element to switch to
+   */
   public static void switchTo(WebElement iFrameElement) {
     switchTo().frame(iFrameElement);
   }
 
+  /**
+   * Switch to default content.
+   */
   public static void switchToDefault() {
     switchTo().defaultContent();
   }
 
+  /**
+   * Switch to parent of current IFrame.
+   */
   public static void switchToParent() {
     switchTo().parentFrame();
   }

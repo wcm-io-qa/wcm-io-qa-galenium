@@ -35,6 +35,9 @@ import com.galenframework.browser.SeleniumBrowser;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Mouse interaction methods.
+ */
 public final class Mouse {
 
   private Mouse() {
@@ -101,16 +104,29 @@ public final class Mouse {
     moveByOffset(horizontalOffset, verticalOffset);
   }
 
+  /**
+   * Move horizontally.
+   * @param horizontalOffset
+   * @param verticalOffset
+   */
   public static void moveByOffset(int horizontalOffset, int verticalOffset) {
     getActions().moveByOffset(horizontalOffset, verticalOffset).perform();
   }
 
+  /**
+   * Move mouse pointer to element.
+   * @param selector identifies element
+   */
   public static void moveTo(Selector selector) {
     WebElement element = Element.findOrFail(selector);
     getLogger().debug("Moving to element: " + element);
     getActions().moveToElement(element).perform();
   }
 
+  /**
+   * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
+   * @param selector identifies element
+   */
   public static void clickLocation(Selector selector) {
     moveTo(selector);
     click();
