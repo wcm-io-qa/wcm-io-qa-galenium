@@ -35,6 +35,7 @@ import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 import io.wcm.qa.galenium.verification.element.InvisibilityVerification;
+import io.wcm.qa.galenium.verification.element.TextVerification;
 import io.wcm.qa.galenium.verification.element.VisibilityVerification;
 
 /**
@@ -120,6 +121,42 @@ public final class Wait {
    */
   public static void forInvisibility(Selector selector, int timeout) {
     forCondition(new InvisibilityVerification(selector), timeout);
+  }
+
+  /**
+   * Wait for element to display text from expected properties.
+   * @param selector identifies element
+   */
+  public static void forText(Selector selector) {
+    forText(selector, null, DEFAULT_TIMEOUT);
+  }
+
+  /**
+   * Wait for element to display text from expected properties.
+   * @param selector identifies element
+   * @param timeout how many seconds to wait
+   */
+  public static void forText(Selector selector, int timeout) {
+    forText(selector, null, timeout);
+  }
+
+  /**
+   * Wait for element to display text.
+   * @param selector identifies element
+   * @param text to match
+   */
+  public static void forText(Selector selector, String text) {
+    forText(selector, text, DEFAULT_TIMEOUT);
+  }
+
+  /**
+   * Wait for element to display text.
+   * @param selector identifies element
+   * @param text to match
+   * @param timeout how many seconds to wait
+   */
+  public static void forText(Selector selector, String text, int timeout) {
+    forCondition(new TextVerification(selector, text), timeout);
   }
 
   /**
