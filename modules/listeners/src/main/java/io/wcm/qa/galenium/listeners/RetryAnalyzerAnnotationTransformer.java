@@ -25,7 +25,9 @@ import java.lang.reflect.Method;
 import org.testng.IAnnotationTransformer;
 import org.testng.annotations.ITestAnnotation;
 
-
+/**
+ * Sets {@link RetryAnalyzer} on test classes to facilitate retries without too much boiler plate.
+ */
 public class RetryAnalyzerAnnotationTransformer implements IAnnotationTransformer {
 
   @Override
