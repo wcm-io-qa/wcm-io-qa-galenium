@@ -202,8 +202,8 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
 
   private void setCachingInPreVerification(boolean cachingForPreverification) {
     Verification pre = getPreVerification();
-    if (pre != null && pre instanceof VerificationBase) {
-      ((VerificationBase)pre).setCaching(cachingForPreverification);
+    if (pre != null && pre instanceof CanCache) {
+      ((CanCache)pre).setCaching(cachingForPreverification);
     }
   }
 

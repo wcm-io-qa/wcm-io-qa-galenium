@@ -29,11 +29,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.sampling.CanCache;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;
-import io.wcm.qa.galenium.verification.base.VerificationBase;
 import io.wcm.qa.galenium.verification.element.InvisibilityVerification;
 import io.wcm.qa.galenium.verification.element.TextVerification;
 import io.wcm.qa.galenium.verification.element.VisibilityVerification;
@@ -215,8 +215,8 @@ public final class Wait {
 
     private VerifiableExpectedCondition(Verifiable condition) {
       this.condition = condition;
-      if (condition instanceof VerificationBase) {
-        VerificationBase verification = (VerificationBase)condition;
+      if (condition instanceof CanCache) {
+        CanCache verification = (CanCache)condition;
         getLogger().debug("disable caching verification for '" + verification + "'");
         verification.setCaching(false);
         if (verification.isCaching()) {
