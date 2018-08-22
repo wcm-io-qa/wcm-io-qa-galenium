@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
 
+/**
+ * Abstract base class to verify strings based on regular expression.
+ */
 public abstract class PatternBasedVerification extends StringSamplerBasedVerification {
 
   private Matcher matcher;

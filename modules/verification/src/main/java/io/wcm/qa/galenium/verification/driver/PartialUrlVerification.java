@@ -37,13 +37,13 @@ public class PartialUrlVerification extends CurrentUrlVerification {
   }
 
   @Override
-  protected String getAdditionalToStringInfo() {
-    return getExpectedValue();
+  protected boolean doVerification() {
+    return StringUtils.contains(getActualValue(), getExpectedValue());
   }
 
   @Override
-  protected boolean doVerification() {
-    return StringUtils.contains(getActualValue(), getExpectedValue());
+  protected String getAdditionalToStringInfo() {
+    return getExpectedValue();
   }
 
   @Override

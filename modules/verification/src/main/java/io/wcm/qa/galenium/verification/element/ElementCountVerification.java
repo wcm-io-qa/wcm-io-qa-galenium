@@ -31,6 +31,9 @@ import io.wcm.qa.galenium.verification.element.base.SelectorBasedVerification;
  */
 public class ElementCountVerification extends SelectorBasedVerification<ElementCountSampler, Integer> {
 
+  /**
+   * @param selector identifies elements to count
+   */
   public ElementCountVerification(Selector selector) {
     super("count(" + selector.elementName() + ")", new ElementCountSampler(selector));
   }

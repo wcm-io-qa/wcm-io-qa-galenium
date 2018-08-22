@@ -24,10 +24,17 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.verification.string.StringVerification;
 
+/**
+ * Combines multiple verifications based on the same sampled string into a single verification.
+ */
 public abstract class CombiningStringBasedVerification extends StringVerification {
 
   private CombinedVerification checks = new CombinedVerification();
 
+  /**
+   * @param verificationName name for verification
+   * @param sampler to use for sampling
+   */
   public CombiningStringBasedVerification(String verificationName, StringSampler sampler) {
     super(verificationName, sampler);
   }

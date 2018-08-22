@@ -24,20 +24,47 @@ import java.util.regex.Pattern;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
+/**
+ * Verifies that pattern matches whole sample.
+ */
 public class DoesNotMatchPatternVerification extends MatchesPatternVerification {
 
+  /**
+   * Pattern against fixed sample.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sample fixed sample to verify against
+   */
   public DoesNotMatchPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
   }
 
+  /**
+   * Pattern against input provided by sampler.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sampler sampler to provide input sample
+   */
   public DoesNotMatchPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
+  /**
+   * String pattern against fixed sample.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sample fixed sample to verify against
+   */
   public DoesNotMatchPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
   }
 
+  /**
+   * Pattern against input provided by sampler.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sampler sampler to provide input sample
+   */
   public DoesNotMatchPatternVerification(String verificationName, String pattern, StringSampler sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }

@@ -27,6 +27,9 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
+/**
+ * Combines multiple verifications into a single verification.
+ */
 public class CombinedVerification implements Verification {
 
   private Collection<String> combinedMessages = new ArrayList<String>();
@@ -35,12 +38,19 @@ public class CombinedVerification implements Verification {
   private String messageSeparator = "<br/>";
   private boolean reportSuccess = !GaleniumConfiguration.isSparseReporting();
 
+  /**
+   * @param verifications initial set of verifications
+   */
   public CombinedVerification(Verification... verifications) {
     for (Verification verification : verifications) {
       addVerification(verification);
     }
   }
 
+  /**
+   * Add another check.
+   * @param verification to also verify as part of this comined verification
+   */
   public void addVerification(Verification verification) {
     getMembers().add(verification);
   }

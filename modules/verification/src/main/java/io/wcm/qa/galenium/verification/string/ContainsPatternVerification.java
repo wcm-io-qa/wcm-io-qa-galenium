@@ -25,21 +25,47 @@ import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 import io.wcm.qa.galenium.verification.string.base.PatternBasedVerification;
 
-
+/**
+ * Verifies that regular expression matches part of the sample.
+ */
 public class ContainsPatternVerification extends PatternBasedVerification {
 
+  /**
+   * Pattern against fixed sample.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sample fixed sample to verify against
+   */
   public ContainsPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
   }
 
+  /**
+   * Pattern against input provided by sampler.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sampler sampler to provide input sample
+   */
   public ContainsPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
+  /**
+   * String pattern against fixed sample.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sample fixed sample to verify against
+   */
   public ContainsPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
   }
 
+  /**
+   * Pattern against input provided by sampler.
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sampler sampler to provide input sample
+   */
   public ContainsPatternVerification(String verificationName, String pattern, StringSampler sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }

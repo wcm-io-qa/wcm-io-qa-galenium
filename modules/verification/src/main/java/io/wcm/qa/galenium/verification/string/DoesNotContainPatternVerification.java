@@ -24,20 +24,47 @@ import java.util.regex.Pattern;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
+/**
+ * Verifies that regular expression does not match any part of the sample.
+ */
 public class DoesNotContainPatternVerification extends ContainsPatternVerification {
 
+  /**
+   * Pattern against fixed sample.
+   * @param verificationName name for this check
+   * @param pattern to not find in input
+   * @param sample fixed sample to verify against
+   */
   public DoesNotContainPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
   }
 
+  /**
+   * Pattern against input provided by sampler.
+   * @param verificationName name for this check
+   * @param pattern to not find in input
+   * @param sampler sampler to provide input sample
+   */
   public DoesNotContainPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
     super(verificationName, pattern, sampler);
   }
 
+  /**
+   * String pattern against fixed sample.
+   * @param verificationName name for this check
+   * @param pattern to not find in input
+   * @param sample fixed sample to verify against
+   */
   public DoesNotContainPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
   }
 
+  /**
+   * Pattern against input provided by sampler.
+   * @param verificationName name for this check
+   * @param pattern to not find in input
+   * @param sampler sampler to provide input sample
+   */
   public DoesNotContainPatternVerification(String verificationName, String pattern, StringSampler sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }

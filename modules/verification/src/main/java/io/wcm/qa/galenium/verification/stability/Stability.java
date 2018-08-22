@@ -22,11 +22,14 @@ package io.wcm.qa.galenium.verification.stability;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.CachingSampler;
+import io.wcm.qa.galenium.sampling.CanCache;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 
-
+/**
+ * Abstract base class for implementations verifying the stability of samples.
+ * @param <T> type of sample
+ */
 public abstract class Stability<T> implements Verifiable {
 
   private boolean firstRun = true;
@@ -35,6 +38,9 @@ public abstract class Stability<T> implements Verifiable {
 
   private Sampler<T> sampler;
 
+  /**
+   * @param sampler to use in verification
+   */
   public Stability(Sampler<T> sampler) {
     setSampler(sampler);
   }
@@ -43,9 +49,12 @@ public abstract class Stability<T> implements Verifiable {
     return sampler;
   }
 
+  /**
+   * @param sampler to use in verification
+   */
   public void setSampler(Sampler<T> sampler) {
-    if (sampler instanceof CachingSampler) {
-      ((CachingSampler)sampler).setCaching(false);
+    if (sampler instanceof CanCache) {
+      ((CanCache)sampler).setCaching(false);
     }
     this.sampler = sampler;
   }
@@ -80,15 +89,8 @@ public abstract class Stability<T> implements Verifiable {
     return checkForEquality(getOldSampleValue(), currentSampleValue);
   }
 
-  protected T getOldSampleValue() {
-    return oldSampleValue;
-  }
-
-  protected void setOldSampleValue(T oldSampleValue) {
-    this.oldSampleValue = oldSampleValue;
-  }
-
   /**
+   * If old and new value are equal, we have verified stability.
    * @param oldValue old value (guaranteed to not be null)
    * @param newValue new value (guaranteed to not be null)
    * @return whether the two values are equal
@@ -97,6 +99,14 @@ public abstract class Stability<T> implements Verifiable {
 
   protected Logger getLogger() {
     return GaleniumReportUtil.getLogger();
+  }
+
+  protected T getOldSampleValue() {
+    return oldSampleValue;
+  }
+
+  protected void setOldSampleValue(T oldSampleValue) {
+    this.oldSampleValue = oldSampleValue;
   }
 
 }

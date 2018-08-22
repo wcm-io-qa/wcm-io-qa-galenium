@@ -24,6 +24,9 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.persistence.util.TextSampleManager;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
+/**
+ * Abstract base class for implementations verifying string inputs.
+ */
 public abstract class StringVerificationBase extends VerificationBase<String> {
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";

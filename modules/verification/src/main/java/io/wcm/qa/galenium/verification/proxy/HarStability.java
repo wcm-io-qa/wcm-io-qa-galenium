@@ -26,10 +26,26 @@ import io.wcm.qa.galenium.sampling.proxy.HarEntrySampler;
 import io.wcm.qa.galenium.verification.stability.Stability;
 import net.lightbody.bmp.core.har.HarEntry;
 
+/**
+ * Verifies stability of entries in Har. Succeeds if the same number of entries are in Har in two consequtive
+ * verification attempts.
+ */
 public class HarStability extends Stability<List<HarEntry>> {
 
+  /**
+   * Constructor.
+   */
   public HarStability() {
     super(new HarEntrySampler());
+  }
+
+  private boolean containsAllElements(List<HarEntry> list1, List<HarEntry> list2) {
+    for (HarEntry harEntry : list2) {
+      if (!list1.contains(harEntry)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
@@ -48,15 +64,6 @@ public class HarStability extends Stability<List<HarEntry>> {
       return false;
     }
     getLogger().debug(getClass().getSimpleName() + ": stable entries");
-    return true;
-  }
-
-  private boolean containsAllElements(List<HarEntry> list1, List<HarEntry> list2) {
-    for (HarEntry harEntry : list2) {
-      if (!list1.contains(harEntry)) {
-        return false;
-      }
-    }
     return true;
   }
 

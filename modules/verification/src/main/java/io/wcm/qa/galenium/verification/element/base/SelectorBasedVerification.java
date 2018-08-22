@@ -22,7 +22,11 @@ package io.wcm.qa.galenium.verification.element.base;
 import io.wcm.qa.galenium.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
 
-
+/**
+ * Abstract base class for implementations verifying samples from web elements.
+ * @param <S> type of sampler
+ * @param <T> type of sample
+ */
 public abstract class SelectorBasedVerification<S extends SelectorBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 
   protected SelectorBasedVerification(String verificationName, S sampler) {

@@ -23,10 +23,23 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Verifies that element has no text.
+ */
 public class EmptyTextVerification extends TextVerification {
 
+  /**
+   * @param selector identifies element
+   */
   public EmptyTextVerification(Selector selector) {
     super(selector);
+  }
+
+  @Override
+  protected void afterVerification() {
+    getLogger().trace("looking for empty text");
+    getLogger().trace("found: '" + getCachedValue() + "'");
+    getLogger().trace("done verifying (" + toString() + ")");
   }
 
   @Override
@@ -42,12 +55,5 @@ public class EmptyTextVerification extends TextVerification {
   @Override
   protected String getSuccessMessage() {
     return "(" + getVerificationName() + ") Text is empty.";
-  }
-
-  @Override
-  protected void afterVerification() {
-    getLogger().trace("looking for empty text");
-    getLogger().trace("found: '" + getCachedValue() + "'");
-    getLogger().trace("done verifying (" + toString() + ")");
   }
 }

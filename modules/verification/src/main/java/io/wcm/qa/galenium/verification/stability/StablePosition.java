@@ -25,8 +25,14 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.element.LocationSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Verifies stable position of element. Useful when waiting for animated moving of elements to finish.
+ */
 public class StablePosition extends Stability<Point> {
 
+  /**
+   * @param selector identifies element
+   */
   public StablePosition(Selector selector) {
     super(new LocationSampler(selector));
   }

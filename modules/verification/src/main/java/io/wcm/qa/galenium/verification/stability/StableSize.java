@@ -25,8 +25,14 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.element.SizeSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Verifies stable size of element. Useful when waiting for animated size changes of elements to finish.
+ */
 public class StableSize extends Stability<Dimension> {
 
+  /**
+   * @param selector identifies the element
+   */
   public StableSize(Selector selector) {
     super(new SizeSampler(selector));
   }

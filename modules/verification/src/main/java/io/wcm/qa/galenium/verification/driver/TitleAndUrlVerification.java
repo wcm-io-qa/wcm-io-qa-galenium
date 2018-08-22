@@ -21,8 +21,14 @@ package io.wcm.qa.galenium.verification.driver;
 
 import io.wcm.qa.galenium.verification.base.CombinedVerification;
 
+/**
+ * Verifies current page title and URL.
+ */
 public class TitleAndUrlVerification extends CombinedVerification {
 
+  /**
+   * @param verificationName name for this particular check
+   */
   public TitleAndUrlVerification(String verificationName) {
     super(new CurrentUrlVerification(verificationName), new PageTitleVerification(verificationName));
   }

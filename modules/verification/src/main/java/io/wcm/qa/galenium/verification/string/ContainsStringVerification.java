@@ -24,17 +24,32 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
+/**
+ * Verifies that string is contained in sample.
+ */
 public class ContainsStringVerification extends StringVerification {
 
   private String searchString;
 
+  /**
+   * Verify against fixed string.
+   * @param verificationName name for this check
+   * @param searchString to find in input
+   * @param sample fixed input sample
+   */
   public ContainsStringVerification(String verificationName, String searchString, String sample) {
     this(verificationName, searchString, new FixedStringSampler(sample));
   }
 
+  /**
+   * Verify against input provided by sampler.
+   * @param verificationName name for this check
+   * @param searchString to find in input
+   * @param sampler sampler to provide input
+   */
   public ContainsStringVerification(String verificationName, String searchString, StringSampler sampler) {
     super(verificationName, sampler);
-    this.setSearchString(searchString);
+    setSearchString(searchString);
   }
 
   public String getSearchString() {

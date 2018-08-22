@@ -30,12 +30,13 @@ import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.sampling.CanCache;
 
 /**
  * Common base for {@link Difference} aware Galenium {@link Verification}.
  * @param <S> sample type
  */
-public abstract class VerificationBase<S> implements Verification {
+public abstract class VerificationBase<S> implements Verification, CanCache {
 
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
   private S actualValue;
@@ -110,6 +111,7 @@ public abstract class VerificationBase<S> implements Verification {
     return verificationName;
   }
 
+  @Override
   public boolean isCaching() {
     return caching;
   }
@@ -121,6 +123,7 @@ public abstract class VerificationBase<S> implements Verification {
     return verified;
   }
 
+  @Override
   public void setCaching(boolean caching) {
     this.caching = caching;
     setCachingInPreVerification(caching);
@@ -137,6 +140,9 @@ public abstract class VerificationBase<S> implements Verification {
     this.exception = exception;
   }
 
+  /**
+   * @param preVerification to verify before attempting main verification
+   */
   public void setPreVerification(Verification preVerification) {
     this.preVerification = preVerification;
     setCachingInPreVerification(caching);
@@ -194,10 +200,10 @@ public abstract class VerificationBase<S> implements Verification {
     return isVerified();
   }
 
-  private void setCachingInPreVerification(boolean caching) {
+  private void setCachingInPreVerification(boolean cachingForPreverification) {
     Verification pre = getPreVerification();
     if (pre != null && pre instanceof VerificationBase) {
-      ((VerificationBase)pre).setCaching(caching);
+      ((VerificationBase)pre).setCaching(cachingForPreverification);
     }
   }
 

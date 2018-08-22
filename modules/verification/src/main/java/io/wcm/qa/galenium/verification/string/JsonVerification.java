@@ -31,8 +31,11 @@ import io.wcm.qa.galenium.sampling.transform.JsonSampler;
 import io.wcm.qa.galenium.verification.base.CombinedVerification;
 import io.wcm.qa.galenium.verification.base.SamplerBasedVerification;
 
-
-public class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
+/**
+ * Abstract base class for implementations verifying JSON formatted inputs.
+ * @param <S>
+ */
+public abstract class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
 
   private static final Map<String, String> EMPTY_EXPECTED_VALUE = MapUtils.emptyIfNull(null);
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";

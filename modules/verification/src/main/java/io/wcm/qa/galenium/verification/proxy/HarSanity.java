@@ -25,16 +25,10 @@ import net.lightbody.bmp.core.har.HarEntry;
 import net.lightbody.bmp.core.har.HarRequest;
 import net.lightbody.bmp.core.har.HarResponse;
 
+/**
+ * Verifies stability and then checks for unfinished requests.
+ */
 public class HarSanity extends HarStability {
-
-  @Override
-  protected boolean checkForEquality(List<HarEntry> oldList, List<HarEntry> newList) {
-    if (super.checkForEquality(oldList, newList)) {
-      getLogger().debug("Har is stable. Now checking sanity.");
-      return checkSanity(newList);
-    }
-    return false;
-  }
 
   private boolean checkSanity(List<HarEntry> newList) {
     if (newList.isEmpty()) {
@@ -56,5 +50,14 @@ public class HarSanity extends HarStability {
       }
     }
     return true;
+  }
+
+  @Override
+  protected boolean checkForEquality(List<HarEntry> oldList, List<HarEntry> newList) {
+    if (super.checkForEquality(oldList, newList)) {
+      getLogger().debug("Har is stable. Now checking sanity.");
+      return checkSanity(newList);
+    }
+    return false;
   }
 }

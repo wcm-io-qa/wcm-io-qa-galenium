@@ -23,13 +23,25 @@ import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerification;
 
-
+/**
+ * Generic sampler based string equality verification.
+ */
 public class StringVerification extends StringSamplerBasedVerification {
 
+  /**
+   * Verify against fixed sample.
+   * @param verificationName name for this check
+   * @param sample to verify
+   */
   public StringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));
   }
 
+  /**
+   * Verify against sampled input.
+   * @param verificationName name for this check
+   * @param sampler to provide input
+   */
   public StringVerification(String verificationName, StringSampler sampler) {
     super(verificationName, sampler);
   }

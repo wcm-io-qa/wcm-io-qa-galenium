@@ -22,6 +22,11 @@ package io.wcm.qa.galenium.verification.base;
 import io.wcm.qa.galenium.sampling.CachingSampler;
 import io.wcm.qa.galenium.sampling.Sampler;
 
+/**
+ * Verification of sampled values.
+ * @param <S> type of sampler
+ * @param <T> type of sample
+ */
 public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends VerificationBase<T> {
 
   private S sampler;
@@ -31,12 +36,8 @@ public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends 
     this.setSampler(sampler);
   }
 
-  @Override
-  public void setCaching(boolean activateCaching) {
-    super.setCaching(activateCaching);
-    if (getSampler() instanceof CachingSampler) {
-      ((CachingSampler)getSampler()).setCaching(activateCaching);
-    }
+  public S getSampler() {
+    return sampler;
   }
 
   @Override
@@ -49,8 +50,12 @@ public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends 
     return true;
   }
 
-  public S getSampler() {
-    return sampler;
+  @Override
+  public void setCaching(boolean activateCaching) {
+    super.setCaching(activateCaching);
+    if (getSampler() instanceof CachingSampler) {
+      ((CachingSampler)getSampler()).setCaching(activateCaching);
+    }
   }
 
   public void setSampler(S sampler) {

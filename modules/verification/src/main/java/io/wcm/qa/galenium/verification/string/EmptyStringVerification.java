@@ -24,12 +24,25 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
+/**
+ * Verifies that string is empty.
+ */
 public class EmptyStringVerification extends StringVerification {
 
+  /**
+   * Verify fixed string is empty.
+   * @param verificationName name for this check
+   * @param sample fixed input sample
+   */
   public EmptyStringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));
   }
 
+  /**
+   * Verify sampled input is empty.
+   * @param verificationName name for this check
+   * @param sampler provides input sample
+   */
   public EmptyStringVerification(String verificationName, StringSampler sampler) {
     super(verificationName, sampler);
   }

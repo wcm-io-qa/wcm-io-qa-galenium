@@ -20,13 +20,29 @@
 package io.wcm.qa.galenium.verification.string;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
+/**
+ * Verifies that string is not contained in sample.
+ */
 public class DoesNotContainStringVerification extends ContainsStringVerification {
 
+  /**
+   * Verify against fixed string.
+   * @param verificationName name for this check
+   * @param searchString to not find in input
+   * @param sample fixed input sample
+   */
   public DoesNotContainStringVerification(String verificationName, String searchString, String sample) {
-    super(verificationName, searchString, sample);
+    this(verificationName, searchString, new FixedStringSampler(sample));
   }
 
+  /**
+   * Verify against input provided by sampler.
+   * @param verificationName name for this check
+   * @param searchString to not find in input
+   * @param sampler sampler to provide input
+   */
   public DoesNotContainStringVerification(String verificationName, String searchString, StringSampler sampler) {
     super(verificationName, searchString, sampler);
   }

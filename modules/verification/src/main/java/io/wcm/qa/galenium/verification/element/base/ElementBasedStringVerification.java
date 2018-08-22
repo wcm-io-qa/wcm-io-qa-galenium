@@ -24,6 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.persistence.util.TextSampleManager;
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
 
+/**
+ * Abstract base class for implementations to verification on strings sampled from web elements.
+ * @param <S>
+ */
 public abstract class ElementBasedStringVerification<S extends ElementBasedStringSampler> extends ElementBasedVerification<S, String> {
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
