@@ -19,11 +19,25 @@
  */
 package io.wcm.qa.galenium.mediaquery;
 
-
+/**
+ * Media Queries or Break Points are a concept in responsive design and define different behaviors for different page
+ * widths.
+ */
 public interface MediaQuery {
 
-  String getName();
+  /**
+   * @return lower bound in pixels
+   */
   int getLowerBound();
+
+  /**
+   * @return name of media query
+   */
+  String getName();
+
+  /**
+   * @return upper bound in pixels
+   */
   int getUpperBound();
 
 }

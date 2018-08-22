@@ -23,28 +23,42 @@ import java.util.List;
 
 import org.testng.annotations.DataProvider;
 
+/**
+ * TestNG data provider for test devices.
+ */
 public final class TestDeviceProvider {
 
+  /** Single device. */
   public static final String GALENIUM_SINGLE_TEST_DEVICE = "galenium.testdevices.single";
+  /** All devices. */
   public static final String GALENIUM_TEST_DEVICES_ALL = "galenium.testdevices.all";
+  /** All devices from config. */
   public static final String GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG = "galenium.testdevices.deviceConfig";
-  public static final String GALENIUM_TEST_DEVICES_FROM_MQS = "galenium.testdevices.mq";
 
   private TestDeviceProvider() {
     // do not instantiate
   }
 
+  /**
+   * @return single test device
+   */
   @DataProvider(name = GALENIUM_SINGLE_TEST_DEVICE)
   public static Object[][] provideSingleTestDevice() {
     List<Object> singleDeviceList = TestDeviceUtil.getSingleTestDevice();
     return TestNgProviderUtil.combine(singleDeviceList);
   }
 
+  /**
+   * @return all test devices
+   */
   @DataProvider(name = GALENIUM_TEST_DEVICES_ALL)
   public static Object[][] provideTestDevices() {
     return TestNgProviderUtil.combine(TestDeviceUtil.getTestDevicesForBrowsersAndMqs());
   }
 
+  /**
+   * @return all test devices from device config
+   */
   @DataProvider(name = GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)
   public static Object[][] provideTestDevicesFromDeviceCsv() {
     return TestNgProviderUtil.combine(TestDeviceUtil.getTestDevicesFromDevicesCsv());

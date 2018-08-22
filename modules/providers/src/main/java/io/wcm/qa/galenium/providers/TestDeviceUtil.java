@@ -39,6 +39,9 @@ import io.wcm.qa.galenium.mediaquery.MediaQuery;
 import io.wcm.qa.galenium.mediaquery.MediaQueryUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
+/**
+ * Convenience methods around test devices.
+ */
 public final class TestDeviceUtil {
 
   private static final File CSV_FILE_DEVICES = new File(GaleniumConfiguration.getDeviceCsvFilePath());
@@ -88,6 +91,9 @@ public final class TestDeviceUtil {
     return testDevices;
   }
 
+  /**
+   * @return all test devices defined in CSV
+   */
   public static Collection<TestDevice> getTestDevicesFromDevicesCsv() {
     Collection<TestDevice> testDevices = new ArrayList<>();
     Collection<DeviceProfile> profiles = CsvUtil.<DeviceProfile>parseToBeans(CSV_FILE_DEVICES, DeviceProfile.class);
