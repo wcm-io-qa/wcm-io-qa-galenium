@@ -27,16 +27,33 @@ import java.util.regex.Pattern;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.transform.base.RegexGroupBasedSampler;
 
+/**
+ * Samples groups extracted with regular expression.
+ * @param <S>
+ */
 public class RegexGroupSampler<S extends Sampler<String>> extends RegexGroupBasedSampler<S> {
 
+  /**
+   * @param inputSampler providing the input string
+   * @param pattern used to transform
+   */
   public RegexGroupSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
+  /**
+   * @param inputSampler providing the input string
+   * @param regex to build transformation {@link Pattern} from
+   */
   public RegexGroupSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
   }
 
+  /**
+   * @param inputSampler providing the input string
+   * @param regex to build transformation {@link Pattern} from
+   * @param flags to regular expression
+   */
   public RegexGroupSampler(S inputSampler, String regex, int flags) {
     super(inputSampler, regex, flags);
   }

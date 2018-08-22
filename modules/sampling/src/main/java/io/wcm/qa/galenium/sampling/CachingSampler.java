@@ -19,10 +19,19 @@
  */
 package io.wcm.qa.galenium.sampling;
 
-
+/**
+ * Sampler with configurable caching.
+ * @param <T>
+ */
 public interface CachingSampler<T> extends Sampler<T> {
 
+  /**
+   * @return whether sampler is currently caching
+   */
   boolean isCaching();
 
+  /**
+   * @param activateCache whether to activate or deactivate caching
+   */
   void setCaching(boolean activateCache);
 }

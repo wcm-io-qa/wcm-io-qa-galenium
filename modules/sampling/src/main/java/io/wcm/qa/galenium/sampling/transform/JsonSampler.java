@@ -28,11 +28,17 @@ import com.github.wnameless.json.flattener.JsonFlattener;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.transform.base.TransformationBasedSampler;
 
-
+/**
+ * Samples JSON formatted data into a flat map.
+ * @param <S>
+ */
 public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, String>> {
 
   private static final String STRING_REPRESENTATION_NULL = "null";
 
+  /**
+   * @param inputSampler providing the JSON as String
+   */
   public JsonSampler(S inputSampler) {
     super(inputSampler);
   }

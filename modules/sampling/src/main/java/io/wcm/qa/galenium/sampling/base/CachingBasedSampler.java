@@ -24,6 +24,10 @@ import org.slf4j.Logger;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.CachingSampler;
 
+/**
+ * Abstract base class for caching samplers.
+ * @param <T>
+ */
 public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
   private T cachedValue;

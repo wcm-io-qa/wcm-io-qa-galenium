@@ -22,7 +22,9 @@ package io.wcm.qa.galenium.sampling.driver;
 import io.wcm.qa.galenium.sampling.StringSampler;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
-
+/**
+ * Samples title of current page.
+ */
 public class PageTitleSampler implements StringSampler {
 
   @Override

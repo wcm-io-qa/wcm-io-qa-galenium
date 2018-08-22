@@ -25,9 +25,14 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-
+/**
+ * Samples size of element.
+ */
 public class SizeSampler extends ElementBasedSampler<Dimension> {
 
+  /**
+   * @param selector identifies element
+   */
   public SizeSampler(Selector selector) {
     super(selector);
   }

@@ -19,7 +19,10 @@
  */
 package io.wcm.qa.galenium.sampling;
 
-
+/**
+ * Generic sampler.
+ * @param <T>
+ */
 public interface Sampler<T> {
 
   /**

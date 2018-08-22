@@ -23,8 +23,14 @@ import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Counts elements matching the selector.
+ */
 public class ElementCountSampler extends SelectorBasedSampler<Integer> {
 
+  /**
+   * @param selector identifies elements to be counted
+   */
   public ElementCountSampler(Selector selector) {
     super(selector);
   }

@@ -21,11 +21,16 @@ package io.wcm.qa.galenium.sampling.string;
 
 import io.wcm.qa.galenium.sampling.StringSampler;
 
+/**
+ * Samples the same fixed string every time.
+ */
 public class FixedStringSampler implements StringSampler {
 
   private String fixedString;
 
-
+  /**
+   * @param sample sample to return for every sampling
+   */
   public FixedStringSampler(String sample) {
     fixedString = sample;
   }

@@ -24,15 +24,16 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-
+/**
+ * Samples text of web element.
+ */
 public class TextSampler extends ElementBasedStringSampler {
 
+  /**
+   * @param selector identifies element.
+   */
   public TextSampler(Selector selector) {
-    this(selector, 0);
-  }
-
-  public TextSampler(Selector selector, int timeOut) {
-    super(selector, timeOut);
+    super(selector, 0);
   }
 
   @Override

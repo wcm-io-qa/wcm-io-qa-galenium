@@ -24,17 +24,19 @@ import org.openqa.selenium.WebElement;
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
-
+/**
+ * Samples an attribute of a web element.
+ */
 public class AttributeSampler extends ElementBasedStringSampler {
 
   private String attributeName;
 
+  /**
+   * @param selector identifies element
+   * @param attributeName name of attribute to sample
+   */
   public AttributeSampler(Selector selector, String attributeName) {
-    this(selector, attributeName, 0);
-  }
-
-  public AttributeSampler(Selector selector, String attributeName, int timeOut) {
-    super(selector, timeOut);
+    super(selector, 0);
     setAttributeName(attributeName);
   }
 

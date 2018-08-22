@@ -23,10 +23,19 @@ import io.wcm.qa.galenium.sampling.CachingSampler;
 import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
 
+/**
+ * Abstract base class for transforming samplers.
+ * @param <S> type of sampler providing the input
+ * @param <I> type of input
+ * @param <O> type of output
+ */
 public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> {
 
   private S input;
 
+  /**
+   * @param inputSampler providing the input sample to transform
+   */
   public TransformationBasedSampler(S inputSampler) {
     setInput(inputSampler);
   }

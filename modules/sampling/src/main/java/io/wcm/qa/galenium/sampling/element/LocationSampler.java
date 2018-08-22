@@ -26,8 +26,14 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedSampler;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Samples position of web element.
+ */
 public class LocationSampler extends ElementBasedSampler<Point> {
 
+  /**
+   * @param selector identifies element
+   */
   public LocationSampler(Selector selector) {
     super(selector);
   }

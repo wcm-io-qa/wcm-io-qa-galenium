@@ -33,15 +33,7 @@ public class VisibilitySampler extends ElementBasedSampler<Boolean> {
    * @param selector to identify element
    */
   public VisibilitySampler(Selector selector) {
-    this(selector, 0);
-  }
-
-  /**
-   * @param selector to identify element
-   * @param timeOut how many seconds to wait
-   */
-  public VisibilitySampler(Selector selector, int timeOut) {
-    super(selector, timeOut);
+    super(selector, 0);
   }
 
   private Boolean isDisplayed(WebElement element) {

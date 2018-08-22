@@ -28,9 +28,14 @@ import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.core.har.HarEntry;
 import net.lightbody.bmp.core.har.HarLog;
 
-
+/**
+ * Samples {@link HarEntry} instances from a {@link HarSampler}.
+ */
 public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har, List<HarEntry>> {
 
+  /**
+   * Constructor.
+   */
   public HarEntrySampler() {
     super(new HarSampler());
   }
