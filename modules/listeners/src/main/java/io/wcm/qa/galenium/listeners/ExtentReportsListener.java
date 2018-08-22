@@ -24,6 +24,7 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.IConfigurationListener2;
 import org.testng.ITestContext;
@@ -111,7 +112,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
       Reporter.log(logMsgHtml, false);
       getLogger().error(logMsg.toString());
     }
-    catch (RuntimeException ex) {
+    catch (WebDriverException | NullPointerException ex) {
       String msg = "Error during failure handling";
       GaleniumReportUtil.getLogger().error(msg, ex);
       throw new GaleniumException(msg, ex);
