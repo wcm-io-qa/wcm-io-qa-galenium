@@ -22,7 +22,9 @@ package io.wcm.qa.galenium.maven.freemarker.methods;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
-
+/**
+ * Extracts Java class name from selector.
+ */
 public class ClassNameFromSelectorMethod extends AbstractTemplateMethod<NestedSelector> {
 
   @Override

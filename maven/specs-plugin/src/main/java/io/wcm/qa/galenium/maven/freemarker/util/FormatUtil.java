@@ -29,6 +29,9 @@ import com.google.common.base.CaseFormat;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
+/**
+ * Utility methods to convert between different casings.
+ */
 public final class FormatUtil {
 
   private static final String FILE_ENDING_GSPEC = ".gspec";
@@ -38,10 +41,18 @@ public final class FormatUtil {
     // do not instantiate
   }
 
+  /**
+   * @param file to extract class name from
+   * @return class name build from file name
+   */
   public static String getClassName(File file) {
     return getClassName(FilenameUtils.getBaseName(file.getPath()));
   }
 
+  /**
+   * @param selector to extract class name from
+   * @return class name from selectors element name
+   */
   public static String getClassName(NestedSelector selector) {
     String elementName = selector.elementName();
     String relativeElementName = getRelativeElementName(elementName);
@@ -49,14 +60,26 @@ public final class FormatUtil {
     return kebapToUpperCamel(cleanElementName);
   }
 
+  /**
+   * @param specPojo to extract name from
+   * @return class name from spec file
+   */
   public static String getClassName(SpecPojo specPojo) {
     return kebapToUpperCamel(specPojo.getBasename());
   }
 
+  /**
+   * @param string kebap cased string
+   * @return class name formatted string from kebap string
+   */
   public static String getClassName(String string) {
     return kebapToUpperCamel(string);
   }
 
+  /**
+   * @param selector to extract name from
+   * @return selectors element name formatted for use as constant name
+   */
   public static String getConstantName(NestedSelector selector) {
     String elementName = selector.elementName();
     String relativeElementName = getRelativeElementName(elementName);
@@ -64,6 +87,11 @@ public final class FormatUtil {
     return kebapToConstant(cleanElementName);
   }
 
+  /**
+   * @param packageRoot root package to prepend
+   * @param spec to extract package name from
+   * @return absolute package name built from package root and spec
+   */
   public static String getSelectorsPackageName(String packageRoot, SpecPojo spec) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(packageRoot);

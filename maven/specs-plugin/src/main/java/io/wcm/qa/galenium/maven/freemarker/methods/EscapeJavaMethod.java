@@ -19,8 +19,11 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.methods;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
+/**
+ * Escape string for use as java string.
+ */
 public class EscapeJavaMethod extends AbstractTemplateMethod<String> {
 
   @Override

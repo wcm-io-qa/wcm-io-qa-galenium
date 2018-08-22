@@ -24,16 +24,27 @@ import java.lang.reflect.Modifier;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * Convenience methods interacting with Java reflection API.
+ */
 public final class ReflectionUtil {
 
   private ReflectionUtil() {
     // do not instantiate
   }
 
+  /**
+   * @param type to check
+   * @return whether the class implements {@link Selector}
+   */
   public static boolean isSelector(Class<?> type) {
     return Selector.class.isAssignableFrom(type);
   }
 
+  /**
+   * @param method to check
+   * @return whether the method is static
+   */
   public static boolean isStatic(Method method) {
     return Modifier.isStatic(method.getModifiers());
   }

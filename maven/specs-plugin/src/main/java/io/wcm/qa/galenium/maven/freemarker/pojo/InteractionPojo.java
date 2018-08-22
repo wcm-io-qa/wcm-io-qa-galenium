@@ -26,8 +26,14 @@ import java.util.Collection;
 import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.maven.freemarker.util.ReflectionUtil;
 
+/**
+ * Provides methods from {@link Element} class.
+ */
 public class InteractionPojo {
 
+  /**
+   * @return methods pojo for use in code generation
+   */
   public Collection<InteractionMethodPojo> getMethods() {
     Collection<InteractionMethodPojo> methods = new ArrayList<InteractionMethodPojo>();
 

@@ -27,14 +27,23 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.maven.freemarker.util.ReflectionUtil;
 
+/**
+ * Pojo to generate interaction methods.
+ */
 public class InteractionMethodPojo {
 
   private Method method;
 
+  /**
+   * @param method method to generate delegate for
+   */
   public InteractionMethodPojo(Method method) {
     setMethod(method);
   }
 
+  /**
+   * @return method body for generated class
+   */
   public String getBody() {
     StringBuilder body = new StringBuilder();
     if (!StringUtils.equals("void", method.getReturnType().getCanonicalName())) {
@@ -48,6 +57,19 @@ public class InteractionMethodPojo {
     return body.toString();
   }
 
+  /**
+   * @return method head for generated class
+   */
+  public String getHead() {
+    StringBuilder head = new StringBuilder();
+    head.append("public ");
+    head.append(getHeadForInterface());
+    return head.toString();
+  }
+
+  /**
+   * @return method head for generated interface
+   */
   public String getHeadForInterface() {
     StringBuilder head = new StringBuilder();
     head.append(method.getGenericReturnType().getTypeName());
@@ -56,12 +78,6 @@ public class InteractionMethodPojo {
     head.append("(");
     head.append(getParametersForDeclaration());
     head.append(")");
-    return head.toString();
-  }
-  public String getHead() {
-    StringBuilder head = new StringBuilder();
-    head.append("public ");
-    head.append(getHeadForInterface());
     return head.toString();
   }
 

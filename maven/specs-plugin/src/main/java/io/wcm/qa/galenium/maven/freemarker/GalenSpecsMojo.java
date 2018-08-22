@@ -63,16 +63,16 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 public class GalenSpecsMojo extends AbstractMojo {
 
   /**
-   * Name of Freemarker template to use for generating top level classes.
-   */
-  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorTemplate")
-  private String interactiveSelectorTemplate;
-
-  /**
    * Root directory for generated output.
    */
   @Parameter(defaultValue = "${project.build.directory}/target/specs", property = "inputDir", required = true)
   private File inputDirectory;
+
+  /**
+   * Name of Freemarker template to use for generating top level classes.
+   */
+  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorTemplate")
+  private String interactiveSelectorTemplate;
 
   /**
    * Root directory for generated output.
@@ -93,10 +93,10 @@ public class GalenSpecsMojo extends AbstractMojo {
   private String packagePrefixSpecs;
 
   /**
-   * Name of Freemarker template to use for generating top level classes.
+   * A set of file patterns to exclude from selector generation.
    */
-  @Parameter(defaultValue = "selector.ftlh", property = "selectorTemplate")
-  private String selectorTemplate;
+  @Parameter(property = "selectorExcludes")
+  private String[] selectorExcludes;
 
   /**
    * A set of file patterns to include in selector generation.
@@ -105,22 +105,22 @@ public class GalenSpecsMojo extends AbstractMojo {
   private String[] selectorIncludes;
 
   /**
-   * A set of file patterns to exclude from selector generation.
+   * Name of Freemarker template to use for generating top level classes.
    */
-  @Parameter(property = "selectorExcludes")
-  private String[] selectorExcludes;
-
-  /**
-   * A set of file patterns to include in spec generation.
-   */
-  @Parameter(property = "specIncludes")
-  private String[] specIncludes;
+  @Parameter(defaultValue = "selector.ftlh", property = "selectorTemplate")
+  private String selectorTemplate;
 
   /**
    * A set of file patterns to exclude from spec generation.
    */
   @Parameter(property = "specExcludes")
   private String[] specExcludes;
+
+  /**
+   * A set of file patterns to include in spec generation.
+   */
+  @Parameter(property = "specIncludes")
+  private String[] specIncludes;
 
   private Collection<SpecPojo> specsForSelectors = new ArrayList<>();
   private Collection<SpecPojo> specsForSpecs = new ArrayList<>();
@@ -173,6 +173,21 @@ public class GalenSpecsMojo extends AbstractMojo {
     return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
   }
 
+  private void generateCode() {
+    generateInteractiveSelectorCode();
+    generateSelectorCode();
+    generateSpecCode();
+  }
+
+  private void generateInteractiveSelectorCode() {
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorTemplate);
+    String className = getInteractiveSelectorClassName();
+    String packageName = getInteractiveSelectorPackageName();
+    Map<String, Object> model = FreemarkerUtil.getDataModelForInteractiveSelector(packageName, className);
+    File outputFile = FreemarkerUtil.getOutputFile(outputDirectory, packageName, className);
+    FreemarkerUtil.process(template, model, outputFile);
+  }
+
   private void generateSpecCode() {
     // same template for all specs
     getLog().info("fetching template");
@@ -187,6 +202,24 @@ public class GalenSpecsMojo extends AbstractMojo {
       FreemarkerUtil.process(template, dataModelForSpec, getOutputFile(specPojo));
 
     }
+  }
+
+  private String[] getIncludedFiles(File inputFolder, String[] includes, String[] excludes) {
+    DirectoryScanner directoryScanner = new DirectoryScanner();
+    directoryScanner.setIncludes(includes);
+    directoryScanner.setExcludes(excludes);
+    directoryScanner.setBasedir(inputFolder);
+    directoryScanner.scan();
+    String[] includedFiles = directoryScanner.getIncludedFiles();
+    return includedFiles;
+  }
+
+  private String[] getIncludedFilesForSelectors() {
+    return getIncludedFiles(inputDirectory, selectorIncludes, selectorExcludes);
+  }
+
+  private String[] getIncludedFilesForSpecs() {
+    return getIncludedFiles(inputDirectory, specIncludes, specExcludes);
   }
 
   private String getInteractiveSelectorClassName() {
@@ -209,14 +242,6 @@ public class GalenSpecsMojo extends AbstractMojo {
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private Collection<File> getSpecFilesForSpecs() {
-    return getSpecFiles(getIncludedFilesForSpecs());
-  }
-
-  private Collection<File> getSpecFilesForSelectors() {
-    return getSpecFiles(getIncludedFilesForSelectors());
-  }
-
   private Collection<File> getSpecFiles(String[] includedFiles) {
     Collection<File> specFiles = new ArrayList<>();
     for (String relativeFilePath : includedFiles) {
@@ -226,22 +251,12 @@ public class GalenSpecsMojo extends AbstractMojo {
     return specFiles;
   }
 
-  private String[] getIncludedFilesForSpecs() {
-    return getIncludedFiles(inputDirectory, specIncludes, specExcludes);
+  private Collection<File> getSpecFilesForSelectors() {
+    return getSpecFiles(getIncludedFilesForSelectors());
   }
 
-  private String[] getIncludedFilesForSelectors() {
-    return getIncludedFiles(inputDirectory, selectorIncludes, selectorExcludes);
-  }
-
-  private String[] getIncludedFiles(File inputFolder, String[] includes, String[] excludes) {
-    DirectoryScanner directoryScanner = new DirectoryScanner();
-    directoryScanner.setIncludes(includes);
-    directoryScanner.setExcludes(excludes);
-    directoryScanner.setBasedir(inputFolder);
-    directoryScanner.scan();
-    String[] includedFiles = directoryScanner.getIncludedFiles();
-    return includedFiles;
+  private Collection<File> getSpecFilesForSpecs() {
+    return getSpecFiles(getIncludedFilesForSpecs());
   }
 
   private void storeSpecForSelector(SpecPojo specPojo) {
@@ -250,21 +265,6 @@ public class GalenSpecsMojo extends AbstractMojo {
 
   private void storeSpecForSpec(SpecPojo specPojo) {
     specsForSpecs.add(specPojo);
-  }
-
-  private void generateCode() {
-    generateInteractiveSelectorCode();
-    generateSelectorCode();
-    generateSpecCode();
-  }
-
-  private void generateInteractiveSelectorCode() {
-    Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorTemplate);
-    String className = getInteractiveSelectorClassName();
-    String packageName = getInteractiveSelectorPackageName();
-    Map<String, Object> model = FreemarkerUtil.getDataModelForInteractiveSelector(packageName, className);
-    File outputFile = FreemarkerUtil.getOutputFile(outputDirectory, packageName, className);
-    FreemarkerUtil.process(template, model, outputFile);
   }
 
   protected void generateSelectorCode() {

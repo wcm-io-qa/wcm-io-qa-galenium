@@ -22,7 +22,9 @@ package io.wcm.qa.galenium.maven.freemarker.methods;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 
-
+/**
+ * Package name for selector paackage.
+ */
 public class PackageNameMethod extends AbstractTemplateMethod<SpecPojo> {
 
   @Override

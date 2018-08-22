@@ -34,6 +34,9 @@ import io.wcm.qa.galenium.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.galenium.selectors.base.NestedSelector;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
 
+/**
+ * Holds data from Galen spec to use in generation.
+ */
 public class SpecPojo {
 
   private PageSpec pageSpec;
@@ -41,6 +44,9 @@ public class SpecPojo {
   private File specFile;
   private Collection<String> tags;
 
+  /**
+   * @param specFile to retrieve data from
+   */
   public SpecPojo(File specFile) {
     setSpecFile(specFile);
   }
@@ -49,20 +55,32 @@ public class SpecPojo {
     return FilenameUtils.getBaseName(getFilename());
   }
 
+  /**
+   * @return class name extracted from spec file
+   */
   public String getClassName() {
     File file = getSpecFile();
     return FormatUtil.getClassName(file);
   }
 
+  /**
+   * @return spec file name
+   */
   public String getFilename() {
     return getSpecFile().getName();
   }
 
+  /**
+   * @return package name from spec file path
+   */
   public String getPackageName() {
     String baseName = FilenameUtils.getBaseName(getSpecFile().getPath());
     return baseName.toLowerCase().replaceAll("[^a-z0-9]", "");
   }
 
+  /**
+   * @return parsed Galen spec
+   */
   public PageSpec getPageSpec() {
     if (pageSpec == null) {
       pageSpec = ParsingUtil.readSpec(getSpecFile());
@@ -70,11 +88,17 @@ public class SpecPojo {
     return pageSpec;
   }
 
+  /**
+   * @return relative path to Galen spec file
+   */
   public String getRelativeFilePath() {
     String relativePath = FileHandlingUtil.constructRelativePath(getSpecRoot(), getSpecFile());
     return getUnixStyleFilePath(relativePath);
   }
 
+  /**
+   * @return root objects from Galen spec
+   */
   public Collection<NestedSelector> getRootSelectors() {
     Collection<NestedSelector> rootSelectors = new ArrayList<>();
     for (NestedSelector selector : getSelectors()) {
@@ -86,6 +110,9 @@ public class SpecPojo {
     return rootSelectors;
   }
 
+  /**
+   * @return all selectors from spec
+   */
   public Collection<NestedSelector> getSelectors() {
     if (selectors == null) {
       selectors = GalenHelperUtil.getObjects(getPageSpec());
@@ -97,7 +124,10 @@ public class SpecPojo {
     return specFile;
   }
 
-  public Collection<String> getTags(){
+  /**
+   * @return tags used in Galen spec
+   */
+  public Collection<String> getTags() {
     if (tags == null) {
       tags = ParsingUtil.getTags(getSpecFile());
     }

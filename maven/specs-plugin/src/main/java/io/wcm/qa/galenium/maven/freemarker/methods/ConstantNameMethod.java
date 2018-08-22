@@ -22,7 +22,9 @@ package io.wcm.qa.galenium.maven.freemarker.methods;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
-
+/**
+ * Extracts constant name from selector.
+ */
 public class ConstantNameMethod extends AbstractTemplateMethod<NestedSelector> {
 
   @Override

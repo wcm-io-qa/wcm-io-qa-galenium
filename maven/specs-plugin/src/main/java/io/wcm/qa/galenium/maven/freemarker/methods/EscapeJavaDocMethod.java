@@ -19,18 +19,21 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.methods;
 
-public class EscapeXmlMethod extends AbstractTemplateMethod<String> {
-
-  @Override
-  protected String exec(String input) {
-    return escapeJavaDoc(input);
-  }
+/**
+ * Escapes strign for JavaDoc.
+ */
+public class EscapeJavaDocMethod extends AbstractTemplateMethod<String> {
 
   protected String escapeJavaDoc(String input) {
     return input
         .replaceAll("&", "&amp;")
         .replaceAll(">", "&gt;")
         .replaceAll("<", "&lt;");
+  }
+
+  @Override
+  protected String exec(String input) {
+    return escapeJavaDoc(input);
   }
 
 }

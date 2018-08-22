@@ -21,7 +21,9 @@ package io.wcm.qa.galenium.maven.freemarker.methods;
 
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 
-
+/**
+ * Cleans and formats string for use in class name.
+ */
 public class ClassNameFromStringMethod extends AbstractTemplateMethod<String> {
 
   @Override

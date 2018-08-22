@@ -44,6 +44,9 @@ import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.mock.MockPage;
 import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
+/**
+ * Utility methods for parsing Galen specs.
+ */
 public final class ParsingUtil {
 
   private static final String PATTERN_LINE_WITH_TAGS_IN_SPEC = "@on";
@@ -52,11 +55,20 @@ public final class ParsingUtil {
     // do not instantiate
   }
 
+  /**
+   * Extracts all selectors defined in spec.
+   * @param specFile to parse
+   * @return all defined objects as selectors
+   */
   public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
     PageSpec galenSpec = readSpec(specFile);
     return GalenHelperUtil.getObjects(galenSpec);
   }
 
+  /**
+   * @param specFile to parse
+   * @return all tags used in spec
+   */
   public static Collection<String> getTags(File specFile) {
     try {
       Bag<String> tags = new HashBag<>();
@@ -83,6 +95,11 @@ public final class ParsingUtil {
     }
   }
 
+  /**
+   * Parse spec.
+   * @param specFile to parse
+   * @return Java object representing the parsed Galen spec file
+   */
   public static PageSpec readSpec(File specFile) {
     if (specFile == null) {
       throw new GaleniumException("cannot read spec from null file.");

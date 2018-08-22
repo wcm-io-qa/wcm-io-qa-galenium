@@ -28,7 +28,10 @@ import freemarker.template.utility.DeepUnwrap;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
-
+/**
+ * Abstract base class for implentations of template methods.
+ * @param <S>
+ */
 public abstract class AbstractTemplateMethod<S> implements TemplateMethodModelEx {
 
   @Override
