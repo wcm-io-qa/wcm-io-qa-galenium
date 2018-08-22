@@ -28,6 +28,18 @@ import java.util.Collection;
 public interface NestedSelector extends Selector {
 
   /**
+   * Cloned selector with CSS not relative to potential parent, but as absolute in page.
+   * @return a clone relative to parent
+   */
+  Selector asAbsolute();
+
+  /**
+   * Cloned selector with CSS not relative to potential parent, but as absolute in page.
+   * @return a clone relative to parent
+   */
+  Selector asRelative();
+
+  /**
    * @return a list containing this selector's child selectors, empty list if no children
    */
   Collection<NestedSelector> getChildren();
@@ -48,16 +60,4 @@ public interface NestedSelector extends Selector {
    * @return whether this selector has a parent
    */
   boolean hasParent();
-
-  /**
-   * Cloned selector with CSS not relative to potential parent, but as absolute in page.
-   * @return a clone relative to parent
-   */
-  Selector asAbsolute();
-
-  /**
-   * Cloned selector with CSS not relative to potential parent, but as absolute in page.
-   * @return a clone relative to parent
-   */
-  Selector asRelative();
 }

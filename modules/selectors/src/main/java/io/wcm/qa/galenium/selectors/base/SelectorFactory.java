@@ -155,7 +155,8 @@ public final class SelectorFactory {
     String elementName;
     if (StringUtils.startsWith(childName, parentName)) {
       elementName = childName;
-    }else {
+    }
+    else {
       elementName = parentName + "." + childName;
     }
     return fromCss(elementName, selectorString);

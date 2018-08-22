@@ -28,6 +28,10 @@ import com.galenframework.specs.page.Locator;
 import io.wcm.qa.galenium.selectors.base.NestedSelector;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
+/**
+ * {@link NestedSelector} implementation immediately setting {@link By}, {@link Locator}, parent and children values on
+ * instantiation. This avoids harder to trace errors inherent in lazy evaluation used in other implementations.
+ */
 public class FixedValueNestedSelector extends FixedValueSelector implements NestedSelector {
 
   private Selector absolute;
@@ -35,11 +39,26 @@ public class FixedValueNestedSelector extends FixedValueSelector implements Nest
   private NestedSelector parent;
   private Selector relative;
 
+  /**
+   * Uses the element name, selector CSS, {@link By}, {@link Locator}, parent and children from selector.
+   * @param selector to extract values from
+   */
   public FixedValueNestedSelector(NestedSelector selector) {
     this(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), selector.asAbsolute(), selector.asRelative(),
         selector.getParent(), selector.getChildren());
   }
 
+  /**
+   * Uses the parameters as values.
+   * @param elementName to use for selector
+   * @param css to use for selector
+   * @param by to use for selector
+   * @param locator to use for selector
+   * @param absolute absolute version of selector
+   * @param relative relative version of selector
+   * @param parent to use for selector
+   * @param children to use for selector
+   */
   public FixedValueNestedSelector(String elementName, String css, By by, Locator locator, Selector absolute,
       Selector relative, NestedSelector parent, Collection<NestedSelector> children) {
     super(elementName, css, by, locator);
