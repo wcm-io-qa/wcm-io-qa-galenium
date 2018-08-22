@@ -27,7 +27,8 @@ import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 
 /**
- * Abstract base class for implementations verifying the stability of samples.
+ * Abstract base class for implementations verifying the stability of samples. The mechanism is that two consecutive
+ * samples have to be equal.
  * @param <T> type of sample
  */
 public abstract class Stability<T> implements Verifiable {
