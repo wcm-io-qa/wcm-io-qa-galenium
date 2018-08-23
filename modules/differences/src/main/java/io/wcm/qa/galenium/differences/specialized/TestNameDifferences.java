@@ -83,6 +83,9 @@ public class TestNameDifferences implements Differences {
     setClassDifferences(new ClassDifferences(testClass));
   }
 
+  /**
+   * @param maxLength to restrict class name part of test name to
+   */
   public void setClassNameMaxLength(int maxLength) {
     classNameMaxLength = maxLength;
     if (getClassDifferences() != null && maxLength > 0) {
