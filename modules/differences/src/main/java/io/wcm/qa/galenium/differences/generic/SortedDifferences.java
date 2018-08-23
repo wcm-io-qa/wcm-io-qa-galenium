@@ -31,6 +31,7 @@ import io.wcm.qa.galenium.differences.base.Difference;
  */
 public class SortedDifferences extends MutableDifferences {
 
+  private static final DifferenceNameComparator DEFAULT_DIFFERENCE_COMPARATOR = new DifferenceNameComparator();
   private Comparator<Difference> comparator;
   private SortedSet<Difference> differences;
 
@@ -38,7 +39,16 @@ public class SortedDifferences extends MutableDifferences {
    * Use default comparator.
    */
   public SortedDifferences() {
-    setDifferences(new TreeSet<Difference>(getComparator()));
+    this(DEFAULT_DIFFERENCE_COMPARATOR);
+  }
+
+  /**
+   * Use default comparator.
+   * @param comparator
+   */
+  public SortedDifferences(Comparator<Difference> comparator) {
+    setDifferences(new TreeSet<Difference>(comparator));
+    setComparator(comparator);
   }
 
   /**
@@ -46,7 +56,7 @@ public class SortedDifferences extends MutableDifferences {
    */
   public Comparator<Difference> getComparator() {
     if (comparator == null) {
-      return new DifferenceNameComparator();
+      return DEFAULT_DIFFERENCE_COMPARATOR;
     }
     return comparator;
   }

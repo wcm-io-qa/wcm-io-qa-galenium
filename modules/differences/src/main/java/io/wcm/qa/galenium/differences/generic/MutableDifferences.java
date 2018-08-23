@@ -39,7 +39,7 @@ public class MutableDifferences implements Differences {
   /**
    * See {@link ArrayList#add(Object)}
    * @param difference to be appended
-   * @return true
+   * @return true if adding changed anything
    */
   public boolean add(Difference difference) {
     return getDifferences().add(difference);
@@ -58,21 +58,15 @@ public class MutableDifferences implements Differences {
    * @param toBeAppended Collection of differences to be appended
    * @return if differences changed after appending
    */
-  public boolean addAll(Differences toBeAppended) {
+  public boolean addAll(Iterable<? extends Difference> toBeAppended) {
     return CollectionUtils.addAll(getDifferences(), toBeAppended);
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.sampling.Differences#asFilePath()
-   */
   @Override
   public String asFilePath() {
     return joinTagsWith("/");
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.sampling.Differences#asPropertyKey()
-   */
   @Override
   public String asPropertyKey() {
     return joinTagsWith(".");
@@ -89,9 +83,6 @@ public class MutableDifferences implements Differences {
     return differences;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.sampling.Differences#iterator()
-   */
   @Override
   public Iterator<Difference> iterator() {
     return getDifferences().iterator();
