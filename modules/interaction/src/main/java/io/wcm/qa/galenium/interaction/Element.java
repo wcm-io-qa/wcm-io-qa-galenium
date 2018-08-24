@@ -45,7 +45,9 @@ import io.wcm.qa.galenium.selectors.base.Selector;
  */
 public final class Element {
 
+  private static final int DEFAULT_TIMEOUT = 10;
   private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
+  private static final int NOW = 0;
 
   private Element() {
     // do not instantiate
@@ -127,7 +129,7 @@ public final class Element {
    * @return matching element if it is visible or null
    */
   public static WebElement find(Selector selector) {
-    return find(selector, 10);
+    return find(selector, DEFAULT_TIMEOUT);
   }
 
   /**
@@ -178,7 +180,7 @@ public final class Element {
    * @return matching element if it is visible or null
    */
   public static WebElement findNow(Selector selector) {
-    return find(selector, 0);
+    return find(selector, NOW);
   }
 
   /**
@@ -187,7 +189,7 @@ public final class Element {
    * @return element found
    */
   public static WebElement findOrFail(Selector selector) {
-    return findOrFail(selector, 10);
+    return findOrFail(selector, DEFAULT_TIMEOUT);
   }
 
   /**
@@ -212,7 +214,7 @@ public final class Element {
    * @return element found
    */
   public static WebElement findOrFailNow(Selector selector) {
-    return findOrFail(selector, 0);
+    return findOrFail(selector, NOW);
   }
 
   /**
