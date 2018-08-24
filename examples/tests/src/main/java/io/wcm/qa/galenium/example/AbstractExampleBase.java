@@ -56,7 +56,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   protected void clickConferenceNavLink() {
-    Element.click(Navigation.LINK_TO_CONFERENCE);
+    Navigation.LINK_TO_CONFERENCE.click();
   }
 
   protected abstract String getRelativePath();
@@ -80,7 +80,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   protected void openNav() {
     navShouldBeVisible();
     if (isMobile()) {
-      Element.click(Navigation.MENU_OPENER);
+      Navigation.MENU_OPENER.click();
       Element.findOrFail(Navigation.LINK);
     }
   }
