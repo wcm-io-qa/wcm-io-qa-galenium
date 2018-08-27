@@ -25,13 +25,23 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.Differences;
 
+/**
+ * Helper methods for {@link Differences} implementations.
+ */
 public final class DifferenceUtil {
 
   private DifferenceUtil() {
     // do not instantiate
   }
 
+  /**
+   * Joins the differences' names using the separator. Mostly useful for logging purposes.
+   * @param differences to get names from
+   * @param separator to use between the elements.
+   * @return all names joined using the separator.
+   */
   public static String joinNamesWith(Iterable<Difference> differences, String separator) {
     List<String> list = new ArrayList<String>();
     for (Difference difference : differences) {
@@ -40,6 +50,13 @@ public final class DifferenceUtil {
     return StringUtils.join(list, separator);
   }
 
+  /**
+   * Joins the differences' tags using the separator. This makes implementation of the {@link Differences} interface
+   * easier.
+   * @param differences to get tag values from
+   * @param separator to use between the elements.
+   * @return all tag values joined using the separator.
+   */
   public static String joinTagsWith(Iterable<Difference> differences, String separator) {
     List<String> list = new ArrayList<String>();
     for (Difference difference : differences) {
