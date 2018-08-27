@@ -286,6 +286,36 @@ public final class Element {
     actions.perform();
   }
 
+  /**
+   * Takes screenshot of element.
+   * @param selector identifies element
+   * @return message to log to report
+   */
+  public static String takeScreenshot(Selector selector) {
+    WebElement element = findOrFail(selector);
+    scrollTo(element);
+    return GaleniumReportUtil.takeScreenshot(element);
+  }
+
+  /**
+   * Takes screenshot of element.
+   * @param selector identifies element
+   * @param index identifies which instance
+   * @return message to log to report
+   */
+  public static String takeScreenshotOfNth(Selector selector, int index) {
+    List<WebElement> allElements = findAll(selector);
+    if (allElements.isEmpty()) {
+      return "could not take screenshot of '" + selector + "[" + index + "]': no elements found";
+    }
+    if (allElements.size() <= index) {
+      return "could not take screenshot of '" + selector + "[" + index + "]': only found " + allElements.size() + " instances";
+    }
+    WebElement element = allElements.get(index);
+    scrollTo(element);
+    return GaleniumReportUtil.takeScreenshot(element);
+  }
+
   private static Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER);
   }

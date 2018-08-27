@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -53,6 +54,7 @@ import com.relevantcodes.extentreports.model.TestAttribute;
 
 import freemarker.template.TemplateException;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 
@@ -78,51 +80,36 @@ public final class GaleniumReportUtil {
   /** For special WARN log status. */
   public static final Marker MARKER_WARN = getMarker(LogStatus.WARNING);
 
-
-  private static final GaleniumExtentReports EXTENT_REPORTS;
-
-  private static final Marker MARKER_REPORT_UTIL_INTERNAL = getMarker("galenium.reporting.internal");
-
-  private static final String NO_TEST_NAME_SET = "no.test.name.set";
-
-  // Root folder for reports
-  private static final String PATH_REPORT_ROOT = GaleniumConfiguration.getReportDirectory();
-
-  // ExtentReports
-  private static final String PATH_EXTENT_REPORTS_ROOT = PATH_REPORT_ROOT + "/extentreports";
-  private static final String PATH_EXTENT_REPORTS_DB = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
-  private static final String PATH_EXTENT_REPORTS_REPORT = PATH_EXTENT_REPORTS_ROOT + "/extentGalen.html";
-
-  // Galen
-  private static final List<GalenTestInfo> GALEN_RESULTS = new ArrayList<GalenTestInfo>();
-  private static final String PATH_GALEN_REPORT = PATH_REPORT_ROOT + "/galen";
-
-  // Screenshots
-  private static final String PATH_SCREENSHOTS_ROOT = PATH_REPORT_ROOT + "/screenshots";
-  private static final String PATH_SCREENSHOTS_RELATIVE_ROOT = "../screenshots";
-
-  // TestNG
-  private static final String PATH_TESTNG_REPORT_XML = PATH_REPORT_ROOT + "/testng.xml";
-
+  private static final String CONFIGURED_PATH_EXTENT_REPORTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/extentreports";
+  private static final String DEFAULT_FOR_NO_TEST_NAME = "no.test.name.set";
+  private static final GaleniumExtentReports GLOBAL_EXTENT_REPORTS;
+  private static final List<GalenTestInfo> GLOBAL_GALEN_RESULTS = new ArrayList<GalenTestInfo>();
   private static final Logger INTERNAL_LOGGER = LoggerFactory.getLogger(GaleniumReportUtil.class);
+  private static final Marker MARKER_REPORT_UTIL_INTERNAL = getMarker("galenium.reporting.internal");
+  private static final String PATH_EXTENT_REPORTS_DB = CONFIGURED_PATH_EXTENT_REPORTS_ROOT + "/extentGalen.db";
+  private static final String PATH_EXTENT_REPORTS_REPORT = CONFIGURED_PATH_EXTENT_REPORTS_ROOT + "/extentGalen.html";
+  private static final String PATH_GALEN_REPORT = GaleniumConfiguration.getReportDirectory() + "/galen";
+  private static final String PATH_SCREENSHOTS_RELATIVE_ROOT = "../screenshots";
+  private static final String PATH_SCREENSHOTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/screenshots";
+  private static final String PATH_TESTNG_REPORT_XML = GaleniumConfiguration.getReportDirectory() + "/testng.xml";
 
   static {
     INTERNAL_LOGGER.info("initializing GaleniumReportUtil");
     if (GaleniumConfiguration.isSkipExtentReports()) {
       INTERNAL_LOGGER.info("skipping ExtentReports initialization");
-      EXTENT_REPORTS = null;
+      GLOBAL_EXTENT_REPORTS = null;
     }
     else {
       INTERNAL_LOGGER.info("initializing ExtentReports: " + PATH_EXTENT_REPORTS_REPORT);
-      EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT, NetworkMode.OFFLINE);
+      GLOBAL_EXTENT_REPORTS = new GaleniumExtentReports(PATH_EXTENT_REPORTS_REPORT, NetworkMode.OFFLINE);
 
       File reportConfig = GaleniumConfiguration.getReportConfig();
       if (reportConfig != null) {
-        EXTENT_REPORTS.loadConfig(reportConfig);
+        GLOBAL_EXTENT_REPORTS.loadConfig(reportConfig);
       }
 
       INTERNAL_LOGGER.info("starting reporter: " + PATH_EXTENT_REPORTS_DB);
-      EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
+      GLOBAL_EXTENT_REPORTS.startReporter(ReporterType.DB, PATH_EXTENT_REPORTS_DB);
 
       Runtime.getRuntime().addShutdownHook(new ExtentReportShutdownHook());
     }
@@ -138,7 +125,7 @@ public final class GaleniumReportUtil {
    */
   public static void addGalenResult(GalenTestInfo galenTestInfo) {
     if (isAddResult(galenTestInfo)) {
-      GALEN_RESULTS.add(galenTestInfo);
+      GLOBAL_GALEN_RESULTS.add(galenTestInfo);
     }
   }
 
@@ -187,8 +174,8 @@ public final class GaleniumReportUtil {
    * Create reports from global list of GalenTestInfos.
    */
   public static void createGalenReports() {
-    createGalenHtmlReport(GALEN_RESULTS);
-    createGalenTestNgReport(GALEN_RESULTS);
+    createGalenHtmlReport(GLOBAL_GALEN_RESULTS);
+    createGalenTestNgReport(GLOBAL_GALEN_RESULTS);
   }
 
   /**
@@ -217,7 +204,7 @@ public final class GaleniumReportUtil {
     getInternalLogger().trace("GaleniumReportUtilendExtentTest(): assigning categories.");
     TestInfoUtil.assignCategories(extentTest, result);
     getInternalLogger().trace("GaleniumReportUtilendExtentTest(): ending extent report test");
-    EXTENT_REPORTS.endTest(extentTest);
+    GLOBAL_EXTENT_REPORTS.endTest(extentTest);
     getInternalLogger().trace("GaleniumReportUtilendExtentTest(): done");
   }
 
@@ -234,7 +221,7 @@ public final class GaleniumReportUtil {
   }
 
   public static ExtentReports getExtentReports() {
-    return EXTENT_REPORTS;
+    return GLOBAL_EXTENT_REPORTS;
   }
 
   public static ExtentTest getExtentTest() {
@@ -259,7 +246,7 @@ public final class GaleniumReportUtil {
         || currentReport.getTest() == null
         || currentReport.getTest().getName() == null
         || !currentReport.getTest().getName().equals(name)) {
-      currentReport = EXTENT_REPORTS.getExtentTest(name);
+      currentReport = GLOBAL_EXTENT_REPORTS.getExtentTest(name);
       setExtentTest(currentReport);
     }
     return currentReport;
@@ -277,7 +264,7 @@ public final class GaleniumReportUtil {
       }
     }
 
-    return LoggerFactory.getLogger(NO_TEST_NAME_SET);
+    return LoggerFactory.getLogger(DEFAULT_FOR_NO_TEST_NAME);
   }
 
   /**
@@ -330,9 +317,16 @@ public final class GaleniumReportUtil {
    * @return log message including screenshot if everything was successful
    */
   public static String takeScreenshot() {
-    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    WebDriver driver = GaleniumContext.getDriver();
-    return takeScreenshot(randomAlphanumeric, driver);
+    return takeScreenshot(getTakesScreenshot());
+  }
+
+  /**
+   * Captures image of single element in page.
+   * @param element to capture
+   * @return message to log screenshot to report
+   */
+  public static String takeScreenshot(WebElement element) {
+    return takeScreenshot((TakesScreenshot)element);
   }
 
   /**
@@ -343,23 +337,22 @@ public final class GaleniumReportUtil {
    */
   public static String takeScreenshot(ITestResult result, WebDriver driver) {
     String resultName = getAlphanumericTestName(result);
-    return takeScreenshot(resultName, driver);
+    return takeScreenshot(resultName, getTakesScreenshot(driver));
   }
 
   /**
    * Take screenshot of current browser window and add to reports.
    * @param resultName to use in filename
-   * @param driver to take screenshot from
+   * @param takesScreenshot to take screenshot from
    * @return log message including screenshot if everything was successful
    */
-  public static String takeScreenshot(String resultName, WebDriver driver) {
+  public static String takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
     String destScreenshotFilePath = null;
     String filenameOnly = null;
     boolean screenshotSuccessful;
-    if (driver instanceof TakesScreenshot) {
-      getInternalLogger().debug("taking screenshot: " + driver);
+    getInternalLogger().debug("taking screenshot: " + takesScreenshot);
       filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
-      File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+    File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
       if (screenshotFile != null) {
         getInternalLogger().trace("screenshot taken: " + screenshotFile.getPath());
         try {
@@ -386,19 +379,23 @@ public final class GaleniumReportUtil {
         getInternalLogger().debug("screenshot file is null.");
         screenshotSuccessful = false;
       }
-    }
-    else {
-      getInternalLogger().trace("driver cannot take screenshots: " + driver);
-      screenshotSuccessful = false;
-    }
 
     StringBuilder logMsg = new StringBuilder();
     if (screenshotSuccessful) {
       logMsg.append("Screenshot: ").append(PATH_SCREENSHOTS_ROOT).append(File.separator).append(filenameOnly).append(System.lineSeparator());
       if (destScreenshotFilePath != null) {
-        String url = driver.getCurrentUrl();
-        String title = driver.getTitle();
-        Reporter.log("<a href=\"" + url + "\"><img src=\"" + destScreenshotFilePath + "\" alt=\"" + title + "\"/></a>", true);
+        WebDriver driver;
+        if (takesScreenshot instanceof WebDriver) {
+          driver = (WebDriver)takesScreenshot;
+        }
+        else {
+          driver = GaleniumContext.getDriver();
+        }
+        if (driver != null) {
+          String url = driver.getCurrentUrl();
+          String title = driver.getTitle();
+          Reporter.log("<a href=\"" + url + "\"><img src=\"" + destScreenshotFilePath + "\" alt=\"" + title + "\"/></a>", true);
+        }
       }
     }
 
@@ -411,6 +408,23 @@ public final class GaleniumReportUtil {
 
   private static Marker getMarker(LogStatus logStatus) {
     return getMarker(logStatus.name());
+  }
+
+  private static TakesScreenshot getTakesScreenshot() {
+    WebDriver driver = GaleniumContext.getDriver();
+    TakesScreenshot takesScreenshot = getTakesScreenshot(driver);
+    return takesScreenshot;
+  }
+
+  private static TakesScreenshot getTakesScreenshot(WebDriver driver) {
+    TakesScreenshot takesScreenshot;
+    if (driver instanceof TakesScreenshot) {
+      takesScreenshot = (TakesScreenshot)driver;
+    }
+    else {
+      throw new GaleniumException("driver cannot take screenshot");
+    }
+    return takesScreenshot;
   }
 
   private static boolean isAddResult(GalenTestInfo galenTestInfo) {
@@ -427,5 +441,10 @@ public final class GaleniumReportUtil {
 
   private static void setExtentTest(ExtentTest extentTest) {
     GaleniumContext.getContext().setExtentTest(extentTest);
+  }
+
+  private static String takeScreenshot(TakesScreenshot takesScreenshot) {
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    return takeScreenshot(randomAlphanumeric, takesScreenshot);
   }
 }
