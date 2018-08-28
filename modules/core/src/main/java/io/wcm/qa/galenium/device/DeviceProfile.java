@@ -21,6 +21,9 @@ package io.wcm.qa.galenium.device;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * Device profile bean.
+ */
 public class DeviceProfile {
 
   private String browser;

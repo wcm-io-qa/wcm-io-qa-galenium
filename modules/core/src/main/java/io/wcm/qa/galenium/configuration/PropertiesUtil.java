@@ -34,7 +34,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
 
-public class PropertiesUtil {
+/**
+ * Helper methods for dealing with Properties.
+ */
+public final class PropertiesUtil {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final String REGEX_WILDCARD = ".*";
@@ -43,14 +46,32 @@ public class PropertiesUtil {
     // do not instantiate
   }
 
+  /**
+   * Filter properties by key part.
+   * @param properties to filter
+   * @param searchString to filter by
+   * @return only properties containing the search string in their key
+   */
   public static Properties getAllPropertiesContaining(Properties properties, String searchString) {
     return getFilteredProperties(properties, Pattern.compile(REGEX_WILDCARD + searchString + REGEX_WILDCARD));
   }
 
+  /**
+   * Filter properties by key prefix.
+   * @param properties to filter
+   * @param prefix to filter by
+   * @return only properties with a key starting with the prefix string
+   */
   public static Properties getAllPropertiesWithPrefix(Properties properties, String prefix) {
     return getFilteredProperties(properties, Pattern.compile(prefix + REGEX_WILDCARD));
   }
 
+  /**
+   * Filter properties by regular expression.
+   * @param properties to filter
+   * @param filter regex pattern to filter by
+   * @return only properties with a key matching the regular expression
+   */
   public static Properties getFilteredProperties(Properties properties, Pattern filter) {
     Properties filteredProperties = new Properties();
     for (Entry<Object, Object> property : properties.entrySet()) {
@@ -68,6 +89,12 @@ public class PropertiesUtil {
     return filteredProperties;
   }
 
+  /**
+   * Load properties from file.
+   * @param properties to fill from file
+   * @param filePath to properties file
+   * @return properties from file
+   */
   public static Properties loadProperties(Properties properties, String filePath) {
     try {
       File propertiesFile = new File(filePath);
@@ -93,6 +120,11 @@ public class PropertiesUtil {
     return properties;
   }
 
+  /**
+   * Load properties from file.
+   * @param filePath to properties file
+   * @return properties from file
+   */
   public static Properties loadProperties(String filePath) {
     return loadProperties(new Properties(), filePath);
   }

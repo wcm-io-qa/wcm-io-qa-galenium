@@ -26,12 +26,20 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-public class ConfigurationUtil {
+/**
+ * Convenience methods to set system properties.
+ */
+public final class ConfigurationUtil {
 
   private ConfigurationUtil() {
     // do not instantiate
   }
 
+  /**
+   * Adds a system property.
+   * @param name of property
+   * @param value of property
+   */
   public static void addProperty(Object name, Object value) {
     if (name == null || value == null) {
       getLogger().info("skipping entry: " + name + "->" + value);
@@ -42,6 +50,10 @@ public class ConfigurationUtil {
     }
   }
 
+  /**
+   * Add properties from map to system properties.
+   * @param newProperties to add
+   */
   public static void addToSystemProperties(Map<String, String> newProperties) {
     Set<Entry<String, String>> entrySet = newProperties.entrySet();
     for (Entry<String, String> entry : entrySet) {
@@ -56,6 +68,10 @@ public class ConfigurationUtil {
     }
   }
 
+  /**
+   * Add system properties.
+   * @param newProperties to add
+   */
   public static void addToSystemProperties(Properties newProperties) {
     for (String name : newProperties.stringPropertyNames()) {
       addProperty(name, newProperties.getProperty(name));

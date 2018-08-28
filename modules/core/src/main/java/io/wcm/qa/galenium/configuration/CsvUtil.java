@@ -37,7 +37,10 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
-public class CsvUtil {
+/**
+ * Utility methods to parse CSV files.
+ */
+public final class CsvUtil {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final CSVFormat FORMAT = CSVFormat.DEFAULT.withQuote(null).withHeader(new String[] {});
@@ -46,6 +49,11 @@ public class CsvUtil {
     // do not instantiate
   }
 
+  /**
+   * Get a parser for CSV file.
+   * @param csvFile to get parser for
+   * @return parser to access data in CSV file
+   */
   public static CSVParser parse(File csvFile) {
     if (csvFile == null) {
       throw new GaleniumException("error when checking CSV input: file is null");
@@ -61,10 +69,21 @@ public class CsvUtil {
     }
   }
 
+  /**
+   * Get a parser for CSV file.
+   * @param csvFilePath path to file to get parser for
+   * @return parser to access data in CSV file
+   */
   public static CSVParser parse(String csvFilePath) {
     return parse(new File(csvFilePath));
   }
 
+  /**
+   * Populate beans with CSV data.
+   * @param csvFile to get input data from
+   * @param beanClass type of bean to populate
+   * @return collection with one bean per row in CSV
+   */
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {
     Collection<T> result = new ArrayList<>();
     CSVParser parse = parse(csvFile);
