@@ -24,8 +24,9 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
@@ -72,7 +73,7 @@ public final class FileHandlingUtil {
     File parentFile = file.getParentFile();
     if (!parentFile.isDirectory()) {
       getLogger().debug("creating directory: " + parentFile.getPath());
-      FileUtils.forceMkdir(parentFile);
+      GalenUtils.makeSureFolderExists(parentFile);
     }
   }
 
