@@ -40,9 +40,6 @@ public class GaleniumAssertion extends Assertion {
 
   @Override
   public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
-    if (getLogger().isDebugEnabled()) {
-      getLogger().debug(GaleniumReportUtil.MARKER_FAIL, assertCommand.getMessage());
-    }
     super.onAssertFailure(assertCommand, ex);
   }
 
