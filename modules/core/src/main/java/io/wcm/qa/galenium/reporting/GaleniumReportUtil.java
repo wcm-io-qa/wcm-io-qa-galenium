@@ -33,7 +33,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -317,16 +316,18 @@ public final class GaleniumReportUtil {
    * @return log message including screenshot if everything was successful
    */
   public static String takeScreenshot() {
-    return takeScreenshot(getTakesScreenshot());
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    return takeScreenshot(randomAlphanumeric, getTakesScreenshot());
   }
 
   /**
    * Captures image of single element in page.
-   * @param element to capture
+   * @param takesScreenshot to capture
    * @return message to log screenshot to report
    */
-  public static String takeScreenshot(WebElement element) {
-    return takeScreenshot((TakesScreenshot)element);
+  public static String takeScreenshot(TakesScreenshot takesScreenshot) {
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    return takeScreenshot(randomAlphanumeric, takesScreenshot);
   }
 
   /**
@@ -441,10 +442,5 @@ public final class GaleniumReportUtil {
 
   private static void setExtentTest(ExtentTest extentTest) {
     GaleniumContext.getContext().setExtentTest(extentTest);
-  }
-
-  private static String takeScreenshot(TakesScreenshot takesScreenshot) {
-    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    return takeScreenshot(randomAlphanumeric, takesScreenshot);
   }
 }
