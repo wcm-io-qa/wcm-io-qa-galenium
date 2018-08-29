@@ -69,10 +69,16 @@ public class GalenSpecsMojo extends AbstractMojo {
   private File inputDirectory;
 
   /**
-   * Name of Freemarker template to use for generating top level classes.
+   * Name of Freemarker template to use for interactive selector interface.
    */
-  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorTemplate")
-  private String interactiveSelectorTemplate;
+  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorInterfaceTemplate")
+  private String interactiveSelectorInterfaceTemplate;
+
+  /**
+   * Name of Freemarker template to use for abstract interactive selector base class.
+   */
+  @Parameter(defaultValue = "interactive-selector-base.ftlh", property = "interactiveSelectorBaseTemplate")
+  private String interactiveSelectorBaseTemplate;
 
   /**
    * Root directory for generated output.
@@ -174,17 +180,29 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private void generateCode() {
-    generateInteractiveSelectorCode();
+    generateInteractiveSelectorInterfaceCode();
+    generateInteractiveSelectorBaseCode();
     generateSelectorCode();
     generateSpecCode();
   }
 
-  private void generateInteractiveSelectorCode() {
-    Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorTemplate);
-    String className = getInteractiveSelectorClassName();
+  private void generateInteractiveSelectorBaseCode() {
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorBaseTemplate);
+    String className = getInteractiveSelectorBaseClassName();
+    String interfaceName = getInteractiveSelectorInterfaceClassName();
     String packageName = getInteractiveSelectorPackageName();
-    Map<String, Object> model = FreemarkerUtil.getDataModelForInteractiveSelector(packageName, className);
+    Map<String, Object> model = FreemarkerUtil.getDataModelForInteractiveSelector(packageName, interfaceName, className);
     File outputFile = FreemarkerUtil.getOutputFile(outputDirectory, packageName, className);
+    FreemarkerUtil.process(template, model, outputFile);
+  }
+
+  private void generateInteractiveSelectorInterfaceCode() {
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, interactiveSelectorInterfaceTemplate);
+    String className = getInteractiveSelectorBaseClassName();
+    String interfaceName = getInteractiveSelectorInterfaceClassName();
+    String packageName = getInteractiveSelectorPackageName();
+    Map<String, Object> model = FreemarkerUtil.getDataModelForInteractiveSelector(packageName, interfaceName, className);
+    File outputFile = FreemarkerUtil.getOutputFile(outputDirectory, packageName, interfaceName);
     FreemarkerUtil.process(template, model, outputFile);
   }
 
@@ -222,8 +240,12 @@ public class GalenSpecsMojo extends AbstractMojo {
     return getIncludedFiles(inputDirectory, specIncludes, specExcludes);
   }
 
-  private String getInteractiveSelectorClassName() {
-    return FormatUtil.getClassName(new File(interactiveSelectorTemplate));
+  private String getInteractiveSelectorInterfaceClassName() {
+    return FormatUtil.getClassName(new File(interactiveSelectorInterfaceTemplate));
+  }
+
+  private String getInteractiveSelectorBaseClassName() {
+    return FormatUtil.getClassName(new File(interactiveSelectorBaseTemplate));
   }
 
   private String getInteractiveSelectorPackageName() {
@@ -282,7 +304,8 @@ public class GalenSpecsMojo extends AbstractMojo {
             selector,
             specPojo,
             getInteractiveSelectorPackageName(),
-            getInteractiveSelectorClassName());
+            getInteractiveSelectorBaseClassName(),
+            getInteractiveSelectorInterfaceClassName());
 
         getLog().debug("processing template");
         FreemarkerUtil.process(template, dataModelForSelector, getOutputFile(selector, specPojo));

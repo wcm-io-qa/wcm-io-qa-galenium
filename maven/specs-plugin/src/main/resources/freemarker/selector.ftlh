@@ -2,7 +2,7 @@
   /**
    * Java version of '${selector.elementName()}' from ${spec.filename}. 
    */
-  public static class ${className(selector)} extends SelectorFromLocator implements InteractiveSelector {
+  public static class ${className(selector)} extends ${interactiveSelectorBaseClassName} {
 
     <#list selector.children as child>
       <@constant child />
@@ -16,13 +16,7 @@
       setParent(${parentConstantName});    
       setBy(By.cssSelector("${escapeJava(selector.asString())}"));    
     }
-    
-    <#list interaction.methods as method>
-       ${method.head} {
-         ${method.body}
-       }
-    </#list>
-  
+
     <#list selector.children as child>
       <@innerClass child constantName(selector) />
     </#list>
@@ -56,9 +50,9 @@ import com.galenframework.specs.page.Locator;
 import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.selectors.base.SelectorFactory;
-import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 
-import ${interactiveSelectorPackage}.${interactiveSelectorClassName};
+import ${interactiveSelectorPackage}.${interactiveSelectorInterfaceClassName};
+import ${interactiveSelectorPackage}.${interactiveSelectorBaseClassName};
 
 import org.openqa.selenium.By;
 
@@ -67,7 +61,7 @@ import org.openqa.selenium.By;
  *
  * This is GENERATED CODE and should not be modified manually.  
  */
-public class ${className(this)} extends SelectorFromLocator implements InteractiveSelector {
+public class ${className(this)} extends ${interactiveSelectorBaseClassName} {
 
   /** Special constant to access ${className(this)} as it is a root element. */
   public static final ${className(this)} SELF = new ${className(this)}();
@@ -87,10 +81,6 @@ public class ${className(this)} extends SelectorFromLocator implements Interacti
     <@innerClass child "SELF" />
   </#list>
   
-  <#list interaction.methods as method>
-     ${method.head} {
-       ${method.body}
-     }
-  </#list>
+
 
 }

@@ -60,12 +60,13 @@ public final class FreemarkerUtil {
    * @param className of interactive selector interface
    * @return data model for generating interactive selector interface
    */
-  public static Map<String, Object> getDataModelForInteractiveSelector(String packageRoot, String className) {
+  public static Map<String, Object> getDataModelForInteractiveSelector(String packageRoot, String interfaceName, String className) {
     Map<String, Object> model = getCommonDataModel();
-    model.put("interactiveSelectorPackage", packageRoot);
-    model.put("interactiveSelectorClassName", className);
-
     model.put("interaction", new InteractionPojo());
+    model.put("interactiveSelectorPackage", packageRoot);
+    model.put("interactiveSelectorBaseClassName", className);
+    model.put("interactiveSelectorInterfaceClassName", interfaceName);
+
 
     return model;
   }
@@ -73,21 +74,20 @@ public final class FreemarkerUtil {
   /**
    * @param selector selector to build data model for
    * @param spec selector is taken from
-   * @param interactiveSelectorPackage package of interactive selector interface
-   * @param interactiveSelectorClassName name of interactive selector interface
+   * @param packageName package of interactive selector interface
+   * @param interactiveClassName
+   * @param interactiveInterfaceName name of interactive selector interface
    * @return data model for use in generating selector class
    */
   public static Map<String, Object> getDataModelForSelector(
       NestedSelector selector,
       SpecPojo spec,
-      String interactiveSelectorPackage,
-      String interactiveSelectorClassName) {
-    Map<String, Object> model = getCommonDataModel();
+      String packageName,
+      String interactiveClassName,
+      String interactiveInterfaceName) {
+    Map<String, Object> model = getDataModelForInteractiveSelector(packageName, interactiveInterfaceName, interactiveClassName);
     model.put("className", new ClassNameFromSelectorMethod());
     model.put("spec", spec);
-    model.put("interaction", new InteractionPojo());
-    model.put("interactiveSelectorPackage", interactiveSelectorPackage);
-    model.put("interactiveSelectorClassName", interactiveSelectorClassName);
     model.put("this", selector);
 
     return model;
