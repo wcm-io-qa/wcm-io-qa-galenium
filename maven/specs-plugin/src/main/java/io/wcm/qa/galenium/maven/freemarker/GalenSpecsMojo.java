@@ -71,7 +71,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   /**
    * Name of Freemarker template to use for interactive selector interface.
    */
-  @Parameter(defaultValue = "interactive-selector-interface.ftlh", property = "interactiveSelectorInterfaceTemplate")
+  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorInterfaceTemplate")
   private String interactiveSelectorInterfaceTemplate;
 
   /**
