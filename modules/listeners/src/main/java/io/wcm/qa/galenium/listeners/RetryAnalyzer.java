@@ -47,7 +47,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
   public boolean retry(ITestResult result) {
     if (getCount(result).incrementAndGet() > MAX_RETRY_COUNT) {
       // don't retry if max count is exceeded
-      String failureMessage = "Exceeded max count (" + getCount(result).get() + "): " + result.getTestName();
+      String failureMessage = "Failed last retry (" + getCount(result).get() + "): " + result.getTestName();
       logResult(GaleniumReportUtil.MARKER_FAIL, result, failureMessage);
       assignCategory("RERUN_MAX");
       return false;
