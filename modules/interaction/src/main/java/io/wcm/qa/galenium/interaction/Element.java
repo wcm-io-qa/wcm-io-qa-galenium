@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -120,7 +121,12 @@ public final class Element {
    */
   public static void enterText(Selector selector, String text) {
     WebElement input = findOrFail(selector);
-    input.clear();
+    try {
+      input.clear();
+    }
+    catch (InvalidElementStateException ex) {
+      getLogger().debug(GaleniumReportUtil.MARKER_WARN, "could not clear element: '" + selector + "'");
+    }
     input.sendKeys(text);
   }
 
