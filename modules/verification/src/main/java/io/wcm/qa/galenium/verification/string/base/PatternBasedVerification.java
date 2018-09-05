@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.verification.string.base;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 
 /**
  * Abstract base class to verify strings based on regular expression.
@@ -32,7 +32,7 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
   private Matcher matcher;
   private Pattern pattern;
 
-  protected PatternBasedVerification(String verificationName, Pattern pattern, StringSampler sampler) {
+  protected PatternBasedVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
     super(verificationName, sampler);
     setPattern(pattern);
   }
