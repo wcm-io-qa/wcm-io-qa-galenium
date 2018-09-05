@@ -271,7 +271,7 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
   }
 
   protected String getCleanName() {
-    return NameUtil.getSanitized(getVerificationName(), DEFAULT_MAX_NAME_LENGTH_IN_KEY);
+    return NameUtil.getSanitized(getVerificationName().toLowerCase(), DEFAULT_MAX_NAME_LENGTH_IN_KEY);
   }
 
   /**
