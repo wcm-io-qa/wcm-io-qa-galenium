@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.format.NameUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.CanCache;
 
@@ -38,6 +39,7 @@ import io.wcm.qa.galenium.sampling.CanCache;
  */
 public abstract class VerificationBase<S> implements Verification, CanCache {
 
+  private static final int DEFAULT_MAX_NAME_LENGTH_IN_KEY = 30;
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
   private S actualValue;
   private boolean caching;
@@ -263,9 +265,13 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asPropertyKey();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return getVerificationName().toLowerCase() + "." + expectedKey;
+      return getCleanName() + "." + expectedKey;
     }
-    return getVerificationName().toLowerCase();
+    return getCleanName();
+  }
+
+  protected String getCleanName() {
+    return NameUtil.getSanitized(getVerificationName(), DEFAULT_MAX_NAME_LENGTH_IN_KEY);
   }
 
   /**
