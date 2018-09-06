@@ -27,4 +27,4 @@ Features:
 
 [concepts]: concepts.html
 [apidocs]: galenium/apidocs/
-[changelog]: galenium/changes-report.html
+[changelog]: galenium/core/changes-report.html
