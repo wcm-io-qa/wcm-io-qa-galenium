@@ -7,7 +7,6 @@ Selenium Galen Integration
 
 ### Documentation
 
-* [Usage][usage]
 * [Concepts][concepts]
 * [API documentation][apidocs]
 * [Changelog][changelog]
@@ -26,8 +25,6 @@ Features:
 * Easy integration of Galen specs
 * Automated sampling of text and images from existing web pages
 
-
-[usage]: usage.html
 [concepts]: concepts.html
 [apidocs]: galenium/apidocs/
 [changelog]: galenium/changes-report.html
