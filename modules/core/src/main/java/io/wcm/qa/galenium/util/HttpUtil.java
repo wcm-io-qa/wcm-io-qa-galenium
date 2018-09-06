@@ -23,15 +23,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
+import org.apache.http.message.BasicNameValuePair;
 import org.openqa.selenium.remote.SessionId;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
@@ -48,6 +56,36 @@ public final class HttpUtil {
   static CloseableHttpClient getNewClient() {
     CloseableHttpClient client = HttpClientBuilder.create().build();
     return client;
+  }
+
+  /**
+   * Posts parameters as form entity to URL.
+   * @param url to post to
+   * @param paramMap to send with request
+   * @return response to POST
+   */
+  public static HttpResponse postForm(URL url, Map<String, String> paramMap) {
+    ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();
+    for (Entry<String, String> entry : paramMap.entrySet()) {
+      String name = entry.getKey();
+      String value = entry.getValue();
+      NameValuePair nameValuePair = new BasicNameValuePair(name, value);
+      parameters.add(nameValuePair);
+    }
+    CloseableHttpClient client = null;
+    try {
+      UrlEncodedFormEntity encodedFormData = new UrlEncodedFormEntity(parameters);
+      HttpPost httpPost = new HttpPost(url.toURI());
+      httpPost.setEntity(encodedFormData);
+      client = getNewClient();
+      return client.execute(httpPost);
+    }
+    catch (URISyntaxException | IOException ex) {
+      throw new GaleniumException("could not encode form post data.");
+    }
+    finally {
+      HttpClientUtils.closeQuietly(client);
+    }
   }
 
   /**
