@@ -30,20 +30,38 @@ import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
+/**
+ * Convenience methods for file and path handling.
+ */
 public final class FileHandlingUtil {
 
   private FileHandlingUtil() {
     // do not instantiate
   }
 
+  /**
+   * @param rootDirectory to be relative to
+   * @param file to get relative path for
+   * @return file with relative path
+   */
   public static File constructRelativeFile(File rootDirectory, File file) {
     return new File(constructRelativePath(rootDirectory, file));
   }
 
+  /**
+   * @param rootPath to be relative to
+   * @param filePath to make relative
+   * @return file with relative path
+   */
   public static File constructRelativeFile(String rootPath, String filePath) {
     return new File(constructRelativePath(rootPath, filePath));
   }
 
+  /**
+   * @param rootDirectory to be relative to
+   * @param file to get relative path for
+   * @return relative path for file
+   */
   public static String constructRelativePath(File rootDirectory, File file) {
     if (getLogger().isTraceEnabled()) {
       getLogger().trace("attempt making '" + file + "' relative to '" + rootDirectory + "'");
@@ -65,15 +83,28 @@ public final class FileHandlingUtil {
     }
   }
 
+  /**
+   * @param rootPath to be relative to
+   * @param filePath to make relative
+   * @return file with relative path
+   */
   public static String constructRelativePath(String rootPath, String filePath) {
     return StringUtils.difference(rootPath, filePath);
   }
 
-  public static void ensureParent(File file) throws IOException {
+  /**
+   * @param file will have an existing parent directory on success
+   */
+  public static void ensureParent(File file) {
     File parentFile = file.getParentFile();
     if (!parentFile.isDirectory()) {
-      getLogger().debug("creating directory: " + parentFile.getPath());
-      GalenUtils.makeSureFolderExists(parentFile);
+      try {
+        getLogger().debug("ensuring directory exists: " + parentFile.getPath());
+        GalenUtils.makeSureFolderExists(parentFile);
+      }
+      catch (IOException ex) {
+        throw new GaleniumException("problem when ensuring directory is present", ex);
+      }
     }
   }
 

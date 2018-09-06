@@ -21,7 +21,10 @@ package io.wcm.qa.galenium.differences.generic;
 
 import java.io.File;
 
-public class TextPersistenceDifference extends LayeredDifferences {
+/**
+ * Differences prepared to give path to properties file and key within properties file.
+ */
+public class TextPersistenceDifferences extends LayeredDifferences {
 
   @Override
   public String asFilePath() {

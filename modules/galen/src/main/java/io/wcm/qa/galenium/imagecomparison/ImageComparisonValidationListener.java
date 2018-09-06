@@ -26,6 +26,7 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -136,7 +137,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
         BufferedImage elementImage = wholePageImage.getSubimage(area.getLeft(), area.getTop(), area.getWidth(), area.getHeight());
         return elementImage;
       }
-      catch (RuntimeException ex) {
+      catch (RasterFormatException ex) {
         debugError("exception when extracting secondary sample image.", ex);
       }
     }

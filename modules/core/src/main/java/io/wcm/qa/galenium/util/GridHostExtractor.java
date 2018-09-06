@@ -91,7 +91,7 @@ public final class GridHostExtractor {
       }
       return NO_HOST_RETRIEVED;
     }
-    catch (RuntimeException | IOException ex) {
+    catch (IOException ex) {
       return NO_HOST_RETRIEVED;
     }
 
