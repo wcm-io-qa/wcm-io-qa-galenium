@@ -14,6 +14,6 @@ If you have that, you just run the Maven command:
 
 This will download ChromeDriver and run the test examples sequentially in the Chrome browser.
 
-Once the run is finished can find the reports at:
+Once the run is finished you can find the reports at:
 1. `tests/target/galenium-reports/extentreports/extentGalen.html`
 2. `tests/target/galenium-reports/galen/report.html`
