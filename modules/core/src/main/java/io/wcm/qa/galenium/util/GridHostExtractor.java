@@ -24,13 +24,11 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Map;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -43,6 +41,8 @@ import com.github.wnameless.json.flattener.JsonFlattener;
  */
 public final class GridHostExtractor {
 
+  static final String PATH_GRID_API_TESTSESSION = "/grid/api/testsession?session=";
+  static final String HTTP = "http://";
   /**
    * Constant used when no grid host could be retrieved.
    */
@@ -78,11 +78,10 @@ public final class GridHostExtractor {
   public static String getHostnameAndPort(String hostname, int port, SessionId session) {
 
     try {
+      BasicHttpEntityEnclosingRequest request = HttpUtil.getRequest(hostname, port, session);
       HttpHost host = new HttpHost(hostname, port);
-      CloseableHttpClient client = HttpClientBuilder.create().build();
-      URL sessionURL = new URL("http://" + hostname + ":" + port + "/grid/api/testsession?session=" + session);
-      BasicHttpEntityEnclosingRequest r = new BasicHttpEntityEnclosingRequest("POST", sessionURL.toExternalForm());
-      HttpResponse response = client.execute(host, r);
+      CloseableHttpClient client = HttpUtil.getNewClient();
+      HttpResponse response = client.execute(host, request);
       Map<String, Object> jsonAsMap = extractObject(response);
       client.close();
       Object proxyId = jsonAsMap.get("proxyId");
@@ -98,7 +97,7 @@ public final class GridHostExtractor {
   }
 
   private static Map<String, Object> extractObject(HttpResponse resp) throws IOException {
-    InputStreamReader jsonReader = new InputStreamReader(resp.getEntity().getContent());
+    InputStreamReader jsonReader = HttpUtil.getResponseReader(resp);
     JsonFlattener jsonFlattener = new JsonFlattener(jsonReader);
     return jsonFlattener.flattenAsMap();
   }
