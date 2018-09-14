@@ -173,7 +173,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     return DUMMY_IMAGE;
   }
 
-  protected File getImageFile(String imagePath) throws IOException {
+  protected File getImageFile(String imagePath) {
     String sampledImagesRootPath = getActualImagesDirectory();
     String path;
     if (StringUtils.isNotBlank(sampledImagesRootPath)) {

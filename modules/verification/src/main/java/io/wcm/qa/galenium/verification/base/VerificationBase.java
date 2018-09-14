@@ -46,9 +46,11 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
   private SortedDifferences differences;
   private Throwable exception;
   private S expectedValue;
+  private int keyMaxLength = DEFAULT_MAX_NAME_LENGTH_IN_KEY;
   private Verification preVerification;
   private String verificationName;
   private Boolean verified;
+
 
   protected VerificationBase(String verificationName) {
     setVerificationName(verificationName);
@@ -78,6 +80,10 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
   @Override
   public Throwable getException() {
     return exception;
+  }
+
+  public int getKeyMaxLength() {
+    return keyMaxLength;
   }
 
   /**
@@ -140,6 +146,10 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
 
   public void setException(Throwable exception) {
     this.exception = exception;
+  }
+
+  public void setKeyMaxLength(int keyMaxLength) {
+    this.keyMaxLength = keyMaxLength;
   }
 
   /**
@@ -252,6 +262,10 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
     return actualValue;
   }
 
+  protected String getCleanName() {
+    return NameUtil.getSanitized(getVerificationName().toLowerCase(), getKeyMaxLength());
+  }
+
   protected SortedDifferences getDifferences() {
     if (differences == null) {
       differences = new SortedDifferences();
@@ -268,10 +282,6 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
       return getCleanName() + "." + expectedKey;
     }
     return getCleanName();
-  }
-
-  protected String getCleanName() {
-    return NameUtil.getSanitized(getVerificationName().toLowerCase(), DEFAULT_MAX_NAME_LENGTH_IN_KEY);
   }
 
   /**

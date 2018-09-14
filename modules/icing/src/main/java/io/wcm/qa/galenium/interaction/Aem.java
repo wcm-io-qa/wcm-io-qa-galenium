@@ -45,7 +45,6 @@ import io.wcm.qa.galenium.util.HttpUtil;
  */
 public final class Aem {
 
-  private static final String HEADER_NAME_COOKIES = "Set-Cookie";
   private static final String RELATIVE_PATH_LOGIN_FORM_POST = "/libs/granite/core/content/login.html/j_security_check";
   private static final String PARAM_VALUE_CHARSET = "utf-8";
   private static final String PARAM_VALUE_VALIDATE = "true";

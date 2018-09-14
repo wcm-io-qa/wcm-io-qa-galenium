@@ -25,6 +25,7 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
@@ -53,6 +54,18 @@ public class CombinedVerification implements Verification {
    */
   public void addVerification(Verification verification) {
     getMembers().add(verification);
+  }
+
+  /**
+   * Add a difference to all verifications being combined in this one.
+   * @param difference new difference to add to all member verifications
+   */
+  public void addDifference(Difference difference) {
+    for (Verification verification : getMembers()) {
+      if (verification instanceof VerificationBase) {
+        ((VerificationBase)verification).addDifference(difference);
+      }
+    }
   }
 
   public Collection<String> getCombinedMessages() {
