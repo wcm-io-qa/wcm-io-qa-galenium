@@ -82,7 +82,7 @@
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.webdriver.browser.loglevel>INFO</galenium.webdriver.browser.loglevel>
     <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
-    <galenium.webdriver.download.chrome.version>2.40</galenium.webdriver.download.chrome.version>
+    <galenium.webdriver.download.chrome.version>2.42</galenium.webdriver.download.chrome.version>
     <galenium.webdriver.download.firefox.version>0.21.0</galenium.webdriver.download.firefox.version>
     <galenium.webdriver.download.repository.folder>${galenium.resources.directory}/driverdownload</galenium.webdriver.download.repository.folder>
     <galenium.webdriver.download.repository.file>${galenium.browser}.xml</galenium.webdriver.download.repository.file>
