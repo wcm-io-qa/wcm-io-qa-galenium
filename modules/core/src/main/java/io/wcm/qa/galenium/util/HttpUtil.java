@@ -21,16 +21,13 @@ package io.wcm.qa.galenium.util;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -86,42 +83,6 @@ public final class HttpUtil {
     finally {
       HttpClientUtils.closeQuietly(client);
     }
-  }
-
-  /**
-   * @param url to post to
-   * @return response to POST
-   */
-  public static HttpResponse post(URL url) {
-    CloseableHttpClient client = getNewClient();
-    try {
-      BasicHttpEntityEnclosingRequest postRequest = getPostRequest(url);
-      return post(client, url, postRequest);
-    }
-    finally {
-      HttpClientUtils.closeQuietly(client);
-    }
-  }
-
-  private static HttpResponse post(CloseableHttpClient client, URL url, BasicHttpEntityEnclosingRequest postRequest) {
-    HttpHost host = new HttpHost(getAddress(url));
-    try {
-      return client.execute(host, postRequest);
-    }
-    catch (IOException ex) {
-      throw new GaleniumException("when executing request.", ex);
-    }
-  }
-
-  private static InetAddress getAddress(URL url) {
-    InetAddress address;
-    try {
-      address = InetAddress.getByName(url.getHost());
-    }
-    catch (UnknownHostException ex) {
-      throw new GaleniumException("trying to construct address from URL.", ex);
-    }
-    return address;
   }
 
   static InputStreamReader getResponseReader(HttpResponse resp) throws IOException {

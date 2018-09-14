@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.differences.specialized;
 
 import java.util.Iterator;
 
+import org.testng.ITest;
+
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
@@ -127,6 +129,9 @@ public class TestNameDifferences implements Differences {
   }
 
   private ClassDifferences getClassDifferences() {
+    if (classDifferences == null) {
+      setClass(ITest.class);
+    }
     return classDifferences;
   }
 
@@ -139,6 +144,9 @@ public class TestNameDifferences implements Differences {
   }
 
   private TestDeviceDifferences getDeviceDifferences() {
+    if (deviceDifferences == null) {
+      deviceDifferences = new TestDeviceDifferences();
+    }
     return deviceDifferences;
   }
 

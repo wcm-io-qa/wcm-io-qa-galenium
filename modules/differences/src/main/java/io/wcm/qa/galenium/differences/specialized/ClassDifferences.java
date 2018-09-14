@@ -102,6 +102,9 @@ public class ClassDifferences implements Differences {
   }
 
   private ClassNameDifference getClassDifference() {
+    if (classDifference == null) {
+      useDefaultClass();
+    }
     return classDifference;
   }
 
@@ -113,7 +116,14 @@ public class ClassDifferences implements Differences {
   }
 
   private PackageDifferences getPackageDifferences() {
+    if (packageDifferences == null) {
+      useDefaultClass();
+    }
     return packageDifferences;
+  }
+
+  protected void useDefaultClass() {
+    setClass(Object.class);
   }
 
   private void setClassDifference(ClassNameDifference classDifference) {

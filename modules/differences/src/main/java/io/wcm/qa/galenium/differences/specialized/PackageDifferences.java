@@ -27,6 +27,7 @@ import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
 import io.wcm.qa.galenium.differences.difference.StringDifference;
 import io.wcm.qa.galenium.differences.generic.MutableDifferences;
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Package name as differences. Allows relative package names by setting root package name.
@@ -42,6 +43,9 @@ public class PackageDifferences implements Differences {
    * @param p to base name on
    */
   public PackageDifferences(Package p) {
+    if (p == null) {
+      throw new GaleniumException("Cannot derive difference from null package");
+    }
     setPackage(p);
   }
 

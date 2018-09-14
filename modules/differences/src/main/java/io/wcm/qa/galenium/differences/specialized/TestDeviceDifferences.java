@@ -36,6 +36,7 @@ import io.wcm.qa.galenium.util.GaleniumContext;
  */
 public class TestDeviceDifferences implements Differences {
 
+  private static final StringDifference NO_DEVICE_DIFFERENCE = new StringDifference("no-device");
   private TestDevice device;
   private MutableDifferences differences;
 
@@ -94,6 +95,24 @@ public class TestDeviceDifferences implements Differences {
     return new IntegerDifference(getDevice().getScreenSize().getWidth());
   }
 
+  private boolean hasDevice() {
+    return getDevice() != null;
+  }
+
+  private void initializeSubDifferences() {
+    differences = new MutableDifferences();
+    if (hasDevice()) {
+      differences.add(getBrowserDifference());
+      if (StringUtils.isNotBlank(getDevice().getChromeEmulator())) {
+        differences.add(getEmulatorDifference());
+      }
+      differences.add(getScreenSizeDifference());
+    }
+    else {
+      differences.add(NO_DEVICE_DIFFERENCE);
+    }
+  }
+
   protected TestDevice getDevice() {
     if (device == null) {
       device = GaleniumContext.getTestDevice();
@@ -103,12 +122,7 @@ public class TestDeviceDifferences implements Differences {
 
   protected MutableDifferences getDifferences() {
     if (differences == null) {
-      differences = new MutableDifferences();
-      differences.add(getBrowserDifference());
-      if (StringUtils.isNotBlank(getDevice().getChromeEmulator())) {
-        differences.add(getEmulatorDifference());
-      }
-      differences.add(getScreenSizeDifference());
+      initializeSubDifferences();
     }
     return differences;
   }
