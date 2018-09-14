@@ -165,7 +165,7 @@ public final class GaleniumReportUtil {
     try {
       new HtmlReportBuilder().build(testInfos, PATH_GALEN_REPORT);
     }
-    catch (IOException ex) {
+    catch (IOException | NullPointerException ex) {
       getLogger().error("could not generate Galen report.", ex);
     }
   }
