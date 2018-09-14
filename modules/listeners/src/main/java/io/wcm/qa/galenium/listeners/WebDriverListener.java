@@ -42,6 +42,7 @@ import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
+import io.wcm.qa.galenium.webdriver.HasDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
@@ -88,7 +89,7 @@ public class WebDriverListener implements ITestListener {
   public void onTestStart(ITestResult result) {
     // do nothing for lazy initialization
     if (GaleniumConfiguration.isLazyWebDriverInitialization()) {
-      getLogger().debug(MARKER_INFO, "Driver will be initialized lazily.");
+      getLogger().debug(MARKER_INFO, "Driver will be initialized on first use.");
       return;
     }
 
@@ -110,7 +111,16 @@ public class WebDriverListener implements ITestListener {
       }
       finally {
         if (getDriver() == null) {
-          getLogger().warn(MARKER_ERROR, "driver not instantiated");
+          Marker severity;
+          if (result.getInstance() instanceof HasDevice) {
+            // there should be a device and driver should be instantiated
+            severity = MARKER_ERROR;
+          }
+          else {
+            // tests without devices are allowed, so we should not put errors in the report
+            severity = MARKER_INFO;
+          }
+          getLogger().warn(severity, "driver not instantiated");
           GaleniumReportUtil.assignCategory(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED);
           retries++;
         }
