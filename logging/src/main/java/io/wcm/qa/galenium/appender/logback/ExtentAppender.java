@@ -38,6 +38,76 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  */
 public class ExtentAppender extends AppenderBase<ILoggingEvent> {
 
+  private LogStatus extractLogStatus(ILoggingEvent event) {
+    if (isExtentReportSpecial(event)) {
+      if (hasMarkerFail(event)) {
+        return LogStatus.FAIL;
+      }
+      if (hasMarkerFatal(event)) {
+        return LogStatus.FATAL;
+      }
+      if (hasErrorMarker(event)) {
+        return LogStatus.ERROR;
+      }
+      if (hasMarkerSkip(event)) {
+        return LogStatus.SKIP;
+      }
+      if (hasWarnMarker(event)) {
+        return LogStatus.WARNING;
+      }
+      if (hasMarkerPass(event)) {
+        return LogStatus.PASS;
+      }
+      if (hasInfoMarker(event)) {
+        return LogStatus.INFO;
+      }
+    }
+    if (isLevelError(event)) {
+      return LogStatus.ERROR;
+    }
+    if (isLevelWarn(event)) {
+      return LogStatus.WARNING;
+    }
+    if (isLevelInfo(event)) {
+      return LogStatus.INFO;
+    }
+    return LogStatus.UNKNOWN;
+  }
+
+  private boolean hasMarker(ILoggingEvent event, Marker marker) {
+    if (event.getMarker() != null) {
+      return event.getMarker().contains(marker);
+    }
+    return false;
+  }
+
+  private boolean hasMarkerFail(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
+  }
+
+  private boolean hasMarkerFatal(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
+  }
+
+  private boolean hasMarkerPass(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_PASS);
+  }
+
+  private boolean hasMarkerSkip(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_SKIP);
+  }
+
+  private boolean isExtentReportSpecial(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_EXTENT_REPORT);
+  }
+
+  private boolean isLevel(ILoggingEvent event, Level level) {
+    if (event.getLevel() != null) {
+      return event.getLevel().isGreaterOrEqual(level);
+    }
+    return false;
+  }
+
   @Override
   protected void append(ILoggingEvent event) {
     ExtentTest extentTest = GaleniumReportUtil.getExtentTest(event.getLoggerName());
@@ -54,86 +124,28 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
     extentTest.log(extractLogStatus(event), formattedMessage);
   }
 
-  private LogStatus extractLogStatus(ILoggingEvent event) {
-    if (isExtentReportSpecial(event)) {
-      if (isPass(event)) {
-        return LogStatus.PASS;
-      }
-      if (isSkip(event)) {
-        return LogStatus.SKIP;
-      }
-      if (isFail(event)) {
-        return LogStatus.FAIL;
-      }
-      if (isFatal(event)) {
-        return LogStatus.FATAL;
-      }
-      if (isError(event)) {
-        return LogStatus.ERROR;
-      }
-      if (isWarn(event)) {
-        return LogStatus.WARNING;
-      }
-      if (isInfo(event)) {
-        return LogStatus.INFO;
-      }
-    }
-    if (isError(event)) {
-      return LogStatus.ERROR;
-    }
-    if (isWarn(event)) {
-      return LogStatus.WARNING;
-    }
-    if (isInfo(event)) {
-      return LogStatus.INFO;
-    }
-    return LogStatus.UNKNOWN;
+  protected boolean hasErrorMarker(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_ERROR);
   }
 
-  private boolean hasMarker(ILoggingEvent event, Marker marker) {
-    if (event.getMarker() != null) {
-      return event.getMarker().contains(marker);
-    }
-    return false;
+  protected boolean hasInfoMarker(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_INFO);
   }
 
-  private boolean isError(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_ERROR) || isLevel(event, Level.ERROR);
+  protected boolean hasWarnMarker(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_WARN);
   }
 
-  private boolean isExtentReportSpecial(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_EXTENT_REPORT);
+  protected boolean isLevelError(ILoggingEvent event) {
+    return isLevel(event, Level.ERROR);
   }
 
-  private boolean isFail(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
+  protected boolean isLevelInfo(ILoggingEvent event) {
+    return isLevel(event, Level.INFO);
   }
 
-  private boolean isFatal(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
-  }
-
-  private boolean isInfo(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_INFO) || isLevel(event, Level.INFO);
-  }
-
-  private boolean isLevel(ILoggingEvent event, Level level) {
-    if (event.getLevel() != null) {
-      return event.getLevel().isGreaterOrEqual(level);
-    }
-    return false;
-  }
-
-  private boolean isPass(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_PASS);
-  }
-
-  private boolean isSkip(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_SKIP);
-  }
-
-  private boolean isWarn(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_WARN) || isLevel(event, Level.WARN);
+  protected boolean isLevelWarn(ILoggingEvent event) {
+    return isLevel(event, Level.WARN);
   }
 
 }
