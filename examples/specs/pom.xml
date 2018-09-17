@@ -95,4 +95,24 @@
     </plugins>
   </build>
 
+  <profiles>
+
+    <profile>
+      <id>site-for-ci</id>
+      <activation>
+        <property>
+          <name>continuous-integration</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <distributionManagement>
+        <site>
+          <id>${site.deploy.id}</id>
+          <url>${site.deploy.url}${site.url.module.prefix}</url>
+        </site>
+      </distributionManagement>
+    </profile>
+
+  </profiles>
+
 </project>
