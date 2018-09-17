@@ -132,6 +132,13 @@ public final class Aem {
     return false;
   }
 
+  /**
+   * Posting to login URL and check for HTTP status 200.
+   * @param authorBaseUrl
+   * @param authorUser
+   * @param authorPass
+   * @return whether POST response had status code 200
+   */
   public static boolean loginToAuthorViaHttp(String authorBaseUrl, String authorUser, String authorPass) {
     URL url;
     try {
