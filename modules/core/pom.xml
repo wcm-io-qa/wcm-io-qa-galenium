@@ -94,26 +94,4 @@
 
   </dependencies>
 
-  <build>
-    <plugins>
-
-      <!-- generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>false</skipDeploy>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </build>
-
-  <distributionManagement>
-    <site>
-      <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}${site.url.module.prefix}</url>
-    </site>
-  </distributionManagement>
-
 </project>

@@ -22,6 +22,10 @@
   <artifactId>io.wcm.qa.galenium.differences</artifactId>
   <packaging>jar</packaging>
 
+  <properties>
+    <site.url.module.prefix>galenium/differences</site.url.module.prefix>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -31,20 +35,5 @@
     </dependency>
 
   </dependencies>
-
-  <build>
-    <plugins>
-
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </build>
 
 </project>

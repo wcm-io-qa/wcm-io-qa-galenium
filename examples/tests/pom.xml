@@ -36,6 +36,7 @@
 
   <properties>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
+    <site.url.module.prefix>galenium/examples/tests</site.url.module.prefix>
   </properties>
 
   <dependencies>

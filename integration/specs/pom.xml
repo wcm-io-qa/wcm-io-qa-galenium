@@ -17,7 +17,9 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -33,6 +35,10 @@
   <packaging>pom</packaging>
   <version>0.1.19-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
+
+  <properties>
+    <site.url.module.prefix>galenium/integration/specs</site.url.module.prefix>
+  </properties>
 
   <dependencies>
 
@@ -81,7 +87,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>net.revelc.code.formatter</groupId>
         <artifactId>formatter-maven-plugin</artifactId>
@@ -93,11 +99,11 @@
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
 
-        <!-- Copy specs from source directories -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-        </plugin>
+      <!-- Copy specs from source directories -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
 
     </plugins>
     <pluginManagement>

@@ -34,22 +34,13 @@
   <version>0.1.19-SNAPSHOT</version>
   <description>Test automation examples.</description>
 
+  <properties>
+    <site.url.module.prefix>galenium/examples</site.url.module.prefix>
+  </properties>
+
   <modules>
     <module>specs</module>
     <module>tests</module>
   </modules>
-
-  <build>
-    <plugins>
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
       
 </project>

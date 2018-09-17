@@ -26,5 +26,5 @@ Features:
 * Automated sampling of text and images from existing web pages
 
 [concepts]: concepts.html
-[apidocs]: core/apidocs/
+[apidocs]: apidocs.html
 [changelog]: core/changes-report.html

@@ -16,7 +16,9 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -38,13 +40,6 @@
     <integrationtests.skip>false</integrationtests.skip>
     <site.url.module.prefix>galenium</site.url.module.prefix>
   </properties>
-
-  <distributionManagement>
-    <site>
-      <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}${site.url.module.prefix}</url>
-    </site>
-  </distributionManagement>
 
   <dependencyManagement>
     <dependencies>
@@ -204,5 +199,24 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <id>site-for-ci</id>
+      <activation>
+        <property>
+          <name>continuous-integration</name>
+          <value>true</value>
+        </property>
+
+      </activation>
+      <distributionManagement>
+        <site>
+          <id>${site.deploy.id}</id>
+          <url>${site.deploy.url}${site.url.module.prefix}</url>
+        </site>
+      </distributionManagement>
+    </profile>
+  </profiles>
 
 </project>

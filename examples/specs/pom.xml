@@ -34,6 +34,10 @@
   <version>0.1.19-SNAPSHOT</version>
   <description>Test automation example Galen specs.</description>
 
+  <properties>
+    <site.url.module.prefix>galenium/examples/specs</site.url.module.prefix>
+  </properties>
+
   <build>
     <sourceDirectory>${galenium.generated.java}</sourceDirectory>
     <plugins>
