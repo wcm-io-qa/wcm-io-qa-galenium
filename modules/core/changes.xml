@@ -25,6 +25,9 @@
 
     <release version="0.1.20" date="not released yet">
       <action type="update" dev="apegam">
+        Newest webdriver for Firefox and Chrome.
+      </action>
+      <action type="update" dev="apegam">
         Toplevel parent.
       </action>
       <action type="add" dev="apegam">
