@@ -36,7 +36,7 @@ Galen specific integration and functionality.
 
 Generate Java classes from Galen specs in a Maven build.
 
-[Read more](io.wcm.qa.galenium.specs-plugin)
+[Read more](io.wcm.qa.galenium.specs-maven-plugin)
 
 ### Logging
 
