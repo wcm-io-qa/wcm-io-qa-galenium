@@ -26,5 +26,5 @@ Features:
 * Automated sampling of text and images from existing web pages
 
 [concepts]: concepts.html
-[apidocs]: galenium/apidocs/
-[changelog]: galenium/core/changes-report.html
+[apidocs]: core/apidocs/
+[changelog]: core/changes-report.html
