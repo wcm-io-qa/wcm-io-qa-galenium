@@ -35,10 +35,6 @@
   <version>0.1.19-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
-  <properties>
-    <site.url.module.prefix>galenium/integration/ui-tests</site.url.module.prefix>
-  </properties>
-
   <dependencies>
 
     <!-- Resources for UI test projects -->

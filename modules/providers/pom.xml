@@ -24,10 +24,6 @@
   <artifactId>io.wcm.qa.galenium.providers</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <site.url.module.prefix>galenium/providers</site.url.module.prefix>
-  </properties>
-
   <dependencies>
 
     <dependency>

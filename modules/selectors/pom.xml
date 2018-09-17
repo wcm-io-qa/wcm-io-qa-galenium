@@ -24,10 +24,6 @@
   <artifactId>io.wcm.qa.galenium.selectors</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <site.url.module.prefix>galenium/selectors</site.url.module.prefix>
-  </properties>
-
   <dependencies>
 
     <dependency>

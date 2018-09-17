@@ -21,10 +21,6 @@
   <name>Galenium Galen</name>
   <artifactId>io.wcm.qa.galenium.galen</artifactId>
   <packaging>jar</packaging>
-
-  <properties>
-    <site.url.module.prefix>galenium/galen</site.url.module.prefix>
-  </properties>
   
   <dependencies>
 

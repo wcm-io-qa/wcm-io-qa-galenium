@@ -35,7 +35,7 @@
   <description>Test automation example Galen specs.</description>
 
   <properties>
-    <site.url.module.prefix>galenium/examples/specs</site.url.module.prefix>
+    <site.url.module.prefix>galenium/examples</site.url.module.prefix>
   </properties>
 
   <build>

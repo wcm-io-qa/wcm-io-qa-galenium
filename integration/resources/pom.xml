@@ -36,10 +36,6 @@
   <version>0.1.19-SNAPSHOT</version>
   <description>Test automation integration resources.</description>
 
-  <properties>
-    <site.url.module.prefix>galenium/integration/resources</site.url.module.prefix>
-  </properties>
-
   <build>
     <plugins>
 

@@ -22,10 +22,6 @@
   <artifactId>io.wcm.qa.galenium.sampling</artifactId>
   <packaging>jar</packaging>
   
-  <properties>
-    <site.url.module.prefix>galenium/sampling</site.url.module.prefix>
-  </properties>
-  
   <dependencies>
 
     <dependency>

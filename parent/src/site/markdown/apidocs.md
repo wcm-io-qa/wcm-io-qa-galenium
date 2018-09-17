@@ -3,9 +3,10 @@
 Galenium is split up into lots of submodules. Each represents part of the Galenium API.
 
 ### Core
-* [Javadoc](core/apidocs/)
 
 The fundamental functionality and concepts.
+
+[Read more](io.wcm.qa.galenium.core)
 
 ### Selectors
 * [Javadoc](selectors/apidocs/)
@@ -84,6 +85,8 @@ As a showcase of what Galenium projects and tests look like, examples are provid
 
 #### Example Specs
 
+Some Galen specs set up to generate Java classes from.
 
 #### Example Tests
 
+Example tests showcasing different Galenium features.

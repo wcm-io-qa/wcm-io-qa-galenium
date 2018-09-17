@@ -32,10 +32,6 @@
   <name>Galenium Logging</name>
   <description>Galenium SLF4J ExtentReports Binding</description>
 
-  <properties>
-    <site.url.module.prefix>galenium/logging</site.url.module.prefix>
-  </properties>
-
   <dependencies>
 
     <dependency>

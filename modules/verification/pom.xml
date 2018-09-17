@@ -24,10 +24,6 @@
   <artifactId>io.wcm.qa.galenium.verification</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <site.url.module.prefix>galenium/verification</site.url.module.prefix>
-  </properties>
-
   <dependencies>
 
     <dependency>

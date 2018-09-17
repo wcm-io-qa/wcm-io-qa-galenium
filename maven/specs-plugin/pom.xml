@@ -21,7 +21,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <site.url.module.prefix>galenium/specs-plugin</site.url.module.prefix>
   </properties>
 
   <dependencies>

@@ -31,10 +31,6 @@
   <artifactId>io.wcm.qa.galenium.core</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <site.url.module.prefix>galenium/core</site.url.module.prefix>
-  </properties>
-
   <dependencies>
 
     <dependency>
