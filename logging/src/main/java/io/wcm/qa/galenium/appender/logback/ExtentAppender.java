@@ -74,6 +74,14 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
     return LogStatus.UNKNOWN;
   }
 
+  private String getStackTrace(IThrowableProxy throwableProxy) {
+    StringBuilder stacktrace = new StringBuilder();
+    ThrowableProxyUtil.subjoinFirstLineRootCauseFirst(stacktrace, throwableProxy);
+    stacktrace.append(CoreConstants.LINE_SEPARATOR);
+    ThrowableProxyUtil.subjoinSTEPArray(stacktrace, 2, throwableProxy);
+    return stacktrace.toString();
+  }
+
   private boolean hasMarker(ILoggingEvent event, Marker marker) {
     if (event.getMarker() != null) {
       return event.getMarker().contains(marker);
@@ -111,17 +119,17 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
   @Override
   protected void append(ILoggingEvent event) {
     ExtentTest extentTest = GaleniumReportUtil.getExtentTest(event.getLoggerName());
-    String formattedMessage = event.getFormattedMessage();
+    StringBuilder formattedMessage = new StringBuilder()
+        .append(event.getFormattedMessage());
     IThrowableProxy throwableProxy = event.getThrowableProxy();
     if (throwableProxy != null) {
-      StringBuilder sb = new StringBuilder();
-      ThrowableProxyUtil.subjoinFirstLineRootCauseFirst(sb, throwableProxy);
-      sb.append(CoreConstants.LINE_SEPARATOR);
-      ThrowableProxyUtil.subjoinSTEPArray(sb, 2, throwableProxy);
-      String stacktrace = sb.toString();
-      formattedMessage += "<pre>" + stacktrace + "</pre>";
+      String stacktrace = getStackTrace(throwableProxy);
+      formattedMessage
+          .append("<pre>")
+          .append(stacktrace)
+          .append("</pre>");
     }
-    extentTest.log(extractLogStatus(event), formattedMessage);
+    extentTest.log(extractLogStatus(event), formattedMessage.toString());
   }
 
   protected boolean hasErrorMarker(ILoggingEvent event) {
