@@ -128,8 +128,8 @@ public class GalenSpecsMojo extends AbstractMojo {
   @Parameter(property = "specIncludes")
   private String[] specIncludes;
 
-  private Collection<SpecPojo> specsForSelectors = new ArrayList<>();
-  private Collection<SpecPojo> specsForSpecs = new ArrayList<>();
+  private final Collection<SpecPojo> specsForSelectors = new ArrayList<>();
+  private final Collection<SpecPojo> specsForSpecs = new ArrayList<>();
 
   /**
    * Name of Freemarker template to use for recursively generating static inner classes.
@@ -264,7 +264,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private Collection<File> getSpecFiles(String[] includedFiles) {
+  private Collection<File> getSpecFiles(String... includedFiles) {
     Collection<File> specFiles = new ArrayList<>();
     for (String relativeFilePath : includedFiles) {
       specFiles.add(new File(inputDirectory, relativeFilePath));
