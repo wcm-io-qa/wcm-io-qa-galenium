@@ -208,8 +208,8 @@
           <name>continuous-integration</name>
           <value>true</value>
         </property>
-
       </activation>
+
       <distributionManagement>
         <site>
           <id>${site.deploy.id}</id>
