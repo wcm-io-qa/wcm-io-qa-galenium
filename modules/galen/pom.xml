@@ -19,6 +19,7 @@
   </parent>
 
   <name>Galenium Galen</name>
+  <description>Galen specific integration and functionality.</description>
   <artifactId>io.wcm.qa.galenium.galen</artifactId>
   <packaging>jar</packaging>
   

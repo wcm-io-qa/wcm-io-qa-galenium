@@ -28,6 +28,7 @@
   </parent>
 
   <name>Galenium Core</name>
+  <description>Basic core functionality of Galenium.</description>
   <artifactId>io.wcm.qa.galenium.core</artifactId>
   <packaging>jar</packaging>
 

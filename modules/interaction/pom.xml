@@ -21,6 +21,7 @@
   </parent>
 
   <name>Galenium Interaction</name>
+  <description>Convenience methods for Selenium based interaction with web elements and browser.</description>
   <artifactId>io.wcm.qa.galenium.interaction</artifactId>
   <packaging>jar</packaging>
 

@@ -10,14 +10,14 @@
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
+  <name>Galenium Galen Specs Maven Plugin</name>
+  <description>Generates and packages Java classes from Galen specs.</description>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
   <version>0.1.19-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>Galenium Galen Specs Maven Plugin</name>
-
-  <url>http://qa.wcm.io/galenium</url>
+  <url>http://qa.wcm.io/galenium/io.wcm.qa.galenium.specs-maven-plugin</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

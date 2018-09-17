@@ -34,7 +34,7 @@
   <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
   <packaging>pom</packaging>
   <version>0.1.19-SNAPSHOT</version>
-  <description>Test automation integration parent.</description>
+  <description>Test automation integration parent for projects containing the Galen specs.</description>
 
   <dependencies>
 

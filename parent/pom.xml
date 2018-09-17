@@ -34,7 +34,7 @@
   <version>0.1.19-SNAPSHOT</version>
   <url>http://qa.wcm.io/galenium/</url>
 
-  <description>Test automation module. Enabling Galen and Selenium</description>
+  <description>Galenium test automation library parent.</description>
 
   <properties>
     <integrationtests.skip>false</integrationtests.skip>

@@ -33,7 +33,7 @@
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
   <version>0.1.19-SNAPSHOT</version>
-  <description>Test automation integration parent.</description>
+  <description>Test automation integration parent for the actual UI tests.</description>
 
   <dependencies>
 

@@ -21,6 +21,7 @@
   </parent>
 
   <name>Galenium Providers</name>
+  <description>TestNG data providers and utility methods to help implementing your own.</description>
   <artifactId>io.wcm.qa.galenium.providers</artifactId>
   <packaging>jar</packaging>
 

@@ -19,6 +19,7 @@
   </parent>
 
   <name>Galenium Sampling</name>
+  <description>Sampling is essential to Galeniums verification concept.</description>
   <artifactId>io.wcm.qa.galenium.sampling</artifactId>
   <packaging>jar</packaging>
   

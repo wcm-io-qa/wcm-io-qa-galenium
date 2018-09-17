@@ -19,6 +19,7 @@
   </parent>
 
   <name>Galenium Icing</name>
+  <description>The icing on Galenium contains integrations which do not neatly fit into the hierarchy of modules.</description>
   <artifactId>io.wcm.qa.galenium.icing</artifactId>
   <packaging>jar</packaging>
 

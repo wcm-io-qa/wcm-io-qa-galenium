@@ -19,6 +19,7 @@
   </parent>
 
   <name>Galenium Differences</name>
+  <description>Expected differences help with focussing on the unexpected differences.</description>
   <artifactId>io.wcm.qa.galenium.differences</artifactId>
   <packaging>jar</packaging>
 

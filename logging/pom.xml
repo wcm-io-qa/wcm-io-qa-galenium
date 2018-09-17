@@ -30,7 +30,7 @@
   <artifactId>io.wcm.qa.galenium.logging</artifactId>
   <packaging>jar</packaging>
   <name>Galenium Logging</name>
-  <description>Galenium SLF4J ExtentReports Binding</description>
+  <description>Galenium SLF4J ExtentReports Binding implemented with Logback.</description>
 
   <dependencies>
 

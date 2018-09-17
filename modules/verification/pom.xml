@@ -21,6 +21,7 @@
   </parent>
 
   <name>Galenium Verification</name>
+  <description>Verifications allow checking of almost any state or state combination possible.</description>
   <artifactId>io.wcm.qa.galenium.verification</artifactId>
   <packaging>jar</packaging>
 
