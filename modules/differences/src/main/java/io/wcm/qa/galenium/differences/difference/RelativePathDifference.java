@@ -22,20 +22,20 @@ package io.wcm.qa.galenium.differences.difference;
 /**
  * Uses URL path relative to host as difference.
  */
-public class RelativeUrlDifference extends UrlDifference {
+public class RelativePathDifference extends UrlDifference {
 
 
   /**
    * Uses current URL from driver.
    */
-  public RelativeUrlDifference() {
+  public RelativePathDifference() {
     super();
   }
 
   /**
    * Uses current URL from driver.
    */
-  public RelativeUrlDifference(String url) {
+  public RelativePathDifference(String url) {
     super(url);
   }
 
