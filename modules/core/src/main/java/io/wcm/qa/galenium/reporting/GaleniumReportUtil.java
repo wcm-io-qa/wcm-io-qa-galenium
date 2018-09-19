@@ -241,14 +241,19 @@ public final class GaleniumReportUtil {
    */
   public static ExtentTest getExtentTest(String name) {
     ExtentTest currentReport = getExtentTest();
-    if (currentReport == null
-        || currentReport.getTest() == null
-        || currentReport.getTest().getName() == null
-        || !currentReport.getTest().getName().equals(name)) {
-      currentReport = GLOBAL_EXTENT_REPORTS.getExtentTest(name);
-      setExtentTest(currentReport);
+    if (reportFitsName(name, currentReport)) {
+      return currentReport;
     }
-    return currentReport;
+    ExtentTest newReport = GLOBAL_EXTENT_REPORTS.getExtentTest(name);
+    setExtentTest(newReport);
+    return newReport;
+  }
+
+  private static boolean reportFitsName(String name, ExtentTest currentReport) {
+    return currentReport != null
+        && currentReport.getTest() != null
+        && currentReport.getTest().getName() != null
+        && currentReport.getTest().getName().equals(name);
   }
 
   /**
