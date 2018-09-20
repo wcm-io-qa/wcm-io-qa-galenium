@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -47,7 +48,8 @@ public final class GridHostExtractor {
    * Constant used when no grid host could be retrieved.
    */
   public static final String NO_HOST_RETRIEVED = "NO_HOST_RETRIEVED";
-  static final String NOT_REMOTE = "NOT_REMOTE";
+  private static final String NOT_REMOTE = "NOT_REMOTE";
+  private static final String EMPTY_PROXY_ID = "EMPTY_PROXY_ID";
 
   private GridHostExtractor() {
     // do not instantiate
@@ -86,7 +88,11 @@ public final class GridHostExtractor {
       client.close();
       Object proxyId = jsonAsMap.get("proxyId");
       if (proxyId != null) {
-        return proxyId.toString();
+        String proxyIdValue = proxyId.toString();
+        if (StringUtils.isNotBlank(proxyIdValue)) {
+          return proxyIdValue;
+        }
+        return EMPTY_PROXY_ID;
       }
       return NO_HOST_RETRIEVED;
     }
