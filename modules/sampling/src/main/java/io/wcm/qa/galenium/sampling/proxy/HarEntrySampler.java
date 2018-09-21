@@ -40,6 +40,10 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
     super(new HarSampler());
   }
 
+  private List<HarEntry> handleEmptySample() {
+    return ListUtils.emptyIfNull(null);
+  }
+
   @Override
   protected List<HarEntry> transform(Har inputSample) {
     if (inputSample == null) {
@@ -52,10 +56,6 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
       return handleEmptySample();
     }
     return log.getEntries();
-  }
-
-  private List<HarEntry> handleEmptySample() {
-    return ListUtils.emptyIfNull(null);
   }
 
 }

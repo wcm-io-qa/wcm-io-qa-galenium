@@ -49,4 +49,12 @@ public final class ReflectionUtil {
     return Modifier.isStatic(method.getModifiers());
   }
 
+  /**
+   * @param method to check
+   * @return whether the method is static
+   */
+  public static boolean isPublic(Method method) {
+    return Modifier.isPublic(method.getModifiers());
+  }
+
 }

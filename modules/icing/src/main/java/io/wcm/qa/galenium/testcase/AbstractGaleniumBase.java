@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.testng.ITest;
 import org.testng.SkipException;
@@ -89,7 +90,9 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   }
 
   protected void assertElementVisible(String message, Selector selector) {
-    assertNotNull(Element.find(selector, 10), message);
+    WebElement element = Element.find(selector);
+    assertNotNull(element, message);
+    assertTrue(element.isDisplayed(), message);
     getLogger().debug(GaleniumReportUtil.MARKER_PASS, "visible: " + selector.elementName());
   }
 

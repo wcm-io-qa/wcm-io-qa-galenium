@@ -59,7 +59,7 @@ public class InteractionPojo {
   }
 
   private static boolean isStaticSelectorMethod(Method method) {
-    return ReflectionUtil.isStatic(method) && hasSelectorArgument(method);
+    return ReflectionUtil.isStatic(method) && ReflectionUtil.isPublic(method) && hasSelectorArgument(method);
   }
 
 }

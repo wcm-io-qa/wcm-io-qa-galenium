@@ -44,21 +44,21 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
 
   /**
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
-   */
-  public RegexSingleGroupSampler(S inputSampler, String regex) {
-    super(inputSampler, regex);
-  }
-
-
-  /**
-   * @param inputSampler providing the input string
    * @param pattern used to transform
    * @param groupIndex index of group to sample
    */
   public RegexSingleGroupSampler(S inputSampler, Pattern pattern, int groupIndex) {
     this(inputSampler, pattern);
     setGroupIndex(groupIndex);
+  }
+
+
+  /**
+   * @param inputSampler providing the input string
+   * @param regex to build transformation {@link Pattern} from
+   */
+  public RegexSingleGroupSampler(S inputSampler, String regex) {
+    super(inputSampler, regex);
   }
 
   /**
@@ -71,20 +71,20 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
     setGroupIndex(groupIndex);
   }
 
-  @Override
-  protected String transform(Matcher matcher) {
-    if (matcher.find()) {
-      return matcher.group(getGroupIndex());
-    }
-    return handleNoMatch();
-  }
-
   protected int getGroupIndex() {
     return groupIndex;
   }
 
   protected void setGroupIndex(int groupIndex) {
     this.groupIndex = groupIndex;
+  }
+
+  @Override
+  protected String transform(Matcher matcher) {
+    if (matcher.find()) {
+      return matcher.group(getGroupIndex());
+    }
+    return handleNoMatch();
   }
 
 }

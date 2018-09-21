@@ -31,21 +31,6 @@ public abstract class ElementBasedVerification<S extends ElementBasedSampler<T>,
     super(verificationName, sampler);
   }
 
-  /**
-   * @return the time out used by the element based sampler
-   */
-  public int getTimeout() {
-    return getSampler().getTimeOut();
-  }
-
-  /**
-   * Sets time out in sampler.
-   * @param timeOut to set in element based sampler
-   */
-  public void setTimeout(int timeOut) {
-    getSampler().setTimeOut(timeOut);
-  }
-
   protected String getElementName() {
     return getSelector().elementName();
   }
