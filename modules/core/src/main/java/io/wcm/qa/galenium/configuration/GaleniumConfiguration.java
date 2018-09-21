@@ -49,6 +49,7 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
+  private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
@@ -56,13 +57,13 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
   private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browsermob.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
-  private static final String SYSTEM_PROPERTY_NAME_HEADLESS = "galenium.headless";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
   private static final String SYSTEM_PROPERTY_NAME_DEVICE_CSV = "galenium.devices.csv";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "galenium.suppressAutoAdjustBrowserSize";
+  private static final String SYSTEM_PROPERTY_NAME_HEADLESS = "galenium.headless";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
@@ -81,9 +82,9 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE = "galenium.sampling.image.save";
+  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY = "galenium.sampling.text.directory.expected";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY = "galenium.sampling.text.directory.actual";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE = "galenium.sampling.text.save";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED = "galenium.screenshotOnSkipped";
@@ -96,6 +97,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW = "galenium.webdriver.alwaysNew";
   private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE = "galenium.webdriver.ssl.refuse";
   private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY = "galenium.webdriver.ssl.trusted";
+  private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_TIMEOUT = "galenium.webdriver.timeout";
 
   private GaleniumConfiguration() {
     // do not instantiate
@@ -305,6 +307,31 @@ public final class GaleniumConfiguration {
    */
   public static String getChromeBinaryPath() {
     return asString(SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH);
+  }
+
+  /**
+   * Default timeout for webdriver in seconds.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.webdriver.timeout
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * 10
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return default timeout used by Galenium
+   */
+  public static int getDefaultWebdriverTimeout() {
+    return asInteger(SYSTEM_PROPERTY_NAME_WEB_DRIVER_TIMEOUT, DEFAULT_WEBDRIVER_TIMEOUT);
   }
 
   /**
@@ -867,6 +894,7 @@ public final class GaleniumConfiguration {
   public static boolean isHeadless() {
     return asBoolean(SYSTEM_PROPERTY_NAME_HEADLESS);
   }
+
 
   /**
    * Lazy web driver intialization takes control away from WebDriverListener and lets the test itself decide
