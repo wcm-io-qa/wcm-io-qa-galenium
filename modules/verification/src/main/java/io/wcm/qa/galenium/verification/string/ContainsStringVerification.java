@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.string;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
@@ -47,7 +47,7 @@ public class ContainsStringVerification extends StringVerification {
    * @param searchString to find in input
    * @param sampler sampler to provide input
    */
-  public ContainsStringVerification(String verificationName, String searchString, StringSampler sampler) {
+  public ContainsStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
     super(verificationName, sampler);
     setSearchString(searchString);
   }

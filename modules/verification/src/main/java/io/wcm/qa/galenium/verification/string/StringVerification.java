@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.string;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerification;
 
@@ -42,7 +42,7 @@ public class StringVerification extends StringSamplerBasedVerification {
    * @param verificationName name for this check
    * @param sampler to provide input
    */
-  public StringVerification(String verificationName, StringSampler sampler) {
+  public StringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
   }
 
