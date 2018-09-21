@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.string;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
@@ -43,7 +43,7 @@ public class EmptyStringVerification extends StringVerification {
    * @param verificationName name for this check
    * @param sampler provides input sample
    */
-  public EmptyStringVerification(String verificationName, StringSampler sampler) {
+  public EmptyStringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
   }
 
