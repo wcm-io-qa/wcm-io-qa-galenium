@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.base;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.verification.string.StringVerification;
 
 /**
@@ -35,7 +35,7 @@ public abstract class CombiningStringBasedVerification extends StringVerificatio
    * @param verificationName name for verification
    * @param sampler to use for sampling
    */
-  public CombiningStringBasedVerification(String verificationName, StringSampler sampler) {
+  public CombiningStringBasedVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
   }
 
