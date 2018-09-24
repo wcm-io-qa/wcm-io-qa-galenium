@@ -56,7 +56,7 @@ public final class Element {
    * @param selector identifies the element
    * @param text value to enter
    */
-  public static void clearAndenterText(Selector selector, String text) {
+  public static void clearAndEnterText(Selector selector, String text) {
     WebElement input = findOrFail(selector);
     try {
       input.clear();
@@ -138,12 +138,22 @@ public final class Element {
   }
 
   /**
+   * @param selector used to find elements
+   * @param index used to choose which element
+   * @return matching element if it is visible or null
+   */
+  public static WebElement findNth(Selector selector, int index) {
+    return findNth(selector, index, TimeoutType.DEFAULT);
+  }
+
+  /**
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
    * @return element found
    */
   public static WebElement findOrFail(Selector selector) {
-    return findOrFailNth(selector, 0, TimeoutType.DEFAULT);
+    int index = 0;
+    return findNthOrFail(selector, index, TimeoutType.DEFAULT);
   }
 
   /**
@@ -152,7 +162,12 @@ public final class Element {
    * @return element found
    */
   public static WebElement findOrFailNow(Selector selector) {
-    return findOrFailNth(selector, 0, TimeoutType.NOW);
+    int index = 0;
+    return findNthOrFailNow(selector, index);
+  }
+
+  private static WebElement findNthOrFailNow(Selector selector, int index) {
+    return findNthOrFail(selector, index, TimeoutType.NOW);
   }
 
   /**
@@ -244,10 +259,6 @@ public final class Element {
     return allElements;
   }
 
-  private static WebElement findNth(Selector selector, int index) {
-    return findNth(selector, index, TimeoutType.DEFAULT);
-  }
-
   private static WebElement findNth(Selector selector, int index, TimeoutType type) {
     List<WebElement> allElements = findAll(selector, type);
     StringBuilder message = getSelectorMessageBuilder(selector, index)
@@ -265,12 +276,16 @@ public final class Element {
     return allElements.get(index);
   }
 
-  private static WebElement findOrFailNth(Selector selector, int index, TimeoutType type) {
+  private static WebElement findNthOrFail(Selector selector, int index, TimeoutType type) {
     WebElement element = findNth(selector, index, type);
     if (element != null) {
       return element;
     }
     throw new GaleniumException("did not find '" + selector + "'");
+  }
+
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
   private static StringBuilder getSelectorMessageBuilder(Selector selector, int index) {
@@ -280,10 +295,6 @@ public final class Element {
         .append(index)
         .append("]'");
     return message;
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
   private static boolean isNow(TimeoutType type) {

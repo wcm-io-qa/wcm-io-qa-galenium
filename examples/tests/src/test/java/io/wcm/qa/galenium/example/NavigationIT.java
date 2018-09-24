@@ -29,10 +29,10 @@ import io.wcm.qa.galenium.util.BrowserUtil;
 /**
  * Example for pure Selenium test based on Galenium.
  */
-public class NavigationExampleIT extends AbstractExampleBase {
+public class NavigationIT extends AbstractExampleBase {
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)
-  public NavigationExampleIT(TestDevice testDevice) {
+  public NavigationIT(TestDevice testDevice) {
     super(testDevice);
   }
 

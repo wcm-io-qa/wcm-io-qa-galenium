@@ -39,12 +39,12 @@ import io.wcm.qa.galenium.providers.TestDeviceProvider;
 /**
  * Showcase page object approach.
  */
-public class PageObjectExampleIT extends AbstractExampleBase {
+public class PageObjectIT extends AbstractExampleBase {
 
   private Homepage homepage;
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
-  public PageObjectExampleIT(TestDevice testDevice) {
+  public PageObjectIT(TestDevice testDevice) {
     super(testDevice);
   }
 
