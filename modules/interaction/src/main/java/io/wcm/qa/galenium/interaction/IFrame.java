@@ -22,7 +22,9 @@ package io.wcm.qa.galenium.interaction;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
 
+import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
@@ -39,6 +41,7 @@ public final class IFrame {
    * @param selector identifies IFrame to switch to
    */
   public static void switchTo(Selector selector) {
+    getLogger().info("switching to IFrame: " + selector);
     switchTo(Element.findOrFailNow(selector));
   }
 
@@ -46,6 +49,7 @@ public final class IFrame {
    * @param iFrameElement element to switch to
    */
   public static void switchTo(WebElement iFrameElement) {
+    getLogger().info("switching to IFrame element: " + iFrameElement);
     switchTo().frame(iFrameElement);
   }
 
@@ -53,6 +57,7 @@ public final class IFrame {
    * Switch to default content.
    */
   public static void switchToDefault() {
+    getLogger().info("switching to default IFrame.");
     switchTo().defaultContent();
   }
 
@@ -60,7 +65,12 @@ public final class IFrame {
    * Switch to parent of current IFrame.
    */
   public static void switchToParent() {
+    getLogger().info("switching to parent IFrame.");
     switchTo().parentFrame();
+  }
+
+  private static Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
   private static WebDriver getDriver() {
