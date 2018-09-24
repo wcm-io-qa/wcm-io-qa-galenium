@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -52,22 +51,6 @@ public final class Element {
   }
 
   /**
-   * Enters text into element which replaces any text that might already be in element.
-   * @param selector identifies the element
-   * @param text value to enter
-   */
-  public static void clearAndEnterText(Selector selector, String text) {
-    WebElement input = findOrFail(selector);
-    try {
-      input.clear();
-    }
-    catch (InvalidElementStateException ex) {
-      getLogger().debug(GaleniumReportUtil.MARKER_WARN, "could not clear element: '" + selector + "'");
-    }
-    input.sendKeys(text);
-  }
-
-  /**
    * Click element.
    * @param selector identifies the element
    */
@@ -78,7 +61,7 @@ public final class Element {
   }
 
   /**
-   * Click element.
+   * Click element with specific text.
    * @param selector identifies the elements to be checked for partial text
    * @param searchStr string to be found as part of text of element
    */
@@ -95,6 +78,16 @@ public final class Element {
   }
 
   /**
+   * Click element.
+   * @param selector identifies the element
+   */
+  public static void clickNth(Selector selector, int index) {
+    WebElement element = findNthOrFail(selector, index);
+    element.click();
+    getLogger().info(MARKER_PASS, "clicked '" + selector.elementName() + "'");
+  }
+
+  /**
    * @param selector used to find first matching element
    * @return matching element if it is visible or null
    */
@@ -107,8 +100,15 @@ public final class Element {
    * @return list of elements matched by selector
    */
   public static List<WebElement> findAll(Selector selector) {
-    TimeoutType type = TimeoutType.DEFAULT;
-    return findAll(selector, type);
+    return findAll(selector, TimeoutType.DEFAULT);
+  }
+
+  /**
+   * @param selector used to find elements
+   * @return list of elements matched by selector
+   */
+  public static List<WebElement> findAllNow(Selector selector) {
+    return findAll(selector, TimeoutType.NOW);
   }
 
   /**
@@ -147,13 +147,43 @@ public final class Element {
   }
 
   /**
+   * @param selector used to find elements
+   * @param index used to choose which element
+   * @return matching element if it is immediately visible or null
+   */
+  public static WebElement findNthNow(Selector selector, int index) {
+    return findNth(selector, index, TimeoutType.NOW);
+  }
+
+  /**
+   * Return nth element or fail with {@link GaleniumException}.
+   * @param selector identifies elements
+   * @param index identifies which element
+   * @return matching element
+   * @throws GaleniumException when element cannot be found
+   */
+  public static WebElement findNthOrFail(Selector selector, int index) {
+    return findNthOrFail(selector, index, TimeoutType.DEFAULT);
+  }
+
+  /**
+   * Return nth element immediately or fail with {@link GaleniumException}.
+   * @param selector identifies elements
+   * @param index identifies which element
+   * @return matching element
+   * @throws GaleniumException when element cannot be found
+   */
+  public static WebElement findNthOrFailNow(Selector selector, int index) {
+    return findNthOrFail(selector, index, TimeoutType.NOW);
+  }
+
+  /**
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
    * @return element found
    */
   public static WebElement findOrFail(Selector selector) {
-    int index = 0;
-    return findNthOrFail(selector, index, TimeoutType.DEFAULT);
+    return findNthOrFail(selector, 0);
   }
 
   /**
@@ -164,10 +194,6 @@ public final class Element {
   public static WebElement findOrFailNow(Selector selector) {
     int index = 0;
     return findNthOrFailNow(selector, index);
-  }
-
-  private static WebElement findNthOrFailNow(Selector selector, int index) {
-    return findNthOrFail(selector, index, TimeoutType.NOW);
   }
 
   /**
@@ -188,7 +214,7 @@ public final class Element {
   /**
    * Checks for CSS class on element.
    * @param selector identifies element
-   * @param cssClass css class to check for
+   * @param cssClass CSS class to check for
    * @return whether element has a CSS class equal to the value passed
    */
   public static boolean hasCssClass(Selector selector, String cssClass) {
@@ -203,20 +229,36 @@ public final class Element {
 
   /**
    * @param selector identifies element
-   * @return whether elment can be found and is displayed
+   * @return whether element can be found immediately and is displayed
    */
-  public static boolean isVisible(Selector selector) {
-    WebElement element = find(selector);
+  public static boolean isNthVisible(Selector selector, int index) {
+    WebElement element = findNth(selector, index);
     return isVisible(element);
   }
 
   /**
    * @param selector identifies element
-   * @return whether elment can be found and is displayed now
+   * @return whether element can be found immediately and is displayed
+   */
+  public static boolean isNthVisibleNow(Selector selector, int index) {
+    WebElement element = findNthNow(selector, index);
+    return isVisible(element);
+  }
+
+  /**
+   * @param selector identifies element
+   * @return whether element can be found and is displayed
+   */
+  public static boolean isVisible(Selector selector) {
+    return isNthVisible(selector, 0);
+  }
+
+  /**
+   * @param selector identifies element
+   * @return whether element can be found and is displayed
    */
   public static boolean isVisibleNow(Selector selector) {
-    WebElement element = findNow(selector);
-    return isVisible(element);
+    return isNthVisibleNow(selector, 0);
   }
 
   /**
@@ -243,10 +285,20 @@ public final class Element {
    * @param selector identifies element
    */
   public static void scrollToNth(Selector selector, int index) {
-    StringBuilder message = getSelectorMessageBuilder(selector, index).insert(0, "Scrolling to element: ");
+    StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);
     getLogger().debug(MARKER_INFO, message.toString());
     WebElement elementToScrollTo = findNth(selector, index);
     scrollTo(elementToScrollTo);
+  }
+
+  private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {
+    StringBuilder message = new StringBuilder()
+        .append(prefix)
+        .append(selector)
+        .append("[")
+        .append(index)
+        .append("]'");
+    return message;
   }
 
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {
@@ -261,16 +313,18 @@ public final class Element {
 
   private static WebElement findNth(Selector selector, int index, TimeoutType type) {
     List<WebElement> allElements = findAll(selector, type);
-    StringBuilder message = getSelectorMessageBuilder(selector, index)
-        .insert(0, "looking for '");
+    StringBuilder message = getSelectorMessageBuilder("looking for '", selector, index);
     if (allElements.isEmpty()) {
+      // no elements
       message.append(": no elements found");
       throw new GaleniumException(message.toString());
     }
     if (allElements.size() <= index) {
+      // not enough elements
       message.append(" only found: ").append(allElements.size());
       throw new GaleniumException(message.toString());
     }
+    // success
     message.append(" and found ").append(allElements.size()).append(" element(s) total");
     getLogger().trace(message.toString());
     return allElements.get(index);
@@ -281,20 +335,12 @@ public final class Element {
     if (element != null) {
       return element;
     }
-    throw new GaleniumException("did not find '" + selector + "'");
+    StringBuilder message = getSelectorMessageBuilder("did not find ", selector, index);
+    throw new GaleniumException(message.toString());
   }
 
   private static Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER);
-  }
-
-  private static StringBuilder getSelectorMessageBuilder(Selector selector, int index) {
-    StringBuilder message = new StringBuilder()
-        .append(selector)
-        .append("[")
-        .append(index)
-        .append("]'");
-    return message;
   }
 
   private static boolean isNow(TimeoutType type) {

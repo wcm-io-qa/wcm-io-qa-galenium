@@ -178,8 +178,8 @@ public final class Aem {
   private static boolean loginToAuthorViaBrowser(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
       getLogger().debug("Attempting login in to author instance");
-      Element.clearAndEnterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
-      Element.clearAndEnterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
+      FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
+      FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
       Element.click(SELECTOR_AUTHOR_LOGIN_BUTTON);
       getLogger().info(MARKER_PASS, "Logging in to author instance.");
       return true;
