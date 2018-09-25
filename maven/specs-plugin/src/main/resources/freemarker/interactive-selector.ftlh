@@ -10,7 +10,11 @@ import io.wcm.qa.galenium.selectors.base.Selector;
  */
 public interface ${interactiveSelectorInterfaceClassName} extends Selector {
   
-  <#list interaction.methods as method>
+  <#list elementInteraction.methods as method>
+     ${method.headForInterface};
+  </#list>
+  
+  <#list formElementInteraction.methods as method>
      ${method.headForInterface};
   </#list>
 
