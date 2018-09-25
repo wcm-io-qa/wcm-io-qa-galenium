@@ -56,8 +56,7 @@ public final class Element {
    */
   public static void click(Selector selector) {
     WebElement element = findOrFail(selector);
-    element.click();
-    getLogger().info(MARKER_PASS, "clicked '" + selector.elementName() + "'");
+    click(selector, element);
   }
 
   /**
@@ -69,8 +68,8 @@ public final class Element {
     getLogger().debug("looking for pattern: " + searchStr);
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
-      getLogger().info("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
       element.click();
+      clickNth(selector, 0, element, "(found by string '" + searchStr + "')");
       return true;
     }
     getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
@@ -83,8 +82,7 @@ public final class Element {
    */
   public static void clickNth(Selector selector, int index) {
     WebElement element = findNthOrFail(selector, index);
-    element.click();
-    getLogger().info(MARKER_PASS, "clicked '" + selector.elementName() + "'");
+    clickNth(selector, index, element, "");
   }
 
   /**
@@ -291,14 +289,13 @@ public final class Element {
     scrollTo(elementToScrollTo);
   }
 
-  private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {
-    StringBuilder message = new StringBuilder()
-        .append(prefix)
-        .append(selector)
-        .append("[")
-        .append(index)
-        .append("]'");
-    return message;
+  private static void click(Selector selector, WebElement element) {
+    clickNth(selector, 0, element, "");
+  }
+
+  private static void clickNth(Selector selector, int index, WebElement element, String extraMessage) {
+    element.click();
+    getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
   }
 
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {
@@ -339,8 +336,27 @@ public final class Element {
     throw new GaleniumException(message.toString());
   }
 
+  private static String getClickLogMessage(Selector selector, int index, String extraMessage) {
+    StringBuilder message = getSelectorMessageBuilder("clicked ", selector, index);
+    if (StringUtils.isNotBlank(extraMessage)) {
+      message.append(" ");
+      message.append(extraMessage);
+    }
+    return message.toString();
+  }
+
   private static Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER);
+  }
+
+  private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {
+    StringBuilder message = new StringBuilder()
+        .append(prefix)
+        .append(selector)
+        .append("[")
+        .append(index)
+        .append("]'");
+    return message;
   }
 
   private static boolean isNow(TimeoutType type) {
