@@ -69,8 +69,6 @@ import io.wcm.qa.galenium.selectors.base.SelectorFactory;
 import ${interactiveSelectorPackage}.${interactiveSelectorInterfaceClassName};
 import ${interactiveSelectorPackage}.${interactiveSelectorBaseClassName};
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -109,7 +107,7 @@ public class ${className(this)} extends ${interactiveSelectorBaseClassName} {
     return ${constantName(child)}.findNth(index);
   }
 
-  public List<WebElement> get${className(child)}s() {
+  public java.util.List<WebElement> get${className(child)}s() {
     return ${constantName(child)}.findAll();
   }
   </#list>
