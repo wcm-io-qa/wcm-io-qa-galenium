@@ -31,7 +31,7 @@
     return ${constantName(child)}.findNth(index);
   }
 
-  public List<WebElement> get${className(child)}s() {
+  public java.util.List<WebElement> get${className(child)}s() {
     return ${constantName(child)}.findAll();
   }
     </#list>
