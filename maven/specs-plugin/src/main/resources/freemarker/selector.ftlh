@@ -20,6 +20,22 @@
     <#list selector.children as child>
       <@innerClass child constantName(selector) />
     </#list>
+
+    <#list selector.children as child>
+
+  public WebElement get${className(child)}() {
+    return  ${constantName(child)}.find();
+  }
+
+  public WebElement getNth${className(child)}(int index) {
+    return ${constantName(child)}.findNth(index);
+  }
+
+  public List<WebElement> get${className(child)}s() {
+    return ${constantName(child)}.findAll();
+  }
+    </#list>
+
     
   }
 </#macro>
@@ -53,7 +69,10 @@ import io.wcm.qa.galenium.selectors.base.SelectorFactory;
 import ${interactiveSelectorPackage}.${interactiveSelectorInterfaceClassName};
 import ${interactiveSelectorPackage}.${interactiveSelectorBaseClassName};
 
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Java version of '${this.elementName()}' from ${spec.filename}.
@@ -80,6 +99,20 @@ public class ${className(this)} extends ${interactiveSelectorBaseClassName} {
     <@innerClass child "SELF" />
   </#list>
   
+  <#list this.children as child>
+
+  public WebElement get${className(child)}() {
+    return  ${constantName(child)}.find();
+  }
+
+  public WebElement getNth${className(child)}(int index) {
+    return ${constantName(child)}.findNth(index);
+  }
+
+  public List<WebElement> get${className(child)}s() {
+    return ${constantName(child)}.findAll();
+  }
+  </#list>
 
 
 }
