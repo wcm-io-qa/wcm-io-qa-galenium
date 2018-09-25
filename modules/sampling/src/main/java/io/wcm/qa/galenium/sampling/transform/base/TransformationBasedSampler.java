@@ -41,21 +41,19 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
   }
 
   @Override
+  public boolean isCaching() {
+    if (isCachingInput()) {
+      return super.isCaching() && ((CanCache)getInput()).isCaching();
+    }
+    return super.isCaching();
+  }
+
+  @Override
   public O sampleValue() {
     I inputSample = getInput().sampleValue();
     O outputSample = transform(inputSample);
     return outputSample;
   }
-
-  protected S getInput() {
-    return input;
-  }
-
-  protected void setInput(S input) {
-    this.input = input;
-  }
-
-  protected abstract O transform(I inputSample);
 
   @Override
   public void setCaching(boolean activateCache) {
@@ -65,15 +63,17 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     }
   }
 
+  protected S getInput() {
+    return input;
+  }
+
   protected boolean isCachingInput() {
     return getInput() instanceof CanCache;
   }
 
-  @Override
-  public boolean isCaching() {
-    if (isCachingInput()) {
-      return super.isCaching() && ((CanCache)getInput()).isCaching();
-    }
-    return super.isCaching();
+  protected void setInput(S input) {
+    this.input = input;
   }
+
+  protected abstract O transform(I inputSample);
 }

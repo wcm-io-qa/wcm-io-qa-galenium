@@ -30,21 +30,21 @@ import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 public class EmptyStringVerification extends StringVerification {
 
   /**
-   * Verify fixed string is empty.
-   * @param verificationName name for this check
-   * @param sample fixed input sample
-   */
-  public EmptyStringVerification(String verificationName, String sample) {
-    this(verificationName, new FixedStringSampler(sample));
-  }
-
-  /**
    * Verify sampled input is empty.
    * @param verificationName name for this check
    * @param sampler provides input sample
    */
   public EmptyStringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
+  }
+
+  /**
+   * Verify fixed string is empty.
+   * @param verificationName name for this check
+   * @param sample fixed input sample
+   */
+  public EmptyStringVerification(String verificationName, String sample) {
+    this(verificationName, new FixedStringSampler(sample));
   }
 
   @Override

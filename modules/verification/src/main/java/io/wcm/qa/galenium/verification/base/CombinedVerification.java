@@ -49,14 +49,6 @@ public class CombinedVerification implements Verification {
   }
 
   /**
-   * Add another check.
-   * @param verification to also verify as part of this comined verification
-   */
-  public void addVerification(Verification verification) {
-    getMembers().add(verification);
-  }
-
-  /**
    * Add a difference to all verifications being combined in this one.
    * @param difference new difference to add to all member verifications
    */
@@ -66,6 +58,14 @@ public class CombinedVerification implements Verification {
         ((VerificationBase)verification).addDifference(difference);
       }
     }
+  }
+
+  /**
+   * Add another check.
+   * @param verification to also verify as part of this comined verification
+   */
+  public void addVerification(Verification verification) {
+    getMembers().add(verification);
   }
 
   public Collection<String> getCombinedMessages() {

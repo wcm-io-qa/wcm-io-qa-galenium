@@ -33,7 +33,7 @@ public class VisibilitySampler extends ElementBasedSampler<Boolean> {
    * @param selector to identify element
    */
   public VisibilitySampler(Selector selector) {
-    super(selector, 0);
+    super(selector);
   }
 
   private Boolean isDisplayed(WebElement element) {
@@ -41,12 +41,12 @@ public class VisibilitySampler extends ElementBasedSampler<Boolean> {
   }
 
   @Override
-  protected Boolean sampleValue(WebElement element) {
-    return isDisplayed(element);
+  protected Boolean handleNoElementFound() {
+    return false;
   }
 
   @Override
-  protected Boolean handleNoElementFound() {
-    return false;
+  protected Boolean sampleValue(WebElement element) {
+    return isDisplayed(element);
   }
 }

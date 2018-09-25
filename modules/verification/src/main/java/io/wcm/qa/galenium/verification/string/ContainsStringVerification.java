@@ -32,16 +32,6 @@ public class ContainsStringVerification extends StringVerification {
   private String searchString;
 
   /**
-   * Verify against fixed string.
-   * @param verificationName name for this check
-   * @param searchString to find in input
-   * @param sample fixed input sample
-   */
-  public ContainsStringVerification(String verificationName, String searchString, String sample) {
-    this(verificationName, searchString, new FixedStringSampler(sample));
-  }
-
-  /**
    * Verify against input provided by sampler.
    * @param verificationName name for this check
    * @param searchString to find in input
@@ -50,6 +40,16 @@ public class ContainsStringVerification extends StringVerification {
   public ContainsStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
     super(verificationName, sampler);
     setSearchString(searchString);
+  }
+
+  /**
+   * Verify against fixed string.
+   * @param verificationName name for this check
+   * @param searchString to find in input
+   * @param sample fixed input sample
+   */
+  public ContainsStringVerification(String verificationName, String searchString, String sample) {
+    this(verificationName, searchString, new FixedStringSampler(sample));
   }
 
   public String getSearchString() {

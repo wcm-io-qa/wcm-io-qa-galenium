@@ -32,6 +32,9 @@ import io.wcm.qa.galenium.maven.freemarker.util.ReflectionUtil;
  */
 public class InteractionMethodPojo {
 
+  private static final String CODE_PART_PUBLIC = "public ";
+  private static final String CODE_PART_VOID = "void";
+  private static final String CODE_PART_RETURN = "return ";
   private Method method;
 
   /**
@@ -46,15 +49,24 @@ public class InteractionMethodPojo {
    */
   public String getBody() {
     StringBuilder body = new StringBuilder();
-    if (!StringUtils.equals("void", method.getReturnType().getCanonicalName())) {
-      body.append("return ");
+    if (!StringUtils.equals(CODE_PART_VOID, method.getReturnType().getCanonicalName())) {
+      body.append(CODE_PART_RETURN);
     }
-    body.append("Element.");
-    body.append(method.getName());
-    body.append("(");
-    body.append(getParametersForCall());
-    body.append(");");
+    body.append(getSimpleClassName())
+        .append(".")
+        .append(getMethodName())
+        .append("(")
+        .append(getParametersForCall())
+        .append(");");
     return body.toString();
+  }
+
+  private String getMethodName() {
+    return getMethod().getName();
+  }
+
+  private String getSimpleClassName() {
+    return getMethod().getDeclaringClass().getSimpleName();
   }
 
   /**
@@ -62,7 +74,7 @@ public class InteractionMethodPojo {
    */
   public String getHead() {
     StringBuilder head = new StringBuilder();
-    head.append("public ");
+    head.append(CODE_PART_PUBLIC);
     head.append(getHeadForInterface());
     return head.toString();
   }
@@ -72,13 +84,17 @@ public class InteractionMethodPojo {
    */
   public String getHeadForInterface() {
     StringBuilder head = new StringBuilder();
-    head.append(method.getGenericReturnType().getTypeName());
+    head.append(getMethodReturnType());
     head.append(" ");
-    head.append(method.getName());
+    head.append(getMethodName());
     head.append("(");
     head.append(getParametersForDeclaration());
     head.append(")");
     return head.toString();
+  }
+
+  private String getMethodReturnType() {
+    return method.getGenericReturnType().getTypeName();
   }
 
   public Method getMethod() {

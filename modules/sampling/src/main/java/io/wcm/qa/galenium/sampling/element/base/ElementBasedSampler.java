@@ -32,26 +32,12 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
 
   private WebElement cachedElement;
-  private int timeOut;
 
   /**
    * @param selector to identify element
    */
   public ElementBasedSampler(Selector selector) {
-    this(selector, 0);
-  }
-
-  /**
-   * @param selector to identify element
-   * @param timeOut how many seconds to wait
-   */
-  public ElementBasedSampler(Selector selector, int timeOut) {
     super(selector);
-    setTimeOut(timeOut);
-  }
-
-  public int getTimeOut() {
-    return timeOut;
   }
 
   @Override
@@ -64,10 +50,6 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
       invalidateCache();
       return attemptSampling();
     }
-  }
-
-  public void setTimeOut(int timeOut) {
-    this.timeOut = timeOut;
   }
 
   protected T attemptSampling() {
@@ -85,7 +67,7 @@ public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
   }
 
   protected WebElement findElement() {
-    WebElement freshElement = Element.find(getSelector(), getTimeOut());
+    WebElement freshElement = Element.findNow(getSelector());
     getLogger().trace("element based sampler found: " + freshElement);
     return freshElement;
   }

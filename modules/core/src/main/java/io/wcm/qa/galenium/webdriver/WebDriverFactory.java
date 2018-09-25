@@ -26,6 +26,7 @@ import static java.text.MessageFormat.format;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -155,6 +156,9 @@ final class WebDriverFactory {
         break;
     }
 
+    int timeout = GaleniumConfiguration.getDefaultWebdriverTimeout();
+    getDriver().manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
     return getDriver();
   }
+
 }

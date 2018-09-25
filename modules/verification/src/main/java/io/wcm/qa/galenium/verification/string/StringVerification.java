@@ -29,21 +29,21 @@ import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerificatio
 public class StringVerification extends StringSamplerBasedVerification {
 
   /**
-   * Verify against fixed sample.
-   * @param verificationName name for this check
-   * @param sample to verify
-   */
-  public StringVerification(String verificationName, String sample) {
-    this(verificationName, new FixedStringSampler(sample));
-  }
-
-  /**
    * Verify against sampled input.
    * @param verificationName name for this check
    * @param sampler to provide input
    */
   public StringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
+  }
+
+  /**
+   * Verify against fixed sample.
+   * @param verificationName name for this check
+   * @param sample to verify
+   */
+  public StringVerification(String verificationName, String sample) {
+    this(verificationName, new FixedStringSampler(sample));
   }
 
   @Override

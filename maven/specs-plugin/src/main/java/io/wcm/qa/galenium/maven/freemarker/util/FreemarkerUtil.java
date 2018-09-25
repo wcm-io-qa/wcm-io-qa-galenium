@@ -33,6 +33,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.interaction.Element;
+import io.wcm.qa.galenium.interaction.FormElement;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSelectorMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromSpecMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromStringMethod;
@@ -62,7 +64,8 @@ public final class FreemarkerUtil {
    */
   public static Map<String, Object> getDataModelForInteractiveSelector(String packageRoot, String interfaceName, String className) {
     Map<String, Object> model = getCommonDataModel();
-    model.put("interaction", new InteractionPojo());
+    model.put("elementInteraction", new InteractionPojo(Element.class));
+    model.put("formElementInteraction", new InteractionPojo(FormElement.class));
     model.put("interactiveSelectorPackage", packageRoot);
     model.put("interactiveSelectorBaseClassName", className);
     model.put("interactiveSelectorInterfaceClassName", interfaceName);

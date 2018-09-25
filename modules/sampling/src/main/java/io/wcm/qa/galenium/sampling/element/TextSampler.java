@@ -33,7 +33,7 @@ public class TextSampler extends ElementBasedStringSampler {
    * @param selector identifies element.
    */
   public TextSampler(Selector selector) {
-    super(selector, 0);
+    super(selector);
   }
 
   @Override

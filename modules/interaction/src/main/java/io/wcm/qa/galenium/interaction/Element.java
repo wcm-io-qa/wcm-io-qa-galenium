@@ -19,24 +19,22 @@
  */
 package io.wcm.qa.galenium.interaction;
 
-import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
@@ -46,9 +44,7 @@ import io.wcm.qa.galenium.selectors.base.Selector;
  */
 public final class Element {
 
-  private static final int DEFAULT_TIMEOUT = 10;
   private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
-  private static final int NOW = 0;
 
   private Element() {
     // do not instantiate
@@ -60,12 +56,11 @@ public final class Element {
    */
   public static void click(Selector selector) {
     WebElement element = findOrFail(selector);
-    element.click();
-    getLogger().info(MARKER_PASS, "clicked '" + selector.elementName() + "'");
+    click(selector, element);
   }
 
   /**
-   * Click element.
+   * Click element with specific text.
    * @param selector identifies the elements to be checked for partial text
    * @param searchStr string to be found as part of text of element
    */
@@ -73,8 +68,8 @@ public final class Element {
     getLogger().debug("looking for pattern: " + searchStr);
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
-      getLogger().info("clicked: " + element + " (found by " + selector.elementName() + " with string '" + searchStr + "')");
       element.click();
+      clickNth(selector, 0, element, "(found by string '" + searchStr + "')");
       return true;
     }
     getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
@@ -82,77 +77,20 @@ public final class Element {
   }
 
   /**
-   * Click first element only even if many are found.
+   * Click element.
    * @param selector identifies the element
    */
-  public static boolean clickFirstVisibleOfMany(Selector selector) {
-    List<WebElement> elements = findAll(selector);
-
-    for (WebElement element : elements) {
-      getLogger().debug("found element with " + selector.elementName() + ": " + element);
-      if (element.isDisplayed()) {
-        getLogger().info(MARKER_PASS, "clicking element: " + element);
-        element.click();
-        return true;
-      }
-    }
-    return false;
+  public static void clickNth(Selector selector, int index) {
+    WebElement element = findNthOrFail(selector, index);
+    clickNth(selector, index, element, "");
   }
 
   /**
-   * Click element only if it is visible and don't fail if element cannot be found.
-   * @param selector identifies the element
-   */
-  public static boolean clickIfVisible(Selector selector) {
-    WebElement element = find(selector);
-    if (element != null) {
-      element.click();
-      getLogger().info(MARKER_PASS, "clicked optional '" + selector.elementName() + "'");
-      return true;
-    }
-    getLogger().debug("did not click optional '" + selector.elementName() + "'");
-    return false;
-  }
-
-  /**
-   * Enters text into element which replaces any text that might already be in element.
-   * @param selector identifies the element
-   * @param text value to enter
-   */
-  public static void enterText(Selector selector, String text) {
-    WebElement input = findOrFail(selector);
-    try {
-      input.clear();
-    }
-    catch (InvalidElementStateException ex) {
-      getLogger().debug(GaleniumReportUtil.MARKER_WARN, "could not clear element: '" + selector + "'");
-    }
-    input.sendKeys(text);
-  }
-
-  /**
-   * @param selector used to find element
+   * @param selector used to find first matching element
    * @return matching element if it is visible or null
    */
   public static WebElement find(Selector selector) {
-    return find(selector, DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * @param selector used to find element
-   * @param howLong how long to wait for element to be visible in seconds
-   * @return matching element if it is visible or null
-   */
-  public static WebElement find(Selector selector, int howLong) {
-    WebElement element = null;
-    WebDriverWait wait = new WebDriverWait(getDriver(), howLong);
-    try {
-      element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector.asBy()));
-    }
-    catch (TimeoutException tex) {
-      getLogger().trace("timeout when waiting for: " + selector.elementName());
-    }
-    return element;
+    return findNth(selector, 0, TimeoutType.DEFAULT);
   }
 
   /**
@@ -160,7 +98,15 @@ public final class Element {
    * @return list of elements matched by selector
    */
   public static List<WebElement> findAll(Selector selector) {
-    return getDriver().findElements(selector.asBy());
+    return findAll(selector, TimeoutType.DEFAULT);
+  }
+
+  /**
+   * @param selector used to find elements
+   * @return list of elements matched by selector
+   */
+  public static List<WebElement> findAllNow(Selector selector) {
+    return findAll(selector, TimeoutType.NOW);
   }
 
   /**
@@ -186,7 +132,47 @@ public final class Element {
    * @return matching element if it is visible or null
    */
   public static WebElement findNow(Selector selector) {
-    return find(selector, NOW);
+    return findNth(selector, 0, TimeoutType.NOW);
+  }
+
+  /**
+   * @param selector used to find elements
+   * @param index used to choose which element
+   * @return matching element if it is visible or null
+   */
+  public static WebElement findNth(Selector selector, int index) {
+    return findNth(selector, index, TimeoutType.DEFAULT);
+  }
+
+  /**
+   * @param selector used to find elements
+   * @param index used to choose which element
+   * @return matching element if it is immediately visible or null
+   */
+  public static WebElement findNthNow(Selector selector, int index) {
+    return findNth(selector, index, TimeoutType.NOW);
+  }
+
+  /**
+   * Return nth element or fail with {@link GaleniumException}.
+   * @param selector identifies elements
+   * @param index identifies which element
+   * @return matching element
+   * @throws GaleniumException when element cannot be found
+   */
+  public static WebElement findNthOrFail(Selector selector, int index) {
+    return findNthOrFail(selector, index, TimeoutType.DEFAULT);
+  }
+
+  /**
+   * Return nth element immediately or fail with {@link GaleniumException}.
+   * @param selector identifies elements
+   * @param index identifies which element
+   * @return matching element
+   * @throws GaleniumException when element cannot be found
+   */
+  public static WebElement findNthOrFailNow(Selector selector, int index) {
+    return findNthOrFail(selector, index, TimeoutType.NOW);
   }
 
   /**
@@ -195,23 +181,7 @@ public final class Element {
    * @return element found
    */
   public static WebElement findOrFail(Selector selector) {
-    return findOrFail(selector, DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * Return element or fail with {@link GaleniumException}.
-   * @param selector identifies the element
-   * @param howLong seconds to try until failure
-   * @return element found
-   */
-  public static WebElement findOrFail(Selector selector, int howLong) {
-    WebElement element = find(selector, howLong);
-    if (element == null) {
-      String msg = "could not find '" + selector.elementName() + "'";
-      getLogger().debug(MARKER_FAIL, msg);
-      throw new GaleniumException(msg);
-    }
-    return element;
+    return findNthOrFail(selector, 0);
   }
 
   /**
@@ -220,7 +190,8 @@ public final class Element {
    * @return element found
    */
   public static WebElement findOrFailNow(Selector selector) {
-    return findOrFail(selector, NOW);
+    int index = 0;
+    return findNthOrFailNow(selector, index);
   }
 
   /**
@@ -241,7 +212,7 @@ public final class Element {
   /**
    * Checks for CSS class on element.
    * @param selector identifies element
-   * @param cssClass css class to check for
+   * @param cssClass CSS class to check for
    * @return whether element has a CSS class equal to the value passed
    */
   public static boolean hasCssClass(Selector selector, String cssClass) {
@@ -256,20 +227,36 @@ public final class Element {
 
   /**
    * @param selector identifies element
-   * @return whether elment can be found and is displayed
+   * @return whether element can be found immediately and is displayed
    */
-  public static boolean isVisible(Selector selector) {
-    WebElement element = find(selector);
+  public static boolean isNthVisible(Selector selector, int index) {
+    WebElement element = findNth(selector, index);
     return isVisible(element);
   }
 
   /**
    * @param selector identifies element
-   * @return whether elment can be found and is displayed now
+   * @return whether element can be found immediately and is displayed
+   */
+  public static boolean isNthVisibleNow(Selector selector, int index) {
+    WebElement element = findNthNow(selector, index);
+    return isVisible(element);
+  }
+
+  /**
+   * @param selector identifies element
+   * @return whether element can be found and is displayed
+   */
+  public static boolean isVisible(Selector selector) {
+    return isNthVisible(selector, 0);
+  }
+
+  /**
+   * @param selector identifies element
+   * @return whether element can be found and is displayed
    */
   public static boolean isVisibleNow(Selector selector) {
-    WebElement element = findNow(selector);
-    return isVisible(element);
+    return isNthVisibleNow(selector, 0);
   }
 
   /**
@@ -277,9 +264,8 @@ public final class Element {
    * @param selector identifies element
    */
   public static void scrollTo(Selector selector) {
-    getLogger().debug(MARKER_INFO, "Scrolling to element: '" + selector + "'");
-    WebElement elementToScrollTo = getDriver().findElement(selector.asBy());
-    scrollTo(elementToScrollTo);
+    int index = 0;
+    scrollToNth(selector, index);
   }
 
   /**
@@ -293,41 +279,107 @@ public final class Element {
   }
 
   /**
-   * Takes screenshot of element.
+   * Scroll nth element into view.
    * @param selector identifies element
-   * @return message to log to report
    */
-  public static String takeScreenshot(Selector selector) {
-    WebElement element = findOrFail(selector);
-    scrollTo(element);
-    return GaleniumReportUtil.takeScreenshot(element);
+  public static void scrollToNth(Selector selector, int index) {
+    StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);
+    getLogger().debug(MARKER_INFO, message.toString());
+    WebElement elementToScrollTo = findNth(selector, index);
+    scrollTo(elementToScrollTo);
   }
 
-  /**
-   * Takes screenshot of element.
-   * @param selector identifies element
-   * @param index identifies which instance
-   * @return message to log to report
-   */
-  public static String takeScreenshotOfNth(Selector selector, int index) {
-    List<WebElement> allElements = findAll(selector);
+  private static void click(Selector selector, WebElement element) {
+    clickNth(selector, 0, element, "");
+  }
+
+  private static void clickNth(Selector selector, int index, WebElement element, String extraMessage) {
+    element.click();
+    getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
+  }
+
+  private static List<WebElement> findAll(Selector selector, TimeoutType type) {
+    WebDriver driver = getDriver();
+    if (isNow(type)) {
+      switchDriverToNow(driver);
+    }
+    List<WebElement> allElements = driver.findElements(selector.asBy());
+    switchDriverToDefaultTimeout(driver);
+    return allElements;
+  }
+
+  private static WebElement findNth(Selector selector, int index, TimeoutType type) {
+    List<WebElement> allElements = findAll(selector, type);
+    StringBuilder message = getSelectorMessageBuilder("looking for '", selector, index);
     if (allElements.isEmpty()) {
-      return "could not take screenshot of '" + selector + "[" + index + "]': no elements found";
+      // no elements
+      message.append(": no elements found");
+      throw new GaleniumException(message.toString());
     }
     if (allElements.size() <= index) {
-      return "could not take screenshot of '" + selector + "[" + index + "]': only found " + allElements.size() + " instances";
+      // not enough elements
+      message.append(" only found: ").append(allElements.size());
+      throw new GaleniumException(message.toString());
     }
-    WebElement element = allElements.get(index);
-    scrollTo(element);
-    return GaleniumReportUtil.takeScreenshot(element);
+    // success
+    message.append(" and found ").append(allElements.size()).append(" element(s) total");
+    getLogger().trace(message.toString());
+    return allElements.get(index);
+  }
+
+  private static WebElement findNthOrFail(Selector selector, int index, TimeoutType type) {
+    WebElement element = findNth(selector, index, type);
+    if (element != null) {
+      return element;
+    }
+    StringBuilder message = getSelectorMessageBuilder("did not find ", selector, index);
+    throw new GaleniumException(message.toString());
+  }
+
+  private static String getClickLogMessage(Selector selector, int index, String extraMessage) {
+    StringBuilder message = getSelectorMessageBuilder("clicked ", selector, index);
+    if (StringUtils.isNotBlank(extraMessage)) {
+      message.append(" ");
+      message.append(extraMessage);
+    }
+    return message.toString();
   }
 
   private static Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
+  private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {
+    StringBuilder message = new StringBuilder()
+        .append(prefix)
+        .append(selector)
+        .append("[")
+        .append(index)
+        .append("]'");
+    return message;
+  }
+
+  private static boolean isNow(TimeoutType type) {
+    return type == TimeoutType.NOW;
+  }
+
   private static boolean isVisible(WebElement element) {
     return element != null && element.isDisplayed();
+  }
+
+  private static void switchDriverToDefaultTimeout(WebDriver driver) {
+    driver.manage().timeouts().implicitlyWait(GaleniumConfiguration.getDefaultWebdriverTimeout(), TimeUnit.SECONDS);
+  }
+
+  private static void switchDriverToNow(WebDriver driver) {
+    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+  }
+
+  private enum TimeoutType {
+    /** Uses implicit wait configured in webdriver */
+    DEFAULT,
+    /** Uses timeout of zero seconds. */
+    NOW;
   }
 
 }

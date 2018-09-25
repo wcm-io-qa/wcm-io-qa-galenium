@@ -30,16 +30,7 @@ public class InvisibilityVerification extends VisibilityVerification {
    * @param selector to identify element
    */
   public InvisibilityVerification(Selector selector) {
-    this(selector, 0);
-  }
-
-  /**
-   * @param selector to identify element
-   * @param timeOut how many seconds to wait
-   */
-  public InvisibilityVerification(Selector selector, int timeOut) {
     super(selector);
-    setTimeout(timeOut);
   }
 
   @Override

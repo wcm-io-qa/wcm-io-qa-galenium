@@ -39,10 +39,10 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 /**
  * Example of how to use the {@link ImageComparisonSpecFactory} to compare individual elements on a page.
  */
-public class ImageComparisonExampleIT extends AbstractExampleBase {
+public class ImageComparisonIT extends AbstractExampleBase {
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
-  public ImageComparisonExampleIT(TestDevice testDevice) {
+  public ImageComparisonIT(TestDevice testDevice) {
     super(testDevice);
   }
 

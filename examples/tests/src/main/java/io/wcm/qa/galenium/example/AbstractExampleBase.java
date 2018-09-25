@@ -26,6 +26,7 @@ import io.wcm.qa.galenium.example.selectors.common.Navigation;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Aem;
 import io.wcm.qa.galenium.interaction.Element;
+import io.wcm.qa.galenium.interaction.Wait;
 import io.wcm.qa.galenium.testcase.AbstractGaleniumBase;
 
 /**
@@ -81,7 +82,7 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
     navShouldBeVisible();
     if (isMobile()) {
       Navigation.MENU_OPENER.click();
-      Element.findOrFail(Navigation.LINK);
+      Wait.forVisibility(Navigation.LINK_TO_CONFERENCE);
     }
   }
 

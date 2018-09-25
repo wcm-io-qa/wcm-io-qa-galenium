@@ -31,13 +31,23 @@ import io.wcm.qa.galenium.maven.freemarker.util.ReflectionUtil;
  */
 public class InteractionPojo {
 
+  private Class delegatee;
+
+  /**
+   * @param delegateeClass
+   */
+  public InteractionPojo(Class delegateeClass) {
+    setDelegatee(delegateeClass);
+  }
+
   /**
    * @return methods pojo for use in code generation
    */
   public Collection<InteractionMethodPojo> getMethods() {
+    Class delegateClass = getDelegatee();
     Collection<InteractionMethodPojo> methods = new ArrayList<InteractionMethodPojo>();
 
-    Method[] declaredMethods = Element.class.getDeclaredMethods();
+    Method[] declaredMethods = delegateClass.getDeclaredMethods();
     for (Method method : declaredMethods) {
       if (isStaticSelectorMethod(method)) {
         methods.add(new InteractionMethodPojo(method));
@@ -59,7 +69,15 @@ public class InteractionPojo {
   }
 
   private static boolean isStaticSelectorMethod(Method method) {
-    return ReflectionUtil.isStatic(method) && hasSelectorArgument(method);
+    return ReflectionUtil.isStatic(method) && ReflectionUtil.isPublic(method) && hasSelectorArgument(method);
+  }
+
+  public Class getDelegatee() {
+    return delegatee;
+  }
+
+  public void setDelegatee(Class delegatee) {
+    this.delegatee = delegatee;
   }
 
 }

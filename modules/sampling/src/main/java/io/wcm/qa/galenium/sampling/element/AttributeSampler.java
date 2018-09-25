@@ -36,7 +36,7 @@ public class AttributeSampler extends ElementBasedStringSampler {
    * @param attributeName name of attribute to sample
    */
   public AttributeSampler(Selector selector, String attributeName) {
-    super(selector, 0);
+    super(selector);
     setAttributeName(attributeName);
   }
 

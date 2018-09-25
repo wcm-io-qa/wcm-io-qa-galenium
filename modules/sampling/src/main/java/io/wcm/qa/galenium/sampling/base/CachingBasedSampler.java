@@ -51,13 +51,13 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
     return GaleniumReportUtil.getLogger();
   }
 
-  protected void setCachedValue(T cachedValue) {
-    this.cachedValue = cachedValue;
-  }
-
   protected void invalidateCache() {
     getLogger().debug("invalidating cache: " + getClass().getSimpleName());
     setCachedValue(null);
+  }
+
+  protected void setCachedValue(T cachedValue) {
+    this.cachedValue = cachedValue;
   }
 
 }

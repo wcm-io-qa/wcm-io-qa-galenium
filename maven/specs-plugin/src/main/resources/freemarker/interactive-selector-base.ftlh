@@ -3,6 +3,7 @@ package ${interactiveSelectorPackage};
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.interaction.Element;
+import io.wcm.qa.galenium.interaction.FormElement;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
@@ -17,7 +18,13 @@ public abstract class ${interactiveSelectorBaseClassName} extends SelectorFromLo
     super(elementName, locator);
   }
 
-  <#list interaction.methods as method>
+  <#list elementInteraction.methods as method>
+     ${method.head} {
+       ${method.body}
+     }
+  </#list>
+
+  <#list formElementInteraction.methods as method>
      ${method.head} {
        ${method.body}
      }

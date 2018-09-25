@@ -32,15 +32,7 @@ public abstract class ElementBasedStringSampler extends ElementBasedSampler<Stri
    * @param selector identifies element
    */
   public ElementBasedStringSampler(Selector selector) {
-    this(selector, 0);
-  }
-
-  /**
-   * @param selector identifies element
-   * @param timeOut how many seconds to wait
-   */
-  public ElementBasedStringSampler(Selector selector, int timeOut) {
-    super(selector, timeOut);
+    super(selector);
   }
 
   @Override
