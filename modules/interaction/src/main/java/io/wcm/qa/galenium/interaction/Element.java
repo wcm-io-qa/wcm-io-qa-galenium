@@ -65,7 +65,7 @@ public final class Element {
    * @param searchStr string to be found as part of text of element
    */
   public static boolean clickByPartialText(Selector selector, String searchStr) {
-    getLogger().debug("looking for pattern: " + searchStr);
+    getLogger().debug("looking for pattern: '" + searchStr + "'");
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
       element.click();
@@ -90,7 +90,7 @@ public final class Element {
    * @return matching element if it is visible or null
    */
   public static WebElement find(Selector selector) {
-    return findNth(selector, 0, TimeoutType.DEFAULT);
+    return find(selector, TimeoutType.DEFAULT);
   }
 
   /**
@@ -132,7 +132,11 @@ public final class Element {
    * @return matching element if it is visible or null
    */
   public static WebElement findNow(Selector selector) {
-    return findNth(selector, 0, TimeoutType.NOW);
+    return find(selector, TimeoutType.NOW);
+  }
+
+  private static WebElement find(Selector selector, TimeoutType timeout) {
+    return findNth(selector, 0, timeout);
   }
 
   /**
@@ -309,8 +313,27 @@ public final class Element {
   }
 
   private static WebElement findNth(Selector selector, int index, TimeoutType type) {
+
     List<WebElement> allElements = findAll(selector, type);
-    StringBuilder message = getSelectorMessageBuilder("looking for '", selector, index);
+
+    if (getLogger().isTraceEnabled()) {
+      StringBuilder message = getSelectorMessageBuilder("looking for ", selector, index);
+      message.append(" and found ").append(allElements.size()).append(" element(s) total");
+      getLogger().trace(message.toString());
+    }
+
+    if (allElements.size() > index) {
+      return allElements.get(index);
+    }
+
+    // not enough elements found
+    return null;
+  }
+
+  private static WebElement findNthOrFail(Selector selector, int index, TimeoutType type) {
+    List<WebElement> allElements = findAll(selector, type);
+
+    StringBuilder message = getSelectorMessageBuilder("looking for ", selector, index);
     if (allElements.isEmpty()) {
       // no elements
       message.append(": no elements found");
@@ -321,19 +344,16 @@ public final class Element {
       message.append(" only found: ").append(allElements.size());
       throw new GaleniumException(message.toString());
     }
+
     // success
     message.append(" and found ").append(allElements.size()).append(" element(s) total");
     getLogger().trace(message.toString());
-    return allElements.get(index);
-  }
-
-  private static WebElement findNthOrFail(Selector selector, int index, TimeoutType type) {
-    WebElement element = findNth(selector, index, type);
+    WebElement element = allElements.get(index);
     if (element != null) {
       return element;
     }
-    StringBuilder message = getSelectorMessageBuilder("did not find ", selector, index);
-    throw new GaleniumException(message.toString());
+    StringBuilder failureMessage = getSelectorMessageBuilder("did not find ", selector, index);
+    throw new GaleniumException(failureMessage.toString());
   }
 
   private static String getClickLogMessage(Selector selector, int index, String extraMessage) {
@@ -352,8 +372,9 @@ public final class Element {
   private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {
     StringBuilder message = new StringBuilder()
         .append(prefix)
+        .append('\'')
         .append(selector)
-        .append("[")
+        .append('[')
         .append(index)
         .append("]'");
     return message;
