@@ -24,7 +24,6 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,10 +33,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
-import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Utility methods for interaction with web elements.
@@ -388,11 +387,11 @@ public final class Element {
   }
 
   private static void switchDriverToDefaultTimeout(WebDriver driver) {
-    driver.manage().timeouts().implicitlyWait(GaleniumConfiguration.getDefaultWebdriverTimeout(), TimeUnit.SECONDS);
+    WebDriverManager.setDefaultTimeout();
   }
 
   private static void switchDriverToNow(WebDriver driver) {
-    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+    WebDriverManager.setZeroTimeout();
   }
 
   private enum TimeoutType {

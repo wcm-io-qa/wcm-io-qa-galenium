@@ -24,6 +24,8 @@ import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isSuppressA
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -147,6 +149,20 @@ public final class WebDriverManager {
       }
     }
     return getCurrentDriver();
+  }
+
+  /**
+   * Set implicit wait to configured default timeout.
+   */
+  public static void setDefaultTimeout() {
+    getCurrentDriver().manage().timeouts().implicitlyWait(GaleniumConfiguration.getDefaultWebdriverTimeout(), TimeUnit.SECONDS);
+  }
+
+  /**
+   * Set implicit wait to 0 seconds timeout.
+   */
+  public static void setZeroTimeout() {
+    getCurrentDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
   }
 
   private static Dimension getWindowSize() {
