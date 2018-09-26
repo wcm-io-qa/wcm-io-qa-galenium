@@ -50,6 +50,20 @@ public final class Browser {
   }
 
   /**
+   * Executes Javascript in current browser.
+   * @param jsCode code to execute
+   * @param parameters parameters to Javascript code
+   * @return return value of Javascript execution
+   */
+  public static Object executeJs(String jsCode, Object... parameters) {
+    if (getDriver() instanceof JavascriptExecutor) {
+      JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+      return executor.executeScript(jsCode, parameters);
+    }
+    throw new GaleniumException("driver cannot execute Javascript.");
+  }
+
+  /**
    * Navigate forward.
    */
   public static void forward() {
@@ -115,19 +129,5 @@ public final class Browser {
   public static void refresh() {
     getLogger().info("refreshing browser");
     getDriver().navigate().refresh();
-  }
-
-  /**
-   * Executes Javascript in current browser.
-   * @param jsCode code to execute
-   * @param parameters parameters to Javascript code
-   * @return return value of Javascript execution
-   */
-  public static Object executeJs(String jsCode, Object... parameters) {
-    if (getDriver() instanceof JavascriptExecutor) {
-      JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-      return executor.executeScript(jsCode, parameters);
-    }
-    throw new GaleniumException("driver cannot execute Javascript.");
   }
 }
