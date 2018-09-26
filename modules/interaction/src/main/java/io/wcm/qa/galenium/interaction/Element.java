@@ -68,7 +68,6 @@ public final class Element {
     getLogger().debug("looking for pattern: '" + searchStr + "'");
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
-      element.click();
       clickNth(selector, 0, element, "(found by string '" + searchStr + "')");
       return true;
     }
