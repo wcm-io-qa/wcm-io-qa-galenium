@@ -27,7 +27,7 @@ import com.galenframework.reports.model.LayoutReport;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.difference.BrowserDifference;
 import io.wcm.qa.galenium.differences.difference.ScreenWidthDifference;
-import io.wcm.qa.galenium.example.selectors.common.Logo;
+import io.wcm.qa.galenium.example.selectors.common.Page;
 import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
@@ -50,7 +50,7 @@ public class ImageComparisonIT extends AbstractExampleBase {
   public void compareSomeImages() {
     loadStartUrl();
     checkVisually(Stage.SELF);
-    checkVisually(Logo.SELF);
+    checkVisually(Page.LOGO);
   }
 
   private void checkVisually(Selector selector) {

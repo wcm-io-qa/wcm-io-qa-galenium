@@ -19,16 +19,16 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.methods;
 
+import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 /**
  * Extracts Java class name from selector.
  */
-public class ClassNameFromSelectorMethod extends AbstractTemplateMethod<NestedSelector> {
+public class ClassNameFromSelectorMethod extends AbstractTemplateMethod<SelectorPojo> {
 
   @Override
-  protected String exec(NestedSelector selector) {
+  protected String exec(SelectorPojo selector) {
     return FormatUtil.getClassName(selector);
   }
 

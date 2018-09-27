@@ -19,16 +19,16 @@
  */
 package io.wcm.qa.galenium.maven.freemarker.methods;
 
+import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 /**
  * Extracts constant name from selector.
  */
-public class ConstantNameMethod extends AbstractTemplateMethod<NestedSelector> {
+public class ConstantNameMethod extends AbstractTemplateMethod<SelectorPojo> {
 
   @Override
-  protected String exec(NestedSelector selector) {
+  protected String exec(SelectorPojo selector) {
     return FormatUtil.getConstantName(selector);
   }
 

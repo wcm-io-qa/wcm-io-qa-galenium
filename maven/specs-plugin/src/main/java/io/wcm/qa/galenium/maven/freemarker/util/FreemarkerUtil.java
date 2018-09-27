@@ -41,6 +41,8 @@ import io.wcm.qa.galenium.maven.freemarker.methods.ClassNameFromStringMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.ConstantNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.EscapeJavaDocMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.EscapeJavaMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.FullSelectorClassNameFromSelectorMethod;
+import io.wcm.qa.galenium.maven.freemarker.methods.FullWebElementClassNameFromSelectorMethod;
 import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.pojo.InteractionPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
@@ -69,7 +71,6 @@ public final class FreemarkerUtil {
     model.put("interactiveSelectorPackage", packageRoot);
     model.put("interactiveSelectorBaseClassName", className);
     model.put("interactiveSelectorInterfaceClassName", interfaceName);
-
 
     return model;
   }
@@ -107,6 +108,26 @@ public final class FreemarkerUtil {
     model.put("classNameFromString", new ClassNameFromStringMethod());
     model.put("specRootPackageName", packagePrefixSpecs);
     model.put("spec", spec);
+    return model;
+  }
+
+  /**
+   * @param selector selector to build data model for
+   * @param spec selector is taken from
+   * @param packageName package of interactive selector interface
+   * @param interactiveClassName
+   * @param interactiveInterfaceName name of interactive selector interface
+   * @return data model for use in generating selector class
+   */
+  public static Map<String, Object> getDataModelForWebElement(
+      NestedSelector selector,
+      SpecPojo spec,
+      String packageName,
+      String interactiveClassName,
+      String interactiveInterfaceName) {
+    Map<String, Object> model = getDataModelForSelector(selector, spec, packageName, interactiveClassName, interactiveInterfaceName);
+    model.put("gweClassName", new FullWebElementClassNameFromSelectorMethod());
+    model.put("selectorClassName", new FullSelectorClassNameFromSelectorMethod());
     return model;
   }
 

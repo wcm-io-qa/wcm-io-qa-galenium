@@ -6,32 +6,32 @@
 = Special Navigation =
     = Mobile =
         @on mobile
-            navigation.link-*:
+            page.navigation.link-*:
                 absent
-            navigation.link-to-conference:
+            page.navigation.link-to-conference:
                 absent
-            navigation.link-to-homepage:
+            page.navigation.link-to-homepage:
                 absent
 
 = Positioning =
     = Relative =
-        site-header:
-            above navigation
+        page.site-header:
+            above page.navigation
             above article
-            above footer
-        navigation:
-            above footer
+            above page.footer
+        page.navigation:
+            above page.footer
             above article
         article:
-            above footer
+            above page.footer
     = Containment =
-        site-header, navigation, article, footer:
+        page.site-header, page.navigation, article, page.footer:
             inside page
         @on desktop
-            navigation.link-*:
-                inside navigation
+            page.navigation.link-*:
+                inside page.navigation
     = Alignment =
-        site-header:
+        page.site-header:
             aligned horizontally top page
-        footer:
+        page.footer:
             aligned horizontally bottom page 1px

@@ -28,8 +28,8 @@ import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.difference.BrowserDifference;
 import io.wcm.qa.galenium.differences.difference.ScreenWidthDifference;
 import io.wcm.qa.galenium.example.pageobjects.Homepage;
-import io.wcm.qa.galenium.example.selectors.common.Logo;
-import io.wcm.qa.galenium.example.selectors.common.Navigation;
+import io.wcm.qa.galenium.example.selectors.common.Page;
+import io.wcm.qa.galenium.example.selectors.common.Page.Navigation;
 import io.wcm.qa.galenium.example.selectors.homepage.Stage;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.verification.base.Verification;
@@ -70,7 +70,7 @@ public class VerificationIT extends AbstractExampleBase {
           new NoCssClassVerification(Navigation.LINK_TO_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
     }
 
-    Check.verify(new LinkTargetVerification(Logo.SELF));
+    Check.verify(new LinkTargetVerification(Page.LOGO));
   }
 
   @Override
@@ -81,7 +81,7 @@ public class VerificationIT extends AbstractExampleBase {
   private static final class LogoVerification extends VisualVerification {
 
     private LogoVerification() {
-      super(Logo.SELF);
+      super(Page.LOGO);
       addDifference(new BrowserDifference());
       addDifference(new ScreenWidthDifference());
       setAllowedOffset(3);

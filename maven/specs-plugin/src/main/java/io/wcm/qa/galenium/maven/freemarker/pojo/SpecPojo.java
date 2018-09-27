@@ -40,7 +40,7 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
 public class SpecPojo {
 
   private PageSpec pageSpec;
-  private Collection<NestedSelector> selectors;
+  private Collection<SelectorPojo> selectors;
   private File specFile;
   private Collection<String> tags;
 
@@ -51,7 +51,7 @@ public class SpecPojo {
     setSpecFile(specFile);
   }
 
-  public String getBasename() {
+  public String getBaseName() {
     return FilenameUtils.getBaseName(getFilename());
   }
 
@@ -73,8 +73,8 @@ public class SpecPojo {
   /**
    * @return package name from spec file path
    */
-  public String getPackageName() {
-    String baseName = FilenameUtils.getBaseName(getSpecFile().getPath());
+  public String getPackageNamePart() {
+    String baseName = getBaseName();
     return baseName.toLowerCase().replaceAll("[^a-z0-9]", "");
   }
 
@@ -99,12 +99,11 @@ public class SpecPojo {
   /**
    * @return root objects from Galen spec
    */
-  public Collection<NestedSelector> getRootSelectors() {
-    Collection<NestedSelector> rootSelectors = new ArrayList<>();
+  public Collection<SelectorPojo> getRootSelectors() {
+    Collection<SelectorPojo> rootSelectors = new ArrayList<>();
     for (NestedSelector selector : getSelectors()) {
       if (!selector.hasParent()) {
-        rootSelectors.add(selector);
-        "".replaceAll("\"", "\\\"");
+        rootSelectors.add(new SelectorPojo(this, selector));
       }
     }
     return rootSelectors;
@@ -113,9 +112,12 @@ public class SpecPojo {
   /**
    * @return all selectors from spec
    */
-  public Collection<NestedSelector> getSelectors() {
+  public Collection<SelectorPojo> getSelectors() {
     if (selectors == null) {
-      selectors = GalenHelperUtil.getObjects(getPageSpec());
+      selectors = new ArrayList<SelectorPojo>();
+      for (NestedSelector selector : GalenHelperUtil.getObjects(getPageSpec())) {
+        selectors.add(new SelectorPojo(this, selector));
+      }
     }
     return selectors;
   }

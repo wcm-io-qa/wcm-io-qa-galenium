@@ -50,10 +50,10 @@ import freemarker.template.Template;
 import io.wcm.qa.galenium.configuration.ConfigurationUtil;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
@@ -69,16 +69,16 @@ public class GalenSpecsMojo extends AbstractMojo {
   private File inputDirectory;
 
   /**
-   * Name of Freemarker template to use for interactive selector interface.
-   */
-  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorInterfaceTemplate")
-  private String interactiveSelectorInterfaceTemplate;
-
-  /**
    * Name of Freemarker template to use for abstract interactive selector base class.
    */
   @Parameter(defaultValue = "interactive-selector-base.ftlh", property = "interactiveSelectorBaseTemplate")
   private String interactiveSelectorBaseTemplate;
+
+  /**
+   * Name of Freemarker template to use for interactive selector interface.
+   */
+  @Parameter(defaultValue = "interactive-selector.ftlh", property = "interactiveSelectorInterfaceTemplate")
+  private String interactiveSelectorInterfaceTemplate;
 
   /**
    * Root directory for generated output.
@@ -150,6 +150,9 @@ public class GalenSpecsMojo extends AbstractMojo {
   @Parameter(defaultValue = "${project.basedir}/src/main/resources/freemarker", property = "templateDir", required = true)
   private File templateDirectory;
 
+  @Parameter(defaultValue = "web-element.ftlh", property = "webElementTemplate")
+  private String webElementTemplate;
+
   @Override
   public void execute() throws MojoExecutionException {
 
@@ -183,6 +186,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     generateInteractiveSelectorInterfaceCode();
     generateInteractiveSelectorBaseCode();
     generateSelectorCode();
+    generateWebElementCode();
     generateSpecCode();
   }
 
@@ -206,9 +210,33 @@ public class GalenSpecsMojo extends AbstractMojo {
     FreemarkerUtil.process(template, model, outputFile);
   }
 
+  private void generateSelectorCode() {
+    // same template for all selectors
+    getLog().info("fetching selector template");
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, selectorTemplate);
+
+    for (SpecPojo specPojo : specsForSelectors) {
+
+      getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
+      for (SelectorPojo selector : specPojo.getRootSelectors()) {
+
+        getLog().info("generating data model for '" + selector.elementName() + "'");
+        Map<String, Object> dataModelForSelector = FreemarkerUtil.getDataModelForSelector(
+            selector,
+            specPojo,
+            getInteractiveSelectorPackageName(),
+            getInteractiveSelectorBaseClassName(),
+            getInteractiveSelectorInterfaceClassName());
+
+        getLog().debug("processing template");
+        FreemarkerUtil.process(template, dataModelForSelector, getSelectorOutputFile(selector, specPojo));
+      }
+    }
+  }
+
   private void generateSpecCode() {
     // same template for all specs
-    getLog().info("fetching template");
+    getLog().info("fetching spec template");
     Template template = FreemarkerUtil.getTemplate(templateDirectory, specTemplate);
 
     for (SpecPojo specPojo : specsForSpecs) {
@@ -217,9 +245,40 @@ public class GalenSpecsMojo extends AbstractMojo {
       Map<String, Object> dataModelForSpec = FreemarkerUtil.getDataModelForSpec(specPojo, packagePrefixSpecs);
 
       getLog().debug("processing template");
-      FreemarkerUtil.process(template, dataModelForSpec, getOutputFile(specPojo));
+      FreemarkerUtil.process(template, dataModelForSpec, getSpecOutputFile(specPojo));
 
     }
+  }
+
+  private void generateWebElementCode() {
+    // same template for all webelements
+    getLog().info("fetching webelement template");
+    Template template = FreemarkerUtil.getTemplate(templateDirectory, webElementTemplate);
+
+    for (SpecPojo specPojo : specsForSelectors) {
+
+      getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
+      for (SelectorPojo selector : specPojo.getRootSelectors()) {
+
+        getLog().info("generating data model for '" + selector.elementName() + "'");
+        Map<String, Object> dataModelForSelector = FreemarkerUtil.getDataModelForWebElement(
+            selector,
+            specPojo,
+            getInteractiveSelectorPackageName(),
+            getInteractiveSelectorBaseClassName(),
+            getInteractiveSelectorInterfaceClassName());
+
+        getLog().debug("processing template");
+        FreemarkerUtil.process(template, dataModelForSelector, getWebElementOutputFile(selector, specPojo));
+      }
+    }
+
+  }
+
+  private File getWebElementOutputFile(SelectorPojo selector, SpecPojo specPojo) {
+    String outputPackage = FormatUtil.getSelectorsPackageName(packagePrefixSelectors, specPojo);
+    String className = FormatUtil.getClassName(selector) + "Gwe";
+    return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
   private String[] getIncludedFiles(File inputFolder, String[] includes, String[] excludes) {
@@ -240,27 +299,21 @@ public class GalenSpecsMojo extends AbstractMojo {
     return getIncludedFiles(inputDirectory, specIncludes, specExcludes);
   }
 
-  private String getInteractiveSelectorInterfaceClassName() {
-    return FormatUtil.getClassName(new File(interactiveSelectorInterfaceTemplate));
-  }
-
   private String getInteractiveSelectorBaseClassName() {
     return FormatUtil.getClassName(new File(interactiveSelectorBaseTemplate));
+  }
+
+  private String getInteractiveSelectorInterfaceClassName() {
+    return FormatUtil.getClassName(new File(interactiveSelectorInterfaceTemplate));
   }
 
   private String getInteractiveSelectorPackageName() {
     return packagePrefixSelectors;
   }
 
-  private File getOutputFile(NestedSelector selector, SpecPojo spec) {
+  private File getSelectorOutputFile(SelectorPojo selector, SpecPojo spec) {
     String outputPackage = FormatUtil.getSelectorsPackageName(packagePrefixSelectors, spec);
     String className = FormatUtil.getClassName(selector);
-    return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
-  }
-
-  private File getOutputFile(SpecPojo spec) {
-    String outputPackage = packagePrefixSpecs;
-    String className = FormatUtil.getClassName(spec);
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
@@ -281,36 +334,18 @@ public class GalenSpecsMojo extends AbstractMojo {
     return getSpecFiles(getIncludedFilesForSpecs());
   }
 
+  private File getSpecOutputFile(SpecPojo spec) {
+    String outputPackage = packagePrefixSpecs;
+    String className = FormatUtil.getClassName(spec);
+    return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
+  }
+
   private void storeSpecForSelector(SpecPojo specPojo) {
     specsForSelectors.add(specPojo);
   }
 
   private void storeSpecForSpec(SpecPojo specPojo) {
     specsForSpecs.add(specPojo);
-  }
-
-  protected void generateSelectorCode() {
-    // same template for all selectors
-    getLog().info("fetching template");
-    Template template = FreemarkerUtil.getTemplate(templateDirectory, selectorTemplate);
-
-    for (SpecPojo specPojo : specsForSelectors) {
-
-      getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
-      for (NestedSelector selector : specPojo.getRootSelectors()) {
-
-        getLog().info("generating data model for '" + selector.elementName() + "'");
-        Map<String, Object> dataModelForSelector = FreemarkerUtil.getDataModelForSelector(
-            selector,
-            specPojo,
-            getInteractiveSelectorPackageName(),
-            getInteractiveSelectorBaseClassName(),
-            getInteractiveSelectorInterfaceClassName());
-
-        getLog().debug("processing template");
-        FreemarkerUtil.process(template, dataModelForSelector, getOutputFile(selector, specPojo));
-      }
-    }
   }
 
   protected boolean initPlugin() {

@@ -263,12 +263,7 @@ public final class GalenHelperUtil {
     Map<String, Locator> objects = spec.getObjects();
     getLogger().debug("mapping " + objects.size() + " selector candidates.");
     for (Entry<String, Locator> entry : objects.entrySet()) {
-      String name = entry.getKey();
-      getLogger().debug("mapping '" + name + "'");
-      if (name.matches(".*-[0-9][0-9]*")) {
-        name = name.replaceFirst("-[0-9][0-9]*$", "");
-        getLogger().debug("clean name for muliple object locator '" + name + "'");
-      }
+      String name = cleanName(entry.getKey());
       Locator locator = entry.getValue();
       SelectorFromLocator selector = fromLocator(name, locator);
       String asString = selector.asString();
@@ -282,6 +277,23 @@ public final class GalenHelperUtil {
     }
     getLogger().info("mapped " + objectMapping.size() + " selectors.");
     return objectMapping;
+  }
+
+  private static String cleanName(String name) {
+    getLogger().debug("mapping '" + name + "'");
+    String[] nameParts = name.split("\\.");
+    List<String> namePartList = new ArrayList<>();
+    for (String namePart : nameParts) {
+      if (namePart.matches(".*-[0-9][0-9]*")) {
+        namePartList.add(namePart.replaceFirst("-[0-9][0-9]*$", ""));
+      }
+      else {
+        namePartList.add(namePart);
+      }
+    }
+    String cleanName = StringUtils.join(namePartList, ".");
+    getLogger().debug("clean name for muliple object locator '" + cleanName + "'");
+    return cleanName;
   }
 
 }

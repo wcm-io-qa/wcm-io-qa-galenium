@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.interaction;
+package io.wcm.qa.galenium.interaction.webelement;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import org.openqa.selenium.WebElement;
 /**
  * Base class for implementing delegating wrappers for Selenium's web elements.
  */
-public class GaleniumWebElementBase implements WebElement {
+public abstract class GaleniumWebElementBase implements WebElement {
 
   private WebElement delegatee;
 

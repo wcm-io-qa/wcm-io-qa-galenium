@@ -20,14 +20,16 @@
 package io.wcm.qa.galenium.maven.freemarker.util;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.CaseFormat;
 
+import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 /**
  * Utility methods to convert between different casings.
@@ -53,7 +55,7 @@ public final class FormatUtil {
    * @param selector to extract class name from
    * @return class name from selectors element name
    */
-  public static String getClassName(NestedSelector selector) {
+  public static String getClassName(SelectorPojo selector) {
     String elementName = selector.elementName();
     String relativeElementName = getRelativeElementName(elementName);
     String cleanElementName = getCleanElementName(relativeElementName);
@@ -61,11 +63,40 @@ public final class FormatUtil {
   }
 
   /**
+   * @param selector to extract class name from
+   * @return class name from selectors element name
+   */
+  public static String getFullyQualifiedWebElementClassName(String packageName, SelectorPojo selector) {
+    return getFullyQualifiedClassName(packageName, selector, "Gwe");
+  }
+
+  /**
+   * @param selector to extract class name from
+   * @return class name from selectors element name
+   */
+  public static String getFullyQualifiedSelectorClassName(String packageName, SelectorPojo selector) {
+    return getFullyQualifiedClassName(packageName, selector, "");
+  }
+
+  private static String getFullyQualifiedClassName(String packageName, SelectorPojo selector, String classNamePostfix) {
+    List<String> classNames = new ArrayList<String>();
+    String[] elementNameParts = selector.elementName().split("\\.");
+    for (String namePart : elementNameParts) {
+      String cleanName = getCleanElementName(namePart);
+      String className = kebapToUpperCamel(cleanName);
+      classNames.add(className);
+    }
+    String joinedClassNames = StringUtils.join(classNames, classNamePostfix
+        + ".");
+    return packageName + "." + joinedClassNames + classNamePostfix;
+  }
+
+  /**
    * @param specPojo to extract name from
    * @return class name from spec file
    */
   public static String getClassName(SpecPojo specPojo) {
-    return kebapToUpperCamel(specPojo.getBasename());
+    return kebapToUpperCamel(specPojo.getBaseName());
   }
 
   /**
@@ -80,7 +111,7 @@ public final class FormatUtil {
    * @param selector to extract name from
    * @return selectors element name formatted for use as constant name
    */
-  public static String getConstantName(NestedSelector selector) {
+  public static String getConstantName(SelectorPojo selector) {
     String elementName = selector.elementName();
     String relativeElementName = getRelativeElementName(elementName);
     String cleanElementName = getCleanElementName(relativeElementName);

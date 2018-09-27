@@ -17,23 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.example.elements;
+package io.wcm.qa.galenium.maven.freemarker.methods;
 
-import org.openqa.selenium.WebElement;
+import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
+import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 
-import io.wcm.qa.galenium.example.selectors.common.Navigation;
-import io.wcm.qa.galenium.interaction.GaleniumWebElementBase;
+/**
+ * Extracts Java class name from selector.
+ */
+public class FullWebElementClassNameFromSelectorMethod extends AbstractTemplateMethod<SelectorPojo> {
 
-
-public class NavigationGwe extends GaleniumWebElementBase {
-
-  protected NavigationGwe(WebElement element) {
-    super(element);
-  }
-
-  private MenuOpenerGwe getMenuOpener() {
-    WebElement element = findElement(Navigation.MENU_OPENER.asRelative().asBy());
-    return new MenuOpenerGwe(element);
+  @Override
+  protected String exec(SelectorPojo selector) {
+    String packageName = new PackageNameMethod().exec(selector.getSpec());
+    return FormatUtil.getFullyQualifiedWebElementClassName(packageName, selector);
   }
 
 }
