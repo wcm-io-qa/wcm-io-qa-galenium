@@ -29,7 +29,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
@@ -307,13 +306,6 @@ public final class Element {
           .append(ex.getMessage());
       getLogger().debug(message.toString());
       findNthOrFailNow(selector, index).click();
-    }
-    catch (WebDriverException ex) {
-      StringBuilder message = getSelectorMessageBuilder("when attempting to click ", selector, index)
-          .append(": '")
-          .append(ex.getMessage());
-      getLogger().debug(message.toString());
-      Mouse.clickLocation(selector, index);
     }
     getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
   }
