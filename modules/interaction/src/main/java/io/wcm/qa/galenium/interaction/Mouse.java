@@ -23,17 +23,11 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
-import java.util.List;
-
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.UnsupportedCommandException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import com.galenframework.browser.SeleniumBrowser;
 
-import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
@@ -89,45 +83,6 @@ public final class Mouse {
   }
 
   /**
-   * Hover mouse over element.
-   * @param selector identifies element.
-   */
-  public static void hover(Selector selector) {
-    getLogger().debug("attempting mouse over: " + selector.elementName());
-    int index = 0;
-    hover(selector, index);
-  }
-
-  /**
-   * Hover mouse over element over nth element defined by selector.
-   * @param selector identifies elements
-   * @param index identifies which of the elements
-   */
-  public static void hover(Selector selector, int index) {
-    WebDriver driver = getDriver();
-    List<WebElement> mouseOverElements = driver.findElements(selector.asBy());
-    if (!mouseOverElements.isEmpty()) {
-      WebElement mouseOverElement = mouseOverElements.get(index);
-      if (mouseOverElement.isDisplayed()) {
-        try {
-          moveTo(selector);
-        }
-        catch (UnsupportedCommandException ex) {
-          getLogger().debug("Attempting JS workaround for mouseover.");
-          String javaScript = "var evObj = document.createEvent('MouseEvents');" +
-              "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
-              "arguments[0].dispatchEvent(evObj);";
-
-          ((JavascriptExecutor)driver).executeScript(javaScript, mouseOverElement);
-        }
-      }
-    }
-    else {
-      getLogger().debug("no elements found.");
-    }
-  }
-
-  /**
    * Move horizontally.
    * @param horizontalOffset
    * @param verticalOffset
@@ -165,23 +120,7 @@ public final class Mouse {
    * @param index which of the elements
    */
   public static void moveTo(Selector selector, int index) {
-    List<WebElement> elements = Element.findAll(selector);
-    if (elements.isEmpty()) {
-      throw new GaleniumException("when moving to '" + selector + "': no elements found");
-    }
-    if (elements.size() <= index) {
-      StringBuilder message = new StringBuilder()
-          .append("when moving to '")
-          .append(selector)
-          .append("[")
-          .append(index)
-          .append("]: only found ")
-          .append(elements.size())
-          .append(" elements, but needed ")
-          .append(index + 1);
-      throw new GaleniumException(message.toString());
-    }
-    WebElement element = elements.get(index);
+    WebElement element = Element.findNthOrFail(selector, index);
     getLogger().debug("Moving to element: " + element);
     getActions().moveToElement(element).perform();
   }

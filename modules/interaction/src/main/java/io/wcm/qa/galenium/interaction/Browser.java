@@ -25,7 +25,9 @@ import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
@@ -45,6 +47,20 @@ public final class Browser {
   public static void back() {
     getLogger().info("navigating back");
     getDriver().navigate().back();
+  }
+
+  /**
+   * Executes Javascript in current browser.
+   * @param jsCode code to execute
+   * @param parameters parameters to Javascript code
+   * @return return value of Javascript execution
+   */
+  public static Object executeJs(String jsCode, Object... parameters) {
+    if (getDriver() instanceof JavascriptExecutor) {
+      JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+      return executor.executeScript(jsCode, parameters);
+    }
+    throw new GaleniumException("driver cannot execute Javascript.");
   }
 
   /**
@@ -114,5 +130,4 @@ public final class Browser {
     getLogger().info("refreshing browser");
     getDriver().navigate().refresh();
   }
-
 }

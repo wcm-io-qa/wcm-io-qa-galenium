@@ -88,6 +88,7 @@
     <galenium.webdriver.download.repository.file>${galenium.browser}.xml</galenium.webdriver.download.repository.file>
     <galenium.webdriver.download.repositoryMap>${galenium.webdriver.download.repository.folder}/${galenium.webdriver.download.repository.file}</galenium.webdriver.download.repositoryMap>
     <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
+    <galenium.webdriver.timeout>5</galenium.webdriver.timeout>
 
     <!-- Selenium -->
     <selenium.runmode>local</selenium.runmode>

@@ -171,6 +171,7 @@
               <galenium.screenshotOnSuccess>${galenium.screenshotOnSuccess}</galenium.screenshotOnSuccess>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
               <galenium.webdriver.browser.loglevel>${galenium.webdriver.browser.loglevel}</galenium.webdriver.browser.loglevel>
+              <galenium.webdriver.timeout>${galenium.webdriver.timeout}</galenium.webdriver.timeout>
 
               <!-- Galen -->
               <galen.browser.screenshots.fullPage>${galen.browser.screenshots.fullPage}</galen.browser.screenshots.fullPage>
