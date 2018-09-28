@@ -67,6 +67,15 @@ public final class Mouse {
   }
 
   /**
+   * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
+   * @param element to click at location of
+   */
+  public static void clickLocation(WebElement element) {
+    moveTo(element);
+    click();
+  }
+
+  /**
    * @return current vertical scroll position of browser with 0 being the very top
    */
   public static Long getVerticalScrollPosition() {
@@ -121,6 +130,14 @@ public final class Mouse {
    */
   public static void moveTo(Selector selector, int index) {
     WebElement element = Element.findNthOrFail(selector, index);
+    moveTo(element);
+  }
+
+  /**
+   * Move mouse pointer to element.
+   * @param element to move to
+   */
+  public static void moveTo(WebElement element) {
     getLogger().debug("Moving to element: " + element);
     getActions().moveToElement(element).perform();
   }
