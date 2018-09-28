@@ -77,7 +77,11 @@ public final class Browser {
    */
   public static boolean isCurrentUrl(String url) {
     getLogger().debug("checking current URL");
-    return StringUtils.equals(url, getDriver().getCurrentUrl());
+    return StringUtils.equals(url, getCurrentUrl());
+  }
+
+  public static String getCurrentUrl() {
+    return getDriver().getCurrentUrl();
   }
 
   /**
@@ -102,7 +106,7 @@ public final class Browser {
    */
   public static void loadExactly(String url) {
     load(url);
-    GaleniumContext.getAssertion().assertEquals(url, getDriver().getCurrentUrl(), "Current URL should match.");
+    GaleniumContext.getAssertion().assertEquals(url, getCurrentUrl(), "Current URL should match.");
   }
 
   /**
