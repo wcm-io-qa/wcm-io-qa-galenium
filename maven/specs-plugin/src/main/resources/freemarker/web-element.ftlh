@@ -28,8 +28,8 @@
   }
 
   public java.util.List<${gweClassName(child)}> get${className(child)}s() {
-    List<WebElement> elements = findElements(${selectorClassName(selector)}.${constantName(child)}.asRelative().asBy());
-    List<${gweClassName(child)}> galeniumElements = new java.util.ArrayList<${gweClassName(child)}>();
+    java.util.List<WebElement> elements = findElements(${selectorClassName(selector)}.${constantName(child)}.asRelative().asBy());
+    java.util.List<${gweClassName(child)}> galeniumElements = new java.util.ArrayList<${gweClassName(child)}>();
     for (WebElement webElement : elements) {
       galeniumElements.add(new ${gweClassName(child)}(webElement));
     }
@@ -48,8 +48,6 @@ import com.galenframework.specs.page.Locator;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.selectors.base.SelectorFactory;
 import io.wcm.qa.galenium.interaction.webelement.GaleniumWebElementBase;
-
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -84,8 +82,8 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   }
 
   public java.util.List<${gweClassName(child)}> get${className(child)}s() {
-    List<WebElement> elements = findElements(${selectorClassName(this)}.${constantName(child)}.asRelative().asBy());
-    List<${gweClassName(child)}> galeniumElements = new java.util.ArrayList<${gweClassName(child)}>();
+    java.util.List<WebElement> elements = findElements(${selectorClassName(this)}.${constantName(child)}.asRelative().asBy());
+    java.util.List<${gweClassName(child)}> galeniumElements = new java.util.ArrayList<${gweClassName(child)}>();
     for (WebElement webElement : elements) {
       galeniumElements.add(new ${gweClassName(child)}(webElement));
     }
@@ -96,6 +94,20 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   public static ${gweClassName(this)} instance() {
     WebElement initialElement = ${selectorClassName(this)}.SELF.find();
     return new ${gweClassName(this)}(initialElement);
+  } 
+
+  public static ${gweClassName(this)} instance(int index) {
+    WebElement initialElement = ${selectorClassName(this)}.SELF.findNth(index);
+    return new ${gweClassName(this)}(initialElement);
+  } 
+
+  public static java.util.List<${gweClassName(this)}> instances() {
+    java.util.List<WebElement> initialElements = ${selectorClassName(this)}.SELF.findAll();
+    java.util.List<${gweClassName(this)}> galeniumElements = new java.util.ArrayList<${gweClassName(this)}>();
+    for (WebElement webElement : initialElements) {
+      galeniumElements.add(new ${gweClassName(this)}(webElement));
+    }
+    return galeniumElements;
   } 
 
 }
