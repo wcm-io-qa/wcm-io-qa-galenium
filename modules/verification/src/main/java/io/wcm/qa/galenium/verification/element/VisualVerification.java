@@ -58,12 +58,13 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   @Override
-  public void addDifference(Difference difference) {
+  public VisualVerification addDifference(Difference difference) {
     // handle factory
     getSpecFactory().addDifference(difference);
 
     // handle self
     super.addDifference(difference);
+    return this;
   }
 
   /**
