@@ -66,8 +66,9 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
    * Add a difference to this verification.
    * @param difference to add
    */
-  public void addDifference(Difference difference) {
+  public VerificationBase<S> addDifference(Difference difference) {
     getDifferences().add(difference);
+    return this;
   }
 
   /**
