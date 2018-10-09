@@ -124,7 +124,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
 
   @Override
   public void onTestSkipped(ITestResult result) {
-    // nothing to do
+    GaleniumReportUtil.endExtentTest(result, LogStatus.SKIP, "SKIPPED");
   }
 
   @Override
