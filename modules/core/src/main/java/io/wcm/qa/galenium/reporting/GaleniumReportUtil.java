@@ -143,11 +143,20 @@ public final class GaleniumReportUtil {
    * @param category to add
    */
   public static void assignCategory(String category) {
+    ExtentTest extentTest = getExtentTest();
+    assignCategory(extentTest, category);
+  }
+
+  /**
+   * Assigns a single category to {@link ExtentTest}.
+   * @param extentTest to add to
+   * @param category to add
+   */
+  public static void assignCategory(ExtentTest extentTest, String category) {
     if (StringUtils.isBlank(category)) {
       // do not tag blank categories
       return;
     }
-    ExtentTest extentTest = getExtentTest();
     List<TestAttribute> categoryList = extentTest.getTest().getCategoryList();
     for (TestAttribute testAttribute : categoryList) {
       if (StringUtils.equals(testAttribute.getName(), category)) {
