@@ -26,14 +26,21 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.interactions.internal.Coordinates;
+
+import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 
 /**
  * Base class for implementing delegating wrappers for Selenium's web elements.
  */
-public abstract class GaleniumWebElementBase implements WebElement {
+public abstract class GaleniumWebElementBase implements WebElement, WrapsDriver, Locatable, TakesScreenshot {
 
   private WebElement delegatee;
 
@@ -64,6 +71,14 @@ public abstract class GaleniumWebElementBase implements WebElement {
   @Override
   public String getAttribute(String arg0) {
     return getDelegatee().getAttribute(arg0);
+  }
+
+  @Override
+  public Coordinates getCoordinates() {
+    if (!isLocatable()) {
+      throw new GaleniumException("Does not implement Locatable: " + getDelegatee());
+    }
+    return ((Locatable)getDelegatee()).getCoordinates();
   }
 
   @Override
@@ -102,6 +117,14 @@ public abstract class GaleniumWebElementBase implements WebElement {
   }
 
   @Override
+  public WebDriver getWrappedDriver() {
+    if (!isWrapsDriver()) {
+      throw new GaleniumException("Does not implement WrapsDriver: " + getDelegatee());
+    }
+    return ((WrapsDriver)getDelegatee()).getWrappedDriver();
+  }
+
+  @Override
   public boolean isDisplayed() {
     return getDelegatee().isDisplayed();
   }
@@ -124,6 +147,14 @@ public abstract class GaleniumWebElementBase implements WebElement {
   @Override
   public void submit() {
     getDelegatee().submit();
+  }
+
+  private boolean isLocatable() {
+    return getDelegatee() instanceof Locatable;
+  }
+
+  private boolean isWrapsDriver() {
+    return getDelegatee() instanceof WrapsDriver;
   }
 
   protected WebElement getDelegatee() {
