@@ -169,6 +169,7 @@ public final class GaleniumReportUtil {
       getLogger().error("could not generate Galen report.", ex);
     }
   }
+
   /**
    * Create reports from global list of GalenTestInfos.
    */
