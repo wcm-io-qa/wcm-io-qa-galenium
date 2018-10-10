@@ -51,6 +51,7 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
  */
 public final class TestInfoUtil {
 
+  private static final String BROWSER_UNKNOWN = "UNKNOWN";
   private static final String EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES = System.getProperty("galenium.mediaquery.extentCategory", "");
   private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
   private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
@@ -233,9 +234,12 @@ public final class TestInfoUtil {
     }
 
     String name = result.getName();
-    String browser = name.replaceFirst(".*using ", "");
-    browser = browser.replaceFirst(" \\(.*", "");
-    return browser;
+    if (StringUtils.contains(name, "using ")) {
+      String browser = name.replaceFirst(".*using ", "");
+      browser = browser.replaceFirst(" \\(.*", "");
+      return browser;
+    }
+    return BROWSER_UNKNOWN;
   }
 
 }
