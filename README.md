@@ -6,7 +6,7 @@ This project is an attempt to integrate Galen with Selenium and the other way ar
 
 To get an idea how it works, take a look at the [example projects] and test examples.
 
-To integrate into your project you inherit from the [spec generation] and [UI testing] POMs.
+ To integrate into your project you inherit from the [spec generation] and [UI testing] POMs.
 
 [example projects]: examples
 [spec generation]: integration/specs
