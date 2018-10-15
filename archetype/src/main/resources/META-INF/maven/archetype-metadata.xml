@@ -83,6 +83,7 @@
           <includes>
           <include>logback-test.xml</include>
             <include>devices.csv</include>
+            <include>mediaqueries.properties</include>
           <include>text\expected.properties</include>
           </includes>
         </fileSet>
