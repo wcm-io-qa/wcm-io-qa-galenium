@@ -4,9 +4,9 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
     <version>0.1.19-SNAPSHOT</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <groupId>${groupId}</groupId>
@@ -55,13 +55,6 @@
         <type>pom</type>
         <version>0.1.19-SNAPSHOT</version>
       </dependency>
-
-      <dependency>
-        <groupId>io.wcm.qa</groupId>
-        <artifactId>io.wcm.qa.galenium.icing</artifactId>
-        <version>0.1.19-SNAPSHOT</version>
-      </dependency>
-
     </dependencies>
 
   <dependencyManagement>
