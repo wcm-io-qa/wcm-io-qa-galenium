@@ -29,7 +29,7 @@
     <!-- Galenium -->
     <galenium.browser>chrome</galenium.browser>
     <galenium.browsermob.proxy>true</galenium.browsermob.proxy>
-    <galenium.generated.artifactIds>${artifactId}.specs</galenium.generated.artifactIds>
+    <galenium.generated.artifactIds>${rootArtifactId}.specs</galenium.generated.artifactIds>
     <galenium.headless>true</galenium.headless>
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
     <galenium.mediaquery.width.min>480</galenium.mediaquery.width.min>
