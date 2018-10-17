@@ -56,7 +56,7 @@
     <module id="${rootArtifactId}.specs" dir="specs" name="${rootArtifactId}.specs">
       <fileSets>
         <fileSet filtered="true" encoding="UTF-8">
-          <directory>src/main/resources/specs</directory>
+          <directory>src/main/resources/galen/specs</directory>
           <includes>
             <include>**/*.gspec</include>
             </includes>

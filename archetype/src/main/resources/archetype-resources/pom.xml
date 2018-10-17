@@ -32,4 +32,10 @@
     </plugins>
   </build>
 
+  <modules>
+    <module>parent</module>
+    <module>specs</module>
+    <module>tests</module>
+  </modules>
+
 </project>

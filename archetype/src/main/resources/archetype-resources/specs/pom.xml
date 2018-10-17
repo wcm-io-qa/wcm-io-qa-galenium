@@ -17,7 +17,7 @@
   <packaging>jar</packaging>
 
   <properties>
-    <galenium.specPath>${project.build.outputDirectory}/specs</galenium.specPath>
+    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.generated.java.package>${package}.test.ui</galenium.generated.java.package>
     <maven.javadoc.skip>true</maven.javadoc.skip>
   </properties>
