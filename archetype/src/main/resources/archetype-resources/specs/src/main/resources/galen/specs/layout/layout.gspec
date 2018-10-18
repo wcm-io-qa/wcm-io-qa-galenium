@@ -1,3 +1,3 @@
 @import ../objects/common.gspec
 # define your Galen constraints here
-    slider        div.slider
+

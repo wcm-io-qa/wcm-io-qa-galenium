@@ -15,7 +15,7 @@ public class SampleGaleniumTest extends AbstractExampleBase
         super(testDevice);
     }
 
-    @Test()
+    @Test
     public void testIt() {
 
     }
