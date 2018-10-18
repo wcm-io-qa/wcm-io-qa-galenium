@@ -4,6 +4,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.device.TestDevice;
+
 /**
  * Sample Test for Galenium.
  */
@@ -17,6 +18,6 @@ public class SampleGaleniumTest extends AbstractExampleBase
 
     @Test
     public void testIt() {
-
+        // TODO: implement
     }
 }
