@@ -28,7 +28,7 @@
 
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.archetype</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.19-SNAPSHOT</version>
   <name>wcm.io Archetype for Galenium</name>
   <packaging>maven-archetype</packaging>
   <url>http://maven.apache.org</url>
