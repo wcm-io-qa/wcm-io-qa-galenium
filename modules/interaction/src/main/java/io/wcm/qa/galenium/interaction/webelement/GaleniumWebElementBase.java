@@ -40,7 +40,9 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 /**
  * Base class for implementing delegating wrappers for Selenium's web elements.
  */
-public abstract class GaleniumWebElementBase implements WebElement, WrapsDriver, Locatable, TakesScreenshot {
+@SuppressWarnings("deprecation")
+public abstract class GaleniumWebElementBase
+    implements WebElement, WrapsDriver, Locatable, org.openqa.selenium.interactions.internal.Locatable, TakesScreenshot {
 
   private WebElement delegatee;
 
