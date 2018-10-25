@@ -56,7 +56,7 @@ new Locator("${locator.locatorType}", "${escapeJava(locator.locatorValue)}", ${l
    new CorrectionsRect(<@correction corrections.top />, <@correction corrections.left />, <@correction corrections.width />, <@correction corrections.height />)
 </#macro>
 <#macro correction correction>
-   new Correction(${correction.value}, ${correction.type})
+   new com.galenframework.specs.page.CorrectionsRect.Correction(${correction.value}, com.galenframework.specs.page.CorrectionsRect.Type.${correction.type})
 </#macro>
 package ${packageName(spec)};
 
