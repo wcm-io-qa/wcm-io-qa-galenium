@@ -52,20 +52,22 @@ public class CombinedVerification implements Verification {
    * Add a difference to all verifications being combined in this one.
    * @param difference new difference to add to all member verifications
    */
-  public void addDifference(Difference difference) {
+  public CombinedVerification addDifference(Difference difference) {
     for (Verification verification : getMembers()) {
       if (verification instanceof VerificationBase) {
         ((VerificationBase)verification).addDifference(difference);
       }
     }
+    return this;
   }
 
   /**
    * Add another check.
    * @param verification to also verify as part of this comined verification
    */
-  public void addVerification(Verification verification) {
+  public CombinedVerification addVerification(Verification verification) {
     getMembers().add(verification);
+    return this;
   }
 
   public Collection<String> getCombinedMessages() {

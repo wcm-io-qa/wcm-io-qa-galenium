@@ -217,7 +217,7 @@ public final class Wait {
       this.condition = condition;
       if (condition instanceof CanCache) {
         CanCache verification = (CanCache)condition;
-        getLogger().debug("disable caching verification for '" + verification + "'");
+        getLogger().debug("disable caching for '" + verification + "' verification");
         verification.setCaching(false);
         if (verification.isCaching()) {
           getLogger().warn("waiting for a caching verification is not a sensible thing to do. Offending verification: '" + verification + "'");

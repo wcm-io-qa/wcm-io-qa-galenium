@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -39,6 +40,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
+import org.testng.SkipException;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
@@ -99,8 +101,65 @@ final class WebDriverFactory {
     return WebDriverManager.getLogger();
   }
 
+  private static void setChromeDriver(OptionsProvider capabilitiesProvider) {
+    ChromeDriver chromeDriver = new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
+    setDriver(chromeDriver);
+  }
+
   private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
+  }
+
+  private static void setFirefoxDriver(OptionsProvider capabilitiesProvider) {
+    FirefoxDriver firefoxDriver = new FirefoxDriver((FirefoxOptions)capabilitiesProvider.getOptions());
+    setDriver(firefoxDriver);
+  }
+
+  @SuppressWarnings("deprecation")
+  private static void setInternetExplorerDriver(OptionsProvider capabilitiesProvider) {
+    InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilitiesProvider.getOptions());
+    setDriver(ieDriver);
+  }
+
+  private static void setNewDriver(TestDevice newTestDevice, RunMode runMode) {
+    OptionsProvider capabilitiesProvider = getDesiredCapabilitiesProvider(newTestDevice);
+    getLogger().info("Getting driver for runmode '" + runMode + "'");
+    switch (runMode) {
+      case REMOTE:
+        setRemoteDriver(capabilitiesProvider);
+        break;
+
+      default:
+      case LOCAL:
+        switch (newTestDevice.getBrowserType()) {
+          case CHROME:
+            setChromeDriver(capabilitiesProvider);
+            break;
+
+          case IE:
+            setInternetExplorerDriver(capabilitiesProvider);
+            break;
+
+          default:
+          case FIREFOX:
+            setFirefoxDriver(capabilitiesProvider);
+            break;
+        }
+        break;
+    }
+  }
+
+  private static void setRemoteDriver(OptionsProvider capabilitiesProvider) {
+    getLogger().info("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
+    try {
+      setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilitiesProvider.getOptions()));
+    }
+    catch (MalformedURLException ex) {
+      throw new RuntimeException(
+          format("Couldn''t construct valid URL using selenium.host={0} and selenium.port={1}",
+              getGridHost(),
+              getGridPort()));
+    }
   }
 
   /**
@@ -108,7 +167,6 @@ final class WebDriverFactory {
    * @param newTestDevice info on browser and size
    * @return ready to use driver
    */
-  @SuppressWarnings("deprecation")
   static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
@@ -118,42 +176,11 @@ final class WebDriverFactory {
             newTestDevice.getBrowserType(),
             Thread.currentThread().getName()));
 
-    OptionsProvider capabilitiesProvider = getDesiredCapabilitiesProvider(newTestDevice);
-    getLogger().info("Getting driver for runmode '" + runMode + "'");
-    switch (runMode) {
-      case REMOTE:
-        getLogger().info("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
-        try {
-          setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilitiesProvider.getOptions()));
-        }
-        catch (MalformedURLException ex) {
-          throw new RuntimeException(
-              format("Couldn''t construct valid URL using selenium.host={0} and selenium.port={1}",
-                  getGridHost(),
-                  getGridPort()));
-        }
-        break;
-
-      default:
-      case LOCAL:
-        switch (newTestDevice.getBrowserType()) {
-          case CHROME:
-            ChromeDriver chromeDriver = new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
-            setDriver(chromeDriver);
-            break;
-
-          case IE:
-            InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilitiesProvider.getOptions());
-            setDriver(ieDriver);
-            break;
-
-          default:
-          case FIREFOX:
-            FirefoxDriver firefoxDriver = new FirefoxDriver((FirefoxOptions)capabilitiesProvider.getOptions());
-            setDriver(firefoxDriver);
-            break;
-        }
-        break;
+    try {
+      setNewDriver(newTestDevice, runMode);
+    }
+    catch (WebDriverException ex) {
+      throw new SkipException("Could not connect to browser.", ex);
     }
 
     int timeout = GaleniumConfiguration.getDefaultWebdriverTimeout();
