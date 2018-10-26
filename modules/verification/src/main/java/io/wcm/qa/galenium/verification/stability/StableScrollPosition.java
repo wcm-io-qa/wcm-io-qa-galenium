@@ -20,7 +20,7 @@
 package io.wcm.qa.galenium.verification.stability;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.sampling.ScrollPositionSampler;
+import io.wcm.qa.galenium.sampling.browser.ScrollPositionSampler;
 
 /**
  * Verifies stable scroll position of current page. Useful when waiting for scrolling to finish.

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling;
+package io.wcm.qa.galenium.sampling.browser;
 
 import io.wcm.qa.galenium.interaction.Mouse;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
