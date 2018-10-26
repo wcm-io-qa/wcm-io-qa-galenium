@@ -27,11 +27,12 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.sampling.CanCache;
 
 /**
  * Combines multiple verifications into a single verification.
  */
-public class CombinedVerification implements Verification {
+public class CombinedVerification implements Verification, CanCache {
 
   private Collection<String> combinedMessages = new ArrayList<String>();
   private Throwable exception;
@@ -154,6 +155,25 @@ public class CombinedVerification implements Verification {
       }
     }
     return noFailures;
+  }
+
+  @Override
+  public boolean isCaching() {
+    for (Verification verification : getMembers()) {
+      if (verification instanceof CanCache && ((CanCache)verification).isCaching()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public void setCaching(boolean activateCache) {
+    for (Verification verification : getMembers()) {
+      if (verification instanceof CanCache) {
+        ((CanCache)verification).setCaching(activateCache);
+      }
+    }
   }
 
 }
