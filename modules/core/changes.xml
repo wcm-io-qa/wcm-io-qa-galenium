@@ -24,6 +24,12 @@
   <body>
 
     <release version="0.1.20" date="not released yet">
+      <action type="add" dev="apegam">
+        Code generation now also generates GaleniumWebElements.
+      </action>
+      <action type="add" dev="apegam">
+        Maven archetype for generating spec and test project.
+      </action>
       <action type="update" dev="apegam">
         Maven site generation.
       </action>
@@ -31,7 +37,7 @@
         Newest webdriver for Firefox and Chrome.
       </action>
       <action type="update" dev="apegam">
-        Toplevel parent.
+        New versions for parents and dependencies..
       </action>
       <action type="add" dev="apegam">
         Convenience methods to wait for visibility and text.
