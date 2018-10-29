@@ -222,7 +222,7 @@
               <phase>generate-resources</phase>
               <configuration>
                 <includeArtifactIds>io.wcm.qa.galenium.integration.resources</includeArtifactIds>
-                <outputDirectory>${galenium.resources.directory}</outputDirectory>
+                <outputDirectory>${galenium.resources.unfiltered.directory}</outputDirectory>
                 <includes>**/*.xml</includes>
                 <excludeTransitive>true</excludeTransitive>
                 <overWriteReleases>true</overWriteReleases>

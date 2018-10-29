@@ -57,7 +57,7 @@
                 <resource>
                   <include>**/*.xml</include>
                   <directory>${project.basedir}/src/main/resources</directory>
-                  <filtering>true</filtering>
+                  <filtering>false</filtering>
                 </resource>
               </resources>
             </configuration>

@@ -68,6 +68,7 @@
     <galenium.mediaquery.width.min>360</galenium.mediaquery.width.min>
     <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
+    <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
     <galenium.sampling.image.directory.expected>${project.build.directory}/test-classes/images</galenium.sampling.image.directory.expected>
@@ -157,6 +158,23 @@
                   </resource>
                   <resource>
                     <directory>src/test/resources/galen/specs</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+            <execution>
+              <id>filter-galenium-resources</id>
+              <!-- here the phase you need -->
+              <phase>generate-test-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${galenium.resources.directory}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${galenium.resources.unfiltered.directory}</directory>
                     <filtering>true</filtering>
                   </resource>
                 </resources>
