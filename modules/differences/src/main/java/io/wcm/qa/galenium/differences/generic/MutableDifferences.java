@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
 import io.wcm.qa.galenium.differences.util.DifferenceUtil;
@@ -42,6 +40,9 @@ public class MutableDifferences implements Differences {
    * @return true if adding changed anything
    */
   public boolean add(Difference difference) {
+    if (difference == null) {
+      throw new IllegalArgumentException("cannot add null to MutableDifferences.");
+    }
     return getDifferences().add(difference);
   }
 
@@ -51,7 +52,13 @@ public class MutableDifferences implements Differences {
    * @return if differences changed after appending
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
-    return getDifferences().addAll(toBeAppended);
+    boolean changed = false;
+    for (Difference difference : toBeAppended) {
+      if (add(difference)) {
+        changed = true;
+      }
+    }
+    return changed;
   }
 
   /**
@@ -59,7 +66,13 @@ public class MutableDifferences implements Differences {
    * @return if differences changed after appending
    */
   public boolean addAll(Iterable<? extends Difference> toBeAppended) {
-    return CollectionUtils.addAll(getDifferences(), toBeAppended);
+    boolean changed = false;
+    for (Difference difference : toBeAppended) {
+      if (add(difference)) {
+        changed = true;
+      }
+    }
+    return changed;
   }
 
   @Override
