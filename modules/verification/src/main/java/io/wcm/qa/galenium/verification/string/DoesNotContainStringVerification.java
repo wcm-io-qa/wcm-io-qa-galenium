@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.string;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
@@ -43,7 +43,7 @@ public class DoesNotContainStringVerification extends ContainsStringVerification
    * @param searchString to not find in input
    * @param sampler sampler to provide input
    */
-  public DoesNotContainStringVerification(String verificationName, String searchString, StringSampler sampler) {
+  public DoesNotContainStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
     super(verificationName, searchString, sampler);
   }
 

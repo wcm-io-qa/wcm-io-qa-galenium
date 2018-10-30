@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.galenium.sampling.string;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 
 /**
  * Samples the same fixed string every time.
  */
-public class FixedStringSampler implements StringSampler {
+public class FixedStringSampler implements Sampler<String> {
 
   private String fixedString;
 

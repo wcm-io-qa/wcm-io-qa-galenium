@@ -19,13 +19,13 @@
  */
 package io.wcm.qa.galenium.sampling.driver;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Samples the page source of current page.
  */
-public class PageSourceSampler implements StringSampler {
+public class PageSourceSampler extends CachingBasedSampler<String> {
 
   @Override
   public String sampleValue() {

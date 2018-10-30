@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.string;
 
 import java.util.regex.Pattern;
 
-import io.wcm.qa.galenium.sampling.StringSampler;
+import io.wcm.qa.galenium.sampling.Sampler;
 import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 import io.wcm.qa.galenium.verification.string.base.PatternBasedVerification;
 
@@ -46,7 +46,7 @@ public class ContainsPatternVerification extends PatternBasedVerification {
    * @param pattern to find in input
    * @param sampler sampler to provide input sample
    */
-  public ContainsPatternVerification(String verificationName, Pattern pattern, StringSampler sampler) {
+  public ContainsPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
     super(verificationName, pattern, sampler);
   }
 
@@ -66,7 +66,7 @@ public class ContainsPatternVerification extends PatternBasedVerification {
    * @param pattern to find in input
    * @param sampler sampler to provide input sample
    */
-  public ContainsPatternVerification(String verificationName, String pattern, StringSampler sampler) {
+  public ContainsPatternVerification(String verificationName, String pattern, Sampler<String> sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);
   }
 
