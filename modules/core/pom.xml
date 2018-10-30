@@ -24,7 +24,7 @@
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <version>0.1.19-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
   <name>Galenium Core</name>

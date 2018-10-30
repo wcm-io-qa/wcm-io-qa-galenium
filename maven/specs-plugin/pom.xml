@@ -7,7 +7,7 @@
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <groupId>io.wcm.qa</groupId>
     <version>0.1.19-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
   <name>Galenium Galen Specs Maven Plugin</name>
