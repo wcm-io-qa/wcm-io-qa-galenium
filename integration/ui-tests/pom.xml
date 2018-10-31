@@ -208,7 +208,7 @@
               <configuration>
                 <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
                 <outputDirectory>${galenium.generated.specs}</outputDirectory>
-                <includes>**/*.gspec</includes>
+                <includes>**/*.gspec,**/*.js</includes>
                 <excludeTransitive>true</excludeTransitive>
                 <overWriteReleases>true</overWriteReleases>
                 <overWriteSnapshots>true</overWriteSnapshots>
