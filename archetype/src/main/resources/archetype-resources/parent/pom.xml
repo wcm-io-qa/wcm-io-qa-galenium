@@ -86,6 +86,32 @@
   </dependencyManagement>
 
   <build>
+
+    <plugins>
+      <!-- Download Webdriver binaries -->
+      <plugin>
+        <groupId>com.lazerycode.selenium</groupId>
+        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>NEVER_DO_THIS_IN_PARENT</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Project specific configuration of UI tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <!-- activated in profiles -->
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+    </plugins>
+    
+    </plugins>
     <pluginManagement>
       <plugins>
 

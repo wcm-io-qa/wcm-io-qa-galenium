@@ -16,10 +16,11 @@
   limitations under the License.
   #L%
   -->
-<archetype-descriptor xsi:schemaLocation="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 http://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
-                      xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
-                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                      name="io.wcm.qa.galenium.samples">
+<archetype-descriptor
+    xsi:schemaLocation="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 http://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
+    xmlns="https://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="io.wcm.qa.galenium.samples">
 
   <requiredProperties>
     <!-- Project name?-->
@@ -46,12 +47,12 @@
       <defaultValue>${groupId}.${projectName}</defaultValue>
       <validationRegex>^[a-z0-9\.]+$</validationRegex>
     </requiredProperty>
-    
+
   </requiredProperties>
-  
+
   <modules>
 
-    <module id="${rootArtifactId}.parent" dir="parent" name="${rootArtifactId}.parent" />
+    <module id="${rootArtifactId}.parent" dir="parent" name="${rootArtifactId}.parent"/>
 
     <module id="${rootArtifactId}.specs" dir="specs" name="${rootArtifactId}.specs">
       <fileSets>
@@ -59,7 +60,7 @@
           <directory>src/main/resources/galen/specs</directory>
           <includes>
             <include>**/*.gspec</include>
-            </includes>
+          </includes>
         </fileSet>
       </fileSets>
     </module>
@@ -69,27 +70,27 @@
         <fileSet filtered="true" encoding="UTF-8" packaged="true">
           <directory>src/main/java</directory>
           <includes>
-          <include>**/*.java</include>
+            <include>**/*.java</include>
           </includes>
         </fileSet>
         <fileSet filtered="true" encoding="UTF-8" packaged="true">
           <directory>src/test/java</directory>
           <includes>
-          <include>**/*.java</include>
+            <include>**/*.java</include>
           </includes>
         </fileSet>
         <fileSet filtered="true" encoding="UTF-8">
           <directory>src/test/resources</directory>
           <includes>
-          <include>logback-test.xml</include>
+            <include>logback-test.xml</include>
             <include>devices.csv</include>
             <include>mediaqueries.properties</include>
-          <include>text\expected.properties</include>
+            <include>text\expected.properties</include>
           </includes>
         </fileSet>
       </fileSets>
     </module>
-    
+
   </modules>
 
 </archetype-descriptor>
