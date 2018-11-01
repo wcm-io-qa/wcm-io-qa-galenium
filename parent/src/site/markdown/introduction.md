@@ -14,22 +14,28 @@
 * It includes its own HTTP proxy server (TODO: dedicated HTTP proxy server or generic proxy server for protocols, e.g. TODO:).
  If a connection is established between a client and a server, the addresses of the client and server are not simply exchanged, but the proxy server manages the communication itself. It can analyze transferred packets and change them if necessary. This allows to manipulate access data and credentials, e.g. in test cases that require user logins.
 * Test cases in Galenium have a one-to-one relationship with a test case in Extent Reports. TODO: elaborate
+
 ## Galenium Integrated Framework
  Galenium uses the following tools and frameworks:
+ 
 ### Maven
  Galenium uses Maven as a build tool to enable automated build operations. Maven applies patterns to the steps of a project lifecycle such as build, test, package, document and deploy.
+ 
 ### TestNG
  Galenium uses TestNG’s parallelization features which allow multiple threads to handle test cases concurrently. TestNG allows defining test suites and running the tests of certain test suites with any number of threads at the same time.
+ 
 ### Selenium
  Galenium uses Selenium to automate browser related tasks. Selenium can be used as a software testing framework for web applications. Selenium includes the component Selenium Grid. Selenium Grid can run multiple tests in parallel on multiple servers. The Selenium client driver connects to the Selenium hub component instead of the Selenium server. 
  The hub has a list of servers that provide access to browser instances (WebDriver nodes). 
  Tests contact the hub to obtain access to browser instances. 
  Different browser versions and browser configurations can be managed centrally and are used by individual tests.
+ 
 ### Galen
 Galenium uses Galen for image comparison. In Galen the page layout is defined by the position of test objects relative to each other on the page. For this purpose, a special syntax and rules are used to describe the layout of a page. 
 Example: The position of a logo in relation to the navigation, the position of the navigation in relation to the content area.
 Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Internet Explorer. Interactions with the webpage are written in JavaScript with an interface to Selenium. 
  The Galen API can be added as a dependency in Maven projects.
+ 
 ### Extent Reports
  Galenium uses Extent Reports which is a HTML reporting library for Selenium WebDriver for Java. Galenium uses the following Extent Reports features:
 * Logs inside HTML.
@@ -50,11 +56,11 @@ TODO: describe
 ## Galenium Overview
  Essentially, Galenium knows the following units:
 * Objects
- Objects are accessed via CSS selectors.
+  * Objects are accessed via CSS selectors.
 * Specifications
- Specifications define constraints for objects.
+  * Specifications define constraints for objects.
 * Suites
- Suites are used to summarize test cases based on specifications.
+  * Suites are used to summarize test cases based on specifications.
 
 ## Step-by-Step Procedure
 * Define objects
@@ -78,6 +84,7 @@ TODO: describe
   * OSs
 
 ## How Galenium Works
+
 ### Thread-Safe Contexts
  TestNG uses multiple threads to handle test cases concurrently. 
  A thread-safe context is created that makes configuration and data available to only one test case instance whereas it is not visible to all other test case instances. 
