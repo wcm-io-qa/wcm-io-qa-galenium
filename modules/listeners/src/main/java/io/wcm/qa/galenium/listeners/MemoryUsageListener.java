@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.listeners;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
@@ -31,12 +32,47 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  */
 public class MemoryUsageListener extends TestListenerAdapter {
 
-  private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("memory-listener");
+  private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("galenium.memory.listener");
+
+  @Override
+  public void onFinish(ITestContext testContext) {
+    logMemory();
+  }
+
+
+  @Override
+  public void onStart(ITestContext testContext) {
+    logMemory();
+    super.onStart(testContext);
+  }
+
+
+  @Override
+  public void onTestFailure(ITestResult tr) {
+    logMemory();
+    super.onTestFailure(tr);
+  }
+
+
+  @Override
+  public void onTestSkipped(ITestResult tr) {
+    logMemory();
+    super.onTestSkipped(tr);
+  }
+
 
   @Override
   public void onTestStart(ITestResult result) {
     logMemory();
   }
+
+
+  @Override
+  public void onTestSuccess(ITestResult tr) {
+    logMemory();
+    super.onTestSuccess(tr);
+  }
+
 
   private String getMemoryMessage() {
     Runtime runtime = Runtime.getRuntime();
