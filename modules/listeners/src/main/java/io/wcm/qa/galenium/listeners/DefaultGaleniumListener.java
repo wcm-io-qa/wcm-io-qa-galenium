@@ -74,6 +74,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     add(new ExtentReportsListener());
     add(new WebDriverListener());
     add(new TextSamplePersistenceListener());
+    add(new MemoryUsageListener());
     if (GaleniumConfiguration.getNumberOfRetries() > 0) {
       add(new RetryAnalyzerAnnotationTransformer());
     }
