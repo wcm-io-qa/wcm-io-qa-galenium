@@ -35,6 +35,13 @@
     <OnMatch>DENY</OnMatch>
   </turboFilter>
 
+  <!-- Logs memory usage. -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.memory.listener</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
   <appender name="EXTENT"
     class="io.wcm.qa.galenium.appender.logback.ExtentAppender" />
 
