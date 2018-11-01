@@ -1,19 +1,19 @@
 ## Galenium Goals
 
- * Running tests in parallel on multiple servers to save test execution time.
- * Running tests on remote browser instances to spread testing load across several machines.
- * Running tests for browsers on different platforms or operating systems.
- * Running tests for responsive websites with different viewports and breakpoints.
- * Getting text and images samples from existing web pages automatically and using samples as a target state for the next test run.
+* Running tests in parallel on multiple servers to save test execution time.
+* Running tests on remote browser instances to spread testing load across several machines.
+* Running tests for browsers on different platforms or operating systems.
+* Running tests for responsive websites with different viewports and breakpoints.
+* Getting text and images samples from existing web pages automatically and using samples as a target state for the next test run.
 
 ## Galenium's Added Value
  The added value that Galenium generates and why it is worth using Galenium:
- * It provides a ready-to-use integration framework with Maven + TestNG + Selenium + Galen + Extent Reports.
- * Galenium eliminates typical inhibitors to starting new test automation projects, such as the amount of time its takes setting up real browsers, others TODO:.
- * It provides a single point of object definition for Selenium and Galen. Double definition effort is eliminated. The object definition created in Galenium can be used without alteration in standalone Galen. In this case Galen is used without Java and Selenium. This allows to use Galenium object definitions for automated Frontend sanity checks, e.g. for the transition from development test systems to production system.
- * It includes its own HTTP proxy server (TODO: dedicated HTTP proxy server or generic proxy server for protocols, e.g. TODO:).
+* It provides a ready-to-use integration framework with Maven + TestNG + Selenium + Galen + Extent Reports.
+* Galenium eliminates typical inhibitors to starting new test automation projects, such as the amount of time its takes setting up real browsers, others TODO:.
+* It provides a single point of object definition for Selenium and Galen. Double definition effort is eliminated. The object definition created in Galenium can be used without alteration in standalone Galen. In this case Galen is used without Java and Selenium. This allows to use Galenium object definitions for automated Frontend sanity checks, e.g. for the transition from development test systems to production system.
+* It includes its own HTTP proxy server (TODO: dedicated HTTP proxy server or generic proxy server for protocols, e.g. TODO:).
  If a connection is established between a client and a server, the addresses of the client and server are not simply exchanged, but the proxy server manages the communication itself. It can analyze transferred packets and change them if necessary. This allows to manipulate access data and credentials, e.g. in test cases that require user logins.
- * Test cases in Galenium have a one-to-one relationship with a test case in Extent Reports. TODO: elaborate
+* Test cases in Galenium have a one-to-one relationship with a test case in Extent Reports. TODO: elaborate
 ## Galenium Integrated Framework
  Galenium uses the following tools and frameworks:
 ### Maven
@@ -32,50 +32,50 @@ Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Inter
  The Galen API can be added as a dependency in Maven projects.
 ### Extent Reports
  Galenium uses Extent Reports which is a HTML reporting library for Selenium WebDriver for Java. Galenium uses the following Extent Reports features:
- ** Logs inside HTML.
- ** Interactive reports
- For example, clicking on a failed test case will show the status of the test and the reason of the failure (exception details).
- ** Pie charts (or circle charts) based on test case status.
- ** Step summaries.
- ** Report filtering depending on status.
- ** Execution history.
- ** Fetching system details such as OS, Java version, memory etc.
- ** Attaching screenshots within reports.
- ** SLF4J appender
- Galenium includes an appender for Simple Logging Facade for Java (SLF4J) which can be used in combination with Extent Reports. Appenders are responsible for writing event data and delivering log events to their target destination.
+* Logs inside HTML.
+* Interactive reports
+  * For example, clicking on a failed test case will show the status of the test and the reason of the failure (exception details).
+* Pie charts (or circle charts) based on test case status.
+* Step summaries.
+* Report filtering depending on status.
+* Execution history.
+* Fetching system details such as OS, Java version, memory etc.
+* Attaching screenshots within reports.
+* SLF4J appender
+  * Galenium includes an appender for Simple Logging Facade for Java (SLF4J) which can be used in combination with Extent Reports. Appenders are responsible for writing event data and delivering log events to their target destination.
 
 ### BrowserMob Proxy
 TODO: describe
 
 ## Galenium Overview
  Essentially, Galenium knows the following units:
- * Objects
+* Objects
  Objects are accessed via CSS selectors.
- * Specifications
+* Specifications
  Specifications define constraints for objects.
- * Suites
+* Suites
  Suites are used to summarize test cases based on specifications.
 
 ## Step-by-Step Procedure
- * Define objects
- * Write Selenium tests
- * Add Galen specifications
- * Generate sample data for target state if applicable
- * Run tests
- * Compare with sampled target state if applicable
- * Check reports
+* Define objects
+* Write Selenium tests
+* Add Galen specifications
+* Generate sample data for target state if applicable
+* Run tests
+* Compare with sampled target state if applicable
+* Check reports
 
 ## Information Sources
- * Software configuration management (SCM)
- ** Galenium tests
- ** Galen specifications
- ** Galen test suites
- * Continous Integration (CI)/Jenkins
- ** Jobs
- ** Reports
- * Selenium Grid
- ** Browsers
- ** OSs
+* Software configuration management (SCM)
+  * Galenium tests
+  * Galen specifications
+  * Galen test suites
+* Continous Integration (CI)/Jenkins
+  * Jobs
+  * Reports
+* Selenium Grid
+  * Browsers
+  * OSs
 
 ## How Galenium Works
 ### Thread-Safe Contexts
