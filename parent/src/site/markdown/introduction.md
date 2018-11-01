@@ -13,7 +13,7 @@
  * It provides a single point of object definition for Selenium and Galen. Double definition effort is eliminated. The object definition created in Galenium can be used without alteration in standalone Galen. In this case Galen is used without Java and Selenium. This allows to use Galenium object definitions for automated Frontend sanity checks, e.g. for the transition from development test systems to production system.
  * It includes its own HTTP proxy server (TODO: dedicated HTTP proxy server or generic proxy server for protocols, e.g. TODO:).
  If a connection is established between a client and a server, the addresses of the client and server are not simply exchanged, but the proxy server manages the communication itself. It can analyze transferred packets and change them if necessary. This allows to manipulate access data and credentials, e.g. in test cases that require user logins.
-
+ * Test cases in Galenium have a one-to-one relationship with a test case in Extent Reports. TODO: elaborate
 ## Galenium Integrated Framework
  Galenium uses the following tools and frameworks:
 ### Maven
@@ -43,6 +43,9 @@ Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Inter
  ** Attaching screenshots within reports.
  ** SLF4J appender
  Galenium includes an appender for Simple Logging Facade for Java (SLF4J) which can be used in combination with Extent Reports. Appenders are responsible for writing event data and delivering log events to their target destination.
+
+### BrowserMob Proxy
+TODO: describe
 
 ## Galenium Overview
  Essentially, Galenium knows the following units:
@@ -97,7 +100,6 @@ Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Inter
  Descriptions are optional and not used by default in Galenium.
 
 ### Reports
- Test cases in Galenium have a one-to-one relationship with a test case in Extent Reports. 
  This is used to keep multiple runs of the same test case logging to the same Extent Report test case.
  Log management is done transparently by Galenium. 
  The GaleniumReportUtil.getLogger() method is used to retrieve a logger. 
