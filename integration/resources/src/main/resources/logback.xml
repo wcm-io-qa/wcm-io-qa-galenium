@@ -38,7 +38,14 @@
   <!-- Logs memory usage. -->
   <turboFilter
     class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.memory.listener</Marker>
+    <Marker>galenium.listener.memory</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
+  <!-- Logs disk space usage. -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.listener.diskusage</Marker>
     <OnMatch>DENY</OnMatch>
   </turboFilter>
 

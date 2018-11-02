@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.galenium.listeners;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.testng.ITestContext;
@@ -30,64 +33,86 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 /**
  * Logs memory usage.
  */
-public class MemoryUsageListener extends TestListenerAdapter {
+public class DiskUsageListener extends TestListenerAdapter {
 
-  private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("galenium.listener.memory");
+  private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("galenium.listener.diskusage");
+  private static final String[] PATHS_TO_LOG_DISK_USAGE_FOR = new String[] {
+      ".",
+      "/dev/shm"
+  };
 
   @Override
   public void onFinish(ITestContext testContext) {
-    logMemory();
+    logDiskUsage();
   }
 
 
   @Override
   public void onStart(ITestContext testContext) {
-    logMemory();
+    logDiskUsage();
     super.onStart(testContext);
   }
 
 
   @Override
   public void onTestFailure(ITestResult tr) {
-    logMemory();
+    logDiskUsage();
     super.onTestFailure(tr);
   }
 
 
   @Override
   public void onTestSkipped(ITestResult tr) {
-    logMemory();
+    logDiskUsage();
     super.onTestSkipped(tr);
   }
 
 
   @Override
   public void onTestStart(ITestResult result) {
-    logMemory();
+    logDiskUsage();
   }
 
 
   @Override
   public void onTestSuccess(ITestResult tr) {
-    logMemory();
+    logDiskUsage();
     super.onTestSuccess(tr);
   }
 
 
-  private String getMemoryMessage() {
-    Runtime runtime = Runtime.getRuntime();
-    StringBuilder memoryMessage = new StringBuilder()
-        .append("free memory: ")
-        .append(runtime.freeMemory())
-        .append("\ntotal memory: ")
-        .append(runtime.totalMemory())
-        .append("\nmax memory: ")
-        .append(runtime.maxMemory());
-    return memoryMessage.toString();
+  private static String getDiskUsageMessage(String path) {
+    File file = new File(path);
+    try {
+      StringBuilder diskUsageMessage = new StringBuilder()
+          .append("'")
+          .append(file.getCanonicalPath())
+          .append("' free space: ")
+          .append(file.getFreeSpace())
+          .append("\ntotal space: ")
+          .append(file.getTotalSpace())
+          .append("\nusable space: ")
+          .append(file.getUsableSpace());
+      return diskUsageMessage.toString();
+    }
+    catch (IOException ex) {
+      return "no space info for '" + path + "': \"" + ex.getMessage() + "\"";
+    }
   }
 
-  private void logMemory() {
-    getLogger().trace(getMemoryMessage());
+
+  private static String getDiskUsageMessages() {
+    StringBuilder messages = new StringBuilder();
+    for (String path : PATHS_TO_LOG_DISK_USAGE_FOR) {
+      messages
+          .append(getDiskUsageMessage(path))
+          .append("\n");
+    }
+    return messages.toString();
+  }
+
+  private static void logDiskUsage() {
+    getLogger().trace(getDiskUsageMessages());
   }
 
   private static Logger getLogger() {
