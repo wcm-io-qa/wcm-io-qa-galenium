@@ -100,7 +100,7 @@ public final class TestDeviceUtil {
     for (DeviceProfile deviceProfile : profiles) {
       if (isProfileMatchesBrowsers(deviceProfile)) {
         GaleniumReportUtil.getLogger().debug("adding device: " + deviceProfile);
-        testDevices.add(new TestDevice(deviceProfile));
+        testDevices.add(getTestDevice(deviceProfile));
       }
       else {
         GaleniumReportUtil.getLogger().debug("skipping device: " + deviceProfile);
@@ -145,8 +145,20 @@ public final class TestDeviceUtil {
     String name = getDeviceName(browserType, width);
     Dimension screenSize = getScreenSize(width);
     TestDevice testDevice = new TestDevice(name, browserType, screenSize);
+    setIncludeAndExcludeTags(testDevice, browserType, mediaQueryName);
+    return testDevice;
+  }
+
+  private static void setIncludeAndExcludeTags(TestDevice testDevice, BrowserType browserType, String mediaQueryName) {
     testDevice.setIncludeTags(getIncludeTags(browserType, mediaQueryName));
     testDevice.setExcludeTags(getExcludeTags(browserType, mediaQueryName));
+  }
+
+  private static TestDevice getTestDevice(DeviceProfile deviceProfile) {
+    TestDevice testDevice = new TestDevice(deviceProfile);
+    MediaQuery mediaQuery = MediaQueryUtil.getMatchingMediaQuery(testDevice);
+    BrowserType browserType = testDevice.getBrowserType();
+    setIncludeAndExcludeTags(testDevice, browserType, mediaQuery.getName());
     return testDevice;
   }
 
