@@ -108,6 +108,10 @@ public class DiskUsageListener extends TestListenerAdapter {
           .append(getDiskUsageMessage(path))
           .append("\n");
     }
+    String tempDirPath = System.getProperty("java.io.tmpdir");
+    messages
+        .append(getDiskUsageMessage(tempDirPath))
+        .append("\n");
     return messages.toString();
   }
 
