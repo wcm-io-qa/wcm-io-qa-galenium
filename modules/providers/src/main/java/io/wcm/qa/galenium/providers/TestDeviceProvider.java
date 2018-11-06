@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.testng.annotations.DataProvider;
 
+import io.wcm.qa.galenium.device.TestDeviceUtil;
+
 /**
  * TestNG data provider for test devices.
  */
