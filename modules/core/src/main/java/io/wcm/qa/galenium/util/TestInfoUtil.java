@@ -96,10 +96,7 @@ public final class TestInfoUtil {
   public static TestDevice getTestDevice(ITestResult result) {
     Object testClass = result.getInstance();
     if (testClass instanceof HasDevice) {
-      Object device = ((HasDevice)testClass).getDevice();
-      if (device instanceof TestDevice) {
-        return (TestDevice)device;
-      }
+      return ((HasDevice)testClass).getDevice();
     }
     return null;
   }
@@ -221,7 +218,7 @@ public final class TestInfoUtil {
     TestDevice testDevice = getTestDevice(result);
     if (testDevice != null) {
       ArrayList<String> mediaQueries = new ArrayList<String>();
-      CollectionUtils.addAll(mediaQueries, testDevice.getIncludeTags());
+      CollectionUtils.addAll(mediaQueries, testDevice.getTags());
       mediaQueries.remove(testDevice.getBrowserType().name());
       return mediaQueries;
     }
