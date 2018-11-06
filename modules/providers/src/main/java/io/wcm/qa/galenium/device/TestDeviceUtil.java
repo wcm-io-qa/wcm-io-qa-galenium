@@ -59,9 +59,15 @@ public final class TestDeviceUtil {
    * @return first of the configured test devices
    */
   public static List<Object> getSingleTestDevice() {
-    Object testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
-    Object firstDevice = CollectionUtils.get(testDevices, 0);
-    List<Object> singleDeviceList = Collections.singletonList(firstDevice);
+    Collection<TestDevice> testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
+    if (testDevices == null || testDevices.isEmpty()) {
+      throw new GaleniumException("no configured devices found, when trying to get single test device.");
+    }
+    int middle = testDevices.size() / 2;
+    // CollectionUtils#get() is deprecated for everything except Object
+    Object deviceCollectionAsObject = testDevices;
+    Object singleDevice = CollectionUtils.get(deviceCollectionAsObject, middle);
+    List<Object> singleDeviceList = Collections.singletonList(singleDevice);
     return singleDeviceList;
   }
 
