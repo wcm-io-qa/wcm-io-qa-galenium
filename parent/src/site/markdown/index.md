@@ -15,7 +15,10 @@ Selenium Galen Integration
 ## Galenium's Added Value
  The added value that Galenium generates and why it is worth using Galenium:
 * It provides a ready-to-use integration framework with Maven + TestNG + Selenium + Galen + ExtentReports.
-* Galenium eliminates typical inhibitors to starting new test automation projects, such as the amount of time its takes setting up real browsers, others TODO:.
+* Galenium eliminates typical inhibitors to starting new test automation projects.
+ * keeping webdriver versions current
+ * initializing expected values
+ * scaling tests over different resolutions
 * It provides a single point of object definition for Selenium and Galen. Double definition effort is eliminated. The object definition created in Galenium can be used without alteration in standalone Galen. In this case Galen is used without Java and Selenium. This allows to use Galenium object definitions for automated Frontend sanity checks, e.g. for the transition from development test systems to production system.
 * It includes its own HTTP proxy server (TODO: dedicated HTTP proxy server or generic proxy server for protocols, e.g. TODO:).
  If a connection is established between a client and a server, the addresses of the client and server are not simply exchanged, but the proxy server manages the communication itself. It can analyze transferred packets and change them if necessary. This allows to manipulate access data and credentials, e.g. in test cases that require user logins.
@@ -65,7 +68,8 @@ Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Inter
  [Read more about ExtentReports](http://extentreports.com/docs/versions/2/java/)
 
 ### BrowserMob Proxy
-TODO: describe
+
+ BrowserMob Proxy (BMP) is a Java HTTP proxy which allows manipulation and recording of HTTP communication. Galenium uses BMP to add basic auth which is commonly used to protect SUTs. The recording capabilities are used to wait for network traffic and to check response codes within tests.
 
  [Read more about BrowserMob Proxy](https://github.com/lightbody/browsermob-proxy)
 
