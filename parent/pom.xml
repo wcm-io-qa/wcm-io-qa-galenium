@@ -54,7 +54,7 @@
       <dependency>
         <groupId>com.galenframework</groupId>
         <artifactId>galen-java-support</artifactId>
-        <version>2.3.7</version>
+        <version>2.4.0</version>
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>
@@ -70,7 +70,7 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        <version>3.14.0</version>
+        <version>3.141.5</version>
       </dependency>
 
       <!-- Reporting -->
@@ -158,13 +158,13 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
-        <version>3.5.4</version>
+        <version>3.6.0</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.5.2</version>
+        <version>3.6.0</version>
       </dependency>
 
     </dependencies>

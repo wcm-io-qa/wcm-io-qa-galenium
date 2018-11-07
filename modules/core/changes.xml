@@ -37,7 +37,7 @@
         Newest webdriver for Firefox and Chrome.
       </action>
       <action type="update" dev="apegam">
-        New versions for parents and dependencies..
+        New versions for parents and dependencies.
       </action>
       <action type="add" dev="apegam">
         Convenience methods to wait for visibility and text.
