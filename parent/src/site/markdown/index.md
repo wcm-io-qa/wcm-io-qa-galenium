@@ -1,3 +1,9 @@
+# Galenium
+
+Selenium Galen Integration
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration)
+
 ## Galenium Goals
 
 * Running tests in parallel on multiple servers to save test execution time.
