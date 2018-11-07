@@ -20,9 +20,8 @@ Selenium Galen Integration
  * initializing expected values
  * scaling tests over different resolutions
 * It provides a single point of object definition for Selenium and Galen. Double definition effort is eliminated. The object definition created in Galenium can be used without alteration in standalone Galen. In this case Galen is used without Java and Selenium. This allows to use Galenium object definitions for automated Frontend sanity checks, e.g. for the transition from development test systems to production system.
-* It includes its own HTTP proxy server (TODO: dedicated HTTP proxy server or generic proxy server for protocols, e.g. TODO:).
- If a connection is established between a client and a server, the addresses of the client and server are not simply exchanged, but the proxy server manages the communication itself. It can analyze transferred packets and change them if necessary. This allows to manipulate access data and credentials, e.g. in test cases that require user logins.
-* Test cases in Galenium have a one-to-one relationship with a test case in ExtentReports. TODO: elaborate
+* It includes its own HTTP proxy server which allows to manipulate access data and credentials, e.g. in test cases that require user logins.
+* Test cases in Galenium have a one-to-one relationship with a test case in ExtentReports. ExtentReports is very test case centric. A clear relationship between test cases in the Maven/TestNG world and in the main report simplifies identifying issues and reacting to them.
 
 ## Galenium Integrated Framework
  Galenium uses the following tools and frameworks:
