@@ -4,6 +4,8 @@ To use Galenium, you need a Galenium Maven project.
 
 To set up the project, you can do it from scratch, copy the example projects, or run the Maven Archetype.
 
+TODO: precursor steps, including where to generate project
+
 Recommended way is to use the Archetype:
 
  ```
@@ -17,3 +19,5 @@ Recommended way is to use the Archetype:
  -Dpackage=de.foo.bar.sample 
  -DprojectName=MyProject
  ```
+
+ TODO: expected results (have three folders, parent/specs/tests)
