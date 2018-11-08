@@ -21,10 +21,11 @@ package io.wcm.qa.galenium.interaction;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
+import java.util.function.Function;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -172,10 +173,11 @@ public final class Wait {
    * @param url to load
    * @param timeOutInSeconds how long to wait for URL to be current
    */
+  @SuppressWarnings("unchecked")
   public static void forUrl(String url, int timeOutInSeconds) {
     getLogger().trace("waiting for URL: '" + url + "'");
     WebDriverWait wait = getWait(timeOutInSeconds);
-    wait.until(ExpectedConditions.urlToBe(url));
+    wait.until((Function<? super WebDriver, Boolean>)ExpectedConditions.urlToBe(url));
     getLogger().trace("found URL: '" + url + "'");
   }
 
@@ -209,7 +211,7 @@ public final class Wait {
     return new WebDriverWait(GaleniumContext.getDriver(), timeOutInSeconds, pollingInterval);
   }
 
-  private static final class VerifiableExpectedCondition implements ExpectedCondition<Boolean> {
+  private static final class VerifiableExpectedCondition implements Function<WebDriver, Boolean> {
 
     private final Verifiable condition;
 

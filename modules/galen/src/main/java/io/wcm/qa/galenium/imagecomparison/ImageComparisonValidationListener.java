@@ -24,10 +24,13 @@ import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getExpected
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +53,8 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
  * {@link CombinedValidationListener} to handle storing of sampled image files in ZIP file.
  */
 public class ImageComparisonValidationListener extends CombinedValidationListener {
+
+  private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
 
   // Logger
   private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
@@ -113,7 +118,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     if (error != null) {
       ImageComparison imageComparison = error.getImageComparison();
       if (imageComparison != null) {
-        File actualImage = imageComparison.getOriginalFilteredImage();
+        File actualImage = imageComparison.getSampleFilteredImage();
         if (actualImage != null) {
           return actualImage;
         }
@@ -129,7 +134,16 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
       msg = "could not find error in validation result.";
     }
 
-    throw new GaleniumException(msg);
+    try {
+      File imageFile = File.createTempFile("dummy_image", "png");
+      trace("begin writing image '" + imageFile);
+      ImageIO.write(DUMMY_IMAGE, "png", imageFile);
+      trace("done writing image '" + imageFile);
+      return imageFile;
+    }
+    catch (IOException ex) {
+      throw new GaleniumException(msg, ex);
+    }
   }
 
   protected File getImageFile(String imagePath) {
