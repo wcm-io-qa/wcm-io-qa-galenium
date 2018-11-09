@@ -24,7 +24,6 @@ import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getExpected
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -49,8 +48,6 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
  * {@link CombinedValidationListener} to handle storing of sampled image files in ZIP file.
  */
 public class ImageComparisonValidationListener extends CombinedValidationListener {
-
-  private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
 
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
 
@@ -129,7 +126,11 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     }
     getLogger().debug(msg);
 
-    return null;
+    return ImageComparisonUtil.writeDummySample();
+  }
+
+  protected Pattern getImagePathExtractionRegEx() {
+    return Pattern.compile(REGEX_IMAGE_FILENAME);
   }
 
   protected File getSampleTargetFile(String imagePath) {
@@ -146,10 +147,6 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     File imageFile = new File(path);
     FileHandlingUtil.ensureParent(imageFile);
     return imageFile;
-  }
-
-  protected Pattern getImagePathExtractionRegEx() {
-    return Pattern.compile(REGEX_IMAGE_FILENAME);
   }
 
   protected void logSpec(Spec spec) {
