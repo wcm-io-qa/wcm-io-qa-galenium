@@ -21,12 +21,14 @@ package io.wcm.qa.galenium.imagecomparison;
 
 import static java.util.Locale.ENGLISH;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.galenframework.parser.SyntaxException;
@@ -346,23 +348,14 @@ public class ImageComparisonSpecFactory {
     return getImageComparisonSpecText(getFoldername(), getFilename(), error, offset);
   }
 
-  protected String getImageComparisonSpecText(String folder, String file, String error, int offset) {
+  protected String getImageComparisonSpecText(String folder, String fileName, String error, int offset) {
     StringBuilder specText = new StringBuilder();
+
+    // boiler plate
     specText.append("image file ");
 
-    // folder
-    if (StringUtils.isNotBlank(folder)) {
-      if (StringUtils.endsWith(folder, "/")) {
-        specText.append(folder);
-      }
-      else {
-        specText.append(folder);
-        specText.append("/");
-      }
-    }
-
     // image file
-    specText.append(file);
+    specText.append(getImageOrDummySamplePath(folder, fileName));
 
     // tolerance
     if (StringUtils.isNotBlank(error)) {
@@ -393,6 +386,38 @@ public class ImageComparisonSpecFactory {
     }
 
     return specText.toString();
+  }
+
+  private String getImageOrDummySamplePath(String folder, String fileName) {
+    String fullFilePath;
+
+    // folder
+    if (StringUtils.isNotBlank(folder)) {
+      fullFilePath = FilenameUtils.concat(folder, fileName);
+    }
+    else {
+      // no folder means fileName is all the path info we have
+      fullFilePath = fileName;
+    }
+
+    createDummyIfSampleDoesNotExist(fullFilePath);
+
+    return fullFilePath;
+  }
+
+  private void createDummyIfSampleDoesNotExist(String fullFilePath) {
+    if (isExpectedImageSampleMissing(fullFilePath)) {
+      GaleniumReportUtil.getLogger().info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
+
+      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
+      File targetFile = new File(fullFilePath);
+
+      ImageComparisonUtil.writeDummySample(targetFile);
+    }
+  }
+
+  private boolean isExpectedImageSampleMissing(String fullFilePath) {
+    return !new File(fullFilePath).isFile();
   }
 
   protected Locator getLocator() {

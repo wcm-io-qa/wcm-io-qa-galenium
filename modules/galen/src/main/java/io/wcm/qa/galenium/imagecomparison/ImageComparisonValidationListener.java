@@ -24,7 +24,6 @@ import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getExpected
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -32,8 +31,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.galenframework.specs.Spec;
 import com.galenframework.validation.CombinedValidationListener;
@@ -52,11 +49,6 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
  */
 public class ImageComparisonValidationListener extends CombinedValidationListener {
 
-  private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
-
-  // Logger
-  private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
-
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
 
   @Override
@@ -74,24 +66,22 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
           debug("image: " + imagePath);
           try {
-            File source = getActualImage(result);
+            File source = getFreshSampleFile(result);
             if (source == null) {
               source = new File(imagePath);
             }
-            File target = getNewSampleImageTargetFile(imagePath);
+            File target = getSampleTargetFile(imagePath);
             trace("begin copying image '" + source + "' -> '" + target + "'");
             FileUtils.copyFile(source, target);
             trace("done copying image '" + source + "' -> '" + target + "'");
           }
           catch (GaleniumException | IOException ex) {
             String msg = "could not write image: " + imagePath;
-            log.error(msg, ex);
             getLogger().error(msg, ex);
           }
         }
         else {
           String msg = "could not extract image name from: " + text;
-          log.warn(msg);
           getLogger().warn(msg);
         }
       }
@@ -112,7 +102,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     getLogger().trace(msg);
   }
 
-  protected File getActualImage(ValidationResult result) {
+  protected File getFreshSampleFile(ValidationResult result) {
 
     ValidationError error = result.getError();
     String msg;
@@ -136,11 +126,14 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     }
     getLogger().debug(msg);
 
-    return null;
-
+    return ImageComparisonUtil.writeDummySample();
   }
 
-  protected File getNewSampleImageTargetFile(String imagePath) {
+  protected Pattern getImagePathExtractionRegEx() {
+    return Pattern.compile(REGEX_IMAGE_FILENAME);
+  }
+
+  protected File getSampleTargetFile(String imagePath) {
     String sampledImagesRootPath = getActualImagesDirectory();
     String path;
     if (StringUtils.isNotBlank(sampledImagesRootPath)) {
@@ -154,10 +147,6 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     File imageFile = new File(path);
     FileHandlingUtil.ensureParent(imageFile);
     return imageFile;
-  }
-
-  protected Pattern getImagePathExtractionRegEx() {
-    return Pattern.compile(REGEX_IMAGE_FILENAME);
   }
 
   protected void logSpec(Spec spec) {
