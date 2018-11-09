@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -76,11 +74,14 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
           debug("image: " + imagePath);
           try {
-            File actualImage = getActualImage(result);
-            File imageFile = getImageFile(imagePath);
-            trace("begin copying image '" + imageFile + "' -> '" + actualImage + "'");
-            FileUtils.copyFile(actualImage, imageFile);
-            trace("done copying image '" + imageFile + "' -> '" + actualImage + "'");
+            File source = getActualImage(result);
+            if (source == null) {
+              source = new File(imagePath);
+            }
+            File target = getNewSampleImageTargetFile(imagePath);
+            trace("begin copying image '" + source + "' -> '" + target + "'");
+            FileUtils.copyFile(source, target);
+            trace("done copying image '" + source + "' -> '" + target + "'");
           }
           catch (GaleniumException | IOException ex) {
             String msg = "could not write image: " + imagePath;
@@ -118,7 +119,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     if (error != null) {
       ImageComparison imageComparison = error.getImageComparison();
       if (imageComparison != null) {
-        File actualImage = imageComparison.getSampleFilteredImage();
+        File actualImage = imageComparison.getOriginalFilteredImage();
         if (actualImage != null) {
           return actualImage;
         }
@@ -133,20 +134,13 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     else {
       msg = "could not find error in validation result.";
     }
+    getLogger().debug(msg);
 
-    try {
-      File imageFile = File.createTempFile("dummy_image", "png");
-      trace("begin writing image '" + imageFile);
-      ImageIO.write(DUMMY_IMAGE, "png", imageFile);
-      trace("done writing image '" + imageFile);
-      return imageFile;
-    }
-    catch (IOException ex) {
-      throw new GaleniumException(msg, ex);
-    }
+    return null;
+
   }
 
-  protected File getImageFile(String imagePath) {
+  protected File getNewSampleImageTargetFile(String imagePath) {
     String sampledImagesRootPath = getActualImagesDirectory();
     String path;
     if (StringUtils.isNotBlank(sampledImagesRootPath)) {
