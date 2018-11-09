@@ -32,8 +32,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.galenframework.specs.Spec;
 import com.galenframework.validation.CombinedValidationListener;
@@ -54,9 +52,6 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
   private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
 
-  // Logger
-  private static final Logger log = LoggerFactory.getLogger(ImageComparisonValidationListener.class);
-
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
 
   @Override
@@ -74,24 +69,22 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
 
           debug("image: " + imagePath);
           try {
-            File source = getActualImage(result);
+            File source = getFreshSampleFile(result);
             if (source == null) {
               source = new File(imagePath);
             }
-            File target = getNewSampleImageTargetFile(imagePath);
+            File target = getSampleTargetFile(imagePath);
             trace("begin copying image '" + source + "' -> '" + target + "'");
             FileUtils.copyFile(source, target);
             trace("done copying image '" + source + "' -> '" + target + "'");
           }
           catch (GaleniumException | IOException ex) {
             String msg = "could not write image: " + imagePath;
-            log.error(msg, ex);
             getLogger().error(msg, ex);
           }
         }
         else {
           String msg = "could not extract image name from: " + text;
-          log.warn(msg);
           getLogger().warn(msg);
         }
       }
@@ -112,7 +105,7 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     getLogger().trace(msg);
   }
 
-  protected File getActualImage(ValidationResult result) {
+  protected File getFreshSampleFile(ValidationResult result) {
 
     ValidationError error = result.getError();
     String msg;
@@ -137,10 +130,9 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
     getLogger().debug(msg);
 
     return null;
-
   }
 
-  protected File getNewSampleImageTargetFile(String imagePath) {
+  protected File getSampleTargetFile(String imagePath) {
     String sampledImagesRootPath = getActualImagesDirectory();
     String path;
     if (StringUtils.isNotBlank(sampledImagesRootPath)) {
