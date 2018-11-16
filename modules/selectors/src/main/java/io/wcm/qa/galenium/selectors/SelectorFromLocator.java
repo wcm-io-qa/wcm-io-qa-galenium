@@ -29,6 +29,8 @@ import io.wcm.qa.galenium.selectors.base.Selector;
  */
 public class SelectorFromLocator extends AbstractNestedSelectorBase {
 
+  private static final String REGEX_LAST_NAME_ELEMENT = "\\.[^.]*$";
+
   /**
    * @param locator to use in Selector construction
    */
@@ -51,11 +53,14 @@ public class SelectorFromLocator extends AbstractNestedSelectorBase {
     setString(locator.getLocatorValue());
     Locator parentLocator = locator.getParent();
     if (parentLocator != null) {
-      String parentName = getName().replaceFirst("\\.[^.]*$", "");
-      SelectorFromLocator parentSelector = new SelectorFromLocator(parentName, parentLocator);
+      SelectorFromLocator parentSelector = new SelectorFromLocator(getParentName(), parentLocator);
       setParent(parentSelector);
       parentSelector.addChild(this);
     }
+  }
+
+  private String getParentName() {
+    return getName().replaceFirst(REGEX_LAST_NAME_ELEMENT, "");
   }
 
 }
