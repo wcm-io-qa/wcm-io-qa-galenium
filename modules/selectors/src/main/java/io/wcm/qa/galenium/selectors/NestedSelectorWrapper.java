@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,19 @@
  */
 package io.wcm.qa.galenium.selectors;
 
-import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- * Implementation of {@link Selector} interface.
+ * Simple wrapper to turn regular selector into nested selector.
+ * No parent, no children, and relative is absolute is this.
  */
-public class SelectorFromString extends AbstractSelectorBase {
+public class NestedSelectorWrapper extends FixedValueNestedSelector {
 
   /**
-   * @param selectorString CSS selector
+   * @param selector to take values from
    */
-  public SelectorFromString(String selectorString) {
-    setString(selectorString);
+  public NestedSelectorWrapper(Selector selector) {
+    super(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), selector, selector, null, null);
   }
 
 }

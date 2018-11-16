@@ -90,8 +90,13 @@ public class FixedValueNestedSelector extends FixedValueSelector implements Nest
 
   @Override
   public boolean hasChildren() {
-    boolean hasNoChildren = ((children == null) || (children.isEmpty()));
-    return !hasNoChildren;
+    if (children == null) {
+      return false;
+    }
+    if (children.isEmpty()) {
+      return false;
+    }
+    return true;
   }
 
   @Override

@@ -27,8 +27,10 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.selectors.DelegatingIndexedSelector;
 import io.wcm.qa.galenium.selectors.FixedValueNestedSelector;
 import io.wcm.qa.galenium.selectors.FixedValueSelector;
+import io.wcm.qa.galenium.selectors.NestedSelectorWrapper;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFromString;
 
@@ -52,7 +54,7 @@ public final class SelectorFactory {
   /**
    * @param elementName name to use for selector
    * @param selectorString CSS selector
-   * @return Galenium selector representing the CSS selector
+   * @return new selector representing the CSS selector
    */
   public static Selector fromCss(String elementName, String selectorString) {
     AbstractSelectorBase selector = new SelectorFromString(selectorString);
@@ -62,7 +64,7 @@ public final class SelectorFactory {
 
   /**
    * @param locator to construct selector from
-   * @return Galenium selector representing the locator
+   * @return new selector representing the locator
    */
   public static SelectorFromLocator fromLocator(Locator locator) {
     ensureCssLocator(locator);
@@ -72,7 +74,7 @@ public final class SelectorFactory {
   /**
    * @param elementName alternative name to use in Selector
    * @param locator to construct selector from
-   * @return Galenium selector representing the locator
+   * @return new selector representing the locator
    */
   public static SelectorFromLocator fromLocator(String elementName, Locator locator) {
     ensureCssLocator(locator);
@@ -120,6 +122,34 @@ public final class SelectorFactory {
   public static NestedSelector fromValues(String elementName, String css, By by, Locator locator, Selector absolute,
       Selector relative, NestedSelector parent, Collection<NestedSelector> children) {
     return new FixedValueNestedSelector(elementName, css, by, locator, absolute, relative, parent, children);
+  }
+
+  /**
+   * Makes sure a selector is indexed. Wrapping it if necessary.
+   * @param selector to ensure is indexed
+   * @return indexed version of selector or selector itself if already indexed
+   */
+  public static IndexedSelector indexedFromSelector(Selector selector) {
+    if (selector instanceof IndexedSelector) {
+      return (IndexedSelector)selector;
+    }
+    if (selector instanceof NestedSelector) {
+      return new DelegatingIndexedSelector((NestedSelector)selector);
+    }
+
+    return new DelegatingIndexedSelector(nestedFromSelector(selector));
+  }
+
+  /**
+   * Makes sure selector is nested. Wraps it if necessary.
+   * @param selector to ensure nestedness of
+   * @return nested version of selector or selector itself if already nested
+   */
+  public static NestedSelector nestedFromSelector(Selector selector) {
+    if (selector instanceof NestedSelector) {
+      return (NestedSelector)selector;
+    }
+    return new NestedSelectorWrapper(selector);
   }
 
   /**

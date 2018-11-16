@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
-
-import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
-import io.wcm.qa.galenium.selectors.base.Selector;
+package io.wcm.qa.galenium.selectors.base;
 
 /**
- * Implementation of {@link Selector} interface.
+ * Indexed selectors allow identifying which element is meant, when there are multiple matches in page.
  */
-public class SelectorFromString extends AbstractSelectorBase {
+public class AbstractIndexedSelectorBase extends AbstractNestedSelectorBase implements IndexedSelector {
 
-  /**
-   * @param selectorString CSS selector
-   */
-  public SelectorFromString(String selectorString) {
-    setString(selectorString);
+  private int index;
+
+  @Override
+  public int getIndex() {
+    return index;
+  }
+
+  protected void setIndex(int index) {
+    this.index = index;
   }
 
 }
