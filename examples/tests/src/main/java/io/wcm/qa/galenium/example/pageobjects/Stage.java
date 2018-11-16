@@ -25,7 +25,7 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
-import io.wcm.qa.galenium.selectors.base.SelectorFactory;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 
 /**
  * Stage on homepage.

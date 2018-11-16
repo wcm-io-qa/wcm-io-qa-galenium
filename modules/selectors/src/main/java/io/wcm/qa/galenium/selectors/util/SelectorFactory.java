@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors.base;
+package io.wcm.qa.galenium.selectors.util;
 
 import java.util.Collection;
 
@@ -33,6 +33,10 @@ import io.wcm.qa.galenium.selectors.FixedValueSelector;
 import io.wcm.qa.galenium.selectors.NestedSelectorWrapper;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.SelectorFromString;
+import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
+import io.wcm.qa.galenium.selectors.base.IndexedSelector;
+import io.wcm.qa.galenium.selectors.base.NestedSelector;
+import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Creates Selectors for use with Galenium.
@@ -57,9 +61,7 @@ public final class SelectorFactory {
    * @return new selector representing the CSS selector
    */
   public static Selector fromCss(String elementName, String selectorString) {
-    AbstractSelectorBase selector = new SelectorFromString(selectorString);
-    selector.setName(elementName);
-    return selector;
+    return new SelectorFromString(elementName, selectorString);
   }
 
   /**

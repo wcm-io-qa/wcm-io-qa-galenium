@@ -36,7 +36,10 @@ import org.slf4j.Marker;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.selectors.base.IndexedSelector;
+import io.wcm.qa.galenium.selectors.base.NestedSelector;
 import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
@@ -134,10 +137,6 @@ public final class Element {
     return find(selector, TimeoutType.NOW);
   }
 
-  private static WebElement find(Selector selector, TimeoutType timeout) {
-    return findNth(selector, 0, timeout);
-  }
-
   /**
    * @param selector used to find elements
    * @param index used to choose which element
@@ -182,9 +181,10 @@ public final class Element {
    * Return element or fail with {@link GaleniumException}.
    * @param selector identifies the element
    * @return element found
+   * @throws GaleniumException when element cannot be found
    */
   public static WebElement findOrFail(Selector selector) {
-    return findNthOrFail(selector, 0);
+    return findOrFail(indexed(selector));
   }
 
   /**
@@ -286,7 +286,7 @@ public final class Element {
    * @param selector identifies element
    */
   public static void scrollToNth(Selector selector, int index) {
-    StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);
+    StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector);
     getLogger().debug(MARKER_INFO, message.toString());
     WebElement elementToScrollTo = findNth(selector, index);
     scrollTo(elementToScrollTo);
@@ -301,13 +301,55 @@ public final class Element {
       element.click();
     }
     catch (StaleElementReferenceException ex) {
-      StringBuilder message = getSelectorMessageBuilder("Stale element when attempting to click ", selector, index)
+      StringBuilder message = getSelectorMessageBuilder("Stale element when attempting to click ", selector)
           .append(": '")
           .append(ex.getMessage());
       getLogger().debug(message.toString());
       findNthOrFailNow(selector, index).click();
     }
     getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
+  }
+
+  /**
+   * Recursively retrieves all ancestors to find element.
+   * @param selector to find element
+   * @param timeout to use
+   * @return element or null if not found
+   */
+  private static WebElement find(IndexedSelector selector, TimeoutType timeout) {
+    if (selector.hasParent()) {
+      // find parent
+      NestedSelector parentSelector = selector.getParent();
+      WebElement parent = find(parentSelector, timeout);
+      if (parent == null) {
+        // no parent -> cannot find element
+        return null;
+      }
+
+      // find all children
+      List<WebElement> children = parent.findElements(selector.asRelative().asBy());
+
+      // found any?
+      if (children.isEmpty()) {
+        return null;
+      }
+
+      // found enough?
+      if (children.size() <= selector.getIndex()) {
+        return null;
+      }
+
+      // select correct child
+      return children.get(selector.getIndex());
+    }
+
+    // no parent -> is root
+    return findNth(selector, selector.getIndex(), timeout);
+  }
+
+  private static WebElement find(Selector selector, TimeoutType timeout) {
+    IndexedSelector indexedSelector = indexed(selector);
+    return find(indexedSelector, timeout);
   }
 
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {
@@ -325,7 +367,7 @@ public final class Element {
     List<WebElement> allElements = findAll(selector, type);
 
     if (getLogger().isTraceEnabled()) {
-      StringBuilder message = getSelectorMessageBuilder("looking for ", selector, index);
+      StringBuilder message = getSelectorMessageBuilder("looking for ", selector);
       message.append(" and found ").append(allElements.size()).append(" element(s) total");
       getLogger().trace(message.toString());
     }
@@ -341,7 +383,7 @@ public final class Element {
   private static WebElement findNthOrFail(Selector selector, int index, TimeoutType type) {
     List<WebElement> allElements = findAll(selector, type);
 
-    StringBuilder message = getSelectorMessageBuilder("looking for ", selector, index);
+    StringBuilder message = getSelectorMessageBuilder("looking for ", selector);
     if (allElements.isEmpty()) {
       // no elements
       message.append(": no elements found");
@@ -360,12 +402,26 @@ public final class Element {
     if (element != null) {
       return element;
     }
-    StringBuilder failureMessage = getSelectorMessageBuilder("did not find ", selector, index);
+    StringBuilder failureMessage = getSelectorMessageBuilder("did not find ", selector);
     throw new GaleniumException(failureMessage.toString());
   }
 
+  /**
+   * Return element or fail with {@link GaleniumException}.
+   * @param selector identifies the element
+   * @return element found
+   * @throws GaleniumException when element cannot be found
+   */
+  private static WebElement findOrFail(IndexedSelector selector) {
+    WebElement element = find(selector);
+    if (element == null) {
+      throw new GaleniumException(getSelectorMessageBuilder("did not find ", selector).toString());
+    }
+    return element;
+  }
+
   private static String getClickLogMessage(Selector selector, int index, String extraMessage) {
-    StringBuilder message = getSelectorMessageBuilder("clicked ", selector, index);
+    StringBuilder message = getSelectorMessageBuilder("clicked ", selector);
     if (StringUtils.isNotBlank(extraMessage)) {
       message.append(" ");
       message.append(extraMessage);
@@ -377,15 +433,20 @@ public final class Element {
     return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
-  private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {
+  private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector) {
     StringBuilder message = new StringBuilder()
         .append(prefix)
         .append('\'')
         .append(selector)
-        .append('[')
-        .append(index)
-        .append("]'");
+        .append('\'');
     return message;
+  }
+
+  private static IndexedSelector indexed(Selector selector) {
+    if (selector instanceof IndexedSelector) {
+      return (IndexedSelector)selector;
+    }
+    return SelectorFactory.indexedFromSelector(selector);
   }
 
   private static boolean isNow(TimeoutType type) {

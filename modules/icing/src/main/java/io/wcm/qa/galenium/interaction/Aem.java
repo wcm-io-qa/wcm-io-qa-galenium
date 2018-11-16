@@ -37,7 +37,7 @@ import org.openqa.selenium.WebDriverException;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.selectors.base.Selector;
-import io.wcm.qa.galenium.selectors.base.SelectorFactory;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 import io.wcm.qa.galenium.util.HttpUtil;
 
 /**

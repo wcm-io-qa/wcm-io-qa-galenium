@@ -26,6 +26,8 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
+
 /**
  * Abstract base class for {@link NestedSelector} implementations.
  */

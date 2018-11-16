@@ -64,7 +64,7 @@ import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
-import io.wcm.qa.galenium.selectors.base.SelectorFactory;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 
 import ${interactiveSelectorPackage}.${interactiveSelectorInterfaceClassName};
 import ${interactiveSelectorPackage}.${interactiveSelectorBaseClassName};

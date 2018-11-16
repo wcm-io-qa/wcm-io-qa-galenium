@@ -31,6 +31,15 @@ public class SelectorFromString extends AbstractSelectorBase {
    * @param selectorString CSS selector
    */
   public SelectorFromString(String selectorString) {
+    this(null, selectorString);
+  }
+
+  /**
+   * @param elementName name to use
+   * @param selectorString CSS selector
+   */
+  public SelectorFromString(String elementName, String selectorString) {
+    setName(elementName);
     setString(selectorString);
   }
 

@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.ArrayList;
 
 import io.wcm.qa.galenium.selectors.base.Selector;
-import io.wcm.qa.galenium.selectors.base.SelectorFactory;
 import io.wcm.qa.galenium.selectors.SelectorFromLocator;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 
 /**
