@@ -65,7 +65,7 @@ public final class SelectorFactory {
    * @return Galenium selector representing the locator
    */
   public static SelectorFromLocator fromLocator(Locator locator) {
-    checkLocator(locator);
+    ensureCssLocator(locator);
     return new SelectorFromLocator(locator);
   }
 
@@ -75,7 +75,7 @@ public final class SelectorFactory {
    * @return Galenium selector representing the locator
    */
   public static SelectorFromLocator fromLocator(String elementName, Locator locator) {
-    checkLocator(locator);
+    ensureCssLocator(locator);
     return new SelectorFromLocator(elementName, locator);
   }
 
@@ -162,7 +162,7 @@ public final class SelectorFactory {
     return fromCss(elementName, selectorString);
   }
 
-  private static void checkLocator(Locator locator) {
+  private static void ensureCssLocator(Locator locator) {
 
     switch (locator.getLocatorType()) {
       case "css":
