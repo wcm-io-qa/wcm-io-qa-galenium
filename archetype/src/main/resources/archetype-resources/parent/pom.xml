@@ -32,7 +32,7 @@
     <galenium.generated.artifactIds>${rootArtifactId}.specs</galenium.generated.artifactIds>
     <galenium.headless>true</galenium.headless>
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
-    <galenium.mediaquery.width.min>480</galenium.mediaquery.width.min>
+    <galenium.mediaquery.width.min>320</galenium.mediaquery.width.min>
     <galenium.mediaquery.height>1000</galenium.mediaquery.height>
     <galenium.mediaquery.properties>${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
     <galenium.mediaquery.extentCategory>MQ_</galenium.mediaquery.extentCategory>

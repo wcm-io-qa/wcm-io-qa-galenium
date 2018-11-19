@@ -19,6 +19,7 @@ public class SampleGaleniumIT extends $.AbstractExampleBase
 
     @Test
     public void testIt() {
-        Browser.loadBlankPage();
+        Browser.load("http://qa.wcm.io");
+
     }
 }
