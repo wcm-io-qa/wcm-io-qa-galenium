@@ -17,10 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.impl;
 
-import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.impl.base.AbstractSelectorBase;
 
 /**
  * Implementation of {@link Selector} interface.

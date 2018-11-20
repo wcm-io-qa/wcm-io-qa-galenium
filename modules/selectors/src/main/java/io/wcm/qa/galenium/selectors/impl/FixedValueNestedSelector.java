@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.impl;
 
 import java.util.Collection;
 
@@ -25,8 +25,8 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * {@link NestedSelector} implementation immediately setting {@link By}, {@link Locator}, parent and children values on

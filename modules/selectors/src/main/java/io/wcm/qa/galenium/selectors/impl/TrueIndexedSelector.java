@@ -17,15 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import io.wcm.qa.galenium.selectors.base.AbstractIndexedSelectorBase;
-import io.wcm.qa.galenium.selectors.base.IndexedSelector;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.IndexedSelector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.impl.base.AbstractIndexedSelectorBase;
 import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 
 /**

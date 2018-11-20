@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.impl;
 
 import java.util.Collection;
 
@@ -25,9 +25,9 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-import io.wcm.qa.galenium.selectors.base.IndexedSelector;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.IndexedSelector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Indexed selectors carry an index for each level to have a way to individually address multiple elements matching the

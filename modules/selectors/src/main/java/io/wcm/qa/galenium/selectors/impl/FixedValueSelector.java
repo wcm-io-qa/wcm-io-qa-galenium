@@ -17,14 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors;
+package io.wcm.qa.galenium.selectors.impl;
 
 import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.impl.base.AbstractSelectorBase;
 
 /**
  * Selector implementation immediately setting {@link By} and {@link Locator} values on instantiation.

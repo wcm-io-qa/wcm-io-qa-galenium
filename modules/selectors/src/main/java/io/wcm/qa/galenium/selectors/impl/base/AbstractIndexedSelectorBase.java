@@ -17,16 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors.base;
+package io.wcm.qa.galenium.selectors.impl.base;
+
+import io.wcm.qa.galenium.selectors.IndexedSelector;
 
 /**
- * Selector with indices to allow addressing more than one element in page.
+ * Indexed selectors allow identifying which element is meant, when there are multiple matches in page.
  */
-public interface IndexedSelector extends NestedSelector {
+public class AbstractIndexedSelectorBase extends AbstractNestedSelectorBase implements IndexedSelector {
 
-  /**
-   * @return index associated with this selector
-   */
-  int getIndex();
+  private int index;
+
+  @Override
+  public int getIndex() {
+    return index;
+  }
+
+  protected void setIndex(int index) {
+    this.index = index;
+  }
 
 }

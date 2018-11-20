@@ -19,19 +19,14 @@
  */
 package io.wcm.qa.galenium.selectors;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
-
 /**
- * Simple wrapper to turn regular selector into nested selector.
- * No parent, no children, and relative is absolute is this.
+ * Selector with indices to allow addressing more than one element in page.
  */
-public class NestedSelectorWrapper extends FixedValueNestedSelector {
+public interface IndexedSelector extends NestedSelector {
 
   /**
-   * @param selector to take values from
+   * @return index associated with this selector
    */
-  public NestedSelectorWrapper(Selector selector) {
-    super(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), selector, selector, null, null);
-  }
+  int getIndex();
 
 }

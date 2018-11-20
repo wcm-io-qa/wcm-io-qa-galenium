@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors.base;
+package io.wcm.qa.galenium.selectors;
 
 import java.util.Collection;
 

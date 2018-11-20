@@ -17,22 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors.base;
+package io.wcm.qa.galenium.selectors.impl;
+
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
- * Indexed selectors allow identifying which element is meant, when there are multiple matches in page.
+ * Simple wrapper to turn regular selector into nested selector.
+ * No parent, no children, and relative is absolute is this.
  */
-public class AbstractIndexedSelectorBase extends AbstractNestedSelectorBase implements IndexedSelector {
+public class NestedSelectorWrapper extends FixedValueNestedSelector {
 
-  private int index;
-
-  @Override
-  public int getIndex() {
-    return index;
-  }
-
-  protected void setIndex(int index) {
-    this.index = index;
+  /**
+   * @param selector to take values from
+   */
+  public NestedSelectorWrapper(Selector selector) {
+    super(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), selector, selector, null, null);
   }
 
 }

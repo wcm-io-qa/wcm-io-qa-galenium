@@ -17,12 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.selectors.base;
+package io.wcm.qa.galenium.selectors.impl.base;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
+
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Base class for the different {@link Selector} implementations.

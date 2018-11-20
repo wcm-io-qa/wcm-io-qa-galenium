@@ -22,7 +22,7 @@
 
   <name>Galenium Selectors</name>
   <description>Selectors integrate Selenium's By and Galen's Locator concepts.</description>
-  <artifactId>io.wcm.qa.galenium.selectors</artifactId>
+  <artifactId>io.wcm.qa.galenium.selectors.impl</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
