@@ -31,8 +31,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.interactions.internal.Coordinates;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
@@ -40,9 +40,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 /**
  * Base class for implementing delegating wrappers for Selenium's web elements.
  */
-@SuppressWarnings("deprecation")
 public abstract class GaleniumWebElementBase
-    implements WebElement, WrapsDriver, Locatable, org.openqa.selenium.interactions.internal.Locatable, TakesScreenshot {
+    implements WebElement, WrapsDriver, Locatable, TakesScreenshot {
 
   private WebElement delegatee;
 

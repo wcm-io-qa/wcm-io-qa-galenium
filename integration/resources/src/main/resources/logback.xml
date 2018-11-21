@@ -35,6 +35,20 @@
     <OnMatch>DENY</OnMatch>
   </turboFilter>
 
+  <!-- Logs memory usage. -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.listener.memory</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
+  <!-- Logs disk space usage. -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.listener.diskusage</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
   <appender name="EXTENT"
     class="io.wcm.qa.galenium.appender.logback.ExtentAppender" />
 

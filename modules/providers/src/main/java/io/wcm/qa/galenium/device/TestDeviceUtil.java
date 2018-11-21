@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.providers;
+package io.wcm.qa.galenium.device;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,14 +26,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 
 import io.wcm.qa.galenium.configuration.CsvUtil;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
-import io.wcm.qa.galenium.device.BrowserType;
-import io.wcm.qa.galenium.device.DeviceProfile;
-import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.mediaquery.MediaQuery;
 import io.wcm.qa.galenium.mediaquery.MediaQueryUtil;
@@ -51,13 +47,27 @@ public final class TestDeviceUtil {
     // do not instantiate
   }
 
+  static List<String> getIncludeTags(DeviceProfile profile) {
+    return null;
+  }
+
+  static Dimension getDimensionFromProfile(DeviceProfile profile) {
+    return new Dimension(profile.getWidth(), profile.getHeight());
+  }
+
   /**
    * @return first of the configured test devices
    */
   public static List<Object> getSingleTestDevice() {
-    Object testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
-    Object firstDevice = CollectionUtils.get(testDevices, 0);
-    List<Object> singleDeviceList = Collections.singletonList(firstDevice);
+    Collection<TestDevice> testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
+    if (testDevices == null || testDevices.isEmpty()) {
+      throw new GaleniumException("no configured devices found, when trying to get single test device.");
+    }
+    int middle = testDevices.size() / 2;
+    // CollectionUtils#get() is deprecated for everything except Object
+    Object deviceCollectionAsObject = testDevices;
+    Object singleDevice = CollectionUtils.get(deviceCollectionAsObject, middle);
+    List<Object> singleDeviceList = Collections.singletonList(singleDevice);
     return singleDeviceList;
   }
 
@@ -100,7 +110,7 @@ public final class TestDeviceUtil {
     for (DeviceProfile deviceProfile : profiles) {
       if (isProfileMatchesBrowsers(deviceProfile)) {
         GaleniumReportUtil.getLogger().debug("adding device: " + deviceProfile);
-        testDevices.add(new TestDevice(deviceProfile));
+        testDevices.add(getTestDevice(deviceProfile));
       }
       else {
         GaleniumReportUtil.getLogger().debug("skipping device: " + deviceProfile);
@@ -111,23 +121,6 @@ public final class TestDeviceUtil {
 
   private static String getDeviceName(BrowserType browserType, int screenWidth) {
     return browserType.name() + "_" + screenWidth;
-  }
-
-  private static List<String> getExcludeTags(BrowserType includedBrowserType, String mediaQueryName) {
-    List<String> tags = new ArrayList<>();
-    for (MediaQuery mediaQuery : MediaQueryUtil.getMediaQueries()) {
-      if (StringUtils.equals(mediaQueryName, mediaQuery.getName())) {
-        continue;
-      }
-      tags.add(mediaQuery.getName());
-    }
-    BrowserType[] browsers = BrowserType.values();
-    for (BrowserType browserType : browsers) {
-      if (browserType != includedBrowserType) {
-        tags.add(browserType.name());
-      }
-    }
-    return tags;
   }
 
   private static List<String> getIncludeTags(BrowserType browserType, String mediaQueryName) {
@@ -144,9 +137,20 @@ public final class TestDeviceUtil {
   private static TestDevice getTestDevice(BrowserType browserType, String mediaQueryName, int width) {
     String name = getDeviceName(browserType, width);
     Dimension screenSize = getScreenSize(width);
-    TestDevice testDevice = new TestDevice(name, browserType, screenSize);
-    testDevice.setIncludeTags(getIncludeTags(browserType, mediaQueryName));
-    testDevice.setExcludeTags(getExcludeTags(browserType, mediaQueryName));
+    TestDeviceImpl testDevice = new TestDeviceImpl(name, browserType, screenSize);
+    setIncludeTags(testDevice, browserType, mediaQueryName);
+    return testDevice;
+  }
+
+  private static void setIncludeTags(TestDeviceImpl testDevice, BrowserType browserType, String mediaQueryName) {
+    testDevice.setTags(getIncludeTags(browserType, mediaQueryName));
+  }
+
+  private static TestDevice getTestDevice(DeviceProfile deviceProfile) {
+    TestDeviceImpl testDevice = new TestDeviceImpl(deviceProfile);
+    MediaQuery mediaQuery = MediaQueryUtil.getMatchingMediaQuery(testDevice);
+    BrowserType browserType = testDevice.getBrowserType();
+    setIncludeTags(testDevice, browserType, mediaQuery.getName());
     return testDevice;
   }
 

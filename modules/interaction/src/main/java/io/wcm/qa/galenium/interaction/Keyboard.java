@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.interaction;
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
 /**
@@ -41,6 +42,14 @@ public final class Keyboard {
    */
   public static void sendKeys(String text) {
     getActions().sendKeys(text).perform();
+  }
+
+  /**
+   * Sending keys to where the current focus is.
+   * @param keys keys to send
+   */
+  public static void sendKeys(Keys... keys) {
+    getActions().sendKeys(keys).perform();
   }
 
   private static Actions getActions() {

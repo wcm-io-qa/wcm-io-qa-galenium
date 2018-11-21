@@ -66,9 +66,18 @@ public final class MediaQueryUtil {
     if (driver == null) {
       return DEFAULT_MEDIA_QUERY;
     }
+    return getMatchingMediaQuery(GaleniumContext.getTestDevice());
+  }
+
+  /**
+   * Returns matching media query from configuration.
+   * @param testDevice to match
+   * @return media query
+   */
+  public static MediaQuery getMatchingMediaQuery(TestDevice testDevice) {
     Collection<MediaQuery> mediaQueries = getMediaQueries();
     for (MediaQuery mediaQuery : mediaQueries) {
-      if (matchesCurrentTestDevice(mediaQuery)) {
+      if (matchesTestDevice(mediaQuery, testDevice)) {
         return mediaQuery;
       }
     }
@@ -209,8 +218,7 @@ public final class MediaQueryUtil {
     return mediaQueryMap;
   }
 
-  private static boolean matchesCurrentTestDevice(MediaQuery mediaQuery) {
-    TestDevice testDevice = GaleniumContext.getTestDevice();
+  private static boolean matchesTestDevice(MediaQuery mediaQuery, TestDevice testDevice) {
     if (testDevice == null) {
       return false;
     }
