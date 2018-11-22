@@ -44,12 +44,12 @@
 
   <if condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
     <then>
-      <logger name="ui" level="INFO">
+      <logger name="${package}" level="INFO">
         <appender-ref ref="EXTENT" />
       </logger>
     </then>
     <else>
-      <logger name="ui" level="TRACE">
+      <logger name="${package}" level="TRACE">
         <appender-ref ref="EXTENT" />
       </logger>
     </else>
