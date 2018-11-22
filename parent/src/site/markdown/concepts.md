@@ -1,7 +1,9 @@
-## Galenium Concepts
+# Galenium Concepts
 
 There are a few concepts in Galenium that are important to know. Some should be familiar, others might be new.
-## Galenium Overview
+
+## Galenium Basic Units
+
  Essentially, Galenium knows the following units:
 * Objects
   * Objects are accessed via CSS selectors.
@@ -10,26 +12,6 @@ There are a few concepts in Galenium that are important to know. Some should be 
 * Suites
   * Suites are used to summarize test cases based on specifications.
 
-## Step-by-Step Procedure
-* Define objects
-* Write Selenium tests
-* Add Galen specifications
-* Generate sample data for target state if applicable
-* Run tests
-* Compare with sampled target state if applicable
-* Check reports
-
-## Information Sources
-* Software configuration management (SCM)
-  * Galenium tests
-  * Galen specifications
-  * Galen test suites
-* Continous Integration (CI)/Jenkins
-  * Jobs
-  * Reports
-* Selenium Grid
-  * Browsers
-  * OSs
 
 ## How Galenium Works
 
