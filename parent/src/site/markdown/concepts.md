@@ -1,6 +1,65 @@
 ## Galenium Concepts
 
 There are a few concepts in Galenium that are important to know. Some should be familiar, others might be new.
+## Galenium Overview
+ Essentially, Galenium knows the following units:
+* Objects
+  * Objects are accessed via CSS selectors.
+* Specifications
+  * Specifications define constraints for objects.
+* Suites
+  * Suites are used to summarize test cases based on specifications.
+
+## Step-by-Step Procedure
+* Define objects
+* Write Selenium tests
+* Add Galen specifications
+* Generate sample data for target state if applicable
+* Run tests
+* Compare with sampled target state if applicable
+* Check reports
+
+## Information Sources
+* Software configuration management (SCM)
+  * Galenium tests
+  * Galen specifications
+  * Galen test suites
+* Continous Integration (CI)/Jenkins
+  * Jobs
+  * Reports
+* Selenium Grid
+  * Browsers
+  * OSs
+
+## How Galenium Works
+
+### Thread-Safe Contexts
+ TestNG uses multiple threads to handle test cases concurrently. 
+ A thread-safe context is created that makes configuration and data available to only one test case instance whereas it is not visible to all other test case instances. 
+ Galenium uses the Java class java.lang.ThreadLocal to store the context separate for each thread. 
+ Synchronization is not required because the object is not shared which improves scalability and performance.
+ Access is done via static methods to allow integration without having to worry about inheritance. 
+ There is always only one value per thread.
+
+### Drivers
+ The Selenium WebDriver is needed for interaction with the browser. Every test case needs its own dedicated browser instance. The driver represents and enables the connection to the browser.
+
+### Test Devices
+ The test device is a Galenium specific concept. It encapsulates the browser type (e.g. Chrome) and the viewport size (e.g. 1024x800). With this information Galenium can instantiate browsers using Selenium.
+
+### Test Names
+ In Galenium the test name is central. The test name is used to aggregate log statements and results for reporting purposes in Extent Report. Different names for test cases must be used to get separate test cases in the Extent Report.
+
+### Test Descriptions
+ A more detailed description can be added to the test case and logged in the report. Descriptions can be used for important information that would overload the test name. 
+ Descriptions are optional and not used by default in Galenium.
+
+### Reports
+ This is used to keep multiple runs of the same test case logging to the same Extent Report test case.
+ Log management is done transparently by Galenium. 
+ The GaleniumReportUtil.getLogger() method is used to retrieve a logger. 
+ Simple Logging Facade for Java (SLF4J) logging calls are used to write to the test case report. 
+ The GaleniumReportUtil.getMarkedLogger(Marker) method is used to create marked log entries which can be filtered using a SLF4J configuration.
 
 ### Thread-Safe Context
 

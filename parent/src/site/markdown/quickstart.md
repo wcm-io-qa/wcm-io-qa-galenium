@@ -1,4 +1,6 @@
-# Installing Galenium
+# Quickstart Guide
+
+## Installing Galenium
 
 To use Galenium, you need a Galenium Maven project.
 
@@ -9,15 +11,15 @@ TODO: precursor steps, including where to generate project
 Recommended way is to use the Archetype:
 
  ```
- mvn archetype:generate 
- -DarchetypeGroupId=io.wcm.qa 
- -DarchetypeArtifactId=io.wcm.qa.galenium.archetype 
- -DarchetypeVersion=0.1.0-SNAPSHOT 
- -DgroupId=de.foo 
- -DartifactId=de.foo.bar 
- -Dversion=1.0-SNAPSHOT 
- -Dpackage=de.foo.bar.sample 
- -DprojectName=MyProject
+ mvn archetype:generate \
+ -DarchetypeGroupId=io.wcm.qa \ 
+ -DarchetypeArtifactId=io.wcm.qa.galenium.archetype \ 
+ -DarchetypeVersion=0.1.0-SNAPSHOT \
+ -DgroupId=de.foo \
+ -DartifactId=de.foo.bar \ 
+ -Dversion=1.0-SNAPSHOT \
+ -Dpackage=de.foo.bar.sample \ 
+ -DprojectName=MyProject 
  ```
 
  TODO: expected results (have three folders, parent/specs/tests)
