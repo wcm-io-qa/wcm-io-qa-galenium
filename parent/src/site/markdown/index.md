@@ -14,6 +14,7 @@ Selenium Galen Integration
 
 ## Galenium's Added Value
  The added value that Galenium generates and why it is worth using Galenium:
+
 * It provides a ready-to-use integration framework with Maven + TestNG + Selenium + Galen + ExtentReports.
 * Galenium eliminates typical inhibitors to starting new test automation projects.
   * keeping webdriver versions current
