@@ -2,16 +2,19 @@
  Galenium uses the following tools and frameworks:
  
 ## Maven
+
  Galenium uses Maven as a build tool to enable automated build operations. Maven applies patterns to the steps of a project lifecycle such as build, test, package, document and deploy.
  
  [Read more about Maven](https://maven.apache.org/)
 
 ## TestNG
+
  Galenium uses TestNG’s parallelization features which allow multiple threads to handle test cases concurrently. TestNG allows defining test suites and running the tests of certain test suites with any number of threads at the same time.
  
  [Read more about TestNG](https://testng.org/doc/index.html)
 
 ## Selenium
+
  Galenium uses Selenium to automate browser related tasks. Selenium can be used as a software testing framework for web applications. Selenium includes the component Selenium Grid. Selenium Grid can run multiple tests in parallel on multiple servers. The Selenium client driver connects to the Selenium hub component instead of the Selenium server. 
  
  * The hub has a list of servers that provide access to browser instances (WebDriver nodes). 

@@ -5,6 +5,7 @@ There are a few concepts in Galenium that are important to know. Some should be 
 ## Galenium Basic Units
 
  Essentially, Galenium knows the following units:
+
 * Objects
   * Objects are accessed via CSS selectors.
 * Specifications
