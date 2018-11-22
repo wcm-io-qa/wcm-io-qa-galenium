@@ -50,6 +50,7 @@ TODO: Describe running example from archetype
 ## Developing with Galenium
 
 ### Step-by-Step Procedure
+
 * Define objects
 * Write Selenium tests
 * Add Galen specifications
@@ -59,6 +60,7 @@ TODO: Describe running example from archetype
 * Check reports
 
 ### Information Sources
+
 * Software configuration management (SCM)
   * Galenium tests
   * Galen specifications
