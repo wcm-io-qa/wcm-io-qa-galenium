@@ -54,7 +54,7 @@ import io.wcm.qa.galenium.maven.freemarker.pojo.SelectorPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.galenium.maven.freemarker.util.FreemarkerUtil;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Goal which finds Galen specs, extracts objects and generates Java code from it.

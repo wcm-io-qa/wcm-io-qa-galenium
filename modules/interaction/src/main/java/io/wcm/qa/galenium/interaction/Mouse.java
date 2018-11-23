@@ -28,7 +28,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.galenframework.browser.SeleniumBrowser;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Mouse interaction methods.

@@ -49,7 +49,7 @@ import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Mouse;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.BrowserUtil;
 
 /**

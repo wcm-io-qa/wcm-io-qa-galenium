@@ -31,7 +31,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.sampling.CanCache;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.verification.base.Verifiable;
 import io.wcm.qa.galenium.verification.base.Verification;

@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.sampling.element;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Samples an attribute of a web element.

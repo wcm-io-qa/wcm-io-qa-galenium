@@ -20,7 +20,7 @@
 package io.wcm.qa.galenium.sampling.element.base;
 
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Selector based sampling.

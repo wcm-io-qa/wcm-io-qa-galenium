@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Utility methods for interaction with web form elements.

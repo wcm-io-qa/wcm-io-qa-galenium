@@ -23,7 +23,7 @@ import org.openqa.selenium.Dimension;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.element.SizeSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Verifies stable size of element. Useful when waiting for animated size changes of elements to finish.

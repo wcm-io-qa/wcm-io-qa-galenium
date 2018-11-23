@@ -42,7 +42,7 @@ import com.galenframework.specs.page.PageSpec;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.maven.mock.MockPage;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 
 /**
  * Utility methods for parsing Galen specs.

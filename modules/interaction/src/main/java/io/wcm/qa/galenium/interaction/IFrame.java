@@ -25,7 +25,7 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**

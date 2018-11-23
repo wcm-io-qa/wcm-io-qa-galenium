@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.sampling.element;
 
 import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.sampling.element.base.SelectorBasedSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Counts elements matching the selector.

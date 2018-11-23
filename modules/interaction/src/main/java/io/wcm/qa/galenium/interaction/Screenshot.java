@@ -24,7 +24,7 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Methods for grabbing pixels from Browser.

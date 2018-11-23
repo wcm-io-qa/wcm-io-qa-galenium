@@ -52,9 +52,9 @@ import com.galenframework.utils.GalenUtils;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
-import io.wcm.qa.galenium.selectors.SelectorFromLocator;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.impl.SelectorFromLocator;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**

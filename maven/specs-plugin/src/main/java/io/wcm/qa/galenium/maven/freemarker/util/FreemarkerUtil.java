@@ -46,7 +46,7 @@ import io.wcm.qa.galenium.maven.freemarker.methods.FullWebElementClassNameFromSe
 import io.wcm.qa.galenium.maven.freemarker.methods.PackageNameMethod;
 import io.wcm.qa.galenium.maven.freemarker.pojo.InteractionPojo;
 import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
 
 /**
  * Utility methods to build data models for use in freemarker code generation.

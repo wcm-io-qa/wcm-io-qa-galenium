@@ -21,6 +21,7 @@ package io.wcm.qa.galenium.selectors.impl;
 
 import com.galenframework.specs.page.Locator;
 
+import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.impl.base.AbstractNestedSelectorBase;
 
 /**

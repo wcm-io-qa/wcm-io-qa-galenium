@@ -21,7 +21,7 @@ package io.wcm.qa.galenium.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Verifies that element has no text.

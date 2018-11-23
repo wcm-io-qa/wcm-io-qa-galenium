@@ -34,7 +34,7 @@ import io.wcm.qa.galenium.galen.GalenLayoutChecker;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Example of how to use the {@link ImageComparisonSpecFactory} to compare individual elements on a page.

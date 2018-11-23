@@ -26,8 +26,8 @@ import org.openqa.selenium.By;
 
 import com.galenframework.specs.page.Locator;
 
-import io.wcm.qa.galenium.selectors.base.NestedSelector;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.NestedSelector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Wrapper for NestedSelector plus references to spec.

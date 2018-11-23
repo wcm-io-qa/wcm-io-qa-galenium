@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.galenium.verification.element;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Make sure a certain element is not visible.

@@ -22,7 +22,7 @@ package io.wcm.qa.galenium.sampling.element;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.galenium.sampling.element.base.ElementBasedSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Existence and visibility of element.

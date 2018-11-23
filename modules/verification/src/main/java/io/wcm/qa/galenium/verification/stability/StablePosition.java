@@ -23,7 +23,7 @@ import org.openqa.selenium.Point;
 
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.sampling.element.LocationSampler;
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Verifies stable position of element. Useful when waiting for animated moving of elements to finish.

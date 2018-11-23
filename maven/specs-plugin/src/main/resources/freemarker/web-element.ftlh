@@ -45,7 +45,7 @@ package ${packageName(spec)};
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.selectors.Selector;
 import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 import io.wcm.qa.galenium.interaction.webelement.GaleniumWebElementBase;
 
