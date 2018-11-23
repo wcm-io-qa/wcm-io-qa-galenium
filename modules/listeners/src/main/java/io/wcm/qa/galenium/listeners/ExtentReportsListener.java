@@ -26,7 +26,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.IConfigurationListener2;
+import org.testng.IConfigurationListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -44,7 +44,7 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 /**
  * Handles {@link ExtentReports} life cycle.
  */
-public class ExtentReportsListener implements ITestListener, IConfigurationListener2 {
+public class ExtentReportsListener implements ITestListener, IConfigurationListener {
 
   @Override
   public void beforeConfiguration(ITestResult tr) {
