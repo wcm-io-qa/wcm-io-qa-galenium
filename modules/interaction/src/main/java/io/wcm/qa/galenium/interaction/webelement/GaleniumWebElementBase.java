@@ -35,18 +35,22 @@ import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
+import io.wcm.qa.galenium.selectors.HasSelector;
+import io.wcm.qa.galenium.selectors.IndexedSelector;
 
 
 /**
  * Base class for implementing delegating wrappers for Selenium's web elements.
  */
 public abstract class GaleniumWebElementBase
-    implements WebElement, WrapsDriver, Locatable, TakesScreenshot {
+    implements WebElement, WrapsDriver, Locatable, TakesScreenshot, HasSelector {
 
   private WebElement delegatee;
+  private IndexedSelector selector;
 
-  protected GaleniumWebElementBase(WebElement element) {
+  protected GaleniumWebElementBase(WebElement element, IndexedSelector selector) {
     setDelegatee(element);
+    setSelector(selector);
   }
 
   @Override
@@ -100,6 +104,11 @@ public abstract class GaleniumWebElementBase
   @Override
   public <X> X getScreenshotAs(OutputType<X> arg0) throws WebDriverException {
     return getDelegatee().getScreenshotAs(arg0);
+  }
+
+  @Override
+  public IndexedSelector getSelector() {
+    return selector;
   }
 
   @Override
@@ -164,6 +173,10 @@ public abstract class GaleniumWebElementBase
 
   protected void setDelegatee(WebElement delegatee) {
     this.delegatee = delegatee;
+  }
+
+  protected void setSelector(IndexedSelector selector) {
+    this.selector = selector;
   }
 
 }

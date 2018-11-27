@@ -20,7 +20,7 @@
 
   public ${gweClassName(child)} get${className(child)}() {
     WebElement element = findElement(${selectorClassName(selector)}.${constantName(child)}.asRelative().asBy());
-    return new ${gweClassName(child)}(element);
+    return new ${gweClassName(child)}(element, SelectorFactory.indexedFromSelector(selector));
   }
 
   public ${gweClassName(child)} getNth${className(child)}(int index) {
@@ -69,7 +69,7 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   <#list this.children as child>
     <@innerClass child />
   </#list>
-  
+
   <#list this.children as child>
 
   public ${gweClassName(child)} get${className(child)}() {
@@ -94,12 +94,12 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   public static ${gweClassName(this)} instance() {
     WebElement initialElement = ${selectorClassName(this)}.SELF.find();
     return new ${gweClassName(this)}(initialElement);
-  } 
+  }
 
   public static ${gweClassName(this)} instance(int index) {
     WebElement initialElement = ${selectorClassName(this)}.SELF.findNth(index);
     return new ${gweClassName(this)}(initialElement);
-  } 
+  }
 
   public static java.util.List<${gweClassName(this)}> instances() {
     java.util.List<WebElement> initialElements = ${selectorClassName(this)}.SELF.findAll();
