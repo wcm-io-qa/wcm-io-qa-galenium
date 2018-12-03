@@ -111,7 +111,6 @@
 
     </plugins>
     
-    </plugins>
     <pluginManagement>
       <plugins>
 
@@ -125,6 +124,7 @@
 
       </plugins>
     </pluginManagement>
+
   </build>
 
   <profiles>
