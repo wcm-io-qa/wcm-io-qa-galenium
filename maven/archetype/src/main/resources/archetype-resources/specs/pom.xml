@@ -13,7 +13,7 @@
   <groupId>${groupId}</groupId>
   <artifactId>${artifactId}</artifactId>
   <version>${version}</version>
-  <name>${projectName} RTE Galen specs</name>
+  <name>${projectName} Galen specs</name>
   <packaging>jar</packaging>
 
   <properties>
