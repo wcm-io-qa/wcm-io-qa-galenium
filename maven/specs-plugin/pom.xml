@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <groupId>io.wcm.qa</groupId>
-    <version>0.1.19-SNAPSHOT</version>
+    <version>0.1.20-SNAPSHOT</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -14,7 +12,7 @@
   <description>Generates and packages Java classes from Galen specs.</description>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-  <version>0.1.19-SNAPSHOT</version>
+  <version>0.1.20-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <url>http://qa.wcm.io/galenium/io.wcm.qa.galenium.specs-maven-plugin</url>
@@ -41,7 +39,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galen</artifactId>
-      <version>0.1.19-SNAPSHOT</version>
+      <version>0.1.20-SNAPSHOT</version>
     </dependency>
 
     <!-- Utils -->
