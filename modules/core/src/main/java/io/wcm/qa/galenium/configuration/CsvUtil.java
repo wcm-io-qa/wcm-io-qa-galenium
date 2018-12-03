@@ -55,6 +55,16 @@ public final class CsvUtil {
    * @return parser to access data in CSV file
    */
   public static CSVParser parse(File csvFile) {
+    return parse(csvFile, false);
+  }
+
+  /**
+   * Get a parser for CSV file.
+   * @param csvFile to get parser for
+   * @param skipHeaderRecord
+   * @return parser to access data in CSV file
+   */
+  public static CSVParser parse(File csvFile, boolean skipHeaderRecord) {
     if (csvFile == null) {
       throw new GaleniumException("error when checking CSV input: file is null");
     }
@@ -62,7 +72,8 @@ public final class CsvUtil {
       throw new GaleniumException("error when reading CSV file: '" + csvFile.getPath() + "'");
     }
     try {
-      return CSVParser.parse(csvFile, CHARSET_UTF8, FORMAT);
+      CSVFormat format = FORMAT.withSkipHeaderRecord(skipHeaderRecord);
+      return CSVParser.parse(csvFile, CHARSET_UTF8, format);
     }
     catch (IOException ex) {
       throw new GaleniumException("error when parsing CSV file: '" + csvFile.getPath() + "'", ex);
