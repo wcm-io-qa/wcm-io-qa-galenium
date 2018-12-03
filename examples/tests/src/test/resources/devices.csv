@@ -1,0 +1,7 @@
+name,width,height,browser,emulator
+Galaxy S5,360,640,CHROME,Galaxy S5
+iPhone 8,375,667,CHROME,iPhone 6/7/8
+iPad Portrait,768,1024,CHROME,
+iPad Landscape,1024,768,CHROME,
+iPad Pro Portrait,1024,1366,CHROME,
+iPad Pro Landscape,1366,1024,CHROME,

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2017 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.qa</groupId>
+    <artifactId>io.wcm.qa.galenium.integration</artifactId>
+    <version>0.1.20</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <name>Galenium Integration UI-Tests Parent</name>
+  <groupId>io.wcm.qa</groupId>
+  <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
+  <packaging>pom</packaging>
+  <version>0.1.20</version>
+  <description>Test automation integration parent for the actual UI tests.</description>
+
+  <dependencies>
+
+    <!-- Resources for UI test projects -->
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
+      <version>0.1.20</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.icing</artifactId>
+      <version>0.1.20</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.listeners</artifactId>
+      <version>0.1.20</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.providers</artifactId>
+      <version>0.1.20</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <!-- Count CPUs -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Unpack Galen specs from JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <!-- Get CPU count to use as thread count for TestNG -->
+              <id>get-cpu-count</id>
+              <goals>
+                <goal>cpu-count</goal>
+              </goals>
+              <configuration>
+                <!-- if not given, 'cpu.count' name is used -->
+                <cpuCount>local.cpu.count</cpuCount>
+              </configuration>
+            </execution>
+            <execution>
+              <!-- Set browser for Selenium from Galenium property -->
+              <id>set-single-selenium-browser-from-galenium-property</id>
+              <goals>
+                <goal>regex-property</goal>
+              </goals>
+              <configuration>
+                <name>galenium.selenium.browser</name>
+                <value>${galenium.browser}</value>
+                <regex>^[^-]+$</regex>
+                <replacement>${galenium.browser}</replacement>
+                <failIfNoMatch>false</failIfNoMatch>
+              </configuration>
+            </execution>
+            <execution>
+              <!-- Set two browsers for Selenium from Galenium property -->
+              <id>set-two-selenium-browsers-from-galenium-property</id>
+              <goals>
+                <goal>regex-property</goal>
+              </goals>
+              <configuration>
+                <name>galenium.selenium.browser</name>
+                <value>${galenium.browser}</value>
+                <regex>^([^-]+)-([^-]+)$</regex>
+                <replacement>$1,$2</replacement>
+                <failIfNoMatch>false</failIfNoMatch>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Run UI tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <groups>${testNG.groups}</groups>
+            <parallel>methods</parallel>
+            <threadCount>${local.cpu.count}</threadCount>
+            <properties>
+              <property>
+                <name>usedefaultlisteners</name>
+                <value>false</value>
+              </property>
+              <property>
+                <name>listener</name>
+                <value>io.wcm.qa.galenium.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+              </property>
+            </properties>
+            <systemPropertyVariables>
+
+              <io.wcm.qa.baseUrl>${io.wcm.qa.baseUrl}</io.wcm.qa.baseUrl>
+
+              <!-- Galenium -->
+              <galenium.browsermob.proxy>${galenium.browsermob.proxy}</galenium.browsermob.proxy>
+              <galenium.headless>${galenium.headless}</galenium.headless>
+              <galenium.mediaquery.height>${galenium.mediaquery.height}</galenium.mediaquery.height>
+              <galenium.mediaquery.properties>${galenium.mediaquery.properties}</galenium.mediaquery.properties>
+              <galenium.mediaquery.width.max>${galenium.mediaquery.width.max}</galenium.mediaquery.width.max>
+              <galenium.mediaquery.width.min>${galenium.mediaquery.width.min}</galenium.mediaquery.width.min>
+              <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
+              <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
+              <galenium.sampling.image.directory.actual>${galenium.sampling.image.directory.actual}</galenium.sampling.image.directory.actual>
+              <galenium.sampling.image.directory.expected>${galenium.sampling.image.directory.expected}</galenium.sampling.image.directory.expected>
+              <galenium.sampling.image.save>${galenium.sampling.image.save}</galenium.sampling.image.save>
+              <galenium.sampling.text.directory.actual>${galenium.sampling.text.directory.actual}</galenium.sampling.text.directory.actual>
+              <galenium.sampling.text.directory.expected>${galenium.sampling.text.directory.expected}</galenium.sampling.text.directory.expected>
+              <galenium.sampling.text.save>${galenium.sampling.text.save}</galenium.sampling.text.save>
+              <galenium.sampling.text.file>${galenium.sampling.text.file}</galenium.sampling.text.file>
+              <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
+              <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
+              <galenium.screenshotOnSuccess>${galenium.screenshotOnSuccess}</galenium.screenshotOnSuccess>
+              <galenium.specPath>${galenium.specPath}</galenium.specPath>
+              <galenium.webdriver.browser.loglevel>${galenium.webdriver.browser.loglevel}</galenium.webdriver.browser.loglevel>
+              <galenium.webdriver.timeout>${galenium.webdriver.timeout}</galenium.webdriver.timeout>
+
+              <!-- Galen -->
+              <galen.browser.screenshots.fullPage>${galen.browser.screenshots.fullPage}</galen.browser.screenshots.fullPage>
+              <galen.device>${galen.device}</galen.device>
+
+              <!-- Selenium -->
+              <selenium.browser>${galenium.selenium.browser}</selenium.browser>
+              <selenium.chromeEmulator>${selenium.chromeEmulator}</selenium.chromeEmulator>
+              <selenium.runmode>${selenium.runmode}</selenium.runmode>
+
+              <!-- Webdriver -->
+              <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+              <webdriver.gecko.driver>${webdriver.gecko.driver}</webdriver.gecko.driver>
+              <webdriver.firefox.logfile>/dev/null</webdriver.firefox.logfile>
+
+            </systemPropertyVariables>
+            <includes>
+              <include>**/*IT.java</include>
+            </includes>
+          </configuration>
+        </plugin>
+
+        <!-- Unpack Galen specs from JAR -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>unpack-specs</id>
+              <goals>
+                <goal>unpack-dependencies</goal>
+              </goals>
+              <phase>generate-resources</phase>
+              <configuration>
+                <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
+                <outputDirectory>${galenium.generated.specs}</outputDirectory>
+                <includes>**/*.gspec,**/*.js</includes>
+                <excludeTransitive>true</excludeTransitive>
+                <overWriteReleases>true</overWriteReleases>
+                <overWriteSnapshots>true</overWriteSnapshots>
+              </configuration>
+            </execution>
+            <execution>
+              <id>unpack-ui-test-resources</id>
+              <goals>
+                <goal>unpack-dependencies</goal>
+              </goals>
+              <phase>generate-resources</phase>
+              <configuration>
+                <includeArtifactIds>io.wcm.qa.galenium.integration.resources</includeArtifactIds>
+                <outputDirectory>${galenium.resources.unfiltered.directory}</outputDirectory>
+                <includes>**/*.xml</includes>
+                <excludeTransitive>true</excludeTransitive>
+                <overWriteReleases>true</overWriteReleases>
+                <overWriteSnapshots>true</overWriteSnapshots>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Webdriver download -->
+        <plugin>
+          <groupId>com.lazerycode.selenium</groupId>
+          <artifactId>driver-binary-downloader-maven-plugin</artifactId>
+          <version>${com.lazerycode.selenium.driver-binary-downloader-maven-plugin}</version>
+          <configuration>
+            <rootStandaloneServerDirectory>${galenium.webdriver.download.binaries}</rootStandaloneServerDirectory>
+            <downloadedZipFileDirectory>${galenium.webdriver.download.zips}</downloadedZipFileDirectory>
+            <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+            <customRepositoryMap>${galenium.webdriver.download.repositoryMap}</customRepositoryMap>
+            <checkFileHashes>false</checkFileHashes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>selenium</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+
+    <!-- If Chrome binary path is set, it needs to be set in Failsafe. -->
+    <profile>
+      <id>chrome-binary-path</id>
+      <activation>
+        <property>
+          <name>webdriver.chrome.binary</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <webdriver.chrome.binary>${webdriver.chrome.binary}</webdriver.chrome.binary>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- If Firefox binary path is set, it needs to be set in Failsafe. -->
+    <profile>
+      <id>firefox-binary-path</id>
+      <activation>
+        <property>
+          <name>webdriver.firefox.bin</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <webdriver.firefox.bin>${webdriver.firefox.bin}</webdriver.firefox.bin>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+</project>

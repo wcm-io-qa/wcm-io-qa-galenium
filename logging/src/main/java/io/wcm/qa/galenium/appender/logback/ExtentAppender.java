@@ -38,56 +38,48 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  */
 public class ExtentAppender extends AppenderBase<ILoggingEvent> {
 
-  @Override
-  protected void append(ILoggingEvent event) {
-    ExtentTest extentTest = GaleniumReportUtil.getExtentTest(event.getLoggerName());
-    String formattedMessage = event.getFormattedMessage();
-    IThrowableProxy throwableProxy = event.getThrowableProxy();
-    if (throwableProxy != null) {
-      StringBuilder sb = new StringBuilder();
-      ThrowableProxyUtil.subjoinFirstLineRootCauseFirst(sb, throwableProxy);
-      sb.append(CoreConstants.LINE_SEPARATOR);
-      ThrowableProxyUtil.subjoinSTEPArray(sb, 2, throwableProxy);
-      String stacktrace = sb.toString();
-      formattedMessage += "<pre>" + stacktrace + "</pre>";
-    }
-    extentTest.log(extractLogStatus(event), formattedMessage);
-  }
-
   private LogStatus extractLogStatus(ILoggingEvent event) {
     if (isExtentReportSpecial(event)) {
-      if (isPass(event)) {
-        return LogStatus.PASS;
-      }
-      if (isSkip(event)) {
-        return LogStatus.SKIP;
-      }
-      if (isFail(event)) {
+      if (hasMarkerFail(event)) {
         return LogStatus.FAIL;
       }
-      if (isFatal(event)) {
+      if (hasMarkerFatal(event)) {
         return LogStatus.FATAL;
       }
-      if (isError(event)) {
+      if (hasErrorMarker(event)) {
         return LogStatus.ERROR;
       }
-      if (isWarn(event)) {
+      if (hasMarkerSkip(event)) {
+        return LogStatus.SKIP;
+      }
+      if (hasWarnMarker(event)) {
         return LogStatus.WARNING;
       }
-      if (isInfo(event)) {
+      if (hasMarkerPass(event)) {
+        return LogStatus.PASS;
+      }
+      if (hasInfoMarker(event)) {
         return LogStatus.INFO;
       }
     }
-    if (isError(event)) {
+    if (isLevelError(event)) {
       return LogStatus.ERROR;
     }
-    if (isWarn(event)) {
+    if (isLevelWarn(event)) {
       return LogStatus.WARNING;
     }
-    if (isInfo(event)) {
+    if (isLevelInfo(event)) {
       return LogStatus.INFO;
     }
     return LogStatus.UNKNOWN;
+  }
+
+  private String getStackTrace(IThrowableProxy throwableProxy) {
+    StringBuilder stacktrace = new StringBuilder();
+    ThrowableProxyUtil.subjoinFirstLineRootCauseFirst(stacktrace, throwableProxy);
+    stacktrace.append(CoreConstants.LINE_SEPARATOR);
+    ThrowableProxyUtil.subjoinSTEPArray(stacktrace, 2, throwableProxy);
+    return stacktrace.toString();
   }
 
   private boolean hasMarker(ILoggingEvent event, Marker marker) {
@@ -97,24 +89,24 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
     return false;
   }
 
-  private boolean isError(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_ERROR) || isLevel(event, Level.ERROR);
+  private boolean hasMarkerFail(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
+  }
+
+  private boolean hasMarkerFatal(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
+  }
+
+  private boolean hasMarkerPass(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_PASS);
+  }
+
+  private boolean hasMarkerSkip(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_SKIP);
   }
 
   private boolean isExtentReportSpecial(ILoggingEvent event) {
     return hasMarker(event, GaleniumReportUtil.MARKER_EXTENT_REPORT);
-  }
-
-  private boolean isFail(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
-  }
-
-  private boolean isFatal(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_FAIL);
-  }
-
-  private boolean isInfo(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_INFO) || isLevel(event, Level.INFO);
   }
 
   private boolean isLevel(ILoggingEvent event, Level level) {
@@ -124,16 +116,44 @@ public class ExtentAppender extends AppenderBase<ILoggingEvent> {
     return false;
   }
 
-  private boolean isPass(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_PASS);
+  @Override
+  protected void append(ILoggingEvent event) {
+    ExtentTest extentTest = GaleniumReportUtil.getExtentTest(event.getLoggerName());
+    StringBuilder formattedMessage = new StringBuilder()
+        .append(event.getFormattedMessage());
+    IThrowableProxy throwableProxy = event.getThrowableProxy();
+    if (throwableProxy != null) {
+      String stacktrace = getStackTrace(throwableProxy);
+      formattedMessage
+          .append("<pre>")
+          .append(stacktrace)
+          .append("</pre>");
+    }
+    extentTest.log(extractLogStatus(event), formattedMessage.toString());
   }
 
-  private boolean isSkip(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_SKIP);
+  protected boolean hasErrorMarker(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_ERROR);
   }
 
-  private boolean isWarn(ILoggingEvent event) {
-    return hasMarker(event, GaleniumReportUtil.MARKER_WARN) || isLevel(event, Level.WARN);
+  protected boolean hasInfoMarker(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_INFO);
+  }
+
+  protected boolean hasWarnMarker(ILoggingEvent event) {
+    return hasMarker(event, GaleniumReportUtil.MARKER_WARN);
+  }
+
+  protected boolean isLevelError(ILoggingEvent event) {
+    return isLevel(event, Level.ERROR);
+  }
+
+  protected boolean isLevelInfo(ILoggingEvent event) {
+    return isLevel(event, Level.INFO);
+  }
+
+  protected boolean isLevelWarn(ILoggingEvent event) {
+    return isLevel(event, Level.WARN);
   }
 
 }

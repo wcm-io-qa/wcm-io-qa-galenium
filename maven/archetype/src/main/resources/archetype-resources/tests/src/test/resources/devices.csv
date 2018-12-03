@@ -1,0 +1,7 @@
+name,width,height,browser,emulator
+iPhone 8,375,667,CHROME,iPhone 6/7/8
+iPad Portrait,768,1024,CHROME,iPad
+iPad Landscape,1024,768,CHROME,iPad
+iPad Pro Portrait,1024,1366,CHROME,iPad Pro
+iPad Pro Landscape,1366,1024,CHROME,iPad Pro
+Full HD,1920,1400,CHROME,

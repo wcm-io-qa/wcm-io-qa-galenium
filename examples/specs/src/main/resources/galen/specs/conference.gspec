@@ -1,0 +1,37 @@
+@import common.gspec
+
+@objects
+    article                 #main article
+
+= Special Navigation =
+    = Mobile =
+        @on mobile
+            page.navigation.link-*:
+                absent
+            page.navigation.link-to-conference:
+                absent
+            page.navigation.link-to-homepage:
+                absent
+
+= Positioning =
+    = Relative =
+        page.site-header:
+            above page.navigation
+            above article
+            above page.footer
+        page.navigation:
+            above page.footer
+            above article
+        article:
+            above page.footer
+    = Containment =
+        page.site-header, page.navigation, article, page.footer:
+            inside page
+        @on desktop
+            page.navigation.link-*:
+                inside page.navigation
+    = Alignment =
+        page.site-header:
+            aligned horizontally top page
+        page.footer:
+            aligned horizontally bottom page 1px

@@ -1,0 +1,92 @@
+<configuration>
+
+  <!-- Assertion logging -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.assertion</Marker>
+    <OnMatch>ACCEPT</OnMatch>
+  </turboFilter>
+
+  <!-- WebDriver logging -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.webdriver</Marker>
+    <OnMatch>ACCEPT</OnMatch>
+  </turboFilter>
+
+  <!-- Element interaction logging -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.interaction.element</Marker>
+    <OnMatch>NEUTRAL</OnMatch>
+  </turboFilter>
+
+  <!-- Name sanitization logging -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.naming</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
+  <!-- Internal GaleniumReportUtil logging -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.reporting.internal</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
+  <!-- Logs memory usage. -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.listener.memory</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
+  <!-- Logs disk space usage. -->
+  <turboFilter
+    class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.listener.diskusage</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
+
+  <appender name="EXTENT"
+    class="io.wcm.qa.galenium.appender.logback.ExtentAppender" />
+
+  <appender name="STDOUT"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+      by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <if
+    condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
+    <then>
+      <logger name="galenium.example" level="INFO">
+        <appender-ref ref="EXTENT" />
+      </logger>
+      <turboFilter
+        class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Marker>webdriver</Marker>
+        <OnMatch>DENY</OnMatch>
+      </turboFilter>
+    </then>
+    <else>
+      <logger name="galenium.example" level="TRACE">
+        <appender-ref ref="EXTENT" />
+      </logger>
+    </else>
+  </if>
+
+  <logger name="org.apache.commons" level="WARN" />
+
+  <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
+
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT" />
+  </root>
+
+</configuration>
