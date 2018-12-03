@@ -31,6 +31,9 @@
         Maven archetype for generating spec and test project.
       </action>
       <action type="update" dev="apegam">
+        Documentation.
+      </action>
+      <action type="update" dev="apegam">
         Maven site generation.
       </action>
       <action type="update" dev="apegam">
