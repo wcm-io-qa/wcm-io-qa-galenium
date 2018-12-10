@@ -22,13 +22,16 @@ package io.wcm.qa.galenium.webdriver;
 import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isWebDriverAcceptTrustedSslCertificatesOnly;
 import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.isWebDriverRefuseSslCertificates;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.BrowserMobUtil;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
 
@@ -57,6 +60,13 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
 
     if (GaleniumConfiguration.isUseBrowserMobProxy()) {
       options.setCapability(CapabilityType.PROXY, BrowserMobUtil.getSeleniumProxy());
+    }
+
+    if (StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyHost()) && StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyPort()) && !GaleniumConfiguration.isUseBrowserMobProxy()){
+      Proxy proxy = new Proxy();
+      proxy.setSslProxy(GaleniumConfiguration.getHttpsProxyHost() + ":" + GaleniumConfiguration.getHttpsProxyPort());
+      getLogger().debug("Using Proxy Configuration for webdriver with host: " + GaleniumConfiguration.getHttpsProxyHost()+ " and Port: "  + GaleniumConfiguration.getHttpsProxyPort());
+      options.setCapability(CapabilityType.PROXY, proxy);
     }
     return options;
   }
