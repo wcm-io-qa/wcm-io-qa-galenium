@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
+import org.apache.commons.collections4.properties.SortedProperties;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.slf4j.Logger;
 
@@ -40,13 +41,13 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 public final class TextSampleManager {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
-  private static final Properties EXPECTED_TEXTS = new Properties();
+  private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonInputDirectory();
   private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonOutputDirectory();
   private static final File OUTPUT_FILE = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
   private static final String PATH_SEPARATOR = "/";
-  private static final Properties SAMPLED_TEXTS = new Properties();
+  private static final SortedProperties SAMPLED_TEXTS = new SortedProperties();
 
   static {
     StringBuilder expectedTextsFilePath = new StringBuilder();
