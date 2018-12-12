@@ -3,6 +3,7 @@
 ## System Repuirements
 
 Galenium needs the following to run:
+
 * JDK 7+
 * Maven 3
 * current browser
