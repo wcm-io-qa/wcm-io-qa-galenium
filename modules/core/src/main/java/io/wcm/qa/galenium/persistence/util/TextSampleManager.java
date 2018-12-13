@@ -19,15 +19,27 @@
  */
 package io.wcm.qa.galenium.persistence.util;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Properties;
 
 import org.apache.commons.collections4.properties.SortedProperties;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.configuration.PropertiesUtil;
@@ -39,7 +51,9 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
  */
 public final class TextSampleManager {
-
+	
+  private static final Logger log = LoggerFactory.getLogger(TextSampleManager.class);
+	  
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
@@ -102,6 +116,7 @@ public final class TextSampleManager {
     }
     else {
       writeNewTextSamples();
+      reencodeToUnixLineEndings();
     }
   }
 
@@ -128,6 +143,42 @@ public final class TextSampleManager {
     }
   }
 
+  /** to reduce changes in the file we force the lineendings to be in unix format */
+  private static void reencodeToUnixLineEndings() {
+
+    File temp = null;
+    BufferedReader reader = null;
+    BufferedWriter writer = null;
+
+    try {
+      temp = new File(OUTPUT_FILE.getAbsolutePath() + ".unixLines");
+      temp.createNewFile();
+      
+      reader = new BufferedReader(new InputStreamReader(new DataInputStream(new FileInputStream(OUTPUT_FILE))));
+      writer = new BufferedWriter(new OutputStreamWriter(new DataOutputStream(new FileOutputStream(temp))));
+
+      String line;
+      while ((line = reader.readLine()) != null) {
+        writer.write(line);
+        writer.write("\n");
+      }
+      reader.close();
+      writer.close();
+
+      Files.delete(OUTPUT_FILE.toPath());
+      Files.move(temp.toPath(), OUTPUT_FILE.toPath());
+      log.debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
+
+    } catch (IOException e) {
+      log.warn("could not reencode: '" + OUTPUT_FILE + "'", e);
+    } finally {
+      FileUtils.deleteQuietly(temp);
+      IOUtils.closeQuietly(reader);
+      IOUtils.closeQuietly(writer);
+    }
+
+  }
+  
   private static Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }
