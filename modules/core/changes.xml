@@ -25,7 +25,7 @@
 
     <release version="0.1.21" date="unreleased">
       <action type="update" dev="rdahlem">
-        Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable
+        Generated expected keys are sorted
       </action>
     </release>
     
