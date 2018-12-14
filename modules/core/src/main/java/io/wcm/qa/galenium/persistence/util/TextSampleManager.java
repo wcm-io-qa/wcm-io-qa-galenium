@@ -51,9 +51,7 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
  */
 public final class TextSampleManager {
-	
-  private static final Logger log = LoggerFactory.getLogger(TextSampleManager.class);
-	  
+		  
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
@@ -167,10 +165,10 @@ public final class TextSampleManager {
 
       Files.delete(OUTPUT_FILE.toPath());
       Files.move(temp.toPath(), OUTPUT_FILE.toPath());
-      log.debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
+      getLogger().debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
 
     } catch (IOException e) {
-      log.warn("could not reencode: '" + OUTPUT_FILE + "'", e);
+      getLogger().warn("could not reencode: '" + OUTPUT_FILE + "'", e);
     } finally {
       FileUtils.deleteQuietly(temp);
       IOUtils.closeQuietly(reader);
