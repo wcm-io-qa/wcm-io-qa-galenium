@@ -28,7 +28,7 @@
         Parameters to pass HTTPS proxy to webdriver.
       </action>
       <action type="update" dev="rdahlem">
-        Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable
+        Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable.
       </action>
     </release>
     
