@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.22" date="unreleased">
+      <action type="add" dev="pmannel">
+        Parameters to pass HTTPS proxy to webdriver.
+      </action>
       <action type="update" dev="rdahlem">
         Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable
       </action>
