@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.BrowserMobUtil;
-import io.wcm.qa.galenium.util.GaleniumContext;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
 
@@ -58,17 +57,30 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
     options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, !isWebDriverRefuseSslCertificates());
     options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, !isWebDriverAcceptTrustedSslCertificatesOnly());
 
-    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
-      options.setCapability(CapabilityType.PROXY, BrowserMobUtil.getSeleniumProxy());
-    }
-
-    if (StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyHost()) && StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyPort()) && !GaleniumConfiguration.isUseBrowserMobProxy()){
-      Proxy proxy = new Proxy();
-      proxy.setSslProxy(GaleniumConfiguration.getHttpsProxyHost() + ":" + GaleniumConfiguration.getHttpsProxyPort());
-      getLogger().debug("Using Proxy Configuration for webdriver with host: " + GaleniumConfiguration.getHttpsProxyHost()+ " and Port: "  + GaleniumConfiguration.getHttpsProxyPort());
-      options.setCapability(CapabilityType.PROXY, proxy);
+    Proxy proxyToUse = getProxyToUse();
+    if (proxyToUse != null) {
+      options.setCapability(CapabilityType.PROXY, proxyToUse);
     }
     return options;
+  }
+
+  private static Proxy getProxyToUse() {
+    Proxy proxy = null;
+    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
+      proxy = BrowserMobUtil.getSeleniumProxy();
+    }
+    else if (isHttpsProxyConfigured()) {
+      proxy = new Proxy();
+      String proxyHost = GaleniumConfiguration.getHttpsProxyHost();
+      String proxyPort = GaleniumConfiguration.getHttpsProxyPort();
+      proxy.setSslProxy(proxyHost + ":" + proxyPort);
+      WebDriverManager.getLogger().debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
+    }
+    return proxy;
+  }
+
+  private static boolean isHttpsProxyConfigured() {
+    return StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyHost()) && StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyPort());
   }
 
   protected Logger getLogger() {
