@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
-    <version>0.1.20</version>
+    <version>0.1.22</version>
     <relativePath>../../integration/specs</relativePath>
   </parent>
 
@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.20</version>
+  <version>0.1.22</version>
   <description>Test automation example Galen specs.</description>
 
   <properties>
