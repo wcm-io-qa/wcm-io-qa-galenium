@@ -1,6 +1,6 @@
 # Quickstart Guide
 
-## System Repuirements
+## System Requirements
 
 Galenium needs the following to run:
 
