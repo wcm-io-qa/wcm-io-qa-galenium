@@ -5,13 +5,13 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
-    <version>0.1.19-SNAPSHOT</version>
+    <version>${version}</version>
     <relativePath />
   </parent>
 
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
-  <version>${version}</version>
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}</artifactId>
+  <version>\${version}</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -53,7 +53,7 @@
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
         <type>pom</type>
-        <version>0.1.19-SNAPSHOT</version>
+        <version>${version}</version>
       </dependency>
     </dependencies>
 
@@ -65,7 +65,7 @@
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
         <type>pom</type>
-        <version>0.1.19-SNAPSHOT</version>
+        <version>${version}</version>
       </dependency>
 
       <!-- CSV parsing -->
