@@ -4,6 +4,10 @@
 
 Galenium needs the following to run:
 
+* One of the big three OSs
+    * Windows
+    * OSX
+    * Linux
 * JDK 7+
 * Maven 3
 * current browser
@@ -15,10 +19,7 @@ Galenium needs the following to run:
     * Reports with Screenshots
     * sample data
 * Enough RAM to run Maven build and browser
-* One of the big three OSs
-    * Windows
-    * OSX
-    * Linux
+
 
 ## Installing Galenium
 
