@@ -50,7 +50,7 @@ $ cd /my/local/dev/folder
 
 Next execute the Archetype by running the following command:
 
-```
+```sh
 user@machine MINGW64 /my/local/dev/folder
 $ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype
 ```
@@ -61,20 +61,20 @@ This will execute the latest release version of Galenium Archetype in interactiv
 
 To avoid the interactive mode, you need to specify all information as command line parameters.
 
-```
+```sh
 user@machine MINGW64 /my/local/dev/folder
-$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=your.group.id -DartifactId=your.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=your.root.package.name -DprojectName=MyTestAutomationProject 
+$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=your.group.id -DartifactId=your.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=your.root.packagename -DprojectName=MyTestAutomationProject 
 ```
 
 The only interaction will be to confirm your choices:
 
-```
+```sh
 Confirm properties configuration:
 groupId: your.group.id
 version: 0.1.0-SNAPSHOT
 projectName: MyTestAutomationProject
 artifactId: your.artifact.id
-package: your.root.package.name
+package: your.root.packagename
  Y: :
 ```
 
@@ -86,7 +86,7 @@ The Archetype should have set up a multi module build now.
 
 Which means you should have the following structure in your local folder:
 
-```
+```sh
 user@machine MINGW64 /my/local/dev/folder
 $ ls */*
 your.artifact.id/pom.xml
