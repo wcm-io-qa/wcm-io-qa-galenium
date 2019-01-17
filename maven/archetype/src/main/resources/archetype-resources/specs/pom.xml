@@ -29,7 +29,7 @@
   <!-- distribution management -->
 
   <build>
-    <sourceDirectory>${galenium.generated.java}</sourceDirectory>
+    <sourceDirectory>\${galenium.generated.java}</sourceDirectory>
     <plugins>
 
       <plugin>
@@ -74,7 +74,7 @@
         <configuration>
           <skipIfEmpty>true</skipIfEmpty>
           <excludes>*.xml</excludes>
-          <classesDirectory>${galenium.generated.class}</classesDirectory>
+          <classesDirectory>\${galenium.generated.class}</classesDirectory>
         </configuration>
         <executions>
           <execution>
