@@ -25,6 +25,8 @@ import org.testng.annotations.Test;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.util.BrowserUtil;
+import io.wcm.qa.galenium.verification.driver.TitleAndUrlVerification;
+import io.wcm.qa.galenium.verification.util.Check;
 
 /**
  * Example for pure Selenium test based on Galenium.
@@ -54,7 +56,7 @@ public class NavigationIT extends AbstractExampleBase {
         getLogger().debug("exception when sleeping after click", ex);
       }
     }
-    assertRelativePath(PATH_TO_CONFERENCE_PAGE);
+    Check.verify(new TitleAndUrlVerification("conference"));
   }
 
 }

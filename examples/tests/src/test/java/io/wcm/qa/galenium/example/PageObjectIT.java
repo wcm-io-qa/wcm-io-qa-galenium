@@ -35,6 +35,7 @@ import io.wcm.qa.galenium.example.pageobjects.NavigationTopLevelEntry;
 import io.wcm.qa.galenium.example.pageobjects.Stage;
 import io.wcm.qa.galenium.interaction.Aem;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Showcase page object approach.
@@ -62,6 +63,14 @@ public class PageObjectIT extends AbstractExampleBase {
     checkNavigation();
     checkStage();
     checkFooter();
+  }
+
+  private void assertEquals(int actual, int expected, String msg) {
+    GaleniumContext.getAssertion().assertEquals(actual, expected, msg);
+  }
+
+  private void assertEquals(String actual, String expected, String msg) {
+    GaleniumContext.getAssertion().assertEquals(actual, expected, msg);
   }
 
   private void checkFooter() {
