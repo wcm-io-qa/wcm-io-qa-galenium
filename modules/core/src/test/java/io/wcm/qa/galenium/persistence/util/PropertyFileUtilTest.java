@@ -17,21 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.listeners;
+package io.wcm.qa.galenium.persistence.util;
 
-import org.testng.ITestContext;
-import org.testng.TestListenerAdapter;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-import io.wcm.qa.galenium.persistence.util.TextSampleManager;
+import org.junit.jupiter.api.Test;
 
-/**
- * Handles persisting text samples at the end of test run.
- */
-public class TextSamplePersistenceListener extends TestListenerAdapter {
+class PropertyFileUtilTest {
 
-  @Override
-  public void onFinish(ITestContext testContext) {
-    TextSampleManager.persistNewTextSamples();
-  }
+	@Test
+	void shouldConvertGermanUmlauts() {
+		assertThat(convert("Nähe"), is("N\\u00E4he"));
+	}
+
+	private String convert(String rawValue) {
+		return PropertyFileUtil.saveConvert(rawValue, false, true);
+	}
 
 }

@@ -53,7 +53,7 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  * {@link WebDriverListener}
  * </li>
  * <li>
- * {@link TextSamplePersistenceListener}
+ * {@link SamplePersistenceListener}
  * </li>
  * <li>
  * {@link RetryAnalyzer} if galenium.retryMax is greater than zero
@@ -73,7 +73,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     add(new LoggingListener());
     add(new ExtentReportsListener());
     add(new WebDriverListener());
-    add(new TextSamplePersistenceListener());
+    add(new SamplePersistenceListener());
     add(new MemoryUsageListener());
     add(new DiskUsageListener());
     if (GaleniumConfiguration.getNumberOfRetries() > 0) {

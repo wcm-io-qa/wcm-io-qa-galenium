@@ -19,31 +19,9 @@
  */
 package io.wcm.qa.galenium.persistence.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.Properties;
 
-import org.apache.commons.collections4.properties.SortedProperties;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.WriterOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
-import io.wcm.qa.galenium.configuration.PropertiesUtil;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link Properties}
@@ -51,28 +29,12 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
  */
 public final class TextSampleManager {
-		  
-  private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
-  private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
-  private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
-  private static final String FILE_NAME_ROOT_DIR_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonInputDirectory();
-  private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonOutputDirectory();
-  private static final File OUTPUT_FILE = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
-  private static final String PATH_SEPARATOR = "/";
-  private static final SortedProperties SAMPLED_TEXTS = new SortedProperties();
 
-  static {
-    StringBuilder expectedTextsFilePath = new StringBuilder();
-    expectedTextsFilePath.append(FILE_NAME_ROOT_DIR_EXPECTED_TEXTS);
-    if (!(FILE_NAME_ROOT_DIR_EXPECTED_TEXTS.endsWith(PATH_SEPARATOR) || FILE_NAME_EXPECTED_TEXTS.startsWith(PATH_SEPARATOR))) {
-      expectedTextsFilePath.append(PATH_SEPARATOR);
-    }
-    expectedTextsFilePath.append(FILE_NAME_EXPECTED_TEXTS);
-    PropertiesUtil.loadProperties(EXPECTED_TEXTS, expectedTextsFilePath.toString());
-  }
+  private static final SampleManager TEXT_SAMPLE_MANAGER = SampleManager.getInstance("/expected.properties");
 
   private TextSampleManager() {
     // do not instantiate
+
   }
 
   /**
@@ -81,8 +43,7 @@ public final class TextSampleManager {
    * @param value added
    */
   public static void addNewTextSample(String key, String value) {
-    getLogger().trace("adding new text sample: " + key + "->'" + value + "'");
-    SAMPLED_TEXTS.setProperty(key, value);
+    TEXT_SAMPLE_MANAGER.addNewTextSample(key, value);
   }
 
   /**
@@ -90,11 +51,11 @@ public final class TextSampleManager {
    * @return text expected for this key
    */
   public static String getExpectedText(String key) {
-    return EXPECTED_TEXTS.getProperty(key);
+    return TEXT_SAMPLE_MANAGER.getExpectedText(key);
   }
 
   public static Properties getExpectedTexts() {
-    return EXPECTED_TEXTS;
+    return TEXT_SAMPLE_MANAGER.getExpectedTexts();
   }
 
   /**
@@ -102,90 +63,14 @@ public final class TextSampleManager {
    * @return new Properties containing only entries starting with the prefix
    */
   public static Properties getExpectedTextsForPrefix(String prefix) {
-    return PropertiesUtil.getAllPropertiesWithPrefix(EXPECTED_TEXTS, prefix);
+    return TEXT_SAMPLE_MANAGER.getExpectedTextsForPrefix(prefix);
   }
 
   /**
    * Write all stored new text samples to disk for easy replacement of existing expected values.
    */
   public static void persistNewTextSamples() {
-    if (SAMPLED_TEXTS.isEmpty()) {
-      getLogger().debug("no text samples to persist.");
-    }
-    else {
-      writeNewTextSamples();
-      reencodeToUnixLineEndings();
-    }
+    TEXT_SAMPLE_MANAGER.persistNewTextSamples();
   }
 
-  private static void writeNewTextSamples() {
-	WriterOutputStream writerOutputStream = null;
-    try {
-      getLogger().debug("Persisting " + SAMPLED_TEXTS.size() + " text samples.");
-      writerOutputStream = getOutputStream();        
-      EXPECTED_TEXTS.store(writerOutputStream, "Expected texts");
-      SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
-    }
-    catch (IOException ex) {
-      getLogger().error("Could not save sample texts to '" + OUTPUT_FILE + "'");
-    }
-    finally {
-      if (writerOutputStream != null) {
-        try {
-          writerOutputStream.close();
-        }
-        catch (IOException ex) {
-          getLogger().warn("error when closing file output stream: '" + OUTPUT_FILE + "'");
-        }
-      }
-    }
-  }
-
-  /** to reduce changes in the file we force the lineendings to be in unix format */
-  private static void reencodeToUnixLineEndings() {
-
-    File temp = null;
-    BufferedReader reader = null;
-    BufferedWriter writer = null;
-
-    try {
-      temp = new File(OUTPUT_FILE.getAbsolutePath() + ".unixLines");
-      temp.createNewFile();
-      
-      reader = new BufferedReader(new InputStreamReader(new DataInputStream(new FileInputStream(OUTPUT_FILE))));
-      writer = new BufferedWriter(new OutputStreamWriter(new DataOutputStream(new FileOutputStream(temp))));
-
-      String line;
-      while ((line = reader.readLine()) != null) {
-        writer.write(line);
-        writer.write("\n");
-      }
-      reader.close();
-      writer.close();
-
-      Files.delete(OUTPUT_FILE.toPath());
-      Files.move(temp.toPath(), OUTPUT_FILE.toPath());
-      getLogger().debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
-
-    } catch (IOException e) {
-      getLogger().warn("could not reencode: '" + OUTPUT_FILE + "'", e);
-    } finally {
-      FileUtils.deleteQuietly(temp);
-      IOUtils.closeQuietly(reader);
-      IOUtils.closeQuietly(writer);
-    }
-
-  }
-  
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
-  }
-
-  private static WriterOutputStream getOutputStream() throws IOException {
-    WriterOutputStream writerOutputStream;
-    OUTPUT_FILE.getParentFile().mkdirs();
-    FileWriter fileWriter = new FileWriter(OUTPUT_FILE, true);
-    writerOutputStream = new WriterOutputStream(fileWriter, CHARSET_UTF8);
-    return writerOutputStream;
-  }
 }
