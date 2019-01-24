@@ -33,6 +33,7 @@
     <module>sampling</module>
     <module>selectors</module>
     <module>verification</module>
+    <module>junitrunner</module>
   </modules>
 
   <build>
