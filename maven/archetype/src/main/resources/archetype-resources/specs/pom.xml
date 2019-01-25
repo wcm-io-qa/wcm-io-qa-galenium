@@ -5,20 +5,20 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
-    <version>0.1.19-SNAPSHOT</version>
+    <version>${version}</version>
     <relativePath />
   </parent>
 
 
   <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
-  <version>${version}</version>
-  <name>${projectName} RTE Galen specs</name>
+  <artifactId>\${artifactId}</artifactId>
+  <version>\${version}</version>
+  <name>\${projectName} Galen specs</name>
   <packaging>jar</packaging>
 
   <properties>
-    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
-    <galenium.generated.java.package>${package}.test.ui</galenium.generated.java.package>
+    <galenium.specPath>\${project.build.outputDirectory}/galen/specs</galenium.specPath>
+    <galenium.generated.java.package>\${package}.test.ui</galenium.generated.java.package>
     <maven.javadoc.skip>true</maven.javadoc.skip>
   </properties>
 
@@ -29,7 +29,7 @@
   <!-- distribution management -->
 
   <build>
-    <sourceDirectory>${galenium.generated.java}</sourceDirectory>
+    <sourceDirectory>\${galenium.generated.java}</sourceDirectory>
     <plugins>
 
       <plugin>
@@ -74,7 +74,7 @@
         <configuration>
           <skipIfEmpty>true</skipIfEmpty>
           <excludes>*.xml</excludes>
-          <classesDirectory>${galenium.generated.class}</classesDirectory>
+          <classesDirectory>\${galenium.generated.class}</classesDirectory>
         </configuration>
         <executions>
           <execution>

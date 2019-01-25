@@ -90,6 +90,15 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     return listeners.add(listener);
   }
 
+  /**
+   * Adds an additional test listener.
+   * @param index index at which the specified element is to be inserted
+   * @param listener to add
+   */
+  public void add(int index, ITestNGListener listener) {
+    listeners.add(index, listener);
+  }
+  
   @Override
   public void beforeConfiguration(ITestResult tr) {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");

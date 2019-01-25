@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
-    <version>0.1.19-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath>../../integration/specs</relativePath>
   </parent>
 
@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.19-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <description>Test automation example Galen specs.</description>
 
   <properties>
@@ -88,10 +88,12 @@
           </excludes>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>net.revelc.code.formatter</groupId>
         <artifactId>formatter-maven-plugin</artifactId>
       </plugin>
+
     </plugins>
   </build>
 

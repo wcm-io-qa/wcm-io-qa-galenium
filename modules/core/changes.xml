@@ -23,12 +23,24 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="0.1.20" date="not released yet">
+    <release version="0.1.22" date="2018-12-17">
+      <action type="add" dev="pmannel">
+        Parameters to pass HTTPS proxy to webdriver.
+      </action>
+      <action type="update" dev="rdahlem">
+        Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable.
+      </action>
+    </release>
+    
+    <release version="0.1.20" date="2018-12-03">
       <action type="add" dev="apegam">
         Code generation now also generates GaleniumWebElements.
       </action>
       <action type="add" dev="apegam">
         Maven archetype for generating spec and test project.
+      </action>
+      <action type="update" dev="apegam">
+        Documentation.
       </action>
       <action type="update" dev="apegam">
         Maven site generation.

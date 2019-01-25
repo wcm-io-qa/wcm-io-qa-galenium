@@ -66,6 +66,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HEADLESS = "galenium.headless";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
+  private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST = "galenium.webdriver.https.proxyHost";
+  private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT = "galenium.webdriver.https.proxyPort";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
@@ -510,6 +512,56 @@ public final class GaleniumConfiguration {
   }
 
   /**
+   * Https Proxy Host Configuration for Webdriver or BrowserMobProxy
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.webdriver.https.proxyHost
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * null
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return null or https proxy host
+   */
+  public static String getHttpsProxyHost() {
+    return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST, null);
+  }
+
+  /**
+   * Https Proxy Port Configuration for Webdriver or BrowserMobProxy
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.webdriver.https.proxyPort
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * null
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return null or https proxy port
+   */
+  public static String getHttpsProxyPort() {
+    return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT, null);
+  }
+
+  /**
    * HTTP username to use in HTTP basic auth.
    * <ul>
    * <li>Key:
@@ -841,6 +893,7 @@ public final class GaleniumConfiguration {
     return asBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
   }
 
+
   /**
    * Headless Chrome Windows workaround flag.
    * <ul>
@@ -894,7 +947,6 @@ public final class GaleniumConfiguration {
   public static boolean isHeadless() {
     return asBoolean(SYSTEM_PROPERTY_NAME_HEADLESS);
   }
-
 
   /**
    * Lazy web driver intialization takes control away from WebDriverListener and lets the test itself decide

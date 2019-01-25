@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.galenium.example;
 
-import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
-
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.example.selectors.common.Page;
 import io.wcm.qa.galenium.example.selectors.common.Page.Navigation;
@@ -50,11 +48,6 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
 
   private void navShouldBeVisible() {
     Element.findOrFail(Page.NAVIGATION);
-  }
-
-  protected void assertRelativePath(String relativePath) {
-    String currentUrl = getDriver().getCurrentUrl();
-    assertEquals(currentUrl, getBaseUrl() + relativePath, "relative path should be: '" + relativePath + "'");
   }
 
   protected void clickConferenceNavLink() {
