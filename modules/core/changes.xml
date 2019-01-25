@@ -24,6 +24,9 @@
   <body>
 
     <release version="0.1.22" date="2018-12-17">
+      <action type="add" dev="rdahlem">
+        single galenium tests can be executed with junit 
+      </action>
       <action type="add" dev="pmannel">
         Parameters to pass HTTPS proxy to webdriver.
       </action>
