@@ -34,7 +34,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <maven.archetype.version>3.0.1</maven.archetype.version>
+    <maven.archetype.version>3.0.2-180806-A536</maven.archetype.version>
   </properties>
 
   <build>
