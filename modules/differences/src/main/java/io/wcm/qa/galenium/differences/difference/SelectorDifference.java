@@ -19,18 +19,42 @@
  */
 package io.wcm.qa.galenium.differences.difference;
 
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.selectors.IndexedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 
 /**
  * Difference based on selector name.
  */
-public class SelectorDifference extends StringDifference {
+public class SelectorDifference extends DifferenceBase {
+
+  private IndexedSelector selector;
 
   /**
    * @param selector to get name from
    */
   public SelectorDifference(Selector selector) {
-    super(selector.elementName());
+    this.selector = SelectorFactory.indexedFromSelector(selector);
+  }
+
+  @Override
+  protected String getRawTag() {
+    return getSelectorName(selector);
+  }
+
+  private String getSelectorName(IndexedSelector iSel) {
+    StringBuilder sb = new StringBuilder();
+    if (iSel.hasParent()) {
+      IndexedSelector parent = SelectorFactory.indexedFromSelector(iSel.getParent());
+      sb.append(getSelectorName(parent));
+    }
+    sb.append(iSel.elementName());
+    if (iSel.getIndex() != 0) {
+      sb.append(".");
+      sb.append(iSel.getIndex());
+    }
+    return sb.toString();
   }
 
 }
