@@ -25,6 +25,9 @@
 
     <release version="1.0.0" date="not released yet">
       <action type="add" dev="apegam">
+        Indexed selectors.
+      </action>
+      <action type="add" dev="apegam">
         Add start scripts to archetype.
       </action>
       <action type="fix" dev="apegam">
