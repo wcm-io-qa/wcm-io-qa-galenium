@@ -326,8 +326,10 @@ public final class Element {
         return null;
       }
 
+
       // find all children
-      List<WebElement> children = parent.findElements(selector.asRelative().asBy());
+      Selector childSelector = SelectorFactory.relativeFromAbsolute(parentSelector, selector);
+      List<WebElement> children = parent.findElements(childSelector.asBy());
 
       // found any?
       if (children.isEmpty()) {

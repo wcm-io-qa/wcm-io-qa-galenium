@@ -37,7 +37,8 @@ import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 public final class FormatUtil {
 
   private static final String FILE_ENDING_GSPEC = ".gspec";
-  private static final String REGEX_NAME_CLEANING = "\\.";
+  private static final String REGEX_NAME_CLEANING_DOT = "\\.";
+  private static final String REGEX_NAME_CLEANING_INDICES = "[\\[\\]0-9]*";
 
   private FormatUtil() {
     // do not instantiate
@@ -60,35 +61,6 @@ public final class FormatUtil {
     String relativeElementName = getRelativeElementName(elementName);
     String cleanElementName = getCleanElementName(relativeElementName);
     return kebapToUpperCamel(cleanElementName);
-  }
-
-  /**
-   * @param selector to extract class name from
-   * @return class name from selectors element name
-   */
-  public static String getFullyQualifiedWebElementClassName(String packageName, SelectorPojo selector) {
-    return getFullyQualifiedClassName(packageName, selector, "Gwe");
-  }
-
-  /**
-   * @param selector to extract class name from
-   * @return class name from selectors element name
-   */
-  public static String getFullyQualifiedSelectorClassName(String packageName, SelectorPojo selector) {
-    return getFullyQualifiedClassName(packageName, selector, "");
-  }
-
-  private static String getFullyQualifiedClassName(String packageName, SelectorPojo selector, String classNamePostfix) {
-    List<String> classNames = new ArrayList<String>();
-    String[] elementNameParts = selector.elementName().split("\\.");
-    for (String namePart : elementNameParts) {
-      String cleanName = getCleanElementName(namePart);
-      String className = kebapToUpperCamel(cleanName);
-      classNames.add(className);
-    }
-    String joinedClassNames = StringUtils.join(classNames, classNamePostfix
-        + ".");
-    return packageName + "." + joinedClassNames + classNamePostfix;
   }
 
   /**
@@ -119,6 +91,22 @@ public final class FormatUtil {
   }
 
   /**
+   * @param selector to extract class name from
+   * @return class name from selectors element name
+   */
+  public static String getFullyQualifiedSelectorClassName(String packageName, SelectorPojo selector) {
+    return getFullyQualifiedClassName(packageName, selector, "");
+  }
+
+  /**
+   * @param selector to extract class name from
+   * @return class name from selectors element name
+   */
+  public static String getFullyQualifiedWebElementClassName(String packageName, SelectorPojo selector) {
+    return getFullyQualifiedClassName(packageName, selector, "Gwe");
+  }
+
+  /**
    * @param packageRoot root package to prepend
    * @param spec to extract package name from
    * @return absolute package name built from package root and spec
@@ -135,7 +123,21 @@ public final class FormatUtil {
   }
 
   private static String getCleanElementName(String elementName) {
-    return elementName.replaceAll(REGEX_NAME_CLEANING, "__");
+    return elementName.replaceAll(REGEX_NAME_CLEANING_DOT, "__")
+        .replaceAll(REGEX_NAME_CLEANING_INDICES, "");
+  }
+
+  private static String getFullyQualifiedClassName(String packageName, SelectorPojo selector, String classNamePostfix) {
+    List<String> classNames = new ArrayList<String>();
+    String[] elementNameParts = selector.elementName().split("\\.");
+    for (String namePart : elementNameParts) {
+      String cleanName = getCleanElementName(namePart);
+      String className = kebapToUpperCamel(cleanName);
+      classNames.add(className);
+    }
+    String joinedClassNames = StringUtils.join(classNames, classNamePostfix
+        + ".");
+    return packageName + "." + joinedClassNames + classNamePostfix;
   }
 
   private static String getPackageName(SpecPojo spec) {

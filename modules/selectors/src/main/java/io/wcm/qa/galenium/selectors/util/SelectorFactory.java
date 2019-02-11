@@ -36,6 +36,7 @@ import io.wcm.qa.galenium.selectors.impl.FixedValueSelector;
 import io.wcm.qa.galenium.selectors.impl.NestedSelectorWrapper;
 import io.wcm.qa.galenium.selectors.impl.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.impl.SelectorFromString;
+import io.wcm.qa.galenium.selectors.impl.TrueIndexedSelector;
 
 /**
  * Creates Selectors for use with Galenium.
@@ -44,6 +45,42 @@ public final class SelectorFactory {
 
   private SelectorFactory() {
     // do not instantiate
+  }
+
+  /**
+   * Constructs absolute selector from selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param relativeSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
+  public static NestedSelector absoluteFromRelative(Selector parent, Selector relativeSelector) {
+    return absoluteFromRelative(parent, relativeSelector.elementName(), relativeSelector.asString());
+  }
+
+  /**
+   * Constructs absolute selector from selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param relativeCssSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
+  public static Selector absoluteFromRelative(Selector parent, String relativeCssSelector) {
+    return absoluteFromRelative(parent, "child", relativeCssSelector);
+  }
+
+  /**
+   * Constructs absolute selector from selector relative to a parent selector.
+   * @param parent parent selector to be used as base
+   * @param childName to use in construction of name of relative selector
+   * @param relativeCssSelector relative to parent
+   * @return new selector that is relative to the parent selector
+   */
+  public static IndexedSelector absoluteFromRelative(Selector parent, String childName, String relativeCssSelector) {
+    TrueIndexedSelector instance = new TrueIndexedSelector();
+
+    NestedSelector nestedParent = nestedFromSelector(parent);
+    instance.setParent(nestedParent);
+    nestedParent.getChildren().add(instance);
+    return instance;
   }
 
   /**
@@ -68,8 +105,7 @@ public final class SelectorFactory {
    * @return new selector representing the locator
    */
   public static SelectorFromLocator fromLocator(Locator locator) {
-    ensureCssLocator(locator);
-    return new SelectorFromLocator(locator);
+    return fromLocator("", locator);
   }
 
   /**
@@ -114,15 +150,12 @@ public final class SelectorFactory {
    * @param css CSS value
    * @param by Selenium {@link By}
    * @param locator Galen {@link Locator}
-   * @param absolute absolute version integrating CSS from ancestors
-   * @param relative relative version with CSS relative to direct parent
    * @param parent parent selector
    * @param children child selectors
    * @return a {@link NestedSelector} built using the passed values
    */
-  public static NestedSelector fromValues(String elementName, String css, By by, Locator locator, Selector absolute,
-      Selector relative, NestedSelector parent, Collection<NestedSelector> children) {
-    return new FixedValueNestedSelector(elementName, css, by, locator, absolute, relative, parent, children);
+  public static NestedSelector fromValues(String elementName, String css, By by, Locator locator, NestedSelector parent, Collection<NestedSelector> children) {
+    return new FixedValueNestedSelector(elementName, css, by, locator, parent, children);
   }
 
   /**
@@ -134,11 +167,20 @@ public final class SelectorFactory {
     if (selector instanceof IndexedSelector) {
       return (IndexedSelector)selector;
     }
-    if (selector instanceof NestedSelector) {
-      return new DelegatingIndexedSelector((NestedSelector)selector);
-    }
+    return indexedFromSelector(selector, 0);
+  }
 
-    return new DelegatingIndexedSelector(nestedFromSelector(selector));
+  /**
+   * Wrapping passed in selector and setting the index
+   * @param selector to wrap
+   * @param index index to set
+   * @return indexed version of selector
+   */
+  public static IndexedSelector indexedFromSelector(Selector selector, int index) {
+    if (selector instanceof NestedSelector) {
+      return new DelegatingIndexedSelector((NestedSelector)selector, index);
+    }
+    return new DelegatingIndexedSelector(nestedFromSelector(selector), index);
   }
 
   /**
@@ -154,43 +196,28 @@ public final class SelectorFactory {
   }
 
   /**
-   * Constructs absolute selector from selector relative to a parent selector.
-   * @param parent parent selector to be used as base
-   * @param relativeSelector relative to parent
-   * @return new selector that is relative to the parent selector
+   * Constructs absolute selector from selector relative to its parent selector.
+   * @param selector selector to be used
+   * @return new selector that is relative to its parent selector
    */
-  public static Selector relativeToAbsolute(Selector parent, Selector relativeSelector) {
-    return relativeToAbsolute(parent, relativeSelector.elementName(), relativeSelector.asString());
+  public static Selector relativeFromAbsolute(Selector selector) {
+    return relativeFromAbsolute(nestedFromSelector(selector).getParent(), selector);
   }
 
   /**
    * Constructs absolute selector from selector relative to a parent selector.
    * @param parent parent selector to be used as base
-   * @param relativeCssSelector relative to parent
+   * @param absoluteChild relative to parent
    * @return new selector that is relative to the parent selector
    */
-  public static Selector relativeToAbsolute(Selector parent, String relativeCssSelector) {
-    return relativeToAbsolute(parent, "child", relativeCssSelector);
-  }
-
-  /**
-   * Constructs absolute selector from selector relative to a parent selector.
-   * @param parent parent selector to be used as base
-   * @param childName to use in construction of name of relative selector
-   * @param relativeCssSelector relative to parent
-   * @return new selector that is relative to the parent selector
-   */
-  public static Selector relativeToAbsolute(Selector parent, String childName, String relativeCssSelector) {
-    String selectorString = parent.asString() + " " + relativeCssSelector;
-    String parentName = parent.elementName();
-    String elementName;
-    if (StringUtils.startsWith(childName, parentName)) {
-      elementName = childName;
+  public static Selector relativeFromAbsolute(Selector parent, Selector absoluteChild) {
+    if (parent == null) {
+      return absoluteChild;
     }
-    else {
-      elementName = parentName + "." + childName;
-    }
-    return fromCss(elementName, selectorString);
+    String relativeChildCss = StringUtils.removeStart(absoluteChild.asString(), parent.asString());
+    String relativeChildName = StringUtils.removeStart(absoluteChild.elementName(), parent.elementName());
+    Selector relativeSelector = fromCss(relativeChildName, relativeChildCss);
+    return indexedFromSelector(relativeSelector, indexedFromSelector(absoluteChild).getIndex());
   }
 
   private static void ensureCssLocator(Locator locator) {

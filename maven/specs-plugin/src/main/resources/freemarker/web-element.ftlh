@@ -7,8 +7,8 @@
     /**
      * Constructor.
      */
-    public ${className(selector)}Gwe(WebElement element) {
-      super(element);
+    public ${className(selector)}Gwe(WebElement element, IndexedSelector selector) {
+      super(element, selector);
     }
 
     <#list selector.children as child>
@@ -19,8 +19,9 @@
 
 
   public ${gweClassName(child)} get${className(child)}() {
-    WebElement element = findElement(${selectorClassName(selector)}.${constantName(child)}.asRelative().asBy());
-    return new ${gweClassName(child)}(element, SelectorFactory.indexedFromSelector(selector));
+    InteractiveSelector original = ${selectorClassName(selector)}.${constantName(child)};
+    WebElement element = findElement(SelectorFactory.relativeFromAbsolute(original).asBy());
+    return new ${gweClassName(child)}(element, cloneSelector(original, 0));
   }
 
   public ${gweClassName(child)} getNth${className(child)}(int index) {
@@ -28,29 +29,27 @@
   }
 
   public java.util.List<${gweClassName(child)}> get${className(child)}s() {
-    java.util.List<WebElement> elements = findElements(${selectorClassName(selector)}.${constantName(child)}.asRelative().asBy());
+    InteractiveSelector original = ${selectorClassName(selector)}.${constantName(child)};
+    java.util.List<WebElement> elements = findElements(SelectorFactory.relativeFromAbsolute(original).asBy());
     java.util.List<${gweClassName(child)}> galeniumElements = new java.util.ArrayList<${gweClassName(child)}>();
+    int index = 0;
     for (WebElement webElement : elements) {
-      galeniumElements.add(new ${gweClassName(child)}(webElement));
+      galeniumElements.add(new ${gweClassName(child)}(webElement, cloneSelector(original, index++)));
     }
     return galeniumElements;
   }
     </#list>
 
-    
   }
 </#macro>
 package ${packageName(spec)};
 
-import com.galenframework.specs.page.CorrectionsRect;
-import com.galenframework.specs.page.Locator;
-
-import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.util.SelectorFactory;
-import io.wcm.qa.galenium.interaction.webelement.GaleniumWebElementBase;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.galenium.example.selectors.InteractiveSelector;
+import io.wcm.qa.galenium.interaction.webelement.GaleniumWebElementBase;
+import io.wcm.qa.galenium.selectors.IndexedSelector;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 
 /**
  * Galenium webelement version of '${this.elementName()}' from ${spec.filename}.
@@ -62,8 +61,8 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   /**
    * Constructor.
    */
-  public ${className(this)}Gwe(WebElement element) {
-    super(element);
+  public ${className(this)}Gwe(WebElement element, IndexedSelector selector) {
+    super(element, selector);
   }
 
   <#list this.children as child>
@@ -73,8 +72,7 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   <#list this.children as child>
 
   public ${gweClassName(child)} get${className(child)}() {
-    WebElement element = findElement(${selectorClassName(this)}.${constantName(child)}.asRelative().asBy());
-    return new ${gweClassName(child)}(element);
+    return getNth${className(child)}(0);
   }
 
   public ${gweClassName(child)} getNth${className(child)}(int index) {
@@ -82,30 +80,40 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   }
 
   public java.util.List<${gweClassName(child)}> get${className(child)}s() {
-    java.util.List<WebElement> elements = findElements(${selectorClassName(this)}.${constantName(child)}.asRelative().asBy());
+    InteractiveSelector original = ${selectorClassName(this)}.${constantName(child)};
+    java.util.List<WebElement> elements = findElements(SelectorFactory.relativeFromAbsolute(original).asBy());
     java.util.List<${gweClassName(child)}> galeniumElements = new java.util.ArrayList<${gweClassName(child)}>();
+    int index = 0;
     for (WebElement webElement : elements) {
-      galeniumElements.add(new ${gweClassName(child)}(webElement));
+      galeniumElements.add(new ${gweClassName(child)}(webElement, cloneSelector(original, index++)));
     }
     return galeniumElements;
   }
   </#list>
 
+  private static IndexedSelector cloneSelector(InteractiveSelector original, int index) {
+    return SelectorFactory.indexedFromSelector(SelectorFactory.fromSelector(original));
+  }
+
   public static ${gweClassName(this)} instance() {
-    WebElement initialElement = ${selectorClassName(this)}.SELF.find();
-    return new ${gweClassName(this)}(initialElement);
+    InteractiveSelector original = ${selectorClassName(this)}.SELF;
+    WebElement initialElement = original.find();
+    return new ${gweClassName(this)}(initialElement, cloneSelector(original, 0));
   }
 
   public static ${gweClassName(this)} instance(int index) {
-    WebElement initialElement = ${selectorClassName(this)}.SELF.findNth(index);
-    return new ${gweClassName(this)}(initialElement);
+    InteractiveSelector original = ${selectorClassName(this)}.SELF;
+    WebElement initialElement = original.findNth(index);
+    return new ${gweClassName(this)}(initialElement, cloneSelector(original, index));
   }
 
   public static java.util.List<${gweClassName(this)}> instances() {
-    java.util.List<WebElement> initialElements = ${selectorClassName(this)}.SELF.findAll();
+    InteractiveSelector original = ${selectorClassName(this)}.SELF;
+    java.util.List<WebElement> initialElements = original.findAll();
     java.util.List<${gweClassName(this)}> galeniumElements = new java.util.ArrayList<${gweClassName(this)}>();
+    int index = 0;
     for (WebElement webElement : initialElements) {
-      galeniumElements.add(new ${gweClassName(this)}(webElement));
+      galeniumElements.add(new ${gweClassName(this)}(webElement, cloneSelector(original, index++)));
     }
     return galeniumElements;
   } 

@@ -39,14 +39,6 @@ public class TrueIndexedSelector extends AbstractIndexedSelectorBase {
   }
 
   @Override
-  public String elementName() {
-    if (hasParent()) {
-      return getParent().elementName() + "." + asRelative().elementName() + "[" + getIndex() + "]";
-    }
-    return super.elementName() + "[" + getIndex() + "]";
-  }
-
-  @Override
   public IndexedSelector getParent() {
     return (IndexedSelector)super.getParent();
   }
@@ -57,11 +49,11 @@ public class TrueIndexedSelector extends AbstractIndexedSelectorBase {
   }
 
   private Collection<NestedSelector> indexed(Collection<? extends NestedSelector> selectors) {
-    Collection<NestedSelector> indexedChildren = new ArrayList<NestedSelector>();
+    Collection<NestedSelector> indexedSelectors = new ArrayList<NestedSelector>();
     for (NestedSelector selector : selectors) {
-      indexedChildren.add(indexed(selector));
+      indexedSelectors.add(indexed(selector));
     }
-    return indexedChildren;
+    return indexedSelectors;
   }
 
   private IndexedSelector indexed(Selector selector) {

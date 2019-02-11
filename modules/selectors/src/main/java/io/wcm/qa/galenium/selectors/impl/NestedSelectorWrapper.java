@@ -22,8 +22,8 @@ package io.wcm.qa.galenium.selectors.impl;
 import io.wcm.qa.galenium.selectors.Selector;
 
 /**
- * Simple wrapper to turn regular selector into nested selector.
- * No parent, no children, and relative is absolute is this.
+ * Simple wrapper to represent regular selector as nested selector.
+ * No parent, no children.
  */
 public class NestedSelectorWrapper extends FixedValueNestedSelector {
 
@@ -31,7 +31,7 @@ public class NestedSelectorWrapper extends FixedValueNestedSelector {
    * @param selector to take values from
    */
   public NestedSelectorWrapper(Selector selector) {
-    super(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), selector, selector, null, null);
+    super(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), null, null);
   }
 
 }

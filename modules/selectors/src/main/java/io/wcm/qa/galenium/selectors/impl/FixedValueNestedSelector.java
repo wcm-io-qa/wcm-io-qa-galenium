@@ -26,7 +26,6 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.selectors.NestedSelector;
-import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * {@link NestedSelector} implementation immediately setting {@link By}, {@link Locator}, parent and children values on
@@ -34,18 +33,20 @@ import io.wcm.qa.galenium.selectors.Selector;
  */
 public class FixedValueNestedSelector extends FixedValueSelector implements NestedSelector {
 
-  private Selector absolute;
   private Collection<NestedSelector> children;
   private NestedSelector parent;
-  private Selector relative;
 
   /**
    * Uses the element name, selector CSS, {@link By}, {@link Locator}, parent and children from selector.
    * @param selector to extract values from
    */
   public FixedValueNestedSelector(NestedSelector selector) {
-    this(selector.elementName(), selector.asString(), selector.asBy(), selector.asLocator(), selector.asAbsolute(), selector.asRelative(),
-        selector.getParent(), selector.getChildren());
+    this(selector.elementName(),
+        selector.asString(),
+        selector.asBy(),
+        selector.asLocator(),
+        selector.getParent(),
+        selector.getChildren());
   }
 
   /**
@@ -54,28 +55,19 @@ public class FixedValueNestedSelector extends FixedValueSelector implements Nest
    * @param css to use for selector
    * @param by to use for selector
    * @param locator to use for selector
-   * @param absolute absolute version of selector
-   * @param relative relative version of selector
    * @param parent to use for selector
    * @param children to use for selector
    */
-  public FixedValueNestedSelector(String elementName, String css, By by, Locator locator, Selector absolute,
-      Selector relative, NestedSelector parent, Collection<NestedSelector> children) {
+  public FixedValueNestedSelector(
+      String elementName,
+      String css,
+      By by,
+      Locator locator,
+      NestedSelector parent,
+      Collection<NestedSelector> children) {
     super(elementName, css, by, locator);
-    this.absolute = absolute;
     this.children = children;
     this.parent = parent;
-    this.relative = relative;
-  }
-
-  @Override
-  public Selector asAbsolute() {
-    return absolute;
-  }
-
-  @Override
-  public Selector asRelative() {
-    return relative;
   }
 
   @Override

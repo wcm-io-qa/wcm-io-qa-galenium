@@ -29,6 +29,19 @@ public class AbstractIndexedSelectorBase extends AbstractNestedSelectorBase impl
   private int index;
 
   @Override
+  public String elementName() {
+    if (getIndex() > 0) {
+      return new StringBuilder()
+          .append(super.elementName())
+          .append("[")
+          .append(getIndex())
+          .append("]")
+          .toString();
+    }
+    return super.elementName();
+  }
+
+  @Override
   public int getIndex() {
     return index;
   }

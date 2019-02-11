@@ -19,24 +19,16 @@
  */
 package io.wcm.qa.galenium.selectors.impl;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.selectors.Selector;
-import io.wcm.qa.galenium.selectors.impl.base.AbstractNestedSelectorBase;
 
 /**
  * Turns a Galen {@link Locator} object into a Galenium {@link Selector}.
  */
-public class SelectorFromLocator extends AbstractNestedSelectorBase {
-
-  private static final String REGEX_LAST_NAME_ELEMENT = "\\.[^.]*$";
-
-  /**
-   * @param locator to use in Selector construction
-   */
-  public SelectorFromLocator(Locator locator) {
-    this(null, locator);
-  }
+public class SelectorFromLocator extends TrueIndexedSelector {
 
   /**
    * @param elementName alternative name for use in reporting
@@ -53,14 +45,19 @@ public class SelectorFromLocator extends AbstractNestedSelectorBase {
     setString(locator.getLocatorValue());
     Locator parentLocator = locator.getParent();
     if (parentLocator != null) {
-      SelectorFromLocator parentSelector = new SelectorFromLocator(getParentName(), parentLocator);
+      String parentName = getParentName();
+      SelectorFromLocator parentSelector = new SelectorFromLocator(parentName, parentLocator);
       setParent(parentSelector);
       parentSelector.addChild(this);
     }
   }
 
   private String getParentName() {
-    return getName().replaceFirst(REGEX_LAST_NAME_ELEMENT, "");
+    int lastIndexOfDot = StringUtils.lastIndexOf(getName(), '.');
+    if (lastIndexOfDot > 0) {
+      return getName().substring(lastIndexOfDot + 1);
+    }
+    return "";
   }
 
 }

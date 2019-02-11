@@ -28,6 +28,7 @@ import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.selectors.NestedSelector;
 import io.wcm.qa.galenium.selectors.Selector;
+import io.wcm.qa.galenium.selectors.util.SelectorFactory;
 
 /**
  * Wrapper for NestedSelector plus references to spec.
@@ -47,11 +48,6 @@ public class SelectorPojo implements NestedSelector {
   }
 
   @Override
-  public Selector asAbsolute() {
-    return getDelegatee().asAbsolute();
-  }
-
-  @Override
   public By asBy() {
     return getDelegatee().asBy();
   }
@@ -61,9 +57,11 @@ public class SelectorPojo implements NestedSelector {
     return getDelegatee().asLocator();
   }
 
-  @Override
+  /**
+   * @return selector relative to its parent
+   */
   public Selector asRelative() {
-    return getDelegatee().asRelative();
+    return SelectorFactory.relativeFromAbsolute(getParent(), getDelegatee());
   }
 
   @Override
@@ -117,6 +115,9 @@ public class SelectorPojo implements NestedSelector {
   }
 
   private SelectorPojo wrap(NestedSelector selector) {
+    if (selector == null) {
+      return null;
+    }
     return new SelectorPojo(getSpec(), selector);
   }
 }

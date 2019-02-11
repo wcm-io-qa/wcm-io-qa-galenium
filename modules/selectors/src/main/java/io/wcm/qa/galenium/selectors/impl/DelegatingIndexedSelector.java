@@ -27,7 +27,6 @@ import com.galenframework.specs.page.Locator;
 
 import io.wcm.qa.galenium.selectors.IndexedSelector;
 import io.wcm.qa.galenium.selectors.NestedSelector;
-import io.wcm.qa.galenium.selectors.Selector;
 
 /**
  * Indexed selectors carry an index for each level to have a way to individually address multiple elements matching the
@@ -55,11 +54,6 @@ public class DelegatingIndexedSelector implements IndexedSelector {
   }
 
   @Override
-  public Selector asAbsolute() {
-    return getDelegatee().asAbsolute();
-  }
-
-  @Override
   public By asBy() {
     return getDelegatee().asBy();
   }
@@ -67,11 +61,6 @@ public class DelegatingIndexedSelector implements IndexedSelector {
   @Override
   public Locator asLocator() {
     return getDelegatee().asLocator();
-  }
-
-  @Override
-  public Selector asRelative() {
-    return getDelegatee().asRelative();
   }
 
   @Override
