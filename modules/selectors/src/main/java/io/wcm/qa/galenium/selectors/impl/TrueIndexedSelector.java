@@ -57,6 +57,9 @@ public class TrueIndexedSelector extends AbstractIndexedSelectorBase {
   }
 
   private IndexedSelector indexed(Selector selector) {
+    if (selector == null) {
+      return null;
+    }
     return SelectorFactory.indexedFromSelector(selector);
   }
 
