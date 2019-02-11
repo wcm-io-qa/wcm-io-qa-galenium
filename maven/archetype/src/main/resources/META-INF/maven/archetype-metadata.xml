@@ -50,12 +50,28 @@
 
   </requiredProperties>
 
+  <fileSets>
+    <fileSet filtered="true" encoding="UTF-8" packaged="false">
+      <directory>scripts</directory>
+      <includes>
+        <include>maven-call.sh</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+
   <modules>
 
     <module id="${rootArtifactId}.parent" dir="parent" name="${rootArtifactId}.parent"/>
 
     <module id="${rootArtifactId}.specs" dir="specs" name="${rootArtifactId}.specs">
       <fileSets>
+        <fileSet filtered="true" encoding="UTF-8" packaged="false">
+          <directory></directory>
+          <includes>
+            <include>generate.sh</include>
+            <include>local-settings.sh</include>
+          </includes>
+        </fileSet>
         <fileSet filtered="true" encoding="UTF-8">
           <directory>src/main/resources/galen/specs</directory>
           <includes>
@@ -67,6 +83,13 @@
 
     <module id="${rootArtifactId}.tests" dir="tests" name="${rootArtifactId}.tests">
       <fileSets>
+        <fileSet filtered="true" encoding="UTF-8" packaged="false">
+          <directory></directory>
+          <includes>
+            <include>run.sh</include>
+            <include>local-settings.sh</include>
+          </includes>
+        </fileSet>
         <fileSet filtered="true" encoding="UTF-8" packaged="true">
           <directory>src/main/java</directory>
           <includes>

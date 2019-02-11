@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.0.0" date="not released yet">
+      <action type="add" dev="apegam">
+        Add start scripts to archetype.
+      </action>
+      <action type="fix" dev="apegam">
+        Version and other properties in archetype now filtered correctly.
+      </action>
+    </release>
+
     <release version="0.1.22" date="2018-12-17">
       <action type="add" dev="pmannel">
         Parameters to pass HTTPS proxy to webdriver.
