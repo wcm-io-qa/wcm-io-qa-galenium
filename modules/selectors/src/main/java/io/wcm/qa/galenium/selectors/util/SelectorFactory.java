@@ -177,9 +177,6 @@ public final class SelectorFactory {
    * @return indexed version of selector
    */
   public static IndexedSelector indexedFromSelector(Selector selector, int index) {
-    if (selector instanceof NestedSelector) {
-      return new DelegatingIndexedSelector((NestedSelector)selector, index);
-    }
     return new DelegatingIndexedSelector(nestedFromSelector(selector), index);
   }
 
