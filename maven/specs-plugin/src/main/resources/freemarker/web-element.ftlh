@@ -45,8 +45,7 @@
 package ${packageName(spec)};
 
 import org.openqa.selenium.WebElement;
-
-import io.wcm.qa.galenium.example.selectors.InteractiveSelector;
+import ${interactiveSelectorPackage}.${interactiveSelectorInterfaceClassName};
 import io.wcm.qa.galenium.interaction.webelement.GaleniumWebElementBase;
 import io.wcm.qa.galenium.selectors.IndexedSelector;
 import io.wcm.qa.galenium.selectors.util.SelectorFactory;
