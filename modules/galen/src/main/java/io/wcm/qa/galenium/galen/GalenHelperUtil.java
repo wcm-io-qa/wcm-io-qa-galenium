@@ -235,7 +235,7 @@ public final class GalenHelperUtil {
         getLogger().debug("has parent " + selector);
         NestedSelector parent = selector.getParent();
         getLogger().debug("parentName: '" + parent.elementName() + "'");
-        String parentCss = parent.asString();
+        String parentCss = getRecursiveAsString(parent);
         getLogger().debug("parentCss: '" + parentCss + "'");
         SelectorFromLocator trueParent = objectMapping.get(parentCss);
         if (trueParent == null) {
@@ -267,9 +267,9 @@ public final class GalenHelperUtil {
       String name = cleanName(entry.getKey());
       Locator locator = entry.getValue();
       SelectorFromLocator selector = fromLocator(name, locator);
-      String asString = selector.asString();
+      String asString = getRecursiveAsString(selector);
       if (objectMapping.containsKey(asString)) {
-        getLogger().info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+        getLogger().info("duplicate object(" + asString + "):" + selector + " == " + objectMapping.get(asString));
       }
       else {
         objectMapping.put(asString, selector);
@@ -278,6 +278,13 @@ public final class GalenHelperUtil {
     }
     getLogger().info("mapped " + objectMapping.size() + " selectors.");
     return objectMapping;
+  }
+
+  private static String getRecursiveAsString(NestedSelector nestedSelector) {
+    if (nestedSelector.hasParent()) {
+      return getRecursiveAsString(nestedSelector.getParent()) + " " + nestedSelector.asString();
+    }
+    return nestedSelector.asString();
   }
 
   private static String cleanName(String name) {
