@@ -49,7 +49,7 @@ public class DelegatingIndexedSelector implements IndexedSelector {
    * @param index index for addressing specific element
    */
   public DelegatingIndexedSelector(NestedSelector selector, int index) {
-    setDelgatee(selector);
+    setDelegatee(selector);
     setIndex(index);
   }
 
@@ -102,7 +102,7 @@ public class DelegatingIndexedSelector implements IndexedSelector {
     return delegatee;
   }
 
-  private void setDelgatee(NestedSelector delgatee) {
+  private void setDelegatee(NestedSelector delgatee) {
     this.delegatee = delgatee;
   }
 
