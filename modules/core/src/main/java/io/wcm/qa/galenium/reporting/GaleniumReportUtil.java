@@ -242,8 +242,7 @@ public final class GaleniumReportUtil {
    * @return test report associated with result
    */
   public static ExtentTest getExtentTest(ITestResult result) {
-    String testName = result.getTestName() + "." + result.getMethod().getMethodName();
-    return getExtentTest(testName);
+    return getExtentTest(result.getTestName());
   }
 
   /**

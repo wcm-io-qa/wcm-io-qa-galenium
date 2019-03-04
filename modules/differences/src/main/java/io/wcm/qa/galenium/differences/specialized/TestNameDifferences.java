@@ -26,6 +26,7 @@ import org.testng.ITest;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
+import io.wcm.qa.galenium.differences.difference.TestMethodNameDifference;
 import io.wcm.qa.galenium.differences.generic.LayeredDifferences;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 
@@ -39,6 +40,13 @@ public class TestNameDifferences implements Differences {
   private ClassDifferences classDifferences;
   private int classNameMaxLength = -1;
   private TestDeviceDifferences deviceDifferences;
+
+  /**
+   * Constructor.
+   */
+  public TestNameDifferences() {
+    getAdditionalDifferences().add(new TestMethodNameDifference());
+  }
 
   /**
    * Will be appended to end of test name.
