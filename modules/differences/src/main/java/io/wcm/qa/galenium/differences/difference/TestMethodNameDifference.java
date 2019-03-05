@@ -30,6 +30,9 @@ import io.wcm.qa.galenium.differences.base.DifferenceBase;
  */
 public class TestMethodNameDifference extends DifferenceBase {
 
+  private static final String NO_TEST_METHOD = "no_method_name_ntm";
+  private static final String NO_TEST_RESULT = "no_method_name_ntr";
+
   /**
    * Constructor.
    */
@@ -42,12 +45,12 @@ public class TestMethodNameDifference extends DifferenceBase {
 
     ITestResult currentTestResult = Reporter.getCurrentTestResult();
     if (currentTestResult == null) {
-      return "no_test_result";
+      return NO_TEST_RESULT;
     }
 
     ITestNGMethod method = currentTestResult.getMethod();
     if (method == null) {
-      return "no_test_method";
+      return NO_TEST_METHOD;
     }
 
     return method.getMethodName();
