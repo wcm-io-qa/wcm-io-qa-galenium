@@ -120,6 +120,7 @@ public final class BrowserMobUtil {
     if (proxy == null) {
       proxy = new BrowserMobProxyServer();
       proxy.setMitmDisabled(false);
+      proxy.setTrustAllServers(true);
       proxy.start();
       GaleniumContext.put(BROWSER_MOB_PROXY, proxy);
     }
