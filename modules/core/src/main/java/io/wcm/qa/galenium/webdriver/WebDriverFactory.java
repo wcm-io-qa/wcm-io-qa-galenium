@@ -150,14 +150,20 @@ final class WebDriverFactory {
   }
 
   private static void setRemoteDriver(OptionsProvider capabilitiesProvider) {
-    getLogger().info("Connecting to grid at " + getGridHost() + ":" + getGridPort() + "...");
+    String gridHost = getGridHost();
+    getLogger().info("Connecting to grid at " + gridHost + ":" + getGridPort() + "...");
     try {
-      setDriver(new RemoteWebDriver(new URL("http", getGridHost(), getGridPort(), "/wd/hub"), capabilitiesProvider.getOptions()));
+      String protocol = "http";
+      if (StringUtils.startsWith(gridHost, "https://")) {
+        gridHost = StringUtils.removeStart(gridHost, "https://");
+        protocol = "https";
+      }
+      setDriver(new RemoteWebDriver(new URL(protocol, gridHost, getGridPort(), "/wd/hub"), capabilitiesProvider.getOptions()));
     }
     catch (MalformedURLException ex) {
       throw new RuntimeException(
           format("Couldn''t construct valid URL using selenium.host={0} and selenium.port={1}",
-              getGridHost(),
+              gridHost,
               getGridPort()));
     }
   }
