@@ -74,7 +74,10 @@ public class ImageComparisonIT extends AbstractExampleBase {
         getDevice(),
         GalenHelperUtil.getSectionFilter(getDevice()),
         getValidationListener());
-    handleLayoutReport("image_comparison_" + selector.elementName() + ".gspec", layoutReport);
+    String specName = "image_comparison_" + selector.elementName() + ".gspec";
+    String errorMessage = "FAILED: Layoutcheck " + specName + " with device " + getDevice();
+    String successMessage = "successfully ran spec: " + specName;
+    GalenLayoutChecker.handleLayoutReport(layoutReport, errorMessage, successMessage);
   }
 
   private ImageComparisonValidationListener getValidationListener() {

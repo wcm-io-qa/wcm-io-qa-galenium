@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>23</version>
+    <version>25</version>
     <relativePath />
   </parent>
 
@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.22</version>
+  <version>1.0.0</version>
   <description>Test automation examples.</description>
 
   <properties>

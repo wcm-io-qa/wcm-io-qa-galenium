@@ -5,13 +5,13 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
-    <version>0.1.19-SNAPSHOT</version>
+    <version>${version}</version>
     <relativePath />
   </parent>
 
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
-  <version>${version}</version>
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}</artifactId>
+  <version>\${version}</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -34,9 +34,9 @@
     <galenium.ignoreVerification>false</galenium.ignoreVerification>
     <galenium.mediaquery.width.min>320</galenium.mediaquery.width.min>
     <galenium.mediaquery.height>1000</galenium.mediaquery.height>
-    <galenium.mediaquery.properties>${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
+    <galenium.mediaquery.properties>\${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
     <galenium.mediaquery.extentCategory>MQ_</galenium.mediaquery.extentCategory>
-    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.report.rootPath>\${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
 
@@ -53,7 +53,7 @@
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
         <type>pom</type>
-        <version>0.1.19-SNAPSHOT</version>
+        <version>${version}</version>
       </dependency>
     </dependencies>
 
@@ -65,7 +65,7 @@
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
         <type>pom</type>
-        <version>0.1.19-SNAPSHOT</version>
+        <version>${version}</version>
       </dependency>
 
       <!-- CSV parsing -->

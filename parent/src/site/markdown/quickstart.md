@@ -1,75 +1,108 @@
 # Quickstart Guide
 
-## System Repuirements
+## System Requirements
 
 Galenium needs the following to run:
 
+* One of the big three OSs
+    * Windows
+    * OSX
+    * Linux
 * JDK 7+
 * Maven 3
 * current browser
-  * stable or latest Chrome
-  * stable or latest Firefox
+    * stable or latest Chrome
+    * stable or latest Firefox
 * free disk space
-  * for test code
-  * Dependencies downloaded by Maven
-  * Reports with Screenshots
-  * sample data
+    * for test code
+    * Dependencies downloaded by Maven
+    * Reports with Screenshots
+    * sample data
 * Enough RAM to run Maven build and browser
-* One of the big three OSs
-  * Windows
-  * OSX
-  * Linux
+
 
 ## Installing Galenium
 
-To use Galenium, you need a Galenium Maven project.
+To use Galenium, you need a Galenium Maven project on your local machine.
 
-To set up the project, you can do it from scratch, copy the example projects, or run the Maven Archetype.
+To set up the project, you can 
 
-TODO: precursor steps, including where to generate project
+1. do it from scratch
+1. copy the example projects
+1. **run the Maven Archetype**
 
-Recommended way is to use the Archetype:
+Recommended way is to use the Archetype.
 
- ```
- mvn archetype:generate \
- -DarchetypeGroupId=io.wcm.qa \ 
- -DarchetypeArtifactId=io.wcm.qa.galenium.archetype \ 
- -DarchetypeVersion=0.1.0-SNAPSHOT \
- -DgroupId=de.foo \
- -DartifactId=de.foo.bar \ 
- -Dversion=1.0-SNAPSHOT \
- -Dpackage=de.foo.bar.sample \ 
- -DprojectName=MyProject 
- ```
+### Set up using Archetype
 
- TODO: expected results (have three folders, parent/specs/tests)
+You will need a CLI to call the Maven Archetype. In this tutorial we will assume GitBash, but any CLI that runs Maven is fine.
+
+Decide which folder you want to install your Galenium project to. We will assume it is */my/local/dev/folder*.
+
+Switch to the folder. If it does not exist yet, you will have to create it.
+
+```
+user@machine MINGW64 ~
+$ cd /my/local/dev/folder
+```
+
+##### Archetype interactive
+
+Next execute the Archetype by running the following command:
+
+```sh
+user@machine MINGW64 /my/local/dev/folder
+$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype
+```
+
+This will execute the latest release version of Galenium Archetype in interactive mode. You will be asked for missing information like group ID, artifact ID, and so on.
+
+##### Archetype non-interactive
+
+To avoid the interactive mode, you need to specify all information as command line parameters.
+
+```sh
+user@machine MINGW64 /my/local/dev/folder
+$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=your.group.id -DartifactId=your.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=your.root.packagename -DprojectName=MyTestAutomationProject 
+```
+
+The only interaction will be to confirm your choices:
+
+```sh
+Confirm properties configuration:
+groupId: your.group.id
+version: 0.1.0-SNAPSHOT
+projectName: MyTestAutomationProject
+artifactId: your.artifact.id
+package: your.root.packagename
+ Y: :
+```
+
+Just hit enter and the project will be generated.
+
+#### After running Archetype
+
+The Archetype should have set up a multi module build now. 
+
+Which means you should have the following structure in your local folder:
+
+```sh
+user@machine MINGW64 /my/local/dev/folder
+$ ls */*
+your.artifact.id/pom.xml
+
+your.artifact.id/parent:
+pom.xml
+
+your.artifact.id/specs:
+pom.xml  src/
+
+your.artifact.id/tests:
+pom.xml  src/
+```
+
+To learn more about the modules and what they do you can read more in the [developer's guide](developing.html)
 
 ## Running Galenium
 
 TODO: Describe running example from archetype
- 
-## Developing with Galenium
-
-### Step-by-Step Procedure
-
-* Define objects
-* Write Selenium tests
-* Add Galen specifications
-* Generate sample data for target state if applicable
-* Run tests
-* Compare with sampled target state if applicable
-* Check reports
-
-### Information Sources
-
-* Software configuration management (SCM)
-  * Galenium tests
-  * Galen specifications
-  * Galen test suites
-* Continous Integration (CI)/Jenkins
-  * Jobs
-  * Reports
-* Selenium Grid
-  * Browsers
-  * OSs
- 

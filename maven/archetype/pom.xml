@@ -22,13 +22,13 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.root</artifactId>
-    <version>0.1.22</version>
+    <version>1.0.0</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.archetype</artifactId>
-  <version>0.1.22</version>
+  <version>1.0.0</version>
   <name>wcm.io Archetype for Galenium</name>
   <packaging>maven-archetype</packaging>
   <url>http://maven.apache.org</url>
@@ -38,6 +38,7 @@
   </properties>
 
   <build>
+
     <extensions>
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
@@ -45,6 +46,25 @@
         <version>${maven.archetype.version}</version>
       </extension>
     </extensions>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>archetype-resources/parent/pom.xml</include>
+          <include>archetype-resources/specs/pom.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>archetype-resources/parent/pom.xml</exclude>
+          <exclude>archetype-resources/specs/pom.xml</exclude>
+        </excludes>
+      </resource>
+    </resources>
 
     <plugins>
 
@@ -88,6 +108,7 @@
           <configuration>
             <!-- Make sure .git* files can be included as well -->
             <addDefaultExcludes>false</addDefaultExcludes>
+            <escapeString>\</escapeString>
           </configuration>
         </plugin>
 

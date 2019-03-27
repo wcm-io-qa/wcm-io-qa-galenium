@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>0.1.22</version>
+    <version>1.0.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.22</version>
+  <version>1.0.0</version>
   <description>Test automation integration parent for the actual UI tests.</description>
 
   <dependencies>
@@ -39,23 +39,23 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>0.1.22</version>
+      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
-      <version>0.1.22</version>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.listeners</artifactId>
-      <version>0.1.22</version>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
-      <version>0.1.22</version>
+      <version>1.0.0</version>
     </dependency>
 
   </dependencies>
