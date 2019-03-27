@@ -30,6 +30,9 @@
       <action type="fix" dev="apegam">
         Version and other properties in archetype now filtered correctly.
       </action>
+      <action type="update" dev="apegam">
+        New versions for parents and dependencies.
+      </action>
     </release>
 
     <release version="0.1.22" date="2018-12-17">
