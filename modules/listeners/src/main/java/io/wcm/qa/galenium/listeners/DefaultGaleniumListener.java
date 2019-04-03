@@ -23,8 +23,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
+
 import org.slf4j.Marker;
 import org.testng.IAnnotationTransformer;
 import org.testng.IConfigurationListener2;
@@ -74,8 +74,6 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     add(new ExtentReportsListener());
     add(new WebDriverListener());
     add(new TextSamplePersistenceListener());
-    add(new MemoryUsageListener());
-    add(new DiskUsageListener());
     if (GaleniumConfiguration.getNumberOfRetries() > 0) {
       add(new RetryAnalyzerAnnotationTransformer());
     }
@@ -98,7 +96,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
   public void add(int index, ITestNGListener listener) {
     listeners.add(index, listener);
   }
-  
+
   @Override
   public void beforeConfiguration(ITestResult tr) {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
