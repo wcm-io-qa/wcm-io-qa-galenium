@@ -35,6 +35,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 
+import com.eclipsesource.json.ParseException;
 import com.github.wnameless.json.flattener.JsonFlattener;
 
 /**
@@ -96,7 +97,7 @@ public final class GridHostExtractor {
       }
       return NO_HOST_RETRIEVED;
     }
-    catch (IOException ex) {
+    catch (IOException | ParseException ex) {
       return NO_HOST_RETRIEVED;
     }
 
