@@ -113,6 +113,7 @@ $ mvn clean install -Plocal-dev
 ```
 
 After the build is done you can find the reports here:
- * /my/local/dev/folder/your.artifact.id/tests/target/galenium-reports/extentreports/extentGalen.html
- * /my/local/dev/folder/your.artifact.id/tests/target/galenium-reports/galen/report.html
+
+ * ``/my/local/dev/folder/your.artifact.id/tests/target/galenium-reports/extentreports/extentGalen.html``
+ * ``/my/local/dev/folder/your.artifact.id/tests/target/galenium-reports/galen/report.html``
 
