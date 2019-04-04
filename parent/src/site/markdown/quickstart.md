@@ -88,7 +88,7 @@ Which means you should have the following structure in your local folder:
 
 ```sh
 user@machine /my/local/dev/folder
-$ ls */*
+$ ls *\/*
 your.artifact.id/pom.xml
 
 your.artifact.id/parent:
