@@ -32,27 +32,6 @@
     <sourceDirectory>\${galenium.generated.java}</sourceDirectory>
     <plugins>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>properties-maven-plugin</artifactId>
-        <version>1.0.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>set-system-properties</goal>
-            </goals>
-            <configuration>
-              <properties>
-                <property>
-                  <name>galenium.report.extent.skip</name>
-                  <value>true</value>
-                </property>
-              </properties>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Generate Java code from Galen specs -->
       <plugin>
         <groupId>io.wcm.qa</groupId>
@@ -67,7 +46,7 @@
         </configuration>
       </plugin>
 
-      <!-- Package project specific JARs -->
+      <!-- Package JAR -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -83,9 +62,8 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <classifier>tests</classifier>
               <includes>
-                <include>**/tests/**/*.gspec</include>
+                <include>**/*.gspec</include>
               </includes>
             </configuration>
           </execution>

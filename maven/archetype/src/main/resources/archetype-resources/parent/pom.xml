@@ -38,6 +38,7 @@
     <galenium.mediaquery.extentCategory>MQ_</galenium.mediaquery.extentCategory>
     <galenium.report.rootPath>\${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.retryMax>0</galenium.retryMax>
+    <galenium.skipTests>true</galenium.skipTests>
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
 
     <!-- compiler settings -->
