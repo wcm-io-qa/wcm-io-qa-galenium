@@ -43,6 +43,14 @@
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.examples.samples</artifactId>
+      <version>1.0.1-SNAPSHOT</version>
+      <type>zip</type>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
       <version>1.0.1-SNAPSHOT</version>
     </dependency>
@@ -75,6 +83,28 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-samples</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <phase>generate-test-resources</phase>
+            <configuration>
+              <includeArtifactIds>io.wcm.qa.galenium.examples.samples</includeArtifactIds>
+              <outputAbsoluteArtifactFilename>true</outputAbsoluteArtifactFilename>
+              <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+              <includes>**/*.png</includes>
+              <excludeTransitive>true</excludeTransitive>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 

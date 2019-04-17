@@ -1,0 +1,2 @@
+Samples for ${project.artifactId}
+================

@@ -5,18 +5,27 @@
   <formats>
     <format>zip</format>
   </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
+      <outputDirectory></outputDirectory>
       <directory>${io.wcm.qa.galenium.example.sampled}</directory>
       <includes>
-        <include>${io.wcm.qa.galenium.example.include}/</include>
+        <include>${io.wcm.qa.galenium.example.include}</include>
       </includes>
     </fileSet>
     <fileSet>
+      <outputDirectory></outputDirectory>
       <directory>${io.wcm.qa.galenium.example.expected}</directory>
-      <outputDirectory>/</outputDirectory>
       <includes>
-        <include>${io.wcm.qa.galenium.example.include}/</include>
+        <include>${io.wcm.qa.galenium.example.include}</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory></outputDirectory>
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>*.md</include>
       </includes>
     </fileSet>
   </fileSets>
