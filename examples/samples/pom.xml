@@ -33,7 +33,7 @@
 
   <profiles>
     <profile>
-      <id>sample</id>
+      <id>update-samples</id>
 
       <properties>
         <io.wcm.qa.galenium.example.testsRoot>../tests</io.wcm.qa.galenium.example.testsRoot>
