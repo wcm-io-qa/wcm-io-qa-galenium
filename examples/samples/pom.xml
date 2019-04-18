@@ -49,6 +49,7 @@
           <resource>
             <directory>src/main/resources</directory>
             <includes>
+              <include>**/*.md</include>
               <include>**/*.xml</include>
             </includes>
             <filtering>true</filtering>

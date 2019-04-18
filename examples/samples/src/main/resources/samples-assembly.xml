@@ -23,9 +23,9 @@
     </fileSet>
     <fileSet>
       <outputDirectory></outputDirectory>
-      <directory>src/main/resources</directory>
+      <directory>${project.build.outputDirectory}</directory>
       <includes>
-        <include>*.md</include>
+        <include>README.md</include>
       </includes>
     </fileSet>
   </fileSets>
