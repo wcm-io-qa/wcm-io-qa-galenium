@@ -16,8 +16,9 @@
   limitations under the License.
   #L%
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -40,14 +41,6 @@
   </properties>
 
   <dependencies>
-
-    <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.examples.samples</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
-      <type>zip</type>
-      <optional>true</optional>
-    </dependency>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
@@ -93,7 +86,19 @@
       <properties>
         <integrationtests.skip>false</integrationtests.skip>
       </properties>
+
+      <dependencies>
+        <!-- Samples -->
+        <dependency>
+          <groupId>io.wcm.qa</groupId>
+          <artifactId>io.wcm.qa.galenium.examples.samples</artifactId>
+          <version>1.0.1-SNAPSHOT</version>
+          <type>zip</type>
+        </dependency>
+      </dependencies>
+
       <build>
+
         <plugins>
 
           <!-- Run UI tests -->
@@ -134,6 +139,7 @@
               </execution>
             </executions>
           </plugin>
+
         </plugins>
       </build>
     </profile>
