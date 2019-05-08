@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.parent_toplevel</artifactId>
-    <version>4</version>
+    <version>5-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -43,10 +43,6 @@
 
     <!-- activated with command line switch in local and CI scripts -->
     <integrationtests.skip>true</integrationtests.skip>
-
-    <!-- compiler settings (override for properties from io.wcm.maven.global-parent) -->
-    <build.compiler.source>1.8</build.compiler.source>
-    <build.compiler.target>1.8</build.compiler.target>
 
     <!-- wcm.io QA -->
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
