@@ -19,17 +19,6 @@
   <build>
     <plugins>
 
-      <!-- Download Webdriver binaries -->
-      <plugin>
-        <groupId>com.lazerycode.selenium</groupId>
-        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>pre-integration-test</phase>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- do not deploy this test project into maven repository -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

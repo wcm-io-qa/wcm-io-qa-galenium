@@ -58,6 +58,14 @@
       <version>1.0.1-SNAPSHOT</version>
     </dependency>
 
+    <!-- Webdriver Management -->
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>3.5.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -229,28 +237,6 @@
             </execution>
           </executions>
         </plugin>
-
-        <!-- Webdriver download -->
-        <plugin>
-          <groupId>com.lazerycode.selenium</groupId>
-          <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          <version>${com.lazerycode.selenium.driver-binary-downloader-maven-plugin}</version>
-          <configuration>
-            <rootStandaloneServerDirectory>${galenium.webdriver.download.binaries}</rootStandaloneServerDirectory>
-            <downloadedZipFileDirectory>${galenium.webdriver.download.zips}</downloadedZipFileDirectory>
-            <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-            <customRepositoryMap>${galenium.webdriver.download.repositoryMap}</customRepositoryMap>
-            <checkFileHashes>false</checkFileHashes>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>selenium</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
       </plugins>
     </pluginManagement>
   </build>

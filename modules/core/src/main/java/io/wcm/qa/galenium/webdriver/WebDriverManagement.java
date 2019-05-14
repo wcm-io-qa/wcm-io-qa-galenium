@@ -46,12 +46,12 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 /**
  * Utility class to manage thread safe WebDriver instances.
  */
-public final class WebDriverManager {
+public final class WebDriverManagement {
 
   /** Marker for use in logging related directly to webdriver handling and internals. */
   public static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("galenium.webdriver");
 
-  private WebDriverManager() {
+  private WebDriverManagement() {
     // do not instantiate
   }
 

@@ -36,7 +36,7 @@ import io.wcm.qa.galenium.verification.base.Verification;
 import io.wcm.qa.galenium.verification.strategy.DefaultVerificationStrategy;
 import io.wcm.qa.galenium.verification.strategy.IgnoreFailuresStrategy;
 import io.wcm.qa.galenium.verification.strategy.VerificationStrategy;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.webdriver.WebDriverManagement;
 
 /**
  * Keeps important data for each thread. Simplifies integration without need for rigid inheritance hierarchies. Takes a
@@ -126,7 +126,7 @@ public class GaleniumContext {
     try {
       GaleniumReportUtil.getLogger().debug("finalize Galenium context.");
       if (getDriver() != null) {
-        WebDriverManager.closeDriver();
+        WebDriverManagement.closeDriver();
       }
     }
     finally {

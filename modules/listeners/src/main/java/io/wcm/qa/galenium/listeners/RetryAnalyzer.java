@@ -34,7 +34,7 @@ import org.testng.Reporter;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.webdriver.WebDriverManagement;
 
 /**
  * Simple retry analyzer to deal with flaky tests in TestNG.
@@ -57,7 +57,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
     logResult(GaleniumReportUtil.MARKER_SKIP, result, infoMessage);
     assignCategory("RERUN_" + getCount(result).get());
-    WebDriverManager.closeDriver();
+    WebDriverManagement.closeDriver();
     return true;
   }
 

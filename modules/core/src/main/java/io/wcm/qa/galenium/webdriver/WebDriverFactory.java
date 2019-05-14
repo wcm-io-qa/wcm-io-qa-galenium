@@ -38,10 +38,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.testng.SkipException;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.selenium.RunMode;
@@ -98,73 +100,66 @@ final class WebDriverFactory {
   }
 
   private static Logger getLogger() {
-    return WebDriverManager.getLogger();
+    return WebDriverManagement.getLogger();
   }
 
-  private static void setChromeDriver(OptionsProvider capabilitiesProvider) {
-    ChromeDriver chromeDriver = new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
-    setDriver(chromeDriver);
+  private static ChromeDriver getChromeDriver(OptionsProvider capabilitiesProvider) {
+    return new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
   }
 
   private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
   }
 
-  private static void setFirefoxDriver(OptionsProvider capabilitiesProvider) {
-    FirefoxDriver firefoxDriver = new FirefoxDriver((FirefoxOptions)capabilitiesProvider.getOptions());
-    setDriver(firefoxDriver);
+  private static FirefoxDriver getFirefoxDriver(OptionsProvider capabilitiesProvider) {
+    return new FirefoxDriver((FirefoxOptions)capabilitiesProvider.getOptions());
   }
 
-  @SuppressWarnings("deprecation")
-  private static void setInternetExplorerDriver(OptionsProvider capabilitiesProvider) {
-    InternetExplorerDriver ieDriver = new InternetExplorerDriver(capabilitiesProvider.getOptions());
-    setDriver(ieDriver);
+  private static InternetExplorerDriver getInternetExplorerDriver(OptionsProvider capabilitiesProvider) {
+    return new InternetExplorerDriver((InternetExplorerOptions)capabilitiesProvider.getOptions());
   }
 
-  private static void setNewDriver(TestDevice newTestDevice, RunMode runMode) {
-    OptionsProvider capabilitiesProvider = getDesiredCapabilitiesProvider(newTestDevice);
+  private static WebDriver getNewDriver(TestDevice newTestDevice, RunMode runMode) {
     getLogger().info("Getting driver for runmode '" + runMode + "'");
+    OptionsProvider capabilitiesProvider = getDesiredCapabilitiesProvider(newTestDevice);
     switch (runMode) {
       case REMOTE:
-        setRemoteDriver(capabilitiesProvider);
-        break;
+        return getRemoteDriver(capabilitiesProvider);
 
       default:
       case LOCAL:
         switch (newTestDevice.getBrowserType()) {
-          case CHROME:
-            setChromeDriver(capabilitiesProvider);
-            break;
-
-          case IE:
-            setInternetExplorerDriver(capabilitiesProvider);
-            break;
-
-          default:
           case FIREFOX:
-            setFirefoxDriver(capabilitiesProvider);
-            break;
+            WebDriverManager.firefoxdriver().setup();
+            return getFirefoxDriver(capabilitiesProvider);
+          case IE:
+            WebDriverManager.iedriver().setup();
+            return getInternetExplorerDriver(capabilitiesProvider);
+          default:
+          case CHROME:
+            WebDriverManager.chromedriver().setup();
+            return getChromeDriver(capabilitiesProvider);
         }
-        break;
     }
   }
 
-  private static void setRemoteDriver(OptionsProvider capabilitiesProvider) {
+  private static WebDriver getRemoteDriver(OptionsProvider capabilitiesProvider) {
     String gridHost = getGridHost();
-    getLogger().info("Connecting to grid at " + gridHost + ":" + getGridPort() + "...");
+    int gridPort = getGridPort();
+    getLogger().info("Connecting to grid at " + gridHost + ":" + gridPort + "...");
     try {
       String protocol = "http";
       if (StringUtils.startsWith(gridHost, "https://")) {
         gridHost = StringUtils.removeStart(gridHost, "https://");
         protocol = "https";
       }
-      setDriver(new RemoteWebDriver(new URL(protocol, gridHost, getGridPort(), "/wd/hub"), capabilitiesProvider.getOptions()));
+      return new RemoteWebDriver(new URL(protocol, gridHost, gridPort, "/wd/hub"), capabilitiesProvider.getOptions());
     }
     catch (MalformedURLException ex) {
       throw new RuntimeException(
           format("Couldn''t construct valid URL using selenium.host={0} and selenium.port={1}",
               gridHost,
-              getGridPort()));
+              gridPort));
     }
   }
 
@@ -183,7 +178,7 @@ final class WebDriverFactory {
             Thread.currentThread().getName()));
 
     try {
-      setNewDriver(newTestDevice, runMode);
+      setDriver(getNewDriver(newTestDevice, runMode));
     }
     catch (WebDriverException ex) {
       throw new SkipException("Could not connect to browser.", ex);

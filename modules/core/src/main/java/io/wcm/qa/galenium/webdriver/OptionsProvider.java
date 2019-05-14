@@ -74,7 +74,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
       String proxyHost = GaleniumConfiguration.getHttpsProxyHost();
       String proxyPort = GaleniumConfiguration.getHttpsProxyPort();
       proxy.setSslProxy(proxyHost + ":" + proxyPort);
-      WebDriverManager.getLogger().debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
+      WebDriverManagement.getLogger().debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
     }
     return proxy;
   }
@@ -84,7 +84,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   }
 
   protected Logger getLogger() {
-    return WebDriverManager.getLogger();
+    return WebDriverManagement.getLogger();
   }
 
   protected abstract void log(O options);

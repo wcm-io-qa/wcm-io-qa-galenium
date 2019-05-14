@@ -24,7 +24,7 @@ import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
-import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
+import static io.wcm.qa.galenium.webdriver.WebDriverManagement.getDriver;
 
 import java.io.IOException;
 import java.util.List;

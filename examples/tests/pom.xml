@@ -97,11 +97,6 @@
             </configuration>
           </plugin>
 
-          <!-- Webdriver download -->
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          </plugin>
 
         </plugins>
       </build>

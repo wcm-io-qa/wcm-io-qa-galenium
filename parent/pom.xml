@@ -93,6 +93,13 @@
         <version>2.1.5</version>
       </dependency>
 
+      <!-- Webdriver Management -->
+      <dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>webdrivermanager</artifactId>
+        <version>3.5.0</version>
+      </dependency>
+
       <!-- Utils -->
        <dependency>
         <groupId>com.google.guava</groupId>
