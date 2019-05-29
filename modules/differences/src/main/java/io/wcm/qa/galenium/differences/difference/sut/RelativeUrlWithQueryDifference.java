@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.sut;
 
 import java.net.URL;
 

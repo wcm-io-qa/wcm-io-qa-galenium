@@ -30,6 +30,9 @@
       <action type="remove" dev="apegam">
         Removed Webdriver download via Maven plugin.
       </action>
+      <action type="update" dev="apegam">
+        Split Difference implementations into packages.
+      </action>
     </release>
 
     <release version="1.0.0" date="2019-03-27">

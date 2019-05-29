@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
-import io.wcm.qa.galenium.differences.difference.ClassNameDifference;
+import io.wcm.qa.galenium.differences.difference.testcase.ClassNameDifference;
 import io.wcm.qa.galenium.differences.generic.MutableDifferences;
 
 /**
