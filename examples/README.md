@@ -6,7 +6,7 @@ This project contains some examples for how to integrate Galenium into your proj
 Run Example Project
 -------------------
 
-[wcm-io-sample](http://wcm.io/samples/) has to be deployed to an AEM instance running on *localhost* on port *4502* and you need to have Chrome installed.
+[wcm-io-sample](https://wcm.io/samples/) has to be deployed to an AEM instance running on *localhost* on port *4502* and you need to have Chrome installed.
 
 If you have that, you just run the Maven command:
 
