@@ -50,7 +50,8 @@ import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
+import io.wcm.qa.galenium.imagecomparison.IcsDefinition;
+import io.wcm.qa.galenium.imagecomparison.IcsFactory;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
@@ -66,12 +67,12 @@ public final class GalenLayoutChecker {
   /**
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from section name of spec factory and used as folder name in reports
-   * @param specFactory {@link ImageComparisonSpecFactory} to generate spec to check
+   * @param specDefinition {@link IcsDefinition} to generate spec to check
    * @return report on spec test
    */
-  public static LayoutReport checkLayout(ImageComparisonSpecFactory specFactory) {
-    PageSpec spec = specFactory.getPageSpecInstance();
-    return checkLayout(specFactory.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), specFactory.getValidationListener());
+  public static LayoutReport checkLayout(IcsDefinition specDefinition) {
+    PageSpec spec = IcsFactory.getPageSpec(specDefinition);
+    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), specDefinition.getValidationListener());
   }
 
   /**

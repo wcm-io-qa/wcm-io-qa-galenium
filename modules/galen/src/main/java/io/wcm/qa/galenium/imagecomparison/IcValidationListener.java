@@ -20,6 +20,7 @@
 package io.wcm.qa.galenium.imagecomparison;
 
 import static io.wcm.qa.galenium.imagecomparison.IcUtil.isImageComparisonSpec;
+import static io.wcm.qa.galenium.imagecomparison.IcUtil.saveSample;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 
 import com.galenframework.specs.Spec;
@@ -31,14 +32,14 @@ import com.galenframework.validation.ValidationResult;
 /**
  * {@link CombinedValidationListener} to handle storing of sampled image files in ZIP file.
  */
-public class ImageComparisonValidationListener extends CombinedValidationListener {
+public class IcValidationListener extends CombinedValidationListener {
 
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
     getLogger().trace("spec error triggered: " + objectName);
     if (isImageComparisonSpec(spec)) {
-      IcUtil.saveSample(objectName, spec, result);
+      saveSample(objectName, spec, result);
     }
     else {
       getLogger().trace("not an image comparison spec");

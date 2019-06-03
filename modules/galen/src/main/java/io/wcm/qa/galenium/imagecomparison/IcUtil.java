@@ -27,6 +27,9 @@ import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +39,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.galenframework.parser.SyntaxException;
+import com.galenframework.speclang2.specs.SpecReader;
 import com.galenframework.specs.Spec;
 import com.galenframework.validation.ImageComparison;
 import com.galenframework.validation.ValidationError;
@@ -43,6 +48,7 @@ import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
+import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
 
 /**
@@ -77,6 +83,64 @@ final class IcUtil {
     catch (IOException ex) {
       throw new GaleniumException("could not write dummy image.", ex);
     }
+  }
+
+  protected static String getImageComparisonSpecText(IcsDefinition def) {
+    return IcUtil.getImageComparisonSpecText(
+        def.getFoldername(),
+        def.getFilename(),
+        def.getAllowedError(),
+        def.getAllowedOffset(),
+        def.getObjectsToIgnore());
+  }
+
+  protected static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
+    StringBuilder specText = new StringBuilder();
+
+    // boiler plate
+    specText.append("image file ");
+
+    // image file
+    specText.append(getImageOrDummySamplePath(folder, fileName));
+
+    // tolerance
+    if (StringUtils.isNotBlank(error)) {
+      specText.append(", error ");
+      specText.append(error);
+    }
+    if (offset > 0) {
+      specText.append(", analyze-offset ");
+      specText.append(offset);
+    }
+    if (!toIgnore.isEmpty()) {
+      List<Selector> objects = toIgnore;
+      specText.append(", ignore-objects ");
+      if (objects.size() == 1) {
+        specText.append(objects.get(0));
+      }
+      else {
+        specText.append("[");
+        Collection<String> elementNames = new HashSet<String>();
+
+        for (Selector object : objects) {
+          elementNames.add(object.elementName());
+        }
+
+        specText.append(StringUtils.join(elementNames, ", "));
+        specText.append("]");
+      }
+    }
+
+    return specText.toString();
+  }
+
+  protected static String getZeroToleranceImageComparisonSpecText(IcsDefinition def) {
+    return getImageComparisonSpecText(
+        def.getFoldername(),
+        def.getFilename(),
+        "",
+        0,
+        def.getObjectsToIgnore());
   }
 
   static void createDummyIfSampleDoesNotExist(String fullFilePath) {
@@ -171,6 +235,17 @@ final class IcUtil {
     File imageFile = new File(targetPath);
     FileHandlingUtil.ensureParent(imageFile);
     return imageFile;
+  }
+
+  static Spec getSpecForText(String specText) {
+    try {
+      return new SpecReader().read(specText);
+    }
+    catch (IllegalArgumentException | SyntaxException ex) {
+      String msg = "when parsing spec text: '" + specText + "'";
+      GaleniumReportUtil.getLogger().error(msg);
+      throw new GaleniumException(msg, ex);
+    }
   }
 
   static boolean isExpectedImageSampleMissing(String fullFilePath) {

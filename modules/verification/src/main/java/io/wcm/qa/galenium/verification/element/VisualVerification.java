@@ -37,7 +37,8 @@ import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
+import io.wcm.qa.galenium.imagecomparison.IcsFactory;
+import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
@@ -46,7 +47,7 @@ import io.wcm.qa.galenium.verification.base.VerificationBase;
  */
 public class VisualVerification extends VerificationBase<Object> {
 
-  private ImageComparisonSpecFactory specFactory;
+  private ImageComparisonSpecDefinition specDefinition;
 
   /**
    * @param selector to identify element
@@ -54,13 +55,13 @@ public class VisualVerification extends VerificationBase<Object> {
   public VisualVerification(Selector selector) {
     super("Visual(" + selector.elementName() + ")");
     setPreVerification(new VisibilityVerification(selector));
-    setSpecFactory(new ImageComparisonSpecFactory(selector));
+    setSpecDefinition(new ImageComparisonSpecDefinition(selector));
   }
 
   @Override
   public VisualVerification addDifference(Difference difference) {
     // handle factory
-    getSpecFactory().addDifference(difference);
+    getSpecDefinition().addDifference(difference);
 
     // handle self
     super.addDifference(difference);
@@ -72,7 +73,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param selectorToIgnore identify element to ignore
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
-    getSpecFactory().addObjectToIgnore(selectorToIgnore);
+    getSpecDefinition().addObjectToIgnore(selectorToIgnore);
   }
 
   /**
@@ -80,48 +81,43 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param yCorrection vertical scroll position value
    */
   public void correctForSrollPosition(int yCorrection) {
-    getSpecFactory().correctForSrollPosition(yCorrection);
+    getSpecDefinition().correctForSrollPosition(yCorrection);
   }
 
   public String getAllowedError() {
-    return getSpecFactory().getAllowedError();
+    return getSpecDefinition().getAllowedError();
   }
 
   public int getAllowedOffset() {
-    return getSpecFactory().getAllowedOffset();
-  }
-
-  @Override
-  public Comparator<Difference> getComparator() {
-    return this.specFactory.getComparator();
+    return getSpecDefinition().getAllowedOffset();
   }
 
   public String getFilename() {
-    return getSpecFactory().getFilename();
+    return getSpecDefinition().getFilename();
   }
 
   public String getFoldername() {
-    return getSpecFactory().getFoldername();
+    return getSpecDefinition().getFoldername();
   }
 
   public List<Selector> getObjectsToIgnore() {
-    return getSpecFactory().getObjectsToIgnore();
+    return getSpecDefinition().getObjectsToIgnore();
   }
 
   public String getSectionName() {
-    return getSpecFactory().getSectionName();
+    return getSpecDefinition().getSectionName();
   }
 
-  public ImageComparisonSpecFactory getSpecFactory() {
-    return specFactory;
+  public ImageComparisonSpecDefinition getSpecDefinition() {
+    return specDefinition;
   }
 
   public ValidationListener getValidationListener() {
-    return getSpecFactory().getValidationListener();
+    return getSpecDefinition().getValidationListener();
   }
 
   public boolean isZeroToleranceWarning() {
-    return getSpecFactory().isZeroToleranceWarning();
+    return getSpecDefinition().isZeroToleranceWarning();
   }
 
   /**
@@ -129,7 +125,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param allowedErrorPercentage tolerance in percent
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
-    getSpecFactory().setAllowedErrorPercent(allowedErrorPercentage);
+    getSpecDefinition().setAllowedErrorPercent(allowedErrorPercentage);
   }
 
   /**
@@ -138,7 +134,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param allowedErrorPixels tolerance in total number of pixels
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
-    getSpecFactory().setAllowedErrorPixel(allowedErrorPixels);
+    getSpecDefinition().setAllowedErrorPixel(allowedErrorPixels);
   }
 
   /**
@@ -146,12 +142,12 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param allowedOffset maximum offset to take into account
    */
   public void setAllowedOffset(int allowedOffset) {
-    getSpecFactory().setAllowedOffset(allowedOffset);
+    getSpecDefinition().setAllowedOffset(allowedOffset);
   }
 
   @Override
   public void setComparator(Comparator<Difference> comparator) {
-    this.specFactory.setComparator(comparator);
+    this.specDefinition.setComparator(comparator);
   }
 
   /**
@@ -159,7 +155,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param corrections to apply when comparing
    */
   public void setCorrections(CorrectionsRect corrections) {
-    getSpecFactory().setCorrections(corrections);
+    getSpecDefinition().setCorrections(corrections);
   }
 
   /**
@@ -167,7 +163,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param filename new file name
    */
   public void setFilename(String filename) {
-    getSpecFactory().setFilename(filename);
+    getSpecDefinition().setFilename(filename);
   }
 
   /**
@@ -175,7 +171,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param foldername new folder name
    */
   public void setFoldername(String foldername) {
-    getSpecFactory().setFoldername(foldername);
+    getSpecDefinition().setFoldername(foldername);
   }
 
   /**
@@ -183,25 +179,25 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param objectsToIgnore list to ignore
    */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
-    getSpecFactory().setObjectsToIgnore(objectsToIgnore);
+    getSpecDefinition().setObjectsToIgnore(objectsToIgnore);
   }
 
   /**
    * @param sectionName used in reporting
    */
   public void setSectionName(String sectionName) {
-    getSpecFactory().setSectionName(sectionName);
+    getSpecDefinition().setSectionName(sectionName);
   }
 
-  public void setSpecFactory(ImageComparisonSpecFactory specFactory) {
-    this.specFactory = specFactory;
+  public void setSpecDefinition(ImageComparisonSpecDefinition def) {
+    this.specDefinition = def;
   }
 
   /**
    * @param validationListener listener to use for this comparison
    */
   public void setValidationListener(ValidationListener validationListener) {
-    getSpecFactory().setValidationListener(validationListener);
+    getSpecDefinition().setValidationListener(validationListener);
   }
 
   /**
@@ -211,7 +207,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @param zeroToleranceWarning whether to use zero tolerance approach
    */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
-    getSpecFactory().setZeroToleranceWarning(zeroToleranceWarning);
+    getSpecDefinition().setZeroToleranceWarning(zeroToleranceWarning);
   }
 
   @Override
@@ -223,13 +219,13 @@ public class VisualVerification extends VerificationBase<Object> {
   protected boolean doVerification() {
     LayoutReport layoutReport;
     if (getValidationListener() == null) {
-      layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
+      layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition());
     }
     else {
-      PageSpec spec = specFactory.getPageSpecInstance();
+      PageSpec spec = IcsFactory.getPageSpecInstance(specDefinition);
       TestDevice testDevice = getTestDevice();
       SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
-      layoutReport = GalenLayoutChecker.checkLayout(specFactory.getSectionName(), spec, testDevice, tags, getValidationListener());
+      layoutReport = GalenLayoutChecker.checkLayout(specDefinition.getSectionName(), spec, testDevice, tags, getValidationListener());
     }
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
@@ -268,8 +264,10 @@ public class VisualVerification extends VerificationBase<Object> {
   @Override
   protected void setDifferences(SortedDifferences differences) {
     // handle factory
-    getSpecFactory().clearDifferences();
-    getSpecFactory().addAll(differences.getDifferences());
+    getSpecDefinition().clearDifferences();
+    for (Difference difference : differences.getDifferences()) {
+      getSpecDefinition().addDifference(difference);
+    }
 
     // handle self
     super.setDifferences(differences);

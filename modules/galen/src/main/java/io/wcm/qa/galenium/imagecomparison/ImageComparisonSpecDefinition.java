@@ -22,38 +22,28 @@ package io.wcm.qa.galenium.imagecomparison;
 import static java.util.Locale.ENGLISH;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.galenframework.parser.SyntaxException;
-import com.galenframework.speclang2.specs.SpecReader;
-import com.galenframework.specs.Spec;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.CorrectionsRect.Correction;
 import com.galenframework.specs.page.CorrectionsRect.Type;
 import com.galenframework.specs.page.Locator;
-import com.galenframework.specs.page.ObjectSpecs;
-import com.galenframework.specs.page.PageSection;
-import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
-import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Mouse;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.BrowserUtil;
 
 /**
  * Factory for fileless image comparison specs.
  */
-public class ImageComparisonSpecFactory {
+public class ImageComparisonSpecDefinition implements IcsDefinition {
 
   private static final String DEFAULT_PAGE_SECTION_NAME = "Image Comparison";
   private static final Correction NO_CORRECTION = new Correction(0, CorrectionsRect.Type.PLUS);
@@ -69,13 +59,13 @@ public class ImageComparisonSpecFactory {
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
 
-  private ValidationListener validationListener = new ImageComparisonValidationListener();
+  private ValidationListener validationListener = new IcValidationListener();
   private boolean zeroToleranceWarning;
 
   /**
    * @param selector selector for main object
    */
-  public ImageComparisonSpecFactory(Selector selector) {
+  public ImageComparisonSpecDefinition(Selector selector) {
     this(selector, selector.elementName());
     if (BrowserUtil.isChrome()) {
       correctForSrollPosition(Mouse.getVerticalScrollPosition().intValue());
@@ -86,19 +76,11 @@ public class ImageComparisonSpecFactory {
    * @param selector selector for main object
    * @param elementName object name to use
    */
-  public ImageComparisonSpecFactory(Selector selector, String elementName) {
+  public ImageComparisonSpecDefinition(Selector selector, String elementName) {
     setSelector(selector);
     setElementName(elementName);
     setFilename(elementName.toLowerCase(ENGLISH) + ".png");
     setSectionName(DEFAULT_PAGE_SECTION_NAME + " for " + getElementName());
-  }
-
-  /**
-   * @param toBeAppended differences to be appended
-   * @return true if this list changed as a result of the call
-   */
-  public boolean addAll(Collection<? extends Difference> toBeAppended) {
-    return getDifferences().addAll(toBeAppended);
   }
 
   /**
@@ -122,48 +104,65 @@ public class ImageComparisonSpecFactory {
     getDifferences().clear();
   }
 
-  /**
-   * @param yCorrection amount of scrolling
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#correctForSrollPosition(int)
    */
+  @Override
   public void correctForSrollPosition(int yCorrection) {
     Correction top = new Correction(yCorrection, Type.MINUS);
     CorrectionsRect correctionsRect = new CorrectionsRect(NO_CORRECTION, top, NO_CORRECTION, NO_CORRECTION);
     setCorrections(correctionsRect);
   }
 
-  /**
-   * @return allowed error string
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getAllowedError()
    */
+  @Override
   public String getAllowedError() {
     return allowedError;
   }
 
-  /**
-   * @return offset to analyse
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getAllowedOffset()
    */
+  @Override
   public int getAllowedOffset() {
     return allowedOffset;
   }
 
-  public Comparator<Difference> getComparator() {
-    return this.differences.getComparator();
+  @Override
+  public CorrectionsRect getCorrections() {
+    return corrections;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getDifferences()
+   */
+  @Override
   public SortedDifferences getDifferences() {
     return differences;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getElementName()
+   */
+  @Override
   public String getElementName() {
     return elementName;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getFilename()
+   */
+  @Override
   public String getFilename() {
     return filename;
   }
 
-  /**
-   * @return the set folder name or one constructed from differences
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getFoldername()
    */
+  @Override
   public String getFoldername() {
     if (foldername != null) {
       return foldername;
@@ -175,65 +174,51 @@ public class ImageComparisonSpecFactory {
     return stringBuilder.toString();
   }
 
+  @Override
+  public Locator getLocator() {
+    Locator locator = getSelector().asLocator();
+    if (hasCorrections()) {
+      locator.withCorrections(getCorrections());
+    }
+    return locator;
+  }
+
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getObjectsToIgnore()
+   */
+  @Override
   public List<Selector> getObjectsToIgnore() {
     return objectsToIgnore;
   }
 
-  /**
-   * @return page spec according to params set on factory
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getSectionName()
    */
-  public PageSpec getPageSpecInstance() {
-    // specs
-    Spec spec = getSpecForText(getImageComparisonSpecText());
-    ObjectSpecs objectSpecs = new ObjectSpecs(getElementName());
-
-    Spec insideViewportSpec = getSpecForText("inside viewport");
-    objectSpecs.addSpec(insideViewportSpec);
-
-    objectSpecs.addSpec(spec);
-    if (GaleniumConfiguration.isSamplingVerificationIgnore()) {
-      spec.setOnlyWarn(true);
-      insideViewportSpec.setOnlyWarn(true);
-    }
-    if (isZeroToleranceWarning()) {
-      Spec zeroToleranceSpec = getSpecForText(getZeroToleranceImageComparisonSpecText());
-      zeroToleranceSpec.setOnlyWarn(true);
-      objectSpecs.addSpec(zeroToleranceSpec);
-    }
-
-    // page section
-    PageSection pageSection = new PageSection(getSectionName());
-    pageSection.addObjects(objectSpecs);
-
-    // page spec
-    PageSpec pageSpec = new PageSpec();
-    pageSpec.addObject(getElementName(), getLocator());
-    if (!getObjectsToIgnore().isEmpty()) {
-      for (Selector objectToIgnore : objectsToIgnore) {
-        Locator asLocator = objectToIgnore.asLocator();
-        if (hasCorrections()) {
-          asLocator.withCorrections(getCorrections());
-        }
-        pageSpec.addObject(objectToIgnore.elementName(), asLocator);
-      }
-    }
-    pageSpec.addSection(pageSection);
-
-    return pageSpec;
-  }
-
+  @Override
   public String getSectionName() {
     return sectionName;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getSelector()
+   */
+  @Override
   public Selector getSelector() {
     return selector;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getValidationListener()
+   */
+  @Override
   public ValidationListener getValidationListener() {
     return validationListener;
   }
 
+  /* (non-Javadoc)
+   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#isZeroToleranceWarning()
+   */
+  @Override
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
   }
@@ -313,79 +298,8 @@ public class ImageComparisonSpecFactory {
     this.zeroToleranceWarning = zeroToleranceWarning;
   }
 
-  private Spec getSpecForText(String specText) {
-    try {
-      return new SpecReader().read(specText);
-    }
-    catch (IllegalArgumentException | SyntaxException ex) {
-      String msg = "when parsing spec text: '" + specText + "'";
-      GaleniumReportUtil.getLogger().error(msg);
-      throw new GaleniumException(msg, ex);
-    }
-  }
-
   private boolean hasCorrections() {
     return getCorrections() != null;
-  }
-
-  protected CorrectionsRect getCorrections() {
-    return corrections;
-  }
-
-  protected String getImageComparisonSpecText() {
-    return getImageComparisonSpecText(getFoldername(), getFilename(), getAllowedError(), getAllowedOffset(), getObjectsToIgnore());
-  }
-
-  protected String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
-    StringBuilder specText = new StringBuilder();
-
-    // boiler plate
-    specText.append("image file ");
-
-    // image file
-    specText.append(IcUtil.getImageOrDummySamplePath(folder, fileName));
-
-    // tolerance
-    if (StringUtils.isNotBlank(error)) {
-      specText.append(", error ");
-      specText.append(error);
-    }
-    if (offset > 0) {
-      specText.append(", analyze-offset ");
-      specText.append(offset);
-    }
-    if (!toIgnore.isEmpty()) {
-      List<Selector> objects = toIgnore;
-      specText.append(", ignore-objects ");
-      if (objects.size() == 1) {
-        specText.append(objects.get(0));
-      }
-      else {
-        specText.append("[");
-        Collection<String> elementNames = new HashSet<String>();
-
-        for (Selector object : objects) {
-          elementNames.add(object.elementName());
-        }
-
-        specText.append(StringUtils.join(elementNames, ", "));
-        specText.append("]");
-      }
-    }
-
-    return specText.toString();
-  }
-
-  protected Locator getLocator() {
-    Locator locator = getSelector().asLocator();
-    if (hasCorrections()) {
-      locator.withCorrections(getCorrections());
-    }
-    return locator;
-  }
-
-  protected String getZeroToleranceImageComparisonSpecText() {
-    return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0, getObjectsToIgnore());
   }
 
 }
