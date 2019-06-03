@@ -19,28 +19,13 @@
  */
 package io.wcm.qa.galenium.imagecomparison;
 
-import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getActualImagesDirectory;
-import static io.wcm.qa.galenium.configuration.GaleniumConfiguration.getExpectedImagesDirectory;
+import static io.wcm.qa.galenium.imagecomparison.IcUtil.isImageComparisonSpec;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
-import static io.wcm.qa.galenium.util.FileHandlingUtil.constructRelativePath;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import com.galenframework.specs.Spec;
 import com.galenframework.validation.CombinedValidationListener;
-import com.galenframework.validation.ImageComparison;
 import com.galenframework.validation.PageValidation;
-import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
-
-import io.wcm.qa.galenium.exceptions.GaleniumException;
-import io.wcm.qa.galenium.util.FileHandlingUtil;
 
 
 /**
@@ -48,103 +33,16 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
  */
 public class ImageComparisonValidationListener extends CombinedValidationListener {
 
-  private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
-
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
-    trace("spec error triggered: " + objectName);
-    String text = spec.toText();
-    if (StringUtils.contains(text, "image file ")) {
-      trace("saving sample: " + objectName);
-      logSpec(spec);
-      Matcher matcher = getImagePathExtractionRegEx().matcher(text);
-      if (matcher.matches() && matcher.groupCount() >= 1) {
-        String imagePath = matcher.group(1);
-
-        debug("image: " + imagePath);
-        try {
-          File source = getFreshSampleFile(result);
-          if (source == null) {
-            source = new File(imagePath);
-          }
-          File target = getSampleTargetFile(imagePath);
-          trace("begin copying image '" + source + "' -> '" + target + "'");
-          FileUtils.copyFile(source, target);
-          trace("done copying image '" + source + "' -> '" + target + "'");
-        }
-        catch (GaleniumException | IOException ex) {
-          String msg = "could not write image: " + imagePath;
-          getLogger().error(msg, ex);
-        }
-      }
-      else {
-        String msg = "could not extract image name from: " + text;
-        getLogger().warn(msg);
-      }
+    getLogger().trace("spec error triggered: " + objectName);
+    if (isImageComparisonSpec(spec)) {
+      IcUtil.saveSample(objectName, spec, result);
     }
     else {
-      trace("not an image comparison spec");
+      getLogger().trace("not an image comparison spec");
     }
-  }
-
-  private void debug(String msg) {
-    getLogger().debug(msg);
-  }
-
-  private void trace(String msg) {
-    getLogger().trace(msg);
-  }
-
-  protected File getFreshSampleFile(ValidationResult result) {
-
-    ValidationError error = result.getError();
-    String msg;
-    if (error != null) {
-      ImageComparison imageComparison = error.getImageComparison();
-      if (imageComparison != null) {
-        File actualImage = imageComparison.getOriginalFilteredImage();
-        if (actualImage != null) {
-          return actualImage;
-        }
-        else {
-          msg = "could not find sampled image in image comparison.";
-        }
-      }
-      else {
-        msg = "could not find image comparison in validation error.";
-      }
-    }
-    else {
-      msg = "could not find error in validation result.";
-    }
-    getLogger().debug(msg);
-
-    return ImageComparisonUtil.writeDummySample();
-  }
-
-  protected Pattern getImagePathExtractionRegEx() {
-    return Pattern.compile(REGEX_IMAGE_FILENAME);
-  }
-
-  protected File getSampleTargetFile(String imagePath) {
-    String sampledImagesRootPath = getActualImagesDirectory();
-    String path;
-    if (StringUtils.isNotBlank(sampledImagesRootPath)) {
-      File rootDirectory = new File(getExpectedImagesDirectory());
-      String relativeImagePath = constructRelativePath(rootDirectory, new File(imagePath));
-      path = sampledImagesRootPath + File.separator + relativeImagePath;
-    }
-    else {
-      path = imagePath;
-    }
-    File imageFile = new File(path);
-    FileHandlingUtil.ensureParent(imageFile);
-    return imageFile;
-  }
-
-  protected void logSpec(Spec spec) {
-    debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_IMAGE_FILENAME + ")");
   }
 
 }

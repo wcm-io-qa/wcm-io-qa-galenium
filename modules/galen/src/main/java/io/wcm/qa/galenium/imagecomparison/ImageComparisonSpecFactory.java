@@ -21,14 +21,12 @@ package io.wcm.qa.galenium.imagecomparison;
 
 import static java.util.Locale.ENGLISH;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.galenframework.parser.SyntaxException;
@@ -335,17 +333,17 @@ public class ImageComparisonSpecFactory {
   }
 
   protected String getImageComparisonSpecText() {
-    return getImageComparisonSpecText(getFoldername(), getFilename(), getAllowedError(), getAllowedOffset());
+    return getImageComparisonSpecText(getFoldername(), getFilename(), getAllowedError(), getAllowedOffset(), getObjectsToIgnore());
   }
 
-  protected String getImageComparisonSpecText(String folder, String fileName, String error, int offset) {
+  protected String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
     StringBuilder specText = new StringBuilder();
 
     // boiler plate
     specText.append("image file ");
 
     // image file
-    specText.append(getImageOrDummySamplePath(folder, fileName));
+    specText.append(IcUtil.getImageOrDummySamplePath(folder, fileName));
 
     // tolerance
     if (StringUtils.isNotBlank(error)) {
@@ -356,8 +354,8 @@ public class ImageComparisonSpecFactory {
       specText.append(", analyze-offset ");
       specText.append(offset);
     }
-    if (!getObjectsToIgnore().isEmpty()) {
-      List<Selector> objects = getObjectsToIgnore();
+    if (!toIgnore.isEmpty()) {
+      List<Selector> objects = toIgnore;
       specText.append(", ignore-objects ");
       if (objects.size() == 1) {
         specText.append(objects.get(0));
@@ -378,38 +376,6 @@ public class ImageComparisonSpecFactory {
     return specText.toString();
   }
 
-  private String getImageOrDummySamplePath(String folder, String fileName) {
-    String fullFilePath;
-
-    // folder
-    if (StringUtils.isNotBlank(folder)) {
-      fullFilePath = FilenameUtils.concat(folder, fileName);
-    }
-    else {
-      // no folder means fileName is all the path info we have
-      fullFilePath = fileName;
-    }
-
-    createDummyIfSampleDoesNotExist(fullFilePath);
-
-    return fullFilePath;
-  }
-
-  private void createDummyIfSampleDoesNotExist(String fullFilePath) {
-    if (isExpectedImageSampleMissing(fullFilePath)) {
-      GaleniumReportUtil.getLogger().info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
-
-      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
-      File targetFile = new File(fullFilePath);
-
-      ImageComparisonUtil.writeDummySample(targetFile);
-    }
-  }
-
-  private boolean isExpectedImageSampleMissing(String fullFilePath) {
-    return !new File(fullFilePath).isFile();
-  }
-
   protected Locator getLocator() {
     Locator locator = getSelector().asLocator();
     if (hasCorrections()) {
@@ -419,7 +385,7 @@ public class ImageComparisonSpecFactory {
   }
 
   protected String getZeroToleranceImageComparisonSpecText() {
-    return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0);
+    return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0, getObjectsToIgnore());
   }
 
 }
