@@ -167,10 +167,8 @@
               <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
               <galenium.sampling.image.directory.actual>${galenium.sampling.image.directory.actual}</galenium.sampling.image.directory.actual>
               <galenium.sampling.image.directory.expected>${galenium.sampling.image.directory.expected}</galenium.sampling.image.directory.expected>
-              <galenium.sampling.image.save>${galenium.sampling.image.save}</galenium.sampling.image.save>
               <galenium.sampling.text.directory.actual>${galenium.sampling.text.directory.actual}</galenium.sampling.text.directory.actual>
               <galenium.sampling.text.directory.expected>${galenium.sampling.text.directory.expected}</galenium.sampling.text.directory.expected>
-              <galenium.sampling.text.save>${galenium.sampling.text.save}</galenium.sampling.text.save>
               <galenium.sampling.text.file>${galenium.sampling.text.file}</galenium.sampling.text.file>
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>

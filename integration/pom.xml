@@ -68,10 +68,8 @@
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
     <galenium.sampling.image.directory.expected>${project.build.directory}/test-classes/images</galenium.sampling.image.directory.expected>
-    <galenium.sampling.image.save>true</galenium.sampling.image.save>
     <galenium.sampling.text.directory.actual>${project.build.directory}/sampled/text</galenium.sampling.text.directory.actual>
     <galenium.sampling.text.directory.expected>${project.build.directory}/test-classes/text</galenium.sampling.text.directory.expected>
-    <galenium.sampling.text.save>true</galenium.sampling.text.save>
     <galenium.sampling.text.file>expected.properties</galenium.sampling.text.file>
     <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
