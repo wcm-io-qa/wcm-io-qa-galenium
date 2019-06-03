@@ -222,7 +222,7 @@ public class VisualVerification extends VerificationBase<Object> {
       layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition());
     }
     else {
-      PageSpec spec = IcsFactory.getPageSpecInstance(specDefinition);
+      PageSpec spec = IcsFactory.getPageSpec(specDefinition);
       TestDevice testDevice = getTestDevice();
       SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
       layoutReport = GalenLayoutChecker.checkLayout(specDefinition.getSectionName(), spec, testDevice, tags, getValidationListener());
