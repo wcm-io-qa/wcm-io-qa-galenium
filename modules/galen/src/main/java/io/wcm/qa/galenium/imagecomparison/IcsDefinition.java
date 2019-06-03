@@ -23,13 +23,11 @@ import java.util.List;
 
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
-import com.galenframework.validation.ValidationListener;
 
-import io.wcm.qa.galenium.differences.base.Differences;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- *
+ * Parameters for constructing image comparison spec.
  */
 public interface IcsDefinition {
 
@@ -48,29 +46,49 @@ public interface IcsDefinition {
    */
   int getAllowedOffset();
 
+  /**
+   * @return corrections applied to locator
+   */
   CorrectionsRect getCorrections();
 
-  Differences getDifferences();
-
+  /**
+   * @return name of element
+   */
   String getElementName();
 
+  /**
+   * @return the filename of image sample to compare against
+   */
   String getFilename();
 
   /**
-   * @return the set folder name or one constructed from differences
+   * @return the folder name of image sample to compare against
    */
   String getFoldername();
 
+  /**
+   * @return selector as locator with corrections
+   */
   Locator getLocator();
 
+  /**
+   * @return list of objects to ignore
+   */
   List<Selector> getObjectsToIgnore();
 
+  /**
+   * @return name of Galen spec section
+   */
   String getSectionName();
 
+  /**
+   * @return selector of element to check
+   */
   Selector getSelector();
 
-  ValidationListener getValidationListener();
-
+  /**
+   * @return whether to add a zero tolerance check at warning level
+   */
   boolean isZeroToleranceWarning();
 
 }

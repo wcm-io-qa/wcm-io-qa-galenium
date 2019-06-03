@@ -28,7 +28,6 @@ import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.PageSpec;
-import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.base.Difference;
@@ -37,6 +36,7 @@ import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
+import io.wcm.qa.galenium.imagecomparison.IcValidationListener;
 import io.wcm.qa.galenium.imagecomparison.IcsFactory;
 import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.galenium.selectors.base.Selector;
@@ -110,10 +110,6 @@ public class VisualVerification extends VerificationBase<Object> {
 
   public ImageComparisonSpecDefinition getSpecDefinition() {
     return specDefinition;
-  }
-
-  public ValidationListener getValidationListener() {
-    return getSpecDefinition().getValidationListener();
   }
 
   public boolean isZeroToleranceWarning() {
@@ -194,13 +190,6 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   /**
-   * @param validationListener listener to use for this comparison
-   */
-  public void setValidationListener(ValidationListener validationListener) {
-    getSpecDefinition().setValidationListener(validationListener);
-  }
-
-  /**
    * Compare images with no tolerances, but only warn. Allowed pixel percentage and count are ignored along with allowed
    * offset. If this results in a failed verification a warning will be reported and a new sample stored, but the test
    * run will continue.
@@ -218,15 +207,11 @@ public class VisualVerification extends VerificationBase<Object> {
   @Override
   protected boolean doVerification() {
     LayoutReport layoutReport;
-    if (getValidationListener() == null) {
-      layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition());
-    }
-    else {
-      PageSpec spec = IcsFactory.getPageSpec(specDefinition);
-      TestDevice testDevice = getTestDevice();
-      SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
-      layoutReport = GalenLayoutChecker.checkLayout(specDefinition.getSectionName(), spec, testDevice, tags, getValidationListener());
-    }
+
+    PageSpec spec = IcsFactory.getPageSpec(specDefinition);
+    TestDevice testDevice = getTestDevice();
+    SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
+    layoutReport = GalenLayoutChecker.checkLayout(specDefinition.getSectionName(), spec, testDevice, tags, new IcValidationListener());
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }

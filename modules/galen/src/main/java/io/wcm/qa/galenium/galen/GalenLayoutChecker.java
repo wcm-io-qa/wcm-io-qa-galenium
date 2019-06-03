@@ -50,6 +50,7 @@ import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
+import io.wcm.qa.galenium.imagecomparison.IcValidationListener;
 import io.wcm.qa.galenium.imagecomparison.IcsDefinition;
 import io.wcm.qa.galenium.imagecomparison.IcsFactory;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
@@ -72,7 +73,7 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(IcsDefinition specDefinition) {
     PageSpec spec = IcsFactory.getPageSpec(specDefinition);
-    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), specDefinition.getValidationListener());
+    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), new IcValidationListener());
   }
 
   /**

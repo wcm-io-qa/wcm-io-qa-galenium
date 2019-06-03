@@ -59,7 +59,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
 
-  private ValidationListener validationListener = new IcValidationListener();
   private boolean zeroToleranceWarning;
 
   /**
@@ -138,7 +137,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getDifferences()
    */
-  @Override
   public SortedDifferences getDifferences() {
     return differences;
   }
@@ -210,9 +208,8 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getValidationListener()
    */
-  @Override
   public ValidationListener getValidationListener() {
-    return validationListener;
+    return new IcValidationListener();
   }
 
   /* (non-Javadoc)
@@ -288,10 +285,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
 
   public void setSelector(Selector selector) {
     this.selector = selector;
-  }
-
-  public void setValidationListener(ValidationListener validationListener) {
-    this.validationListener = validationListener;
   }
 
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
