@@ -39,7 +39,6 @@ import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
-import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.util.FileHandlingUtil;
 
@@ -55,38 +54,33 @@ public class ImageComparisonValidationListener extends CombinedValidationListene
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
     trace("spec error triggered: " + objectName);
-    if (GaleniumConfiguration.isSaveSampledImages()) {
-      String text = spec.toText();
-      if (StringUtils.contains(text, "image file ")) {
-        trace("saving sample: " + objectName);
-        logSpec(spec);
-        Matcher matcher = getImagePathExtractionRegEx().matcher(text);
-        if (matcher.matches() && matcher.groupCount() >= 1) {
-          String imagePath = matcher.group(1);
+    String text = spec.toText();
+    if (StringUtils.contains(text, "image file ")) {
+      trace("saving sample: " + objectName);
+      logSpec(spec);
+      Matcher matcher = getImagePathExtractionRegEx().matcher(text);
+      if (matcher.matches() && matcher.groupCount() >= 1) {
+        String imagePath = matcher.group(1);
 
-          debug("image: " + imagePath);
-          try {
-            File source = getFreshSampleFile(result);
-            if (source == null) {
-              source = new File(imagePath);
-            }
-            File target = getSampleTargetFile(imagePath);
-            trace("begin copying image '" + source + "' -> '" + target + "'");
-            FileUtils.copyFile(source, target);
-            trace("done copying image '" + source + "' -> '" + target + "'");
+        debug("image: " + imagePath);
+        try {
+          File source = getFreshSampleFile(result);
+          if (source == null) {
+            source = new File(imagePath);
           }
-          catch (GaleniumException | IOException ex) {
-            String msg = "could not write image: " + imagePath;
-            getLogger().error(msg, ex);
-          }
+          File target = getSampleTargetFile(imagePath);
+          trace("begin copying image '" + source + "' -> '" + target + "'");
+          FileUtils.copyFile(source, target);
+          trace("done copying image '" + source + "' -> '" + target + "'");
         }
-        else {
-          String msg = "could not extract image name from: " + text;
-          getLogger().warn(msg);
+        catch (GaleniumException | IOException ex) {
+          String msg = "could not write image: " + imagePath;
+          getLogger().error(msg, ex);
         }
       }
       else {
-        trace("not saving sample. " + objectName);
+        String msg = "could not extract image name from: " + text;
+        getLogger().warn(msg);
       }
     }
     else {

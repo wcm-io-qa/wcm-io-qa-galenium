@@ -193,11 +193,11 @@ public class ImageComparisonSpecFactory {
     objectSpecs.addSpec(insideViewportSpec);
 
     objectSpecs.addSpec(spec);
-    if (GaleniumConfiguration.isSaveSampledImages()) {
+    if (GaleniumConfiguration.isSamplingVerificationIgnore()) {
       spec.setOnlyWarn(true);
       insideViewportSpec.setOnlyWarn(true);
     }
-    else if (isZeroToleranceWarning()) {
+    if (isZeroToleranceWarning()) {
       Spec zeroToleranceSpec = getSpecForText(getZeroToleranceImageComparisonSpecText());
       zeroToleranceSpec.setOnlyWarn(true);
       objectSpecs.addSpec(zeroToleranceSpec);
@@ -335,17 +335,7 @@ public class ImageComparisonSpecFactory {
   }
 
   protected String getImageComparisonSpecText() {
-    String error;
-    int offset;
-    if (GaleniumConfiguration.isSaveSampledImages()) {
-      error = StringUtils.EMPTY;
-      offset = 0;
-    }
-    else {
-      error = getAllowedError();
-      offset = getAllowedOffset();
-    }
-    return getImageComparisonSpecText(getFoldername(), getFilename(), error, offset);
+    return getImageComparisonSpecText(getFoldername(), getFilename(), getAllowedError(), getAllowedOffset());
   }
 
   protected String getImageComparisonSpecText(String folder, String fileName, String error, int offset) {

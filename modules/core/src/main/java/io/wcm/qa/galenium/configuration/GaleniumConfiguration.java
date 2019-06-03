@@ -83,11 +83,9 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX = "galenium.sampling.image.chromefix";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE = "galenium.sampling.image.save";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY = "galenium.sampling.text.directory.expected";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY = "galenium.sampling.text.directory.actual";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE = "galenium.sampling.text.save";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED = "galenium.screenshotOnSkipped";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS = "galenium.screenshotOnSuccess";
@@ -1039,7 +1037,7 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * {@link #isSaveSampledTexts()}
+   * false
    * </pre>
    *
    * </li>
@@ -1047,60 +1045,7 @@ public final class GaleniumConfiguration {
    * @return whether to ignore errors when validating samples
    */
   public static boolean isSamplingVerificationIgnore() {
-    if (asString(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS) == null) {
-      return isSaveSampledTexts();
-    }
     return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS);
-  }
-
-  /**
-   * Store image samples to disk.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.image.save
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return whether to save sampled images to disk
-   */
-  public static boolean isSaveSampledImages() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE);
-  }
-
-  /**
-   * Store text samples to properties file on disk.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.text.save
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   * @return whether to save sampled texts to disk
-   */
-  public static boolean isSaveSampledTexts() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
   }
 
   /**
