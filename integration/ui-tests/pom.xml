@@ -103,34 +103,6 @@
                 <cpuCount>local.cpu.count</cpuCount>
               </configuration>
             </execution>
-            <execution>
-              <!-- Set browser for Selenium from Galenium property -->
-              <id>set-single-selenium-browser-from-galenium-property</id>
-              <goals>
-                <goal>regex-property</goal>
-              </goals>
-              <configuration>
-                <name>galenium.selenium.browser</name>
-                <value>${galenium.browser}</value>
-                <regex>^[^-]+$</regex>
-                <replacement>${galenium.browser}</replacement>
-                <failIfNoMatch>false</failIfNoMatch>
-              </configuration>
-            </execution>
-            <execution>
-              <!-- Set two browsers for Selenium from Galenium property -->
-              <id>set-two-selenium-browsers-from-galenium-property</id>
-              <goals>
-                <goal>regex-property</goal>
-              </goals>
-              <configuration>
-                <name>galenium.selenium.browser</name>
-                <value>${galenium.browser}</value>
-                <regex>^([^-]+)-([^-]+)$</regex>
-                <replacement>$1,$2</replacement>
-                <failIfNoMatch>false</failIfNoMatch>
-              </configuration>
-            </execution>
           </executions>
         </plugin>
 
