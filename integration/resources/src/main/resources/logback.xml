@@ -11,7 +11,7 @@
   <turboFilter
     class="ch.qos.logback.classic.turbo.MarkerFilter">
     <Marker>galenium.webdriver</Marker>
-    <OnMatch>ACCEPT</OnMatch>
+    <OnMatch>DENY</OnMatch>
   </turboFilter>
 
   <!-- Element interaction logging -->
@@ -19,6 +19,12 @@
     class="ch.qos.logback.classic.turbo.MarkerFilter">
     <Marker>galenium.interaction.element</Marker>
     <OnMatch>NEUTRAL</OnMatch>
+  </turboFilter>
+
+  <!-- Special handling of internal Galenium listener logging -->
+  <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>galenium.listeners</Marker>
+    <OnMatch>DENY</OnMatch>
   </turboFilter>
 
   <!-- Name sanitization logging -->
