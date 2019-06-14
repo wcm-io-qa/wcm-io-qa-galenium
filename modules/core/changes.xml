@@ -24,6 +24,9 @@
   <body>
 
     <release version="2.0.0" date="not released yet">
+      <action type="update" dev="apegam">
+        Only include Selenium drivers for Chrome, FF and IE as dependencies.  
+      </action>
       <action type="add" dev="apegam">
         Added Webdriver download from Java code.
       </action>
