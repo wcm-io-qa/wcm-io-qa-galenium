@@ -19,8 +19,8 @@
  */
 package io.wcm.qa.galenium.sampling.proxy;
 
+import io.wcm.qa.galenium.proxy.BrowserMobUtil;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
-import io.wcm.qa.galenium.util.BrowserMobUtil;
 import net.lightbody.bmp.core.har.Har;
 
 /**

@@ -29,8 +29,8 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.proxy.BrowserMobUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.BrowserMobUtil;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
 
