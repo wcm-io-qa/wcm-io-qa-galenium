@@ -128,11 +128,12 @@ public class PackageDifferences implements Differences {
 
   private void initialize() {
     if (isDirty()) {
-      setDifferences(new MutableDifferences());
+      MutableDifferences freshDifferences = new MutableDifferences();
       String[] splitUpPackageName = getRelativePackageName().split("\\.");
       for (String namePart : splitUpPackageName) {
-        getDifferences().add(new StringDifference(namePart));
+        freshDifferences.add(new StringDifference(namePart));
       }
+      setDifferences(freshDifferences);
       setClean();
     }
   }
