@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import io.wcm.qa.galenium.differences.base.Difference;
 
 /**
@@ -73,7 +75,10 @@ public class SortedDifferences extends MutableDifferences {
   public void setComparator(Comparator<Difference> comparator) {
     this.comparator = comparator;
     TreeSet<Difference> newDifferences = new TreeSet<Difference>(comparator);
-    newDifferences.addAll(getDifferences());
+    Collection<Difference> oldDifferences = getDifferences();
+    if (CollectionUtils.isNotEmpty(oldDifferences)) {
+      newDifferences.addAll(oldDifferences);
+    }
     setDifferences(newDifferences);
   }
 
