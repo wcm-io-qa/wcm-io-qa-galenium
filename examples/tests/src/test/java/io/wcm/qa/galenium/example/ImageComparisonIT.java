@@ -56,6 +56,9 @@ public class ImageComparisonIT extends AbstractExampleBase {
     // add a no tolerance check at warning level
     verification.setZeroToleranceWarning(true);
 
+    // allow error percent
+    verification.setAllowedErrorPercent(2.0);
+
     // allow offset
     verification.setAllowedOffset(2);
 
