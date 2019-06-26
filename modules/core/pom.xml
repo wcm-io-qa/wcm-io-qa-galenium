@@ -70,8 +70,8 @@
     </dependency>
 
     <dependency>
-      <groupId>net.lightbody.bmp</groupId>
-      <artifactId>browsermob-core</artifactId>
+      <groupId>com.browserup</groupId>
+      <artifactId>browserup-proxy-core</artifactId>
     </dependency>
 
     <dependency>

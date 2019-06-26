@@ -23,10 +23,11 @@ import java.util.List;
 
 import org.apache.commons.collections4.ListUtils;
 
+import com.browserup.harreader.model.Har;
+import com.browserup.harreader.model.HarEntry;
+import com.browserup.harreader.model.HarLog;
+
 import io.wcm.qa.galenium.sampling.transform.base.TransformationBasedSampler;
-import net.lightbody.bmp.core.har.Har;
-import net.lightbody.bmp.core.har.HarEntry;
-import net.lightbody.bmp.core.har.HarLog;
 
 /**
  * Samples {@link HarEntry} instances from a {@link HarSampler}.

@@ -25,6 +25,9 @@
 
     <release version="2.0.0" date="not released yet">
       <action type="update" dev="apegam">
+        Replace BrowserMob Proxy with actively maintained fork BrowserUp Proxy.  
+      </action>
+      <action type="update" dev="apegam">
         Only include Selenium drivers for Chrome, FF and IE as dependencies.  
       </action>
       <action type="add" dev="apegam">

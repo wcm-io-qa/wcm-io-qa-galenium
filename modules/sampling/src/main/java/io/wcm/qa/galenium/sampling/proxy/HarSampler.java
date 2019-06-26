@@ -19,9 +19,10 @@
  */
 package io.wcm.qa.galenium.sampling.proxy;
 
+import com.browserup.harreader.model.Har;
+
 import io.wcm.qa.galenium.proxy.BrowserMobUtil;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
-import net.lightbody.bmp.core.har.Har;
 
 /**
  * Samples Har from BrowserMob Proxy.

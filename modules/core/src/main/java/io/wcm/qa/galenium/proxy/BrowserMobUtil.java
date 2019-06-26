@@ -27,13 +27,14 @@ import java.net.URI;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Proxy;
 
+import com.browserup.bup.BrowserUpProxy;
+import com.browserup.bup.BrowserUpProxyServer;
+import com.browserup.bup.client.ClientUtil;
+import com.browserup.bup.proxy.auth.AuthType;
+
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.util.GaleniumContext;
-import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.BrowserMobProxyServer;
-import net.lightbody.bmp.client.ClientUtil;
-import net.lightbody.bmp.proxy.auth.AuthType;
 
 /**
  * Configuring the BrowserMob Proxy.
@@ -113,13 +114,13 @@ public final class BrowserMobUtil {
    * BrowserMob Proxy from Galenium context.
    * @return the BMP for the current thread
    */
-  public static BrowserMobProxy getBrowserMobProxy() {
+  public static BrowserUpProxy getBrowserMobProxy() {
     if (!GaleniumConfiguration.isUseBrowserMobProxy()) {
       throw new GaleniumException("set 'galenium.browsermob.proxy' to true before fetching browsermob proxy.");
     }
-    BrowserMobProxy proxy = (BrowserMobProxy)GaleniumContext.get(BROWSER_MOB_PROXY);
+    BrowserUpProxy proxy = (BrowserUpProxy)GaleniumContext.get(BROWSER_MOB_PROXY);
     if (proxy == null) {
-      proxy = new BrowserMobProxyServer();
+      proxy = new BrowserUpProxyServer();
       proxy.setMitmDisabled(false);
       proxy.setTrustAllServers(true);
       proxy.start();
