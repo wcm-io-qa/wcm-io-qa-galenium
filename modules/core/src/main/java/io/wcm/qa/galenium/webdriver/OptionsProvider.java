@@ -29,7 +29,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
-import io.wcm.qa.galenium.proxy.BrowserMobUtil;
+import io.wcm.qa.galenium.proxy.BrowserProxyUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
@@ -67,7 +67,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   private static Proxy getProxyToUse() {
     Proxy proxy = null;
     if (GaleniumConfiguration.isUseBrowserMobProxy()) {
-      proxy = BrowserMobUtil.getSeleniumProxy();
+      proxy = BrowserProxyUtil.getSeleniumProxy();
     }
     else if (isHttpsProxyConfigured()) {
       proxy = new Proxy();

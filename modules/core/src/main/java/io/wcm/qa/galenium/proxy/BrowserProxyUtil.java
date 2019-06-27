@@ -39,12 +39,12 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 /**
  * Configuring the BrowserMob Proxy.
  */
-public final class BrowserMobUtil {
+public final class BrowserProxyUtil {
 
   private static final String BROWSER_MOB_PROXY = "galenium.proxy.browserMob";
   private static final String SELENIUM_PROXY = "galenium.proxy.selenium";
 
-  private BrowserMobUtil() {
+  private BrowserProxyUtil() {
     // do not instantiate
   }
 
