@@ -74,6 +74,7 @@
   </if>
 
   <logger name="org.apache.commons" level="WARN" />
+  <logger name="org.apache.http.wire" level="WARN" />
 
   <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
 

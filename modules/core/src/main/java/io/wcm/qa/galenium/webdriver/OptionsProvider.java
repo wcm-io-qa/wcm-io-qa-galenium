@@ -66,7 +66,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
 
   private static Proxy getProxyToUse() {
     Proxy proxy = null;
-    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
+    if (GaleniumConfiguration.isUseBrowserProxy()) {
       proxy = BrowserProxyUtil.getSeleniumProxy();
     }
     else if (isHttpsProxyConfigured()) {

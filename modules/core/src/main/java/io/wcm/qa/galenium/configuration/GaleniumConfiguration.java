@@ -55,7 +55,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
-  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browsermob.proxy";
+  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browser.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
@@ -1182,7 +1182,7 @@ public final class GaleniumConfiguration {
    * <li>Key:
    *
    * <pre>
-   * galenium.browsermob.proxy
+   * galenium.browser.proxy
    * </pre>
    *
    * </li>
@@ -1197,7 +1197,7 @@ public final class GaleniumConfiguration {
    * </ul>
    * @return whether to use BrowserMob Proxy for drivers
    */
-  public static boolean isUseBrowserMobProxy() {
+  public static boolean isUseBrowserProxy() {
     return asBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 

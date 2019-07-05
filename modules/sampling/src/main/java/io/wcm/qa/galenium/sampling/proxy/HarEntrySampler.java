@@ -48,7 +48,7 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
   @Override
   protected List<HarEntry> transform(Har inputSample) {
     if (inputSample == null) {
-      getLogger().debug("Har was null. (means BMP is not recording");
+      getLogger().debug("Har was null. (means BrowserUp Proxy is not recording)");
       return handleEmptySample();
     }
     HarLog log = inputSample.getLog();

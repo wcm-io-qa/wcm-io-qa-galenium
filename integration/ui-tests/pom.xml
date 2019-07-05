@@ -129,7 +129,7 @@
               <io.wcm.qa.baseUrl>${io.wcm.qa.baseUrl}</io.wcm.qa.baseUrl>
 
               <!-- Galenium -->
-              <galenium.browsermob.proxy>${galenium.browsermob.proxy}</galenium.browsermob.proxy>
+              <galenium.browser.proxy>${galenium.browser.proxy}</galenium.browser.proxy>
               <galenium.headless>${galenium.headless}</galenium.headless>
               <galenium.mediaquery.height>${galenium.mediaquery.height}</galenium.mediaquery.height>
               <galenium.mediaquery.properties>${galenium.mediaquery.properties}</galenium.mediaquery.properties>

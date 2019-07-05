@@ -35,7 +35,7 @@ public class HarSampler extends CachingBasedSampler<Har> {
   }
 
   private Har getHar() {
-    return BrowserProxyUtil.getBrowserMobProxy().getHar();
+    return BrowserProxyUtil.getBrowserProxy().getHar();
   }
 
 }
