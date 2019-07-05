@@ -41,6 +41,7 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
 
   private static final int DEFAULT_MAX_NAME_LENGTH_IN_KEY = 30;
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
+
   private S actualValue;
   private boolean caching;
   private SortedDifferences differences;
@@ -221,9 +222,9 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
   }
 
   protected void afterVerification() {
-    getLogger().trace("looking for '" + getExpectedValue() + "'");
+    getLogger().trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
     S cachedValue = getCachedValue();
-    getLogger().trace("found: '" + cachedValue + "'");
+    getLogger().trace("found: '" + getValueForLogging(cachedValue) + "'");
     if (!isVerified() && cachedValue != null) {
       String expectedKey = getExpectedKey();
       persistSample(expectedKey, cachedValue);
@@ -315,6 +316,16 @@ public abstract class VerificationBase<S> implements Verification, CanCache {
    * @return message for use on successful verification
    */
   protected abstract String getSuccessMessage();
+
+  protected String getValueForLogging(S value) {
+    if (value == null) {
+      return "null";
+    }
+    else {
+      String escaped = GaleniumReportUtil.escapeHtml(value.toString());
+      return StringUtils.abbreviateMiddle(escaped, "...", 800);
+    }
+  }
 
   /**
    * @return whether pre verification exists

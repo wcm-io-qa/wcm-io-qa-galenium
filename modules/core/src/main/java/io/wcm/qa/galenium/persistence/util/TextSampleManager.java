@@ -38,8 +38,8 @@ import org.apache.commons.collections4.properties.SortedProperties;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.configuration.PropertiesUtil;
@@ -51,7 +51,7 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
  */
 public final class TextSampleManager {
-		  
+
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
@@ -81,7 +81,9 @@ public final class TextSampleManager {
    * @param value added
    */
   public static void addNewTextSample(String key, String value) {
-    getLogger().trace("adding new text sample: " + key + "->'" + value + "'");
+    String escapeHtml = GaleniumReportUtil.escapeHtml(value);
+
+    getLogger().trace("adding new text sample: " + key + "->'" + StringUtils.abbreviateMiddle(escapeHtml, "...", 200) + "'");
     SAMPLED_TEXTS.setProperty(key, value);
   }
 
@@ -122,7 +124,7 @@ public final class TextSampleManager {
 	WriterOutputStream writerOutputStream = null;
     try {
       getLogger().debug("Persisting " + SAMPLED_TEXTS.size() + " text samples.");
-      writerOutputStream = getOutputStream();        
+      writerOutputStream = getOutputStream();
       EXPECTED_TEXTS.store(writerOutputStream, "Expected texts");
       SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
     }
@@ -151,7 +153,7 @@ public final class TextSampleManager {
     try {
       temp = new File(OUTPUT_FILE.getAbsolutePath() + ".unixLines");
       temp.createNewFile();
-      
+
       reader = new BufferedReader(new InputStreamReader(new DataInputStream(new FileInputStream(OUTPUT_FILE))));
       writer = new BufferedWriter(new OutputStreamWriter(new DataOutputStream(new FileOutputStream(temp))));
 
@@ -176,7 +178,7 @@ public final class TextSampleManager {
     }
 
   }
-  
+
   private static Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }
