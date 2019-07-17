@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <description>Test automation integration parent for the actual UI tests.</description>
 
   <dependencies>
@@ -39,23 +39,31 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.listeners</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
+    </dependency>
+
+    <!-- Webdriver Management -->
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>3.6.1</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -95,34 +103,6 @@
                 <cpuCount>local.cpu.count</cpuCount>
               </configuration>
             </execution>
-            <execution>
-              <!-- Set browser for Selenium from Galenium property -->
-              <id>set-single-selenium-browser-from-galenium-property</id>
-              <goals>
-                <goal>regex-property</goal>
-              </goals>
-              <configuration>
-                <name>galenium.selenium.browser</name>
-                <value>${galenium.browser}</value>
-                <regex>^[^-]+$</regex>
-                <replacement>${galenium.browser}</replacement>
-                <failIfNoMatch>false</failIfNoMatch>
-              </configuration>
-            </execution>
-            <execution>
-              <!-- Set two browsers for Selenium from Galenium property -->
-              <id>set-two-selenium-browsers-from-galenium-property</id>
-              <goals>
-                <goal>regex-property</goal>
-              </goals>
-              <configuration>
-                <name>galenium.selenium.browser</name>
-                <value>${galenium.browser}</value>
-                <regex>^([^-]+)-([^-]+)$</regex>
-                <replacement>$1,$2</replacement>
-                <failIfNoMatch>false</failIfNoMatch>
-              </configuration>
-            </execution>
           </executions>
         </plugin>
 
@@ -149,7 +129,7 @@
               <io.wcm.qa.baseUrl>${io.wcm.qa.baseUrl}</io.wcm.qa.baseUrl>
 
               <!-- Galenium -->
-              <galenium.browsermob.proxy>${galenium.browsermob.proxy}</galenium.browsermob.proxy>
+              <galenium.browser.proxy>${galenium.browser.proxy}</galenium.browser.proxy>
               <galenium.headless>${galenium.headless}</galenium.headless>
               <galenium.mediaquery.height>${galenium.mediaquery.height}</galenium.mediaquery.height>
               <galenium.mediaquery.properties>${galenium.mediaquery.properties}</galenium.mediaquery.properties>
@@ -159,10 +139,8 @@
               <galenium.retryMax>${galenium.retryMax}</galenium.retryMax>
               <galenium.sampling.image.directory.actual>${galenium.sampling.image.directory.actual}</galenium.sampling.image.directory.actual>
               <galenium.sampling.image.directory.expected>${galenium.sampling.image.directory.expected}</galenium.sampling.image.directory.expected>
-              <galenium.sampling.image.save>${galenium.sampling.image.save}</galenium.sampling.image.save>
               <galenium.sampling.text.directory.actual>${galenium.sampling.text.directory.actual}</galenium.sampling.text.directory.actual>
               <galenium.sampling.text.directory.expected>${galenium.sampling.text.directory.expected}</galenium.sampling.text.directory.expected>
-              <galenium.sampling.text.save>${galenium.sampling.text.save}</galenium.sampling.text.save>
               <galenium.sampling.text.file>${galenium.sampling.text.file}</galenium.sampling.text.file>
               <galenium.sampling.verification.ignoreErrors>${galenium.sampling.verification.ignoreErrors}</galenium.sampling.verification.ignoreErrors>
               <galenium.screenshotOnSkipped>${galenium.screenshotOnSkipped}</galenium.screenshotOnSkipped>
@@ -229,28 +207,6 @@
             </execution>
           </executions>
         </plugin>
-
-        <!-- Webdriver download -->
-        <plugin>
-          <groupId>com.lazerycode.selenium</groupId>
-          <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          <version>${com.lazerycode.selenium.driver-binary-downloader-maven-plugin}</version>
-          <configuration>
-            <rootStandaloneServerDirectory>${galenium.webdriver.download.binaries}</rootStandaloneServerDirectory>
-            <downloadedZipFileDirectory>${galenium.webdriver.download.zips}</downloadedZipFileDirectory>
-            <onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-            <customRepositoryMap>${galenium.webdriver.download.repositoryMap}</customRepositoryMap>
-            <checkFileHashes>false</checkFileHashes>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>selenium</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
       </plugins>
     </pluginManagement>
   </build>

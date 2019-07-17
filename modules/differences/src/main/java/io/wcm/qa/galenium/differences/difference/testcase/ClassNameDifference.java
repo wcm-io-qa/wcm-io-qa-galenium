@@ -17,25 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.sampling.proxy;
+package io.wcm.qa.galenium.differences.difference.testcase;
 
-import com.browserup.harreader.model.Har;
-
-import io.wcm.qa.galenium.proxy.BrowserProxyUtil;
-import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
+import io.wcm.qa.galenium.differences.difference.StringDifference;
 
 /**
- * Samples Har from BrowserMob Proxy.
+ * Uses simple name of class (without package) as difference.
  */
-public class HarSampler extends CachingBasedSampler<Har> {
+public class ClassNameDifference extends StringDifference {
 
-  @Override
-  public Har sampleValue() {
-    return getHar();
-  }
-
-  private Har getHar() {
-    return BrowserProxyUtil.getBrowserProxy().getHar();
+  /**
+   * @param clazz to get name from
+   */
+  public ClassNameDifference(Class clazz) {
+    super(clazz.getSimpleName());
   }
 
 }

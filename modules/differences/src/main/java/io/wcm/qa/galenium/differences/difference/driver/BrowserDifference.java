@@ -17,27 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.driver;
 
+import io.wcm.qa.galenium.device.BrowserType;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.DifferenceBase;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * {@link TestDevice} based {@link Difference}.
+ * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
  */
-public class ScreenWidthDifference extends DifferenceBase {
-
-  @Override
-  public String getName() {
-    return "width";
-  }
+public class BrowserDifference extends DifferenceBase {
 
   @Override
   protected String getRawTag() {
-    int width = GaleniumContext.getTestDevice().getScreenSize().getWidth();
-    return String.format("%04d", width);
+    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
   }
 
 }

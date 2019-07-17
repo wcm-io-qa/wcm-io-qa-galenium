@@ -4,6 +4,14 @@ Selenium Galen Integration
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration)
 
+## Galenium Documentation
+
+To start to use Galenium refer to the [quickstart guide](quickstart.html).
+
+To learn about the background of the technologies integrated by Galenium there is a [background section](background.html).
+
+To understand Galenium and its parts better, the [concept pages](concepts.html) are the best starting point.
+
 ## Galenium Goals
 
 * Running tests in parallel on multiple servers to save test execution time.
@@ -24,10 +32,3 @@ Selenium Galen Integration
 * It includes its own HTTP proxy server which allows to manipulate access data and credentials, e.g. in test cases that require user logins.
 * Test cases in Galenium have a one-to-one relationship with a test case in ExtentReports. ExtentReports is very test case centric. A clear relationship between test cases in the Maven/TestNG world and in the main report simplifies identifying issues and reacting to them.
 
-## Galenium Documentation
-
-To start to use Galenium refer to the [quickstart guide](quickstart.html).
-
-To learn about the background of the technologies integrated by Galenium there is a [background section](background.html).
-
-To understand Galenium and its parts better, the [concept pages](concepts.html) are the best starting point.

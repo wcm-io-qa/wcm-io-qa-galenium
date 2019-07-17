@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2018 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,30 +17,27 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.driver;
+
+import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * Uses the query parameters to URL as difference.
+ * {@link TestDevice} based {@link Difference}.
  */
-public class UrlQueryDifference extends UrlDifference {
+public class ScreenWidthDifference extends DifferenceBase {
 
-  /**
-   * Uses current URL.
-   */
-  public UrlQueryDifference() {
-    super();
-  }
-
-  /**
-   * @param url to extract parameters from
-   */
-  public UrlQueryDifference(String url) {
-    super(url);
+  @Override
+  public String getName() {
+    return "width";
   }
 
   @Override
   protected String getRawTag() {
-    return getUrl().getQuery();
+    int width = GaleniumContext.getTestDevice().getScreenSize().getWidth();
+    return String.format("%04d", width);
   }
 
 }

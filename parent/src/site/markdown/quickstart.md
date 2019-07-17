@@ -41,8 +41,8 @@ Decide which folder you want to install your Galenium project to. We will assume
 
 Switch to the folder. If it does not exist yet, you will have to create it.
 
-```
-user@machine MINGW64 ~
+```console
+user@machine ~
 $ cd /my/local/dev/folder
 ```
 
@@ -50,8 +50,8 @@ $ cd /my/local/dev/folder
 
 Next execute the Archetype by running the following command:
 
-```sh
-user@machine MINGW64 /my/local/dev/folder
+```console
+user@machine /my/local/dev/folder
 $ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype
 ```
 
@@ -61,20 +61,20 @@ This will execute the latest release version of Galenium Archetype in interactiv
 
 To avoid the interactive mode, you need to specify all information as command line parameters.
 
-```sh
-user@machine MINGW64 /my/local/dev/folder
-$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=your.group.id -DartifactId=your.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=your.root.packagename -DprojectName=MyTestAutomationProject 
+```console
+user@machine /my/local/dev/folder
+$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=my.group.id -DartifactId=my.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=my.root.packagename -DprojectName=MyTestAutomationProject 
 ```
 
 The only interaction will be to confirm your choices:
 
-```sh
+```console
 Confirm properties configuration:
-groupId: your.group.id
+groupId: my.group.id
 version: 0.1.0-SNAPSHOT
 projectName: MyTestAutomationProject
-artifactId: your.artifact.id
-package: your.root.packagename
+artifactId: my.artifact.id
+package: my.root.packagename
  Y: :
 ```
 
@@ -86,18 +86,18 @@ The Archetype should have set up a multi module build now.
 
 Which means you should have the following structure in your local folder:
 
-```sh
-user@machine MINGW64 /my/local/dev/folder
+```console
+user@machine /my/local/dev/folder
 $ ls */*
-your.artifact.id/pom.xml
+my.artifact.id/pom.xml
 
-your.artifact.id/parent:
+my.artifact.id/parent:
 pom.xml
 
-your.artifact.id/specs:
+my.artifact.id/specs:
 pom.xml  src/
 
-your.artifact.id/tests:
+my.artifact.id/tests:
 pom.xml  src/
 ```
 
@@ -105,4 +105,15 @@ To learn more about the modules and what they do you can read more in the [devel
 
 ## Running Galenium
 
-TODO: Describe running example from archetype
+From project root run this to compile and run tests:
+
+```console
+user@machine /my/local/dev/folder/my.artifact.id
+$ mvn clean install -Plocal-dev
+```
+
+After the build is done you can find the reports here:
+
+ * ``/my/local/dev/folder/my.artifact.id/tests/target/galenium-reports/extentreports/extentGalen.html``
+ * ``/my/local/dev/folder/my.artifact.id/tests/target/galenium-reports/galen/report.html``
+

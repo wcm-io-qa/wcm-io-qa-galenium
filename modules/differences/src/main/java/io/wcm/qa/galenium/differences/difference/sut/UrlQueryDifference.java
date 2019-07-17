@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,30 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
-
-import io.wcm.qa.galenium.selectors.base.Selector;
+package io.wcm.qa.galenium.differences.difference.sut;
 
 /**
- * Difference based on selector name.
+ * Uses the query parameters to URL as difference.
  */
-public class SelectorDifference extends StringDifference {
+public class UrlQueryDifference extends UrlDifference {
 
   /**
-   * @param selector to get name from
+   * Uses current URL.
    */
-  public SelectorDifference(Selector selector) {
-    super(selector.elementName());
+  public UrlQueryDifference() {
+    super();
+  }
+
+  /**
+   * @param url to extract parameters from
+   */
+  public UrlQueryDifference(String url) {
+    super(url);
+  }
+
+  @Override
+  protected String getRawTag() {
+    return getUrl().getQuery();
   }
 
 }

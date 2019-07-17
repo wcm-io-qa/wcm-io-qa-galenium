@@ -17,13 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.selenium;
 
 
 import static io.wcm.qa.galenium.util.GaleniumContext.getDriver;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,21 +37,24 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 
+import com.eclipsesource.json.ParseException;
 import com.github.wnameless.json.flattener.JsonFlattener;
+
+import io.wcm.qa.galenium.util.HttpUtil;
 
 /**
  * Utility class to fetch name of Selenium Grid node.
  */
 public final class GridHostExtractor {
 
-  static final String PATH_GRID_API_TESTSESSION = "/grid/api/testsession?session=";
-  static final String HTTP = "http://";
   /**
    * Constant used when no grid host could be retrieved.
    */
   public static final String NO_HOST_RETRIEVED = "NO_HOST_RETRIEVED";
-  private static final String NOT_REMOTE = "NOT_REMOTE";
   private static final String EMPTY_PROXY_ID = "EMPTY_PROXY_ID";
+  private static final String NOT_REMOTE = "NOT_REMOTE";
+  static final String HTTP = "http://";
+  static final String PATH_GRID_API_TESTSESSION = "/grid/api/testsession?session=";
 
   private GridHostExtractor() {
     // do not instantiate
@@ -80,11 +85,11 @@ public final class GridHostExtractor {
   public static String getHostnameAndPort(String hostname, int port, SessionId session) {
 
     try {
-      BasicHttpEntityEnclosingRequest request = HttpUtil.getRequest(hostname, port, session);
+      BasicHttpEntityEnclosingRequest request = getRequest(hostname, port, session);
       HttpHost host = new HttpHost(hostname, port);
       CloseableHttpClient client = HttpUtil.getNewClient();
       HttpResponse response = client.execute(host, request);
-      Map<String, Object> jsonAsMap = extractObject(response);
+      Map<String, Object> jsonAsMap = responseAsJsonMap(response);
       client.close();
       Object proxyId = jsonAsMap.get("proxyId");
       if (proxyId != null) {
@@ -96,16 +101,29 @@ public final class GridHostExtractor {
       }
       return NO_HOST_RETRIEVED;
     }
-    catch (IOException ex) {
+    catch (IOException | ParseException ex) {
       return NO_HOST_RETRIEVED;
     }
 
   }
 
-  private static Map<String, Object> extractObject(HttpResponse resp) throws IOException {
+  private static BasicHttpEntityEnclosingRequest getPostRequest(URL url) {
+    return new BasicHttpEntityEnclosingRequest("POST", url.toExternalForm());
+  }
+
+  private static Map<String, Object> responseAsJsonMap(HttpResponse resp) throws IOException {
     InputStreamReader jsonReader = HttpUtil.getResponseReader(resp);
     JsonFlattener jsonFlattener = new JsonFlattener(jsonReader);
     return jsonFlattener.flattenAsMap();
   }
 
+  static BasicHttpEntityEnclosingRequest getRequest(String hostname, int port, SessionId session) throws MalformedURLException {
+    URL sessionURL = getSessionUrl(hostname, port, session);
+    return getPostRequest(sessionURL);
+  }
+
+  static URL getSessionUrl(String hostname, int port, SessionId session) throws MalformedURLException {
+    String urlString = GridHostExtractor.HTTP + hostname + ":" + port + GridHostExtractor.PATH_GRID_API_TESTSESSION + session;
+    return new URL(urlString);
+  }
 }

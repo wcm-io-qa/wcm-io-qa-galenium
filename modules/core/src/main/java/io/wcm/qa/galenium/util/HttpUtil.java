@@ -21,7 +21,6 @@ package io.wcm.qa.galenium.util;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,9 +34,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.HttpClientUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.apache.http.message.BasicNameValuePair;
-import org.openqa.selenium.remote.SessionId;
 
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 
@@ -50,9 +47,21 @@ public final class HttpUtil {
     // do not instantiate
   }
 
-  static CloseableHttpClient getNewClient() {
+  /**
+   * @return fresh closable HTTP client
+   */
+  public static CloseableHttpClient getNewClient() {
     CloseableHttpClient client = HttpClientBuilder.create().build();
     return client;
+  }
+
+  /**
+   * @param resp to read from
+   * @return stream reader for response contents
+   * @throws IOException
+   */
+  public static InputStreamReader getResponseReader(HttpResponse resp) throws IOException {
+    return new InputStreamReader(resp.getEntity().getContent());
   }
 
   /**
@@ -83,24 +92,6 @@ public final class HttpUtil {
     finally {
       HttpClientUtils.closeQuietly(client);
     }
-  }
-
-  static InputStreamReader getResponseReader(HttpResponse resp) throws IOException {
-    return new InputStreamReader(resp.getEntity().getContent());
-  }
-
-  static URL getSessionUrl(String hostname, int port, SessionId session) throws MalformedURLException {
-    String urlString = GridHostExtractor.HTTP + hostname + ":" + port + GridHostExtractor.PATH_GRID_API_TESTSESSION + session;
-    return new URL(urlString);
-  }
-
-  static BasicHttpEntityEnclosingRequest getRequest(String hostname, int port, SessionId session) throws MalformedURLException {
-    URL sessionURL = HttpUtil.getSessionUrl(hostname, port, session);
-    return getPostRequest(sessionURL);
-  }
-
-  private static BasicHttpEntityEnclosingRequest getPostRequest(URL url) {
-    return new BasicHttpEntityEnclosingRequest("POST", url.toExternalForm());
   }
 
 }

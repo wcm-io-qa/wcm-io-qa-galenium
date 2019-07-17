@@ -38,6 +38,7 @@
     <galenium.mediaquery.extentCategory>MQ_</galenium.mediaquery.extentCategory>
     <galenium.report.rootPath>\${project.build.directory}/galenium-reports</galenium.report.rootPath>
     <galenium.retryMax>0</galenium.retryMax>
+    <galenium.skipTests>true</galenium.skipTests>
     <galenium.suppressAutoAdjustBrowserSize>false</galenium.suppressAutoAdjustBrowserSize>
 
     <!-- compiler settings -->
@@ -88,16 +89,6 @@
   <build>
 
     <plugins>
-      <!-- Download Webdriver binaries -->
-      <plugin>
-        <groupId>com.lazerycode.selenium</groupId>
-        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>NEVER_DO_THIS_IN_PARENT</phase>
-          </execution>
-        </executions>
-      </plugin>
 
       <!-- Project specific configuration of UI tests -->
       <plugin>
@@ -135,50 +126,12 @@
       <build>
         <plugins>
 
-          <!-- Download Webdriver binaries -->
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          </plugin>
-
           <!-- Run UI tests -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <configuration>
               <skip>false</skip>
-            </configuration>
-          </plugin>
-
-        </plugins>
-      </build>
-    </profile>
-
-    <!-- for use with Jenkins build -->
-    <profile>
-      <id>ci</id>
-      <properties>
-        <galenium.browser>chrome</galenium.browser>
-      </properties>
-      <build>
-        <plugins>
-
-          <!-- Download Webdriver binaries -->
-          <plugin>
-            <groupId>com.lazerycode.selenium</groupId>
-            <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-          </plugin>
-
-          <!-- Run UI tests -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <skip>false</skip>
-              <systemProperties>
-                <webdriver.chrome.binary>/usr/bin/google-chrome</webdriver.chrome.binary>
-                <webdriver.firefox.bin>/opt/firefox/61.0.1/firefox</webdriver.firefox.bin>
-              </systemProperties>
             </configuration>
           </plugin>
 

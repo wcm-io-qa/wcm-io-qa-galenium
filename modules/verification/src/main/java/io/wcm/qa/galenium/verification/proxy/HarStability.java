@@ -22,9 +22,10 @@ package io.wcm.qa.galenium.verification.proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.browserup.harreader.model.HarEntry;
+
 import io.wcm.qa.galenium.sampling.proxy.HarEntrySampler;
 import io.wcm.qa.galenium.verification.stability.Stability;
-import net.lightbody.bmp.core.har.HarEntry;
 
 /**
  * Verifies stability of entries in Har. Succeeds if the same number of entries are in Har in two consequtive

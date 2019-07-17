@@ -22,22 +22,18 @@ package io.wcm.qa.galenium.example;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import com.galenframework.reports.model.LayoutReport;
-
 import io.wcm.qa.galenium.device.TestDevice;
-import io.wcm.qa.galenium.differences.difference.BrowserDifference;
-import io.wcm.qa.galenium.differences.difference.ScreenWidthDifference;
+import io.wcm.qa.galenium.differences.difference.driver.BrowserDifference;
+import io.wcm.qa.galenium.differences.difference.driver.ScreenWidthDifference;
 import io.wcm.qa.galenium.example.selectors.common.Page;
 import io.wcm.qa.galenium.example.selectors.homepage.Stage;
-import io.wcm.qa.galenium.galen.GalenHelperUtil;
-import io.wcm.qa.galenium.galen.GalenLayoutChecker;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonValidationListener;
 import io.wcm.qa.galenium.providers.TestDeviceProvider;
 import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.verification.element.VisualVerification;
+import io.wcm.qa.galenium.verification.util.Check;
 
 /**
- * Example of how to use the {@link ImageComparisonSpecFactory} to compare individual elements on a page.
+ * Example of how to use the {@link VisualVerification} to compare individual elements on a page.
  */
 public class ImageComparisonIT extends AbstractExampleBase {
 
@@ -55,33 +51,23 @@ public class ImageComparisonIT extends AbstractExampleBase {
 
   private void checkVisually(Selector selector) {
     // get factory for comparing element
-    ImageComparisonSpecFactory factory = new ImageComparisonSpecFactory(selector);
+    VisualVerification verification = new VisualVerification(selector);
 
     // add a no tolerance check at warning level
-    factory.setZeroToleranceWarning(true);
+    verification.setZeroToleranceWarning(true);
+
+    // allow error percent
+    verification.setAllowedErrorPercent(2.0);
 
     // allow offset
-    factory.setAllowedOffset(2);
+    verification.setAllowedOffset(2);
 
     // browser and viewport width will make a difference
-    factory.addDifference(new BrowserDifference());
-    factory.addDifference(new ScreenWidthDifference());
+    verification.addDifference(new BrowserDifference());
+    verification.addDifference(new ScreenWidthDifference());
 
     // compare image using spec
-    LayoutReport layoutReport = GalenLayoutChecker.checkLayout(
-        "Image comparison stage",
-        factory.getPageSpecInstance(),
-        getDevice(),
-        GalenHelperUtil.getSectionFilter(getDevice()),
-        getValidationListener());
-    String specName = "image_comparison_" + selector.elementName() + ".gspec";
-    String errorMessage = "FAILED: Layoutcheck " + specName + " with device " + getDevice();
-    String successMessage = "successfully ran spec: " + specName;
-    GalenLayoutChecker.handleLayoutReport(layoutReport, errorMessage, successMessage);
-  }
-
-  private ImageComparisonValidationListener getValidationListener() {
-    return new ImageComparisonValidationListener();
+    Check.verify(verification);
   }
 
   @Override

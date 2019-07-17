@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,42 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.driver;
 
-import io.wcm.qa.galenium.device.BrowserType;
-import io.wcm.qa.galenium.device.TestDevice;
-import io.wcm.qa.galenium.differences.base.Difference;
+import org.apache.commons.lang3.SystemUtils;
+
 import io.wcm.qa.galenium.differences.base.DifferenceBase;
-import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
+ * Uses {@link SystemUtils} to tell apart the big three OSes:
+ * <ul>
+ * <li>LINUX</li>
+ * <li>OSX</li>
+ * <li>WINDOWS</li>
+ * </ul>
  */
-public class BrowserDifference extends DifferenceBase {
+public class OsFamilyDifference extends DifferenceBase {
+
+  private enum OsFamily {
+    LINUX, OSX, WINDOWS, UNKNOWN
+  }
 
   @Override
   protected String getRawTag() {
-    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
+    return getOsFamily().name();
+  }
+
+  private OsFamily getOsFamily() {
+    if (SystemUtils.IS_OS_LINUX) {
+      return OsFamily.LINUX;
+    }
+    if (SystemUtils.IS_OS_MAC_OSX) {
+      return OsFamily.OSX;
+    }
+    if (SystemUtils.IS_OS_WINDOWS) {
+      return OsFamily.WINDOWS;
+    }
+    return OsFamily.UNKNOWN;
   }
 
 }
