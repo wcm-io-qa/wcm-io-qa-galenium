@@ -46,7 +46,7 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>7.0.0-beta3</version>
+        <version>7.0.0-beta7</version>
       </dependency>
 
       <dependency>
@@ -64,19 +64,19 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-firefox-driver</artifactId>
-        <version>4.0.0-alpha-1</version>
+        <version>4.0.0-alpha-2</version>
       </dependency>
 
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-chrome-driver</artifactId>
-        <version>4.0.0-alpha-1</version>
+        <version>4.0.0-alpha-2</version>
       </dependency>
 
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-ie-driver</artifactId>
-        <version>4.0.0-alpha-1</version>
+        <version>4.0.0-alpha-2</version>
       </dependency>
 
       <!-- Reporting -->
@@ -95,7 +95,7 @@
       <dependency>
         <groupId>org.codehaus.janino</groupId>
         <artifactId>janino</artifactId>
-        <version>3.0.12</version>
+        <version>3.0.14</version>
       </dependency>
 
       <!-- Proxy -->
@@ -128,13 +128,13 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.3</version>
+        <version>4.4</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-csv</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
       </dependency>
 
       <dependency>
@@ -146,13 +146,13 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-text</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.8</version>
+        <version>4.5.9</version>
       </dependency>
 
       <dependency>
