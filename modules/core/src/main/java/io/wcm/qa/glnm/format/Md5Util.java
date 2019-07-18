@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.glnm.format;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
-import org.apache.commons.io.Charsets;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
@@ -47,7 +47,7 @@ final class Md5Util {
 
   private static String getBytesAsAscii(byte[] bytesToEncode) {
     byte[] encodedBytes = Base64.getEncoder().encode(bytesToEncode);
-    return new String(encodedBytes, Charsets.US_ASCII);
+    return new String(encodedBytes, StandardCharsets.US_ASCII);
   }
 
 }
