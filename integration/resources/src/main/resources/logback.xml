@@ -42,7 +42,7 @@
   </turboFilter>
 
   <appender name="EXTENT"
-    class="io.wcm.qa.galenium.appender.logback.ExtentAppender" />
+    class="io.wcm.qa.glnm.appender.logback.ExtentAppender" />
 
   <appender name="STDOUT"
     class="ch.qos.logback.core.ConsoleAppender">
