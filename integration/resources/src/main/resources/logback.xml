@@ -76,8 +76,6 @@
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />
 
-  <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
-
   <root level="DEBUG">
     <appender-ref ref="STDOUT" />
   </root>
