@@ -23,11 +23,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
 
+import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.testng.IAnnotationTransformer;
-import org.testng.IConfigurationListener2;
+import org.testng.IConfigurationListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestNGListener;
@@ -101,9 +101,9 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
   public void beforeConfiguration(ITestResult tr) {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
     for (ITestNGListener listener : listeners) {
-      if (listener instanceof IConfigurationListener2) {
+      if (listener instanceof IConfigurationListener) {
         getLogger().trace("{}: beforeConfiguration(ITestResult tr)", listener.getClass());
-        ((IConfigurationListener2)listener).beforeConfiguration(tr);
+        ((IConfigurationListener)listener).beforeConfiguration(tr);
       }
     }
     super.beforeConfiguration(tr);

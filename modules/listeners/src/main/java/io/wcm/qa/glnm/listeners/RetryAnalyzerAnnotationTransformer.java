@@ -32,7 +32,7 @@ public class RetryAnalyzerAnnotationTransformer implements IAnnotationTransforme
 
   @Override
   public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
-    if (annotation.getRetryAnalyzer() == null) {
+    if (annotation.getRetryAnalyzerClass() == null) {
       annotation.setRetryAnalyzer(RetryAnalyzer.class);
     }
   }

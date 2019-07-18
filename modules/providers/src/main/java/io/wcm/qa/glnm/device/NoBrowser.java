@@ -24,9 +24,6 @@ import java.util.List;
 
 import org.openqa.selenium.Dimension;
 
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.device.TestDevice;
-
 /**
  * Basic Not-A-Browser test device.
  */

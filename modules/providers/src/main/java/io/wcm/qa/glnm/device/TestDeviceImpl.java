@@ -26,10 +26,6 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.device.DeviceProfile;
-import io.wcm.qa.glnm.device.TestDevice;
-
 
 /**
  * Implementation of TestDevice.

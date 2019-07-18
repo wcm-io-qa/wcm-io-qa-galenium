@@ -30,13 +30,10 @@ import org.openqa.selenium.Dimension;
 
 import io.wcm.qa.glnm.configuration.CsvUtil;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.device.DeviceProfile;
-import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.mediaquery.MediaQuery;
 import io.wcm.qa.glnm.mediaquery.MediaQueryUtil;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Convenience methods around test devices.

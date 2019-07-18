@@ -36,9 +36,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.interaction.Browser;
-import io.wcm.qa.glnm.interaction.Element;
-import io.wcm.qa.glnm.interaction.FormElement;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.selectors.base.SelectorFactory;
 import io.wcm.qa.glnm.util.HttpUtil;

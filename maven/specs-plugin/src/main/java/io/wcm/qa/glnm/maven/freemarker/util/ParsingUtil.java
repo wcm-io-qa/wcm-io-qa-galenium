@@ -24,6 +24,7 @@ import static java.util.Collections.emptyMap;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,7 @@ public final class ParsingUtil {
   public static Collection<String> getTags(File specFile) {
     try {
       Bag<String> tags = new HashBag<>();
-      List<String> lines = FileUtils.readLines(specFile);
+      List<String> lines = FileUtils.readLines(specFile, StandardCharsets.UTF_8);
       for (String line : lines) {
         String trimmedLine = line.trim();
         if (StringUtils.startsWith(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC)) {
