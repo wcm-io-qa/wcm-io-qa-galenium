@@ -2,8 +2,8 @@ package ${package};
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
-import io.wcm.qa.galenium.providers.TestDeviceProvider;
-import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.glnm.providers.TestDeviceProvider;
+import io.wcm.qa.glnm.device.TestDevice;
 
 /**
  * Sample Test for Galenium.

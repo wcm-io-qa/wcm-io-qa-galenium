@@ -1,12 +1,12 @@
 <#assign classNameForSpec = className(spec) />
 package ${specRootPackageName};
 
-import static io.wcm.qa.galenium.galen.GalenHelperUtil.readSpec;
-import static io.wcm.qa.galenium.galen.GalenHelperUtil.getSectionFilter;
-import static io.wcm.qa.galenium.galen.GalenHelperUtil.getCombinedSectionFilter;
-import static io.wcm.qa.galenium.galen.GalenLayoutChecker.checkLayout;
-import static io.wcm.qa.galenium.galen.GalenLayoutChecker.handleLayoutReport;
-import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
+import static io.wcm.qa.glnm.galen.GalenHelperUtil.readSpec;
+import static io.wcm.qa.glnm.galen.GalenHelperUtil.getSectionFilter;
+import static io.wcm.qa.glnm.galen.GalenHelperUtil.getCombinedSectionFilter;
+import static io.wcm.qa.glnm.galen.GalenLayoutChecker.checkLayout;
+import static io.wcm.qa.glnm.galen.GalenLayoutChecker.handleLayoutReport;
+import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
@@ -18,11 +18,11 @@ import java.io.File;
 import java.util.Collection;
 import java.util.ArrayList;
 
-import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
-import io.wcm.qa.galenium.galen.GalenHelperUtil;
-import io.wcm.qa.galenium.selectors.SelectorFromLocator;
-import io.wcm.qa.galenium.selectors.base.Selector;
-import io.wcm.qa.galenium.selectors.base.SelectorFactory;
+import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.galen.GalenHelperUtil;
+import io.wcm.qa.glnm.selectors.SelectorFromLocator;
+import io.wcm.qa.glnm.selectors.base.Selector;
+import io.wcm.qa.glnm.selectors.base.SelectorFactory;
 
 /**
  * Java version of '${spec.filename}'. 
