@@ -26,9 +26,7 @@
     <relativePath>../../../parent/pom.xml</relativePath>
   </parent>
 
-  <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.archetype</artifactId>
-  <version>3.0.0-SNAPSHOT</version>
   <name>wcm.io Archetype for Galenium</name>
   <packaging>maven-archetype</packaging>
   <url>http://maven.apache.org</url>
