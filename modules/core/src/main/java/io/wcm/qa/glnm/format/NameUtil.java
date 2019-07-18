@@ -19,7 +19,8 @@
  */
 package io.wcm.qa.glnm.format;
 
-import org.apache.commons.io.Charsets;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -91,7 +92,7 @@ public final class NameUtil {
   }
 
   private static byte[] getUtf8Bytes(String input) {
-    return input.getBytes(Charsets.UTF_8);
+    return input.getBytes(StandardCharsets.UTF_8);
   }
 
 }
