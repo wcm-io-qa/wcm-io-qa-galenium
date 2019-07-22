@@ -23,13 +23,13 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples position of web element.
  */
-public class LocationSampler extends ElementBasedSampler<Point> {
+public class LocationSampler extends WebElementBasedSampler<Point> {
 
   /**
    * @param selector identifies element

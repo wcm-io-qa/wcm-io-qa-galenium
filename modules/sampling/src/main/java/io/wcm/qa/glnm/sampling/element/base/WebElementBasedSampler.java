@@ -28,13 +28,13 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 /**
  * Base class for element sampling.
  */
-public abstract class ElementBasedSampler<O>
+public abstract class WebElementBasedSampler<O>
     extends TransformationBasedSampler<WebElementSampler, WebElement, O> {
 
   /**
    * @param selector to identify element
    */
-  public ElementBasedSampler(Selector selector) {
+  public WebElementBasedSampler(Selector selector) {
     super(new WebElementSampler(selector));
   }
 

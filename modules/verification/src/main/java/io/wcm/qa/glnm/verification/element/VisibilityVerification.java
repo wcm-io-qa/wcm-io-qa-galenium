@@ -23,12 +23,12 @@ import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.element.VisibilitySampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.verification.element.base.ElementBasedVerification;
+import io.wcm.qa.glnm.verification.element.base.WebElementBasedVerification;
 
 /**
  * Verifies that an element is visible on page.
  */
-public class VisibilityVerification extends ElementBasedVerification<VisibilitySampler, Boolean> {
+public class VisibilityVerification extends WebElementBasedVerification<VisibilitySampler, Boolean> {
 
   /**
    * Constructor.

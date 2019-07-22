@@ -21,13 +21,13 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples an attribute of a web element.
  */
-public class AttributeSampler extends ElementBasedSampler<String> {
+public class AttributeSampler extends WebElementBasedSampler<String> {
 
   private String attributeName;
 

@@ -22,17 +22,17 @@ package io.wcm.qa.glnm.verification.element.base;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.persistence.util.TextSampleManager;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 
 /**
  * Abstract base class for implementations to verification on strings sampled from web elements.
  * @param <S> sampler taking strings from elements
  */
-public abstract class ElementBasedStringVerification<S extends ElementBasedSampler<String>> extends ElementBasedVerification<S, String> {
+public abstract class WebElementBasedStringVerification<S extends WebElementBasedSampler<String>> extends WebElementBasedVerification<S, String> {
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
 
-  protected ElementBasedStringVerification(String verificationName, S sampler) {
+  protected WebElementBasedStringVerification(String verificationName, S sampler) {
     super(verificationName, sampler);
   }
 
