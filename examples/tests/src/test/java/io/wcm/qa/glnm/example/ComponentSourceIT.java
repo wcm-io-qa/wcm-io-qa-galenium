@@ -19,98 +19,43 @@
  */
 package io.wcm.qa.glnm.example;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Response;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.wcm.qa.glnm.verification.base.VerificationBase;
-import io.wcm.qa.glnm.verification.diff.FixedStringDiffVerification;
+import io.wcm.qa.glnm.device.NoBrowser;
+import io.wcm.qa.glnm.sampling.Sampler;
+import io.wcm.qa.glnm.sampling.aem.AemAuthorLoginSampler;
+import io.wcm.qa.glnm.sampling.aem.AemComponentHtmlSampler;
+import io.wcm.qa.glnm.verification.diff.StringDiffVerification;
 import io.wcm.qa.glnm.verification.util.Check;
 
 public class ComponentSourceIT extends AbstractExampleBase {
 
-  private static final String LOGIN_PATH = "/libs/granite/core/content/login.html/j_security_check";
-  private static final String HOST_BASE_URL = "http://localhost:4502";
-  private static final String URL_LOGIN = HOST_BASE_URL + LOGIN_PATH;
-  private static final String LOGIN_TOKEN = "login-token";
-  private String loginCookieValue;
-
   public ComponentSourceIT() {
-    super(null);
+    super(NoBrowser.instance());
   }
 
   @Test
-  public void checkStageSource() throws IOException {
-    Document document = fetchUrl(HOST_BASE_URL + "/content/wcm-io-samples/en/jcr:content/stage.html?wcmmode=disabled");
-    String html = extractComponentHtml(document);
+  public void checkStageSource() {
 
-    VerificationBase<List<String>> verification = new FixedStringDiffVerification("Sample Stage", html);
+    AemComponentHtmlSampler sampler = new AemComponentHtmlSampler(getRelativePath(), "stage");
+    sampler.setRequestCookies(getLoginCookies());
+    StringDiffVerification<Sampler<List<String>>,
+        Sampler<String>> verification = new StringDiffVerification<Sampler<List<String>>, Sampler<String>>("sample stage", sampler);
+
     verification.setCaching(true);
     Check.verify(verification);
   }
 
-  private String extractComponentHtml(Document document) {
-    /*
-     * Structure of HTML is roughly:
-     * <html>
-     *   <head></head>
-     *   <body>
-     *     <actual-component-code/>
-     *   </body>
-     * </html>
-     */
-    Element htmlElement = document.child(0);
-    Element bodyElement = htmlElement.child(1);
-    String html = bodyElement.html();
-    return html;
-  }
-
-  @BeforeClass
-  public void loginToAuthor() throws IOException {
-    Connection loginConnection = Jsoup
-        .connect(URL_LOGIN)
-        .data("_charset_", "utf-8")
-        .data("j_username", "admin")
-        .data("j_password", "admin")
-        .data("j_validate", "true")
-        .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-        .postDataCharset("UTF-8")
-        .header("X-Requested-With", "XMLHttpRequest")
-        .ignoreHttpErrors(true);
-    loginConnection.post();
-    getLogger().debug("login POST done.");
-    Response response = loginConnection.response();
-    getLogger().info(response.statusCode() + ": " + response.statusMessage());
-    setLoginCookieValue(response.cookie(LOGIN_TOKEN));
-    Check.verify(new FixedStringDiffVerification("Login POST status", response.statusMessage()));
-  }
-
-  public void setLoginCookieValue(String loginCookieValue) {
-    this.loginCookieValue = loginCookieValue;
-  }
-
-  private Document fetchUrl(String url) throws IOException {
-    Document document = Jsoup
-        .connect(url)
-        .cookie(LOGIN_TOKEN, getLoginCookieValue())
-        .get();
-    getLogger().info(document.title());
-    return document;
-  }
-
-  protected String getLoginCookieValue() {
-    return loginCookieValue;
+  @SuppressWarnings("unchecked")
+  private Map<String, String> getLoginCookies() {
+    return new AemAuthorLoginSampler().sampleValue();
   }
 
   @Override
   protected String getRelativePath() {
-    return null;
+    return "/content/wcm-io-samples/en";
   }
 }
