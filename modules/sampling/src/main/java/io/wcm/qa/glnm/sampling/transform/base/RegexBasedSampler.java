@@ -78,11 +78,11 @@ public abstract class RegexBasedSampler<S extends Sampler<String>, O> extends Tr
     return StringUtils.EMPTY;
   }
 
-  protected abstract O transform(Matcher matcher);
+  protected abstract O extractValue(Matcher matcher);
 
   @Override
   protected O transform(String inputSample) {
     Matcher matcher = getMatcher(inputSample);
-    return transform(matcher);
+    return extractValue(matcher);
   }
 }

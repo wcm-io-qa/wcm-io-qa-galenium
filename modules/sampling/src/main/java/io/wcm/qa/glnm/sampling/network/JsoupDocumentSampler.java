@@ -40,7 +40,7 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
   }
 
   @Override
-  public Document attemptSampling() {
+  public Document freshSample() {
     return getDocument();
   }
 

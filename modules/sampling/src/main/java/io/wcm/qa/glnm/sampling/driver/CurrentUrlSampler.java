@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 public class CurrentUrlSampler extends CachingBasedSampler<String> {
 
   @Override
-  public String attemptSampling() {
+  public String freshSample() {
     return GaleniumContext.getDriver().getCurrentUrl();
   }
 

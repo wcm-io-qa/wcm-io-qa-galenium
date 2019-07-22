@@ -19,93 +19,33 @@
  */
 package io.wcm.qa.glnm.sampling.element.base;
 
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.glnm.interaction.Element;
+import io.wcm.qa.glnm.sampling.element.WebElementSampler;
+import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Base class for element sampling.
- * @param <T> type to return as sample
  */
-public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
-
-  private WebElement cachedElement;
+public abstract class ElementBasedSampler<O>
+    extends TransformationBasedSampler<WebElementSampler, WebElement, O> {
 
   /**
    * @param selector to identify element
    */
   public ElementBasedSampler(Selector selector) {
-    super(selector);
+    super(new WebElementSampler(selector));
   }
 
   @Override
-  public T sampleValue() {
-    try {
-      return attemptSampling();
-    }
-    catch (StaleElementReferenceException ex) {
-      getLogger().debug("caught StaleElementReferencesException: '" + getElementName() + "'");
-      invalidateCache();
-      return attemptSampling();
-    }
+  protected O transform(WebElement inputSample) {
+    return freshSample(inputSample);
   }
 
-  protected T attemptSampling() {
-    if (isCaching()) {
-      if (getCachedValue() == null) {
-        sampleWithCaching();
-      }
-      return getCachedValue();
-    }
-    WebElement element = getElement();
-    if (element == null) {
-      return handleNoElementFound();
-    }
-    return sampleValue(element);
+  public Selector getSelector() {
+    return getInput().getSelector();
   }
 
-  protected WebElement findElement() {
-    WebElement freshElement = Element.findNow(getSelector());
-    getLogger().trace("element based sampler found: " + freshElement);
-    return freshElement;
-  }
-
-  protected WebElement getElement() {
-    if (isCaching()) {
-      if (cachedElement == null) {
-        cachedElement = findElement();
-      }
-      getLogger().trace("returning cached element: " + cachedElement);
-      return cachedElement;
-    }
-    return findElement();
-  }
-
-  protected T getNoSampleFoundValue() {
-    return null;
-  }
-
-  protected T handleNoElementFound() {
-    T noSampleFoundValue = getNoSampleFoundValue();
-    getLogger().debug("did not find '" + getSelector().elementName() + "' when trying to sample. Returning: '" + noSampleFoundValue + "'");
-    return noSampleFoundValue;
-  }
-
-  @Override
-  protected void invalidateCache() {
-    super.invalidateCache();
-    cachedElement = null;
-  }
-
-  protected abstract T sampleValue(WebElement elementToSampleFrom);
-
-  protected void sampleWithCaching() {
-    WebElement elementToSampleFrom = getElement();
-    if (elementToSampleFrom != null) {
-      T sampledValue = sampleValue(elementToSampleFrom);
-      setCachedValue(sampledValue);
-    }
-  }
+  protected abstract O freshSample(WebElement inputSample);
 }

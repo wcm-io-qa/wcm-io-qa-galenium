@@ -21,13 +21,13 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedStringSampler;
 
 /**
  * Samples text of web element.
  */
-public class TextSampler extends ElementBasedStringSampler {
+public class TextSampler extends ElementBasedSampler<String> {
 
   /**
    * @param selector identifies element.
@@ -37,7 +37,7 @@ public class TextSampler extends ElementBasedStringSampler {
   }
 
   @Override
-  protected String sampleValue(WebElement element) {
+  protected String freshSample(WebElement element) {
     return element.getText();
   }
 

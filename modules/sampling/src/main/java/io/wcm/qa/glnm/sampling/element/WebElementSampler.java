@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2018 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,39 @@
  */
 package io.wcm.qa.glnm.sampling.element;
 
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
+
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Counts elements matching the selector.
+ * Samples {@link WebElement} from browser.
  */
-public class ElementCountSampler extends SelectorBasedSampler<Integer> {
+public class WebElementSampler extends SelectorBasedSampler<WebElement> {
 
   /**
-   * @param selector identifies elements to be counted
+   * @param selector to retrieve element
    */
-  public ElementCountSampler(Selector selector) {
+  public WebElementSampler(Selector selector) {
     super(selector);
   }
 
   @Override
-  public Integer freshSample() {
-    return Element.findAll(getSelector()).size();
+  protected WebElement freshSample() {
+    try {
+      return findElement();
+    }
+    catch (StaleElementReferenceException ex) {
+      getLogger().debug("caught StaleElementReferencesException: '" + getElementName() + "'");
+      return findElement();
+    }
   }
 
+  private WebElement findElement() {
+    WebElement freshElement = Element.findNow(getSelector());
+    getLogger().trace("element sampler (" + getElementName() + ") found: " + freshElement);
+    return freshElement;
+  }
 }

@@ -41,11 +41,14 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
   @Override
   public T sampleValue() {
+    if (isCaching() && getCachedValue() != null) {
+      return getCachedValue();
+    }
+    invalidateCache();
     try {
-      T freshSample = attemptSampling();
+      T freshSample = freshSample();
       if (freshSample == null) {
-        handleNullSampling();
-        return null;
+        return handleNullSampling();
       }
       setCachedValue(freshSample);
       return freshSample;
@@ -60,7 +63,7 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
     this.caching = activateCache;
   }
 
-  protected abstract T attemptSampling();
+  protected abstract T freshSample();
 
   protected T getCachedValue() {
     return cachedValue;
@@ -74,9 +77,11 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
     return null;
   }
 
-  protected void handleNullSampling() {
+  protected T handleNullSampling() {
     getLogger().info("when sampling (" + getClass() + "): value was null");
-    setCachedValue(null);
+    T nullValue = getNullValue();
+    setCachedValue(nullValue);
+    return nullValue;
   }
 
   protected T handleSamplingException(GaleniumException ex) {

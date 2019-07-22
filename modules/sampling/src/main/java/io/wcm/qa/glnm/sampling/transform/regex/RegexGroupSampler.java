@@ -59,7 +59,7 @@ public class RegexGroupSampler<S extends Sampler<String>> extends RegexGroupBase
   }
 
   @Override
-  protected Collection<String> transform(Matcher matcher) {
+  protected Collection<String> extractValue(Matcher matcher) {
     Collection<String> results = new ArrayList<>();
     while (matcher.find()) {
       addAllGroups(results, matcher);

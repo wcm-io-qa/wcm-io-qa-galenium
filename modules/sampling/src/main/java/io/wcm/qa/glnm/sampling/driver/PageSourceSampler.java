@@ -29,7 +29,7 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 public class PageSourceSampler extends CachingBasedSampler<String> implements Sampler<String> {
 
   @Override
-  public String attemptSampling() {
+  public String freshSample() {
     return GaleniumContext.getDriver().getPageSource();
   }
 

@@ -58,7 +58,7 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
 
 
   @Override
-  protected String transform(Matcher matcher) {
+  protected String extractValue(Matcher matcher) {
     if (matcher.find()) {
       getLogger().trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
       return matcher.group();
