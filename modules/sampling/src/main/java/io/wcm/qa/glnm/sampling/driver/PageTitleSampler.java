@@ -19,8 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.driver;
 
-import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
+import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Samples title of current page.
@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 public class PageTitleSampler extends CachingBasedSampler<String> {
 
   @Override
-  public String sampleValue() {
+  public String attemptSampling() {
     return GaleniumContext.getDriver().getTitle();
   }
 

@@ -40,7 +40,7 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
   }
 
   @Override
-  public Document sampleValue() {
+  public Document attemptSampling() {
     return getDocument();
   }
 
@@ -49,7 +49,8 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
    */
   protected Document getDocument() {
     try {
-      return getJsoupConnection().get();
+      Document document = getJsoupConnection().get();
+      return document;
     }
     catch (IOException ex) {
       throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'");

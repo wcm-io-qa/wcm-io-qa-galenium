@@ -126,10 +126,12 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 'http'.
-   * @param protocol to use for fetching
+   * @param httpOrHttps to use for fetching
+   * @return this
    */
-  public void setProtocol(String protocol) {
-    this.protocol = protocol;
+  public AemComponentUrlBuilder setProtocol(String httpOrHttps) {
+    this.protocol = httpOrHttps;
+    return this;
   }
 
   private String getComponentName() {

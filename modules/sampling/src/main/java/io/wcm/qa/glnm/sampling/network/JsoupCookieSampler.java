@@ -45,7 +45,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
 
   @SuppressWarnings("unchecked")
   @Override
-  public T sampleValue() {
+  public T attemptSampling() {
     return (T)fetchCookies();
   }
 

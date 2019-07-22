@@ -20,8 +20,8 @@
 package io.wcm.qa.glnm.sampling.element;
 
 import io.wcm.qa.glnm.interaction.Element;
-import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
+import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Counts elements matching the selector.
@@ -36,7 +36,7 @@ public class ElementCountSampler extends SelectorBasedSampler<Integer> {
   }
 
   @Override
-  public Integer sampleValue() {
+  public Integer attemptSampling() {
     return Element.findAll(getSelector()).size();
   }
 
