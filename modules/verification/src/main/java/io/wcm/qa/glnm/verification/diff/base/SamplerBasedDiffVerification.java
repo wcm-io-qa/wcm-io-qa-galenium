@@ -136,7 +136,14 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
   }
 
   private int getDiffCount() {
-    return getDiffResult().getDeltas().size();
+    if (getDiffResult() == null) {
+      return -1;
+    }
+    List<AbstractDelta<I>> deltas = getDiffResult().getDeltas();
+    if (deltas == null) {
+      return -2;
+    }
+    return deltas.size();
   }
 
   @Override

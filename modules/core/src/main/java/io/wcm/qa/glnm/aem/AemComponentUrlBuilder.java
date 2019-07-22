@@ -126,20 +126,13 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 'http'.
-   * @param httpOrHttps to use for fetching
+
+   * @param networkProtocol to use for fetching
    * @return this
    */
-  public AemComponentUrlBuilder setProtocol(String httpOrHttps) {
-    this.protocol = httpOrHttps;
+  public AemComponentUrlBuilder setProtocol(String networkProtocol) {
+    this.protocol = networkProtocol;
     return this;
-  }
-
-  private String getComponentName() {
-    return componentName;
-  }
-
-  private String getExtension() {
-    return extension;
   }
 
   private String getFile() {
@@ -155,12 +148,16 @@ public class AemComponentUrlBuilder {
     return builder.toString();
   }
 
-  private boolean isAuthorInstance() {
-    return authorInstance;
+  protected String getComponentName() {
+    return componentName;
   }
 
   protected String getContentPath() {
     return contentPath;
+  }
+
+  protected String getExtension() {
+    return extension;
   }
 
   protected String getHost() {
@@ -173,6 +170,10 @@ public class AemComponentUrlBuilder {
 
   protected String getProtocol() {
     return protocol;
+  }
+
+  protected boolean isAuthorInstance() {
+    return authorInstance;
   }
 
 }
