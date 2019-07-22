@@ -21,30 +21,22 @@ package io.wcm.qa.glnm.sampling.network;
 
 import java.io.IOException;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
+import io.wcm.qa.glnm.sampling.network.base.JsoupBasedSampler;
 
 /**
  * Uses {@link Jsoup} to fetch HTML from a URL.
  */
-public class JsoupDocumentSampler extends CachingBasedSampler<Document> {
-
-  private String url;
+public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
 
   /**
    * @param url to fetch HTML from
    */
   public JsoupDocumentSampler(String url) {
-    super();
-    this.setUrl(url);
-  }
-
-  public String getUrl() {
-    return url;
+    super(url);
   }
 
   @Override
@@ -62,17 +54,6 @@ public class JsoupDocumentSampler extends CachingBasedSampler<Document> {
     catch (IOException ex) {
       throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'");
     }
-  }
-
-  /**
-   * @return connection used to fetch document
-   */
-  protected Connection getJsoupConnection() {
-    return Jsoup.connect(getUrl());
-  }
-
-  protected void setUrl(String url) {
-    this.url = url;
   }
 
 }

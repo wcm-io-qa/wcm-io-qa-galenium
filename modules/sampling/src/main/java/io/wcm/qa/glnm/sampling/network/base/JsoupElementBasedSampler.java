@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.network;
+package io.wcm.qa.glnm.sampling.network.base;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -30,13 +30,13 @@ import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
  * @param <JDS> {@link Document} sampler
  * @param <D> Jsoup {@link Document}
  */
-public abstract class JsoupElementSamplerBase<JDS extends Sampler<D>, D extends Document, O>
+public abstract class JsoupElementBasedSampler<JDS extends Sampler<D>, D extends Document, O>
     extends TransformationBasedSampler<JDS, D, O> {
 
   /**
    * @param inputSampler {@link Document} sampler
    */
-  public JsoupElementSamplerBase(JDS inputSampler) {
+  public JsoupElementBasedSampler(JDS inputSampler) {
     super(inputSampler);
   }
 
@@ -50,12 +50,12 @@ public abstract class JsoupElementSamplerBase<JDS extends Sampler<D>, D extends 
     return inputSample;
   }
 
+  protected abstract O extractValueFromElement(Element extractedElement);
+
   @Override
   protected O transform(D inputSample) {
     Element extractedElement = extractElement(inputSample);
     return extractValueFromElement(extractedElement);
   }
-
-  protected abstract O extractValueFromElement(Element extractedElement);
 
 }

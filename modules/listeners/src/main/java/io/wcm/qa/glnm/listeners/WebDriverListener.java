@@ -97,11 +97,8 @@ public class WebDriverListener implements ITestListener {
     int retries = 0;
     while (retries <= getNumberOfBrowserInstantiationRetries()) {
       try {
-        TestDevice testDevice = TestInfoUtil.getTestDevice(result);
-        if (testDevice == null) {
-          testDevice = GaleniumContext.getTestDevice();
-        }
-        if (testDevice != null) {
+        TestDevice testDevice = getTestDevice(result);
+        if (testDevice != null && WebDriverManagement.isBrowser(testDevice)) {
           getLogger().debug("new driver for: " + testDevice);
           WebDriverManagement.getDriver(testDevice);
         }
@@ -149,6 +146,16 @@ public class WebDriverListener implements ITestListener {
     else {
       getLogger().debug("Reusing WebDriver for thread " + Thread.currentThread().getName());
     }
+  }
+
+  private TestDevice getTestDevice(ITestResult result) {
+    getLogger().debug("fetch test device from result.");
+    TestDevice testDevice = TestInfoUtil.getTestDevice(result);
+    if (testDevice == null) {
+      getLogger().debug("no test device found in result.");
+      testDevice = GaleniumContext.getTestDevice();
+    }
+    return testDevice;
   }
 
   /**

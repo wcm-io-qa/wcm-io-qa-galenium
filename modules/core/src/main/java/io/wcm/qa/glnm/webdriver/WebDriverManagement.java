@@ -38,6 +38,7 @@ import org.testng.SkipException;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.device.BrowserType;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
@@ -149,6 +150,14 @@ public final class WebDriverManagement {
       }
     }
     return getCurrentDriver();
+  }
+
+  /**
+   * @param testDevice to check
+   * @return whether this test device is a browser that needs a webdriver
+   */
+  public static boolean isBrowser(TestDevice testDevice) {
+    return testDevice.getBrowserType() != BrowserType.NO_BROWSER;
   }
 
   /**

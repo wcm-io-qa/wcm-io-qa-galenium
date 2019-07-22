@@ -17,21 +17,35 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.network;
+package io.wcm.qa.glnm.sampling.aem;
+
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import io.wcm.qa.glnm.aem.AemComponentUtil;
+import io.wcm.qa.glnm.sampling.network.JsoupDocumentSampler;
+import io.wcm.qa.glnm.sampling.network.base.JsoupElementBasedSampler;
+
 /**
  * Sampler to fetch HTML from directly from an AEM component.
  */
-public class AemComponentHtmlSampler extends JsoupElementSamplerBase<JsoupDocumentSampler, Document, String> {
+public class AemComponentHtmlSampler extends JsoupElementBasedSampler<JsoupDocumentSampler, Document, String> {
 
   /**
    * @param url to fetch HTML from
    */
   public AemComponentHtmlSampler(String url) {
     super(new JsoupDocumentSampler(url));
+  }
+
+  /**
+   * @param contentPath path to page
+   * @param componentName name of component to check
+   */
+  public AemComponentHtmlSampler(String contentPath, String componentName) {
+    this(AemComponentUtil.urlBuilder(contentPath, componentName).build().toString());
   }
 
   @Override
@@ -49,6 +63,17 @@ public class AemComponentHtmlSampler extends JsoupElementSamplerBase<JsoupDocume
     Element bodyElement = htmlElement.child(1);
     String html = bodyElement.html();
     return html;
+  }
+
+  public Map<String, String> getRequestCookies() {
+    return getInput().getRequestCookies();
+  }
+
+  /**
+   * @param requestCookies to use when fetching document
+   */
+  public void setRequestCookies(Map<String, String> requestCookies) {
+    getInput().setRequestCookies(requestCookies);
   }
 
 }
