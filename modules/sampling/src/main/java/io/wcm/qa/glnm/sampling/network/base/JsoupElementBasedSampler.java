@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.sampling.network.base;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
@@ -55,7 +56,10 @@ public abstract class JsoupElementBasedSampler<JDS extends Sampler<D>, D extends
   @Override
   protected O transform(D inputSample) {
     Element extractedElement = extractElement(inputSample);
-    return extractValueFromElement(extractedElement);
+    if (extractedElement != null) {
+      return extractValueFromElement(extractedElement);
+    }
+    throw new GaleniumException("null Element passed to extraction.");
   }
 
 }

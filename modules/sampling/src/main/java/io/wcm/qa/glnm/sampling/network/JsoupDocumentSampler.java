@@ -53,7 +53,7 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
       return document;
     }
     catch (IOException ex) {
-      throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'");
+      throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'", ex);
     }
   }
 
