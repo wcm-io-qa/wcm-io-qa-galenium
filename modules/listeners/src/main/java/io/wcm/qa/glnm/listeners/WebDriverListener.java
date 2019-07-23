@@ -95,10 +95,14 @@ public class WebDriverListener implements ITestListener {
 
     // create driver for test
     int retries = 0;
+    TestDevice testDevice = getTestDevice(result);
+    if (!WebDriverManagement.isBrowser(testDevice)) {
+      return;
+    }
+
     while (retries <= getNumberOfBrowserInstantiationRetries()) {
       try {
-        TestDevice testDevice = getTestDevice(result);
-        if (testDevice != null && WebDriverManagement.isBrowser(testDevice)) {
+        if (testDevice != null) {
           getLogger().debug("new driver for: " + testDevice);
           WebDriverManagement.getDriver(testDevice);
         }

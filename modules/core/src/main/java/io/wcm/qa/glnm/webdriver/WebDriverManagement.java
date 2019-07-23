@@ -157,7 +157,7 @@ public final class WebDriverManagement {
    * @return whether this test device is a browser that needs a webdriver
    */
   public static boolean isBrowser(TestDevice testDevice) {
-    return testDevice.getBrowserType() != BrowserType.NO_BROWSER;
+    return testDevice != null && testDevice.getBrowserType() != BrowserType.NO_BROWSER;
   }
 
   /**

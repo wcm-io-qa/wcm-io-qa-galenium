@@ -59,11 +59,11 @@ public class AemComponentHtmlSampler extends JsoupElementBasedSampler<JsoupDocum
      *   </body>
      * </html>
      */
-    getLogger().debug("0 extracting from:\n " + element.outerHtml());
+    getLogger().trace("0 extracting from:\n " + element.outerHtml());
     Element htmlElement = element.child(0);
-    getLogger().debug("1 extracting from:\n " + htmlElement.outerHtml());
+    getLogger().trace("1 extracting from:\n " + htmlElement.outerHtml());
     Element bodyElement = htmlElement.child(1);
-    getLogger().debug("2 extracting from:\n " + bodyElement.outerHtml());
+    getLogger().trace("2 extracting from:\n " + bodyElement.outerHtml());
     String html = bodyElement.html();
     return html;
   }

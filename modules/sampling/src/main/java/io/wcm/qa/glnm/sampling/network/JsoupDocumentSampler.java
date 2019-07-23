@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.sampling.network;
 
 import java.io.IOException;
 
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -53,6 +54,10 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
       return document;
     }
     catch (IOException ex) {
+      if (ex instanceof HttpStatusException) {
+        getLogger().warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
+      }
+      getLogger().debug("Could not fetch Document: " + getUrl(), ex);
       throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'", ex);
     }
   }
