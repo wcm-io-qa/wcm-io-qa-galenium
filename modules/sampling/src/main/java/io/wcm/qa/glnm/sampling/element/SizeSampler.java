@@ -22,13 +22,13 @@ package io.wcm.qa.glnm.sampling.element;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
 
 /**
  * Samples size of element.
  */
-public class SizeSampler extends ElementBasedSampler<Dimension> {
+public class SizeSampler extends WebElementBasedSampler<Dimension> {
 
   /**
    * @param selector identifies element
@@ -38,7 +38,7 @@ public class SizeSampler extends ElementBasedSampler<Dimension> {
   }
 
   @Override
-  protected Dimension sampleValue(WebElement element) {
+  protected Dimension freshSample(WebElement element) {
     return element.getSize();
   }
 

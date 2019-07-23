@@ -126,6 +126,7 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 'http'.
+
    * @param networkProtocol to use for fetching
    * @return this
    */

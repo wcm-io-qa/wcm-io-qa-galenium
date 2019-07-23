@@ -74,10 +74,10 @@ final class IcUtil {
 
   private static File writeDummySample(File targetFile) {
     try {
-      getLogger().trace("begin writing image '" + targetFile);
+      getLogger().trace("begin writing dummy image '" + targetFile);
       FileHandlingUtil.ensureParent(targetFile);
-      ImageIO.write(DUMMY_IMAGE, "png", targetFile);
-      getLogger().trace("done writing image '" + targetFile);
+      ImageIO.write(DUMMY_IMAGE, ".png", targetFile);
+      getLogger().trace("done writing dummy image '" + targetFile);
       return targetFile;
     }
     catch (IOException ex) {
@@ -154,14 +154,6 @@ final class IcUtil {
     }
   }
 
-  static File getActualSampleAsFileFrom(ValidationResult result) {
-    File imageFile = getOriginalFilteredImage(result);
-    if (imageFile == null) {
-      imageFile = writeDummySample();
-    }
-    return imageFile;
-  }
-
   static String getImageOrDummySamplePath(String folder, String fileName) {
     String fullFilePath;
 
@@ -190,44 +182,38 @@ final class IcUtil {
 
   static File getOriginalFilteredImage(ValidationResult result) {
     ValidationError error = result.getError();
-    String msg;
-    if (error != null) {
-      ImageComparison imageComparison = error.getImageComparison();
-      if (imageComparison != null) {
-        File actualImage = imageComparison.getOriginalFilteredImage();
-        if (actualImage != null) {
-          return actualImage;
-        }
-        else {
-          msg = "could not find sampled image in image comparison.";
-        }
-      }
-      else {
-        msg = "could not find image comparison in validation error.";
-      }
+    if (error == null) {
+      getLogger().debug("could not find error in validation result.");
+      return null;
     }
-    else {
-      msg = "could not find error in validation result.";
+
+    ImageComparison imageComparison = error.getImageComparison();
+    if (imageComparison == null) {
+      getLogger().debug("could not find image comparison in validation error.");
+      return null;
     }
-    getLogger().debug(msg);
-    return null;
+
+    File actualImage = imageComparison.getOriginalFilteredImage();
+    if (actualImage == null) {
+      getLogger().debug("could not find sampled image in image comparison.");
+    }
+
+    return actualImage;
   }
 
   static File getSampleSourceFile(Spec spec, ValidationResult result) {
     String imagePath = getImagePathFrom(spec);
-    File source = null;
-    if (StringUtils.isNotBlank(imagePath)) {
-      getLogger().debug("image: " + imagePath);
-      source = getActualSampleAsFileFrom(result);
-      if (source == null) {
-        source = new File(imagePath);
-      }
+    if (StringUtils.isBlank(imagePath)) {
+      getLogger().warn("could not extract image name from: " + spec.toText());
+      return null;
     }
-    else {
-      String msg = "could not extract image name from: " + spec.toText();
-      getLogger().warn(msg);
+    File imageFile = getOriginalFilteredImage(result);
+    if (imageFile != null) {
+      getLogger().debug("sample source file: " + imageFile.getPath());
+      return imageFile;
     }
-    return source;
+    getLogger().debug("sample source path: " + imagePath);
+    return new File(imagePath);
   }
 
   static File getSampleTargetFile(Spec spec) {
@@ -264,21 +250,21 @@ final class IcUtil {
     getLogger().trace("saving sample: " + objectName);
     logSpec(spec);
     File source = getSampleSourceFile(spec, result);
-    if (source != null) {
-      File target = getSampleTargetFile(spec);
-      getLogger().trace("begin copying image '" + source + "' -> '" + target + "'");
-      try {
-        FileUtils.copyFile(source, target);
-      }
-      catch (GaleniumException | IOException ex) {
-        String msg = "could not write image: " + target;
-        getLogger().error(msg, ex);
-      }
-      getLogger().trace("done copying image '" + source + "' -> '" + target + "'");
-    }
-    else {
+    if (source == null) {
       getLogger().debug("did not find source file: " + objectName);
+      return;
     }
+
+    File target = getSampleTargetFile(spec);
+    getLogger().trace("begin copying image '" + source + "' -> '" + target + "'");
+    try {
+      FileUtils.copyFile(source, target);
+    }
+    catch (GaleniumException | IOException ex) {
+      String msg = "could not write image: " + target;
+      getLogger().error(msg, ex);
+    }
+    getLogger().trace("done copying image '" + source + "' -> '" + target + "'");
   }
 
   static File writeDummySample() {

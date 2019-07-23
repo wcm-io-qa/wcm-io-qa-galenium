@@ -208,14 +208,15 @@ public class VisualVerification extends VerificationBase<Object> {
   protected boolean doVerification() {
     LayoutReport layoutReport;
 
-    PageSpec spec = IcsFactory.getPageSpec(specDefinition);
+    PageSpec spec = IcsFactory.getPageSpec(getSpecDefinition());
     TestDevice testDevice = getTestDevice();
     SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
-    layoutReport = GalenLayoutChecker.checkLayout(specDefinition.getSectionName(), spec, testDevice, tags, new IcValidationListener());
+    layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
     catch (GalenLayoutException ex) {
+      getLogger().debug("image comparison layout", ex);
       return false;
     }
     return true;

@@ -30,7 +30,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 public class HarSampler extends CachingBasedSampler<Har> {
 
   @Override
-  public Har sampleValue() {
+  public Har freshSample() {
     return getHar();
   }
 

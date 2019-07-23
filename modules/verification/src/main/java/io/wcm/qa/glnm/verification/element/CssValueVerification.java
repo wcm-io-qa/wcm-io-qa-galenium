@@ -23,12 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.sampling.element.CssValueSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.verification.element.base.ElementBasedStringVerification;
+import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerification;
 
 /**
  * Make sure an attribute is set on an element.
  */
-public class CssValueVerification extends ElementBasedStringVerification<CssValueSampler> {
+public class CssValueVerification extends WebElementBasedStringVerification<CssValueSampler> {
 
   /**
    * @param selector to identify element

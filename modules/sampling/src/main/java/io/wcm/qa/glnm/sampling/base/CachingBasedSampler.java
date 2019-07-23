@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.sampling.base;
 
 import org.slf4j.Logger;
 
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CachingSampler;
 
@@ -39,9 +40,30 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
   }
 
   @Override
+  public T sampleValue() {
+    if (isCaching() && getCachedValue() != null) {
+      return getCachedValue();
+    }
+    invalidateCache();
+    try {
+      T freshSample = freshSample();
+      if (freshSample == null) {
+        return handleNullSampling();
+      }
+      setCachedValue(freshSample);
+      return freshSample;
+    }
+    catch (GaleniumException ex) {
+      return handleSamplingException(ex);
+    }
+  }
+
+  @Override
   public void setCaching(boolean activateCache) {
     this.caching = activateCache;
   }
+
+  protected abstract T freshSample();
 
   protected T getCachedValue() {
     return cachedValue;
@@ -49,6 +71,22 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
   protected Logger getLogger() {
     return GaleniumReportUtil.getLogger();
+  }
+
+  protected T getNullValue() {
+    return null;
+  }
+
+  protected T handleNullSampling() {
+    getLogger().info("when sampling (" + getClass() + "): value was null");
+    T nullValue = getNullValue();
+    setCachedValue(nullValue);
+    return nullValue;
+  }
+
+  protected T handleSamplingException(GaleniumException ex) {
+    getLogger().info("when sampling (" + getClass() + ")", ex);
+    return getNullValue();
   }
 
   protected void invalidateCache() {

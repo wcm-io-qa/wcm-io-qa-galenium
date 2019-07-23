@@ -21,13 +21,13 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
 
 /**
  * Existence and visibility of element.
  */
-public class VisibilitySampler extends ElementBasedSampler<Boolean> {
+public class VisibilitySampler extends WebElementBasedSampler<Boolean> {
 
   /**
    * @param selector to identify element
@@ -41,12 +41,7 @@ public class VisibilitySampler extends ElementBasedSampler<Boolean> {
   }
 
   @Override
-  protected Boolean handleNoElementFound() {
-    return false;
-  }
-
-  @Override
-  protected Boolean sampleValue(WebElement element) {
+  protected Boolean freshSample(WebElement element) {
     return isDisplayed(element);
   }
 }

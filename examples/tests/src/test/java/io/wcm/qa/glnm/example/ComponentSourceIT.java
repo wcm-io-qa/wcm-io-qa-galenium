@@ -51,7 +51,7 @@ public class ComponentSourceIT extends AbstractExampleBase {
 
   @SuppressWarnings("unchecked")
   private Map<String, String> getLoginCookies() {
-    return new AemAuthorLoginSampler().sampleValue();
+    return (Map<String, String>)new AemAuthorLoginSampler().sampleValue();
   }
 
   @Override

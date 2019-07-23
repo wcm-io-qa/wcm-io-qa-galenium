@@ -49,7 +49,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
   }
 
   @Override
-  public O sampleValue() {
+  public O freshSample() {
     I inputSample = getInput().sampleValue();
     O outputSample = transform(inputSample);
     return outputSample;

@@ -80,7 +80,7 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
   }
 
   @Override
-  protected String transform(Matcher matcher) {
+  protected String extractValue(Matcher matcher) {
     if (matcher.find()) {
       return matcher.group(getGroupIndex());
     }

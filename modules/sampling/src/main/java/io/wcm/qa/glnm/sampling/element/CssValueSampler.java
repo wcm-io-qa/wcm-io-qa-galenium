@@ -21,13 +21,13 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedStringSampler;
 
 /**
  * Samples an attribute of a web element.
  */
-public class CssValueSampler extends ElementBasedStringSampler {
+public class CssValueSampler extends WebElementBasedSampler<String> {
 
   private String cssValueName;
 
@@ -45,7 +45,7 @@ public class CssValueSampler extends ElementBasedStringSampler {
   }
 
   @Override
-  protected String sampleValue(WebElement element) {
+  protected String freshSample(WebElement element) {
     return element.getCssValue(getCssValueName());
   }
 

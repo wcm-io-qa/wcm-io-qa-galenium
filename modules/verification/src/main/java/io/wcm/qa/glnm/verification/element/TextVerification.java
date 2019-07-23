@@ -23,12 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.sampling.element.TextSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.verification.element.base.ElementBasedStringVerification;
+import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerification;
 
 /**
  * Verifies text of element.
  */
-public class TextVerification extends ElementBasedStringVerification<TextSampler> {
+public class TextVerification extends WebElementBasedStringVerification<TextSampler> {
 
   /**
    * @param selector to identify element

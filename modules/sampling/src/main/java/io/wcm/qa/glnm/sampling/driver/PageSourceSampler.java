@@ -19,9 +19,9 @@
  */
 package io.wcm.qa.glnm.sampling.driver;
 
-import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
+import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Samples the page source of current page.
@@ -29,7 +29,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 public class PageSourceSampler extends CachingBasedSampler<String> implements Sampler<String> {
 
   @Override
-  public String sampleValue() {
+  public String freshSample() {
     return GaleniumContext.getDriver().getPageSource();
   }
 

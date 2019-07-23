@@ -23,13 +23,13 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.sampling.element.base.ElementBasedSampler;
 
 /**
  * Samples position of web element.
  */
-public class LocationSampler extends ElementBasedSampler<Point> {
+public class LocationSampler extends WebElementBasedSampler<Point> {
 
   /**
    * @param selector identifies element
@@ -39,9 +39,9 @@ public class LocationSampler extends ElementBasedSampler<Point> {
   }
 
   @Override
-  protected Point sampleValue(WebElement element) {
+  protected Point freshSample(WebElement element) {
     Point location = element.getLocation();
-    GaleniumReportUtil.getLogger().trace("Sampled location for '" + getSelector().elementName() + "': " + location);
+    GaleniumReportUtil.getLogger().trace("Sampled location for '" + getInput().getSelector().elementName() + "': " + location);
     return location;
   }
 

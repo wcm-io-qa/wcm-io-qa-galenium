@@ -21,21 +21,31 @@ package io.wcm.qa.glnm.sampling.element.base;
 
 import org.openqa.selenium.WebElement;
 
+import io.wcm.qa.glnm.sampling.element.WebElementSampler;
+import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Base class for String sampling from elements.
+ * Base class for element sampling.
  */
-public abstract class ElementBasedStringSampler extends ElementBasedSampler<String> {
+public abstract class WebElementBasedSampler<O>
+    extends TransformationBasedSampler<WebElementSampler, WebElement, O> {
 
   /**
-   * @param selector identifies element
+   * @param selector to identify element
    */
-  public ElementBasedStringSampler(Selector selector) {
-    super(selector);
+  public WebElementBasedSampler(Selector selector) {
+    super(new WebElementSampler(selector));
   }
 
   @Override
-  protected abstract String sampleValue(WebElement element);
+  protected O transform(WebElement inputSample) {
+    return freshSample(inputSample);
+  }
 
+  public Selector getSelector() {
+    return getInput().getSelector();
+  }
+
+  protected abstract O freshSample(WebElement inputSample);
 }

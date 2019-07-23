@@ -77,7 +77,7 @@
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />
 
-  <root level="DEBUG">
+  <root level="TRACE">
     <appender-ref ref="STDOUT" />
   </root>
 

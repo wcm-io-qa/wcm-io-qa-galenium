@@ -23,12 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.sampling.element.AttributeSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.verification.element.base.ElementBasedStringVerification;
+import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerification;
 
 /**
  * Make sure an attribute is set on an element.
  */
-public class AttributeVerification extends ElementBasedStringVerification<AttributeSampler> {
+public class AttributeVerification extends WebElementBasedStringVerification<AttributeSampler> {
 
   /**
    * @param selector to identify element
