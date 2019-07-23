@@ -72,11 +72,13 @@
       </logger>
     </else>
   </if>
-
+  <logger name="com.galenframework" level="TRACE" >
+        <appender-ref ref="STDOUT" />
+  </logger>
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />
 
-  <root level="DEBUG">
+  <root level="TRACE">
     <appender-ref ref="STDOUT" />
   </root>
 
