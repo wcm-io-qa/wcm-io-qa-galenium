@@ -19,13 +19,20 @@
  */
 package io.wcm.qa.glnm.providers;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.DataProvider;
 
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
@@ -35,6 +42,42 @@ public final class TestNgProviderUtil {
 
   private TestNgProviderUtil() {
     // do not instantiate
+  }
+
+  /**
+   * Read string parameters from UTF-8 input file. Each line becomes one parameter.
+   * @param input UTF-8 encoded text file to read from
+   * @return array ready to use in {@link DataProvider}
+   */
+  public static Object[][] fromFile(File input) {
+    return fromFile(input, StandardCharsets.UTF_8);
+  }
+
+  /**
+   * Read string parameters from input file. Each line becomes one parameter.
+   * @param input text file to read from
+   * @param charset encoding of file
+   * @return array ready to use in {@link DataProvider}
+   */
+  public static Object[][] fromFile(File input, Charset charset) {
+
+    // null check
+    if (input == null) {
+      throw new GaleniumException("input file is null when data providing.");
+    }
+
+    // existence check
+    if (!input.isFile()) {
+      throw new GaleniumException("not a file: " + input);
+    }
+
+    try {
+      List<String> lines = FileUtils.readLines(input, charset);
+      return combine(lines);
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("could not read file: " + input);
+    }
   }
 
   /**
