@@ -61,6 +61,8 @@ public final class TestNgProviderUtil {
    */
   public static Object[][] fromFile(File input, Charset charset) {
 
+    GaleniumReportUtil.getLogger().debug("data providing from: " + input);
+
     // null check
     if (input == null) {
       throw new GaleniumException("input file is null when data providing.");
