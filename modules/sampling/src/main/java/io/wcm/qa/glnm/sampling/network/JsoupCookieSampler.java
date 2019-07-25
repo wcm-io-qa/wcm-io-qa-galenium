@@ -20,10 +20,12 @@
 package io.wcm.qa.glnm.sampling.network;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
+import org.jsoup.Connection.Request;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.network.base.JsoupBasedSampler;
@@ -59,17 +61,26 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
   }
 
   protected Map<String, String> fetchCookies() {
-    Connection jsoupConnection = getJsoupConnection();
+    Connection connection = getJsoupConnection();
+
+    Request request = connection.request();
+    URL url = request.url();
+    getLogger().info("sending " + getMethod() + " request to '" + url + "'");
 
     try {
-      jsoupConnection.method(getMethod());
-      jsoupConnection.execute();
+
+      connection.method(getMethod());
+      connection.execute();
+
+      Map<String, String> cookies = connection.response().cookies();
+      getLogger().debug("got " + cookies.size() + " cookies from '" + url + "'");
+
+      return cookies;
     }
     catch (IOException ex) {
       throw new GaleniumException("Could not fetch cookies", ex);
     }
 
-    return jsoupConnection.response().cookies();
   }
 
   protected Method getMethod() {

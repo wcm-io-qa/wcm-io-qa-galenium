@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.sampling.network;
 
 import java.io.IOException;
 
+import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -50,7 +51,12 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
    */
   protected Document getDocument() {
     try {
-      Document document = getJsoupConnection().get();
+      Connection connection = getJsoupConnection();
+      if (connection == null) {
+        throw new GaleniumException("cannot get document from null connection.");
+      }
+      getLogger().info("fetching document from '" + connection.request().url() + "'");
+      Document document = connection.get();
       return document;
     }
     catch (IOException ex) {

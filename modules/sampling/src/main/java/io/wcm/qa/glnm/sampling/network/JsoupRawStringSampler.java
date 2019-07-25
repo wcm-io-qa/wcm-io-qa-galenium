@@ -29,6 +29,8 @@ import io.wcm.qa.glnm.sampling.network.base.JsoupElementBasedSampler;
  */
 public class JsoupRawStringSampler extends JsoupElementBasedSampler<JsoupDocumentSampler, Document, String> {
 
+  private boolean bodyOnly;
+
   /**
    * @param inputSampler document sampler
    */
@@ -46,15 +48,24 @@ public class JsoupRawStringSampler extends JsoupElementBasedSampler<JsoupDocumen
     /*
      * Structure of HTML is roughly:
      * <html>
-     *   <head></head>
-     *   <body>
-     *     <actual-component-code/>
-     *   </body>
+     *   <head />
+     *   <body />
      * </html>
      */
-    Element htmlElement = element.child(0);
-    Element bodyElement = htmlElement.child(1);
-    String html = bodyElement.html();
-    return html;
+    if (isBodyOnly()) {
+      Element htmlElement = element.child(0);
+      Element bodyElement = htmlElement.child(1);
+      return bodyElement.html();
+    }
+
+    return element.html();
+  }
+
+  public boolean isBodyOnly() {
+    return bodyOnly;
+  }
+
+  public void setBodyOnly(boolean bodyOnly) {
+    this.bodyOnly = bodyOnly;
   }
 }

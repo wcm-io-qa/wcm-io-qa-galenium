@@ -21,23 +21,21 @@ package io.wcm.qa.glnm.sampling.aem;
 
 import java.util.Map;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import io.wcm.qa.glnm.aem.AemComponentUtil;
 import io.wcm.qa.glnm.sampling.network.JsoupDocumentSampler;
-import io.wcm.qa.glnm.sampling.network.base.JsoupElementBasedSampler;
+import io.wcm.qa.glnm.sampling.network.JsoupRawStringSampler;
 
 /**
  * Sampler to fetch HTML from directly from an AEM component.
  */
-public class AemComponentHtmlSampler extends JsoupElementBasedSampler<JsoupDocumentSampler, Document, String> {
+public class AemComponentHtmlSampler extends JsoupRawStringSampler {
 
   /**
    * @param url to fetch HTML from
    */
   public AemComponentHtmlSampler(String url) {
     super(new JsoupDocumentSampler(url));
+    setBodyOnly(true);
   }
 
   /**
@@ -46,26 +44,6 @@ public class AemComponentHtmlSampler extends JsoupElementBasedSampler<JsoupDocum
    */
   public AemComponentHtmlSampler(String contentPath, String componentName) {
     this(AemComponentUtil.urlBuilder(contentPath, componentName).build().toString());
-  }
-
-  @Override
-  protected String extractValueFromElement(Element element) {
-    /*
-     * Structure of HTML is roughly:
-     * <html>
-     *   <head></head>
-     *   <body>
-     *     <actual-component-code/>
-     *   </body>
-     * </html>
-     */
-    getLogger().trace("0 extracting from:\n " + element.outerHtml());
-    Element htmlElement = element.child(0);
-    getLogger().trace("1 extracting from:\n " + htmlElement.outerHtml());
-    Element bodyElement = htmlElement.child(1);
-    getLogger().trace("2 extracting from:\n " + bodyElement.outerHtml());
-    String html = bodyElement.html();
-    return html;
   }
 
   public Map<String, String> getRequestCookies() {
