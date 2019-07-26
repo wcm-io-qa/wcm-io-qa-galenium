@@ -34,6 +34,7 @@ import org.testng.annotations.DataProvider;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Utility class to help with writing {@link DataProvider} code.
@@ -81,6 +82,15 @@ public final class TestNgProviderUtil {
       throw new GaleniumException("could not read file: " + input);
     }
   }
+
+  /**
+   * @param sampler to generate arguments
+   * @return arguments based on sampler result
+   */
+  public static Object[][] fromSampler(Sampler<Iterable> sampler) {
+    return combine(sampler.sampleValue());
+  }
+
 
   /**
    * Transforms argument list into Object array. For use with DataProviders for single argument methods and
