@@ -19,9 +19,12 @@
  */
 package io.wcm.qa.glnm.sampling.network;
 
+import java.util.Map;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.network.base.JsoupElementBasedSampler;
 
 /**
@@ -32,10 +35,10 @@ public class JsoupRawStringSampler extends JsoupElementBasedSampler<JsoupDocumen
   private boolean bodyOnly;
 
   /**
-   * @param inputSampler document sampler
+   * @param url to fetch document from
    */
-  public JsoupRawStringSampler(JsoupDocumentSampler inputSampler) {
-    super(inputSampler);
+  public JsoupRawStringSampler(String url) {
+    super(new JsoupDocumentSampler(url));
   }
 
   @Override
@@ -59,6 +62,17 @@ public class JsoupRawStringSampler extends JsoupElementBasedSampler<JsoupDocumen
     }
 
     return element.html();
+  }
+
+  public Sampler<Map<String, String>> getCookieSampler() {
+    return getInput().getCookieSampler();
+  }
+
+  /**
+   * @param cookieSampler passed to document sampler
+   */
+  public void setCookieSampler(Sampler<Map<String, String>> cookieSampler) {
+    getInput().setCookieSampler(cookieSampler);
   }
 
   public boolean isBodyOnly() {

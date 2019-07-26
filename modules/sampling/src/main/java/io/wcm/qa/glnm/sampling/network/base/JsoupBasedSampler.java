@@ -25,6 +25,7 @@ import java.util.Map;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
+import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
@@ -35,6 +36,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
 
   private String url;
   private Map<String, String> requestCookies = new HashMap<String, String>();
+  private Sampler<Map<String, String>> cookieSampler;
 
   /**
    * @param url to connect to
@@ -43,12 +45,20 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
     setUrl(url);
   }
 
+  public Sampler<Map<String, String>> getCookieSampler() {
+    return cookieSampler;
+  }
+
   public Map<String, String> getRequestCookies() {
     return requestCookies;
   }
 
   public String getUrl() {
     return url;
+  }
+
+  public void setCookieSampler(Sampler<Map<String, String>> cookieSampler) {
+    this.cookieSampler = cookieSampler;
   }
 
   public void setRequestCookies(Map<String, String> cookies) {
@@ -72,13 +82,27 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    */
   protected Connection getJsoupConnection() {
     Connection connection = getConnectionProvider().getConnection();
-    connection.cookies(getRequestCookies());
+    if (useRequestCookies()) {
+      connection.cookies(getRequestCookies());
+    }
+    if (useCookieSampler()) {
+      connection.cookies(getCookieSampler().sampleValue());
+    }
+    connection.ignoreContentType(true);
     return connection;
   }
 
   protected JsoupBasedSampler<T> setUrl(String newUrl) {
     this.url = newUrl;
     return this;
+  }
+
+  protected boolean useCookieSampler() {
+    return getCookieSampler() != null;
+  }
+
+  protected boolean useRequestCookies() {
+    return getRequestCookies() != null;
   }
 
 }

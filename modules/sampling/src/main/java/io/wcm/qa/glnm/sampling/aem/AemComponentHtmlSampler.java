@@ -22,7 +22,6 @@ package io.wcm.qa.glnm.sampling.aem;
 import java.util.Map;
 
 import io.wcm.qa.glnm.aem.AemComponentUtil;
-import io.wcm.qa.glnm.sampling.network.JsoupDocumentSampler;
 import io.wcm.qa.glnm.sampling.network.JsoupRawStringSampler;
 
 /**
@@ -34,7 +33,7 @@ public class AemComponentHtmlSampler extends JsoupRawStringSampler {
    * @param url to fetch HTML from
    */
   public AemComponentHtmlSampler(String url) {
-    super(new JsoupDocumentSampler(url));
+    super(url);
     setBodyOnly(true);
   }
 
