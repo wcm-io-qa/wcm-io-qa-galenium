@@ -27,7 +27,7 @@ import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AllPagesForTemplateSampler;
 
 /**
- *
+ * {@link DataProvider} for AEM content paths using JCR query on author.
  */
 public final class ContentPathProvider {
 
