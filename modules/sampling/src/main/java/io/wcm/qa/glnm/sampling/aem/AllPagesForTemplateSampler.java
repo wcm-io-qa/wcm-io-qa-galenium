@@ -61,6 +61,10 @@ public class AllPagesForTemplateSampler extends TransformationBasedSampler<Sampl
     return StringUtils.removeEnd(path, PATH_FRAGMENT_JCR_CONTENT);
   }
 
+  public JcrQuerySampler getQuerySampler() {
+    return (JcrQuerySampler)getInput();
+  }
+
   private static JcrQuerySampler buildInputSampler(String templateNamePattern, String rootPath) {
     return new JcrQuerySampler()
         .addLikeProperty(PROPERTY_NAME_CQ_TEMPLATE, templateNamePattern)

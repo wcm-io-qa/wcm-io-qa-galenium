@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.verification.diff.base;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 import com.github.difflib.DiffUtils;
 import com.github.difflib.algorithm.DiffException;
@@ -47,40 +48,67 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O extends List<I>> extends SamplerBasedVerification<S, O> {
 
   private Patch<I> diffResult;
+  private int maxLinesInFailureMessage = 20;
 
   protected SamplerBasedDiffVerification(String verificationName, S sampler) {
     super(verificationName, sampler);
+  }
+
+  /**
+   * Writes formatted diff to {@link StringBuilder}.
+   * @param builder to write to
+   * @param maxLines to limit number of diff lines written
+   */
+  public void appendDiffTable(StringBuilder builder, int maxLines) {
+    try {
+      DiffRowGenerator generator = DiffRowGenerator.create().build();
+      List<String> original = asStringList(getExpectedValue());
+      Patch<String> patch = asStringPatch(getDiffResult());
+      List<DiffRow> diffRows = generator.generateDiffRows(original, patch);
+      builder.append("<table><thead><tr><th>Removed</th><th>Added</th></tr></thead><tbody>");
+      int outputLineCounter = 0;
+      for (DiffRow diffRow : diffRows) {
+        if (outputLineCounter >= maxLines) {
+          break;
+        }
+        Tag tag = diffRow.getTag();
+        if (tag != Tag.EQUAL) {
+          builder.append("<tr>");
+
+          builder.append("<td style=\"color:red !important;\">");
+          if (tag == Tag.CHANGE || tag == Tag.DELETE) {
+            builder.append(diffRow.getOldLine());
+          }
+          builder.append("</td>").append("<td style=\"color:green !important;\">");
+          if (tag == Tag.CHANGE || tag == Tag.INSERT) {
+            builder.append(diffRow.getNewLine());
+          }
+          builder.append("</td>");
+          builder.append("</tr>");
+          outputLineCounter++;
+        }
+      }
+      builder.append("</tbody></table>");
+    }
+    catch (DiffException ex) {
+      throw new GaleniumException("Problems creating DiffRows.", ex);
+    }
   }
 
   public Patch<I> getDiffResult() {
     return diffResult;
   }
 
+  public int getMaxLinesInFailureMessage() {
+    return maxLinesInFailureMessage;
+  }
+
+  public void setMaxLinesInFailureMessage(int maxLinesInFailureMessage) {
+    this.maxLinesInFailureMessage = maxLinesInFailureMessage;
+  }
+
   private Chunk<String> asStringChunk(Chunk<I> inputChunk) {
     return new Chunk<String>(inputChunk.getPosition(), asStringList(inputChunk.getLines()));
-  }
-
-  private String valueToString(I singleValue) {
-    if (singleValue == null) {
-      return "null";
-    }
-    return singleValue.toString();
-  }
-
-  protected List<String> asStringList(List<I> values) {
-    List<String> stringList = new ArrayList<String>();
-    for (I singleValue : values) {
-      stringList.add(valueToString(singleValue));
-    }
-    return stringList;
-  }
-
-  protected Patch<String> asStringPatch(Patch<I> patch) {
-    Patch<String> stringPatch = new Patch<String>();
-    for (AbstractDelta<I> delta : patch.getDeltas()) {
-      stringPatch.addDelta(asStringDelta(delta));
-    }
-    return stringPatch;
   }
 
   private AbstractDelta<String> asStringDelta(AbstractDelta<I> delta) {
@@ -101,23 +129,22 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
     }
   }
 
-  @Override
-  protected boolean doVerification() {
-    O expectedValue = getExpectedValue();
-    O actualValue = getActualValue();
-    diff(expectedValue, actualValue);
-    return expectedValue.size() == actualValue.size() && getDiffCount() == 0;
+  private int getDiffCount() {
+    if (getDiffResult() == null) {
+      return -1;
+    }
+    List<AbstractDelta<I>> deltas = getDiffResult().getDeltas();
+    if (deltas == null) {
+      return -2;
+    }
+    return deltas.size();
   }
 
-  private void diff(O expectedValue, O actualValue) {
-    Patch<I> diff;
-    try {
-      diff = DiffUtils.diff(expectedValue, actualValue);
-      setDiffResult(diff);
+  private String valueToString(I singleValue) {
+    if (singleValue == null) {
+      return "null";
     }
-    catch (DiffException ex) {
-      throw new GaleniumException("Malfunctioning diff.", ex);
-    }
+    return singleValue.toString();
   }
 
   @Override
@@ -135,15 +162,46 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
     }
   }
 
-  private int getDiffCount() {
-    if (getDiffResult() == null) {
-      return -1;
+  protected List<String> asStringList(List<I> values) {
+    List<String> stringList = new ArrayList<String>();
+    for (I singleValue : values) {
+      stringList.add(valueToString(singleValue));
     }
-    List<AbstractDelta<I>> deltas = getDiffResult().getDeltas();
-    if (deltas == null) {
-      return -2;
+    return stringList;
+  }
+
+  protected Patch<String> asStringPatch(Patch<I> patch) {
+    Patch<String> stringPatch = new Patch<String>();
+    for (AbstractDelta<I> delta : patch.getDeltas()) {
+      stringPatch.addDelta(asStringDelta(delta));
     }
-    return deltas.size();
+    return stringPatch;
+  }
+
+  protected void diff(O expectedValue, O actualValue) {
+    Patch<I> diff;
+    try {
+      diff = DiffUtils.diff(expectedValue, actualValue, getDiffEqualizer());
+      setDiffResult(diff);
+    }
+    catch (DiffException ex) {
+      throw new GaleniumException("Malfunctioning diff.", ex);
+    }
+  }
+
+  /**
+   * @return equalizer used when diffing
+   */
+  protected BiPredicate<I, I> getDiffEqualizer() {
+    return null;
+  }
+
+  @Override
+  protected boolean doVerification() {
+    O expectedValue = getExpectedValue();
+    O actualValue = getActualValue();
+    diff(expectedValue, actualValue);
+    return expectedValue.size() == actualValue.size() && getDiffCount() == 0;
   }
 
   @Override
@@ -157,40 +215,9 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
         .append(getCachedValue().size())
         .append(" rows:");
     if (getDiffCount() > 0) {
-      appendDiffTable(msg);
+      appendDiffTable(msg, getMaxLinesInFailureMessage());
     }
     return msg.toString();
-  }
-
-  private void appendDiffTable(StringBuilder msg) {
-    try {
-      DiffRowGenerator generator = DiffRowGenerator.create().build();
-      List<String> original = asStringList(getExpectedValue());
-      Patch<String> patch = asStringPatch(getDiffResult());
-      List<DiffRow> diffRows = generator.generateDiffRows(original, patch);
-      msg.append("<table><thead><tr><th>Removed</th><th>Added</th></tr></thead><tbody>");
-      for (DiffRow diffRow : diffRows) {
-        Tag tag = diffRow.getTag();
-        if (tag != Tag.EQUAL) {
-          msg.append("<tr>");
-
-          msg.append("<td style=\"color:red !important;\">");
-          if (tag == Tag.CHANGE || tag == Tag.DELETE) {
-            msg.append(diffRow.getOldLine());
-          }
-          msg.append("</td>").append("<td style=\"color:green !important;\">");
-          if (tag == Tag.CHANGE || tag == Tag.INSERT) {
-            msg.append(diffRow.getNewLine());
-          }
-          msg.append("</td>");
-          msg.append("</tr>");
-        }
-      }
-      msg.append("</tbody></table>");
-    }
-    catch (DiffException ex) {
-      throw new GaleniumException("Problems creating DiffRows.", ex);
-    }
   }
 
   @Override

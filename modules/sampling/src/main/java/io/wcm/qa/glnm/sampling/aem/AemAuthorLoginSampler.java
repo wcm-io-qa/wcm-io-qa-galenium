@@ -93,7 +93,11 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
   }
 
   private static String buildLoginUrl(String authorHostUrl, int port) {
-    return authorHostUrl + ":" + port + LOGIN_PATH;
+    if (port > 0) {
+      return authorHostUrl + ":" + port + LOGIN_PATH;
+    }
+    return authorHostUrl + LOGIN_PATH;
+
   }
 
 }

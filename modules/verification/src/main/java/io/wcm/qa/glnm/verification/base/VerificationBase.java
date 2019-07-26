@@ -350,6 +350,10 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
 
   protected abstract void persistSample(String key, T newValue);
 
+  protected void persistSample(T newValue) {
+    persistSample(getExpectedKey(), newValue);
+  }
+
   /**
    * Override to actually sample a value.
    * @return sample value to be used as actual value

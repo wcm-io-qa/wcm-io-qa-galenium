@@ -20,7 +20,15 @@
 package io.wcm.qa.glnm.verification.diff;
 
 import java.util.List;
+import java.util.function.BiPredicate;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.github.difflib.DiffUtils;
+import com.github.difflib.algorithm.DiffException;
+import com.github.difflib.patch.Patch;
+
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
@@ -31,8 +39,47 @@ import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
  */
 public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<String>>> extends SamplerBasedDiffVerification<S, String, List<String>> {
 
+  private boolean ignoreWhitespace;
+
   protected SamplerBasedStringDiffVerification(String verificationName, S sampler) {
     super(verificationName, sampler);
+  }
+
+  public boolean isIgnoreWhitespace() {
+    return ignoreWhitespace;
+  }
+
+  public void setIgnoreWhitespace(boolean ignoreWhitespace) {
+    this.ignoreWhitespace = ignoreWhitespace;
+  }
+
+  @Override
+  protected void diff(List<String> expectedValue, List<String> actualValue) {
+    Patch<String> diff;
+    try {
+      diff = DiffUtils.diff(expectedValue, actualValue, getDiffEqualizer());
+      setDiffResult(diff);
+    }
+    catch (DiffException ex) {
+      throw new GaleniumException("Malfunctioning diff.", ex);
+    }
+  }
+
+  @Override
+  protected BiPredicate<String, String> getDiffEqualizer() {
+    if (isIgnoreWhitespace()) {
+      return new WhitespaceIgnoringEqualizer();
+    }
+    return new WhitespaceSensitiveEqualizer();
+  }
+
+  @Override
+  protected String getExpectedKey() {
+    String expectedKey = getDifferences().asFilePath();
+    if (StringUtils.isNotBlank(expectedKey)) {
+      return getCleanName() + "/" + expectedKey;
+    }
+    return getCleanName();
   }
 
   @Override
@@ -42,6 +89,24 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
 
   @Override
   protected void persistSample(String key, List<String> newValue) {
-    TextSampleManager.addNewMultiLineSample(key, newValue);
+    TextSampleManager.addNewMultiLineSample(getExpectedKey(), newValue);
+  }
+
+  private static final class WhitespaceIgnoringEqualizer implements BiPredicate<String, String> {
+
+    @Override
+    public boolean test(String s1, String s2) {
+      CharSequence cs1 = StringUtils.strip(s1);
+      CharSequence cs2 = StringUtils.strip(s2);
+      return StringUtils.equals(cs1, cs2);
+    }
+  }
+
+  private static final class WhitespaceSensitiveEqualizer implements BiPredicate<String, String> {
+
+    @Override
+    public boolean test(String s1, String s2) {
+      return StringUtils.equals(s1, s2);
+    }
   }
 }

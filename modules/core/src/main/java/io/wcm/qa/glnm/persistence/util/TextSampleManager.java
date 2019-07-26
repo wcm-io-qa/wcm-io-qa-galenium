@@ -30,20 +30,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.properties.SortedProperties;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +51,6 @@ import org.slf4j.Logger;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.configuration.PropertiesUtil;
-import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
@@ -61,7 +60,7 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  */
 public final class TextSampleManager {
 
-  private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
+  private static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
   private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonInputDirectory();
@@ -84,18 +83,35 @@ public final class TextSampleManager {
     // do not instantiate
   }
 
+  private static String escapeUnicodeToAscii(String in) {
+    try {
+      return URLEncoder.encode(in, CHARSET_UTF8.name());
+    }
+    catch (UnsupportedEncodingException ex) {
+      getLogger().warn("could not escape: '" + in + "'");
+      return in;
+    }
+  }
+
   /**
    * @param key
    * @param lines
    */
   public static void addNewMultiLineSample(String key, List<String> lines) {
-    removeMultiLineSample(SAMPLED_TEXTS, key);
-    int i = 0;
-    for (String line : lines) {
-      String indexedKey = getIndexedKey(key, i++);
-      addNewTextSample(indexedKey, line);
+    String sampleFileName = FilenameUtils.concat(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, key + ".txt");
+    File sampleFile = new File(sampleFileName);
+    try {
+      if (sampleFile.exists()) {
+        sampleFile.delete();
+      }
+      for (String line : lines) {
+        String data = escapeUnicodeToAscii(line);
+        FileUtils.write(sampleFile, data + "\n", CHARSET_UTF8, true);
+      }
     }
-    terminateMultiLineSample(key, i);
+    catch (IOException ex) {
+      getLogger().error("could not persist sample for key '" + key + "'", ex);
+    }
   }
 
   /**
@@ -115,24 +131,30 @@ public final class TextSampleManager {
    * @return text expected for this key
    */
   public static List<String> getExpectedLines(String key) {
-    List<String> expectedLines = new ArrayList<String>();
-    List<String> multiLineKeys = getMultiLineKeys(EXPECTED_TEXTS, key);
-    for (String singleLineKey : multiLineKeys) {
-      String expectedLine = getExpectedText(singleLineKey);
-      if (hasTerminator(key, expectedLine)) {
-        return expectedLines;
+    try {
+      String sampleFileName = FilenameUtils.concat(FILE_NAME_ROOT_DIR_EXPECTED_TEXTS, key + ".txt");
+      List<String> readLines = FileUtils.readLines(new File(sampleFileName), CHARSET_UTF8);
+      List<String> decodedLines = new ArrayList<String>();
+      for (String line : readLines) {
+        decodedLines.add(unescapeAsciiToUnicode(line));
       }
-      expectedLines.add(expectedLine);
-    }
 
-    getLogger().warn("no terminator found for multi line value: '" + key + "'");
-    return expectedLines;
+      return decodedLines;
+    }
+    catch (IOException ex) {
+      getLogger().info("could not read sample for key '" + key + "'", ex);
+    }
+    return Collections.emptyList();
   }
 
-  private static boolean hasTerminator(String key, String expectedLine) {
-    String terminatorValue = getMultiLineTerminatorValue(key);
-    boolean equals = StringUtils.equals(expectedLine, terminatorValue);
-    return equals;
+  private static String unescapeAsciiToUnicode(String in) {
+    try {
+      return URLDecoder.decode(in, CHARSET_UTF8.name());
+    }
+    catch (UnsupportedEncodingException ex) {
+      getLogger().warn("could not unescape: '" + in + "'");
+      return in;
+    }
   }
 
   /**
@@ -168,53 +190,8 @@ public final class TextSampleManager {
     }
   }
 
-  private static String getIndexedKey(String key, int i) {
-    return key + "." + i;
-  }
-
   private static Logger getLogger() {
     return GaleniumReportUtil.getLogger();
-  }
-
-  private static List<String> getMultiLineKeys(Properties samples, final String key) {
-    final Pattern filter = getMultiSampleExpectedKeyFilter(key);
-    Properties filteredProperties = PropertiesUtil.getFilteredProperties(samples, filter);
-    Set<String> multiLineKeys = filteredProperties.stringPropertyNames();
-    List<String> sortedKeys = new ArrayList<String>();
-    CollectionUtils.addAll(sortedKeys, multiLineKeys.iterator());
-    Collections.sort(sortedKeys, new Comparator<String>() {
-
-      @Override
-      public int compare(String o1, String o2) {
-        Integer index1 = getIndex(o1);
-        Integer index2 = getIndex(o2);
-        return Integer.compare(index1, index2);
-      }
-
-      private Integer getIndex(String indexedKey) {
-        Matcher matcher = filter.matcher(indexedKey);
-        if (!matcher.matches()) {
-          return -1;
-        }
-        String index = matcher.group(1);
-        try {
-          return Integer.decode(index);
-        }
-        catch (NumberFormatException ex) {
-          throw new GaleniumException("could not parse index in multiline sample.", ex);
-        }
-      }
-
-    });
-    return sortedKeys;
-  }
-
-  private static String getMultiLineTerminatorValue(String key) {
-    return key + ".ENDOFSAMPLE";
-  }
-
-  private static Pattern getMultiSampleExpectedKeyFilter(String key) {
-    return Pattern.compile(Pattern.quote(key) + "\\." + "([0-9][0-9]*)$");
   }
 
   private static WriterOutputStream getOutputStream() throws IOException {
@@ -259,17 +236,6 @@ public final class TextSampleManager {
       IOUtils.closeQuietly(writer);
     }
 
-  }
-
-  private static void removeMultiLineSample(Properties samples, String key) {
-    List<String> multiLineKeys = getMultiLineKeys(samples, key);
-    for (String singleLineKey : multiLineKeys) {
-      samples.remove(singleLineKey);
-    }
-  }
-
-  private static void terminateMultiLineSample(String key, int i) {
-    addNewTextSample(getIndexedKey(key, i), getMultiLineTerminatorValue(key));
   }
 
   private static void writeNewTextSamples() {
