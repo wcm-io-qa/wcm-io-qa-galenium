@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.network;
+package io.wcm.qa.glnm.sampling.jsoup;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +28,7 @@ import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Request;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.sampling.network.base.JsoupBasedSampler;
+import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 
 /**
  * Samples cookies from a Jsoup network response.

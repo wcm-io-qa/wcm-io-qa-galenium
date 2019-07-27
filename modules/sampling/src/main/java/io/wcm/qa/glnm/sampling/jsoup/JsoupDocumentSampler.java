@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.network;
+package io.wcm.qa.glnm.sampling.jsoup;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.sampling.network.base.JsoupBasedSampler;
+import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 
 /**
  * Uses {@link Jsoup} to fetch HTML from a URL.

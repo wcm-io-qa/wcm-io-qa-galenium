@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.sampling.aem;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 
-import io.wcm.qa.glnm.sampling.network.JsoupCookieSampler;
+import io.wcm.qa.glnm.sampling.jsoup.JsoupCookieSampler;
 
 /**
  * Fetches login cookies from AEM author instance.

@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.sampling.aem;
 import java.util.Map;
 
 import io.wcm.qa.glnm.aem.AemComponentUtil;
-import io.wcm.qa.glnm.sampling.network.JsoupRawStringSampler;
+import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
  * Sampler to fetch HTML from directly from an AEM component.

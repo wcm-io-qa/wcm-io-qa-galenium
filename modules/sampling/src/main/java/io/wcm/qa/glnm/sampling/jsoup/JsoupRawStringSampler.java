@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.network;
+package io.wcm.qa.glnm.sampling.jsoup;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import io.wcm.qa.glnm.sampling.Sampler;
-import io.wcm.qa.glnm.sampling.network.base.JsoupElementBasedSampler;
+import io.wcm.qa.glnm.sampling.jsoup.base.JsoupElementBasedSampler;
 
 /**
  * Strips the Jsoup boiler plate and returns just the raw text from the response. Useful for non-HTML samples.

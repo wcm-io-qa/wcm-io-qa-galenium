@@ -8,7 +8,9 @@
   the specific language governing permissions and limitations under the License. 
   #L% -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -22,7 +24,7 @@
   <description>Sampling is essential to Galeniums verification concept.</description>
   <artifactId>io.wcm.qa.galenium.sampling</artifactId>
   <packaging>jar</packaging>
-  
+
   <dependencies>
 
     <dependency>
@@ -36,6 +38,11 @@
       <artifactId>json-flattener</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>net.sourceforge.htmlcleaner</groupId>
+      <artifactId>htmlcleaner</artifactId>
+      <version>2.22</version>
+    </dependency>
   </dependencies>
 
 </project>

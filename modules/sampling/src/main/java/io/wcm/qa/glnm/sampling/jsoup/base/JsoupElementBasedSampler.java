@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.network.base;
+package io.wcm.qa.glnm.sampling.jsoup.base;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

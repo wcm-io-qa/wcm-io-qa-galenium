@@ -65,7 +65,7 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
       List<String> original = asStringList(getExpectedValue());
       Patch<String> patch = asStringPatch(getDiffResult());
       List<DiffRow> diffRows = generator.generateDiffRows(original, patch);
-      builder.append("<table><thead><tr><th>Removed</th><th>Added</th></tr></thead><tbody>");
+      builder.append("<table><thead><tr><th/><th/><th>Removed</th><th>Added</th></tr></thead><tbody>");
       int outputLineCounter = 0;
       for (DiffRow diffRow : diffRows) {
         if (outputLineCounter >= maxLines) {
@@ -73,7 +73,7 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
         }
         Tag tag = diffRow.getTag();
         if (tag != Tag.EQUAL) {
-          builder.append("<tr>");
+          builder.append("<tr><td/><td/>");
 
           builder.append("<td style=\"color:red !important;\">");
           if (tag == Tag.CHANGE || tag == Tag.DELETE) {

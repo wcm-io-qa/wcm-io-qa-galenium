@@ -16,7 +16,9 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -113,7 +115,20 @@
       </dependency>
 
       <!-- Utils -->
-       <dependency>
+
+      <dependency>
+        <groupId>com.github.wnameless</groupId>
+        <artifactId>json-flattener</artifactId>
+        <version>0.6.0</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>28.0-jre</version>
@@ -123,6 +138,18 @@
         <groupId>io.github.java-diff-utils</groupId>
         <artifactId>java-diff-utils</artifactId>
         <version>4.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.9.3</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -156,27 +183,9 @@
       </dependency>
 
       <dependency>
-        <groupId>commons-beanutils</groupId>
-        <artifactId>commons-beanutils</artifactId>
-        <version>1.9.3</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>com.github.wnameless</groupId>
-        <artifactId>json-flattener</artifactId>
-        <version>0.6.0</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-          </exclusion>
-        </exclusions>
+        <groupId>net.sourceforge.htmlcleaner</groupId>
+        <artifactId>htmlcleaner</artifactId>
+        <version>2.22</version>
       </dependency>
 
       <!-- Plugin -->
