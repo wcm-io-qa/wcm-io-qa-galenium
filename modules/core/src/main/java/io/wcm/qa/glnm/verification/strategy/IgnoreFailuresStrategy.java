@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
@@ -30,10 +29,10 @@ public class IgnoreFailuresStrategy extends DefaultVerificationStrategy {
   @Override
   protected void handleFailure(Verification verification) {
     if (verification.getException() != null) {
-      getLogger().info(GaleniumReportUtil.MARKER_FAIL, verification.getMessage(), verification.getException());
+      getLogger().info(verification.getMessage(), verification.getException());
     }
     else {
-      getLogger().info(GaleniumReportUtil.MARKER_FAIL, verification.getMessage());
+      getLogger().info(verification.getMessage());
     }
   }
 }

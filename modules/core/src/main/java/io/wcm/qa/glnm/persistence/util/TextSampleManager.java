@@ -81,8 +81,8 @@ public final class TextSampleManager {
   }
 
   /**
-   * @param key
-   * @param lines
+   * @param key to identify persistence location
+   * @param lines to persist
    */
   public static void addNewMultiLineSample(String key, List<String> lines) {
     String sampleFileName = FilenameUtils.concat(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, key + ".txt");

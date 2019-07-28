@@ -26,14 +26,11 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.text.StringEscapeUtils;
-import org.slf4j.Marker;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
@@ -49,13 +46,13 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     if (getCount(result).incrementAndGet() > MAX_RETRY_COUNT) {
       // don't retry if max count is exceeded
       String failureMessage = "Failed last retry (" + getCount(result).get() + "): " + result.getTestName();
-      logResult(GaleniumReportUtil.MARKER_FAIL, result, failureMessage);
+      logResult(result, failureMessage);
       assignCategory("RERUN_MAX");
       return false;
     }
 
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
-    logResult(GaleniumReportUtil.MARKER_SKIP, result, infoMessage);
+    logResult(result, infoMessage);
     assignCategory("RERUN_" + getCount(result).get());
     WebDriverManagement.closeDriver();
     return true;
@@ -71,14 +68,14 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     return counts.get(key);
   }
 
-  private void logResult(Marker marker, ITestResult result, String message) {
+  private void logResult(ITestResult result, String message) {
     Reporter.log(message, true);
-    getLogger().info(marker, message);
+    getLogger().info(message);
     Throwable throwable = result.getThrowable();
     if (throwable != null) {
-      String throwableMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
-      getLogger().info(marker, result.getTestName() + ": " + throwableMessage);
-      getLogger().debug(marker, result.getTestName(), throwable);
+      String throwableMessage = throwable.getMessage();
+      getLogger().info(result.getTestName() + ": " + throwableMessage);
+      getLogger().debug(result.getTestName(), throwable);
     }
   }
 

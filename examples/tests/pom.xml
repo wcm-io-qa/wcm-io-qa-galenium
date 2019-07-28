@@ -40,7 +40,9 @@
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
     <site.url.module.prefix>galenium/examples</site.url.module.prefix>
+    <aspectj.version>1.8.10</aspectj.version>
   </properties>
+
 
   <dependencies>
 
@@ -86,8 +88,8 @@
             <exclude>**/*.html</exclude>
           </excludes>
         </configuration>
-      </plugin>
-
+          </plugin>
+    
       <!-- Skip UI tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -107,8 +109,29 @@
       <properties>
         <integrationtests.skip>false</integrationtests.skip>
       </properties>
+      <dependencies>
+        <dependency>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-testng</artifactId>
+          <version>2.12.1</version>
+          <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>org.testng</groupId>
+              <artifactId>testng</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
       <build>
+        
         <plugins>
+
+          <plugin>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-maven</artifactId>
+            <version>2.10.0</version>
+          </plugin>
 
           <!-- Run UI tests -->
           <plugin>

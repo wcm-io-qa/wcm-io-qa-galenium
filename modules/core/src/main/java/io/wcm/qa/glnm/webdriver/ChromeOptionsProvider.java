@@ -27,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
 
@@ -54,7 +53,7 @@ class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
         break;
 
       default:
-        getLogger().debug(GaleniumReportUtil.MARKER_ERROR, "cannot map option key: '" + key + "'");
+        getLogger().debug("cannot map option key: '" + key + "'");
         break;
     }
     return chromeOptions;

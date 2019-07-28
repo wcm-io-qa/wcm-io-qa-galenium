@@ -61,7 +61,7 @@ public final class CsvUtil {
   /**
    * Get a parser for CSV file.
    * @param csvFile to get parser for
-   * @param skipHeaderRecord
+   * @param skipHeaderRecord whether to skip header record while parsing
    * @return parser to access data in CSV file
    */
   public static CSVParser parse(File csvFile, boolean skipHeaderRecord) {

@@ -23,12 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.asserts.Assertion;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-
-import io.wcm.qa.glnm.assertions.GaleniumAssertion;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
@@ -52,23 +47,13 @@ public class GaleniumContext {
   };
 
   private Map<String, Object> additionalMappings = new HashMap<String, Object>();
-  private GaleniumAssertion assertion = new GaleniumAssertion();
   private WebDriver driver;
-  private ExtentTest extentTest;
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
   private VerificationStrategy verificationStrategy = GaleniumConfiguration.isSamplingVerificationIgnore()
       ? new IgnoreFailuresStrategy()
       : new DefaultVerificationStrategy();
-
-  /**
-   * Assertion to use. Default is {@link GaleniumAssertion}.
-   * @param assertion can be soft assertion
-   */
-  public void setAssertion(GaleniumAssertion assertion) {
-    this.assertion = assertion;
-  }
 
   /**
    * WebDriver to use for all things Galenium. This includes interaction with Galen and Selenium. Usually the WebDriver
@@ -78,14 +63,6 @@ public class GaleniumContext {
    */
   public void setDriver(WebDriver driver) {
     this.driver = driver;
-  }
-
-  /**
-   * Used for {@link ExtentReports} reporting. Galenium should handle this internally without additional interaction.
-   * @param extentTest report instance
-   */
-  public void setExtentTest(ExtentTest extentTest) {
-    this.extentTest = extentTest;
   }
 
   /**
@@ -145,13 +122,6 @@ public class GaleniumContext {
   }
 
   /**
-   * @return {@link Assertion} to use
-   */
-  public static GaleniumAssertion getAssertion() {
-    return THREAD_LOCAL_CONTEXT.get().assertion;
-  }
-
-  /**
    * @return {@link GaleniumContext} object for this thread
    */
   public static GaleniumContext getContext() {
@@ -163,13 +133,6 @@ public class GaleniumContext {
    */
   public static WebDriver getDriver() {
     return THREAD_LOCAL_CONTEXT.get().driver;
-  }
-
-  /**
-   * @return test report to write to
-   */
-  public static ExtentTest getExtentTest() {
-    return THREAD_LOCAL_CONTEXT.get().extentTest;
   }
 
   /**

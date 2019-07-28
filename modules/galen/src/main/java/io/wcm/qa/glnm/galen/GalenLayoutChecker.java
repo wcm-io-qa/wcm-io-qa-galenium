@@ -20,8 +20,6 @@
 package io.wcm.qa.glnm.galen;
 
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_FAIL;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
@@ -165,19 +163,14 @@ public final class GalenLayoutChecker {
    */
   public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
     if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      getLogger().debug(MARKER_PASS, successMessage);
+      getLogger().debug(successMessage);
     }
     else {
       List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
       for (ValidationResult validationResult : validationErrorResults) {
         ValidationError error = validationResult.getError();
         String errorMessages = StringUtils.join(error.getMessages(), "|");
-        if (error.isOnlyWarn()) {
-          getLogger().warn(errorMessages);
-        }
-        else {
-          getLogger().warn(MARKER_FAIL, errorMessages);
-        }
+        getLogger().warn(errorMessages);
       }
       if (layoutReport.errors() > 0) {
         ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);

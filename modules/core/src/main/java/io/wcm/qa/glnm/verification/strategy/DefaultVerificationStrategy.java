@@ -19,17 +19,15 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
-
 import org.slf4j.Logger;
+import org.testng.Assert;
 
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 
 /**
- * Uses {@link GaleniumContext#getAssertion()} to fail if {@link Verification} contains an exception.
+ * Fail if {@link Verification} contains an exception.
  */
 public class DefaultVerificationStrategy extends VerificationStrategyBase {
 
@@ -40,16 +38,16 @@ public class DefaultVerificationStrategy extends VerificationStrategyBase {
   @Override
   protected void handleFailure(Verification verification) {
     if (verification.getException() != null) {
-      GaleniumContext.getAssertion().fail(verification.getMessage(), verification.getException());
+      Assert.fail(verification.getMessage(), verification.getException());
     }
     else {
-      GaleniumContext.getAssertion().fail(verification.getMessage());
+      Assert.fail(verification.getMessage());
     }
   }
 
   @Override
   protected void handleSuccess(Verification verification) {
-    getLogger().info(MARKER_PASS, verification.getMessage());
+    getLogger().info(verification.getMessage());
   }
 
 }

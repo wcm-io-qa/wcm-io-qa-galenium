@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.glnm.util;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_FAIL;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_WARN;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.assignCategory;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.ArrayList;
@@ -33,7 +30,6 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Marker;
 import org.testng.ITestResult;
 
 import com.galenframework.reports.GalenTestInfo;
@@ -41,10 +37,8 @@ import com.galenframework.reports.TestReport;
 import com.galenframework.reports.TestStatistic;
 import com.galenframework.reports.nodes.ReportExtra;
 import com.galenframework.reports.nodes.TestReportNode;
-import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
@@ -53,39 +47,9 @@ import io.wcm.qa.glnm.webdriver.HasDevice;
 public final class TestInfoUtil {
 
   private static final String BROWSER_UNKNOWN = "UNKNOWN";
-  private static final String EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES = System.getProperty("galenium.mediaquery.extentCategory", "");
-  private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
-  private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
-  private static final String EXTENT_CATEGORY_PREFIX_EMULATOR = System.getProperty("galenium.extent.category.emulator", "DEVICE-");
 
   private TestInfoUtil() {
     // do not instantiate
-  }
-
-  /**
-   * @param test to add categories to
-   * @param result source for TestNG groups, browser, and breakpoints
-   */
-  public static void assignCategories(ExtentTest test, ITestResult result) {
-
-    for (String group : result.getMethod().getGroups()) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_TEST_NG + group);
-    }
-
-    String browser = getBrowser(result);
-    if (browser != null) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_BROWSER + browser);
-    }
-
-    TestDevice device = getTestDevice(result);
-    if (device != null && StringUtils.isNotBlank(device.getChromeEmulator())) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_EMULATOR + device.getChromeEmulator());
-    }
-
-    List<String> breakPoints = getBreakPoint(result);
-    for (String breakPoint : breakPoints) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES + breakPoint);
-    }
   }
 
   /**
@@ -133,13 +97,13 @@ public final class TestInfoUtil {
    */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {
-      getLogger().info(MARKER_FAIL, "failed: " + testInfo.getName());
+      getLogger().info("failed: " + testInfo.getName());
     }
     else if (hasWarnings(testInfo)) {
-      getLogger().info(MARKER_WARN, "warnings: " + testInfo.getName());
+      getLogger().info("warnings: " + testInfo.getName());
     }
     else {
-      getLogger().info(GaleniumReportUtil.MARKER_PASS, "passed: " + testInfo.getName());
+      getLogger().info("passed: " + testInfo.getName());
     }
     if (getLogger().isDebugEnabled()) {
       List<TestReportNode> nodes = testInfo.getReport().getNodes();
@@ -151,45 +115,45 @@ public final class TestInfoUtil {
   }
 
   private static void logTestReportNode(TestReportNode node, String prefix) {
-    Marker marker;
+    String marker;
     switch (node.getStatus()) {
       case WARN:
-        marker = GaleniumReportUtil.MARKER_WARN;
+        marker = "WARN";
         break;
       case ERROR:
-        marker = GaleniumReportUtil.MARKER_FAIL;
+        marker = "FAIL";
         break;
       case INFO:
       default:
-        marker = GaleniumReportUtil.MARKER_PASS;
+        marker = "INFO";
         break;
     }
     String type = node.getType();
     if (StringUtils.equals("layout", type)) {
-      getLogger().info(marker, prefix + ".name: " + node.getName());
+      getLogger().info("[" + marker + "]" + prefix + ".name: " + node.getName());
     }
     else {
-      getLogger().debug(marker, prefix + ".name: " + node.getName());
+      getLogger().debug("[" + marker + "]" + prefix + ".name: " + node.getName());
     }
-    getLogger().trace(marker, prefix + ".type: " + type);
+    getLogger().trace("[" + marker + "]" + prefix + ".type: " + type);
     List<String> attachments = node.getAttachments();
     if (attachments != null) {
       for (String attachment : attachments) {
-        getLogger().debug(marker, prefix + ".attachment: " + attachment);
+        getLogger().debug("[" + marker + "]" + prefix + ".attachment: " + attachment);
       }
     }
     else {
-      getLogger().trace(marker, prefix + ".attachments: none");
+      getLogger().trace("[" + marker + "]" + prefix + ".attachments: none");
     }
     Map<String, ReportExtra> reportExtras = node.getExtras();
     if (reportExtras != null) {
       Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
       for (Entry<String, ReportExtra> entry : extras) {
-        getLogger().debug(marker, prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
+        getLogger().debug("[" + marker + "]" + prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
       }
     }
     else {
-      getLogger().trace(marker, prefix + ".extras: none");
+      getLogger().trace("[" + marker + "]" + prefix + ".extras: none");
     }
     List<TestReportNode> nodes = node.getNodes();
     if (nodes != null) {
@@ -199,7 +163,7 @@ public final class TestInfoUtil {
       }
     }
     else {
-      getLogger().trace(marker, prefix + ".children: none");
+      getLogger().trace("[" + marker + "]" + prefix + ".children: none");
     }
   }
 

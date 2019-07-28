@@ -43,7 +43,6 @@
     <module>parent</module>
     <module>examples</module>
     <module>integration</module>
-    <module>logging</module>
     <module>maven/archetype</module>
     <module>maven/specs-plugin</module>
     <module>modules</module>

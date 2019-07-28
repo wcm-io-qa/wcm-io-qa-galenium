@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 
 import java.io.File;
@@ -115,7 +114,7 @@ public final class PropertiesUtil {
       }
     }
     catch (IOException ex) {
-      getLogger().debug(MARKER_ERROR, "Could not initialize properties: '" + filePath + "'", ex);
+      getLogger().warn("Could not initialize properties: '" + filePath + "'", ex);
     }
     return properties;
   }

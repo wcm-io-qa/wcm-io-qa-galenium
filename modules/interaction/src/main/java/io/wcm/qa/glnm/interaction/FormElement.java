@@ -49,7 +49,7 @@ public final class FormElement {
       input.clear();
     }
     catch (InvalidElementStateException ex) {
-      getLogger().debug(GaleniumReportUtil.MARKER_WARN, "could not clear element: '" + selector + "'");
+      getLogger().debug("could not clear element: '" + selector + "'");
     }
     input.sendKeys(text);
   }

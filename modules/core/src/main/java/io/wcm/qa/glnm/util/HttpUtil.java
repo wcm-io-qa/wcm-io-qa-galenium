@@ -58,10 +58,14 @@ public final class HttpUtil {
   /**
    * @param resp to read from
    * @return stream reader for response contents
-   * @throws IOException
    */
-  public static InputStreamReader getResponseReader(HttpResponse resp) throws IOException {
-    return new InputStreamReader(resp.getEntity().getContent());
+  public static InputStreamReader getResponseReader(HttpResponse resp) {
+    try {
+      return new InputStreamReader(resp.getEntity().getContent());
+    }
+    catch (UnsupportedOperationException | IOException ex) {
+      throw new GaleniumException("when aquiring reader for response content.", ex);
+    }
   }
 
   /**

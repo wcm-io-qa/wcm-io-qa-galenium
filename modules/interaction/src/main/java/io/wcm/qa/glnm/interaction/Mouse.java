@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
@@ -106,10 +105,10 @@ public final class Mouse {
    */
   public static void moveHorizontally(int horizontalOffset) {
     if (horizontalOffset > 0) {
-      getLogger().debug(MARKER_INFO, "move mouse right by " + horizontalOffset);
+      getLogger().debug("move mouse right by " + horizontalOffset);
     }
     else if (horizontalOffset < 0) {
-      getLogger().debug(MARKER_INFO, "move mouse left by " + -horizontalOffset);
+      getLogger().debug("move mouse left by " + -horizontalOffset);
     }
     int verticalOffset = 0;
     moveByOffset(horizontalOffset, verticalOffset);

@@ -191,7 +191,7 @@ public final class FreemarkerUtil {
   }
 
   private static Configuration generateConfiguration() {
-    Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
+    Configuration cfg = new Configuration();
     cfg.setDefaultEncoding("UTF-8");
     cfg.setTemplateExceptionHandler(getExceptionHandler());
     return cfg;

@@ -26,9 +26,9 @@ import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.testng.Assert;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Alert related convenience methods.
@@ -106,7 +106,7 @@ public final class Browser {
    */
   public static void loadExactly(String url) {
     load(url);
-    GaleniumContext.getAssertion().assertEquals(url, getCurrentUrl(), "Current URL should match.");
+    Assert.assertEquals(url, getCurrentUrl(), "Current URL should match.");
   }
 
   /**

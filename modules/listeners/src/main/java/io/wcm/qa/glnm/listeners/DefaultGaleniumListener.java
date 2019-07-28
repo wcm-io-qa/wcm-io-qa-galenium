@@ -47,9 +47,6 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  * {@link LoggingListener}
  * </li>
  * <li>
- * {@link ExtentReportsListener}
- * </li>
- * <li>
  * {@link WebDriverListener}
  * </li>
  * <li>
@@ -71,7 +68,6 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
    */
   public DefaultGaleniumListener() {
     add(new LoggingListener());
-    add(new ExtentReportsListener());
     add(new WebDriverListener());
     add(new TextSamplePersistenceListener());
     if (GaleniumConfiguration.getNumberOfRetries() > 0) {

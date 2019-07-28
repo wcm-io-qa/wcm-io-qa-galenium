@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.listeners;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_SKIP;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import java.util.Map.Entry;
@@ -33,9 +32,6 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.testng.xml.XmlSuite;
-
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
@@ -83,15 +79,14 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestSkipped(ITestResult result) {
-    updateExtentTest(result);
     StringBuilder skipMessage = new StringBuilder();
     skipMessage.append("Skipped test: ");
     skipMessage.append(getTestNameForInternalLogging(result));
     if (result.getThrowable() != null) {
-      getLogger().info(MARKER_SKIP, skipMessage.toString(), result.getThrowable());
+      getLogger().info(skipMessage.toString(), result.getThrowable());
     }
     else {
-      getLogger().info(MARKER_SKIP, skipMessage.toString());
+      getLogger().info(skipMessage.toString());
     }
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
@@ -100,21 +95,11 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestStart(ITestResult result) {
-    updateExtentTest(result);
     getLogger().debug(getTestNameForInternalLogging(result) + ": Start in thread " + Thread.currentThread().getName());
-    updateExtentTest(result).log(LogStatus.INFO, "Start in thread " + Thread.currentThread().getName());
   }
 
   private String getTestNameForInternalLogging(ITestResult result) {
     return result.getTestClass().getRealClass().getSimpleName() + "." + result.getName() + "(" + getAdditionalInfo() + ") ";
-  }
-
-  private ExtentTest updateExtentTest(ITestResult result) {
-    ExtentTest extentTest = GaleniumReportUtil.getExtentTest();
-    if (!GaleniumReportUtil.haveMatchingName(result, extentTest)) {
-      return GaleniumReportUtil.getExtentTest(result);
-    }
-    return extentTest;
   }
 
   protected String getAdditionalInfo() {

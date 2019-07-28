@@ -19,13 +19,10 @@
  */
 package io.wcm.qa.glnm.testcase;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getContext;
-
 import org.slf4j.Logger;
 import org.testng.ITest;
 import org.testng.SkipException;
 
-import io.wcm.qa.glnm.assertions.GaleniumAssertion;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
@@ -80,10 +77,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     return nameDifferences;
   }
 
-  protected void setAssertion(GaleniumAssertion assertion) {
-    getContext().setAssertion(assertion);
-  }
-
   protected void setDevice(TestDevice device) {
     this.device = device;
   }
@@ -93,12 +86,12 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   }
 
   protected void skipTest(String skipMessage) {
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
+    getLogger().info("Skipping: " + skipMessage);
     throw new SkipException(skipMessage);
   }
 
   protected void skipTest(String skipMessage, Throwable ex) {
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
+    getLogger().info("Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
   }
 

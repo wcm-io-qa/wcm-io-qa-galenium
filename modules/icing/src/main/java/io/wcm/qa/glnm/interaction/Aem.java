@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.interaction;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorUser;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
@@ -181,7 +180,7 @@ public final class Aem {
       FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
       FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
       Element.click(SELECTOR_AUTHOR_LOGIN_BUTTON);
-      getLogger().info(MARKER_PASS, "Logging in to author instance.");
+      getLogger().info("Logging in to author instance.");
       return true;
     }
     getLogger().debug("Not logging in to author instance.");

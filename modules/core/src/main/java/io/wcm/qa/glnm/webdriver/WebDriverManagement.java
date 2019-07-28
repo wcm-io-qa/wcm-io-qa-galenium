@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.webdriver;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isHeadless;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import java.util.concurrent.TimeUnit;
@@ -180,7 +179,7 @@ public final class WebDriverManagement {
     }
     catch (NullPointerException | WebDriverException ex) {
       if (!GaleniumConfiguration.isHeadless()) {
-        getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
+        getLogger().trace("exception when fetching window size", ex);
       }
     }
     return null;

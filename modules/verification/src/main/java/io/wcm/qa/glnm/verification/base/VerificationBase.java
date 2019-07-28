@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.verification.base;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
-
 import java.util.Comparator;
 
 import org.apache.commons.lang3.StringUtils;
@@ -208,7 +206,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
       setVerified(doVerification());
     }
     catch (GaleniumException ex) {
-      getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
+      getLogger().debug(toString() + ": error occured during verification", ex);
       setException(ex);
       setVerified(false);
     }

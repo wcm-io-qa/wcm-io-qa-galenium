@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import java.util.List;
@@ -287,7 +285,7 @@ public final class Element {
    */
   public static void scrollToNth(Selector selector, int index) {
     StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);
-    getLogger().debug(MARKER_INFO, message.toString());
+    getLogger().debug(message.toString());
     WebElement elementToScrollTo = findNth(selector, index);
     scrollTo(elementToScrollTo);
   }
@@ -307,7 +305,7 @@ public final class Element {
       getLogger().debug(message.toString());
       findNthOrFailNow(selector, index).click();
     }
-    getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
+    getLogger().info(getClickLogMessage(selector, index, extraMessage));
   }
 
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {

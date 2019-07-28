@@ -22,8 +22,6 @@ package io.wcm.qa.glnm.listeners;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebDriver;
@@ -42,7 +40,6 @@ import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.util.TestInfoUtil;
-import io.wcm.qa.glnm.webdriver.HasDevice;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
@@ -89,7 +86,7 @@ public class WebDriverListener implements ITestListener {
   public void onTestStart(ITestResult result) {
     // do nothing for lazy initialization
     if (GaleniumConfiguration.isLazyWebDriverInitialization()) {
-      getLogger().debug(MARKER_INFO, "Driver will be initialized on first use.");
+      getLogger().debug("Driver will be initialized on first use.");
       return;
     }
 
@@ -112,16 +109,7 @@ public class WebDriverListener implements ITestListener {
       }
       finally {
         if (getDriver() == null) {
-          Marker severity;
-          if (result.getInstance() instanceof HasDevice) {
-            // there should be a device and driver should be instantiated
-            severity = MARKER_ERROR;
-          }
-          else {
-            // tests without devices are allowed, so we should not put errors in the report
-            severity = MARKER_INFO;
-          }
-          getLogger().warn(severity, "driver not instantiated");
+          getLogger().warn("driver not instantiated");
           GaleniumReportUtil.assignCategory(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED);
           retries++;
         }
