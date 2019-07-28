@@ -195,33 +195,33 @@ public final class GaleniumReportUtil {
     String filenameOnly = null;
     boolean screenshotSuccessful;
     getInternalLogger().debug("taking screenshot: " + takesScreenshot);
-      filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
+    filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
     File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
-      if (screenshotFile != null) {
-        getInternalLogger().trace("screenshot taken: " + screenshotFile.getPath());
-        try {
-          File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
-          FileUtils.copyFile(screenshotFile, destFile);
-          getInternalLogger().trace("copied screenshot: " + destFile.getPath());
-          destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
+    if (screenshotFile != null) {
+      getInternalLogger().trace("screenshot taken: " + screenshotFile.getPath());
+      try {
+        File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
+        FileUtils.copyFile(screenshotFile, destFile);
+        getInternalLogger().trace("copied screenshot: " + destFile.getPath());
+        destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
         // TODO: add Allure attachment
-          screenshotSuccessful = true;
-          if (FileUtils.deleteQuietly(screenshotFile)) {
-            getInternalLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
-          }
-          else {
-            getInternalLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
-          }
+        screenshotSuccessful = true;
+        if (FileUtils.deleteQuietly(screenshotFile)) {
+          getInternalLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
         }
-        catch (IOException ex) {
-          getLogger().error("Cannot copy screenshot.", ex);
-          screenshotSuccessful = false;
+        else {
+          getInternalLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
         }
       }
-      else {
-        getInternalLogger().debug("screenshot file is null.");
+      catch (IOException ex) {
+        getLogger().error("Cannot copy screenshot.", ex);
         screenshotSuccessful = false;
       }
+    }
+    else {
+      getInternalLogger().debug("screenshot file is null.");
+      screenshotSuccessful = false;
+    }
 
     StringBuilder logMsg = new StringBuilder();
     if (screenshotSuccessful) {
