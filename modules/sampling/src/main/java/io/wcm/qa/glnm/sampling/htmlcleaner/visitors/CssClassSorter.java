@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.htmlcleaner;
+package io.wcm.qa.glnm.sampling.htmlcleaner.visitors;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +29,10 @@ import org.htmlcleaner.HtmlNode;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.TagNodeVisitor;
 
-final class CssClassSorter implements TagNodeVisitor {
+/**
+ * Sorts strings in class attributes.
+ */
+public final class CssClassSorter implements TagNodeVisitor {
 
   private static final String CSS_CLASS = "class";
 
