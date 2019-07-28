@@ -19,14 +19,19 @@
  */
 package io.wcm.qa.glnm.sampling.htmlcleaner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.HtmlSerializer;
 import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
+import org.htmlcleaner.TagNodeVisitor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
+import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.CssClassSorter;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
@@ -37,7 +42,10 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   private CleanerProperties htmlCleanerProperties;
 
   private HtmlSerializer htmlSerializer;
+
   private boolean sortCssClasses = true;
+
+  private List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
 
   /**
    * @param url to sample from
@@ -54,6 +62,13 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     super(url);
     setBodyOnly(false);
     setHtmlCleanerProperties(cleanerProperties);
+  }
+
+  /**
+   * @param visitor to clean HTML
+   */
+  public void addVisitor(TagNodeVisitor visitor) {
+    getVisitors().add(visitor);
   }
 
   public CleanerProperties getHtmlCleanerProperties() {
@@ -99,7 +114,14 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     if (isSortCssClasses()) {
       cleanedHtml.traverse(new CssClassSorter());
     }
+    for (TagNodeVisitor visitor : getVisitors()) {
+      cleanedHtml.traverse(visitor);
+    }
     return getHtmlSerializer().getAsString(cleanedHtml);
+  }
+
+  protected List<TagNodeVisitor> getVisitors() {
+    return visitors;
   }
 
 }
