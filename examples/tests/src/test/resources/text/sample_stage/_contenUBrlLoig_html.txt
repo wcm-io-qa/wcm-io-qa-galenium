@@ -1,119 +1,117 @@
-%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E
-%3C%21DOCTYPE+html%3E
-%3Chtml+ng-app%3D%22io.wcm.caconfig.app%22%3E
-%09%3Chead%3E
-%09%09%3Cmeta+charset%3D%22UTF-8%22+%2F%3E
-%09%09%3Ctitle+ng-bind%3D%22title%22%3E%3C%2Ftitle%3E
-%09%09%3Clink+rel%3D%22stylesheet%22+href%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Fcoralui2.css%22+type%3D%22text%2Fcss%22+%2F%3E
-%09%09%3Clink+rel%3D%22stylesheet%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io%2Fcaconfig%2Feditor%2Fio.wcm.caconfig.editor.css%22+type%3D%22text%2Fcss%22+%2F%3E
-%09%3C%2Fhead%3E
-%09%3Cbody+class%3D%22coral--light%22+ng-cloak%3D%22ng-cloak%22%3E
-%09%09%3Cnav+class%3D%22coral-Panel-header+endor-BlackBar+header-main%22%3E
-%09%09%09%3Ca+href%3D%22%2F%22+class%3D%22wcm-io-editor+endor-Brand%22%3E
-%09%09%09%09%3Ci+class%3D%22wcm-io-editor+endor-Brand-icon+coral-Icon+coral-Icon--adobeMarketingCloud+coral-Icon--sizeM%22%3E%3C%2Fi%3E
-%09%09%09%3C%2Fa%3E
-%09%09%09%3Cspan+class%3D%22wcm-io-editor+caconfig-title+endor-Brand%22+ng-bind%3D%22title%22%3EConfiguration+Editor%3C%2Fspan%3E
-%09%09%3C%2Fnav%3E
-%09%09%3Cdiv+class%3D%22caconfig-page-border%22%3E
-%09%09%09%3Cng-view%3E%3C%2Fng-view%3E
-%09%09%09%3Cng-include+src%3D%22modalTemplates.addConfig%22%3E%3C%2Fng-include%3E
-%09%09%09%3Cng-include+src%3D%22modalTemplates.addCollectionItem%22%3E%3C%2Fng-include%3E
-%09%09%09%3Cng-include+src%3D%22modalTemplates.deleteConfig%22%3E%3C%2Fng-include%3E
-%09%09%09%3Cng-include+src%3D%22modalTemplates.error%22%3E%3C%2Fng-include%3E
-%09%09%09%3Cng-include+src%3D%22modalTemplates.saveConfig%22%3E%3C%2Fng-include%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Fjquery.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Futils.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Fjquery%2Fgranite.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Fcoralui2keys.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Ftypekit.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Fmoment.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Fcoralui2.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc.clientlibs%2Fclientlibs%2Fgranite%2Flodash%2Fmodern.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc%2Fclientlibs%2Fangularjs.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc%2Fclientlibs%2Fwcm-io%2Fcaconfig%2Feditor%2Fio.wcm.caconfig.editor.js%22%3E%3C%2Fscript%3E
-%09%09%09%3Cscript+type%3D%22text%2Fjavascript%22%3E
-++++++++angular.module%28%22io.wcm.caconfig.app%22%29
-++++++++++.run%28function+%28%24rootScope%29+%7B
-++++++++++++var+i18n+%3D+%7B
-++++++++++++++title%3A+%22Configuration+Editor%22%2C
-++++++++++++++contextPath%3A+%22Context+Path%22%2C
-++++++++++++++noContextPath%3A+%22No+context+path+detected.%22%2C
-++++++++++++++button%3A+%7B
-++++++++++++++++add%3A+%22Add%22%2C
-++++++++++++++++addItem%3A+%22Add+Item%22%2C
-++++++++++++++++cancel%3A+%22Cancel%22%2C
-++++++++++++++++choose%3A+%22Choose%22%2C
-++++++++++++++++deleteConfig%3A+%22Delete%22%2C
-++++++++++++++++deleteCollection%3A+%22Delete+Collection%22%2C
-++++++++++++++++deleteItem%3A+%22Delete+Item%22%2C
-++++++++++++++++discard%3A+%22Discard+Changes%22%2C
-++++++++++++++++edit%3A+%22Edit%22%2C
-++++++++++++++++ok%3A+%22OK%22%2C
-++++++++++++++++save%3A+%22Save%22%2C
-++++++++++++++++browse%3A+%22Browse%22
-++++++++++++++%7D%2C
-++++++++++++++config%3A+%7B
-++++++++++++++++name%3A+%22Configuration+Name%22%2C
-++++++++++++++++property%3A+%22Property%22%2C
-++++++++++++++++value%3A+%22Value%22%2C
-++++++++++++++++inherited%3A+%22Inherited%22%2C
-++++++++++++++++overridden%3A+%22Overridden%22%2C
-++++++++++++++++description%3A+%22Description%22%2C
-++++++++++++++++inheritance%3A+%7B
-++++++++++++++++++property%3A+%22Enable+property+inheritance%22%2C
-++++++++++++++++++config%3A+%22This+configuration+is+inherited.%22%2C
-++++++++++++++++++collection%3A+%22Enable+collection+inheritance%22%2C
-++++++++++++++++++collectionItem%3A+%22This+configuration+is+inherited+via+collection+inheritance.%22%2C
-++++++++++++++++++%22break%22%3A+%22Click+here+to+break+inheritance.%22
-++++++++++++++++%7D%2C
-++++++++++++++++edit%3A+%22Click+to+edit+config.%22
-++++++++++++++%7D%2C
-++++++++++++++largeCollection%3A+%7B
-++++++++++++++++numberInCollection%3A+%22Total+number+of+items+in+collection%22%2C
-++++++++++++++++numberInEditor%3A+%22Number+of+items+visible+in+editor%22%2C
-++++++++++++++++scrollHint%3A+%22Scroll+down+to+load+more+items.%22%2C
-++++++++++++++++loadAll%3A+%22Click+here+to+load+all+items.+%28Your+browser+may+become+unresponsive+for+some+time.%29%22
-++++++++++++++%7D%2C
-++++++++++++++modal%3A+%7B
-++++++++++++++++addCollectionItem%3A+%7B
-++++++++++++++++++title%3A+%22Add+Configuration%22%2C
-++++++++++++++++%7D%2C
-++++++++++++++++addConfig%3A+%7B
-++++++++++++++++++title%3A+%22Add+Configuration%22%2C
-++++++++++++++++%7D%2C
-++++++++++++++++close%3A+%22Close%22%2C
-++++++++++++++++deleteConfig%3A+%7B
-++++++++++++++++++message%3A+%22This+configuration+will+be+deleted.%22%2C
-++++++++++++++++++title%3A+%22Delete+Configuration%22
-++++++++++++++++%7D%2C
-++++++++++++++++error%3A+%7B
-++++++++++++++++++message%3A+%22An+internal+error+occurred.+Please+try+again.%22%2C
-++++++++++++++++%7D%2C
-++++++++++++++++saveConfig%3A+%7B
-++++++++++++++++++message%3A+%22Your+current+changes+will+be+lost.+Would+you+like+to+save+them%3F%22%2C
-++++++++++++++++++title%3A+%22Save+Configuration%22
-++++++++++++++++%7D%2C
-++++++++++++++++tooltip%3A+%7B
-++++++++++++++++++allowed%3A+%22Allowed+characters%3A+A-Z+a-z+0-9+-+_%22%2C
-++++++++++++++++++unique%3A+%22This+name+is+already+in+use.%22
-++++++++++++++++%7D
-++++++++++++++%7D
-++++++++++++%7D%3B
-++++++++++++%24rootScope.i18n+%3D+i18n%3B
-++++++++++%7D%29%3B
-++++++++angular.module%28%22io.wcm.caconfig.editor%22%29
-++++++++++.config%28%5B%22dataServiceProvider%22%2C+function+%28dataServiceProvider%29+%7B
-++++++++++++var+configNamesUrl+%3D+%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fconfig%2F_jcr_content.configNames.json%22%3B
-++++++++++++var+configDataUrl+%3D+%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fconfig%2F_jcr_content.configData.json%22%3B
-++++++++++++var+configPersistUrl+%3D+%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fconfig%2F_jcr_content.configPersist.json%22%3B
-++++++++++++dataServiceProvider.setRestUrls%28%7B
-++++++++++++++configNamesUrl%3A+configNamesUrl%2C
-++++++++++++++configDataUrl%3A+configDataUrl%2C
-++++++++++++++configPersistUrl%3A+configPersistUrl
-++++++++++++%7D%29%3B
-++++++++++%7D%5D%29%3B
-++++++
-%09%09%09%3C%2Fscript%3E
-%09%09%3C%2Fdiv%3E
-%09%3C%2Fbody%3E
-%3C%2Fhtml%3E
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html ng-app="io.wcm.caconfig.app"><head> 
+  <meta charset="UTF-8" /> 
+  <title ng-bind="title"></title> 
+  <link rel="stylesheet" href="/etc.clientlibs/clientlibs/granite/coralui2.css" type="text/css" /> 
+  <link rel="stylesheet" href="/etc/clientlibs/wcm-io/caconfig/editor/io.wcm.caconfig.editor.css" type="text/css" /> 
+  
+ </head><body class="coral--light" ng-cloak="ng-cloak">
+  
+  <nav class="coral-Panel-header endor-BlackBar header-main"> 
+   <a href="/" class="endor-Brand wcm-io-editor"> <i class="wcm-io-editor endor-Brand-icon coral-Icon coral-Icon--adobeMarketingCloud coral-Icon--sizeM"></i> </a> 
+   <span ng-bind="title" class="caconfig-title endor-Brand wcm-io-editor">Configuration Editor</span> 
+  </nav> 
+  <div class="caconfig-page-border"> 
+   <ng-view></ng-view> 
+   <ng-include src="modalTemplates.addConfig"></ng-include> 
+   <ng-include src="modalTemplates.addCollectionItem"></ng-include> 
+   <ng-include src="modalTemplates.deleteConfig"></ng-include> 
+   <ng-include src="modalTemplates.error"></ng-include> 
+   <ng-include src="modalTemplates.saveConfig"></ng-include> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/utils.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery/granite.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/coralui2keys.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/typekit.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/moment.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/coralui2.js"></script> 
+   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/lodash/modern.js"></script> 
+   <script type="text/javascript" src="/etc/clientlibs/angularjs.js"></script> 
+   <script type="text/javascript" src="/etc/clientlibs/wcm-io/caconfig/editor/io.wcm.caconfig.editor.js"></script> 
+   <script type="text/javascript">
+        angular.module("io.wcm.caconfig.app")
+          .run(function ($rootScope) {
+            var i18n = {
+              title: "Configuration Editor",
+              contextPath: "Context Path",
+              noContextPath: "No context path detected.",
+              button: {
+                add: "Add",
+                addItem: "Add Item",
+                cancel: "Cancel",
+                choose: "Choose",
+                deleteConfig: "Delete",
+                deleteCollection: "Delete Collection",
+                deleteItem: "Delete Item",
+                discard: "Discard Changes",
+                edit: "Edit",
+                ok: "OK",
+                save: "Save",
+                browse: "Browse"
+              },
+              config: {
+                name: "Configuration Name",
+                property: "Property",
+                value: "Value",
+                inherited: "Inherited",
+                overridden: "Overridden",
+                description: "Description",
+                inheritance: {
+                  property: "Enable property inheritance",
+                  config: "This configuration is inherited.",
+                  collection: "Enable collection inheritance",
+                  collectionItem: "This configuration is inherited via collection inheritance.",
+                  "break": "Click here to break inheritance."
+                },
+                edit: "Click to edit config."
+              },
+              largeCollection: {
+                numberInCollection: "Total number of items in collection",
+                numberInEditor: "Number of items visible in editor",
+                scrollHint: "Scroll down to load more items.",
+                loadAll: "Click here to load all items. (Your browser may become unresponsive for some time.)"
+              },
+              modal: {
+                addCollectionItem: {
+                  title: "Add Configuration",
+                },
+                addConfig: {
+                  title: "Add Configuration",
+                },
+                close: "Close",
+                deleteConfig: {
+                  message: "This configuration will be deleted.",
+                  title: "Delete Configuration"
+                },
+                error: {
+                  message: "An internal error occurred. Please try again.",
+                },
+                saveConfig: {
+                  message: "Your current changes will be lost. Would you like to save them?",
+                  title: "Save Configuration"
+                },
+                tooltip: {
+                  allowed: "Allowed characters: A-Z a-z 0-9 - _",
+                  unique: "This name is already in use."
+                }
+              }
+            };
+            $rootScope.i18n = i18n;
+          });
+        angular.module("io.wcm.caconfig.editor")
+          .config(["dataServiceProvider", function (dataServiceProvider) {
+            var configNamesUrl = "/content/wcm-io-samples/en/tools/config/_jcr_content.configNames.json";
+            var configDataUrl = "/content/wcm-io-samples/en/tools/config/_jcr_content.configData.json";
+            var configPersistUrl = "/content/wcm-io-samples/en/tools/config/_jcr_content.configPersist.json";
+            dataServiceProvider.setRestUrls({
+              configNamesUrl: configNamesUrl,
+              configDataUrl: configDataUrl,
+              configPersistUrl: configPersistUrl
+            });
+          }]);
+      </script> 
+  </div>   
+   
+ 
+</body></html>

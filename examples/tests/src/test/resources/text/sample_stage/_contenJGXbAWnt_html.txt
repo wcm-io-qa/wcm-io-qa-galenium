@@ -1,209 +1,164 @@
-%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E
-%3C%21DOCTYPE+html%3E
-%3Chtml+class%3D%22no-js%22+lang%3D%22en%22%3E
-%09%3Chead%3E
-%09%09%3Clink+rel%3D%22stylesheet%22+href%3D%22%2Flibs%2Fcq%2Fgui%2Fcomponents%2Fauthoring%2Feditors%2Fclientlibs%2Finternal%2Fpage.css%22+type%3D%22text%2Fcss%22+%2F%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Flibs%2Fcq%2Fgui%2Fcomponents%2Fauthoring%2Feditors%2Fclientlibs%2Finternal%2Fmessaging.js%22%3E%3C%2Fscript%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Flibs%2Fgranite%2Fauthor%2Fdeviceemulator%2Fclientlibs.js%22%3E%3C%2Fscript%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Flibs%2Fcq%2Fgui%2Fcomponents%2Fauthoring%2Feditors%2Fclientlibs%2Finternal%2Fpage.js%22%3E%3C%2Fscript%3E
-%09%09%3Ctitle%3Eimprint+-+wcm.io+Sample+Site%3C%2Ftitle%3E
-%09%09%3Cmeta+charset%3D%22UTF-8%22+%2F%3E
-%09%09%3Cmeta+http-equiv%3D%22X-UA-Compatible%22+content%3D%22IE%3Dedge%2Cchrome%3D1%22+%2F%3E
-%09%09%3Cmeta+name%3D%22description%22+content%3D%22wcm.io+Sample+Site%22+%2F%3E
-%09%09%3Cmeta+name%3D%22author%22+content%3D%22wcm.io%22+%2F%3E
-%09%09%3Cmeta+name%3D%22viewport%22+content%3D%22width%3Ddevice-width%2C+initial-scale%3D1%2C+maximum-scale%3D1%2C+user-scalable%3Dno%22+%2F%3E
-%09%09%3Cmeta+name%3D%22apple-mobile-web-app-capable%22+content%3D%22yes%22+%2F%3E
-%09%09%3Cmeta+name%3D%22apple-touch-fullscreen%22+content%3D%22yes%22+%2F%3E
-%09%09%3Clink+rel%3D%22shortcut+icon%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ffavicon.ico%22+%2F%3E
-%09%09%3Clink+rel%3D%22apple-touch-icon%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ficon-iphone.png%22+%2F%3E
-%09%09%3Clink+rel%3D%22apple-touch-icon%22+sizes%3D%2272x72%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ficon-ipad.png%22+%2F%3E
-%09%09%3Clink+rel%3D%22apple-touch-icon%22+sizes%3D%22114x114%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ficon-iphone4.png%22+%2F%3E
-%09%09%3Clink+rel%3D%22stylesheet%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.all.lc-1.2.0-80a94575-lc.css%22+type%3D%22text%2Fcss%22+%2F%3E
-%09%3C%2Fhead%3E
-%09%3Cbody%3E
-%09%09%3Cdiv+id%3D%22page%22%3E
-%09%09%09%3Cheader+class%3D%22header-site+clearfix%22%3E
-%09%09%09%09%3Cdiv+class%3D%22row%22%3E
-%09%09%09%09%09%3Ca+id%3D%22top%22+class%3D%22logo+logo-main+right%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen.html%22%3E
-%09%09%09%09%09%09%3Cdiv%3E%3C%2Fdiv%3E
-%09%09%09%09%09%3C%2Fa%3E
-%09%09%09%09%09%3Chgroup%3E
-%09%09%09%09%09%3C%2Fhgroup%3E
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3Ch1+class%3D%22title+title-site%22%3Ewcm.io+Sample+Site%3C%2Fh1%3E
-%09%09%09%09%3Ch2+class%3D%22title+title-site+caption%22%3EWCM.IO+HANDLER+SAMPLE+APPLICATION%3C%2Fh2%3E
-%09%09%09%3C%2Fheader%3E
-%09%09%3C%2Fdiv%3E
-%09%09%3Chr+%2F%3E
-%09%09%3Cnav+id%3D%22nav-main%22+class%3D%22clearfix%22%3E
-%09%09%09%3Ch1+class%3D%22title+title-nav+title-mainnav%22%3E
-%09%09%09%09%3Ca+href%3D%22%23%22+class%3D%22menu-opener%22%3ENavigation%3C%2Fa%3E
-%09%09%09%3C%2Fh1%3E
-%09%09%09%3Cul+class%3D%22row+navlist+navlist-main%22%3E
-%09%09%09%09%3Cli%3E
-%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-main%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen.html%22%3EHOME%3C%2Fa%3E
-%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%3Cli%3E
-%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-main%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference.html%22%3ECONFERENCE%3C%2Fa%3E
-%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-main%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers.html%22%3ECall+for+Papers%3C%2Fa%3E
-%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%3C%2Fli%3E
-%09%09%09%3C%2Ful%3E
-%09%09%3C%2Fnav%3E
-%09%09%3Chr+%2F%3E
-%09%09%3Cdiv+id%3D%22main%22+role%3D%22main%22+class%3D%22row%22%3E
-%09%09%09%3Csection+id%3D%22stage%22+class%3D%22col-3-4%22%3E
-%09%09%09%09%3Carticle+class%3D%22box-padding%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22contentHeadline+section%22%3E
-%09%09%09%09%09%09%3Ch1+class%3D%22title+title-section%22+data-emptytext%3D%22Headline%22%3EImprint%3C%2Fh1%3E
-%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline.html%26quot%3B%2C%26quot%3Bdialog%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentHeadline%2Fcq%3Adialog%26quot%3B%2C%26quot%3BdialogLoadingMode%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogLayout%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogSrc%26quot%3B%3A%26quot%3B%2Fmnt%2Foverride%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentHeadline%2F_cq_dialog.html%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentHeadline%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%2FcontentHeadline%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bafteredit%26quot%3B%3A%26quot%3BsampleApp.authoring.listener.refreshAjaxContentAfterEdit%26quot%3B%7D%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3Cdiv+class%3D%22contentRichText+section%22%3E
-%09%09%09%09%09%09%3Cp%3Ewww.adaptto.org+ist+eine+offizielle+Website+der+pro%21vision+GmbH.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EStandort+Berlin%3C%2Fstrong%3E
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09pro%21vision+GmbH
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Wilmersdorfer+Str.+50%2F51
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%0910627+Berlin
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Germany
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Tel.+%2B49+%2830%29+818828-50
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EStandort+Frankfurt%3C%2Fstrong%3E
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09pro%21vision+GmbH
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09L%26ouml%3Bwengasse+27+A
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%0960385+Frankfurt+am+Main
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Germany
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Tel.+%2B49+%2869%29+8700328-0
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EVerantwortlich+f%26uuml%3Br+den+Inhalt%3A%3C%2Fstrong%3E
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Gesch%26auml%3Bftsf%26uuml%3Bhrer%3A+Karim+Khan%2C+Stefan+Seifert
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Handelsregister+Nr.+HRB78141
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Amtsgericht+Charlottenburg
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09USt-IdNr.%3A+DE209954974
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Ch4%3E
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%09Haftungsausschluss%2FDisclaimer
-%09%09%09%09%09%09%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EHaftung+f%26uuml%3Br+Inhalte%3C%2Fstrong%3E
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EDie+Inhalte+unserer+Seiten+wurden+mit+gr%26ouml%3B%26szlig%3Bter+Sorgfalt+erstellt.+F%26uuml%3Br+die+Richtigkeit%2C+Vollst%26auml%3Bndigkeit+und+Aktualit%26auml%3Bt+der+Inhalte+k%26ouml%3Bnnen+wir+jedoch+keine+Gew%26auml%3Bhr+%26uuml%3Bbernehmen.+Als+Diensteanbieter+sind+wir+gem%26auml%3B%26szlig%3B+%26sect%3B+7+Abs.1+TMG+f%26uuml%3Br+eigene+Inhalte+auf+diesen+Seiten+nach+den+allgemeinen+Gesetzen+verantwortlich.+Nach+%26sect%3B%26sect%3B+8+bis+10+TMG+sind+wir+als+Diensteanbieter+jedoch+nicht+verpflichtet%2C+%26uuml%3Bbermittelte+oder+gespeicherte+fremde+Informationen+zu+%26uuml%3Bberwachen+oder+nach+Umst%26auml%3Bnden+zu+forschen%2C+die+auf+eine+rechtswidrige+T%26auml%3Btigkeit+hinweisen.+Verpflichtungen+zur+Entfernung+oder+Sperrung+der+Nutzung+von+Informationen+nach+den+allgemeinen+Gesetzen+bleiben+hiervon+unber%26uuml%3Bhrt.+Eine+diesbez%26uuml%3Bgliche+Haftung+ist+jedoch+erst+ab+dem+Zeitpunkt+der+Kenntnis+einer+konkreten+Rechtsverletzung+m%26ouml%3Bglich.+Bei+Bekanntwerden+von+entsprechenden+Rechtsverletzungen+werden+wir+diese+Inhalte+umgehend+entfernen.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EHaftung+f%26uuml%3Br+Links%3C%2Fstrong%3E
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EUnser+Angebot+enth%26auml%3Blt+Links+zu+externen+Webseiten+Dritter%2C+auf+deren+Inhalte+wir+keinen+Einfluss+haben.+Deshalb+k%26ouml%3Bnnen+wir+f%26uuml%3Br+diese+fremden+Inhalte+auch+keine+Gew%26auml%3Bhr+%26uuml%3Bbernehmen.+F%26uuml%3Br+die+Inhalte+der+verlinkten+Seiten+ist+stets+der+jeweilige+Anbieter+oder+Betreiber+der+Seiten+verantwortlich.+Die+verlinkten+Seiten+wurden+zum+Zeitpunkt+der+Verlinkung+auf+m%26ouml%3Bgliche+Rechtsverst%26ouml%3B%26szlig%3Be+%26uuml%3Bberpr%26uuml%3Bft.+Rechtswidrige+Inhalte+waren+zum+Zeitpunkt+der+Verlinkung+nicht+erkennbar.+Eine+permanente+inhaltliche+Kontrolle+der+verlinkten+Seiten+ist+jedoch+ohne+konkrete+Anhaltspunkte+einer+Rechtsverletzung+nicht+zumutbar.+Bei+Bekanntwerden+von+Rechtsverletzungen+werden+wir+derartige+Links+umgehend+entfernen.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EUrheberrecht%3C%2Fstrong%3E
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EDie+durch+die+Seitenbetreiber+erstellten+Inhalte+und+Werke+auf+diesen+Seiten+unterliegen+dem+deutschen+Urheberrecht.+Die+Vervielf%26auml%3Bltigung%2C+Bearbeitung%2C+Verbreitung+und+jede+Art+der+Verwertung+au%26szlig%3Berhalb+der+Grenzen+des+Urheberrechtes+bed%26uuml%3Brfen+der+schriftlichen+Zustimmung+des+jeweiligen+Autors+bzw.+Erstellers.+Downloads+und+Kopien+dieser+Seite+sind+nur+f%26uuml%3Br+den+privaten%2C+nicht+kommerziellen+Gebrauch+gestattet.+Soweit+die+Inhalte+auf+dieser+Seite+nicht+vom+Betreiber+erstellt+wurden%2C+werden+die+Urheberrechte+Dritter+beachtet.+Insbesondere+werden+Inhalte+Dritter+als+solche+gekennzeichnet.+Sollten+Sie+trotzdem+auf+eine+Urheberrechtsverletzung+aufmerksam+werden%2C+bitten+wir+um+einen+entsprechenden+Hinweis.+Bei+Bekanntwerden+von+Rechtsverletzungen+werden+wir+derartige+Inhalte+umgehend+entfernen.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%3Cstrong%3EDatenschutz%3C%2Fstrong%3E
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EDie+Nutzung+unserer+Webseite+ist+in+der+Regel+ohne+Angabe+personenbezogener+Daten+m%26ouml%3Bglich.+Soweit+auf+unseren+Seiten+personenbezogene+Daten+%28beispielsweise+Name%2C+Anschrift+oder+eMail-Adressen%29+erhoben+werden%2C+erfolgt+dies%2C+soweit+m%26ouml%3Bglich%2C+stets+auf+freiwilliger+Basis.+Diese+Daten+werden+ohne+Ihre+ausdr%26uuml%3Bckliche+Zustimmung+nicht+an+Dritte+weitergegeben.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EWir+weisen+darauf+hin%2C+dass+die+Daten%26uuml%3Bbertragung+im+Internet+%28z.B.+bei+der+Kommunikation+per+E-Mail%29+Sicherheitsl%26uuml%3Bcken+aufweisen+kann.+Ein+l%26uuml%3Bckenloser+Schutz+der+Daten+vor+dem+Zugriff+durch+Dritte+ist+nicht+m%26ouml%3Bglich.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EDer+Nutzung+von+im+Rahmen+der+Impressumspflicht+ver%26ouml%3Bffentlichten+Kontaktdaten+durch+Dritte+zur+%26Uuml%3Bbersendung+von+nicht+ausdr%26uuml%3Bcklich+angeforderter+Werbung+und+Informationsmaterialien+wird+hiermit+ausdr%26uuml%3Bcklich+widersprochen.+Die+Betreiber+der+Seiten+behalten+sich+ausdr%26uuml%3Bcklich+rechtliche+Schritte+im+Falle+der+unverlangten+Zusendung+von+Werbeinformationen%2C+etwa+durch+Spam-Mails%2C+vor.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EQuellen%3A
-%09%09%09%09%09%09%09%3Ca+href%3D%22http%3A%2F%2Fwww.e-recht24.de%2Fmuster-disclaimer.htm%22+target%3D%22_blank%22%3EDisclaimer+eRecht24%3C%2Fa%3E
-%09%09%09%09%09%09%09%3Cbr+%2F%3E
-%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3E+%3C%2Fp%3E
-%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext.html%26quot%3B%2C%26quot%3Bdialog%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentRichText%2Fcq%3Adialog%26quot%3B%2C%26quot%3BdialogLoadingMode%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogLayout%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogSrc%26quot%3B%3A%26quot%3B%2Fmnt%2Foverride%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentRichText%2F_cq_dialog.html%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentRichText%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%2FcontentRichText%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bafteredit%26quot%3B%3A%26quot%3BsampleApp.authoring.listener.refreshAjaxContentAfterEdit%26quot%3B%7D%2C%26quot%3BinplaceEditingConfig%26quot%3B%3A%7B%26quot%3Bactive%26quot%3B%3Atrue%2C%26quot%3BeditorType%26quot%3B%3A%26quot%3Btext%26quot%3B%2C%26quot%3BconfigPath%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fglobal%2Finclude%2FrichTextConfig%26quot%3B%7D%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BrichTextConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BhtmlRules%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BdocType%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BbaseType%26quot%3B%3A%26quot%3Bxhtml%26quot%3B%2C%26quot%3Bversion%26quot%3B%3A%26quot%3B1.0%26quot%3B%2C%26quot%3BtypeConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BisXhtmlStrict%26quot%3B%3Afalse%2C%26quot%3BuseSemanticMarkup%26quot%3B%3Atrue%2C%26quot%3BsemanticMarkupMap%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bb%26quot%3B%3A%26quot%3Bstrong%26quot%3B%2C%26quot%3Bi%26quot%3B%3A%26quot%3Bem%26quot%3B%7D%7D%7D%2C%26quot%3Blinks%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bprotocols%26quot%3B%3A%5B%26quot%3Bhttp%3A%2F%2F%26quot%3B%2C%26quot%3Bhttps%3A%2F%2F%26quot%3B%2C%26quot%3Bmailto%3A%26quot%3B%5D%2C%26quot%3BensureInternalLinkExt%26quot%3B%3Afalse%2C%26quot%3BcssMode%26quot%3B%3A%26quot%3Bkeep%26quot%3B%2C%26quot%3BtargetConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bmode%26quot%3B%3A%26quot%3Bblank%26quot%3B%7D%7D%7D%2C%26quot%3BrtePlugins%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bmisctools%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bedit%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bfindreplace%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bkeys%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%2C%26quot%3Bformats%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bp%26quot%3B%3A%26quot%3BParagraph%26quot%3B%2C%26quot%3Bh1%26quot%3B%3A%26quot%3BHeading+1%26quot%3B%2C%26quot%3Bh2%26quot%3B%3A%26quot%3BHeading+2%26quot%3B%2C%26quot%3Bh3%26quot%3B%3A%26quot%3BHeading+3%26quot%3B%2C%26quot%3Bh4%26quot%3B%3A%26quot%3BHeading+4%26quot%3B%7D%7D%2C%26quot%3Bspellcheck%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bundo%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%7D%2C%26quot%3BuiSettings%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bcui%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Binline%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B%23lists%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23start%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bcontrol%23close%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Blists%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Btext%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%5B%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%5D%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bfullscreen%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3Blinks%23anchor%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfindreplace%23find%26quot%3B%2C%26quot%3Bfindreplace%23replace%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bundo%23undo%26quot%3B%2C%26quot%3Bundo%23redo%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bjustify%23justifyleft%26quot%3B%2C%26quot%3Bjustify%23justifycenter%26quot%3B%2C%26quot%3Bjustify%23justifyright%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bmisctools%23specialchars%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23finish%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bicons%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Bcoral-Icon+coral-Icon--textCenter%26quot%3B%2C%26quot%3Bcommand%26quot%3B%3A%26quot%3B%23justify%26quot%3B%7D%7D%7D%7D%7D%2C%26quot%3BhtmlRules%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BdocType%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BbaseType%26quot%3B%3A%26quot%3Bxhtml%26quot%3B%2C%26quot%3Bversion%26quot%3B%3A%26quot%3B1.0%26quot%3B%2C%26quot%3BtypeConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BisXhtmlStrict%26quot%3B%3Afalse%2C%26quot%3BuseSemanticMarkup%26quot%3B%3Atrue%2C%26quot%3BsemanticMarkupMap%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bb%26quot%3B%3A%26quot%3Bstrong%26quot%3B%2C%26quot%3Bi%26quot%3B%3A%26quot%3Bem%26quot%3B%7D%7D%7D%2C%26quot%3Blinks%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bprotocols%26quot%3B%3A%5B%26quot%3Bhttp%3A%2F%2F%26quot%3B%2C%26quot%3Bhttps%3A%2F%2F%26quot%3B%2C%26quot%3Bmailto%3A%26quot%3B%5D%2C%26quot%3BensureInternalLinkExt%26quot%3B%3Afalse%2C%26quot%3BcssMode%26quot%3B%3A%26quot%3Bkeep%26quot%3B%2C%26quot%3BtargetConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bmode%26quot%3B%3A%26quot%3Bblank%26quot%3B%7D%7D%7D%2C%26quot%3BrtePlugins%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bmisctools%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bedit%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bfindreplace%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bkeys%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%2C%26quot%3Bformats%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bp%26quot%3B%3A%26quot%3BParagraph%26quot%3B%2C%26quot%3Bh1%26quot%3B%3A%26quot%3BHeading+1%26quot%3B%2C%26quot%3Bh2%26quot%3B%3A%26quot%3BHeading+2%26quot%3B%2C%26quot%3Bh3%26quot%3B%3A%26quot%3BHeading+3%26quot%3B%2C%26quot%3Bh4%26quot%3B%3A%26quot%3BHeading+4%26quot%3B%7D%7D%2C%26quot%3Bspellcheck%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bundo%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%7D%2C%26quot%3BuiSettings%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bcui%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Binline%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B%23lists%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23start%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bcontrol%23close%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Blists%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Btext%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%5B%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%5D%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bfullscreen%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3Blinks%23anchor%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfindreplace%23find%26quot%3B%2C%26quot%3Bfindreplace%23replace%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bundo%23undo%26quot%3B%2C%26quot%3Bundo%23redo%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bjustify%23justifyleft%26quot%3B%2C%26quot%3Bjustify%23justifycenter%26quot%3B%2C%26quot%3Bjustify%23justifyright%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bmisctools%23specialchars%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23finish%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bicons%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Bcoral-Icon+coral-Icon--textCenter%26quot%3B%2C%26quot%3Bcommand%26quot%3B%3A%26quot%3B%23justify%26quot%3B%7D%7D%7D%7D%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3Cdiv+class%3D%22newpar+new+section%22%3E
-%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fcontent.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%3C%2Farticle%3E
-%09%09%09%3C%2Fsection%3E
-%09%09%09%3Caside%3E
-%09%09%09%09%3Cdiv+class%3D%22newpar+new+col-1-4+section%22%3E
-%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Faside%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Faside%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Faside%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Faside%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Faside%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Faside.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fstructure%2Fparsys%2FasideParsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%3C%2Faside%3E
-%09%09%3C%2Fdiv%3E
-%09%09%3Chr+%2F%3E
-%09%09%3Cdiv+id%3D%22teaserbar%22+class%3D%22row%22%3E
-%09%09%09%3Cdiv+class%3D%22newpar+new+section%22%3E
-%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fteaserbar%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fteaserbar%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fteaserbar%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fteaserbar%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%3C%2Fdiv%3E
-%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fteaserbar%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fteaserbar%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint%2Fjcr%3Acontent%2Fteaserbar.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fteaserbar%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%3C%2Fdiv%3E
-%09%09%3Cfooter+class%3D%22footer-site%22%3E
-%09%09%09%3Cnav+id%3D%22nav-footer%22+class%3D%22row%22%3E
-%09%09%09%09%3Ch1+class%3D%22title+title-nav%22%3EMeta+Navigation%3C%2Fh1%3E
-%09%09%09%09%3Csection+class%3D%22col-1-4%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Ch2+class%3D%22title+title-section+title-footer%22%3ECONFERENCE%3C%2Fh2%3E
-%09%09%09%09%09%09%3Cul+class%3D%22navlist+navlist-footer%22%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fconference%2Fconference.html%22%3EConference%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fconference%2Fschedule.html%22%3ESchedule%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fconference%2Ftickets.html%22%3ETickets%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3C%2Fsection%3E
-%09%09%09%09%3Csection+class%3D%22col-1-4%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Ch2+class%3D%22title+title-section+title-footer%22%3EVENUE%3C%2Fh2%3E
-%09%09%09%09%09%09%3Cul+class%3D%22navlist+navlist-footer%22%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fvenue%2Fvenue.html%22%3EVenue%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3C%2Fsection%3E
-%09%09%09%09%3Csection+class%3D%22col-1-4%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Ch2+class%3D%22title+title-section+title-footer%22%3EARCHIVE%3C%2Fh2%3E
-%09%09%09%09%09%09%3Cul+class%3D%22navlist+navlist-footer%22%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Farchive%2Fadaptto---2011.html%22%3EadaptTo%28%29+2011%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Farchive%2Fadaptto---2012.html%22%3EadaptTo%28%29+2012%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3C%2Fsection%3E
-%09%09%09%3C%2Fnav%3E
-%09%09%09%3Cdiv+class%3D%22row%22%3E
-%09%09%09%09%3Cp+class%3D%22col-2-4+footer-text+box-padding%22%3E
-%09%09%09%09%09Credits%3A+%26copy%3B2019+wcm.io+-
-%09%09%09%09%09%3Ca+class%3D%22navlink%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint.html%22%3EImprint%3C%2Fa%3E
-%09%09%09%09%3C%2Fp%3E
-%09%09%09%3C%2Fdiv%3E
-%09%09%09%3Cdiv+class%3D%22row%22%3E
-%09%09%09%09%3Cdiv+class%3D%22col-4-4+footer-text+box-padding%22%3E
-%09%09%09%09%09Disclaimer+Text.
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%3C%2Fdiv%3E
-%09%09%3C%2Ffooter%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.all.lc-1.2.0-80a94575-lc.js%22%3E%3C%2Fscript%3E
-%09%3C%2Fbody%3E
-%3C%2Fhtml%3E
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html class="no-js" lang="en"><head> 
+  <link rel="stylesheet" href="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.css" type="text/css" /> 
+  <script type="text/javascript" src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/messaging.js"></script> 
+  <script type="text/javascript" src="/libs/granite/author/deviceemulator/clientlibs.js"></script> 
+  <script type="text/javascript" src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.js"></script> 
+   
+   
+  <title>imprint - wcm.io Sample Site</title> 
+  <meta charset="UTF-8" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+  <meta name="description" content="wcm.io Sample Site" /> 
+  <meta name="author" content="wcm.io" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" /> 
+  <meta name="apple-mobile-web-app-capable" content="yes" /> 
+  <meta name="apple-touch-fullscreen" content="yes" /> 
+  <link rel="shortcut icon" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/favicon.ico" /> 
+  <link rel="apple-touch-icon" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/icon-iphone.png" /> 
+  <link rel="apple-touch-icon" sizes="72x72" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/icon-ipad.png" /> 
+  <link rel="apple-touch-icon" sizes="114x114" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/icon-iphone4.png" /> 
+  <link rel="stylesheet" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.all.lc-1.2.0-80a94575-lc.css" type="text/css" /> 
+   
+  
+ </head><body>
+ 
+  
+  <div id="page"> 
+    
+   <header class="clearfix header-site">
+    <div class="row"> 
+     <a id="top" class="logo logo-main right" href="/content/wcm-io-samples/en.html"><div></div></a><hgroup> 
+      
+       </hgroup></div> 
+      <h1 class="title title-site">wcm.io Sample Site</h1> 
+      <h2 class="caption title title-site">WCM.IO HANDLER SAMPLE APPLICATION</h2> 
+       
+      
+    </header></div> 
+     
+    
+   <hr /> 
+    
+   <nav id="nav-main" class="clearfix">
+    <h1 class="title title-mainnav title-nav"> <a href="#" class="menu-opener">Navigation</a> </h1> 
+    <ul class="navlist navlist-main row"> 
+     <li> <a class="navlink navlink-main" href="/content/wcm-io-samples/en.html">HOME</a> </li> 
+     <li> <a class="navlink navlink-main" href="/content/wcm-io-samples/en/conference.html">CONFERENCE</a> 
+      <ul> 
+       <li> <a class="navlink navlink-main" href="/content/wcm-io-samples/en/conference/call-for-papers.html">Call for Papers</a> </li> 
+      </ul> </li> 
+    </ul> 
+     
+   </nav> 
+   <hr /> 
+    
+   <div id="main" role="main" class="row"> 
+    <section id="stage" class="col-3-4"> 
+     <article class="box-padding"> 
+      <div class="contentHeadline section">
+       <h1 class="title title-section" data-emptytext="Headline">Imprint</h1> 
+        
+       <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentheadline" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentheadline&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentheadline.html&quot;,&quot;dialog&quot;:&quot;/apps/wcm-io-samples/core/components/content/common/contentHeadline/cq:dialog&quot;,&quot;dialogLoadingMode&quot;:&quot;auto&quot;,&quot;dialogLayout&quot;:&quot;auto&quot;,&quot;dialogSrc&quot;:&quot;/mnt/override/apps/wcm-io-samples/core/components/content/common/contentHeadline/_cq_dialog.html/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentheadline&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/content/common/contentHeadline&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys/contentHeadline&quot;,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;afteredit&quot;:&quot;sampleApp.authoring.listener.refreshAjaxContentAfterEdit&quot;}},&quot;ipeConfig&quot;:{}}"></cq> 
+      </div> 
+      <div class="contentRichText section"> 
+       <p>www.adaptto.org ist eine offizielle Website der pro!vision GmbH.</p> 
+       <p><strong>Standort Berlin</strong><br /> pro!vision GmbH<br /> Wilmersdorfer Str. 50/51<br /> 10627 Berlin<br /> Germany<br /> Tel. +49 (30) 818828-50</p> 
+       <p><strong>Standort Frankfurt</strong><br /> pro!vision GmbH<br /> L&ouml;wengasse 27 A<br /> 60385 Frankfurt am Main<br /> Germany<br /> Tel. +49 (69) 8700328-0</p> 
+       <p><strong>Verantwortlich f&uuml;r den Inhalt:</strong><br /> Gesch&auml;ftsf&uuml;hrer: Karim Khan, Stefan Seifert<br /> Handelsregister Nr. HRB78141<br /> Amtsgericht Charlottenburg<br /> USt-IdNr.: DE209954974</p> 
+       <h4><br /> Haftungsausschluss/Disclaimer</h4> 
+       <p><strong>Haftung f&uuml;r Inhalte</strong></p> 
+       <p>Die Inhalte unserer Seiten wurden mit gr&ouml;&szlig;ter Sorgfalt erstellt. F&uuml;r die Richtigkeit, Vollst&auml;ndigkeit und Aktualit&auml;t der Inhalte k&ouml;nnen wir jedoch keine Gew&auml;hr &uuml;bernehmen. Als Diensteanbieter sind wir gem&auml;&szlig; &sect; 7 Abs.1 TMG f&uuml;r eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach &sect;&sect; 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, &uuml;bermittelte oder gespeicherte fremde Informationen zu &uuml;berwachen oder nach Umst&auml;nden zu forschen, die auf eine rechtswidrige T&auml;tigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unber&uuml;hrt. Eine diesbez&uuml;gliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung m&ouml;glich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p> 
+       <p><strong>Haftung f&uuml;r Links</strong></p> 
+       <p>Unser Angebot enth&auml;lt Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb k&ouml;nnen wir f&uuml;r diese fremden Inhalte auch keine Gew&auml;hr &uuml;bernehmen. F&uuml;r die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf m&ouml;gliche Rechtsverst&ouml;&szlig;e &uuml;berpr&uuml;ft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p> 
+       <p><strong>Urheberrecht</strong></p> 
+       <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielf&auml;ltigung, Bearbeitung, Verbreitung und jede Art der Verwertung au&szlig;erhalb der Grenzen des Urheberrechtes bed&uuml;rfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur f&uuml;r den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p> 
+       <p><strong>Datenschutz</strong></p> 
+       <p>Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten m&ouml;glich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit m&ouml;glich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdr&uuml;ckliche Zustimmung nicht an Dritte weitergegeben.</p> 
+       <p>Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitsl&uuml;cken aufweisen kann. Ein l&uuml;ckenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht m&ouml;glich.</p> 
+       <p>Der Nutzung von im Rahmen der Impressumspflicht ver&ouml;ffentlichten Kontaktdaten durch Dritte zur &Uuml;bersendung von nicht ausdr&uuml;cklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdr&uuml;cklich widersprochen. Die Betreiber der Seiten behalten sich ausdr&uuml;cklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.</p> 
+       <p>Quellen: <a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer eRecht24</a><br /> </p> 
+       <p> </p> 
+        
+       <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentrichtext" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentrichtext&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentrichtext.html&quot;,&quot;dialog&quot;:&quot;/apps/wcm-io-samples/core/components/content/common/contentRichText/cq:dialog&quot;,&quot;dialogLoadingMode&quot;:&quot;auto&quot;,&quot;dialogLayout&quot;:&quot;auto&quot;,&quot;dialogSrc&quot;:&quot;/mnt/override/apps/wcm-io-samples/core/components/content/common/contentRichText/_cq_dialog.html/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/contentrichtext&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/content/common/contentRichText&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys/contentRichText&quot;,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;afteredit&quot;:&quot;sampleApp.authoring.listener.refreshAjaxContentAfterEdit&quot;},&quot;inplaceEditingConfig&quot;:{&quot;active&quot;:true,&quot;editorType&quot;:&quot;text&quot;,&quot;configPath&quot;:&quot;/apps/wcm-io-samples/core/components/global/include/richTextConfig&quot;}},&quot;ipeConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;richTextConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;htmlRules&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;docType&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;baseType&quot;:&quot;xhtml&quot;,&quot;version&quot;:&quot;1.0&quot;,&quot;typeConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;isXhtmlStrict&quot;:false,&quot;useSemanticMarkup&quot;:true,&quot;semanticMarkupMap&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;b&quot;:&quot;strong&quot;,&quot;i&quot;:&quot;em&quot;}}},&quot;links&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;protocols&quot;:[&quot;http://&quot;,&quot;https://&quot;,&quot;mailto:&quot;],&quot;ensureInternalLinkExt&quot;:false,&quot;cssMode&quot;:&quot;keep&quot;,&quot;targetConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;mode&quot;:&quot;blank&quot;}}},&quot;rtePlugins&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;format&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;misctools&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;edit&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;findreplace&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;keys&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;,&quot;formats&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;p&quot;:&quot;Paragraph&quot;,&quot;h1&quot;:&quot;Heading 1&quot;,&quot;h2&quot;:&quot;Heading 2&quot;,&quot;h3&quot;:&quot;Heading 3&quot;,&quot;h4&quot;:&quot;Heading 4&quot;}},&quot;spellcheck&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;undo&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;}},&quot;uiSettings&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;cui&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;inline&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;#lists&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#start&quot;,&quot;-&quot;,&quot;control#close&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;lists&quot;,&quot;icon&quot;:&quot;text&quot;,&quot;items&quot;:[&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;]},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;fullscreen&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;links#anchor&quot;,&quot;-&quot;,&quot;findreplace#find&quot;,&quot;findreplace#replace&quot;,&quot;-&quot;,&quot;undo#undo&quot;,&quot;undo#redo&quot;,&quot;-&quot;,&quot;justify#justifyleft&quot;,&quot;justify#justifycenter&quot;,&quot;justify#justifyright&quot;,&quot;-&quot;,&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;,&quot;-&quot;,&quot;misctools#specialchars&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#finish&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;icons&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;icon&quot;:&quot;coral-Icon coral-Icon--textCenter&quot;,&quot;command&quot;:&quot;#justify&quot;}}}}},&quot;htmlRules&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;docType&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;baseType&quot;:&quot;xhtml&quot;,&quot;version&quot;:&quot;1.0&quot;,&quot;typeConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;isXhtmlStrict&quot;:false,&quot;useSemanticMarkup&quot;:true,&quot;semanticMarkupMap&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;b&quot;:&quot;strong&quot;,&quot;i&quot;:&quot;em&quot;}}},&quot;links&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;protocols&quot;:[&quot;http://&quot;,&quot;https://&quot;,&quot;mailto:&quot;],&quot;ensureInternalLinkExt&quot;:false,&quot;cssMode&quot;:&quot;keep&quot;,&quot;targetConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;mode&quot;:&quot;blank&quot;}}},&quot;rtePlugins&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;format&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;misctools&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;edit&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;findreplace&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;keys&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;,&quot;formats&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;p&quot;:&quot;Paragraph&quot;,&quot;h1&quot;:&quot;Heading 1&quot;,&quot;h2&quot;:&quot;Heading 2&quot;,&quot;h3&quot;:&quot;Heading 3&quot;,&quot;h4&quot;:&quot;Heading 4&quot;}},&quot;spellcheck&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;undo&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;}},&quot;uiSettings&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;cui&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;inline&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;#lists&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#start&quot;,&quot;-&quot;,&quot;control#close&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;lists&quot;,&quot;icon&quot;:&quot;text&quot;,&quot;items&quot;:[&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;]},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;fullscreen&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;links#anchor&quot;,&quot;-&quot;,&quot;findreplace#find&quot;,&quot;findreplace#replace&quot;,&quot;-&quot;,&quot;undo#undo&quot;,&quot;undo#redo&quot;,&quot;-&quot;,&quot;justify#justifyleft&quot;,&quot;justify#justifycenter&quot;,&quot;justify#justifyright&quot;,&quot;-&quot;,&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;,&quot;-&quot;,&quot;misctools#specialchars&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#finish&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;icons&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;icon&quot;:&quot;coral-Icon coral-Icon--textCenter&quot;,&quot;command&quot;:&quot;#justify&quot;}}}}}}"></cq> 
+      </div> 
+      <div class="new newpar section"> 
+        
+       <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{}}"></cq> 
+      </div> 
+       
+      <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/content.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+     </article> 
+    </section> 
+    <aside> 
+     <div class="col-1-4 new newpar section"> 
+       
+      <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/aside/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/aside/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/aside/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true}}"></cq> 
+     </div> 
+      
+     <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/aside" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/aside&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/aside.html&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/structure/parsys/asideParsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+    </aside> 
+   </div> 
+   <hr /> 
+    
+   <div id="teaserbar" class="row"> 
+    <div class="new newpar section"> 
+      
+     <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/teaserbar/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/teaserbar/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/teaserbar/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/teaserbar|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true}}"></cq> 
+    </div> 
+     
+    <cq data-path="/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/teaserbar" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/teaserbar&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/tools/navigation/imprint/jcr:content/teaserbar.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/teaserbar|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+   </div> 
+    
+   <footer class="footer-site">
+    <nav id="nav-footer" class="row"> 
+     <h1 class="title title-nav">Meta Navigation</h1> 
+     <section class="col-1-4"> 
+      <div class="box-padding"> 
+       <h2 class="title title-footer title-section">CONFERENCE</h2> 
+       <ul class="navlist navlist-footer"> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/conference/conference.html">Conference</a> </li> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/conference/schedule.html">Schedule</a> </li> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/conference/tickets.html">Tickets</a> </li> 
+       </ul> 
+      </div> 
+     </section> 
+     <section class="col-1-4"> 
+      <div class="box-padding"> 
+       <h2 class="title title-footer title-section">VENUE</h2> 
+       <ul class="navlist navlist-footer"> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/venue/venue.html">Venue</a> </li> 
+       </ul> 
+      </div> 
+     </section> 
+     <section class="col-1-4"> 
+      <div class="box-padding"> 
+       <h2 class="title title-footer title-section">ARCHIVE</h2> 
+       <ul class="navlist navlist-footer"> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/archive/adaptto---2011.html">adaptTo() 2011</a> </li> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/archive/adaptto---2012.html">adaptTo() 2012</a> </li> 
+       </ul> 
+      </div> 
+     </section> 
+      
+    </nav> 
+    <div class="row">
+     <p class="box-padding col-2-4 footer-text"> Credits: &copy;2019 wcm.io - <a class="navlink" href="/content/wcm-io-samples/en/tools/navigation/imprint.html">Imprint</a> </p> 
+      
+    </div> 
+    <div class="row">
+     <div class="box-padding col-4-4 footer-text">
+       Disclaimer Text. 
+     </div> 
+      
+    </div> 
+     
+   </footer> 
+   
+   
+  <script type="text/javascript" src="/etc/clientlibs/wcm-io-samples/wcm-io-samples.all.lc-1.2.0-80a94575-lc.js"></script> 
+     
+   
+ 
+</body></html>

@@ -72,6 +72,7 @@ public class PageSourceIT extends AbstractExampleBase {
     CleanerProperties properties = sampler.getHtmlCleanerProperties();
     properties.setTranslateSpecialEntities(false);
     properties.setOmitComments(true);
+    properties.setOmitDoctypeDeclaration(false);
     return sampler;
   }
 

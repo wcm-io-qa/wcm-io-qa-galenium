@@ -30,9 +30,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -83,16 +80,6 @@ public final class TextSampleManager {
     // do not instantiate
   }
 
-  private static String escapeUnicodeToAscii(String in) {
-    try {
-      return URLEncoder.encode(in, CHARSET_UTF8.name());
-    }
-    catch (UnsupportedEncodingException ex) {
-      getLogger().warn("could not escape: '" + in + "'");
-      return in;
-    }
-  }
-
   /**
    * @param key
    * @param lines
@@ -105,7 +92,7 @@ public final class TextSampleManager {
         sampleFile.delete();
       }
       for (String line : lines) {
-        String data = escapeUnicodeToAscii(line);
+        String data = line;
         FileUtils.write(sampleFile, data + "\n", CHARSET_UTF8, true);
       }
     }
@@ -136,7 +123,7 @@ public final class TextSampleManager {
       List<String> readLines = FileUtils.readLines(new File(sampleFileName), CHARSET_UTF8);
       List<String> decodedLines = new ArrayList<String>();
       for (String line : readLines) {
-        decodedLines.add(unescapeAsciiToUnicode(line));
+        decodedLines.add(line);
       }
 
       return decodedLines;
@@ -145,16 +132,6 @@ public final class TextSampleManager {
       getLogger().info("could not read sample for key '" + key + "'", ex);
     }
     return Collections.emptyList();
-  }
-
-  private static String unescapeAsciiToUnicode(String in) {
-    try {
-      return URLDecoder.decode(in, CHARSET_UTF8.name());
-    }
-    catch (UnsupportedEncodingException ex) {
-      getLogger().warn("could not unescape: '" + in + "'");
-      return in;
-    }
   }
 
   /**
@@ -228,9 +205,11 @@ public final class TextSampleManager {
       Files.move(temp.toPath(), OUTPUT_FILE.toPath());
       getLogger().debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
 
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       getLogger().warn("could not reencode: '" + OUTPUT_FILE + "'", e);
-    } finally {
+    }
+    finally {
       FileUtils.deleteQuietly(temp);
       IOUtils.closeQuietly(reader);
       IOUtils.closeQuietly(writer);

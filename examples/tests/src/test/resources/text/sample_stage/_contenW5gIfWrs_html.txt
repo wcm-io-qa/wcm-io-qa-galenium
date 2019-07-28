@@ -1,224 +1,218 @@
-%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E
-%3C%21DOCTYPE+html%3E
-%3Chtml+class%3D%22no-js%22+lang%3D%22en%22%3E
-%09%3Chead%3E
-%09%09%3Clink+rel%3D%22stylesheet%22+href%3D%22%2Flibs%2Fcq%2Fgui%2Fcomponents%2Fauthoring%2Feditors%2Fclientlibs%2Finternal%2Fpage.css%22+type%3D%22text%2Fcss%22+%2F%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Flibs%2Fcq%2Fgui%2Fcomponents%2Fauthoring%2Feditors%2Fclientlibs%2Finternal%2Fmessaging.js%22%3E%3C%2Fscript%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Flibs%2Fgranite%2Fauthor%2Fdeviceemulator%2Fclientlibs.js%22%3E%3C%2Fscript%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Flibs%2Fcq%2Fgui%2Fcomponents%2Fauthoring%2Feditors%2Fclientlibs%2Finternal%2Fpage.js%22%3E%3C%2Fscript%3E
-%09%09%3Ctitle%3ECall+for+Papers+-+Conference+-+wcm.io+Sample+Site%3C%2Ftitle%3E
-%09%09%3Cmeta+charset%3D%22UTF-8%22+%2F%3E
-%09%09%3Cmeta+http-equiv%3D%22X-UA-Compatible%22+content%3D%22IE%3Dedge%2Cchrome%3D1%22+%2F%3E
-%09%09%3Cmeta+name%3D%22description%22+content%3D%22wcm.io+Sample+Site%22+%2F%3E
-%09%09%3Cmeta+name%3D%22author%22+content%3D%22wcm.io%22+%2F%3E
-%09%09%3Cmeta+name%3D%22viewport%22+content%3D%22width%3Ddevice-width%2C+initial-scale%3D1%2C+maximum-scale%3D1%2C+user-scalable%3Dno%22+%2F%3E
-%09%09%3Cmeta+name%3D%22apple-mobile-web-app-capable%22+content%3D%22yes%22+%2F%3E
-%09%09%3Cmeta+name%3D%22apple-touch-fullscreen%22+content%3D%22yes%22+%2F%3E
-%09%09%3Clink+rel%3D%22shortcut+icon%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ffavicon.ico%22+%2F%3E
-%09%09%3Clink+rel%3D%22apple-touch-icon%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ficon-iphone.png%22+%2F%3E
-%09%09%3Clink+rel%3D%22apple-touch-icon%22+sizes%3D%2272x72%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ficon-ipad.png%22+%2F%3E
-%09%09%3Clink+rel%3D%22apple-touch-icon%22+sizes%3D%22114x114%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.app%2Fresources%2Fimg%2Ficon-iphone4.png%22+%2F%3E
-%09%09%3Clink+rel%3D%22stylesheet%22+href%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.all.lc-1.2.0-80a94575-lc.css%22+type%3D%22text%2Fcss%22+%2F%3E
-%09%3C%2Fhead%3E
-%09%3Cbody%3E
-%09%09%3Cdiv+id%3D%22page%22%3E
-%09%09%09%3Cheader+class%3D%22header-site+clearfix%22%3E
-%09%09%09%09%3Cdiv+class%3D%22row%22%3E
-%09%09%09%09%09%3Ca+id%3D%22top%22+class%3D%22logo+logo-main+right%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen.html%22%3E
-%09%09%09%09%09%09%3Cdiv%3E%3C%2Fdiv%3E
-%09%09%09%09%09%3C%2Fa%3E
-%09%09%09%09%09%3Chgroup%3E
-%09%09%09%09%09%3C%2Fhgroup%3E
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3Ch1+class%3D%22title+title-site%22%3Ewcm.io+Sample+Site%3C%2Fh1%3E
-%09%09%09%09%3Ch2+class%3D%22title+title-site+caption%22%3EWCM.IO+HANDLER+SAMPLE+APPLICATION%3C%2Fh2%3E
-%09%09%09%3C%2Fheader%3E
-%09%09%3C%2Fdiv%3E
-%09%09%3Chr+%2F%3E
-%09%09%3Cnav+id%3D%22nav-main%22+class%3D%22clearfix%22%3E
-%09%09%09%3Ch1+class%3D%22title+title-nav+title-mainnav%22%3E
-%09%09%09%09%3Ca+href%3D%22%23%22+class%3D%22menu-opener%22%3ENavigation%3C%2Fa%3E
-%09%09%09%3C%2Fh1%3E
-%09%09%09%3Cul+class%3D%22row+navlist+navlist-main%22%3E
-%09%09%09%09%3Cli%3E
-%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-main%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen.html%22%3EHOME%3C%2Fa%3E
-%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%3Cli%3E
-%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-main%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference.html%22%3ECONFERENCE%3C%2Fa%3E
-%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-main+navlink-active%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers.html%22%3ECall+for+Papers%3C%2Fa%3E
-%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%3C%2Fli%3E
-%09%09%09%3C%2Ful%3E
-%09%09%3C%2Fnav%3E
-%09%09%3Chr+%2F%3E
-%09%09%3Cdiv+id%3D%22main%22+role%3D%22main%22+class%3D%22row%22%3E
-%09%09%09%3Csection+id%3D%22stage%22+class%3D%22col-3-4%22%3E
-%09%09%09%09%3Carticle+class%3D%22box-padding%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22contentHeadline+section%22%3E
-%09%09%09%09%09%09%3Ch1+class%3D%22title+title-section%22+data-emptytext%3D%22Headline%22%3ECall+for+papers+adaptTo%28%29+2013%3C%2Fh1%3E
-%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline.html%26quot%3B%2C%26quot%3Bdialog%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentHeadline%2Fcq%3Adialog%26quot%3B%2C%26quot%3BdialogLoadingMode%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogLayout%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogSrc%26quot%3B%3A%26quot%3B%2Fmnt%2Foverride%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentHeadline%2F_cq_dialog.html%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentheadline%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentHeadline%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%2FcontentHeadline%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bafteredit%26quot%3B%3A%26quot%3BsampleApp.authoring.listener.refreshAjaxContentAfterEdit%26quot%3B%7D%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3Cdiv+class%3D%22contentRichText+section%22%3E
-%09%09%09%09%09%09%3Ch4%3EWhy+attend+as+speaker%3F%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cp%3EFirst+of+all+this+is+a+community+event%2C+so+everyone+attending+is+encouraged+to+actively+participate+at+this+meetup.+By+having+a+number+of+various+tracks+covering+the+various+facets+of+the+overall+topic+Apache+Sling+we+want+to+give+the+community+some+startingpoints+to+discuss+and+interact.+Since+we+just+can+cover+our+perspective+we+do+need+your+help+to+get+a+really+rich+experience+for+everyone.%3C%2Fp%3E
-%09%09%09%09%09%09%3Cp%3EAs+a+speaker+you+also+will+get+free+entrance+to+the+meetup+and+obtain+the+speakershirt.%3C%2Fp%3E
-%09%09%09%09%09%09%3Ch4%3ESession+Details%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%09%3Cli%3ETimeframe%3A+the+default+timeframe+for+a+talk+is+45+minutes+including+the+Q%26amp%3BAs%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EPlease+add+note+to+Submission+if+you+require+more+or+less+time%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EStyle%3A+all+kind+of+sessions+are+welcome%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%3Ch4%3ESubmission+Details%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%09%3Cli%3ESubmission+by+mail+via
-%09%09%09%09%09%09%09%09%3Ca+href%3D%22mailto%3Apapers.adaptto.org%22%3Epapers%40adaptto.org%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EShort+summary+%283-4+sentences%29+of+your+session%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EStyle+of+your+session+%28e.g.+Front+presentation%2C+Hands-on-Session%2C+Workshop...%29%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EPlanned+Material+beside+the+slides+%28e.g.+Codesamples+that+should+be+made+available+to+attendees%29%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%3Ch4%3ETopics+of+interest+include%2C+but+are+not+limited+to%3A%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%09%3Cli%3EIntegration+of+other+Frameworks%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EImplementations+based+on+Apache+Sling%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EField+reports+of+projects+utilizing+Apache+Sling+%2F+Apache+Jackrabbit+%2F+Apache+Felix+and%2For+Products+based+upon+this+stack+%28like+Adobe+CQ5%29%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EHands-on+sessions+covering+specific+parts+of+the+Stack+%28like+Apache+Sling+CRUD+or+Apache+Oak+Extensions%29%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ESolutions+supporting+development+based+on+the+Sling+stack+%28like+Dev-Tooling+or+Sling+Extensions%29%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EBest+Practices+%28adressing+topics+like+Security%2C+Performance+or+Testing%29%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%3Ch4%3EManuscript+Details%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%09%3Cli%3EWe+will+provide+a+standardized+conference+slidedeck+to+ensure+a+stable+user+experience+%28like+fontsizes%2C+colors+and+so+on..%29%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ECodesamples+that+should+be+made+available+for+download+need+to+be+provided+together+with+the+manuscript%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ELivedemos+should+get+a+summary+in+the+notes+of+the+corresponding+slide%28just+to+ensure+that+the+timeframe+matches+the+amount+of+content+of+your+session%29%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%3Ch4%3EImportant+Dates%3C%2Fh4%3E
-%09%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%09%3Cli%3ESubmission+deadline%3A+06.05.2013%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ELast+opportunity+to+send+in+your+submission+to%26nbsp%3B
-%09%09%09%09%09%09%09%09%3Ca+href%3D%22mailto%3Apapers%40adaptto.org%22%3Epapers%40adaptto.org%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ENotification%3A+20.05.2013%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ETill+this+date+we+will+decide+which+sessions+can+be+part+of+adaptTo%28%29+2013+and+get+a+feedback+to+you+if+we+require+some+changes+%28e.g.+when+we+identify+overlap+with+other+sessions%29%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3EFinal+manuscript+due%3A+02.09.2013%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3ETill+this+date+we+need+the+manuscript+and+corresponding+material+sent+in+for+feedback+and+approval.%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%3Cp%3E+%3C%2Fp%3E
-%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext.html%26quot%3B%2C%26quot%3Bdialog%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentRichText%2Fcq%3Adialog%26quot%3B%2C%26quot%3BdialogLoadingMode%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogLayout%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogSrc%26quot%3B%3A%26quot%3B%2Fmnt%2Foverride%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentRichText%2F_cq_dialog.html%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2Fcontentrichtext%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Fcommon%2FcontentRichText%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%2FcontentRichText%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bafteredit%26quot%3B%3A%26quot%3BsampleApp.authoring.listener.refreshAjaxContentAfterEdit%26quot%3B%7D%2C%26quot%3BinplaceEditingConfig%26quot%3B%3A%7B%26quot%3Bactive%26quot%3B%3Atrue%2C%26quot%3BeditorType%26quot%3B%3A%26quot%3Btext%26quot%3B%2C%26quot%3BconfigPath%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fglobal%2Finclude%2FrichTextConfig%26quot%3B%7D%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BrichTextConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BhtmlRules%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BdocType%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BbaseType%26quot%3B%3A%26quot%3Bxhtml%26quot%3B%2C%26quot%3Bversion%26quot%3B%3A%26quot%3B1.0%26quot%3B%2C%26quot%3BtypeConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BisXhtmlStrict%26quot%3B%3Afalse%2C%26quot%3BuseSemanticMarkup%26quot%3B%3Atrue%2C%26quot%3BsemanticMarkupMap%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bb%26quot%3B%3A%26quot%3Bstrong%26quot%3B%2C%26quot%3Bi%26quot%3B%3A%26quot%3Bem%26quot%3B%7D%7D%7D%2C%26quot%3Blinks%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bprotocols%26quot%3B%3A%5B%26quot%3Bhttp%3A%2F%2F%26quot%3B%2C%26quot%3Bhttps%3A%2F%2F%26quot%3B%2C%26quot%3Bmailto%3A%26quot%3B%5D%2C%26quot%3BensureInternalLinkExt%26quot%3B%3Afalse%2C%26quot%3BcssMode%26quot%3B%3A%26quot%3Bkeep%26quot%3B%2C%26quot%3BtargetConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bmode%26quot%3B%3A%26quot%3Bblank%26quot%3B%7D%7D%7D%2C%26quot%3BrtePlugins%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bmisctools%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bedit%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bfindreplace%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bkeys%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%2C%26quot%3Bformats%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bp%26quot%3B%3A%26quot%3BParagraph%26quot%3B%2C%26quot%3Bh1%26quot%3B%3A%26quot%3BHeading+1%26quot%3B%2C%26quot%3Bh2%26quot%3B%3A%26quot%3BHeading+2%26quot%3B%2C%26quot%3Bh3%26quot%3B%3A%26quot%3BHeading+3%26quot%3B%2C%26quot%3Bh4%26quot%3B%3A%26quot%3BHeading+4%26quot%3B%7D%7D%2C%26quot%3Bspellcheck%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bundo%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%7D%2C%26quot%3BuiSettings%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bcui%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Binline%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B%23lists%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23start%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bcontrol%23close%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Blists%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Btext%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%5B%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%5D%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bfullscreen%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3Blinks%23anchor%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfindreplace%23find%26quot%3B%2C%26quot%3Bfindreplace%23replace%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bundo%23undo%26quot%3B%2C%26quot%3Bundo%23redo%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bjustify%23justifyleft%26quot%3B%2C%26quot%3Bjustify%23justifycenter%26quot%3B%2C%26quot%3Bjustify%23justifyright%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bmisctools%23specialchars%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23finish%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bicons%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Bcoral-Icon+coral-Icon--textCenter%26quot%3B%2C%26quot%3Bcommand%26quot%3B%3A%26quot%3B%23justify%26quot%3B%7D%7D%7D%7D%7D%2C%26quot%3BhtmlRules%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BdocType%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BbaseType%26quot%3B%3A%26quot%3Bxhtml%26quot%3B%2C%26quot%3Bversion%26quot%3B%3A%26quot%3B1.0%26quot%3B%2C%26quot%3BtypeConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3BisXhtmlStrict%26quot%3B%3Afalse%2C%26quot%3BuseSemanticMarkup%26quot%3B%3Atrue%2C%26quot%3BsemanticMarkupMap%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bb%26quot%3B%3A%26quot%3Bstrong%26quot%3B%2C%26quot%3Bi%26quot%3B%3A%26quot%3Bem%26quot%3B%7D%7D%7D%2C%26quot%3Blinks%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bprotocols%26quot%3B%3A%5B%26quot%3Bhttp%3A%2F%2F%26quot%3B%2C%26quot%3Bhttps%3A%2F%2F%26quot%3B%2C%26quot%3Bmailto%3A%26quot%3B%5D%2C%26quot%3BensureInternalLinkExt%26quot%3B%3Afalse%2C%26quot%3BcssMode%26quot%3B%3A%26quot%3Bkeep%26quot%3B%2C%26quot%3BtargetConfig%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bmode%26quot%3B%3A%26quot%3Bblank%26quot%3B%7D%7D%7D%2C%26quot%3BrtePlugins%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bmisctools%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bedit%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bfindreplace%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bkeys%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%2C%26quot%3Bformats%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bp%26quot%3B%3A%26quot%3BParagraph%26quot%3B%2C%26quot%3Bh1%26quot%3B%3A%26quot%3BHeading+1%26quot%3B%2C%26quot%3Bh2%26quot%3B%3A%26quot%3BHeading+2%26quot%3B%2C%26quot%3Bh3%26quot%3B%3A%26quot%3BHeading+3%26quot%3B%2C%26quot%3Bh4%26quot%3B%3A%26quot%3BHeading+4%26quot%3B%7D%7D%2C%26quot%3Bspellcheck%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%2C%26quot%3Bundo%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bfeatures%26quot%3B%3A%26quot%3B*%26quot%3B%7D%7D%2C%26quot%3BuiSettings%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bcui%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Binline%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B%23lists%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23start%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bcontrol%23close%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Blists%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Blists%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Btext%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%5B%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%5D%7D%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bfullscreen%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Btoolbar%26quot%3B%3A%5B%26quot%3Bformat%23bold%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blinks%23modifylink%26quot%3B%2C%26quot%3Blinks%23unlink%26quot%3B%2C%26quot%3Blinks%23anchor%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfindreplace%23find%26quot%3B%2C%26quot%3Bfindreplace%23replace%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bundo%23undo%26quot%3B%2C%26quot%3Bundo%23redo%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bjustify%23justifyleft%26quot%3B%2C%26quot%3Bjustify%23justifycenter%26quot%3B%2C%26quot%3Bjustify%23justifyright%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Blists%23insertunorderedlist%26quot%3B%2C%26quot%3Blists%23insertorderedlist%26quot%3B%2C%26quot%3Blists%23outdent%26quot%3B%2C%26quot%3Blists%23indent%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bmisctools%23specialchars%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3B%23paraformat%26quot%3B%2C%26quot%3B-%26quot%3B%2C%26quot%3Bfullscreen%23finish%26quot%3B%5D%2C%26quot%3Bpopovers%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bparaformat%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bref%26quot%3B%3A%26quot%3Bparaformat%26quot%3B%2C%26quot%3Bitems%26quot%3B%3A%26quot%3Bparaformat%3AgetFormats%3Aparaformat-pulldown%26quot%3B%7D%7D%7D%2C%26quot%3Bicons%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bjustify%26quot%3B%3A%7B%26quot%3Bjcr%3AprimaryType%26quot%3B%3A%26quot%3Bnt%3Aunstructured%26quot%3B%2C%26quot%3Bicon%26quot%3B%3A%26quot%3Bcoral-Icon+coral-Icon--textCenter%26quot%3B%2C%26quot%3Bcommand%26quot%3B%3A%26quot%3B%23justify%26quot%3B%7D%7D%7D%7D%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3Cdiv+class%3D%22newpar+new+section%22%3E
-%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fcontent.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fcontent%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%3C%2Farticle%3E
-%09%09%09%3C%2Fsection%3E
-%09%09%09%3Caside%3E
-%09%09%09%09%3Cdiv+class%3D%22col-1-4+section%22%3E
-%09%09%09%09%09%3Csection+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Cheader%3E
-%09%09%09%09%09%09%09%3Ch1+class%3D%22title+title-section+title-sidebar%22%3ESubmission+Details%3C%2Fh1%3E
-%09%09%09%09%09%09%3C%2Fheader%3E
-%09%09%09%09%09%09%3Cdiv%3E
-%09%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%09%3Cstrong%3EDeadline%3A%3C%2Fstrong%3E
-%09%09%09%09%09%09%09%096.+May+2013
-%09%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%09%3Cstrong%3EE-Mail%3A%3C%2Fstrong%3E
-%09%09%09%09%09%09%09%09%3Ca+href%3D%22mailto%3Apapers%40adaptto.org%22%3Epapers%40adaptto.org%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%09%3Cp%3E
-%09%09%09%09%09%09%09%09%3Cstrong%3EContent%3A%3C%2Fstrong%3E
-%09%09%09%09%09%09%09%3C%2Fp%3E
-%09%09%09%09%09%09%09%3Cul%3E
-%09%09%09%09%09%09%09%09%3Cli%3ESummary%3C%2Fli%3E
-%09%09%09%09%09%09%09%09%3Cli%3EStyle+of+Session%3C%2Fli%3E
-%09%09%09%09%09%09%09%09%3Cli%3EAdditional+Material%3C%2Fli%3E
-%09%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%09%3Cp%3E+%3C%2Fp%3E
-%09%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%09%3Cdiv%3E
-%09%09%09%09%09%09%09%3Cul+class%3D%22link-list%22%3E
-%09%09%09%09%09%09%09%09%3Cdiv+class%3D%22newpar+new+link-list-item+section%22%3E
-%09%09%09%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%2Flinks%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%2Flinks%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%2Flinks%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%2FasideTeaser%2Flinks%7ClinkListParsys%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%2Flinks%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%2Flinks%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%2Flinks.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fstructure%2Fparsys%2FlinkListParsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%2FasideTeaser%2Flinks%7ClinkListParsys%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%09%3C%2Fsection%3E
-%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser.html%26quot%3B%2C%26quot%3Bdialog%26quot%3B%3A%26quot%3B%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Faside%2FasideTeaser%2Fcq%3Adialog%26quot%3B%2C%26quot%3BdialogLoadingMode%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogLayout%26quot%3B%3A%26quot%3Bauto%26quot%3B%2C%26quot%3BdialogSrc%26quot%3B%3A%26quot%3B%2Fmnt%2Foverride%2Fapps%2Fwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Faside%2FasideTeaser%2F_cq_dialog.html%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2Fasideteaser%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fcontent%2Faside%2FasideTeaser%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%2FasideTeaser%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bafteredit%26quot%3B%3A%26quot%3BsampleApp.authoring.listener.refreshAjaxContentAfterEdit%26quot%3B%7D%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3Cdiv+class%3D%22newpar+new+col-1-4+section%22%3E
-%09%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Faside.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io-samples%2Fcore%2Fcomponents%2Fstructure%2Fparsys%2FasideParsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Faside%7CasideParsys%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%3C%2Faside%3E
-%09%09%3C%2Fdiv%3E
-%09%09%3Chr+%2F%3E
-%09%09%3Cdiv+id%3D%22teaserbar%22+class%3D%22row%22%3E
-%09%09%09%3Cdiv+class%3D%22newpar+new+section%22%3E
-%09%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fteaserbar%2F*%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fteaserbar%2F*%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fteaserbar%2F*.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%2Fnewpar%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fteaserbar%7Cparsys%2Fnewpar%26quot%3B%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%2C%26quot%3Bactions%26quot%3B%3A%5BCQ.wcm.EditBase.INSERT%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%09%3C%2Fdiv%3E
-%09%09%09%3Ccq+data-path%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fteaserbar%22+data-config%3D%22%7B%26quot%3Bpath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fteaserbar%26quot%3B%2C%26quot%3BslingPath%26quot%3B%3A%26quot%3B%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers%2Fjcr%3Acontent%2Fteaserbar.html%26quot%3B%2C%26quot%3Btype%26quot%3B%3A%26quot%3Bwcm-io%2Fwcm%2Fparsys%2Fcomponents%2Fparsys%26quot%3B%2C%26quot%3BisResponsiveGrid%26quot%3B%3Afalse%2C%26quot%3Bcsp%26quot%3B%3A%26quot%3Bcontent%7Cpage%2Fteaserbar%7Cparsys%26quot%3B%2C%26quot%3BisContainer%26quot%3B%3Atrue%2C%26quot%3BeditConfig%26quot%3B%3A%7B%26quot%3Blisteners%26quot%3B%3A%7B%26quot%3Bupdatecomponentlist%26quot%3B%3A%26quot%3Bwcmio.wcm.parsys.updateComponentListHandler%26quot%3B%7D%2C%26quot%3Bactions%26quot%3B%3A%5B%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Btbtext%26quot%3B%2C%26quot%3Btext%26quot%3B%3A%26quot%3BNo+actions%26quot%3B%7D%5D%2C%26quot%3BdisableTargeting%26quot%3B%3Atrue%7D%2C%26quot%3BipeConfig%26quot%3B%3A%7B%7D%2C%26quot%3BchildConfig%26quot%3B%3A%7B%26quot%3Bxtype%26quot%3B%3A%26quot%3Beditrollover%26quot%3B%7D%7D%22%3E%3C%2Fcq%3E
-%09%09%3C%2Fdiv%3E
-%09%09%3Cfooter+class%3D%22footer-site%22%3E
-%09%09%09%3Cnav+id%3D%22nav-footer%22+class%3D%22row%22%3E
-%09%09%09%09%3Ch1+class%3D%22title+title-nav%22%3EMeta+Navigation%3C%2Fh1%3E
-%09%09%09%09%3Csection+class%3D%22col-1-4%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Ch2+class%3D%22title+title-section+title-footer%22%3ECONFERENCE%3C%2Fh2%3E
-%09%09%09%09%09%09%3Cul+class%3D%22navlist+navlist-footer%22%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fconference%2Fconference.html%22%3EConference%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fconference%2Fschedule.html%22%3ESchedule%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fconference%2Ftickets.html%22%3ETickets%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3C%2Fsection%3E
-%09%09%09%09%3Csection+class%3D%22col-1-4%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Ch2+class%3D%22title+title-section+title-footer%22%3EVENUE%3C%2Fh2%3E
-%09%09%09%09%09%09%3Cul+class%3D%22navlist+navlist-footer%22%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Fvenue%2Fvenue.html%22%3EVenue%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3C%2Fsection%3E
-%09%09%09%09%3Csection+class%3D%22col-1-4%22%3E
-%09%09%09%09%09%3Cdiv+class%3D%22box-padding%22%3E
-%09%09%09%09%09%09%3Ch2+class%3D%22title+title-section+title-footer%22%3EARCHIVE%3C%2Fh2%3E
-%09%09%09%09%09%09%3Cul+class%3D%22navlist+navlist-footer%22%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Farchive%2Fadaptto---2011.html%22%3EadaptTo%28%29+2011%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%09%3Cli%3E
-%09%09%09%09%09%09%09%09%3Ca+class%3D%22navlink+navlink-footer%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Ffooternav%2Farchive%2Fadaptto---2012.html%22%3EadaptTo%28%29+2012%3C%2Fa%3E
-%09%09%09%09%09%09%09%3C%2Fli%3E
-%09%09%09%09%09%09%3C%2Ful%3E
-%09%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%09%3C%2Fsection%3E
-%09%09%09%3C%2Fnav%3E
-%09%09%09%3Cdiv+class%3D%22row%22%3E
-%09%09%09%09%3Cp+class%3D%22col-2-4+footer-text+box-padding%22%3E
-%09%09%09%09%09Credits%3A+%26copy%3B2019+wcm.io+-
-%09%09%09%09%09%3Ca+class%3D%22navlink%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Ftools%2Fnavigation%2Fimprint.html%22%3EImprint%3C%2Fa%3E
-%09%09%09%09%3C%2Fp%3E
-%09%09%09%3C%2Fdiv%3E
-%09%09%09%3Cdiv+class%3D%22row%22%3E
-%09%09%09%09%3Cdiv+class%3D%22col-4-4+footer-text+box-padding%22%3E
-%09%09%09%09%09Disclaimer+Text.
-%09%09%09%09%3C%2Fdiv%3E
-%09%09%09%3C%2Fdiv%3E
-%09%09%3C%2Ffooter%3E
-%09%09%3Cscript+type%3D%22text%2Fjavascript%22+src%3D%22%2Fetc%2Fclientlibs%2Fwcm-io-samples%2Fwcm-io-samples.all.lc-1.2.0-80a94575-lc.js%22%3E%3C%2Fscript%3E
-%09%3C%2Fbody%3E
-%3C%2Fhtml%3E
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html class="no-js" lang="en"><head> 
+  <link rel="stylesheet" href="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.css" type="text/css" /> 
+  <script type="text/javascript" src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/messaging.js"></script> 
+  <script type="text/javascript" src="/libs/granite/author/deviceemulator/clientlibs.js"></script> 
+  <script type="text/javascript" src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.js"></script> 
+   
+   
+  <title>Call for Papers - Conference - wcm.io Sample Site</title> 
+  <meta charset="UTF-8" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+  <meta name="description" content="wcm.io Sample Site" /> 
+  <meta name="author" content="wcm.io" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" /> 
+  <meta name="apple-mobile-web-app-capable" content="yes" /> 
+  <meta name="apple-touch-fullscreen" content="yes" /> 
+  <link rel="shortcut icon" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/favicon.ico" /> 
+  <link rel="apple-touch-icon" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/icon-iphone.png" /> 
+  <link rel="apple-touch-icon" sizes="72x72" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/icon-ipad.png" /> 
+  <link rel="apple-touch-icon" sizes="114x114" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.app/resources/img/icon-iphone4.png" /> 
+  <link rel="stylesheet" href="/etc/clientlibs/wcm-io-samples/wcm-io-samples.all.lc-1.2.0-80a94575-lc.css" type="text/css" /> 
+   
+  
+ </head><body>
+ 
+  
+  <div id="page"> 
+    
+   <header class="clearfix header-site">
+    <div class="row"> 
+     <a id="top" class="logo logo-main right" href="/content/wcm-io-samples/en.html"><div></div></a><hgroup> 
+      
+       </hgroup></div> 
+      <h1 class="title title-site">wcm.io Sample Site</h1> 
+      <h2 class="caption title title-site">WCM.IO HANDLER SAMPLE APPLICATION</h2> 
+       
+      
+    </header></div> 
+     
+    
+   <hr /> 
+    
+   <nav id="nav-main" class="clearfix">
+    <h1 class="title title-mainnav title-nav"> <a href="#" class="menu-opener">Navigation</a> </h1> 
+    <ul class="navlist navlist-main row"> 
+     <li> <a class="navlink navlink-main" href="/content/wcm-io-samples/en.html">HOME</a> </li> 
+     <li> <a class="navlink navlink-main" href="/content/wcm-io-samples/en/conference.html">CONFERENCE</a> 
+      <ul> 
+       <li> <a href="/content/wcm-io-samples/en/conference/call-for-papers.html" class="navlink navlink-active navlink-main">Call for Papers</a> </li> 
+      </ul> </li> 
+    </ul> 
+     
+   </nav> 
+   <hr /> 
+    
+   <div id="main" role="main" class="row"> 
+    <section id="stage" class="col-3-4"> 
+     <article class="box-padding"> 
+      <div class="contentHeadline section">
+       <h1 class="title title-section" data-emptytext="Headline">Call for papers adaptTo() 2013</h1> 
+        
+       <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentheadline" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentheadline&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentheadline.html&quot;,&quot;dialog&quot;:&quot;/apps/wcm-io-samples/core/components/content/common/contentHeadline/cq:dialog&quot;,&quot;dialogLoadingMode&quot;:&quot;auto&quot;,&quot;dialogLayout&quot;:&quot;auto&quot;,&quot;dialogSrc&quot;:&quot;/mnt/override/apps/wcm-io-samples/core/components/content/common/contentHeadline/_cq_dialog.html/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentheadline&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/content/common/contentHeadline&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys/contentHeadline&quot;,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;afteredit&quot;:&quot;sampleApp.authoring.listener.refreshAjaxContentAfterEdit&quot;}},&quot;ipeConfig&quot;:{}}"></cq> 
+      </div> 
+      <div class="contentRichText section"> 
+       <h4>Why attend as speaker?</h4> 
+       <p>First of all this is a community event, so everyone attending is encouraged to actively participate at this meetup. By having a number of various tracks covering the various facets of the overall topic Apache Sling we want to give the community some startingpoints to discuss and interact. Since we just can cover our perspective we do need your help to get a really rich experience for everyone.</p> 
+       <p>As a speaker you also will get free entrance to the meetup and obtain the speakershirt.</p> 
+       <h4>Session Details</h4> 
+       <ul> 
+        <li>Timeframe: the default timeframe for a talk is 45 minutes including the Q&amp;As</li> 
+        <li>Please add note to Submission if you require more or less time</li> 
+        <li>Style: all kind of sessions are welcome</li> 
+       </ul> 
+       <h4>Submission Details</h4> 
+       <ul> 
+        <li>Submission by mail via <a href="mailto:papers.adaptto.org">papers@adaptto.org</a></li> 
+        <li>Short summary (3-4 sentences) of your session</li> 
+        <li>Style of your session (e.g. Front presentation, Hands-on-Session, Workshop...)</li> 
+        <li>Planned Material beside the slides (e.g. Codesamples that should be made available to attendees)</li> 
+       </ul> 
+       <h4>Topics of interest include, but are not limited to:</h4> 
+       <ul> 
+        <li>Integration of other Frameworks</li> 
+        <li>Implementations based on Apache Sling</li> 
+        <li>Field reports of projects utilizing Apache Sling / Apache Jackrabbit / Apache Felix and/or Products based upon this stack (like Adobe CQ5)</li> 
+        <li>Hands-on sessions covering specific parts of the Stack (like Apache Sling CRUD or Apache Oak Extensions)</li> 
+        <li>Solutions supporting development based on the Sling stack (like Dev-Tooling or Sling Extensions)</li> 
+        <li>Best Practices (adressing topics like Security, Performance or Testing)</li> 
+       </ul> 
+       <h4>Manuscript Details</h4> 
+       <ul> 
+        <li>We will provide a standardized conference slidedeck to ensure a stable user experience (like fontsizes, colors and so on..)</li> 
+        <li>Codesamples that should be made available for download need to be provided together with the manuscript</li> 
+        <li>Livedemos should get a summary in the notes of the corresponding slide(just to ensure that the timeframe matches the amount of content of your session)</li> 
+       </ul> 
+       <h4>Important Dates</h4> 
+       <ul> 
+        <li>Submission deadline: 06.05.2013</li> 
+        <li>Last opportunity to send in your submission to&nbsp;<a href="mailto:papers@adaptto.org">papers@adaptto.org</a></li> 
+        <li>Notification: 20.05.2013</li> 
+        <li>Till this date we will decide which sessions can be part of adaptTo() 2013 and get a feedback to you if we require some changes (e.g. when we identify overlap with other sessions)</li> 
+        <li>Final manuscript due: 02.09.2013</li> 
+        <li>Till this date we need the manuscript and corresponding material sent in for feedback and approval.</li> 
+       </ul> 
+       <p> </p> 
+        
+       <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentrichtext" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentrichtext&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentrichtext.html&quot;,&quot;dialog&quot;:&quot;/apps/wcm-io-samples/core/components/content/common/contentRichText/cq:dialog&quot;,&quot;dialogLoadingMode&quot;:&quot;auto&quot;,&quot;dialogLayout&quot;:&quot;auto&quot;,&quot;dialogSrc&quot;:&quot;/mnt/override/apps/wcm-io-samples/core/components/content/common/contentRichText/_cq_dialog.html/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/contentrichtext&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/content/common/contentRichText&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys/contentRichText&quot;,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;afteredit&quot;:&quot;sampleApp.authoring.listener.refreshAjaxContentAfterEdit&quot;},&quot;inplaceEditingConfig&quot;:{&quot;active&quot;:true,&quot;editorType&quot;:&quot;text&quot;,&quot;configPath&quot;:&quot;/apps/wcm-io-samples/core/components/global/include/richTextConfig&quot;}},&quot;ipeConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;richTextConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;htmlRules&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;docType&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;baseType&quot;:&quot;xhtml&quot;,&quot;version&quot;:&quot;1.0&quot;,&quot;typeConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;isXhtmlStrict&quot;:false,&quot;useSemanticMarkup&quot;:true,&quot;semanticMarkupMap&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;b&quot;:&quot;strong&quot;,&quot;i&quot;:&quot;em&quot;}}},&quot;links&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;protocols&quot;:[&quot;http://&quot;,&quot;https://&quot;,&quot;mailto:&quot;],&quot;ensureInternalLinkExt&quot;:false,&quot;cssMode&quot;:&quot;keep&quot;,&quot;targetConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;mode&quot;:&quot;blank&quot;}}},&quot;rtePlugins&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;format&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;misctools&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;edit&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;findreplace&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;keys&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;,&quot;formats&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;p&quot;:&quot;Paragraph&quot;,&quot;h1&quot;:&quot;Heading 1&quot;,&quot;h2&quot;:&quot;Heading 2&quot;,&quot;h3&quot;:&quot;Heading 3&quot;,&quot;h4&quot;:&quot;Heading 4&quot;}},&quot;spellcheck&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;undo&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;}},&quot;uiSettings&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;cui&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;inline&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;#lists&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#start&quot;,&quot;-&quot;,&quot;control#close&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;lists&quot;,&quot;icon&quot;:&quot;text&quot;,&quot;items&quot;:[&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;]},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;fullscreen&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;links#anchor&quot;,&quot;-&quot;,&quot;findreplace#find&quot;,&quot;findreplace#replace&quot;,&quot;-&quot;,&quot;undo#undo&quot;,&quot;undo#redo&quot;,&quot;-&quot;,&quot;justify#justifyleft&quot;,&quot;justify#justifycenter&quot;,&quot;justify#justifyright&quot;,&quot;-&quot;,&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;,&quot;-&quot;,&quot;misctools#specialchars&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#finish&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;icons&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;icon&quot;:&quot;coral-Icon coral-Icon--textCenter&quot;,&quot;command&quot;:&quot;#justify&quot;}}}}},&quot;htmlRules&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;docType&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;baseType&quot;:&quot;xhtml&quot;,&quot;version&quot;:&quot;1.0&quot;,&quot;typeConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;isXhtmlStrict&quot;:false,&quot;useSemanticMarkup&quot;:true,&quot;semanticMarkupMap&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;b&quot;:&quot;strong&quot;,&quot;i&quot;:&quot;em&quot;}}},&quot;links&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;protocols&quot;:[&quot;http://&quot;,&quot;https://&quot;,&quot;mailto:&quot;],&quot;ensureInternalLinkExt&quot;:false,&quot;cssMode&quot;:&quot;keep&quot;,&quot;targetConfig&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;mode&quot;:&quot;blank&quot;}}},&quot;rtePlugins&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;format&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;misctools&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;edit&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;findreplace&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;keys&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;,&quot;formats&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;p&quot;:&quot;Paragraph&quot;,&quot;h1&quot;:&quot;Heading 1&quot;,&quot;h2&quot;:&quot;Heading 2&quot;,&quot;h3&quot;:&quot;Heading 3&quot;,&quot;h4&quot;:&quot;Heading 4&quot;}},&quot;spellcheck&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;},&quot;undo&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;features&quot;:&quot;*&quot;}},&quot;uiSettings&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;cui&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;inline&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;#lists&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#start&quot;,&quot;-&quot;,&quot;control#close&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;lists&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;lists&quot;,&quot;icon&quot;:&quot;text&quot;,&quot;items&quot;:[&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;]},&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;fullscreen&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;toolbar&quot;:[&quot;format#bold&quot;,&quot;-&quot;,&quot;links#modifylink&quot;,&quot;links#unlink&quot;,&quot;links#anchor&quot;,&quot;-&quot;,&quot;findreplace#find&quot;,&quot;findreplace#replace&quot;,&quot;-&quot;,&quot;undo#undo&quot;,&quot;undo#redo&quot;,&quot;-&quot;,&quot;justify#justifyleft&quot;,&quot;justify#justifycenter&quot;,&quot;justify#justifyright&quot;,&quot;-&quot;,&quot;lists#insertunorderedlist&quot;,&quot;lists#insertorderedlist&quot;,&quot;lists#outdent&quot;,&quot;lists#indent&quot;,&quot;-&quot;,&quot;misctools#specialchars&quot;,&quot;-&quot;,&quot;#paraformat&quot;,&quot;-&quot;,&quot;fullscreen#finish&quot;],&quot;popovers&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;paraformat&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;ref&quot;:&quot;paraformat&quot;,&quot;items&quot;:&quot;paraformat:getFormats:paraformat-pulldown&quot;}}},&quot;icons&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;justify&quot;:{&quot;jcr:primaryType&quot;:&quot;nt:unstructured&quot;,&quot;icon&quot;:&quot;coral-Icon coral-Icon--textCenter&quot;,&quot;command&quot;:&quot;#justify&quot;}}}}}}"></cq> 
+      </div> 
+      <div class="new newpar section"> 
+        
+       <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{}}"></cq> 
+      </div> 
+       
+      <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/content.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/content|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+     </article> 
+    </section> 
+    <aside> 
+     <div class="col-1-4 section">
+      <section class="box-padding"> 
+       <header> 
+        <h1 class="title title-section title-sidebar">Submission Details</h1> 
+       </header> 
+       <div> 
+        <p><strong>Deadline:</strong> 6. May 2013</p> 
+        <p><strong>E-Mail:</strong> <a href="mailto:papers@adaptto.org">papers@adaptto.org</a></p> 
+        <p><strong>Content:</strong></p> 
+        <ul> 
+         <li>Summary</li> 
+         <li>Style of Session</li> 
+         <li>Additional Material</li> 
+        </ul> 
+        <p> </p> 
+       </div> 
+       <div> 
+        <ul class="link-list"> 
+         <div class="link-list-item new newpar section"> 
+           
+          <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser/links/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser/links/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser/links/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys/asideTeaser/links|linkListParsys|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true}}"></cq> 
+         </div> 
+        </ul> 
+         
+        <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser/links" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser/links&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser/links.html&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/structure/parsys/linkListParsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys/asideTeaser/links|linkListParsys|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+       </div> 
+      </section> 
+       
+      <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser.html&quot;,&quot;dialog&quot;:&quot;/apps/wcm-io-samples/core/components/content/aside/asideTeaser/cq:dialog&quot;,&quot;dialogLoadingMode&quot;:&quot;auto&quot;,&quot;dialogLayout&quot;:&quot;auto&quot;,&quot;dialogSrc&quot;:&quot;/mnt/override/apps/wcm-io-samples/core/components/content/aside/asideTeaser/_cq_dialog.html/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/asideteaser&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/content/aside/asideTeaser&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys/asideTeaser&quot;,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;afteredit&quot;:&quot;sampleApp.authoring.listener.refreshAjaxContentAfterEdit&quot;}},&quot;ipeConfig&quot;:{}}"></cq> 
+     </div> 
+     <div class="col-1-4 new newpar section"> 
+       
+      <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{}}"></cq> 
+     </div> 
+      
+     <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/aside.html&quot;,&quot;type&quot;:&quot;wcm-io-samples/core/components/structure/parsys/asideParsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/aside|asideParsys|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+    </aside> 
+   </div> 
+   <hr /> 
+    
+   <div id="teaserbar" class="row"> 
+    <div class="new newpar section"> 
+      
+     <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/teaserbar/*" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/teaserbar/*&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/teaserbar/*.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys/newpar&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/teaserbar|parsys/newpar&quot;,&quot;editConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;,&quot;actions&quot;:[CQ.wcm.EditBase.INSERT],&quot;disableTargeting&quot;:true}}"></cq> 
+    </div> 
+     
+    <cq data-path="/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/teaserbar" data-config="{&quot;path&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/teaserbar&quot;,&quot;slingPath&quot;:&quot;/content/wcm-io-samples/en/conference/call-for-papers/jcr:content/teaserbar.html&quot;,&quot;type&quot;:&quot;wcm-io/wcm/parsys/components/parsys&quot;,&quot;isResponsiveGrid&quot;:false,&quot;csp&quot;:&quot;content|page/teaserbar|parsys&quot;,&quot;isContainer&quot;:true,&quot;editConfig&quot;:{&quot;listeners&quot;:{&quot;updatecomponentlist&quot;:&quot;wcmio.wcm.parsys.updateComponentListHandler&quot;},&quot;actions&quot;:[{&quot;xtype&quot;:&quot;tbtext&quot;,&quot;text&quot;:&quot;No actions&quot;}],&quot;disableTargeting&quot;:true},&quot;ipeConfig&quot;:{},&quot;childConfig&quot;:{&quot;xtype&quot;:&quot;editrollover&quot;}}"></cq> 
+   </div> 
+    
+   <footer class="footer-site">
+    <nav id="nav-footer" class="row"> 
+     <h1 class="title title-nav">Meta Navigation</h1> 
+     <section class="col-1-4"> 
+      <div class="box-padding"> 
+       <h2 class="title title-footer title-section">CONFERENCE</h2> 
+       <ul class="navlist navlist-footer"> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/conference/conference.html">Conference</a> </li> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/conference/schedule.html">Schedule</a> </li> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/conference/tickets.html">Tickets</a> </li> 
+       </ul> 
+      </div> 
+     </section> 
+     <section class="col-1-4"> 
+      <div class="box-padding"> 
+       <h2 class="title title-footer title-section">VENUE</h2> 
+       <ul class="navlist navlist-footer"> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/venue/venue.html">Venue</a> </li> 
+       </ul> 
+      </div> 
+     </section> 
+     <section class="col-1-4"> 
+      <div class="box-padding"> 
+       <h2 class="title title-footer title-section">ARCHIVE</h2> 
+       <ul class="navlist navlist-footer"> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/archive/adaptto---2011.html">adaptTo() 2011</a> </li> 
+        <li> <a class="navlink navlink-footer" href="/content/wcm-io-samples/en/tools/navigation/footernav/archive/adaptto---2012.html">adaptTo() 2012</a> </li> 
+       </ul> 
+      </div> 
+     </section> 
+      
+    </nav> 
+    <div class="row">
+     <p class="box-padding col-2-4 footer-text"> Credits: &copy;2019 wcm.io - <a class="navlink" href="/content/wcm-io-samples/en/tools/navigation/imprint.html">Imprint</a> </p> 
+      
+    </div> 
+    <div class="row">
+     <div class="box-padding col-4-4 footer-text">
+       Disclaimer Text. 
+     </div> 
+      
+    </div> 
+     
+   </footer> 
+   
+   
+  <script type="text/javascript" src="/etc/clientlibs/wcm-io-samples/wcm-io-samples.all.lc-1.2.0-80a94575-lc.js"></script> 
+     
+   
+ 
+</body></html>

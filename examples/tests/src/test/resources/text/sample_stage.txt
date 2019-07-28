@@ -1,22 +1,22 @@
-%3Cdiv+class%3D%22stageheader+section%22%3E
-+%3Cdiv+class%3D%22stage-large%22%3E+
-++%3Cimg+src%3D%22%2Fcontent%2Fdam%2Fwcm-io-samples%2Fcontent%2Fstageheader-outside2.jpg%2F_jcr_content%2Frenditions%2Foriginal.%2Fstageheader-outside2.jpg%22+alt%3D%22stageheader-outside2.jpg%22%3E+
-++%3Cdiv+class%3D%22stage-overlay%22%3E+
-+++%3Cdiv+class%3D%22box-padding%22%3E+
-++++%3Cdiv+class%3D%22stage-title%22%3E+
-+++++%3Ch2+class%3D%22title+title-section%22%3EadaptTo%28%29+2013%3C%2Fh2%3E+
-+++++%3Cp%3E23.%E2%80%9325.+September+2013+Kulturbrauerei+Berlin%3C%2Fp%3E+
-++++%3C%2Fdiv%3E+
-++++%3Cdiv+class%3D%22stage-cta-box%22%3E+
-+++++%3Cdiv+class%3D%22stageheaderLinkItem+section%22%3E
-++++++%3Cp%3E+%3Ca+class%3D%22stage-cta%22%3E+Get+tickets+now+%3C%2Fa%3E+%3C%2Fp%3E+
-++++++%3Cdiv+class%3D%22cq-placeholder%22+data-emptytext%3D%22Stage+Header+Link+Item%22%3E%3C%2Fdiv%3E+
-+++++%3C%2Fdiv%3E+
-+++++%3Cdiv+class%3D%22stageheaderLinkItem+section%22%3E
-++++++%3Cp%3E+%3Ca+class%3D%22stage-cta%22+href%3D%22%2Fcontent%2Fwcm-io-samples%2Fen%2Fconference%2Fcall-for-papers.html%3Fwcmmode%3Ddisabled%22%3E+Submit+paper+%3C%2Fa%3E+%3C%2Fp%3E+
-+++++%3C%2Fdiv%3E+
-++++%3C%2Fdiv%3E+
-+++%3C%2Fdiv%3E+
-++%3C%2Fdiv%3E+
-+%3C%2Fdiv%3E+
-%3C%2Fdiv%3E
+<div class="stageheader section">
+ <div class="stage-large"> 
+  <img src="/content/dam/wcm-io-samples/content/stageheader-outside2.jpg/_jcr_content/renditions/original./stageheader-outside2.jpg" alt="stageheader-outside2.jpg"> 
+  <div class="stage-overlay"> 
+   <div class="box-padding"> 
+    <div class="stage-title"> 
+     <h2 class="title title-section">adaptTo() 2013</h2> 
+     <p>23.–25. September 2013 Kulturbrauerei Berlin</p> 
+    </div> 
+    <div class="stage-cta-box"> 
+     <div class="stageheaderLinkItem section">
+      <p> <a class="stage-cta"> Get tickets now </a> </p> 
+      <div class="cq-placeholder" data-emptytext="Stage Header Link Item"></div> 
+     </div> 
+     <div class="stageheaderLinkItem section">
+      <p> <a class="stage-cta" href="/content/wcm-io-samples/en/conference/call-for-papers.html?wcmmode=disabled"> Submit paper </a> </p> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div>

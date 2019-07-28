@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.sampling.htmlcleaner;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.HtmlSerializer;
-import org.htmlcleaner.PrettyHtmlSerializer;
+import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -65,7 +65,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    */
   public HtmlSerializer getHtmlSerializer() {
     if (htmlSerializer == null) {
-      htmlSerializer = new PrettyHtmlSerializer(getHtmlCleanerProperties());
+      htmlSerializer = new SimpleHtmlSerializer(getHtmlCleanerProperties());
     }
     return htmlSerializer;
   }
