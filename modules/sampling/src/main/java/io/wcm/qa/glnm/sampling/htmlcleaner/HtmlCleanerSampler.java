@@ -35,7 +35,9 @@ import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
   private CleanerProperties htmlCleanerProperties;
+
   private HtmlSerializer htmlSerializer;
+  private boolean sortCssClasses = true;
 
   /**
    * @param url to sample from
@@ -54,24 +56,8 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     setHtmlCleanerProperties(cleanerProperties);
   }
 
-  @Override
-  protected String extractValueFromElement(Element element) {
-    String jsoupHtml = super.extractValueFromElement(element);
-    TagNode cleanedHtml = getHtmlCleaner().clean(jsoupHtml);
-    return getHtmlSerializer().getAsString(cleanedHtml);
-  }
-
-  private HtmlCleaner getHtmlCleaner() {
-    HtmlCleaner htmlCleaner = new HtmlCleaner(getHtmlCleanerProperties());
-    return htmlCleaner;
-  }
-
   public CleanerProperties getHtmlCleanerProperties() {
     return htmlCleanerProperties;
-  }
-
-  public void setHtmlCleanerProperties(CleanerProperties htmlCleanerProperties) {
-    this.htmlCleanerProperties = htmlCleanerProperties;
   }
 
   /**
@@ -84,8 +70,36 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     return htmlSerializer;
   }
 
+  public boolean isSortCssClasses() {
+    return sortCssClasses;
+  }
+
+  public void setHtmlCleanerProperties(CleanerProperties htmlCleanerProperties) {
+    this.htmlCleanerProperties = htmlCleanerProperties;
+  }
+
   public void setHtmlSerializer(HtmlSerializer htmlSerializer) {
     this.htmlSerializer = htmlSerializer;
+  }
+
+  public void setSortCssClasses(boolean sortCssClasses) {
+    this.sortCssClasses = sortCssClasses;
+  }
+
+  private HtmlCleaner getHtmlCleaner() {
+    HtmlCleaner htmlCleaner = new HtmlCleaner(getHtmlCleanerProperties());
+    return htmlCleaner;
+  }
+
+  @Override
+  protected String extractValueFromElement(Element element) {
+    String jsoupHtml = super.extractValueFromElement(element);
+    HtmlCleaner htmlCleaner = getHtmlCleaner();
+    TagNode cleanedHtml = htmlCleaner.clean(jsoupHtml);
+    if (isSortCssClasses()) {
+      cleanedHtml.traverse(new CssClassSorter());
+    }
+    return getHtmlSerializer().getAsString(cleanedHtml);
   }
 
 }
