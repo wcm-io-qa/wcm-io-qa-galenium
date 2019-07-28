@@ -40,15 +40,6 @@ public final class NameUtil {
     // do not instantiate
   }
 
-  static String getConstantName(String input) {
-    String kebapInput = anyToKebap(input);
-    return kebapInput;
-  }
-
-  private static String anyToKebap(String input) {
-    throw new GaleniumException("name formatting not implemented yet.");
-  }
-
   /**
    * Get string input sanitized for use in names.
    * @param input to clean and shorten
