@@ -35,28 +35,8 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.wnameless</groupId>
-      <artifactId>json-flattener</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.galenframework</groupId>
-      <artifactId>galen-java-support</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.relevantcodes</groupId>
-      <artifactId>extentreports</artifactId>
     </dependency>
 
     <dependency>
@@ -65,23 +45,43 @@
     </dependency>
 
     <dependency>
-      <groupId>io.github.bonigarcia</groupId>
-      <artifactId>webdrivermanager</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.browserup</groupId>
       <artifactId>browserup-proxy-core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-collections4</artifactId>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.wnameless</groupId>
+      <artifactId>json-flattener</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.relevantcodes</groupId>
+      <artifactId>extentreports</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
     </dependency>
 
     <dependency>
@@ -96,12 +96,12 @@
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-firefox-driver</artifactId>
+      <artifactId>selenium-chrome-driver</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-chrome-driver</artifactId>
+      <artifactId>selenium-firefox-driver</artifactId>
     </dependency>
 
     <dependency>
