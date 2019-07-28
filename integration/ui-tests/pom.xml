@@ -62,8 +62,6 @@
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
-      <version>3.6.1</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -110,7 +108,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.0.0-M3</version>
           <configuration>
+
+            <!-- TestNG -->
             <groups>${testNG.groups}</groups>
             <parallel>methods</parallel>
             <threadCount>${local.cpu.count}</threadCount>
@@ -121,7 +122,10 @@
               </property>
               <property>
                 <name>listener</name>
-                <value>io.wcm.qa.glnm.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+                <value>
+                  io.wcm.qa.glnm.listeners.DefaultGaleniumListener,
+                  org.testng.reporters.XMLReporter
+                </value>
               </property>
             </properties>
             <systemPropertyVariables>
@@ -207,6 +211,7 @@
             </execution>
           </executions>
         </plugin>
+
       </plugins>
     </pluginManagement>
   </build>

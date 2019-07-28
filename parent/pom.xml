@@ -83,15 +83,15 @@
 
       <!-- Reporting -->
       <dependency>
-        <groupId>com.relevantcodes</groupId>
-        <artifactId>extentreports</artifactId>
-        <version>2.41.2</version>
-      </dependency>
-
-      <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>1.2.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.relevantcodes</groupId>
+        <artifactId>extentreports</artifactId>
+        <version>2.41.2</version>
       </dependency>
 
       <dependency>
@@ -111,7 +111,7 @@
       <dependency>
         <groupId>io.github.bonigarcia</groupId>
         <artifactId>webdrivermanager</artifactId>
-        <version>3.6.1</version>
+        <version>3.6.2</version>
       </dependency>
 
       <!-- Utils -->
