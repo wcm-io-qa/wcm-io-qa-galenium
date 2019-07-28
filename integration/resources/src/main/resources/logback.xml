@@ -41,9 +41,6 @@
     <OnMatch>DENY</OnMatch>
   </turboFilter>
 
-  <appender name="EXTENT"
-    class="io.wcm.qa.glnm.appender.logback.ExtentAppender" />
-
   <appender name="STDOUT"
     class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
@@ -53,25 +50,6 @@
       </pattern>
     </encoder>
   </appender>
-
-  <if
-    condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
-    <then>
-      <logger name="glnm.example" level="INFO">
-        <appender-ref ref="EXTENT" />
-      </logger>
-      <turboFilter
-        class="ch.qos.logback.classic.turbo.MarkerFilter">
-        <Marker>webdriver</Marker>
-        <OnMatch>DENY</OnMatch>
-      </turboFilter>
-    </then>
-    <else>
-      <logger name="glnm.example" level="TRACE">
-        <appender-ref ref="EXTENT" />
-      </logger>
-    </else>
-  </if>
 
   <logger name="io.github.bonigarcia.wdm" level="WARN" />
   <logger name="org.apache.commons" level="WARN" />
