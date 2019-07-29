@@ -29,6 +29,9 @@
       <action type="remove" dev="apegam">
         Removed ExtentReports.
       </action>
+      <action type="remove" dev="apegam">
+        Removed GaleniumAssertion.
+      </action>
       <action type="add" dev="apegam">
         Jsoup and HtmlCleaner based sampling and verifications.
       </action>
