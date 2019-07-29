@@ -19,52 +19,38 @@
  */
 package io.wcm.qa.glnm.sampling.htmlcleaner.visitors;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.htmlcleaner.HtmlNode;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.TagNodeVisitor;
 
 /**
- * Sorts strings in class attributes.
+ * Sorts all attributes.
  */
-public final class CssClassSorter implements TagNodeVisitor {
-
-  private static final String CSS_CLASS = "class";
+public class HtmlAttributeSorter implements TagNodeVisitor {
 
   @Override
   public boolean visit(TagNode parentNode, HtmlNode htmlNode) {
+
     if (!(htmlNode instanceof TagNode)) {
       // not a tag node, so no attributes
       return true;
     }
+
     TagNode node = (TagNode)htmlNode;
-    if (!node.hasAttribute(CSS_CLASS)) {
-      // no class attribute to sort
-      return true;
-    }
-    String cssClasses = node.getAttributeByName(CSS_CLASS);
-    if (StringUtils.isBlank(cssClasses)) {
-      // no classes in attribute
-      return true;
-    }
-    String[] splitClasses = StringUtils.split(cssClasses);
-    if (ArrayUtils.isSorted(splitClasses)) {
-      // classes already sorted
-      return true;
+
+    Map<String, String> attributes = node.getAttributes();
+    Set<String> keySet = new TreeSet<String>();
+    keySet.addAll(attributes.keySet());
+    for (String key : keySet) {
+      node.removeAttribute(key);
+      node.addAttribute(key, attributes.get(key));
     }
 
-    // split
-    List<String> cssClassesList = Arrays.asList(splitClasses);
-    // sort
-    Collections.sort(cssClassesList);
-    // replace
-    node.removeAttribute(CSS_CLASS);
-    node.addAttribute(CSS_CLASS, StringUtils.join(cssClassesList, ' '));
     return true;
   }
+
 }
