@@ -81,8 +81,9 @@ public final class TextSampleManager {
   }
 
   /**
-   * @param key
-   * @param lines
+   * Writes text samples directly to file.
+   * @param key used to construct file name
+   * @param lines sample data to persist
    */
   public static void addNewMultiLineSample(String key, List<String> lines) {
     String sampleFileName = FilenameUtils.concat(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, key + ".txt");
@@ -91,10 +92,7 @@ public final class TextSampleManager {
       if (sampleFile.exists()) {
         sampleFile.delete();
       }
-      for (String line : lines) {
-        String data = line;
-        FileUtils.write(sampleFile, data + "\n", CHARSET_UTF8, true);
-      }
+      FileUtils.writeLines(sampleFile, lines, "\n");
     }
     catch (IOException ex) {
       getLogger().error("could not persist sample for key '" + key + "'", ex);
