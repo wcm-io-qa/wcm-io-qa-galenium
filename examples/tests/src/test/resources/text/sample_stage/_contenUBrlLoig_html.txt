@@ -3,14 +3,14 @@
 <html ng-app="io.wcm.caconfig.app"><head> 
   <meta charset="UTF-8" /> 
   <title ng-bind="title"></title> 
-  <link rel="stylesheet" href="/etc.clientlibs/clientlibs/granite/coralui2.css" type="text/css" /> 
-  <link rel="stylesheet" href="/etc/clientlibs/wcm-io/caconfig/editor/io.wcm.caconfig.editor.css" type="text/css" /> 
+  <link href="/etc.clientlibs/clientlibs/granite/coralui2.css" rel="stylesheet" type="text/css" /> 
+  <link href="/etc/clientlibs/wcm-io/caconfig/editor/io.wcm.caconfig.editor.css" rel="stylesheet" type="text/css" /> 
   
  </head><body class="coral--light" ng-cloak="ng-cloak">
   
   <nav class="coral-Panel-header endor-BlackBar header-main"> 
-   <a href="/" class="endor-Brand wcm-io-editor"> <i class="wcm-io-editor endor-Brand-icon coral-Icon coral-Icon--adobeMarketingCloud coral-Icon--sizeM"></i> </a> 
-   <span ng-bind="title" class="caconfig-title endor-Brand wcm-io-editor">Configuration Editor</span> 
+   <a class="endor-Brand wcm-io-editor" href="/"> <i class="coral-Icon coral-Icon--adobeMarketingCloud coral-Icon--sizeM endor-Brand-icon wcm-io-editor"></i> </a> 
+   <span class="caconfig-title endor-Brand wcm-io-editor" ng-bind="title">Configuration Editor</span> 
   </nav> 
   <div class="caconfig-page-border"> 
    <ng-view></ng-view> 
@@ -19,16 +19,16 @@
    <ng-include src="modalTemplates.deleteConfig"></ng-include> 
    <ng-include src="modalTemplates.error"></ng-include> 
    <ng-include src="modalTemplates.saveConfig"></ng-include> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/utils.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery/granite.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/coralui2keys.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/typekit.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/moment.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/coralui2.js"></script> 
-   <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/lodash/modern.js"></script> 
-   <script type="text/javascript" src="/etc/clientlibs/angularjs.js"></script> 
-   <script type="text/javascript" src="/etc/clientlibs/wcm-io/caconfig/editor/io.wcm.caconfig.editor.js"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/jquery.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/utils.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/jquery/granite.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/coralui2keys.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/typekit.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/moment.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/coralui2.js" type="text/javascript"></script> 
+   <script src="/etc.clientlibs/clientlibs/granite/lodash/modern.js" type="text/javascript"></script> 
+   <script src="/etc/clientlibs/angularjs.js" type="text/javascript"></script> 
+   <script src="/etc/clientlibs/wcm-io/caconfig/editor/io.wcm.caconfig.editor.js" type="text/javascript"></script> 
    <script type="text/javascript">
         angular.module("io.wcm.caconfig.app")
           .run(function ($rootScope) {
