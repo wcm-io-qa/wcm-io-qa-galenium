@@ -16,7 +16,9 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -27,10 +29,8 @@
   </parent>
 
   <name>Galenium Integration Parent</name>
-  <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.0-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
   <modules>
@@ -85,19 +85,6 @@
     <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
 
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-
-      <dependency>
-        <groupId>io.github.bonigarcia</groupId>
-        <artifactId>webdrivermanager</artifactId>
-        <version>3.6.2</version>
-        <scope>optional</scope>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <pluginManagement>
