@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,6 +30,8 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.input.ReaderInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper methods for dealing with Properties.
@@ -39,6 +39,7 @@ import org.apache.commons.io.input.ReaderInputStream;
 public final class PropertiesUtil {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
+  private static final Logger LOG = LoggerFactory.getLogger(PropertiesUtil.class);
   private static final String REGEX_WILDCARD = ".*";
 
   private PropertiesUtil() {
@@ -82,7 +83,7 @@ public final class PropertiesUtil {
         }
       }
       else {
-        getLogger().debug("Key was not a String when filtering: '" + keyObject + "'");
+        LOG.debug("Key was not a String when filtering: '" + keyObject + "'");
       }
     }
     return filteredProperties;
@@ -98,23 +99,23 @@ public final class PropertiesUtil {
     try {
       File propertiesFile = new File(filePath);
       if (propertiesFile.exists() && propertiesFile.isFile()) {
-        getLogger().debug("initializing properties from " + filePath);
+        LOG.debug("initializing properties from " + filePath);
         Reader reader = new FileReader(propertiesFile);
         properties.load(new ReaderInputStream(reader, CHARSET_UTF8));
-        if (getLogger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
           Enumeration<?> propertyNames = properties.propertyNames();
           while (propertyNames.hasMoreElements()) {
             Object key = propertyNames.nextElement();
-            getLogger().trace("from properties file: " + key);
+            LOG.trace("from properties file: " + key);
           }
         }
       }
       else {
-        getLogger().debug("did not find properties at '" + filePath + "'");
+        LOG.debug("did not find properties at '" + filePath + "'");
       }
     }
     catch (IOException ex) {
-      getLogger().warn("Could not initialize properties: '" + filePath + "'", ex);
+      LOG.warn("Could not initialize properties: '" + filePath + "'", ex);
     }
     return properties;
   }

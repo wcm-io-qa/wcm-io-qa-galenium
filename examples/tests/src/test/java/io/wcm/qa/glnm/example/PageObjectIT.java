@@ -27,6 +27,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.pageobjects.Footer;
 import io.wcm.qa.glnm.example.pageobjects.FooterNavSection;
@@ -53,7 +54,7 @@ public class PageObjectIT extends AbstractExampleBase {
   @BeforeMethod(alwaysRun = true)
   public void resetHomepage() {
     if (homepage != null) {
-      getLogger().debug("resetting homepage object for next test");
+      Allure.step("resetting homepage object for next test");
       homepage = null;
     }
   }
@@ -101,7 +102,7 @@ public class PageObjectIT extends AbstractExampleBase {
 
   private Homepage getHomepage() {
     if (homepage == null) {
-      getLogger().debug("new homepage");
+      Allure.step("new homepage");
       homepage = new Homepage();
     }
     return homepage;

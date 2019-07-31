@@ -20,19 +20,17 @@
 package io.wcm.qa.glnm.listeners;
 
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Logs memory usage.
  */
 public class MemoryUsageListener extends TestListenerAdapter {
 
-  private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("galenium.listener.memory");
+  private static final Logger LOG = LoggerFactory.getLogger(MemoryUsageListener.class);
 
   @Override
   public void onFinish(ITestContext testContext) {
@@ -87,11 +85,7 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
   private void logMemory() {
-    getLogger().trace(getMemoryMessage());
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MEMORY_MARKER);
+    LOG.trace(getMemoryMessage());
   }
 
 }

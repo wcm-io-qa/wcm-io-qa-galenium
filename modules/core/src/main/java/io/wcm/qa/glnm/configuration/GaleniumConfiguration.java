@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +28,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.device.BrowserType;
 import io.wcm.qa.glnm.selenium.RunMode;
@@ -40,6 +40,7 @@ import io.wcm.qa.glnm.selenium.RunMode;
 public final class GaleniumConfiguration {
 
   private static final String DEFAULT_AUTHOR_PASS = "admin";
+
   private static final String DEFAULT_AUTHOR_USER = "admin";
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
   private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
@@ -50,6 +51,8 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
+
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumConfiguration.class);
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
@@ -256,7 +259,7 @@ public final class GaleniumConfiguration {
       return Level.parse(asString(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, DEFAULT_BROWSER_LOG_LEVEL));
     }
     catch (IllegalArgumentException ex) {
-      getLogger().info("could not parse browser log level, using INFO level.", ex);
+      LOG.info("could not parse browser log level, using INFO level.", ex);
       return Level.INFO;
     }
   }
@@ -280,7 +283,7 @@ public final class GaleniumConfiguration {
       return Collections.unmodifiableList(list);
     }
 
-    getLogger().warn("No browser configured: using Chrome");
+    LOG.warn("No browser configured: using Chrome");
     return Arrays.asList(BrowserType.CHROME);
   }
 

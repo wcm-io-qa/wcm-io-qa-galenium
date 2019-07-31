@@ -20,10 +20,14 @@
 package io.wcm.qa.glnm.webdriver;
 
 import org.openqa.selenium.MutableCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(CombinedOptionsProvider.class);
 
   private OptionsProvider p1;
   private OptionsProvider p2;
@@ -31,7 +35,7 @@ class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities> {
   CombinedOptionsProvider(OptionsProvider provider1, OptionsProvider provider2) {
     p1 = provider1;
     p2 = provider2;
-    getLogger().debug("Creating combined provider with " + p1 + " and " + p2);
+    LOG.debug("Creating combined provider with " + p1 + " and " + p2);
     if (p1 == null || p2 == null) {
       throw new GaleniumException("cannot combine null OptionsProvider.");
     }
@@ -39,13 +43,13 @@ class CombinedOptionsProvider extends OptionsProvider<MutableCapabilities> {
 
   @Override
   protected MutableCapabilities getBrowserSpecificOptions() {
-    getLogger().debug("Combining capablities of " + p1 + " and " + p2);
+    LOG.debug("Combining capablities of " + p1 + " and " + p2);
     return p1.getOptions().merge(p2.getOptions());
   }
 
   @Override
   protected void log(MutableCapabilities options) {
-    getLogger().trace("combined options: " + options);
+    LOG.trace("combined options: " + options);
   }
 
   @Override

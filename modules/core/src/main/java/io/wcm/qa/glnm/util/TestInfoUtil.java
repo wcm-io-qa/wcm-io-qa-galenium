@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.util;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +28,8 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 
 import com.galenframework.reports.GalenTestInfo;
@@ -47,9 +47,20 @@ import io.wcm.qa.glnm.webdriver.HasDevice;
 public final class TestInfoUtil {
 
   private static final String BROWSER_UNKNOWN = "UNKNOWN";
+  private static final Logger LOG = LoggerFactory.getLogger(TestInfoUtil.class);
 
   private TestInfoUtil() {
     // do not instantiate
+  }
+
+  /**
+   * Replaces all non-alphanumeric characters with underscore.
+   * @param result to extract test name from
+   * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
+   */
+  public static String getAlphanumericTestName(ITestResult result) {
+    String name = result.getName();
+    return name.replaceAll("[^-A-Za-z0-9]", "_");
   }
 
   /**
@@ -72,12 +83,12 @@ public final class TestInfoUtil {
   public static boolean hasWarnings(GalenTestInfo testInfo) {
     TestReport report = testInfo.getReport();
     if (report == null) {
-      getLogger().trace("report was null: " + testInfo);
+      LOG.trace("report was null: " + testInfo);
       return false;
     }
     TestStatistic statistics = report.fetchStatistic();
     if (statistics == null) {
-      getLogger().trace("statistics were null: " + testInfo + "->" + report);
+      LOG.trace("statistics were null: " + testInfo + "->" + report);
       return false;
     }
 
@@ -97,15 +108,15 @@ public final class TestInfoUtil {
    */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {
-      getLogger().info("failed: " + testInfo.getName());
+      LOG.info("failed: " + testInfo.getName());
     }
     else if (hasWarnings(testInfo)) {
-      getLogger().info("warnings: " + testInfo.getName());
+      LOG.info("warnings: " + testInfo.getName());
     }
     else {
-      getLogger().info("passed: " + testInfo.getName());
+      LOG.info("passed: " + testInfo.getName());
     }
-    if (getLogger().isDebugEnabled()) {
+    if (LOG.isDebugEnabled()) {
       List<TestReportNode> nodes = testInfo.getReport().getNodes();
       int nodeCounter = 0;
       for (TestReportNode testReportNode : nodes) {
@@ -113,6 +124,7 @@ public final class TestInfoUtil {
       }
     }
   }
+
 
   private static void logTestReportNode(TestReportNode node, String prefix) {
     String marker;
@@ -130,30 +142,30 @@ public final class TestInfoUtil {
     }
     String type = node.getType();
     if (StringUtils.equals("layout", type)) {
-      getLogger().info("[" + marker + "]" + prefix + ".name: " + node.getName());
+      LOG.info("[" + marker + "]" + prefix + ".name: " + node.getName());
     }
     else {
-      getLogger().debug("[" + marker + "]" + prefix + ".name: " + node.getName());
+      LOG.debug("[" + marker + "]" + prefix + ".name: " + node.getName());
     }
-    getLogger().trace("[" + marker + "]" + prefix + ".type: " + type);
+    LOG.trace("[" + marker + "]" + prefix + ".type: " + type);
     List<String> attachments = node.getAttachments();
     if (attachments != null) {
       for (String attachment : attachments) {
-        getLogger().debug("[" + marker + "]" + prefix + ".attachment: " + attachment);
+        LOG.debug("[" + marker + "]" + prefix + ".attachment: " + attachment);
       }
     }
     else {
-      getLogger().trace("[" + marker + "]" + prefix + ".attachments: none");
+      LOG.trace("[" + marker + "]" + prefix + ".attachments: none");
     }
     Map<String, ReportExtra> reportExtras = node.getExtras();
     if (reportExtras != null) {
       Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
       for (Entry<String, ReportExtra> entry : extras) {
-        getLogger().debug("[" + marker + "]" + prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
+        LOG.debug("[" + marker + "]" + prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
       }
     }
     else {
-      getLogger().trace("[" + marker + "]" + prefix + ".extras: none");
+      LOG.trace("[" + marker + "]" + prefix + ".extras: none");
     }
     List<TestReportNode> nodes = node.getNodes();
     if (nodes != null) {
@@ -163,19 +175,8 @@ public final class TestInfoUtil {
       }
     }
     else {
-      getLogger().trace("[" + marker + "]" + prefix + ".children: none");
+      LOG.trace("[" + marker + "]" + prefix + ".children: none");
     }
-  }
-
-
-  /**
-   * Replaces all non-alphanumeric characters with underscore.
-   * @param result to extract test name from
-   * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
-   */
-  public static String getAlphanumericTestName(ITestResult result) {
-    String name = result.getName();
-    return name.replaceAll("[^-A-Za-z0-9]", "_");
   }
 
   static List<String> getBreakPoint(ITestResult result) {

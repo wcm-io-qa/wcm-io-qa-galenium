@@ -20,12 +20,13 @@
 package io.wcm.qa.glnm.listeners;
 
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.assignCategory;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -37,6 +38,8 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  * Simple retry analyzer to deal with flaky tests in TestNG.
  */
 public class RetryAnalyzer implements IRetryAnalyzer {
+
+  private static final Logger LOG = LoggerFactory.getLogger(RetryAnalyzer.class);
 
   private static final int MAX_RETRY_COUNT = GaleniumConfiguration.getNumberOfRetries();
   private Map<Object, AtomicInteger> counts = new Hashtable<Object, AtomicInteger>();
@@ -70,12 +73,12 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
   private void logResult(ITestResult result, String message) {
     Reporter.log(message, true);
-    getLogger().info(message);
+    LOG.info(message);
     Throwable throwable = result.getThrowable();
     if (throwable != null) {
       String throwableMessage = throwable.getMessage();
-      getLogger().info(result.getTestName() + ": " + throwableMessage);
-      getLogger().debug(result.getTestName(), throwable);
+      LOG.info(result.getTestName() + ": " + throwableMessage);
+      LOG.debug(result.getTestName(), throwable);
     }
   }
 

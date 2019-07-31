@@ -30,16 +30,19 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Utility class to help with writing {@link DataProvider} code.
  */
 public final class TestNgProviderUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(TestNgProviderUtil.class);
 
   private TestNgProviderUtil() {
     // do not instantiate
@@ -62,7 +65,7 @@ public final class TestNgProviderUtil {
    */
   public static Object[][] fromFile(File input, Charset charset) {
 
-    GaleniumReportUtil.getLogger().debug("data providing from: " + input);
+    LOG.debug("data providing from: " + input);
 
     // null check
     if (input == null) {
@@ -165,7 +168,7 @@ public final class TestNgProviderUtil {
   }
 
   private static void trace(String msg) {
-    GaleniumReportUtil.getLogger().trace(msg);
+    LOG.trace(msg);
   }
 
 }

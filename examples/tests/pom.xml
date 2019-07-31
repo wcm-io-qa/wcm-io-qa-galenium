@@ -118,6 +118,18 @@
           <plugin>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-maven</artifactId>
+            <executions>
+              <execution>
+                <id>allure-report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+                <phase>post-integration-test</phase>
+                <configuration>
+                  <reportDirectory>${project.build.directory}/glnm-reports/allure</reportDirectory>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
 
           <!-- Run UI tests -->

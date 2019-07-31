@@ -20,19 +20,22 @@
 package io.wcm.qa.glnm.testcase;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
  */
 public abstract class AbstractGaleniumBase implements ITest, HasDevice {
+
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractGaleniumBase.class);
 
   private TestDevice device;
   private TestNameDifferences nameDifferences = new TestNameDifferences();
@@ -54,14 +57,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   @Override
   public TestDevice getDevice() {
     return device;
-  }
-
-  /**
-   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
-   * @return current logger
-   */
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
   @Override
@@ -86,12 +81,14 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   }
 
   protected void skipTest(String skipMessage) {
-    getLogger().info("Skipping: " + skipMessage);
+    LOG.info("Skipping: " + skipMessage);
+    Allure.step("Skipping: " + skipMessage);
     throw new SkipException(skipMessage);
   }
 
   protected void skipTest(String skipMessage, Throwable ex) {
-    getLogger().info("Skipping: " + getTestName(), ex);
+    LOG.info("Skipping: " + getTestName(), ex);
+    Allure.step("Skipping: " + getTestName());
     throw new SkipException(skipMessage, ex);
   }
 

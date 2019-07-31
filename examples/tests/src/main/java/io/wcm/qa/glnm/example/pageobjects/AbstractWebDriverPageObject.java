@@ -20,9 +20,7 @@
 package io.wcm.qa.glnm.example.pageobjects;
 
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 
@@ -33,11 +31,6 @@ class AbstractWebDriverPageObject {
   protected WebDriver getDriver() {
     return GaleniumContext.getDriver();
   }
-
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
-  }
-
 
   protected boolean isMobile() {
     return getDriver().manage().window().getSize().getWidth() < APPROXIMATE_WINDOW_SIZE_FOR_MOBILE_CUTOFF;

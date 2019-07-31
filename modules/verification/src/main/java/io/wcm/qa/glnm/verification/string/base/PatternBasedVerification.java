@@ -22,12 +22,17 @@ package io.wcm.qa.glnm.verification.string.base;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Abstract base class to verify strings based on regular expression.
  */
 public abstract class PatternBasedVerification extends StringSamplerBasedVerification {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PatternBasedVerification.class);
 
   private Matcher matcher;
   private Pattern pattern;
@@ -47,7 +52,7 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
 
   @Override
   protected void afterVerification() {
-    getLogger().debug("done checking '" + getVerificationName() + "'");
+    LOG.debug("done checking '" + getVerificationName() + "'");
   }
 
   protected Matcher getActualMatcher() {

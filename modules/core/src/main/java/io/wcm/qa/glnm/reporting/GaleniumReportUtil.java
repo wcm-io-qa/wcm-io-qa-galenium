@@ -55,9 +55,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 public final class GaleniumReportUtil {
 
-  private static final String DEFAULT_FOR_NO_TEST_NAME = "no.test.name.set";
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
   private static final List<GalenTestInfo> GLOBAL_GALEN_RESULTS = new ArrayList<GalenTestInfo>();
-  private static final Marker MARKER_REPORT_UTIL_INTERNAL = getMarker("galenium.reporting.internal");
   private static final String PATH_GALEN_REPORT = GaleniumConfiguration.getReportDirectory() + "/galen";
   private static final String PATH_SCREENSHOTS_RELATIVE_ROOT = "../screenshots";
   private static final String PATH_SCREENSHOTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/screenshots";
@@ -104,7 +103,7 @@ public final class GaleniumReportUtil {
       new HtmlReportBuilder().build(testInfos, PATH_GALEN_REPORT);
     }
     catch (IOException | NullPointerException ex) {
-      getLogger().error("could not generate Galen report.", ex);
+      LOG.error("could not generate Galen report.", ex);
     }
   }
 
@@ -125,7 +124,7 @@ public final class GaleniumReportUtil {
       new TestNgReportBuilder().build(testInfos, PATH_TESTNG_REPORT_XML);
     }
     catch (IOException | TemplateException ex) {
-      getLogger().error("could not generate TestNG report.", ex);
+      LOG.error("could not generate TestNG report.", ex);
     }
   }
 
@@ -140,19 +139,23 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
+   * Gets a logger which marks every entry with the passed {@link Marker}.
+   * @param marker to use with this logger
+   * @param logger
+   * @return a {@link MarkedLogger} using the marker
    */
-  public static Logger getLogger() {
-    return LoggerFactory.getLogger(DEFAULT_FOR_NO_TEST_NAME);
+  public static Logger getMarkedLogger(Marker marker, Logger logger) {
+    return new MarkedLogger(logger, marker);
   }
 
   /**
-   * Gets a logger which marks every entry with the passed {@link Marker}.
+   * Gets a logger which marks every entry with a {@link Marker} using the passed string.
    * @param marker to use with this logger
+   * @param logger
    * @return a {@link MarkedLogger} using the marker
    */
-  public static Logger getMarkedLogger(Marker marker) {
-    return new MarkedLogger(getLogger(), marker);
+  public static Logger getMarkedLogger(String marker, Logger logger) {
+    return new MarkedLogger(logger, getMarker(marker));
   }
 
   /**
@@ -194,32 +197,32 @@ public final class GaleniumReportUtil {
     String destScreenshotFilePath = null;
     String filenameOnly = null;
     boolean screenshotSuccessful;
-    getInternalLogger().debug("taking screenshot: " + takesScreenshot);
+    LOG.debug("taking screenshot: " + takesScreenshot);
     filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
     File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
     if (screenshotFile != null) {
-      getInternalLogger().trace("screenshot taken: " + screenshotFile.getPath());
+      LOG.trace("screenshot taken: " + screenshotFile.getPath());
       try {
         File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
         FileUtils.copyFile(screenshotFile, destFile);
-        getInternalLogger().trace("copied screenshot: " + destFile.getPath());
+        LOG.trace("copied screenshot: " + destFile.getPath());
         destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
         // TODO: add Allure attachment
         screenshotSuccessful = true;
         if (FileUtils.deleteQuietly(screenshotFile)) {
-          getInternalLogger().trace("deleted screenshot file: " + screenshotFile.getPath());
+          LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
         }
         else {
-          getInternalLogger().trace("could not delete screenshot file: " + screenshotFile.getPath());
+          LOG.trace("could not delete screenshot file: " + screenshotFile.getPath());
         }
       }
       catch (IOException ex) {
-        getLogger().error("Cannot copy screenshot.", ex);
+        LOG.error("Cannot copy screenshot.", ex);
         screenshotSuccessful = false;
       }
     }
     else {
-      getInternalLogger().debug("screenshot file is null.");
+      LOG.debug("screenshot file is null.");
       screenshotSuccessful = false;
     }
 
@@ -253,10 +256,6 @@ public final class GaleniumReportUtil {
   public static String takeScreenshot(TakesScreenshot takesScreenshot) {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
     return takeScreenshot(randomAlphanumeric, takesScreenshot);
-  }
-
-  private static Logger getInternalLogger() {
-    return getMarkedLogger(MARKER_REPORT_UTIL_INTERNAL);
   }
 
   private static TakesScreenshot getTakesScreenshot() {

@@ -27,6 +27,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -46,33 +47,34 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 public class LoggingListener extends TestListenerAdapter {
 
+  private static final Logger LOG = LoggerFactory.getLogger(LoggingListener.class);
+
   @Override
   public void onFinish(ITestContext context) {
-    getLogger().trace("Generating Galen reports.");
+    LOG.trace("Generating Galen reports.");
     GaleniumReportUtil.createGalenReports();
   }
 
   @Override
   public void onStart(ITestContext context) {
-    Logger logger = getLogger();
-    logger.debug("Starting tests");
-    if (logger.isDebugEnabled()) {
-      logger.trace("host: " + context.getHost());
-      logger.trace("suite name: " + context.getSuite().getName());
-      logger.trace("parallel: " + context.getSuite().getParallel());
-      logger.trace("included groups: " + StringUtils.join(context.getIncludedGroups(), ", "));
-      logger.trace("excluded groups: " + StringUtils.join(context.getExcludedGroups(), ", "));
+    LOG.debug("Starting tests");
+    if (LOG.isDebugEnabled()) {
+      LOG.trace("host: " + context.getHost());
+      LOG.trace("suite name: " + context.getSuite().getName());
+      LOG.trace("parallel: " + context.getSuite().getParallel());
+      LOG.trace("included groups: " + StringUtils.join(context.getIncludedGroups(), ", "));
+      LOG.trace("excluded groups: " + StringUtils.join(context.getExcludedGroups(), ", "));
     }
-    if (logger.isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       ISuite suite = context.getSuite();
       XmlSuite xmlSuite = suite.getXmlSuite();
-      logger.trace("thread count: " + xmlSuite.getThreadCount());
-      logger.trace("data provider thread count: " + xmlSuite.getDataProviderThreadCount());
-      logger.trace("methods: " + StringUtils.join(suite.getAllMethods(), ", "));
-      logger.trace("excluded methods: " + StringUtils.join(suite.getExcludedMethods(), ", "));
+      LOG.trace("thread count: " + xmlSuite.getThreadCount());
+      LOG.trace("data provider thread count: " + xmlSuite.getDataProviderThreadCount());
+      LOG.trace("methods: " + StringUtils.join(suite.getAllMethods(), ", "));
+      LOG.trace("excluded methods: " + StringUtils.join(suite.getExcludedMethods(), ", "));
       Set<Entry<String, String>> allParameters = xmlSuite.getAllParameters().entrySet();
       for (Entry<String, String> entry : allParameters) {
-        logger.trace(entry.getKey() + "='" + entry.getValue() + "'");
+        LOG.trace(entry.getKey() + "='" + entry.getValue() + "'");
       }
     }
   }
@@ -83,10 +85,10 @@ public class LoggingListener extends TestListenerAdapter {
     skipMessage.append("Skipped test: ");
     skipMessage.append(getTestNameForInternalLogging(result));
     if (result.getThrowable() != null) {
-      getLogger().info(skipMessage.toString(), result.getThrowable());
+      LOG.info(skipMessage.toString(), result.getThrowable());
     }
     else {
-      getLogger().info(skipMessage.toString());
+      LOG.info(skipMessage.toString());
     }
     if (GaleniumConfiguration.isTakeScreenshotOnSkippedTest()) {
       takeScreenshot(result);
@@ -95,7 +97,7 @@ public class LoggingListener extends TestListenerAdapter {
 
   @Override
   public void onTestStart(ITestResult result) {
-    getLogger().debug(getTestNameForInternalLogging(result) + ": Start in thread " + Thread.currentThread().getName());
+    LOG.debug(getTestNameForInternalLogging(result) + ": Start in thread " + Thread.currentThread().getName());
   }
 
   private String getTestNameForInternalLogging(ITestResult result) {
@@ -116,10 +118,6 @@ public class LoggingListener extends TestListenerAdapter {
     if (driver != null) {
       GaleniumReportUtil.takeScreenshot(result, driver);
     }
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
 }

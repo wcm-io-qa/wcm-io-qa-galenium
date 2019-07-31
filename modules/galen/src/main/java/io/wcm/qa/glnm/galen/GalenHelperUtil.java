@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.galen;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
@@ -39,6 +38,8 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.browser.Browser;
 import com.galenframework.browser.SeleniumBrowser;
@@ -62,9 +63,11 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 public final class GalenHelperUtil {
 
-  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
   private static final Map<String, Object> EMPTY_JS_VARS = null;
+
   private static final Properties EMPTY_PROPERTIES = new Properties();
+  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
+  private static final Logger LOG = LoggerFactory.getLogger(GalenHelperUtil.class);
   private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
 
   private GalenHelperUtil() {
@@ -226,17 +229,34 @@ public final class GalenHelperUtil {
     return readSpec(getBrowser(device), specPath, tags);
   }
 
+  private static String cleanName(String name) {
+    LOG.debug("mapping '" + name + "'");
+    String[] nameParts = name.split("\\.");
+    List<String> namePartList = new ArrayList<>();
+    for (String namePart : nameParts) {
+      if (namePart.matches(".*-[0-9][0-9]*")) {
+        namePartList.add(namePart.replaceFirst("-[0-9][0-9]*$", ""));
+      }
+      else {
+        namePartList.add(namePart);
+      }
+    }
+    String cleanName = StringUtils.join(namePartList, ".");
+    LOG.debug("clean name for muliple object locator '" + cleanName + "'");
+    return cleanName;
+  }
+
   private static Collection<NestedSelector> extractCollectionFromMapping(Map<String, SelectorFromLocator> objectMapping) {
     Collection<NestedSelector> objects = new ArrayList<>();
     Collection<SelectorFromLocator> values = objectMapping.values();
     for (SelectorFromLocator selector : values) {
-      getLogger().debug("checking " + selector);
+      LOG.debug("checking " + selector);
       if (selector.hasParent()) {
-        getLogger().debug("has parent " + selector);
+        LOG.debug("has parent " + selector);
         NestedSelector parent = selector.getParent();
-        getLogger().debug("parentName: '" + parent.elementName() + "'");
+        LOG.debug("parentName: '" + parent.elementName() + "'");
         String parentCss = parent.asString();
-        getLogger().debug("parentCss: '" + parentCss + "'");
+        LOG.debug("parentCss: '" + parentCss + "'");
         SelectorFromLocator trueParent = objectMapping.get(parentCss);
         if (trueParent == null) {
           throw new GaleniumException("parent for '" + selector.elementName() + "' not found in spec ('" + parentCss + "')");
@@ -245,10 +265,10 @@ public final class GalenHelperUtil {
         trueParent.addChild(selector);
       }
       else {
-        getLogger().debug("no parent found.");
+        LOG.debug("no parent found.");
       }
       objects.add(selector);
-      getLogger().debug("added: " + selector);
+      LOG.debug("added: " + selector);
     }
     return objects;
   }
@@ -262,39 +282,22 @@ public final class GalenHelperUtil {
   private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
     Map<String, SelectorFromLocator> objectMapping = new HashMap<String, SelectorFromLocator>();
     Map<String, Locator> objects = spec.getObjects();
-    getLogger().debug("mapping " + objects.size() + " selector candidates.");
+    LOG.debug("mapping " + objects.size() + " selector candidates.");
     for (Entry<String, Locator> entry : objects.entrySet()) {
       String name = cleanName(entry.getKey());
       Locator locator = entry.getValue();
       SelectorFromLocator selector = fromLocator(name, locator);
       String asString = selector.asString();
       if (objectMapping.containsKey(asString)) {
-        getLogger().info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+        LOG.info("duplicate object:" + selector + " == " + objectMapping.get(asString));
       }
       else {
         objectMapping.put(asString, selector);
-        getLogger().debug("mapped: " + selector);
+        LOG.debug("mapped: " + selector);
       }
     }
-    getLogger().info("mapped " + objectMapping.size() + " selectors.");
+    LOG.info("mapped " + objectMapping.size() + " selectors.");
     return objectMapping;
-  }
-
-  private static String cleanName(String name) {
-    getLogger().debug("mapping '" + name + "'");
-    String[] nameParts = name.split("\\.");
-    List<String> namePartList = new ArrayList<>();
-    for (String namePart : nameParts) {
-      if (namePart.matches(".*-[0-9][0-9]*")) {
-        namePartList.add(namePart.replaceFirst("-[0-9][0-9]*$", ""));
-      }
-      else {
-        namePartList.add(namePart);
-      }
-    }
-    String cleanName = StringUtils.join(namePartList, ".");
-    getLogger().debug("clean name for muliple object locator '" + cleanName + "'");
-    return cleanName;
   }
 
 }

@@ -30,6 +30,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
@@ -45,34 +47,31 @@ import io.wcm.qa.glnm.sampling.transform.JsonSampler;
  */
 public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
 
-  private static final String VALUE_LIKE = "like";
+  private static final Predicate<String> HIT_KEY_FILTER = new HitKeyFilter();
+
+  private static final Logger LOG = LoggerFactory.getLogger(JcrQuerySampler.class);
+
+  private static final String PARAM_HITS = "p.hits";
+  private static final String PARAM_LIMIT = "p.limit";
+  private static final String PARAM_ORDERBY = "orderby";
+  private static final String PARAM_PATH = "path";
+  private static final String PATH_TO_QUERYBUILDER_JSON = "/bin/querybuilder.json";
   private static final String POSTFIX_OPERATION = ".operation";
   private static final String POSTFIX_VALUE = ".value";
   private static final String PREFIX_PROPERTY = "_property";
-  private static final String VALUE_ORDERBYPATH = "path";
   private static final String VALUE_HITS_SELECTIVE = "selective";
-  private static final String PARAM_ORDERBY = "orderby";
-  private static final String PARAM_LIMIT = "p.limit";
-  private static final String PARAM_HITS = "p.hits";
-  private static final String PARAM_PATH = VALUE_ORDERBYPATH;
-  private static final String PATH_TO_QUERYBUILDER_JSON = "/bin/querybuilder.json";
-  private static final Predicate<String> HIT_KEY_FILTER = new Predicate<String>() {
-    @Override
-    public boolean apply(@Nullable String input) {
-      return StringUtils.startsWith(input, "hits[");
-    }
-  };
-  private Map<String, String> propertiesStrict = new HashMap<String, String>();
-  private Map<String, String> propertiesLike = new HashMap<String, String>();
-  private String path;
-  private String protocol = "http";
+  private static final String VALUE_LIKE = "like";
+  private static final String VALUE_ORDERBYPATH = "path";
   private String hostName = "localhost";
-  private String userName = "admin";
-  private String password = "admin";
   private boolean loginToAuthor = true;
-  private int port = 4502;
   private int maxNumberOfResults = 1000;
-
+  private String password = "admin";
+  private String path;
+  private int port = 4502;
+  private Map<String, String> propertiesLike = new HashMap<String, String>();
+  private Map<String, String> propertiesStrict = new HashMap<String, String>();
+  private String protocol = "http";
+  private String userName = "admin";
   /**
    * Constructor.
    */
@@ -110,11 +109,11 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     setInput(stringSampler);
     Map<String, String> freshSample = super.freshSample();
     Set<Entry<String, String>> entrySet = freshSample.entrySet();
-    if (getLogger().isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
     for (Entry<String, String> entry : entrySet) {
       String key = entry.getKey();
       String value = entry.getValue();
-        getLogger().trace("JSON: " + key + " -> " + value);
+        LOG.trace("JSON: " + key + " -> " + value);
       }
     }
 
@@ -287,6 +286,14 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
             .append("=")
             .append(value)
             .toString());
+  }
+
+  private static final class HitKeyFilter implements Predicate<String> {
+
+    @Override
+    public boolean apply(@Nullable String input) {
+      return StringUtils.startsWith(input, "hits[");
+    }
   }
 
 }

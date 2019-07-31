@@ -21,7 +21,9 @@ package io.wcm.qa.glnm.imagecomparison;
 
 import static io.wcm.qa.glnm.imagecomparison.IcUtil.isImageComparisonSpec;
 import static io.wcm.qa.glnm.imagecomparison.IcUtil.saveSample;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.specs.Spec;
 import com.galenframework.validation.CombinedValidationListener;
@@ -34,15 +36,17 @@ import com.galenframework.validation.ValidationResult;
  */
 public class IcValidationListener extends CombinedValidationListener {
 
+  private static final Logger LOG = LoggerFactory.getLogger(IcValidationListener.class);
+
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
-    getLogger().trace("spec error triggered: " + objectName);
+    LOG.trace("spec error triggered: " + objectName);
     if (isImageComparisonSpec(spec)) {
       saveSample(objectName, spec, result);
     }
     else {
-      getLogger().trace("not an image comparison spec");
+      LOG.trace("not an image comparison spec");
     }
   }
 

@@ -19,11 +19,12 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.browser.SeleniumBrowser;
 
@@ -34,6 +35,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public final class Mouse {
 
+  private static final Logger LOG = LoggerFactory.getLogger(Mouse.class);
+
   private Mouse() {
     // do not instantiate
   }
@@ -42,7 +45,7 @@ public final class Mouse {
    * Click at current position.
    */
   public static void click() {
-    getLogger().debug("Clicking at current position.");
+    LOG.debug("Clicking at current position.");
     getActions().click().perform();
   }
 
@@ -105,10 +108,10 @@ public final class Mouse {
    */
   public static void moveHorizontally(int horizontalOffset) {
     if (horizontalOffset > 0) {
-      getLogger().debug("move mouse right by " + horizontalOffset);
+      LOG.debug("move mouse right by " + horizontalOffset);
     }
     else if (horizontalOffset < 0) {
-      getLogger().debug("move mouse left by " + -horizontalOffset);
+      LOG.debug("move mouse left by " + -horizontalOffset);
     }
     int verticalOffset = 0;
     moveByOffset(horizontalOffset, verticalOffset);
@@ -137,7 +140,7 @@ public final class Mouse {
    * @param element to move to
    */
   public static void moveTo(WebElement element) {
-    getLogger().debug("Moving to element: " + element);
+    LOG.debug("Moving to element: " + element);
     getActions().moveToElement(element).perform();
   }
 

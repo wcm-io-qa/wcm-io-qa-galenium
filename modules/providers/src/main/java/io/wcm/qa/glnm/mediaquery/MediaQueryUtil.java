@@ -34,12 +34,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.configuration.PropertiesUtil;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
@@ -50,6 +50,8 @@ public final class MediaQueryUtil {
   private static final int CONFIGURED_MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
   private static final int CONFIGURED_MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
   private static final MediaQuery DEFAULT_MEDIA_QUERY = getNewMediaQuery("DEFAULT_MQ", CONFIGURED_MIN_WIDTH, CONFIGURED_MAX_WIDTH);
+
+  private static final Logger LOG = LoggerFactory.getLogger(MediaQueryUtil.class);
 
   private static final Map<String, Collection<MediaQuery>> MAP_MEDIA_QUERIES_FILENAMES = new HashMap<>();
   private static final Map<Properties, Collection<MediaQuery>> MAP_MEDIA_QUERIES_PROPERTIES = new HashMap<>();
@@ -129,10 +131,10 @@ public final class MediaQueryUtil {
       mediaQueries.add(getNewMediaQuery(mediaQueryName, lowerBound, upperBound));
       lowerBound = upperBound + 1;
     }
-    if (getLogger().isDebugEnabled()) {
-      getLogger().debug("generated " + mediaQueries.size() + " media queries");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("generated " + mediaQueries.size() + " media queries");
       for (MediaQuery mediaQuery : mediaQueries) {
-        getLogger().debug("  " + mediaQuery);
+        LOG.debug("  " + mediaQuery);
       }
     }
     MAP_MEDIA_QUERIES_PROPERTIES.put(mediaQueryProperties, mediaQueries);
@@ -201,10 +203,6 @@ public final class MediaQueryUtil {
     catch (NumberFormatException ex) {
       throw new GaleniumException("could not parse to integer: '" + value, ex);
     }
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
   private static SortedMap<Integer, String> getSortedMediaQueryMap(Properties mediaQueryProperties) {

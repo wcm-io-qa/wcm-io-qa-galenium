@@ -20,9 +20,11 @@
 package io.wcm.qa.glnm.verification.strategy;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 
@@ -31,23 +33,24 @@ import io.wcm.qa.glnm.verification.base.Verification;
  */
 public class DefaultVerificationStrategy extends VerificationStrategyBase {
 
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
-  }
+  private static final Logger LOG = LoggerFactory.getLogger(DefaultVerificationStrategy.class);
 
   @Override
   protected void handleFailure(Verification verification) {
+    Allure.step(verification.getMessage(), Status.FAILED);
     if (verification.getException() != null) {
       Assert.fail(verification.getMessage(), verification.getException());
+      LOG.info(verification.getMessage(), verification.getException());
     }
     else {
       Assert.fail(verification.getMessage());
+      LOG.info(verification.getMessage());
     }
   }
 
   @Override
   protected void handleSuccess(Verification verification) {
-    getLogger().info(verification.getMessage());
+    Allure.step(verification.getMessage());
   }
 
 }

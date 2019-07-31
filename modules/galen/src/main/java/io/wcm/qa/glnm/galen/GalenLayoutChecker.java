@@ -20,7 +20,6 @@
 package io.wcm.qa.glnm.galen;
 
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
 
@@ -29,6 +28,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.api.Galen;
 import com.galenframework.browser.Browser;
@@ -58,6 +59,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  * Utility methods to run Galen layout checks from Selenium tests. Integration via {@link GaleniumContext}.
  */
 public final class GalenLayoutChecker {
+
+  private static final Logger LOG = LoggerFactory.getLogger(GalenLayoutChecker.class);
 
   private GalenLayoutChecker() {
     // do not instantiate
@@ -163,14 +166,14 @@ public final class GalenLayoutChecker {
    */
   public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
     if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      getLogger().debug(successMessage);
+      LOG.debug(successMessage);
     }
     else {
       List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
       for (ValidationResult validationResult : validationErrorResults) {
         ValidationError error = validationResult.getError();
         String errorMessages = StringUtils.join(error.getMessages(), "|");
-        getLogger().warn(errorMessages);
+        LOG.warn(errorMessages);
       }
       if (layoutReport.errors() > 0) {
         ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
@@ -184,7 +187,7 @@ public final class GalenLayoutChecker {
 
   private static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
       Browser browser, WebDriver driver) {
-    if (getLogger().isDebugEnabled()) {
+    if (LOG.isDebugEnabled()) {
       StringBuilder stringBuilder = new StringBuilder();
       stringBuilder.append("checking layout with: ('name' : '");
       stringBuilder.append(testName);
@@ -201,14 +204,14 @@ public final class GalenLayoutChecker {
       stringBuilder.append("')<br/>on URL: '");
       stringBuilder.append(GaleniumContext.getDriver().getCurrentUrl());
       stringBuilder.append("'");
-      getLogger().debug(stringBuilder.toString());
+      LOG.debug(stringBuilder.toString());
     }
     LayoutReport layoutReport;
     try {
       layoutReport = Galen.checkLayout(browser, spec, tags, validationListener);
     }
     catch (IOException ex) {
-      getLogger().error("IOException with layout checking", ex);
+      LOG.error("IOException with layout checking", ex);
       throw new GalenLayoutException("IOException with layout checking", ex);
     }
 
@@ -230,14 +233,14 @@ public final class GalenLayoutChecker {
       }
       String msg = "FAILED: Layoutcheck " + prettyStringResult + " with device "
           + device.toString();
-      getLogger().error(msg);
+      LOG.error(msg);
     }
 
     return layoutReport;
   }
 
   private static ValidationListener getValidationListener() {
-    if (getLogger().isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       return new TracingValidationListener();
     }
     return new DummyValidationListener();
@@ -325,72 +328,72 @@ public final class GalenLayoutChecker {
 
     @Override
     public void onAfterObject(PageValidation pageValidation, String objectName) {
-      getLogger().trace("AfterObject(PageValidation pageValidation, String objectName)");
+      LOG.trace("AfterObject(PageValidation pageValidation, String objectName)");
     }
 
     @Override
     public void onAfterPageAction(GalenPageAction action) {
-      getLogger().trace("AfterPageAction(GalenPageAction action)");
+      LOG.trace("AfterPageAction(GalenPageAction action)");
     }
 
     @Override
     public void onAfterSection(PageValidation pageValidation, PageSection pageSection) {
-      getLogger().trace("AfterSection(PageValidation pageValidation, PageSection pageSection)");
+      LOG.trace("AfterSection(PageValidation pageValidation, PageSection pageSection)");
     }
 
     @Override
     public void onAfterSpecGroup(PageValidation pageValidation, String specGroupName) {
-      getLogger().trace("AfterSpecGroup(PageValidation pageValidation, String specGroupName)");
+      LOG.trace("AfterSpecGroup(PageValidation pageValidation, String specGroupName)");
     }
 
     @Override
     public void onAfterSubLayout(PageValidation pageValidation, String objectName) {
-      getLogger().trace("AfterSubLayout(PageValidation pageValidation, String objectName)");
+      LOG.trace("AfterSubLayout(PageValidation pageValidation, String objectName)");
     }
 
     @Override
     public void onBeforePageAction(GalenPageAction action) {
-      getLogger().trace("BeforePageAction(GalenPageAction action)");
+      LOG.trace("BeforePageAction(GalenPageAction action)");
     }
 
     @Override
     public void onBeforeSection(PageValidation pageValidation, PageSection pageSection) {
-      getLogger().trace("BeforeSection(PageValidation pageValidation, PageSection pageSection)");
+      LOG.trace("BeforeSection(PageValidation pageValidation, PageSection pageSection)");
     }
 
     @Override
     public void onBeforeSpec(PageValidation pageValidation, String objectName, Spec spec) {
-      getLogger().trace("BeforeSpec(PageValidation pageValidation, String objectName, Spec spec)");
+      LOG.trace("BeforeSpec(PageValidation pageValidation, String objectName, Spec spec)");
     }
 
     @Override
     public void onGlobalError(Exception e) {
-      getLogger().trace("GlobalError(Exception e)");
+      LOG.trace("GlobalError(Exception e)");
     }
 
     @Override
     public void onObject(PageValidation pageValidation, String objectName) {
-      getLogger().trace("Object(PageValidation pageValidation, String objectName)");
+      LOG.trace("Object(PageValidation pageValidation, String objectName)");
     }
 
     @Override
     public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
-      getLogger().trace("SpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult)");
+      LOG.trace("SpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult)");
     }
 
     @Override
     public void onSpecGroup(PageValidation pageValidation, String specGroupName) {
-      getLogger().trace("SpecGroup(PageValidation pageValidation, String specGroupName)");
+      LOG.trace("SpecGroup(PageValidation pageValidation, String specGroupName)");
     }
 
     @Override
     public void onSpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
-      getLogger().trace("SpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult)");
+      LOG.trace("SpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult)");
     }
 
     @Override
     public void onSubLayout(PageValidation pageValidation, String objectName) {
-      getLogger().trace("SubLayout(PageValidation pageValidation, String objectName)");
+      LOG.trace("SubLayout(PageValidation pageValidation, String objectName)");
     }
 
     @Override

@@ -26,8 +26,7 @@ import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -47,22 +46,22 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  */
 public class WebDriverListener implements ITestListener {
 
-  private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("galenium.webdriver");
   private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
+  private static final Logger LOG = LoggerFactory.getLogger(WebDriverListener.class);
 
   @Override
   public void onFinish(ITestContext context) {
     // if not running multiple tests/method/classes in parallel, then the same WebDriver instance is
     // used for all tests methods, and we have to make sure to close the driver after all tests have finished
     if (!isRunningTestsInSeparateThreads(context)) {
-      getLogger().debug("Closing the WebDriver driver that was used for all tests...");
+      LOG.debug("Closing the WebDriver driver that was used for all tests...");
       closeDriver();
     }
   }
 
   @Override
   public void onStart(ITestContext context) {
-    getLogger().trace("WebDriverListener active.");
+    LOG.trace("WebDriverListener active.");
     // always executed in the main thread, so we can't initialize WebDrivers right here
     setAdjustViewportInGalen(!isSuppressAutoAdjustBrowserSize());
   }
@@ -86,7 +85,7 @@ public class WebDriverListener implements ITestListener {
   public void onTestStart(ITestResult result) {
     // do nothing for lazy initialization
     if (GaleniumConfiguration.isLazyWebDriverInitialization()) {
-      getLogger().debug("Driver will be initialized on first use.");
+      LOG.debug("Driver will be initialized on first use.");
       return;
     }
 
@@ -100,16 +99,16 @@ public class WebDriverListener implements ITestListener {
     while (retries <= getNumberOfBrowserInstantiationRetries()) {
       try {
         if (testDevice != null) {
-          getLogger().debug("new driver for: " + testDevice);
+          LOG.debug("new driver for: " + testDevice);
           WebDriverManagement.getDriver(testDevice);
         }
         else {
-          getLogger().debug("no test device set for: " + result.getTestName());
+          LOG.debug("no test device set for: " + result.getTestName());
         }
       }
       finally {
         if (getDriver() == null) {
-          getLogger().warn("driver not instantiated");
+          LOG.warn("driver not instantiated");
           GaleniumReportUtil.assignCategory(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED);
           retries++;
         }
@@ -129,22 +128,22 @@ public class WebDriverListener implements ITestListener {
   private void closeDriverIfRunningInParallel(ITestResult result) {
     ITestContext testContext = result.getTestContext();
     if (getDriver() == null) {
-      getLogger().debug("No WebDriver to close for thread " + Thread.currentThread().getName());
+      LOG.debug("No WebDriver to close for thread " + Thread.currentThread().getName());
     }
     else if (isRunningTestsInSeparateThreads(testContext)) {
-      getLogger().info("Closing WebDriver for thread " + Thread.currentThread().getName() + " on host '" + testContext.getSuite().getHost() + "'");
+      LOG.info("Closing WebDriver for thread " + Thread.currentThread().getName() + " on host '" + testContext.getSuite().getHost() + "'");
       closeDriver();
     }
     else {
-      getLogger().debug("Reusing WebDriver for thread " + Thread.currentThread().getName());
+      LOG.debug("Reusing WebDriver for thread " + Thread.currentThread().getName());
     }
   }
 
   private TestDevice getTestDevice(ITestResult result) {
-    getLogger().debug("fetch test device from result.");
+    LOG.debug("fetch test device from result.");
     TestDevice testDevice = TestInfoUtil.getTestDevice(result);
     if (testDevice == null) {
-      getLogger().debug("no test device found in result.");
+      LOG.debug("no test device found in result.");
       testDevice = GaleniumContext.getTestDevice();
     }
     return testDevice;
@@ -168,10 +167,6 @@ public class WebDriverListener implements ITestListener {
 
   protected void closeDriver() {
     WebDriverManagement.closeDriver();
-  }
-
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER_WEBDRIVER);
   }
 
 }

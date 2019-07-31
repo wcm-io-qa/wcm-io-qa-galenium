@@ -140,12 +140,6 @@
       </dependency>
 
       <dependency>
-        <groupId>io.github.java-diff-utils</groupId>
-        <artifactId>java-diff-utils</artifactId>
-        <version>4.0</version>
-      </dependency>
-
-      <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
         <version>1.9.3</version>
@@ -155,6 +149,12 @@
             <artifactId>commons-collections</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>io.github.java-diff-utils</groupId>
+        <artifactId>java-diff-utils</artifactId>
+        <version>4.0</version>
       </dependency>
 
       <dependency>
