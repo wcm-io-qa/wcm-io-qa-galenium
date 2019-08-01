@@ -25,9 +25,9 @@ import org.testng.ITest;
 import org.testng.SkipException;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.testng.TestInstanceParameter;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
@@ -37,8 +37,8 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGaleniumBase.class);
 
+  @TestInstanceParameter("{device.name}")
   private TestDevice device;
-  private TestNameDifferences nameDifferences = new TestNameDifferences();
 
   /**
    * Constructor.
@@ -46,9 +46,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
-    getNameDifferences().setTestDevice(testDevice);
-    getNameDifferences().setClass(getClass());
-    getNameDifferences().setClassNameMaxLength(30);
   }
 
   /**
@@ -61,23 +58,15 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   @Override
   public String getTestName() {
-    return getNameDifferences().asPropertyKey();
+    return getClass().getName();
   }
 
   protected String getBaseUrl() {
     return GaleniumConfiguration.getBaseUrl();
   }
 
-  protected TestNameDifferences getNameDifferences() {
-    return nameDifferences;
-  }
-
   protected void setDevice(TestDevice device) {
     this.device = device;
-  }
-
-  protected void setNameDifferences(TestNameDifferences nameDifferences) {
-    this.nameDifferences = nameDifferences;
   }
 
   protected void skipTest(String skipMessage) {

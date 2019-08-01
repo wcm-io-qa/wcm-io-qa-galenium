@@ -47,7 +47,6 @@ public class PageSourceIT extends AbstractExampleBase {
   public PageSourceIT(String contentPath) {
     super(NoBrowser.instance());
     setRelativePath(contentPath + ".html");
-    getNameDifferences().addAdditionalDifference(new StringDifference(contentPath));
   }
 
   @Override

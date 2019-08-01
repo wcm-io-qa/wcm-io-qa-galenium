@@ -26,6 +26,7 @@ import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.BrowserUtil;
 import io.wcm.qa.glnm.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.glnm.verification.util.Check;
@@ -50,8 +51,11 @@ public class NavigationIT extends AbstractExampleBase {
   @Test
   public void testNavigation() {
     loadStartUrl();
+    GaleniumReportUtil.takeScreenshot();
     openNav();
+    GaleniumReportUtil.takeScreenshot();
     clickConferenceNavLink();
+    GaleniumReportUtil.takeScreenshot();
     if (BrowserUtil.isFirefox()) {
       try {
         Thread.sleep(1000);

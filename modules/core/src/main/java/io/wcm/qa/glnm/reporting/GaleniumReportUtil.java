@@ -23,6 +23,7 @@ package io.wcm.qa.glnm.reporting;
 import static io.wcm.qa.glnm.util.TestInfoUtil.getAlphanumericTestName;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ import com.galenframework.reports.TestNgReportBuilder;
 import com.google.common.html.HtmlEscapers;
 
 import freemarker.template.TemplateException;
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.util.GaleniumContext;
@@ -207,7 +209,7 @@ public final class GaleniumReportUtil {
         FileUtils.copyFile(screenshotFile, destFile);
         LOG.trace("copied screenshot: " + destFile.getPath());
         destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
-        // TODO: add Allure attachment
+        Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(screenshotFile), ".png");
         screenshotSuccessful = true;
         if (FileUtils.deleteQuietly(screenshotFile)) {
           LOG.trace("deleted screenshot file: " + screenshotFile.getPath());

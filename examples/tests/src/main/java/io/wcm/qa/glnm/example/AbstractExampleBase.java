@@ -41,7 +41,6 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
 
   private static final int CUTOFF_MOBILE_WIDTH = 601;
   private static final Logger LOG = LoggerFactory.getLogger(AbstractExampleBase.class);
-  private static final String ROOT_PACKAGE_FOR_TESTS = "io.wcm.qa";
   protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   protected static final String PATH_TO_HOMEPAGE = "/en.html";
 
@@ -50,7 +49,6 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
    */
   public AbstractExampleBase(TestDevice testDevice) {
     super(testDevice);
-    getNameDifferences().setRootPackage(ROOT_PACKAGE_FOR_TESTS);
   }
 
   private void navShouldBeVisible() {
