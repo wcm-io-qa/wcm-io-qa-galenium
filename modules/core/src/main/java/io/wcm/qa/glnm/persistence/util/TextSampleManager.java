@@ -92,7 +92,10 @@ public final class TextSampleManager {
       if (sampleFile.exists()) {
         sampleFile.delete();
       }
-      FileUtils.writeLines(sampleFile, lines, "\n");
+      for (String line : lines) {
+        String data = line;
+        FileUtils.write(sampleFile, data + "\n", CHARSET_UTF8, true);
+      }
     }
     catch (IOException ex) {
       getLogger().error("could not persist sample for key '" + key + "'", ex);
