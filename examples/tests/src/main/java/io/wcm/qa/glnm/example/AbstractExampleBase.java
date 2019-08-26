@@ -26,12 +26,12 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.interaction.Aem;
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.interaction.Wait;
-import io.wcm.qa.glnm.testcase.AbstractGaleniumBase;
+import io.wcm.qa.glnm.testcase.AbstractBrowserBasedTest;
 
 /**
  * Abstract base class for common functionality needed by multiple tests.
  */
-public abstract class AbstractExampleBase extends AbstractGaleniumBase {
+public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
 
   private static final String ROOT_PACKAGE_FOR_TESTS = "io.wcm.qa";
   private static final int CUTOFF_MOBILE_WIDTH = 601;

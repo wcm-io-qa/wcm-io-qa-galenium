@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,52 +19,25 @@
  */
 package io.wcm.qa.glnm.testcase;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getContext;
 
 import org.slf4j.Logger;
 import org.testng.ITest;
 import org.testng.SkipException;
 
-import io.wcm.qa.glnm.assertions.GaleniumAssertion;
-import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
- * Abstract base class encapsulating basic interaction with Selenium and reporting.
+ * Base class using {@link TestNameDifferences} to generate test name for TestNG's {@link ITest} interface.
  */
-public abstract class AbstractGaleniumBase implements ITest, HasDevice {
+public class AbstractNamedTest implements ITest {
 
-  private TestDevice device;
   private TestNameDifferences nameDifferences = new TestNameDifferences();
 
-  /**
-   * Constructor.
-   * @param testDevice test device to use
-   */
-  public AbstractGaleniumBase(TestDevice testDevice) {
-    setDevice(testDevice);
-    getNameDifferences().setTestDevice(testDevice);
+  protected AbstractNamedTest() {
+    super();
     getNameDifferences().setClass(getClass());
     getNameDifferences().setClassNameMaxLength(30);
-  }
-
-  /**
-   * @return the test device used for this test run.
-   */
-  @Override
-  public TestDevice getDevice() {
-    return device;
-  }
-
-  /**
-   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
-   * @return current logger
-   */
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
   @Override
@@ -72,20 +45,8 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     return getNameDifferences().asPropertyKey();
   }
 
-  protected String getBaseUrl() {
-    return GaleniumConfiguration.getBaseUrl();
-  }
-
   protected TestNameDifferences getNameDifferences() {
     return nameDifferences;
-  }
-
-  protected void setAssertion(GaleniumAssertion assertion) {
-    getContext().setAssertion(assertion);
-  }
-
-  protected void setDevice(TestDevice device) {
-    this.device = device;
   }
 
   protected void setNameDifferences(TestNameDifferences nameDifferences) {
@@ -100,6 +61,14 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   protected void skipTest(String skipMessage, Throwable ex) {
     getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
     throw new SkipException(skipMessage, ex);
+  }
+
+  /**
+   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
+   * @return current logger
+   */
+  public Logger getLogger() {
+    return GaleniumReportUtil.getLogger();
   }
 
 }

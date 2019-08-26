@@ -25,32 +25,30 @@ import org.htmlcleaner.CleanerProperties;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import io.wcm.qa.glnm.device.NoBrowser;
 import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.example.provider.ContentPathProvider;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AemAuthorLoginSampler;
 import io.wcm.qa.glnm.sampling.htmlcleaner.HtmlCleanerSampler;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
+import io.wcm.qa.glnm.testcase.AbstractNamedTest;
 import io.wcm.qa.glnm.verification.diff.StringDiffVerification;
 import io.wcm.qa.glnm.verification.util.Check;
 
 /**
  *
  */
-public class PageSourceIT extends AbstractExampleBase {
+public class PageSourceIT extends AbstractNamedTest {
 
   private String relativePath;
 
 
   @Factory(dataProviderClass = ContentPathProvider.class, dataProvider = ContentPathProvider.ALL_PAGES_FOR_EXAMPLE_TEMPLATES)
   public PageSourceIT(String contentPath) {
-    super(NoBrowser.instance());
     setRelativePath(contentPath + ".html");
     getNameDifferences().addAdditionalDifference(new StringDifference(contentPath));
   }
 
-  @Override
   protected String getRelativePath() {
     return relativePath;
   }
