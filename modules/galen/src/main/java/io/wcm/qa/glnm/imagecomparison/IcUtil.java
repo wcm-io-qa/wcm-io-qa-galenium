@@ -86,15 +86,22 @@ final class IcUtil {
   }
 
   protected static String getImageComparisonSpecText(IcsDefinition def) {
-    return IcUtil.getImageComparisonSpecText(
+    return getImageComparisonSpecText(
         def.getFoldername(),
         def.getFilename(),
         def.getAllowedError(),
         def.getAllowedOffset(),
-        def.getObjectsToIgnore());
+        def.getObjectsToIgnore(),
+        def.isCropIfOutside());
   }
 
-  protected static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
+  protected static String getImageComparisonSpecText(
+      String folder,
+      String fileName,
+      String error,
+      int offset,
+      List<Selector> toIgnore,
+      boolean cropIfOutside) {
     StringBuilder specText = new StringBuilder();
 
     // boiler plate
@@ -105,12 +112,17 @@ final class IcUtil {
 
     // tolerance
     if (StringUtils.isNotBlank(error)) {
-      specText.append(", error ");
-      specText.append(error);
+      specText
+          .append(", error ")
+          .append(error);
     }
     if (offset > 0) {
-      specText.append(", analyze-offset ");
-      specText.append(offset);
+      specText
+          .append(", analyze-offset ")
+          .append(offset);
+    }
+    if (cropIfOutside) {
+      specText.append(", crop-if-outside");
     }
     if (!toIgnore.isEmpty()) {
       List<Selector> objects = toIgnore;
@@ -140,7 +152,8 @@ final class IcUtil {
         def.getFilename(),
         "",
         0,
-        def.getObjectsToIgnore());
+        def.getObjectsToIgnore(),
+        false);
   }
 
   static void createDummyIfSampleDoesNotExist(String fullFilePath) {

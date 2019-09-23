@@ -51,14 +51,15 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   private String allowedError;
   private int allowedOffset;
   private CorrectionsRect corrections;
+  private boolean cropIfOutside = true;
   private SortedDifferences differences = new SortedDifferences();
   private String elementName;
   private String filename;
   private String foldername;
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
-  private Selector selector;
 
+  private Selector selector;
   private boolean zeroToleranceWarning;
 
   /**
@@ -212,6 +213,11 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     return new IcValidationListener();
   }
 
+  @Override
+  public boolean isCropIfOutside() {
+    return cropIfOutside;
+  }
+
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#isZeroToleranceWarning()
    */
@@ -257,6 +263,10 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
 
   public void setCorrections(CorrectionsRect corrections) {
     this.corrections = corrections;
+  }
+
+  public void setCropIfOutside(boolean cropIfOutside) {
+    this.cropIfOutside = cropIfOutside;
   }
 
   public void setDifferences(SortedDifferences differences) {
