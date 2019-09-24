@@ -58,11 +58,12 @@
     <galenium.generated.specs>${project.build.outputDirectory}</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
     <galenium.headless>true</galenium.headless>
+    <galenium.logging.testlogs>${project.build.directory}/testlogs</galenium.logging.testlogs>
     <galenium.mediaquery.height>800</galenium.mediaquery.height>
     <galenium.mediaquery.properties>${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
     <galenium.mediaquery.width.max>2000</galenium.mediaquery.width.max>
     <galenium.mediaquery.width.min>360</galenium.mediaquery.width.min>
-    <galenium.report.rootPath>${project.build.directory}/galenium-reports</galenium.report.rootPath>
+    <galenium.report.rootPath>${project.build.directory}/glnm-reports</galenium.report.rootPath>
     <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
     <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
     <galenium.retryMax>0</galenium.retryMax>

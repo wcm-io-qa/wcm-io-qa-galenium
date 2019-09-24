@@ -36,8 +36,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
@@ -138,35 +136,6 @@ public final class GaleniumReportUtil {
   public static String escapeHtml(String string) {
     String escapedString = HtmlEscapers.htmlEscaper().escape(StringUtils.stripToEmpty(string));
     return StringUtils.replace(escapedString, "\n", "</br>");
-  }
-
-  /**
-   * Gets a logger which marks every entry with the passed {@link Marker}.
-   * @param marker to use with this logger
-   * @param logger
-   * @return a {@link MarkedLogger} using the marker
-   */
-  public static Logger getMarkedLogger(Marker marker, Logger logger) {
-    return new MarkedLogger(logger, marker);
-  }
-
-  /**
-   * Gets a logger which marks every entry with a {@link Marker} using the passed string.
-   * @param marker to use with this logger
-   * @param logger
-   * @return a {@link MarkedLogger} using the marker
-   */
-  public static Logger getMarkedLogger(String marker, Logger logger) {
-    return new MarkedLogger(logger, getMarker(marker));
-  }
-
-  /**
-   * @param name marker name
-   * @return marker for use with marked logger
-   */
-  public static Marker getMarker(String name) {
-    Marker marker = MarkerFactory.getMarker(name);
-    return marker;
   }
 
   /**

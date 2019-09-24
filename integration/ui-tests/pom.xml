@@ -135,6 +135,7 @@
               <!-- Galenium -->
               <galenium.browser.proxy>${galenium.browser.proxy}</galenium.browser.proxy>
               <galenium.headless>${galenium.headless}</galenium.headless>
+              <galenium.logging.testlogs>${galenium.logging.testlogs}</galenium.logging.testlogs>
               <galenium.mediaquery.height>${galenium.mediaquery.height}</galenium.mediaquery.height>
               <galenium.mediaquery.properties>${galenium.mediaquery.properties}</galenium.mediaquery.properties>
               <galenium.mediaquery.width.max>${galenium.mediaquery.width.max}</galenium.mediaquery.width.max>

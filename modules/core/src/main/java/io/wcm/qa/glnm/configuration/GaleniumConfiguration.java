@@ -72,6 +72,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST = "galenium.webdriver.https.proxyHost";
   private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT = "galenium.webdriver.https.proxyPort";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
+  private static final String SYSTEM_PROPERTY_NAME_LOG_DIR = "galenium.logging.testlogs";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
@@ -767,6 +768,31 @@ public final class GaleniumConfiguration {
    */
   public static String getReportDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY, DEFAULT_REPORT_DIR);
+  }
+
+  /**
+   * Test log root folder.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.logging.testlogs
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * "./target/testlogs"
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   * @return root folder for storing test logs
+   */
+  public static String getTestLogDirectory() {
+    return asString(SYSTEM_PROPERTY_NAME_LOG_DIR, "target/testlogs");
   }
 
   /**
