@@ -33,6 +33,7 @@
       </sift>
    </appender>
    
+  <logger name="io.qameta" level="TRACE" />
   <logger name="io.github.bonigarcia.wdm" level="WARN" />
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />

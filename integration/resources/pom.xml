@@ -51,7 +51,7 @@
               <outputDirectory>${project.build.outputDirectory}</outputDirectory>
               <resources>
                 <resource>
-                  <include>**/*.xml</include>
+                  <include>**/*</include>
                   <directory>${project.basedir}/src/main/resources</directory>
                   <filtering>false</filtering>
                 </resource>

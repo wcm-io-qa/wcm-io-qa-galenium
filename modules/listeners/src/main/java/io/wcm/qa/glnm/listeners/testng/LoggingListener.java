@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners;
+package io.wcm.qa.glnm.listeners.testng;
 
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 

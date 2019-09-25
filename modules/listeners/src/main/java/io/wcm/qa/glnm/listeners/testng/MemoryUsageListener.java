@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners;
+package io.wcm.qa.glnm.listeners.testng;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

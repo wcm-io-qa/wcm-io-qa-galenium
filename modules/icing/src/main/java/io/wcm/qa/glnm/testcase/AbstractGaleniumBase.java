@@ -23,14 +23,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.testng.TestInstanceParameter;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.logging.util.GaleniumLoggingUtil;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
@@ -62,16 +59,6 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
   @Override
   public String getTestName() {
     return getClass().getName();
-  }
-
-  @BeforeTest
-  public void startLogging() {
-    GaleniumLoggingUtil.startTestLogging();
-  }
-
-  @AfterTest
-  public void attachLogs() {
-    GaleniumLoggingUtil.stopTestLogging();
   }
 
   protected String getBaseUrl() {

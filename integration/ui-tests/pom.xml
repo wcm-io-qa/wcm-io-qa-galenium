@@ -123,7 +123,7 @@
               <property>
                 <name>listener</name>
                 <value>
-                  io.wcm.qa.glnm.listeners.DefaultGaleniumListener,
+                  io.wcm.qa.glnm.listeners.testng.DefaultGaleniumListener,
                   org.testng.reporters.XMLReporter
                 </value>
               </property>
@@ -204,7 +204,7 @@
               <configuration>
                 <includeArtifactIds>io.wcm.qa.galenium.integration.resources</includeArtifactIds>
                 <outputDirectory>${galenium.resources.unfiltered.directory}</outputDirectory>
-                <includes>**/*.xml</includes>
+                <includes>**/*</includes>
                 <excludeTransitive>true</excludeTransitive>
                 <overWriteReleases>true</overWriteReleases>
                 <overWriteSnapshots>true</overWriteSnapshots>
