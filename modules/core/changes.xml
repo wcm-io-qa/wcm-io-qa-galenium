@@ -26,6 +26,48 @@
       <action type="update" dev="apegam">
         Renamed all Java packages by changing 'galenium' to 'glnm'.
       </action>
+      <action type="update" dev="apegam">
+        Bumped versions for dependencies and plugins.
+      </action>
+      <action type="update" dev="apegam">
+        Some cleaning up in archetype.
+      </action>
+      <action type="update" dev="apegam">
+        New dedicated base class for tests that does not assume browser interaction. Original base class renamed.
+      </action>
+      <action type="add" dev="apegam">
+        New base class for tests that does not assume browser interaction.
+      </action>
+      <action type="add" dev="apegam">
+        JCR query sampler to be used in dataprovider or verification. 
+      </action>
+      <action type="add" dev="apegam">
+        Example of AEM specific test using content path provider based on JCR query.
+      </action>
+      <action type="add" dev="apegam">
+        Example of page HTML source comparison.
+      </action>
+      <action type="add" dev="apegam">
+        Added special "no browser" device.
+      </action>
+      <action type="add" dev="apegam">
+        Handling for multi-line samples.
+      </action>
+      <action type="add" dev="apegam">
+        Image comparison can now handle 'crop-if-outside' Galen parameter.
+      </action>
+      <action type="add" dev="apegam">
+        TestNG dataprovider convenience methods for providing from file or sampler. 
+      </action>
+      <action type="add" dev="apegam">
+        JSoup and HTML Cleaner functionality around sampling HTML and cookies. 
+      </action>
+      <action type="update" dev="apegam">
+        Switch to github maintained java-diff-utils. 
+      </action>
+      <action type="add" dev="apegam">
+        Diff based verification for multi-line comparisons. 
+      </action>
     </release>
 
     <release version="2.0.0" date="2019-07-17">
