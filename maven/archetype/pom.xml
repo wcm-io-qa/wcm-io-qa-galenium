@@ -21,20 +21,18 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.galenium.root</artifactId>
-    <version>2.0.0</version>
-    <relativePath>../../pom.xml</relativePath>
+    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <version>3.0.0</version>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
-  <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.archetype</artifactId>
-  <version>2.0.0</version>
   <name>wcm.io Archetype for Galenium</name>
   <packaging>maven-archetype</packaging>
   <url>http://maven.apache.org</url>
 
   <properties>
-    <maven.archetype.version>3.1.0</maven.archetype.version>
+    <maven.archetype.version>3.1.2</maven.archetype.version>
   </properties>
 
   <build>

@@ -42,7 +42,7 @@
   </turboFilter>
 
   <appender name="EXTENT"
-    class="io.wcm.qa.galenium.appender.logback.ExtentAppender" />
+    class="io.wcm.qa.glnm.appender.logback.ExtentAppender" />
 
   <appender name="STDOUT"
     class="ch.qos.logback.core.ConsoleAppender">
@@ -57,7 +57,7 @@
   <if
     condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
     <then>
-      <logger name="galenium.example" level="INFO">
+      <logger name="glnm.example" level="INFO">
         <appender-ref ref="EXTENT" />
       </logger>
       <turboFilter
@@ -67,18 +67,17 @@
       </turboFilter>
     </then>
     <else>
-      <logger name="galenium.example" level="TRACE">
+      <logger name="glnm.example" level="TRACE">
         <appender-ref ref="EXTENT" />
       </logger>
     </else>
   </if>
 
+  <logger name="io.github.bonigarcia.wdm" level="WARN" />
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />
 
-  <logger name="io.wcm.qa.galenium.assertions" level="DEBUG" />
-
-  <root level="DEBUG">
+  <root level="TRACE">
     <appender-ref ref="STDOUT" />
   </root>
 
