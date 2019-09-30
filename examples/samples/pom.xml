@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <relativePath>../../integration</relativePath>
   </parent>
 
@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples.samples</artifactId>
   <packaging>jar</packaging>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.1-SNAPSHOT</version>
   <description>Test automation example samples.</description>
 
   <properties>
@@ -43,7 +43,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.tests</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>3.0.1-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
 
