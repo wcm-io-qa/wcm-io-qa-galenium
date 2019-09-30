@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.parent_toplevel</artifactId>
-    <version>5-SNAPSHOT</version>
+    <version>6</version>
     <relativePath />
   </parent>
 
