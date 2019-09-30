@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -37,23 +37,23 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>3.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>3.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.listeners</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>3.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>3.0.0</version>
     </dependency>
 
     <!-- Webdriver Management -->

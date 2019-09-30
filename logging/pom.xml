@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.0</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.core</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
