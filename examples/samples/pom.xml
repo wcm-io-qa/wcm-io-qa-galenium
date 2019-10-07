@@ -64,13 +64,13 @@
             </goals>
             <configuration>
               <outputDirectory>${basedir}/target/classes</outputDirectory>
-              <resources>          
+              <resources>
                 <resource>
                   <directory>${galenium.sampling.root}</directory>
                   <filtering>false</filtering>
                 </resource>
-              </resources>              
-            </configuration>            
+              </resources>
+            </configuration>
           </execution>
         </executions>
       </plugin>

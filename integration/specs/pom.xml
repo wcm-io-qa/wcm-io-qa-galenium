@@ -37,7 +37,38 @@
     <!-- Galenium internal dependencies -->
     <dependency>
       <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
+      <version>3.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galen</artifactId>
+      <version>3.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.selectors</artifactId>
+      <version>3.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+      <version>3.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.interaction</artifactId>
+      <version>3.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-api</artifactId>
     </dependency>
 
   </dependencies>
@@ -45,11 +76,22 @@
   <dependencyManagement>
     <dependencies>
 
-      <!-- Galenium internal dependencies -->
       <dependency>
-        <groupId>io.wcm.qa</groupId>
-        <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <groupId>com.galenframework</groupId>
+        <artifactId>galen-java-support</artifactId>
+        <version>2.4.4</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-api</artifactId>
+        <version>4.0.0-alpha-3</version>
       </dependency>
 
     </dependencies>

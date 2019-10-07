@@ -38,21 +38,31 @@
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.core</artifactId>
       <version>3.0.1-SNAPSHOT</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <optional>true</optional>
     </dependency>
-    
+
     <dependency>
       <groupId>com.relevantcodes</groupId>
       <artifactId>extentreports</artifactId>
+      <optional>true</optional>
     </dependency>
-        
+
     <dependency>
       <groupId>org.codehaus.janino</groupId>
       <artifactId>janino</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <optional>true</optional>
     </dependency>
 
   </dependencies>
