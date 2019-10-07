@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.maven.mock;
+package io.wcm.qa.glnm.galen.mock;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
