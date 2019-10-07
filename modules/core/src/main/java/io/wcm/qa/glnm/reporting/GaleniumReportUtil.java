@@ -66,19 +66,19 @@ public final class GaleniumReportUtil {
   /** For all special ExtentReports events. */
   public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
   /** For special ERROR log status. */
-  public static final Marker MARKER_ERROR = getMarker(LogStatus.ERROR);
+  public static final Marker MARKER_ERROR = getMarkerFromExtentStatus(LogStatus.ERROR);
   /** For special FAIL log status. */
-  public static final Marker MARKER_FAIL = getMarker(LogStatus.FAIL);
+  public static final Marker MARKER_FAIL = getMarkerFromExtentStatus(LogStatus.FAIL);
   /** For special FATAL log status. */
-  public static final Marker MARKER_FATAL = getMarker(LogStatus.FATAL);
+  public static final Marker MARKER_FATAL = getMarkerFromExtentStatus(LogStatus.FATAL);
   /** For special INFO log status. */
-  public static final Marker MARKER_INFO = getMarker(LogStatus.INFO);
+  public static final Marker MARKER_INFO = getMarkerFromExtentStatus(LogStatus.INFO);
   /** For special PASS log status. */
-  public static final Marker MARKER_PASS = getMarker(LogStatus.PASS);
+  public static final Marker MARKER_PASS = getMarkerFromExtentStatus(LogStatus.PASS);
   /** For special SKIP log status. */
-  public static final Marker MARKER_SKIP = getMarker(LogStatus.SKIP);
+  public static final Marker MARKER_SKIP = getMarkerFromExtentStatus(LogStatus.SKIP);
   /** For special WARN log status. */
-  public static final Marker MARKER_WARN = getMarker(LogStatus.WARNING);
+  public static final Marker MARKER_WARN = getMarkerFromExtentStatus(LogStatus.WARNING);
 
   private static final String CONFIGURED_PATH_EXTENT_REPORTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/extentreports";
   private static final String DEFAULT_FOR_NO_TEST_NAME = "no.test.name.set";
@@ -426,7 +426,7 @@ public final class GaleniumReportUtil {
     return getMarkedLogger(MARKER_REPORT_UTIL_INTERNAL);
   }
 
-  private static Marker getMarker(LogStatus logStatus) {
+  private static Marker getMarkerFromExtentStatus(LogStatus logStatus) {
     return getMarker(logStatus.name());
   }
 
