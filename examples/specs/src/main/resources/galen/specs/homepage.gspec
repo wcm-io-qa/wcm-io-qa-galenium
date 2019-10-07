@@ -36,7 +36,7 @@
             below page.navigation
             below page.site-header
         article:
-            above page.footer 
+            above page.footer
         teaserbar:
             above page.footer ~ 0px
     = Containment =

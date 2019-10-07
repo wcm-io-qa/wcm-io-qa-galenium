@@ -30,7 +30,7 @@ Listeners are an important concept in both TestNG and Galen. They handle test li
 
 ### RetryAnalyzer
 
-Will retry tests according to *galenium.retryMax* configuration setting. This is a very effective way to deal with flaky tests. If a test run succeeds before the maximum number of retries is reached, the test is regarded as successful. 
+Will retry tests according to *galenium.retryMax* configuration setting. This is a very effective way to deal with flaky tests. If a test run succeeds before the maximum number of retries is reached, the test is regarded as successful.
 
 ### DefaultGaleniumListener
 
@@ -50,10 +50,10 @@ Sometimes it is desirable to have tests continue running even if assertions fail
 
 ## Image Comparison
 
-Image comparison is a powerful way to verify correct rendering of pages or elements. One of the big caveats is that rendering can be very fragile and not every pixel difference is meaningful enough to fail a test. This is addressed quite nicely by [Galen's image comparison specification](http://galenframework.com/docs/reference-galen-spec-language-guide/#Image) which offers options to be lenient in a very controlled way. Another problem is the handling of sample data. It can be a lot of work to create and store all the example images for all the different use cases. To help with this, Galenium offers the concept of an _Image comparison specification factory_ which will create a Galen specification programmatically which will use sample images. 
+Image comparison is a powerful way to verify correct rendering of pages or elements. One of the big caveats is that rendering can be very fragile and not every pixel difference is meaningful enough to fail a test. This is addressed quite nicely by [Galen's image comparison specification](http://galenframework.com/docs/reference-galen-spec-language-guide/#Image) which offers options to be lenient in a very controlled way. Another problem is the handling of sample data. It can be a lot of work to create and store all the example images for all the different use cases. To help with this, Galenium offers the concept of an _Image comparison specification factory_ which will create a Galen specification programmatically which will use sample images.
 
 ## Reporting
 
-Reporting is very important in all phases of automated testing. Different phases have different reporting requirements. During test creation you will want more information than when running trusted tests on CI. This is reflected in Galeniums reporting approach by using a common logger interface (SLF4J) to write to reports. This allows you to add debug or even trace level information to your tests and infrastructure, while restricting reports on CI to info level. 
+Reporting is very important in all phases of automated testing. Different phases have different reporting requirements. During test creation you will want more information than when running trusted tests on CI. This is reflected in Galeniums reporting approach by using a common logger interface (SLF4J) to write to reports. This allows you to add debug or even trace level information to your tests and infrastructure, while restricting reports on CI to info level.
 
 Another factor is that with Galen reports a lot of disk space will be used for screenshots. This can be too much when keeping the data for a lot of builds on CI. You can configure Galenium to only write Galen reports for failed validations. Especially when using a lot of image comparison, this can significantly reduce disk space requirements.

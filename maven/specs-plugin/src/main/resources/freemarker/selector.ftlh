@@ -1,20 +1,20 @@
 <#macro innerClass selector parentConstantName>
   /**
-   * Java version of '${selector.elementName()}' from ${spec.filename}. 
+   * Java version of '${selector.elementName()}' from ${spec.filename}.
    */
   public static class ${className(selector)} extends ${interactiveSelectorBaseClassName} {
 
     <#list selector.children as child>
       <@constant child />
     </#list>
-  
+
     /**
      * Constructor.
      */
     public ${className(selector)}() {
       super("${selector.elementName()}", <@newLocator selector.asRelative().asLocator() />);
-      setParent(${parentConstantName});    
-      setBy(By.cssSelector("${escapeJava(selector.asString())}"));    
+      setParent(${parentConstantName});
+      setBy(By.cssSelector("${escapeJava(selector.asString())}"));
     }
 
     <#list selector.children as child>
@@ -36,7 +36,7 @@
   }
     </#list>
 
-    
+
   }
 </#macro>
 <#macro constant selector>
@@ -75,7 +75,7 @@ import org.openqa.selenium.WebElement;
 /**
  * Java version of '${this.elementName()}' from ${spec.filename}.
  *
- * This is GENERATED CODE and should not be modified manually.  
+ * This is GENERATED CODE and should not be modified manually.
  */
 public class ${className(this)} extends ${interactiveSelectorBaseClassName} {
 
@@ -90,13 +90,13 @@ public class ${className(this)} extends ${interactiveSelectorBaseClassName} {
    */
   public ${className(this)}() {
     super("${this.elementName()}", <@newLocator this.asRelative().asLocator() />);
-    setBy(By.cssSelector("${escapeJava(this.asString())}"));    
+    setBy(By.cssSelector("${escapeJava(this.asString())}"));
   }
 
   <#list this.children as child>
     <@innerClass child "SELF" />
   </#list>
-  
+
   <#list this.children as child>
 
   public WebElement get${className(child)}() {
