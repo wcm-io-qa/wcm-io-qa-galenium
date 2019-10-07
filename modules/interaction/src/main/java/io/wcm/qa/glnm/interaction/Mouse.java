@@ -26,8 +26,6 @@ import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import com.galenframework.browser.SeleniumBrowser;
-
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -79,7 +77,6 @@ public final class Mouse {
    * @return current vertical scroll position of browser with 0 being the very top
    */
   public static Long getVerticalScrollPosition() {
-    SeleniumBrowser seleniumBrowser = new SeleniumBrowser(getDriver());
     StringBuilder builder = new StringBuilder();
     builder.append("if (window.pageYOffset) ");
     builder.append("return window.pageYOffset;");
@@ -87,7 +84,7 @@ public final class Mouse {
     builder.append("return window.document.documentElement.scrollTop;");
     builder.append("else ");
     builder.append("return window.document.body.scrollTop;");
-    Long scrollYPosition = (Long)seleniumBrowser.executeJavascript(builder.toString());
+    Long scrollYPosition = (Long)Browser.executeJs(builder.toString());
     return scrollYPosition;
   }
 
