@@ -16,22 +16,21 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <version>3.0.1-SNAPSHOT</version>
-    <relativePath>../../parent/pom.xml</relativePath>
+    <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
-  <name>Galenium Interaction</name>
-  <description>Convenience methods for Selenium based interaction with web elements and browser.</description>
-  <artifactId>io.wcm.qa.galenium.interaction</artifactId>
+  <artifactId>io.wcm.qa.galenium.logging</artifactId>
   <packaging>jar</packaging>
+  <name>Galenium Logging</name>
+  <description>Galenium SLF4J ExtentReports Binding implemented with Logback.</description>
 
   <dependencies>
 
@@ -43,21 +42,20 @@
     </dependency>
 
     <dependency>
-      <groupId>io.wcm.qa</groupId>
-      <artifactId>io.wcm.qa.galenium.selectors</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
       <optional>true</optional>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
+      <groupId>com.relevantcodes</groupId>
+      <artifactId>extentreports</artifactId>
       <optional>true</optional>
     </dependency>
 
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-api</artifactId>
+      <groupId>org.codehaus.janino</groupId>
+      <artifactId>janino</artifactId>
       <optional>true</optional>
     </dependency>
 
@@ -66,6 +64,7 @@
       <artifactId>testng</artifactId>
       <optional>true</optional>
     </dependency>
+
   </dependencies>
 
 </project>

@@ -22,7 +22,7 @@
 <document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/changes/1.0.0"
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
-    <release version="3.0.0" date="not-released-yet">
+    <release version="4.0.0" date="not-released-yet">
       <action type="add" dev="apegam">
         Add support for Allure reporting.
       </action>
@@ -32,20 +32,62 @@
       <action type="remove" dev="apegam">
         Removed GaleniumAssertion.
       </action>
-      <action type="add" dev="apegam">
-        Jsoup and HtmlCleaner based sampling and verifications.
-      </action>
+    </release>
+
+    <release version="3.0.0" date="2019-09-30">
       <action type="update" dev="apegam">
         Renamed all Java packages by changing 'galenium' to 'glnm'.
+      </action>
+      <action type="update" dev="apegam">
+        Bumped versions for dependencies and plugins.
+      </action>
+      <action type="update" dev="apegam">
+        Some cleaning up in archetype.
+      </action>
+      <action type="update" dev="apegam">
+        New dedicated base class for tests that does not assume browser interaction. Original base class renamed.
+      </action>
+      <action type="add" dev="apegam">
+        New base class for tests that does not assume browser interaction.
+      </action>
+      <action type="add" dev="apegam">
+        JCR query sampler to be used in dataprovider or verification.
+      </action>
+      <action type="add" dev="apegam">
+        Example of AEM specific test using content path provider based on JCR query.
+      </action>
+      <action type="add" dev="apegam">
+        Example of page HTML source comparison.
+      </action>
+      <action type="add" dev="apegam">
+        Added special "no browser" device.
+      </action>
+      <action type="add" dev="apegam">
+        Handling for multi-line samples.
+      </action>
+      <action type="add" dev="apegam">
+        Image comparison can now handle 'crop-if-outside' Galen parameter.
+      </action>
+      <action type="add" dev="apegam">
+        TestNG dataprovider convenience methods for providing from file or sampler.
+      </action>
+      <action type="add" dev="apegam">
+        JSoup and HTML Cleaner functionality around sampling HTML and cookies.
+      </action>
+      <action type="update" dev="apegam">
+        Switch to github maintained java-diff-utils.
+      </action>
+      <action type="add" dev="apegam">
+        Diff based verification for multi-line comparisons.
       </action>
     </release>
 
     <release version="2.0.0" date="2019-07-17">
       <action type="update" dev="apegam">
-        Replace BrowserMob Proxy with actively maintained fork BrowserUp Proxy.  
+        Replace BrowserMob Proxy with actively maintained fork BrowserUp Proxy.
       </action>
       <action type="update" dev="apegam">
-        Only include Selenium drivers for Chrome, FF and IE as dependencies.  
+        Only include Selenium drivers for Chrome, FF and IE as dependencies.
       </action>
       <action type="add" dev="apegam">
         Added Webdriver download from Java code.
@@ -78,7 +120,7 @@
         Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable.
       </action>
     </release>
-    
+
     <release version="0.1.20" date="2018-12-03">
       <action type="add" dev="apegam">
         Code generation now also generates GaleniumWebElements.
@@ -111,22 +153,22 @@
         Now using Selenium 3.14.0.
       </action>
       <action type="update" dev="apegam">
-        Fix some warnings. 
+        Fix some warnings.
       </action>
       <action type="update" dev="apegam">
-        Screenshots on success are now default for integrated projects. 
+        Screenshots on success are now default for integrated projects.
       </action>
     </release>
-    
+
     <release version="0.1.16" date="2018-08-08">
       <action type="fix" dev="apegam">
-        NPE in isVerified under certain conditions. 
+        NPE in isVerified under certain conditions.
       </action>
       <action type="update" dev="apegam">
-        Now using Maven Plugin API 3.5.4. 
+        Now using Maven Plugin API 3.5.4.
       </action>
       <action type="update" dev="apegam">
-        Now using Selenium 3.13.0. 
+        Now using Selenium 3.13.0.
       </action>
       <action type="add" dev="apegam">
         Name sanitization and shortening using MD5 infixes.
@@ -171,22 +213,22 @@
         Sampler based Verifications.
       </action>
       <action type="update" dev="apegam">
-        Default thread count for tests is now CPU count. 
+        Default thread count for tests is now CPU count.
       </action>
       <action type="add" dev="apegam">
         Includes/excludes for Galen specs used in code generation.
       </action>
       <action type="update" dev="apegam">
-        Maven module structure. 
+        Maven module structure.
       </action>
       <action type="add" dev="apegam">
-        Support for headless Firefox. 
+        Support for headless Firefox.
       </action>
       <action type="update" dev="apegam">
-        New webdriver configuration. 
+        New webdriver configuration.
       </action>
     </release>
-    
+
     <release version="0.1.14" date="2018-06-20">
       <action type="update" dev="apegam">
         Update example to use code generation with new Maven plugin.

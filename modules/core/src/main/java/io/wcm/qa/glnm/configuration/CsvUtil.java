@@ -95,6 +95,7 @@ public final class CsvUtil {
    * Populate beans with CSV data.
    * @param csvFile to get input data from
    * @param beanClass type of bean to populate
+   * @param <T> type of bean as generic to create typed collection
    * @return collection with one bean per row in CSV
    */
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {

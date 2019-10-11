@@ -1,6 +1,6 @@
 <#macro innerClass selector>
   /**
-   * Galenium webelement version of '${selector.elementName()}' from ${spec.filename}. 
+   * Galenium webelement version of '${selector.elementName()}' from ${spec.filename}.
    */
   public static class ${className(selector)}Gwe extends GaleniumWebElementBase {
 
@@ -37,7 +37,7 @@
   }
     </#list>
 
-    
+
   }
 </#macro>
 package ${packageName(spec)};
@@ -55,7 +55,7 @@ import org.openqa.selenium.WebElement;
 /**
  * Galenium webelement version of '${this.elementName()}' from ${spec.filename}.
  *
- * This is GENERATED CODE and should not be modified manually.  
+ * This is GENERATED CODE and should not be modified manually.
  */
 public class ${className(this)}Gwe extends GaleniumWebElementBase {
 
@@ -69,7 +69,7 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   <#list this.children as child>
     <@innerClass child />
   </#list>
-  
+
   <#list this.children as child>
 
   public ${gweClassName(child)} get${className(child)}() {
@@ -94,12 +94,12 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
   public static ${gweClassName(this)} instance() {
     WebElement initialElement = ${selectorClassName(this)}.SELF.find();
     return new ${gweClassName(this)}(initialElement);
-  } 
+  }
 
   public static ${gweClassName(this)} instance(int index) {
     WebElement initialElement = ${selectorClassName(this)}.SELF.findNth(index);
     return new ${gweClassName(this)}(initialElement);
-  } 
+  }
 
   public static java.util.List<${gweClassName(this)}> instances() {
     java.util.List<WebElement> initialElements = ${selectorClassName(this)}.SELF.findAll();
@@ -108,6 +108,6 @@ public class ${className(this)}Gwe extends GaleniumWebElementBase {
       galeniumElements.add(new ${gweClassName(this)}(webElement));
     }
     return galeniumElements;
-  } 
+  }
 
 }

@@ -56,6 +56,7 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 public final class GaleniumReportUtil {
 
   private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
+
   private static final List<GalenTestInfo> GLOBAL_GALEN_RESULTS = new ArrayList<GalenTestInfo>();
   private static final String PATH_GALEN_REPORT = GaleniumConfiguration.getReportDirectory() + "/galen";
   private static final String PATH_SCREENSHOTS_RELATIVE_ROOT = "../screenshots";

@@ -25,7 +25,7 @@ Galenium needs the following to run:
 
 To use Galenium, you need a Galenium Maven project on your local machine.
 
-To set up the project, you can 
+To set up the project, you can
 
 1. do it from scratch
 1. copy the example projects
@@ -63,7 +63,7 @@ To avoid the interactive mode, you need to specify all information as command li
 
 ```console
 user@machine /my/local/dev/folder
-$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=my.group.id -DartifactId=my.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=my.root.packagename -DprojectName=MyTestAutomationProject 
+$ mvn archetype:generate -DarchetypeGroupId=io.wcm.qa -DarchetypeArtifactId=io.wcm.qa.galenium.archetype -DgroupId=my.group.id -DartifactId=my.artifact.id -Dversion=0.1.0-SNAPSHOT -Dpackage=my.root.packagename -DprojectName=MyTestAutomationProject
 ```
 
 The only interaction will be to confirm your choices:
@@ -82,7 +82,7 @@ Just hit enter and the project will be generated.
 
 #### After running Archetype
 
-The Archetype should have set up a multi module build now. 
+The Archetype should have set up a multi module build now.
 
 Which means you should have the following structure in your local folder:
 
@@ -116,4 +116,3 @@ After the build is done you can find the reports here:
 
  * ``/my/local/dev/folder/my.artifact.id/tests/target/galenium-reports/extentreports/extentGalen.html``
  * ``/my/local/dev/folder/my.artifact.id/tests/target/galenium-reports/galen/report.html``
-

@@ -25,7 +25,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.selectors.base.SelectorFactory;
 
 /**
- * Java version of '${spec.filename}'. 
+ * Java version of '${spec.filename}'.
  */
 public class ${classNameForSpec} {
 

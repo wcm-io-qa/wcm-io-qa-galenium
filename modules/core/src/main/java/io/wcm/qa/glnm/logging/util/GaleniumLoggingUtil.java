@@ -103,7 +103,7 @@ public final class GaleniumLoggingUtil {
   /**
    * Gets a logger which marks every entry with the passed {@link Marker}.
    * @param marker to use with this logger
-   * @param logger
+   * @param logger to wrap in marked logger
    * @return a {@link MarkedLogger} using the marker
    */
   public static Logger getMarkedLogger(Marker marker, Logger logger) {
@@ -113,11 +113,11 @@ public final class GaleniumLoggingUtil {
   /**
    * Gets a logger which marks every entry with a {@link Marker} using the passed string.
    * @param marker to use with this logger
-   * @param logger
+   * @param logger to wrap in marked logger
    * @return a {@link MarkedLogger} using the marker
    */
   public static Logger getMarkedLogger(String marker, Logger logger) {
-    return new MarkedLogger(logger, getMarker(marker));
+    return getMarkedLogger(getMarker(marker), logger);
   }
 
   /**
