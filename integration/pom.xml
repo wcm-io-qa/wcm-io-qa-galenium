@@ -97,6 +97,18 @@
           <groupId>io.qameta.allure</groupId>
           <artifactId>allure-maven</artifactId>
           <version>2.10.0</version>
+          <executions>
+            <execution>
+              <id>allure-report</id>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <phase>post-integration-test</phase>
+              <configuration>
+                <reportDirectory>${project.build.directory}/glnm-reports/allure</reportDirectory>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
 
         <!-- Unpack Galen specs from JAR -->
