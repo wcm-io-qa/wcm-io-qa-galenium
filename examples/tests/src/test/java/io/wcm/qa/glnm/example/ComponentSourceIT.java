@@ -24,18 +24,14 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import io.wcm.qa.glnm.device.NoBrowser;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AemAuthorLoginSampler;
 import io.wcm.qa.glnm.sampling.aem.AemComponentHtmlSampler;
+import io.wcm.qa.glnm.testcase.AbstractNamedTest;
 import io.wcm.qa.glnm.verification.diff.StringDiffVerification;
 import io.wcm.qa.glnm.verification.util.Check;
 
-public class ComponentSourceIT extends AbstractExampleBase {
-
-  public ComponentSourceIT() {
-    super(NoBrowser.instance());
-  }
+public class ComponentSourceIT extends AbstractNamedTest {
 
   @Test
   public void checkStageSource() {
@@ -54,7 +50,6 @@ public class ComponentSourceIT extends AbstractExampleBase {
     return (Map<String, String>)new AemAuthorLoginSampler().sampleValue();
   }
 
-  @Override
   protected String getRelativePath() {
     return "/content/wcm-io-samples/en";
   }

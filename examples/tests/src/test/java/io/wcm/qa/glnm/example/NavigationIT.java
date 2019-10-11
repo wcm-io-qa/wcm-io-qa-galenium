@@ -19,15 +19,11 @@
  */
 package io.wcm.qa.glnm.example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-import io.wcm.qa.glnm.util.BrowserUtil;
 import io.wcm.qa.glnm.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.glnm.verification.util.Check;
 
@@ -35,8 +31,6 @@ import io.wcm.qa.glnm.verification.util.Check;
  * Example for pure Selenium test based on Galenium.
  */
 public class NavigationIT extends AbstractExampleBase {
-
-  private static final Logger LOG = LoggerFactory.getLogger(NavigationIT.class);
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)
   public NavigationIT(TestDevice testDevice) {
@@ -51,19 +45,8 @@ public class NavigationIT extends AbstractExampleBase {
   @Test
   public void testNavigation() {
     loadStartUrl();
-    GaleniumReportUtil.takeScreenshot();
     openNav();
-    GaleniumReportUtil.takeScreenshot();
     clickConferenceNavLink();
-    GaleniumReportUtil.takeScreenshot();
-    if (BrowserUtil.isFirefox()) {
-      try {
-        Thread.sleep(1000);
-      }
-      catch (InterruptedException ex) {
-        LOG.debug("exception when sleeping after click", ex);
-      }
-    }
     Check.verify(new TitleAndUrlVerification("conference"));
   }
 
