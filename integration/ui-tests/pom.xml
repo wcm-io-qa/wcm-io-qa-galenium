@@ -95,6 +95,12 @@
     </dependency>
 
     <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>2.12.1</version>
+    </dependency>
+
+    <dependency>
       <groupId>net.sourceforge.htmlcleaner</groupId>
       <artifactId>htmlcleaner</artifactId>
       <version>2.23</version>
@@ -139,6 +145,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+      <!-- Generate Allure report -->
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
       </plugin>
 
     </plugins>
