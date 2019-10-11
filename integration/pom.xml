@@ -92,6 +92,13 @@
     <pluginManagement>
       <plugins>
 
+        <!-- Generate test report at end of run -->
+        <plugin>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-maven</artifactId>
+          <version>2.10.0</version>
+        </plugin>
+
         <!-- Unpack Galen specs from JAR -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

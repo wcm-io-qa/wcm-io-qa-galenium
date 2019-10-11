@@ -19,10 +19,11 @@
  */
 package io.wcm.qa.glnm.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import io.qameta.allure.Description;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.specs.Conference;
 import io.wcm.qa.glnm.example.specs.Homepage;
@@ -33,14 +34,16 @@ import io.wcm.qa.glnm.providers.TestDeviceProvider;
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
 
+  private static final Logger LOG = LoggerFactory.getLogger(GalenSpecTestIT.class);
+
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
   }
 
   @Test
-  @Description("Testing Conference Page")
   public void checkConferencePageWithNavigationAndGalenSpec() {
+    LOG.info("Testing Conference Page");
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
@@ -48,8 +51,8 @@ public class GalenSpecTestIT extends AbstractExampleBase {
   }
 
   @Test
-  @Description("Testing Homepage")
   public void checkHomepageWithGalenSpec() {
+    LOG.info("Testing Homepage");
     loadStartUrl();
     Homepage.check();
   }

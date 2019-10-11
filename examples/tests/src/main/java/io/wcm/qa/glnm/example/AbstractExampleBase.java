@@ -22,9 +22,6 @@ package io.wcm.qa.glnm.example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.qameta.allure.Allure;
-import io.qameta.allure.model.Status;
-import io.qameta.allure.util.ResultsUtils;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.selectors.common.Page;
 import io.wcm.qa.glnm.example.selectors.common.Page.Navigation;
@@ -32,17 +29,18 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.interaction.Aem;
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.interaction.Wait;
-import io.wcm.qa.glnm.testcase.AbstractGaleniumBase;
+import io.wcm.qa.glnm.testcase.AbstractBrowserBasedTest;
 
 /**
  * Abstract base class for common functionality needed by multiple tests.
  */
-public abstract class AbstractExampleBase extends AbstractGaleniumBase {
+public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
 
+  private static final String ROOT_PACKAGE_FOR_TESTS = "io.wcm.qa";
   private static final int CUTOFF_MOBILE_WIDTH = 601;
-  private static final Logger LOG = LoggerFactory.getLogger(AbstractExampleBase.class);
   protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   protected static final String PATH_TO_HOMEPAGE = "/en.html";
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractExampleBase.class);
 
   /**
    * @param testDevice test device to use for test
@@ -61,7 +59,6 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
 
   protected abstract String getRelativePath();
 
-  @io.qameta.allure.Link(type = ResultsUtils.CUSTOM_LINK_TYPE, name = "Start URL")
   protected String getStartUrl() {
     return getBaseUrl() + getRelativePath();
   }
@@ -71,13 +68,10 @@ public abstract class AbstractExampleBase extends AbstractGaleniumBase {
   }
 
   protected void loadStartUrl() {
-    String startUrl = getStartUrl();
-    if (Aem.loginToAuthor(startUrl)) {
-      LOG.debug("loaded start URL: " + startUrl);
-      Allure.step("Loaded URL: " + startUrl);
+    if (Aem.loginToAuthor(getStartUrl())) {
+      LOG.debug("loaded start URL: " + getStartUrl());
       return;
     }
-    Allure.step("Could not load URL: " + startUrl, Status.BROKEN);
     throw new GaleniumException("could not login to author when loading start URL.");
   }
 
