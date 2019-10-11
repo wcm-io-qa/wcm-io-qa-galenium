@@ -29,7 +29,7 @@
   <name>Galenium</name>
   <artifactId>io.wcm.qa.galenium.parent</artifactId>
   <packaging>pom</packaging>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
   <url>https://qa.wcm.io/galenium/</url>
 
   <description>Galenium test automation library parent.</description>
@@ -46,7 +46,7 @@
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.0-beta7</version>
       </dependency>
 
       <dependency>
@@ -99,28 +99,34 @@
 
       <!-- Reporting -->
       <dependency>
-        <groupId>com.relevantcodes</groupId>
-        <artifactId>extentreports</artifactId>
-        <version>2.41.2</version>
-      </dependency>
-
-      <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>1.2.3</version>
       </dependency>
 
       <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-testng</artifactId>
+        <version>2.12.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
         <groupId>org.codehaus.janino</groupId>
         <artifactId>janino</artifactId>
-        <version>3.1.0</version>
+        <version>3.0.14</version>
       </dependency>
 
       <!-- Proxy -->
       <dependency>
         <groupId>com.browserup</groupId>
         <artifactId>browserup-proxy-core</artifactId>
-        <version>2.0.1</version>
+        <version>1.2.1</version>
       </dependency>
 
       <!-- Webdriver Management -->
@@ -131,7 +137,6 @@
       </dependency>
 
       <!-- Utils -->
-
       <dependency>
         <groupId>com.github.wnameless</groupId>
         <artifactId>json-flattener</artifactId>
@@ -147,19 +152,13 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>28.1-jre</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.github.java-diff-utils</groupId>
-        <artifactId>java-diff-utils</artifactId>
-        <version>4.0</version>
+        <version>28.0-jre</version>
       </dependency>
 
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
-        <version>1.9.4</version>
+        <version>1.9.3</version>
         <exclusions>
           <exclusion>
             <groupId>commons-collections</groupId>
@@ -172,6 +171,12 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.github.java-diff-utils</groupId>
+        <artifactId>java-diff-utils</artifactId>
+        <version>4.0</version>
       </dependency>
 
       <dependency>
@@ -195,7 +200,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-text</artifactId>
-        <version>1.8</version>
+        <version>1.7</version>
       </dependency>
 
       <dependency>
@@ -213,14 +218,14 @@
       <dependency>
         <groupId>net.sourceforge.htmlcleaner</groupId>
         <artifactId>htmlcleaner</artifactId>
-        <version>2.23</version>
+        <version>2.22</version>
       </dependency>
 
       <!-- Plugin -->
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
-        <version>3.6.2</version>
+        <version>3.6.1</version>
       </dependency>
 
       <dependency>
@@ -241,6 +246,13 @@
   <build>
     <pluginManagement>
       <plugins>
+
+        <plugin>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-maven</artifactId>
+          <version>2.10.0</version>
+        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>

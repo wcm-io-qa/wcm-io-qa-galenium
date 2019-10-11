@@ -19,13 +19,12 @@
  */
 package io.wcm.qa.glnm.proxy;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.net.URI;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Proxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.browserup.bup.BrowserUpProxy;
 import com.browserup.bup.BrowserUpProxyServer;
@@ -43,6 +42,7 @@ public final class BrowserProxyUtil {
 
   private static final String BROWSER_PROXY = "galenium.proxy.browser";
   private static final String SELENIUM_PROXY = "galenium.proxy.selenium";
+  private static final Logger LOG = LoggerFactory.getLogger(BrowserProxyUtil.class);
 
   private BrowserProxyUtil() {
     // do not instantiate
@@ -65,7 +65,7 @@ public final class BrowserProxyUtil {
    */
   public static void addBasicAuth(String url, String name, String pass) {
     String domain = extractDomain(url);
-    getLogger().debug(MARKER_INFO, "setting basic auth for domain '" + domain + "'");
+    LOG.debug("setting basic auth for domain '" + domain + "'");
     getBrowserProxy().autoAuthorization(domain, name, pass, AuthType.BASIC);
   }
 
@@ -93,7 +93,7 @@ public final class BrowserProxyUtil {
    * @param value header value
    */
   public static void addHeader(String name, String value) {
-    getLogger().debug(MARKER_INFO, "adding header: " + name);
+    LOG.debug("adding header: " + name);
     getBrowserProxy().addHeader(name, value);
   }
 

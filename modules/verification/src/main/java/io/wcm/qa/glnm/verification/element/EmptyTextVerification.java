@@ -20,6 +20,8 @@
 package io.wcm.qa.glnm.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.selectors.base.Selector;
 
@@ -27,6 +29,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * Verifies that element has no text.
  */
 public class EmptyTextVerification extends TextVerification {
+
+  private static final Logger LOG = LoggerFactory.getLogger(EmptyTextVerification.class);
 
   /**
    * @param selector identifies element
@@ -37,9 +41,9 @@ public class EmptyTextVerification extends TextVerification {
 
   @Override
   protected void afterVerification() {
-    getLogger().trace("looking for empty text");
-    getLogger().trace("found: '" + getCachedValue() + "'");
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("looking for empty text");
+    LOG.trace("found: '" + getCachedValue() + "'");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

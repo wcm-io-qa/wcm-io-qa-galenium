@@ -22,6 +22,9 @@ package io.wcm.qa.glnm.verification.proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.browserup.harreader.model.HarEntry;
 
 import io.wcm.qa.glnm.sampling.proxy.HarEntrySampler;
@@ -32,6 +35,8 @@ import io.wcm.qa.glnm.verification.stability.Stability;
  * verification attempts.
  */
 public class HarStability extends Stability<List<HarEntry>> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(HarStability.class);
 
   /**
    * Constructor.
@@ -52,19 +57,19 @@ public class HarStability extends Stability<List<HarEntry>> {
   @Override
   protected boolean checkForEquality(List<HarEntry> oldList, List<HarEntry> newList) {
     if (oldList.size() != newList.size()) {
-      getLogger().debug(getClass().getSimpleName() + ": different number of entries (" + oldList.size() + " != " + newList.size() + ")");
+      LOG.debug(getClass().getSimpleName() + ": different number of entries (" + oldList.size() + " != " + newList.size() + ")");
       return false;
     }
-    getLogger().debug("checking " + newList.size() + " entries.");
+    LOG.debug("checking " + newList.size() + " entries.");
     if (!containsAllElements(oldList, newList)) {
-      getLogger().debug(getClass().getSimpleName() + ": new list contains elements not in old list.");
+      LOG.debug(getClass().getSimpleName() + ": new list contains elements not in old list.");
       return false;
     }
     if (!containsAllElements(newList, oldList)) {
-      getLogger().debug(getClass().getSimpleName() + ": old list contains elements not in new list.");
+      LOG.debug(getClass().getSimpleName() + ": old list contains elements not in new list.");
       return false;
     }
-    getLogger().debug(getClass().getSimpleName() + ": stable entries");
+    LOG.debug(getClass().getSimpleName() + ": stable entries");
     return true;
   }
 

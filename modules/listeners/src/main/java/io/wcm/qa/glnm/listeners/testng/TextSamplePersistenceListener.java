@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2018 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.reporting;
+package io.wcm.qa.glnm.listeners.testng;
 
+import org.testng.ITestContext;
+import org.testng.TestListenerAdapter;
+
+import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 
 /**
- * Shutdown hook to finish Extent report.
+ * Handles persisting text samples at the end of test run.
  */
-public class ExtentReportShutdownHook extends Thread {
+public class TextSamplePersistenceListener extends TestListenerAdapter {
 
   @Override
-  public void run() {
-    GaleniumReportUtil.finishExtentReports();
+  public void onFinish(ITestContext testContext) {
+    TextSampleManager.persistNewTextSamples();
   }
 
 }

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners;
+package io.wcm.qa.glnm.listeners.testng;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

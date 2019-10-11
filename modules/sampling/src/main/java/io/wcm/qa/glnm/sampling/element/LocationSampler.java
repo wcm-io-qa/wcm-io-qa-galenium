@@ -21,8 +21,9 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
@@ -30,6 +31,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * Samples position of web element.
  */
 public class LocationSampler extends WebElementBasedSampler<Point> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(LocationSampler.class);
 
   /**
    * @param selector identifies element
@@ -41,7 +44,7 @@ public class LocationSampler extends WebElementBasedSampler<Point> {
   @Override
   protected Point freshSample(WebElement element) {
     Point location = element.getLocation();
-    GaleniumReportUtil.getLogger().trace("Sampled location for '" + getInput().getSelector().elementName() + "': " + location);
+    LOG.trace("Sampled location for '" + getInput().getSelector().elementName() + "': " + location);
     return location;
   }
 

@@ -22,6 +22,9 @@ package io.wcm.qa.glnm.sampling.transform.regex;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.base.RegexBasedSampler;
 
@@ -30,6 +33,8 @@ import io.wcm.qa.glnm.sampling.transform.base.RegexBasedSampler;
  * @param <S>
  */
 public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S, String> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(RegexSampler.class);
 
   /**
    * @param inputSampler providing the input string
@@ -60,10 +65,10 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
   @Override
   protected String extractValue(Matcher matcher) {
     if (matcher.find()) {
-      getLogger().trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
+      LOG.trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
       return matcher.group();
     }
-    getLogger().trace(getClass().getSimpleName() + ": no match found for '" + getPattern() + "'");
+    LOG.trace(getClass().getSimpleName() + ": no match found for '" + getPattern() + "'");
     return handleNoMatch();
   }
 

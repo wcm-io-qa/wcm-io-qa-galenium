@@ -23,15 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.asserts.Assertion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-
-import io.wcm.qa.glnm.assertions.GaleniumAssertion;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.verification.base.Verification;
 import io.wcm.qa.glnm.verification.strategy.DefaultVerificationStrategy;
 import io.wcm.qa.glnm.verification.strategy.IgnoreFailuresStrategy;
@@ -44,6 +40,8 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  */
 public class GaleniumContext {
 
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumContext.class);
+
   private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
     @Override
     protected GaleniumContext initialValue() {
@@ -52,23 +50,13 @@ public class GaleniumContext {
   };
 
   private Map<String, Object> additionalMappings = new HashMap<String, Object>();
-  private GaleniumAssertion assertion = new GaleniumAssertion();
   private WebDriver driver;
-  private ExtentTest extentTest;
   private String testDescription;
   private TestDevice testDevice;
   private String testName;
   private VerificationStrategy verificationStrategy = GaleniumConfiguration.isSamplingVerificationIgnore()
       ? new IgnoreFailuresStrategy()
       : new DefaultVerificationStrategy();
-
-  /**
-   * Assertion to use. Default is {@link GaleniumAssertion}.
-   * @param assertion can be soft assertion
-   */
-  public void setAssertion(GaleniumAssertion assertion) {
-    this.assertion = assertion;
-  }
 
   /**
    * WebDriver to use for all things Galenium. This includes interaction with Galen and Selenium. Usually the WebDriver
@@ -78,14 +66,6 @@ public class GaleniumContext {
    */
   public void setDriver(WebDriver driver) {
     this.driver = driver;
-  }
-
-  /**
-   * Used for {@link ExtentReports} reporting. Galenium should handle this internally without additional interaction.
-   * @param extentTest report instance
-   */
-  public void setExtentTest(ExtentTest extentTest) {
-    this.extentTest = extentTest;
   }
 
   /**
@@ -124,7 +104,7 @@ public class GaleniumContext {
   @Override
   protected void finalize() throws Throwable {
     try {
-      GaleniumReportUtil.getLogger().debug("finalize Galenium context.");
+      LOG.debug("finalize Galenium context.");
       if (getDriver() != null) {
         WebDriverManagement.closeDriver();
       }
@@ -145,13 +125,6 @@ public class GaleniumContext {
   }
 
   /**
-   * @return {@link Assertion} to use
-   */
-  public static GaleniumAssertion getAssertion() {
-    return THREAD_LOCAL_CONTEXT.get().assertion;
-  }
-
-  /**
    * @return {@link GaleniumContext} object for this thread
    */
   public static GaleniumContext getContext() {
@@ -163,13 +136,6 @@ public class GaleniumContext {
    */
   public static WebDriver getDriver() {
     return THREAD_LOCAL_CONTEXT.get().driver;
-  }
-
-  /**
-   * @return test report to write to
-   */
-  public static ExtentTest getExtentTest() {
-    return THREAD_LOCAL_CONTEXT.get().extentTest;
   }
 
   /**

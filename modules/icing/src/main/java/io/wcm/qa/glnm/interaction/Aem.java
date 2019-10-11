@@ -21,8 +21,6 @@ package io.wcm.qa.glnm.interaction;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorUser;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import java.net.MalformedURLException;
@@ -34,6 +32,8 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -45,14 +45,19 @@ import io.wcm.qa.glnm.util.HttpUtil;
  */
 public final class Aem {
 
-  private static final String RELATIVE_PATH_LOGIN_FORM_POST = "/libs/granite/core/content/login.html/j_security_check";
-  private static final String PARAM_VALUE_CHARSET = "utf-8";
-  private static final String PARAM_VALUE_VALIDATE = "true";
+  private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
+
+  private static final Logger LOG = LoggerFactory.getLogger(Aem.class);
+
   private static final String PARAM_NAME_CHARSET = "_charset_";
-  private static final String PARAM_NAME_VALIDATE = "j_validate";
   private static final String PARAM_NAME_PASSWORD = "j_password";
   private static final String PARAM_NAME_USERNAME = "j_username";
-  private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
+  private static final String PARAM_NAME_VALIDATE = "j_validate";
+  private static final String PARAM_VALUE_CHARSET = "utf-8";
+  private static final String PARAM_VALUE_VALIDATE = "true";
+
+  private static final String RELATIVE_PATH_LOGIN_FORM_POST = "/libs/granite/core/content/login.html/j_security_check";
+
   private static final Selector SELECTOR_AUTHOR_INPUT_PASSWORD = SelectorFactory.fromCss("#password");
   private static final Selector SELECTOR_AUTHOR_INPUT_USERNAME = SelectorFactory.fromCss("#username");
   private static final Selector SELECTOR_AUTHOR_LOGIN_BUTTON = SelectorFactory.fromCss("#submit-button");
@@ -73,7 +78,7 @@ public final class Aem {
    * @return successful login
    */
   public static boolean loginToAuthor() {
-    getLogger().debug("using credentials from configuration.");
+    LOG.debug("using credentials from configuration.");
     return loginToAuthorViaBrowser(getAuthorUser(), getAuthorPass());
   }
 
@@ -83,7 +88,7 @@ public final class Aem {
    * @return successful login
    */
   public static boolean loginToAuthor(String targetUrl) {
-    getLogger().debug("using credentials from configuration.");
+    LOG.debug("using credentials from configuration.");
     return loginToAuthor(targetUrl, getAuthorUser(), getAuthorPass());
   }
 
@@ -122,11 +127,11 @@ public final class Aem {
         else {
           actualResult = driver.getCurrentUrl();
         }
-        getLogger().warn("author login not successful, when waiting for '" + finalUrl + "' got '" + actualResult + "'");
+        LOG.warn("author login not successful, when waiting for '" + finalUrl + "' got '" + actualResult + "'");
       }
     }
     else {
-      getLogger().debug("skipping author login, because not on login page.");
+      LOG.debug("skipping author login, because not on login page.");
     }
 
     return false;
@@ -158,14 +163,6 @@ public final class Aem {
     return false;
   }
 
-  private static void logResponse(HttpResponse response) {
-    Header[] allHeaders = response.getAllHeaders();
-    getLogger().debug("status: " + response.getStatusLine().getStatusCode() + "(" + response.getStatusLine().getReasonPhrase() + ")");
-    for (Header header : allHeaders) {
-      getLogger().debug("'" + header.getName() + "': '" + header.getValue() + "'");
-    }
-  }
-
   private static Map<String, String> getCredentialParamsForPost(String authorUser, String authorPass) {
     Map<String, String> paramMap = new HashMap<>();
     paramMap.put(PARAM_NAME_USERNAME, authorUser);
@@ -177,15 +174,23 @@ public final class Aem {
 
   private static boolean loginToAuthorViaBrowser(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
-      getLogger().debug("Attempting login in to author instance");
+      LOG.debug("Attempting login in to author instance");
       FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
       FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
       Element.click(SELECTOR_AUTHOR_LOGIN_BUTTON);
-      getLogger().info(MARKER_PASS, "Logging in to author instance.");
+      LOG.info("Logging in to author instance.");
       return true;
     }
-    getLogger().debug("Not logging in to author instance.");
+    LOG.debug("Not logging in to author instance.");
     return false;
+  }
+
+  private static void logResponse(HttpResponse response) {
+    Header[] allHeaders = response.getAllHeaders();
+    LOG.debug("status: " + response.getStatusLine().getStatusCode() + "(" + response.getStatusLine().getReasonPhrase() + ")");
+    for (Header header : allHeaders) {
+      LOG.debug("'" + header.getName() + "': '" + header.getValue() + "'");
+    }
   }
 
 }

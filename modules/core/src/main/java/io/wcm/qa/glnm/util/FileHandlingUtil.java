@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.glnm.util;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.utils.GalenUtils;
 
@@ -34,6 +34,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
  * Convenience methods for file and path handling.
  */
 public final class FileHandlingUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(FileHandlingUtil.class);
 
   private FileHandlingUtil() {
     // do not instantiate
@@ -63,18 +65,18 @@ public final class FileHandlingUtil {
    * @return relative path for file
    */
   public static String constructRelativePath(File rootDirectory, File file) {
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("attempt making '" + file + "' relative to '" + rootDirectory + "'");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("attempt making '" + file + "' relative to '" + rootDirectory + "'");
     }
     try {
       String rootPath = rootDirectory.getCanonicalPath();
       String filePath = file.getCanonicalPath();
-      if (getLogger().isTraceEnabled()) {
-        getLogger().trace("constructing path for '" + filePath + "' relative to '" + rootPath + "'");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("constructing path for '" + filePath + "' relative to '" + rootPath + "'");
       }
       String relativePath = constructRelativePath(rootPath, filePath);
-      if (getLogger().isTraceEnabled()) {
-        getLogger().trace("relative path: '" + relativePath + "'");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("relative path: '" + relativePath + "'");
       }
       return relativePath;
     }
@@ -99,7 +101,7 @@ public final class FileHandlingUtil {
     File parentFile = file.getParentFile();
     if (!parentFile.isDirectory()) {
       try {
-        getLogger().debug("ensuring directory exists: " + parentFile.getPath());
+        LOG.debug("ensuring directory exists: " + parentFile.getPath());
         GalenUtils.makeSureFolderExists(parentFile);
       }
       catch (IOException ex) {

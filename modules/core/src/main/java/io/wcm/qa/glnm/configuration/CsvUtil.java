@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -34,6 +32,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
@@ -44,6 +44,8 @@ public final class CsvUtil {
 
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final CSVFormat FORMAT = CSVFormat.DEFAULT.withQuote(null).withHeader(new String[] {});
+
+  private static final Logger LOG = LoggerFactory.getLogger(CsvUtil.class);
 
   private CsvUtil() {
     // do not instantiate
@@ -61,7 +63,7 @@ public final class CsvUtil {
   /**
    * Get a parser for CSV file.
    * @param csvFile to get parser for
-   * @param skipHeaderRecord
+   * @param skipHeaderRecord whether to skip header record while parsing
    * @return parser to access data in CSV file
    */
   public static CSVParser parse(File csvFile, boolean skipHeaderRecord) {
@@ -93,6 +95,7 @@ public final class CsvUtil {
    * Populate beans with CSV data.
    * @param csvFile to get input data from
    * @param beanClass type of bean to populate
+   * @param <T> type of bean as generic to create typed collection
    * @return collection with one bean per row in CSV
    */
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {
@@ -100,13 +103,13 @@ public final class CsvUtil {
     CSVParser parse = parse(csvFile);
     for (CSVRecord csvRecord : parse) {
       Map<String, String> map = csvRecord.toMap();
-      getLogger().debug("from csv: " + csvRecord);
-      getLogger().debug("from csv: " + ReflectionToStringBuilder.toString(csvRecord));
-      getLogger().debug("map from csv: " + ReflectionToStringBuilder.toString(map));
+      LOG.debug("from csv: " + csvRecord);
+      LOG.debug("from csv: " + ReflectionToStringBuilder.toString(csvRecord));
+      LOG.debug("map from csv: " + ReflectionToStringBuilder.toString(map));
       try {
         T newInstance = beanClass.newInstance();
         BeanUtils.populate(newInstance, map);
-        getLogger().debug("populated: " + newInstance);
+        LOG.debug("populated: " + newInstance);
         result.add(newInstance);
       }
       catch (IllegalAccessException | InvocationTargetException | InstantiationException ex) {

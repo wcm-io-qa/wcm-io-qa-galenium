@@ -16,13 +16,15 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -32,7 +34,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <maven.archetype.version>3.1.2</maven.archetype.version>
+    <maven.archetype.version>3.1.0</maven.archetype.version>
   </properties>
 
   <build>
@@ -100,7 +102,8 @@
           <groupId>external.atlassian.jgitflow</groupId>
           <artifactId>jgitflow-maven-plugin</artifactId>
           <configuration>
-            <!-- Do not prefix release numbers with artifactId - GIT contains only one released artifact -->
+            <!-- Do not prefix release numbers with artifactId - GIT contains
+              only one released artifact -->
             <flowInitContext>
               <releaseBranchPrefix>release/</releaseBranchPrefix>
               <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>

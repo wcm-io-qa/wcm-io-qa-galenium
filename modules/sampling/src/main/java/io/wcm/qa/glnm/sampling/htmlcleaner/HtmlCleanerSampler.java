@@ -32,7 +32,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.CssClassSorter;
-import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.HtmlAttributeSorter;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
@@ -43,8 +42,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   private CleanerProperties htmlCleanerProperties;
 
   private HtmlSerializer htmlSerializer;
-
-  private boolean sortAttributes = true;
 
   private boolean sortCssClasses = true;
 
@@ -88,10 +85,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     return htmlSerializer;
   }
 
-  public boolean isSortAttributes() {
-    return sortAttributes;
-  }
-
   public boolean isSortCssClasses() {
     return sortCssClasses;
   }
@@ -102,10 +95,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
   public void setHtmlSerializer(HtmlSerializer htmlSerializer) {
     this.htmlSerializer = htmlSerializer;
-  }
-
-  public void setSortAttributes(boolean sortAttributes) {
-    this.sortAttributes = sortAttributes;
   }
 
   public void setSortCssClasses(boolean sortCssClasses) {
@@ -124,9 +113,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     TagNode cleanedHtml = htmlCleaner.clean(jsoupHtml);
     if (isSortCssClasses()) {
       cleanedHtml.traverse(new CssClassSorter());
-    }
-    if (isSortAttributes()) {
-      cleanedHtml.traverse(new HtmlAttributeSorter());
     }
     for (TagNodeVisitor visitor : getVisitors()) {
       cleanedHtml.traverse(visitor);

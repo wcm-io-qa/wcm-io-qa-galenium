@@ -17,29 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners;
+package io.wcm.qa.glnm.listeners.testng;
 
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.assignCategory;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.text.StringEscapeUtils;
-import org.slf4j.Marker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
  * Simple retry analyzer to deal with flaky tests in TestNG.
  */
 public class RetryAnalyzer implements IRetryAnalyzer {
+
+  private static final Logger LOG = LoggerFactory.getLogger(RetryAnalyzer.class);
 
   private static final int MAX_RETRY_COUNT = GaleniumConfiguration.getNumberOfRetries();
   private Map<Object, AtomicInteger> counts = new Hashtable<Object, AtomicInteger>();
@@ -49,13 +49,13 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     if (getCount(result).incrementAndGet() > MAX_RETRY_COUNT) {
       // don't retry if max count is exceeded
       String failureMessage = "Failed last retry (" + getCount(result).get() + "): " + result.getTestName();
-      logResult(GaleniumReportUtil.MARKER_FAIL, result, failureMessage);
+      logResult(result, failureMessage);
       assignCategory("RERUN_MAX");
       return false;
     }
 
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
-    logResult(GaleniumReportUtil.MARKER_SKIP, result, infoMessage);
+    logResult(result, infoMessage);
     assignCategory("RERUN_" + getCount(result).get());
     WebDriverManagement.closeDriver();
     return true;
@@ -71,14 +71,14 @@ public class RetryAnalyzer implements IRetryAnalyzer {
     return counts.get(key);
   }
 
-  private void logResult(Marker marker, ITestResult result, String message) {
+  private void logResult(ITestResult result, String message) {
     Reporter.log(message, true);
-    getLogger().info(marker, message);
+    LOG.info(message);
     Throwable throwable = result.getThrowable();
     if (throwable != null) {
-      String throwableMessage = StringEscapeUtils.escapeHtml4(throwable.getMessage());
-      getLogger().info(marker, result.getTestName() + ": " + throwableMessage);
-      getLogger().debug(marker, result.getTestName(), throwable);
+      String throwableMessage = throwable.getMessage();
+      LOG.info(result.getTestName() + ": " + throwableMessage);
+      LOG.debug(result.getTestName(), throwable);
     }
   }
 

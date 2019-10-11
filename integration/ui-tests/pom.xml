@@ -16,13 +16,15 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -37,28 +39,28 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>4.0.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.core</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.listeners</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
-      <version>3.0.1-SNAPSHOT</version>
+      <version>4.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -166,7 +168,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.0.0-M3</version>
           <configuration>
+
+            <!-- TestNG -->
             <groups>${testNG.groups}</groups>
             <parallel>methods</parallel>
             <threadCount>${local.cpu.count}</threadCount>
@@ -177,7 +182,10 @@
               </property>
               <property>
                 <name>listener</name>
-                <value>io.wcm.qa.glnm.listeners.DefaultGaleniumListener,org.testng.reporters.XMLReporter</value>
+                <value>
+                  io.wcm.qa.glnm.listeners.testng.DefaultGaleniumListener,
+                  org.testng.reporters.XMLReporter
+                </value>
               </property>
             </properties>
             <systemPropertyVariables>
@@ -187,6 +195,7 @@
               <!-- Galenium -->
               <galenium.browser.proxy>${galenium.browser.proxy}</galenium.browser.proxy>
               <galenium.headless>${galenium.headless}</galenium.headless>
+              <galenium.logging.testlogs>${galenium.logging.testlogs}</galenium.logging.testlogs>
               <galenium.mediaquery.height>${galenium.mediaquery.height}</galenium.mediaquery.height>
               <galenium.mediaquery.properties>${galenium.mediaquery.properties}</galenium.mediaquery.properties>
               <galenium.mediaquery.width.max>${galenium.mediaquery.width.max}</galenium.mediaquery.width.max>
@@ -255,7 +264,7 @@
               <configuration>
                 <includeArtifactIds>io.wcm.qa.galenium.integration.resources</includeArtifactIds>
                 <outputDirectory>${galenium.resources.unfiltered.directory}</outputDirectory>
-                <includes>**/*.xml</includes>
+                <includes>**/*</includes>
                 <excludeTransitive>true</excludeTransitive>
                 <overWriteReleases>true</overWriteReleases>
                 <overWriteSnapshots>true</overWriteSnapshots>
@@ -263,6 +272,7 @@
             </execution>
           </executions>
         </plugin>
+
       </plugins>
     </pluginManagement>
   </build>

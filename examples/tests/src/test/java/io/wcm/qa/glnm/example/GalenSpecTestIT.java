@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.example;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.qameta.allure.Description;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.specs.Conference;
 import io.wcm.qa.glnm.example.specs.Homepage;
@@ -38,8 +39,8 @@ public class GalenSpecTestIT extends AbstractExampleBase {
   }
 
   @Test
+  @Description("Testing Conference Page")
   public void checkConferencePageWithNavigationAndGalenSpec() {
-    getLogger().info("Testing Conference Page");
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
@@ -47,8 +48,8 @@ public class GalenSpecTestIT extends AbstractExampleBase {
   }
 
   @Test
+  @Description("Testing Homepage")
   public void checkHomepageWithGalenSpec() {
-    getLogger().info("Testing Homepage");
     loadStartUrl();
     Homepage.check();
   }

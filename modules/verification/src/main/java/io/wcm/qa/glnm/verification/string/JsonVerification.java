@@ -24,6 +24,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
@@ -39,6 +41,7 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
 
   private static final Map<String, String> EMPTY_EXPECTED_VALUE = MapUtils.emptyIfNull(null);
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
+  private static final Logger LOG = LoggerFactory.getLogger(JsonVerification.class);
   private CombinedVerification combinedVerification = new CombinedVerification();
 
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
@@ -74,7 +77,7 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
 
   @Override
   protected void afterVerification() {
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

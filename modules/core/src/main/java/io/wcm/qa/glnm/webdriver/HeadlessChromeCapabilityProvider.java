@@ -23,10 +23,11 @@ import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAdditionalCh
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
 
@@ -35,10 +36,12 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
       "headless",
       // workaround (https://developers.google.com/web/updates/2017/04/headless-chrome#cli)
       "disable-gpu" };
+
   private static final String[] ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND = new String[] {
       // workaround for windows: there is still a window opened, so put it somewhere offscreen
       "window-position=10000,0"
   };
+  private static final Logger LOG = LoggerFactory.getLogger(HeadlessChromeCapabilityProvider.class);
   private TestDevice device;
 
 
@@ -56,11 +59,11 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
 
   @Override
   protected ChromeOptions getBrowserSpecificOptions() {
-    GaleniumReportUtil.getLogger().debug("setting up headless chrome.");
+    LOG.debug("setting up headless chrome.");
     ChromeOptions capabilities = super.getBrowserSpecificOptions();
-    addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS);
+    capabilities.addArguments(ARGUMENTS_HEADLESS);
     if (GaleniumConfiguration.isChromeHeadlessWindowsWorkaround()) {
-      addChromeOption(capabilities, OPTIONS_KEY_ARGS, ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
+      capabilities.addArguments(ARGUMENTS_HEADLESS_WINDOWS_WORKAROUND);
     }
     Dimension screenSize = getDevice().getScreenSize();
     String width = String.format("%d", screenSize.getWidth() + getAdditionalChromeHeadlessWidth());
@@ -69,7 +72,7 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
         + width
         + ","
         + height };
-    addChromeOption(capabilities, OPTIONS_KEY_ARGS, argumentsBrowserWindowSize);
+    capabilities.addArguments(argumentsBrowserWindowSize);
     return capabilities;
   }
 

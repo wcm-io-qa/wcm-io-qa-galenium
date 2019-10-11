@@ -24,6 +24,9 @@ import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 import java.util.Comparator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.CorrectionsRect;
@@ -46,6 +49,8 @@ import io.wcm.qa.glnm.verification.base.VerificationBase;
  * Make sure an element looks like a sample image.
  */
 public class VisualVerification extends VerificationBase<Object> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(VisualVerification.class);
 
   private ImageComparisonSpecDefinition specDefinition;
 
@@ -201,7 +206,7 @@ public class VisualVerification extends VerificationBase<Object> {
 
   @Override
   protected void afterVerification() {
-    getLogger().debug("done verifying: " + getVerificationName());
+    LOG.debug("done verifying: " + getVerificationName());
   }
 
   @Override
@@ -216,7 +221,7 @@ public class VisualVerification extends VerificationBase<Object> {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
     catch (GalenLayoutException ex) {
-      getLogger().debug("image comparison layout", ex);
+      LOG.debug("image comparison layout", ex);
       return false;
     }
     return true;

@@ -17,25 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners;
+package io.wcm.qa.glnm.listeners.testng;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Logs memory usage.
  */
 public class DiskUsageListener extends TestListenerAdapter {
 
-  private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("galenium.listener.diskusage");
+  private static final Logger LOG = LoggerFactory.getLogger(DiskUsageListener.class);
   private static final String[] PATHS_TO_LOG_DISK_USAGE_FOR = new String[] {
       ".",
       "/dev/shm"
@@ -116,11 +114,8 @@ public class DiskUsageListener extends TestListenerAdapter {
   }
 
   private static void logDiskUsage() {
-    getLogger().trace(getDiskUsageMessages());
+    LOG.trace(getDiskUsageMessages());
   }
 
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MEMORY_MARKER);
-  }
 
 }

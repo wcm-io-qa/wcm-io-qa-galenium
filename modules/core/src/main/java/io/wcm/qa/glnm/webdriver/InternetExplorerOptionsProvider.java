@@ -20,19 +20,23 @@
 package io.wcm.qa.glnm.webdriver;
 
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 class InternetExplorerOptionsProvider extends OptionsProvider<InternetExplorerOptions> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(InternetExplorerOptionsProvider.class);
+
   @Override
   protected InternetExplorerOptions getBrowserSpecificOptions() {
-    getLogger().debug("creating capabilities for Internet Explorer");
+    LOG.debug("creating capabilities for Internet Explorer");
     return newOptions();
   }
 
   @Override
   protected void log(InternetExplorerOptions options) {
-    getLogger().trace("Internet Explorer options: " + options);
+    LOG.trace("Internet Explorer options: " + options);
   }
 
   @Override

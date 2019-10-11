@@ -54,6 +54,7 @@
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
         <type>pom</type>
+        <version>${version}</version>
       </dependency>
     </dependencies>
 

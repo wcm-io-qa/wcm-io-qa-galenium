@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import java.util.List;
@@ -32,10 +30,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
@@ -44,7 +42,7 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  */
 public final class Element {
 
-  private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
+  private static final Logger LOG = LoggerFactory.getLogger(Element.class);
 
   private Element() {
     // do not instantiate
@@ -65,13 +63,13 @@ public final class Element {
    * @param searchStr string to be found as part of text of element
    */
   public static boolean clickByPartialText(Selector selector, String searchStr) {
-    getLogger().debug("looking for pattern: '" + searchStr + "'");
+    LOG.debug("looking for pattern: '" + searchStr + "'");
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
       clickNth(selector, 0, element, "(found by string '" + searchStr + "')");
       return true;
     }
-    getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
+    LOG.debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
     return false;
   }
 
@@ -132,10 +130,6 @@ public final class Element {
    */
   public static WebElement findNow(Selector selector) {
     return find(selector, TimeoutType.NOW);
-  }
-
-  private static WebElement find(Selector selector, TimeoutType timeout) {
-    return findNth(selector, 0, timeout);
   }
 
   /**
@@ -287,7 +281,7 @@ public final class Element {
    */
   public static void scrollToNth(Selector selector, int index) {
     StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);
-    getLogger().debug(MARKER_INFO, message.toString());
+    LOG.debug(message.toString());
     WebElement elementToScrollTo = findNth(selector, index);
     scrollTo(elementToScrollTo);
   }
@@ -304,10 +298,14 @@ public final class Element {
       StringBuilder message = getSelectorMessageBuilder("Stale element when attempting to click ", selector, index)
           .append(": '")
           .append(ex.getMessage());
-      getLogger().debug(message.toString());
+      LOG.debug(message.toString());
       findNthOrFailNow(selector, index).click();
     }
-    getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
+    Allure.step(getClickLogMessage(selector, index, extraMessage));
+  }
+
+  private static WebElement find(Selector selector, TimeoutType timeout) {
+    return findNth(selector, 0, timeout);
   }
 
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {
@@ -324,10 +322,10 @@ public final class Element {
 
     List<WebElement> allElements = findAll(selector, type);
 
-    if (getLogger().isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       StringBuilder message = getSelectorMessageBuilder("looking for ", selector, index);
       message.append(" and found ").append(allElements.size()).append(" element(s) total");
-      getLogger().trace(message.toString());
+      LOG.trace(message.toString());
     }
 
     if (allElements.size() > index) {
@@ -355,7 +353,7 @@ public final class Element {
 
     // success
     message.append(" and found ").append(allElements.size()).append(" element(s) total");
-    getLogger().trace(message.toString());
+    LOG.trace(message.toString());
     WebElement element = allElements.get(index);
     if (element != null) {
       return element;
@@ -371,10 +369,6 @@ public final class Element {
       message.append(extraMessage);
     }
     return message.toString();
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
   private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {

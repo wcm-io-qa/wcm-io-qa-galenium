@@ -19,24 +19,33 @@
  */
 package io.wcm.qa.glnm.testcase;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITest;
+import org.testng.SkipException;
+
+import io.qameta.allure.Allure;
+import io.qameta.allure.testng.TestInstanceParameter;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
- * Abstract base class encapsulating basic interaction with Selenium.
+ * Abstract base class encapsulating basic interaction with Selenium and reporting.
  */
-public abstract class AbstractBrowserBasedTest extends AbstractNamedTest implements HasDevice {
+public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractGaleniumBase.class);
+
+  @TestInstanceParameter("{device.name}")
   private TestDevice device;
+
   /**
    * Constructor.
    * @param testDevice test device to use
    */
-  public AbstractBrowserBasedTest(TestDevice testDevice) {
-    super();
+  public AbstractGaleniumBase(TestDevice testDevice) {
     setDevice(testDevice);
-    getNameDifferences().setTestDevice(testDevice);
   }
 
   /**
@@ -47,12 +56,29 @@ public abstract class AbstractBrowserBasedTest extends AbstractNamedTest impleme
     return device;
   }
 
+  @Override
+  public String getTestName() {
+    return getClass().getName();
+  }
+
   protected String getBaseUrl() {
     return GaleniumConfiguration.getBaseUrl();
   }
 
   protected void setDevice(TestDevice device) {
     this.device = device;
+  }
+
+  protected void skipTest(String skipMessage) {
+    LOG.info("Skipping: " + skipMessage);
+    Allure.step("Skipping: " + skipMessage);
+    throw new SkipException(skipMessage);
+  }
+
+  protected void skipTest(String skipMessage, Throwable ex) {
+    LOG.info("Skipping: " + getTestName(), ex);
+    Allure.step("Skipping: " + getTestName());
+    throw new SkipException(skipMessage, ex);
   }
 
 }

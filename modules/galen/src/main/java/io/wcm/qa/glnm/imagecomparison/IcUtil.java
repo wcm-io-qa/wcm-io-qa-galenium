@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.imagecomparison;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getActualImagesDirectory;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getExpectedImagesDirectory;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.FileHandlingUtil.constructRelativePath;
 
 import java.awt.image.BufferedImage;
@@ -38,6 +37,8 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.parser.SyntaxException;
 import com.galenframework.speclang2.specs.SpecReader;
@@ -47,7 +48,6 @@ import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.util.FileHandlingUtil;
 
@@ -57,6 +57,8 @@ import io.wcm.qa.glnm.util.FileHandlingUtil;
 final class IcUtil {
 
   private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
+
+  private static final Logger LOG = LoggerFactory.getLogger(IcUtil.class);
 
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
   static final Pattern REGEX_PATTERN_IMAGE_FILENAME = Pattern.compile(REGEX_IMAGE_FILENAME);
@@ -74,10 +76,10 @@ final class IcUtil {
 
   private static File writeDummySample(File targetFile) {
     try {
-      getLogger().trace("begin writing dummy image '" + targetFile);
+      LOG.trace("begin writing dummy image '" + targetFile);
       FileHandlingUtil.ensureParent(targetFile);
       ImageIO.write(DUMMY_IMAGE, ".png", targetFile);
-      getLogger().trace("done writing dummy image '" + targetFile);
+      LOG.trace("done writing dummy image '" + targetFile);
       return targetFile;
     }
     catch (IOException ex) {
@@ -86,22 +88,15 @@ final class IcUtil {
   }
 
   protected static String getImageComparisonSpecText(IcsDefinition def) {
-    return getImageComparisonSpecText(
+    return IcUtil.getImageComparisonSpecText(
         def.getFoldername(),
         def.getFilename(),
         def.getAllowedError(),
         def.getAllowedOffset(),
-        def.getObjectsToIgnore(),
-        def.isCropIfOutside());
+        def.getObjectsToIgnore());
   }
 
-  protected static String getImageComparisonSpecText(
-      String folder,
-      String fileName,
-      String error,
-      int offset,
-      List<Selector> toIgnore,
-      boolean cropIfOutside) {
+  protected static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
     StringBuilder specText = new StringBuilder();
 
     // boiler plate
@@ -112,17 +107,12 @@ final class IcUtil {
 
     // tolerance
     if (StringUtils.isNotBlank(error)) {
-      specText
-          .append(", error ")
-          .append(error);
+      specText.append(", error ");
+      specText.append(error);
     }
     if (offset > 0) {
-      specText
-          .append(", analyze-offset ")
-          .append(offset);
-    }
-    if (cropIfOutside) {
-      specText.append(", crop-if-outside");
+      specText.append(", analyze-offset ");
+      specText.append(offset);
     }
     if (!toIgnore.isEmpty()) {
       List<Selector> objects = toIgnore;
@@ -152,13 +142,12 @@ final class IcUtil {
         def.getFilename(),
         "",
         0,
-        def.getObjectsToIgnore(),
-        false);
+        def.getObjectsToIgnore());
   }
 
   static void createDummyIfSampleDoesNotExist(String fullFilePath) {
     if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
-      GaleniumReportUtil.getLogger().info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
+      LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
 
       // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
       File targetFile = new File(fullFilePath);
@@ -196,19 +185,19 @@ final class IcUtil {
   static File getOriginalFilteredImage(ValidationResult result) {
     ValidationError error = result.getError();
     if (error == null) {
-      getLogger().debug("could not find error in validation result.");
+      LOG.debug("could not find error in validation result.");
       return null;
     }
 
     ImageComparison imageComparison = error.getImageComparison();
     if (imageComparison == null) {
-      getLogger().debug("could not find image comparison in validation error.");
+      LOG.debug("could not find image comparison in validation error.");
       return null;
     }
 
     File actualImage = imageComparison.getOriginalFilteredImage();
     if (actualImage == null) {
-      getLogger().debug("could not find sampled image in image comparison.");
+      LOG.debug("could not find sampled image in image comparison.");
     }
 
     return actualImage;
@@ -217,15 +206,15 @@ final class IcUtil {
   static File getSampleSourceFile(Spec spec, ValidationResult result) {
     String imagePath = getImagePathFrom(spec);
     if (StringUtils.isBlank(imagePath)) {
-      getLogger().warn("could not extract image name from: " + spec.toText());
+      LOG.warn("could not extract image name from: " + spec.toText());
       return null;
     }
     File imageFile = getOriginalFilteredImage(result);
     if (imageFile != null) {
-      getLogger().debug("sample source file: " + imageFile.getPath());
+      LOG.debug("sample source file: " + imageFile.getPath());
       return imageFile;
     }
-    getLogger().debug("sample source path: " + imagePath);
+    LOG.debug("sample source path: " + imagePath);
     return new File(imagePath);
   }
 
@@ -242,7 +231,7 @@ final class IcUtil {
     }
     catch (IllegalArgumentException | SyntaxException ex) {
       String msg = "when parsing spec text: '" + specText + "'";
-      GaleniumReportUtil.getLogger().error(msg);
+      LOG.error(msg);
       throw new GaleniumException(msg, ex);
     }
   }
@@ -256,28 +245,28 @@ final class IcUtil {
   }
 
   static void logSpec(Spec spec) {
-    getLogger().debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_PATTERN_IMAGE_FILENAME.pattern() + ")");
+    LOG.debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_PATTERN_IMAGE_FILENAME.pattern() + ")");
   }
 
   static void saveSample(String objectName, Spec spec, ValidationResult result) {
-    getLogger().trace("saving sample: " + objectName);
+    LOG.trace("saving sample: " + objectName);
     logSpec(spec);
     File source = getSampleSourceFile(spec, result);
     if (source == null) {
-      getLogger().debug("did not find source file: " + objectName);
+      LOG.debug("did not find source file: " + objectName);
       return;
     }
 
     File target = getSampleTargetFile(spec);
-    getLogger().trace("begin copying image '" + source + "' -> '" + target + "'");
+    LOG.trace("begin copying image '" + source + "' -> '" + target + "'");
     try {
       FileUtils.copyFile(source, target);
     }
     catch (GaleniumException | IOException ex) {
       String msg = "could not write image: " + target;
-      getLogger().error(msg, ex);
+      LOG.error(msg, ex);
     }
-    getLogger().trace("done copying image '" + source + "' -> '" + target + "'");
+    LOG.trace("done copying image '" + source + "' -> '" + target + "'");
   }
 
   static File writeDummySample() {

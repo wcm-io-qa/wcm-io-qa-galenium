@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners;
+package io.wcm.qa.glnm.listeners.testng;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 import org.testng.IAnnotationTransformer;
 import org.testng.IConfigurationListener;
 import org.testng.ITestContext;
@@ -36,7 +36,6 @@ import org.testng.TestListenerAdapter;
 import org.testng.annotations.ITestAnnotation;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Listener to manage WebDriver management, reporting and screenshots. This listener is just a container for other
@@ -45,9 +44,6 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  * <ul>
  * <li>
  * {@link LoggingListener}
- * </li>
- * <li>
- * {@link ExtentReportsListener}
  * </li>
  * <li>
  * {@link WebDriverListener}
@@ -63,7 +59,8 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  */
 public class DefaultGaleniumListener extends TestListenerAdapter implements IAnnotationTransformer {
 
-  private static final Marker MARKER_LISTENERS = GaleniumReportUtil.getMarker("galenium.listeners");
+  private static final Logger LOG = LoggerFactory.getLogger(DefaultGaleniumListener.class);
+
   private List<ITestNGListener> listeners = new ArrayList<ITestNGListener>();
 
   /**
@@ -71,21 +68,11 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
    */
   public DefaultGaleniumListener() {
     add(new LoggingListener());
-    add(new ExtentReportsListener());
     add(new WebDriverListener());
     add(new TextSamplePersistenceListener());
     if (GaleniumConfiguration.getNumberOfRetries() > 0) {
       add(new RetryAnalyzerAnnotationTransformer());
     }
-  }
-
-  /**
-   * Adds an additional test listener.
-   * @param listener to add
-   * @return true
-   */
-  public boolean add(ITestNGListener listener) {
-    return listeners.add(listener);
   }
 
   /**
@@ -97,12 +84,21 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     listeners.add(index, listener);
   }
 
+  /**
+   * Adds an additional test listener.
+   * @param listener to add
+   * @return true
+   */
+  public boolean add(ITestNGListener listener) {
+    return listeners.add(listener);
+  }
+
   @Override
   public void beforeConfiguration(ITestResult tr) {
-    getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
+    LOG.trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof IConfigurationListener) {
-        getLogger().trace("{}: beforeConfiguration(ITestResult tr)", listener.getClass());
+        LOG.trace("{}: beforeConfiguration(ITestResult tr)", listener.getClass());
         ((IConfigurationListener)listener).beforeConfiguration(tr);
       }
     }
@@ -111,10 +107,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onFinish(ITestContext context) {
-    getLogger().trace("+++LISTENER: onFinish(ITestContext context)");
+    LOG.trace("+++LISTENER: onFinish(ITestContext context)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onFinish(ITestContext context)", listener.getClass());
+        LOG.trace("{}: onFinish(ITestContext context)", listener.getClass());
         ((ITestListener)listener).onFinish(context);
       }
     }
@@ -123,10 +119,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onStart(ITestContext context) {
-    getLogger().trace("+++LISTENER: onStart(ITestContext context)");
+    LOG.trace("+++LISTENER: onStart(ITestContext context)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onStart(ITestContext context)", listener.getClass());
+        LOG.trace("{}: onStart(ITestContext context)", listener.getClass());
         ((ITestListener)listener).onStart(context);
       }
     }
@@ -135,10 +131,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    getLogger().trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
+    LOG.trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
+        LOG.trace("{}: onTestFailedButWithinSuccessPercentage(ITestResult result)", listener.getClass());
         ((ITestListener)listener).onTestFailedButWithinSuccessPercentage(result);
       }
     }
@@ -147,10 +143,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onTestFailure(ITestResult result) {
-    getLogger().trace("+++LISTENER: onTestFailure(ITestResult result)");
+    LOG.trace("+++LISTENER: onTestFailure(ITestResult result)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onTestFailure(ITestResult result)", listener.getClass());
+        LOG.trace("{}: onTestFailure(ITestResult result)", listener.getClass());
         ((ITestListener)listener).onTestFailure(result);
       }
     }
@@ -159,10 +155,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onTestSkipped(ITestResult result) {
-    getLogger().trace("LISTENER: onTestSkipped(ITestResult result)");
+    LOG.trace("LISTENER: onTestSkipped(ITestResult result)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
+        LOG.trace("{}: onTestSkipped(ITestResult result)", listener.getClass());
         ((ITestListener)listener).onTestSkipped(result);
       }
     }
@@ -171,10 +167,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onTestStart(ITestResult result) {
-    getLogger().trace("+++LISTENER: onTestStart(ITestResult result)");
+    LOG.trace("+++LISTENER: onTestStart(ITestResult result)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onTestStart(ITestResult result)", listener.getClass());
+        LOG.trace("{}: onTestStart(ITestResult result)", listener.getClass());
         ((ITestListener)listener).onTestStart(result);
       }
     }
@@ -183,10 +179,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void onTestSuccess(ITestResult result) {
-    getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
+    LOG.trace("+++LISTENER: onTestSuccess(ITestResult result)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof ITestListener) {
-        getLogger().trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
+        LOG.trace("{}: onTestSuccess(ITestResult result)", listener.getClass());
         ((ITestListener)listener).onTestSuccess(result);
       }
     }
@@ -195,20 +191,16 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   @Override
   public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
-    getLogger().trace("+++LISTENER: transform("
+    LOG.trace("+++LISTENER: transform("
         + "ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod)");
     for (ITestNGListener listener : listeners) {
       if (listener instanceof IAnnotationTransformer) {
-        getLogger().trace("{}: transform("
+        LOG.trace("{}: transform("
             + "ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod)", listener.getClass());
         ((IAnnotationTransformer)listener).transform(annotation, testClass, testConstructor, testMethod);
       }
     }
 
-  }
-
-  private Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER_LISTENERS);
   }
 
 }

@@ -19,7 +19,10 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
@@ -27,13 +30,16 @@ import io.wcm.qa.glnm.verification.base.Verification;
  */
 public class IgnoreFailuresStrategy extends DefaultVerificationStrategy {
 
+  private static final Logger LOG = LoggerFactory.getLogger(IgnoreFailuresStrategy.class);
+
   @Override
   protected void handleFailure(Verification verification) {
+    Allure.step(verification.getMessage());
     if (verification.getException() != null) {
-      getLogger().info(GaleniumReportUtil.MARKER_FAIL, verification.getMessage(), verification.getException());
+      LOG.info(verification.getMessage(), verification.getException());
     }
     else {
-      getLogger().info(GaleniumReportUtil.MARKER_FAIL, verification.getMessage());
+      LOG.info(verification.getMessage());
     }
   }
 }

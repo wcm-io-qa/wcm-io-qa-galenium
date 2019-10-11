@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.reporting;
+package io.wcm.qa.glnm.logging.logback;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;

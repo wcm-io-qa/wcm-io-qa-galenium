@@ -19,17 +19,20 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Convenience methods to set system properties.
  */
 public final class ConfigurationUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ConfigurationUtil.class);
 
   private ConfigurationUtil() {
     // do not instantiate
@@ -42,10 +45,10 @@ public final class ConfigurationUtil {
    */
   public static void addProperty(Object name, Object value) {
     if (name == null || value == null) {
-      getLogger().info("skipping entry: " + name + "->" + value);
+      LOG.debug("skipping entry: " + name + "->" + value);
     }
     else {
-      getLogger().info("adding entry: " + name + "->" + value);
+      LOG.debug("adding entry: " + name + "->" + value);
       System.setProperty(name.toString(), value.toString());
     }
   }
@@ -63,7 +66,7 @@ public final class ConfigurationUtil {
         addProperty(name, value);
       }
       else {
-        getLogger().warn("entry for system property was null.");
+        LOG.warn("entry for system property was null.");
       }
     }
   }
