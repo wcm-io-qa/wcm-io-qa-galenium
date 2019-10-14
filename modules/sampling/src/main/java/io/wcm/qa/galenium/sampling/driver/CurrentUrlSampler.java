@@ -24,9 +24,12 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Samples current URL from Webdriver.
+ *
+ * @since 1.0.0
  */
 public class CurrentUrlSampler extends CachingBasedSampler<String> {
 
+  /** {@inheritDoc} */
   @Override
   public String sampleValue() {
     return GaleniumContext.getDriver().getCurrentUrl();

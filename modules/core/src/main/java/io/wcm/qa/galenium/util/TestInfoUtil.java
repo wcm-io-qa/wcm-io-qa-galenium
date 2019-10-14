@@ -49,6 +49,8 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
+ *
+ * @since 1.0.0
  */
 public final class TestInfoUtil {
 
@@ -63,6 +65,8 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>assignCategories.</p>
+   *
    * @param test to add categories to
    * @param result source for TestNG groups, browser, and breakpoints
    */
@@ -89,7 +93,8 @@ public final class TestInfoUtil {
   }
 
   /**
-   * Gets test device if test case in this result implements {@link HasDevice}.
+   * Gets test device if test case in this result implements {@link io.wcm.qa.galenium.webdriver.HasDevice}.
+   *
    * @param result test result to retrieve test case from
    * @return device if one was found
    */
@@ -102,6 +107,8 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>hasWarnings.</p>
+   *
    * @param testInfo to check
    * @return whether there are warnings in the results
    */
@@ -121,6 +128,8 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>isFailed.</p>
+   *
    * @param testInfo to check
    * @return whether test failed
    */
@@ -129,6 +138,8 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>logGalenTestInfo.</p>
+   *
    * @param testInfo to log
    */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
@@ -206,6 +217,7 @@ public final class TestInfoUtil {
 
   /**
    * Replaces all non-alphanumeric characters with underscore.
+   *
    * @param result to extract test name from
    * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
    */

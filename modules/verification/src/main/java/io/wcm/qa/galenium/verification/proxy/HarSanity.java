@@ -27,6 +27,8 @@ import net.lightbody.bmp.core.har.HarResponse;
 
 /**
  * Verifies stability and then checks for unfinished requests.
+ *
+ * @since 1.0.0
  */
 public class HarSanity extends HarStability {
 

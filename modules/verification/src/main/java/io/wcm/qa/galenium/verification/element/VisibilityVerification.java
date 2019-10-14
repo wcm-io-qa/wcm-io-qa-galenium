@@ -27,11 +27,14 @@ import io.wcm.qa.galenium.verification.element.base.ElementBasedVerification;
 
 /**
  * Verifies that an element is visible on page.
+ *
+ * @since 1.0.0
  */
 public class VisibilityVerification extends ElementBasedVerification<VisibilitySampler, Boolean> {
 
   /**
    * Constructor.
+   *
    * @param selector to identify element
    */
   public VisibilityVerification(Selector selector) {

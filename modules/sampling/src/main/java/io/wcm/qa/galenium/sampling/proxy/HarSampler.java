@@ -25,9 +25,12 @@ import net.lightbody.bmp.core.har.Har;
 
 /**
  * Samples Har from BrowserMob Proxy.
+ *
+ * @since 1.0.0
  */
 public class HarSampler extends CachingBasedSampler<Har> {
 
+  /** {@inheritDoc} */
   @Override
   public Har sampleValue() {
     return getHar();

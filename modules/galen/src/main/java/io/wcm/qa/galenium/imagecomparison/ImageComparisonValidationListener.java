@@ -45,12 +45,15 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
 
 
 /**
- * {@link CombinedValidationListener} to handle storing of sampled image files in ZIP file.
+ * {@link com.galenframework.validation.CombinedValidationListener} to handle storing of sampled image files in ZIP file.
+ *
+ * @since 1.0.0
  */
 public class ImageComparisonValidationListener extends CombinedValidationListener {
 
   private static final String REGEX_IMAGE_FILENAME = ".*image file ([^,]*\\.png).*";
 
+  /** {@inheritDoc} */
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);

@@ -25,7 +25,9 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.Locator;
 
 /**
- * Base class for the different {@link Selector} implementations.
+ * Base class for the different {@link io.wcm.qa.galenium.selectors.base.Selector} implementations.
+ *
+ * @since 1.0.0
  */
 public abstract class AbstractSelectorBase implements Selector {
 
@@ -36,6 +38,7 @@ public abstract class AbstractSelectorBase implements Selector {
   private String name;
   private String string;
 
+  /** {@inheritDoc} */
   @Override
   public By asBy() {
     if (getBy() == null) {
@@ -44,6 +47,7 @@ public abstract class AbstractSelectorBase implements Selector {
     return getBy();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Locator asLocator() {
     if (getLocator() == null) {
@@ -52,11 +56,13 @@ public abstract class AbstractSelectorBase implements Selector {
     return getLocator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asString() {
     return getString();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String elementName() {
     String nameBase;
@@ -69,10 +75,16 @@ public abstract class AbstractSelectorBase implements Selector {
     return nameBase.replaceAll(REGEX_NAME_CLEANING, "-");
   }
 
+  /**
+   * <p>Getter for the field <code>name</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getName() {
     return name;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     return elementName() + "(" + asString() + ")";

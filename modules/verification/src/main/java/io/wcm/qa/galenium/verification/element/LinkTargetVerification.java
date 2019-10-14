@@ -23,12 +23,16 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Make sure a link has a certain href value.
+ *
+ * @since 1.0.0
  */
 public class LinkTargetVerification extends AttributeVerification {
 
   private static final String ATTRIBUTE_NAME_HREF = "href";
 
   /**
+   * <p>Constructor for LinkTargetVerification.</p>
+   *
    * @param selector to identify element
    */
   public LinkTargetVerification(Selector selector) {
@@ -36,6 +40,8 @@ public class LinkTargetVerification extends AttributeVerification {
   }
 
   /**
+   * <p>Constructor for LinkTargetVerification.</p>
+   *
    * @param selector to identify element
    * @param expectedValue to verify against
    */

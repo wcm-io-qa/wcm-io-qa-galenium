@@ -21,10 +21,14 @@ package io.wcm.qa.galenium.differences.difference;
 
 /**
  * Uses simple name of class (without package) as difference.
+ *
+ * @since 1.0.0
  */
 public class ClassNameDifference extends StringDifference {
 
   /**
+   * <p>Constructor for ClassNameDifference.</p>
+   *
    * @param clazz to get name from
    */
   public ClassNameDifference(Class clazz) {

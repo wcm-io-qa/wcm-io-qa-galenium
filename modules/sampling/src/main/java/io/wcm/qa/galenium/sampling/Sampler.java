@@ -21,11 +21,15 @@ package io.wcm.qa.galenium.sampling;
 
 /**
  * Generic sampler.
+ *
  * @param <T>
+ * @since 1.0.0
  */
 public interface Sampler<T> {
 
   /**
+   * <p>sampleValue.</p>
+   *
    * @return a fresh sample
    */
   T sampleValue();

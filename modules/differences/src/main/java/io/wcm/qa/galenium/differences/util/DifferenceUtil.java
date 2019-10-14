@@ -28,7 +28,9 @@ import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
 
 /**
- * Helper methods for {@link Differences} implementations.
+ * Helper methods for {@link io.wcm.qa.galenium.differences.base.Differences} implementations.
+ *
+ * @since 1.0.0
  */
 public final class DifferenceUtil {
 
@@ -38,6 +40,7 @@ public final class DifferenceUtil {
 
   /**
    * Joins the differences' names using the separator. Mostly useful for logging purposes.
+   *
    * @param differences to get names from
    * @param separator to use between the elements.
    * @return all names joined using the separator.
@@ -51,8 +54,9 @@ public final class DifferenceUtil {
   }
 
   /**
-   * Joins the differences' tags using the separator. This makes implementation of the {@link Differences} interface
+   * Joins the differences' tags using the separator. This makes implementation of the {@link io.wcm.qa.galenium.differences.base.Differences} interface
    * easier.
+   *
    * @param differences to get tag values from
    * @param separator to use between the elements.
    * @return all tag values joined using the separator.

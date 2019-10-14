@@ -35,7 +35,10 @@ import io.wcm.qa.galenium.util.BrowserMobUtil;
 abstract class OptionsProvider<O extends MutableCapabilities> {
 
   /**
+   * <p>getOptions.</p>
+   *
    * @return capabilities for browser
+   * @since 1.0.0
    */
   public O getOptions() {
     O options = getBrowserSpecificOptions();

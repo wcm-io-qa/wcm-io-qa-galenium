@@ -37,6 +37,8 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Convenience methods around test devices.
+ *
+ * @since 1.0.0
  */
 public final class TestDeviceUtil {
 
@@ -56,6 +58,8 @@ public final class TestDeviceUtil {
   }
 
   /**
+   * <p>getSingleTestDevice.</p>
+   *
    * @return first of the configured test devices
    */
   public static List<Object> getSingleTestDevice() {
@@ -73,6 +77,7 @@ public final class TestDeviceUtil {
 
   /**
    * Test device for upper bound of media query.
+   *
    * @param browserType browser to use
    * @param mediaQuery media query to get upper bound from
    * @return test device
@@ -85,6 +90,7 @@ public final class TestDeviceUtil {
 
   /**
    * Test devices using the configured Browsers and upper bounds of the configured media queries.
+   *
    * @return configured test devices
    */
   public static Collection<TestDevice> getTestDevicesForBrowsersAndMqs() {
@@ -102,6 +108,8 @@ public final class TestDeviceUtil {
   }
 
   /**
+   * <p>getTestDevicesFromDevicesCsv.</p>
+   *
    * @return all test devices defined in CSV
    */
   public static Collection<TestDevice> getTestDevicesFromDevicesCsv() {

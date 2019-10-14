@@ -26,12 +26,16 @@ import io.wcm.qa.galenium.verification.string.StringVerification;
 
 /**
  * Combines multiple verifications based on the same sampled string into a single verification.
+ *
+ * @since 1.0.0
  */
 public abstract class CombiningStringBasedVerification extends StringVerification {
 
   private CombinedVerification checks = new CombinedVerification();
 
   /**
+   * <p>Constructor for CombiningStringBasedVerification.</p>
+   *
    * @param verificationName name for verification
    * @param sampler to use for sampling
    */

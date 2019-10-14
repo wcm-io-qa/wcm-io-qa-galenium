@@ -39,6 +39,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Base class for implementing delegating wrappers for Selenium's web elements.
+ *
+ * @since 1.0.0
  */
 public abstract class GaleniumWebElementBase
     implements WebElement, WrapsDriver, Locatable, TakesScreenshot {
@@ -49,31 +51,37 @@ public abstract class GaleniumWebElementBase
     setDelegatee(element);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void clear() {
     getDelegatee().clear();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void click() {
     getDelegatee().click();
   }
 
+  /** {@inheritDoc} */
   @Override
   public WebElement findElement(By arg0) {
     return getDelegatee().findElement(arg0);
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<WebElement> findElements(By arg0) {
     return getDelegatee().findElements(arg0);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getAttribute(String arg0) {
     return getDelegatee().getAttribute(arg0);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Coordinates getCoordinates() {
     if (!isLocatable()) {
@@ -82,41 +90,49 @@ public abstract class GaleniumWebElementBase
     return ((Locatable)getDelegatee()).getCoordinates();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getCssValue(String arg0) {
     return getDelegatee().getCssValue(arg0);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Point getLocation() {
     return getDelegatee().getLocation();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Rectangle getRect() {
     return getDelegatee().getRect();
   }
 
+  /** {@inheritDoc} */
   @Override
   public <X> X getScreenshotAs(OutputType<X> arg0) throws WebDriverException {
     return getDelegatee().getScreenshotAs(arg0);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Dimension getSize() {
     return getDelegatee().getSize();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTagName() {
     return getDelegatee().getTagName();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getText() {
     return getDelegatee().getText();
   }
 
+  /** {@inheritDoc} */
   @Override
   public WebDriver getWrappedDriver() {
     if (!isWrapsDriver()) {
@@ -125,26 +141,31 @@ public abstract class GaleniumWebElementBase
     return ((WrapsDriver)getDelegatee()).getWrappedDriver();
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isDisplayed() {
     return getDelegatee().isDisplayed();
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isEnabled() {
     return getDelegatee().isEnabled();
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isSelected() {
     return getDelegatee().isSelected();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void sendKeys(CharSequence... arg0) {
     getDelegatee().sendKeys(arg0);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void submit() {
     getDelegatee().submit();

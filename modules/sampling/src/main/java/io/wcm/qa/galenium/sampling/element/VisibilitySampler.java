@@ -26,10 +26,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Existence and visibility of element.
+ *
+ * @since 1.0.0
  */
 public class VisibilitySampler extends ElementBasedSampler<Boolean> {
 
   /**
+   * <p>Constructor for VisibilitySampler.</p>
+   *
    * @param selector to identify element
    */
   public VisibilitySampler(Selector selector) {

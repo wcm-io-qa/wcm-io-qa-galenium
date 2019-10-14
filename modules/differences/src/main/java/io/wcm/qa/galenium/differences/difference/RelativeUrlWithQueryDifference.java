@@ -25,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Uses path and query part of URL as difference.
+ *
+ * @since 1.0.0
  */
 public class RelativeUrlWithQueryDifference extends UrlDifference {
 
@@ -37,6 +39,7 @@ public class RelativeUrlWithQueryDifference extends UrlDifference {
 
   /**
    * Uses URL build from parameter string.
+   *
    * @param url to extract path and query from
    */
   public RelativeUrlWithQueryDifference(String url) {

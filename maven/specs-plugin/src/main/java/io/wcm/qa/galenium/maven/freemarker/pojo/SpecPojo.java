@@ -36,6 +36,8 @@ import io.wcm.qa.galenium.util.FileHandlingUtil;
 
 /**
  * Holds data from Galen spec to use in generation.
+ *
+ * @since 1.0.0
  */
 public class SpecPojo {
 
@@ -45,17 +47,26 @@ public class SpecPojo {
   private Collection<String> tags;
 
   /**
+   * <p>Constructor for SpecPojo.</p>
+   *
    * @param specFile to retrieve data from
    */
   public SpecPojo(File specFile) {
     setSpecFile(specFile);
   }
 
+  /**
+   * <p>getBaseName.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getBaseName() {
     return FilenameUtils.getBaseName(getFilename());
   }
 
   /**
+   * <p>getClassName.</p>
+   *
    * @return class name extracted from spec file
    */
   public String getClassName() {
@@ -64,6 +75,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getFilename.</p>
+   *
    * @return spec file name
    */
   public String getFilename() {
@@ -71,6 +84,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getPackageNamePart.</p>
+   *
    * @return package name from spec file path
    */
   public String getPackageNamePart() {
@@ -79,6 +94,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>Getter for the field <code>pageSpec</code>.</p>
+   *
    * @return parsed Galen spec
    */
   public PageSpec getPageSpec() {
@@ -89,6 +106,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getRelativeFilePath.</p>
+   *
    * @return relative path to Galen spec file
    */
   public String getRelativeFilePath() {
@@ -97,6 +116,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getRootSelectors.</p>
+   *
    * @return root objects from Galen spec
    */
   public Collection<SelectorPojo> getRootSelectors() {
@@ -110,6 +131,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>Getter for the field <code>selectors</code>.</p>
+   *
    * @return all selectors from spec
    */
   public Collection<SelectorPojo> getSelectors() {
@@ -122,11 +145,18 @@ public class SpecPojo {
     return selectors;
   }
 
+  /**
+   * <p>Getter for the field <code>specFile</code>.</p>
+   *
+   * @return a {@link java.io.File} object.
+   */
   public File getSpecFile() {
     return specFile;
   }
 
   /**
+   * <p>Getter for the field <code>tags</code>.</p>
+   *
    * @return tags used in Galen spec
    */
   public Collection<String> getTags() {

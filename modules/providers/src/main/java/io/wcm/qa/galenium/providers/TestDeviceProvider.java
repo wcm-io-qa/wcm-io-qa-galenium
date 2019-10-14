@@ -27,6 +27,8 @@ import io.wcm.qa.galenium.device.TestDeviceUtil;
 
 /**
  * TestNG data provider for test devices.
+ *
+ * @since 1.0.0
  */
 public final class TestDeviceProvider {
 
@@ -42,6 +44,8 @@ public final class TestDeviceProvider {
   }
 
   /**
+   * <p>provideSingleTestDevice.</p>
+   *
    * @return single test device
    */
   @DataProvider(name = GALENIUM_SINGLE_TEST_DEVICE)
@@ -51,6 +55,8 @@ public final class TestDeviceProvider {
   }
 
   /**
+   * <p>provideTestDevices.</p>
+   *
    * @return all test devices
    */
   @DataProvider(name = GALENIUM_TEST_DEVICES_ALL)
@@ -59,6 +65,8 @@ public final class TestDeviceProvider {
   }
 
   /**
+   * <p>provideTestDevicesFromDeviceCsv.</p>
+   *
    * @return all test devices from device config
    */
   @DataProvider(name = GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)

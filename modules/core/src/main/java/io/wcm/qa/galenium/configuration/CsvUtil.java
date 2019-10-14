@@ -39,6 +39,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Utility methods to parse CSV files.
+ *
+ * @since 1.0.0
  */
 public final class CsvUtil {
 
@@ -51,6 +53,7 @@ public final class CsvUtil {
 
   /**
    * Get a parser for CSV file.
+   *
    * @param csvFile to get parser for
    * @return parser to access data in CSV file
    */
@@ -60,8 +63,9 @@ public final class CsvUtil {
 
   /**
    * Get a parser for CSV file.
+   *
    * @param csvFile to get parser for
-   * @param skipHeaderRecord
+   * @param skipHeaderRecord a boolean.
    * @return parser to access data in CSV file
    */
   public static CSVParser parse(File csvFile, boolean skipHeaderRecord) {
@@ -82,6 +86,7 @@ public final class CsvUtil {
 
   /**
    * Get a parser for CSV file.
+   *
    * @param csvFilePath path to file to get parser for
    * @return parser to access data in CSV file
    */
@@ -91,9 +96,11 @@ public final class CsvUtil {
 
   /**
    * Populate beans with CSV data.
+   *
    * @param csvFile to get input data from
    * @param beanClass type of bean to populate
    * @return collection with one bean per row in CSV
+   * @param <T> a T object.
    */
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {
     Collection<T> result = new ArrayList<>();

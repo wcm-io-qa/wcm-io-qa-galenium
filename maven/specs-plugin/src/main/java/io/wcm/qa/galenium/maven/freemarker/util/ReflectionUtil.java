@@ -26,6 +26,8 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Convenience methods interacting with Java reflection API.
+ *
+ * @since 1.0.0
  */
 public final class ReflectionUtil {
 
@@ -34,14 +36,18 @@ public final class ReflectionUtil {
   }
 
   /**
+   * <p>isSelector.</p>
+   *
    * @param type to check
-   * @return whether the class implements {@link Selector}
+   * @return whether the class implements {@link io.wcm.qa.galenium.selectors.base.Selector}
    */
   public static boolean isSelector(Class<?> type) {
     return Selector.class.isAssignableFrom(type);
   }
 
   /**
+   * <p>isStatic.</p>
+   *
    * @param method to check
    * @return whether the method is static
    */
@@ -50,6 +56,8 @@ public final class ReflectionUtil {
   }
 
   /**
+   * <p>isPublic.</p>
+   *
    * @param method to check
    * @return whether the method is static
    */

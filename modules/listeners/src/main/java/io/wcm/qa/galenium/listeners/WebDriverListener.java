@@ -46,13 +46,16 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
- * Handles {@link WebDriver} life cycle in single and multi threaded scenarios.
+ * Handles {@link org.openqa.selenium.WebDriver} life cycle in single and multi threaded scenarios.
+ *
+ * @since 1.0.0
  */
 public class WebDriverListener implements ITestListener {
 
   private static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("galenium.webdriver");
   private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
     // if not running multiple tests/method/classes in parallel, then the same WebDriver instance is
@@ -63,6 +66,7 @@ public class WebDriverListener implements ITestListener {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext context) {
     getLogger().trace("WebDriverListener active.");
@@ -70,21 +74,25 @@ public class WebDriverListener implements ITestListener {
     setAdjustViewportInGalen(!isSuppressAutoAdjustBrowserSize());
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     closeDriverIfRunningInParallel(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult result) {
     closeDriverIfRunningInParallel(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult result) {
     closeDriverIfRunningInParallel(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     // do nothing for lazy initialization
@@ -132,6 +140,7 @@ public class WebDriverListener implements ITestListener {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult result) {
     closeDriverIfRunningInParallel(result);

@@ -28,7 +28,9 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 
 /**
- * Convenience wrapper to add corrections to Galen {@link Locator} returned by this {@link Selector}.
+ * Convenience wrapper to add corrections to Galen {@link com.galenframework.specs.page.Locator} returned by this {@link io.wcm.qa.galenium.selectors.base.Selector}.
+ *
+ * @since 1.0.0
  */
 public class SelectorCorrectionsWrapper implements Selector {
 
@@ -36,6 +38,8 @@ public class SelectorCorrectionsWrapper implements Selector {
   private Selector delegate;
 
   /**
+   * <p>Constructor for SelectorCorrectionsWrapper.</p>
+   *
    * @param selector Selector to wrap
    * @param corrections corrections to add to locator
    */
@@ -44,21 +48,25 @@ public class SelectorCorrectionsWrapper implements Selector {
     correctionsRect = corrections;
   }
 
+  /** {@inheritDoc} */
   @Override
   public By asBy() {
     return delegate.asBy();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Locator asLocator() {
     return new LocatorCorrectionsWrapper(delegate.asLocator(), correctionsRect);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asString() {
     return delegate.asString();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String elementName() {
     return delegate.elementName();

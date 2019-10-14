@@ -21,15 +21,21 @@ package io.wcm.qa.galenium.sampling;
 
 /**
  * Configurable caching.
+ *
+ * @since 1.0.0
  */
 public interface CanCache {
 
   /**
+   * <p>isCaching.</p>
+   *
    * @return whether sampler is currently caching
    */
   boolean isCaching();
 
   /**
+   * <p>setCaching.</p>
+   *
    * @param activateCache whether to activate or deactivate caching
    */
   void setCaching(boolean activateCache);

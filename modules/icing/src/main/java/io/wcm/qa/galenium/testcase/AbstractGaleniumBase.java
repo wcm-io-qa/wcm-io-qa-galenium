@@ -34,6 +34,8 @@ import io.wcm.qa.galenium.webdriver.HasDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium and reporting.
+ *
+ * @since 1.0.0
  */
 public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
@@ -42,6 +44,7 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
 
   /**
    * Constructor.
+   *
    * @param testDevice test device to use
    */
   public AbstractGaleniumBase(TestDevice testDevice) {
@@ -51,22 +54,22 @@ public abstract class AbstractGaleniumBase implements ITest, HasDevice {
     getNameDifferences().setClassNameMaxLength(30);
   }
 
-  /**
-   * @return the test device used for this test run.
-   */
+  /** {@inheritDoc} */
   @Override
   public TestDevice getDevice() {
     return device;
   }
 
   /**
-   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
+   * Convenience method delegating to {@link io.wcm.qa.galenium.reporting.GaleniumReportUtil#getLogger()}.
+   *
    * @return current logger
    */
   public Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTestName() {
     return getNameDifferences().asPropertyKey();

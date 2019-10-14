@@ -30,13 +30,17 @@ import io.wcm.qa.galenium.sampling.transform.base.TransformationBasedSampler;
 
 /**
  * Samples JSON formatted data into a flat map.
+ *
  * @param <S>
+ * @since 1.0.0
  */
 public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, String>> {
 
   private static final String STRING_REPRESENTATION_NULL = "null";
 
   /**
+   * <p>Constructor for JsonSampler.</p>
+   *
    * @param inputSampler providing the JSON as String
    */
   public JsonSampler(S inputSampler) {

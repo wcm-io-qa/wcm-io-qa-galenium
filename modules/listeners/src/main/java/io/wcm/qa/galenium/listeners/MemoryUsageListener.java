@@ -29,17 +29,21 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Logs memory usage.
+ *
+ * @since 1.0.0
  */
 public class MemoryUsageListener extends TestListenerAdapter {
 
   private static final Marker MEMORY_MARKER = GaleniumReportUtil.getMarker("galenium.listener.memory");
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext testContext) {
     logMemory();
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext testContext) {
     logMemory();
@@ -47,6 +51,7 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult tr) {
     logMemory();
@@ -54,6 +59,7 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult tr) {
     logMemory();
@@ -61,12 +67,14 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     logMemory();
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult tr) {
     logMemory();

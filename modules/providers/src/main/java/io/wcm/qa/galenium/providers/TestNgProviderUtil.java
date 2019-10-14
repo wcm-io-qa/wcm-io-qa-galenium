@@ -29,7 +29,9 @@ import org.testng.annotations.DataProvider;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
- * Utility class to help with writing {@link DataProvider} code.
+ * Utility class to help with writing {@link org.testng.annotations.DataProvider} code.
+ *
+ * @since 1.0.0
  */
 public final class TestNgProviderUtil {
 
@@ -40,6 +42,7 @@ public final class TestNgProviderUtil {
   /**
    * Transforms argument list into Object array. For use with DataProviders for single argument methods and
    * constructors.
+   *
    * @param argumentList iterable to turn into object array
    * @return a two dimensional object array containing the arguments
    */
@@ -59,8 +62,9 @@ public final class TestNgProviderUtil {
   }
 
   /**
-   * Combines argument lists into Object array. Each {@link Iterable} will be used to provide the argument corresponding
+   * Combines argument lists into Object array. Each {@link java.lang.Iterable} will be used to provide the argument corresponding
    * to its position.
+   *
    * @param argumentLists iterables to combine
    * @return a two dimensional object array containing the Cartesian product of the iterable arguments
    */

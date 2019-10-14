@@ -26,18 +26,22 @@ import io.wcm.qa.galenium.sampling.CachingSampler;
 
 /**
  * Abstract base class for caching samplers.
+ *
  * @param <T>
+ * @since 1.0.0
  */
 public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
   private T cachedValue;
   private boolean caching;
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     return caching;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean activateCache) {
     this.caching = activateCache;

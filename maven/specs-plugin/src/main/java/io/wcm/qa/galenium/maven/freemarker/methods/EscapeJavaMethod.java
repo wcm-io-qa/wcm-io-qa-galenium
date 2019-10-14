@@ -23,6 +23,8 @@ import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * Escape string for use as java string.
+ *
+ * @since 1.0.0
  */
 public class EscapeJavaMethod extends AbstractTemplateMethod<String> {
 

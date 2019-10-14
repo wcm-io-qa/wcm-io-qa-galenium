@@ -27,11 +27,14 @@ import io.wcm.qa.galenium.verification.string.base.PatternBasedVerification;
 
 /**
  * Verifies pattern does not match whole input sample.
+ *
+ * @since 1.0.0
  */
 public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * Pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sample fixed sample to verify against
@@ -42,6 +45,7 @@ public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sampler sampler to provide input sample
@@ -52,6 +56,7 @@ public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * String pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sample fixed sample to verify against
@@ -62,6 +67,7 @@ public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sampler sampler to provide input sample

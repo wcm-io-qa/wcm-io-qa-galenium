@@ -28,6 +28,8 @@ import java.util.Set;
 
 /**
  * Convenience methods to set system properties.
+ *
+ * @since 1.0.0
  */
 public final class ConfigurationUtil {
 
@@ -37,6 +39,7 @@ public final class ConfigurationUtil {
 
   /**
    * Adds a system property.
+   *
    * @param name of property
    * @param value of property
    */
@@ -52,6 +55,7 @@ public final class ConfigurationUtil {
 
   /**
    * Add properties from map to system properties.
+   *
    * @param newProperties to add
    */
   public static void addToSystemProperties(Map<String, String> newProperties) {
@@ -70,6 +74,7 @@ public final class ConfigurationUtil {
 
   /**
    * Add system properties.
+   *
    * @param newProperties to add
    */
   public static void addToSystemProperties(Properties newProperties) {

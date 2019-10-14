@@ -59,6 +59,8 @@ import io.wcm.qa.galenium.util.TestInfoUtil;
 
 /**
  * Utility class containing methods handling reporting.
+ *
+ * @since 1.0.0
  */
 public final class GaleniumReportUtil {
 
@@ -120,6 +122,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Add GalenTestInfo to global list for generating reports.
+   *
    * @param galenTestInfo Galen test info to add to result set
    */
   public static void addGalenResult(GalenTestInfo galenTestInfo) {
@@ -129,7 +132,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Assigns categories to {@link ExtentTest}.
+   * Assigns categories to {@link com.relevantcodes.extentreports.ExtentTest}.
+   *
    * @param categories to add
    */
   public static void assignCategories(String... categories) {
@@ -139,7 +143,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Assigns a single category to {@link ExtentTest}.
+   * Assigns a single category to {@link com.relevantcodes.extentreports.ExtentTest}.
+   *
    * @param category to add
    */
   public static void assignCategory(String category) {
@@ -148,7 +153,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Assigns a single category to {@link ExtentTest}.
+   * Assigns a single category to {@link com.relevantcodes.extentreports.ExtentTest}.
+   *
    * @param extentTest to add to
    * @param category to add
    */
@@ -168,6 +174,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Write all test results to Galen report.
+   *
    * @param testInfos list to persist test information
    */
   public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) {
@@ -189,6 +196,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Write all test results to TestNG report.
+   *
    * @param testInfos list to persist test information
    */
   public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) {
@@ -201,6 +209,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * <p>endExtentTest.</p>
+   *
    * @param result current test result
    * @param status status to use for final message
    * @param details final message
@@ -229,15 +239,27 @@ public final class GaleniumReportUtil {
     extentReport.flush();
   }
 
+  /**
+   * <p>getExtentReports.</p>
+   *
+   * @return a {@link com.relevantcodes.extentreports.ExtentReports} object.
+   */
   public static ExtentReports getExtentReports() {
     return GLOBAL_EXTENT_REPORTS;
   }
 
+  /**
+   * <p>getExtentTest.</p>
+   *
+   * @return a {@link com.relevantcodes.extentreports.ExtentTest} object.
+   */
   public static ExtentTest getExtentTest() {
     return GaleniumContext.getExtentTest();
   }
 
   /**
+   * <p>getExtentTest.</p>
+   *
    * @param result current test result
    * @return test report associated with result
    */
@@ -246,6 +268,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * <p>getExtentTest.</p>
+   *
    * @param name test name to retrieve test
    * @return test report associated with result
    */
@@ -267,6 +291,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * <p>getLogger.</p>
+   *
    * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
    */
   public static Logger getLogger() {
@@ -282,15 +308,18 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Gets a logger which marks every entry with the passed {@link Marker}.
+   * Gets a logger which marks every entry with the passed {@link org.slf4j.Marker}.
+   *
    * @param marker to use with this logger
-   * @return a {@link MarkedLogger} using the marker
+   * @return a {@link io.wcm.qa.galenium.reporting.MarkedLogger} using the marker
    */
   public static Logger getMarkedLogger(Marker marker) {
     return new MarkedLogger(getLogger(), marker);
   }
 
   /**
+   * <p>getMarker.</p>
+   *
    * @param name marker name
    * @return marker for use with marked logger
    */
@@ -301,9 +330,10 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Null safe check whether {@link ExtentTest} and {@link ITestResult} have the same name.
-   * @param result
-   * @param extentTest
+   * Null safe check whether {@link com.relevantcodes.extentreports.ExtentTest} and {@link org.testng.ITestResult} have the same name.
+   *
+   * @param result a {@link org.testng.ITestResult} object.
+   * @param extentTest a {@link com.relevantcodes.extentreports.ExtentTest} object.
    * @return whether both have a test name and it is equal
    */
   public static boolean haveMatchingName(ITestResult result, ExtentTest extentTest) {
@@ -328,6 +358,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Take screenshot of current browser window and add to reports. Uses random filename.
+   *
    * @return log message including screenshot if everything was successful
    */
   public static String takeScreenshot() {
@@ -337,6 +368,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Captures image of single element in page.
+   *
    * @param takesScreenshot to capture
    * @return message to log screenshot to report
    */
@@ -347,6 +379,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Take screenshot of current browser window and add to reports.
+   *
    * @param result to generate filename from
    * @param driver to take screenshot from
    * @return log message including screenshot if everything was successful
@@ -358,6 +391,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Take screenshot of current browser window and add to reports.
+   *
    * @param resultName to use in filename
    * @param takesScreenshot to take screenshot from
    * @return log message including screenshot if everything was successful

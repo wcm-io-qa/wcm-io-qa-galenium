@@ -28,6 +28,8 @@ import io.wcm.qa.galenium.device.TestDevice;
 
 /**
  * Collection of utility methods when dealing with browsers.
+ *
+ * @since 1.0.0
  */
 public final class BrowserUtil {
 
@@ -36,6 +38,8 @@ public final class BrowserUtil {
   }
 
   /**
+   * <p>isChrome.</p>
+   *
    * @return whether current browser is Chrome
    */
   public static boolean isChrome() {
@@ -43,6 +47,8 @@ public final class BrowserUtil {
   }
 
   /**
+   * <p>isFirefox.</p>
+   *
    * @return whether current browser is Firefox
    */
   public static boolean isFirefox() {
@@ -50,6 +56,8 @@ public final class BrowserUtil {
   }
 
   /**
+   * <p>isInternetExplorer.</p>
+   *
    * @return whether current browser is Internet Explorer
    */
   public static boolean isInternetExplorer() {

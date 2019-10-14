@@ -24,11 +24,14 @@ import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that string is not contained in sample.
+ *
+ * @since 1.0.0
  */
 public class DoesNotContainStringVerification extends ContainsStringVerification {
 
   /**
    * Verify against fixed string.
+   *
    * @param verificationName name for this check
    * @param searchString to not find in input
    * @param sample fixed input sample
@@ -39,6 +42,7 @@ public class DoesNotContainStringVerification extends ContainsStringVerification
 
   /**
    * Verify against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param searchString to not find in input
    * @param sampler sampler to provide input

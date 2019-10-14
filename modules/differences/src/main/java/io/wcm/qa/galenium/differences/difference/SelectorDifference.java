@@ -23,10 +23,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Difference based on selector name.
+ *
+ * @since 1.0.0
  */
 public class SelectorDifference extends StringDifference {
 
   /**
+   * <p>Constructor for SelectorDifference.</p>
+   *
    * @param selector to get name from
    */
   public SelectorDifference(Selector selector) {

@@ -28,6 +28,8 @@ import io.wcm.qa.galenium.differences.base.Difference;
 
 /**
  * Differences are stored in a sorted way to get a consistent hierarchy.
+ *
+ * @since 1.0.0
  */
 public class SortedDifferences extends MutableDifferences {
 
@@ -44,7 +46,8 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Use default comparator.
-   * @param comparator
+   *
+   * @param comparator a {@link java.util.Comparator} object.
    */
   public SortedDifferences(Comparator<Difference> comparator) {
     setDifferences(new TreeSet<Difference>(comparator));
@@ -52,7 +55,9 @@ public class SortedDifferences extends MutableDifferences {
   }
 
   /**
-   * @return the configured comparator or {@link DifferenceNameComparator} if none is set
+   * <p>Getter for the field <code>comparator</code>.</p>
+   *
+   * @return the configured comparator or {@link io.wcm.qa.galenium.differences.generic.DifferenceNameComparator} if none is set
    */
   public Comparator<Difference> getComparator() {
     if (comparator == null) {
@@ -61,6 +66,7 @@ public class SortedDifferences extends MutableDifferences {
     return comparator;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Collection<Difference> getDifferences() {
     return differences;
@@ -68,6 +74,7 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Set a new comparator and reorder already existing differences.
+   *
    * @param comparator to use from now on
    */
   public void setComparator(Comparator<Difference> comparator) {

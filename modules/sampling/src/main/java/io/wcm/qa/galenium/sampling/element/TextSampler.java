@@ -26,10 +26,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Samples text of web element.
+ *
+ * @since 1.0.0
  */
 public class TextSampler extends ElementBasedStringSampler {
 
   /**
+   * <p>Constructor for TextSampler.</p>
+   *
    * @param selector identifies element.
    */
   public TextSampler(Selector selector) {

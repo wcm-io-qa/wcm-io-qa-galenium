@@ -25,16 +25,21 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Counts elements matching the selector.
+ *
+ * @since 1.0.0
  */
 public class ElementCountSampler extends SelectorBasedSampler<Integer> {
 
   /**
+   * <p>Constructor for ElementCountSampler.</p>
+   *
    * @param selector identifies elements to be counted
    */
   public ElementCountSampler(Selector selector) {
     super(selector);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Integer sampleValue() {
     return Element.findAll(getSelector()).size();

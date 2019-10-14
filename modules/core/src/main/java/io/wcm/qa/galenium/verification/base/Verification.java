@@ -21,15 +21,21 @@ package io.wcm.qa.galenium.verification.base;
 
 /**
  * Unifies different kinds of verification done while UI testing.
+ *
+ * @since 1.0.0
  */
 public interface Verification extends Verifiable {
 
   /**
+   * <p>getException.</p>
+   *
    * @return Throwable if one occured during verification
    */
   Throwable getException();
 
   /**
+   * <p>getMessage.</p>
+   *
    * @return verification message
    */
   String getMessage();

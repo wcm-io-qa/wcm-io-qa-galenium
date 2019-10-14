@@ -43,7 +43,9 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * Some convenience methods around {@link MediaQuery}.
+ * Some convenience methods around {@link io.wcm.qa.galenium.mediaquery.MediaQuery}.
+ *
+ * @since 1.0.0
  */
 public final class MediaQueryUtil {
 
@@ -59,6 +61,8 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getCurrentMediaQuery.</p>
+   *
    * @return the media query used in current test device
    */
   public static MediaQuery getCurrentMediaQuery() {
@@ -71,6 +75,7 @@ public final class MediaQueryUtil {
 
   /**
    * Returns matching media query from configuration.
+   *
    * @param testDevice to match
    * @return media query
    */
@@ -85,6 +90,8 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @return get all defined media queries
    */
   public static Collection<MediaQuery> getMediaQueries() {
@@ -97,6 +104,8 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param mediaQueryPropertyFile to get media query definitions from
    * @return all media queries configured in properties file
    */
@@ -112,6 +121,8 @@ public final class MediaQueryUtil {
 
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param mediaQueryProperties to get media query definitions from
    * @return all media queries configured in properties
    */
@@ -140,6 +151,8 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param propertiesFilePath to get properties file with media query definitions from
    * @return all media queries configured in properties file
    */
@@ -154,6 +167,8 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueryByName.</p>
+   *
    * @param name of media query to retrieve
    * @return media query matching name
    */
@@ -168,7 +183,8 @@ public final class MediaQueryUtil {
   }
 
   /**
-   * Factory method to create {@link MediaQuery}
+   * Factory method to create {@link io.wcm.qa.galenium.mediaquery.MediaQuery}
+   *
    * @param mediaQueryName name to use for media query
    * @param lowerBound to use as lower bound in media query
    * @param upperBound to use as upper bound in media query

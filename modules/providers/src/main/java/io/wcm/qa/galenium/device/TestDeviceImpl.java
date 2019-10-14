@@ -29,6 +29,8 @@ import org.openqa.selenium.Dimension;
 
 /**
  * Implementation of TestDevice.
+ *
+ * @since 1.0.0
  */
 public class TestDeviceImpl implements TestDevice {
 
@@ -39,6 +41,8 @@ public class TestDeviceImpl implements TestDevice {
   private final Dimension screenSize;
 
   /**
+   * <p>Constructor for TestDeviceImpl.</p>
+   *
    * @param profile defining the device
    */
   public TestDeviceImpl(DeviceProfile profile) {
@@ -51,6 +55,8 @@ public class TestDeviceImpl implements TestDevice {
   }
 
   /**
+   * <p>Constructor for TestDeviceImpl.</p>
+   *
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
@@ -76,6 +82,7 @@ public class TestDeviceImpl implements TestDevice {
 
   /**
    * Overwrite all existing tags with new list.
+   *
    * @param tags new tags or null to reset
    */
   public void setTags(List<String> tags) {
@@ -83,7 +90,9 @@ public class TestDeviceImpl implements TestDevice {
   }
 
   /**
-   * @param tags
+   * <p>addTags.</p>
+   *
+   * @param tags a {@link java.lang.String} object.
    */
   public void addTags(String... tags) {
     CollectionUtils.addAll(includeTags, tags);
@@ -93,6 +102,7 @@ public class TestDeviceImpl implements TestDevice {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.device.ITestDevice#getBrowserType()
    */
+  /** {@inheritDoc} */
   @Override
   public BrowserType getBrowserType() {
     return browserType;
@@ -101,6 +111,7 @@ public class TestDeviceImpl implements TestDevice {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.device.ITestDevice#getChromeEmulator()
    */
+  /** {@inheritDoc} */
   @Override
   public String getChromeEmulator() {
     return chromeEmulator;
@@ -109,6 +120,7 @@ public class TestDeviceImpl implements TestDevice {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.device.ITestDevice#getTags()
    */
+  /** {@inheritDoc} */
   @Override
   public List<String> getTags() {
     return includeTags;
@@ -117,6 +129,7 @@ public class TestDeviceImpl implements TestDevice {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.device.ITestDevice#getName()
    */
+  /** {@inheritDoc} */
   @Override
   public String getName() {
     return name;
@@ -125,18 +138,22 @@ public class TestDeviceImpl implements TestDevice {
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.device.ITestDevice#getScreenSize()
    */
+  /** {@inheritDoc} */
   @Override
   public Dimension getScreenSize() {
     return screenSize;
   }
 
   /**
+   * <p>Setter for the field <code>chromeEmulator</code>.</p>
+   *
    * @param chromeEmulator chrome emulator string to use in web driver
    */
   public void setChromeEmulator(String chromeEmulator) {
     this.chromeEmulator = chromeEmulator;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();

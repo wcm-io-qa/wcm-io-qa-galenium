@@ -46,12 +46,14 @@ import io.wcm.qa.galenium.configuration.PropertiesUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
- * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link Properties}
- * file located at {@link GaleniumConfiguration#getTextComparisonFile()} in
- * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
+ * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link java.util.Properties}
+ * file located at {@link io.wcm.qa.galenium.configuration.GaleniumConfiguration#getTextComparisonFile()} in
+ * {@link io.wcm.qa.galenium.configuration.GaleniumConfiguration#getTextComparisonInputDirectory()}.
+ *
+ * @since 1.0.0
  */
 public final class TextSampleManager {
-		  
+
   private static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
   private static final SortedProperties EXPECTED_TEXTS = new SortedProperties();
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
@@ -77,6 +79,7 @@ public final class TextSampleManager {
 
   /**
    * Adds a new text sample for optional persisting.
+   *
    * @param key this door is opened with the key to your imagination
    * @param value added
    */
@@ -86,6 +89,8 @@ public final class TextSampleManager {
   }
 
   /**
+   * <p>getExpectedText.</p>
+   *
    * @param key to look up text
    * @return text expected for this key
    */
@@ -93,11 +98,18 @@ public final class TextSampleManager {
     return EXPECTED_TEXTS.getProperty(key);
   }
 
+  /**
+   * <p>getExpectedTexts.</p>
+   *
+   * @return a {@link java.util.Properties} object.
+   */
   public static Properties getExpectedTexts() {
     return EXPECTED_TEXTS;
   }
 
   /**
+   * <p>getExpectedTextsForPrefix.</p>
+   *
    * @param prefix used to filter properties
    * @return new Properties containing only entries starting with the prefix
    */
@@ -122,7 +134,7 @@ public final class TextSampleManager {
 	WriterOutputStream writerOutputStream = null;
     try {
       getLogger().debug("Persisting " + SAMPLED_TEXTS.size() + " text samples.");
-      writerOutputStream = getOutputStream();        
+      writerOutputStream = getOutputStream();
       EXPECTED_TEXTS.store(writerOutputStream, "Expected texts");
       SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
     }
@@ -151,7 +163,7 @@ public final class TextSampleManager {
     try {
       temp = new File(OUTPUT_FILE.getAbsolutePath() + ".unixLines");
       temp.createNewFile();
-      
+
       reader = new BufferedReader(new InputStreamReader(new DataInputStream(new FileInputStream(OUTPUT_FILE))));
       writer = new BufferedWriter(new OutputStreamWriter(new DataOutputStream(new FileOutputStream(temp))));
 
@@ -176,7 +188,7 @@ public final class TextSampleManager {
     }
 
   }
-  
+
   private static Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }

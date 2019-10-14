@@ -23,6 +23,8 @@ import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 
 /**
  * Cleans and formats string for use in class name.
+ *
+ * @since 1.0.0
  */
 public class ClassNameFromStringMethod extends AbstractTemplateMethod<String> {
 

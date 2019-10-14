@@ -36,6 +36,8 @@ import net.lightbody.bmp.proxy.auth.AuthType;
 
 /**
  * Configuring the BrowserMob Proxy.
+ *
+ * @since 1.0.0
  */
 public final class BrowserMobUtil {
 
@@ -48,6 +50,7 @@ public final class BrowserMobUtil {
 
   /**
    * Add basic authentication header to every request.
+   *
    * @param name user name to use for auth
    * @param pass password to use for auth
    */
@@ -57,6 +60,7 @@ public final class BrowserMobUtil {
 
   /**
    * Add basic authentication header to every request.
+   *
    * @param url to extract protected domain from
    * @param name user name to use for auth
    * @param pass password to use for auth
@@ -87,6 +91,7 @@ public final class BrowserMobUtil {
 
   /**
    * Add header to every request.
+   *
    * @param name header name
    * @param value header value
    */
@@ -96,6 +101,8 @@ public final class BrowserMobUtil {
   }
 
   /**
+   * <p>getSeleniumProxy.</p>
+   *
    * @return Selenium proxy using BrowserMob Proxy
    */
   public static Proxy getSeleniumProxy() {
@@ -110,6 +117,7 @@ public final class BrowserMobUtil {
 
   /**
    * BrowserMob Proxy from Galenium context.
+   *
    * @return the BMP for the current thread
    */
   public static BrowserMobProxy getBrowserMobProxy() {

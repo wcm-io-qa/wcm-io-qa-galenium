@@ -25,9 +25,12 @@ import io.wcm.qa.galenium.differences.base.Difference;
 
 /**
  * Compares difference name and tag.
+ *
+ * @since 1.0.0
  */
 public class DifferenceNameAndValueComparator extends DifferenceNameComparator {
 
+  /** {@inheritDoc} */
   @Override
   public int compare(Difference arg0, Difference arg1) {
     int nameComparison = super.compare(arg0, arg1);

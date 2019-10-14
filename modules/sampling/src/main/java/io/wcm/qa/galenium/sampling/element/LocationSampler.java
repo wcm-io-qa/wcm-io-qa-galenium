@@ -28,10 +28,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Samples position of web element.
+ *
+ * @since 1.0.0
  */
 public class LocationSampler extends ElementBasedSampler<Point> {
 
   /**
+   * <p>Constructor for LocationSampler.</p>
+   *
    * @param selector identifies element
    */
   public LocationSampler(Selector selector) {

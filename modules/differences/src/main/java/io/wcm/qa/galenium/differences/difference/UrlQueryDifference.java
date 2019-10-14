@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.differences.difference;
 
 /**
  * Uses the query parameters to URL as difference.
+ *
+ * @since 1.0.0
  */
 public class UrlQueryDifference extends UrlDifference {
 
@@ -32,6 +34,8 @@ public class UrlQueryDifference extends UrlDifference {
   }
 
   /**
+   * <p>Constructor for UrlQueryDifference.</p>
+   *
    * @param url to extract parameters from
    */
   public UrlQueryDifference(String url) {

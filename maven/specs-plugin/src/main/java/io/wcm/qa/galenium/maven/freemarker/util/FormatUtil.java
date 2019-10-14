@@ -33,6 +33,8 @@ import io.wcm.qa.galenium.maven.freemarker.pojo.SpecPojo;
 
 /**
  * Utility methods to convert between different casings.
+ *
+ * @since 1.0.0
  */
 public final class FormatUtil {
 
@@ -44,6 +46,8 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getClassName.</p>
+   *
    * @param file to extract class name from
    * @return class name build from file name
    */
@@ -52,6 +56,8 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getClassName.</p>
+   *
    * @param selector to extract class name from
    * @return class name from selectors element name
    */
@@ -63,16 +69,22 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getFullyQualifiedWebElementClassName.</p>
+   *
    * @param selector to extract class name from
    * @return class name from selectors element name
+   * @param packageName a {@link java.lang.String} object.
    */
   public static String getFullyQualifiedWebElementClassName(String packageName, SelectorPojo selector) {
     return getFullyQualifiedClassName(packageName, selector, "Gwe");
   }
 
   /**
+   * <p>getFullyQualifiedSelectorClassName.</p>
+   *
    * @param selector to extract class name from
    * @return class name from selectors element name
+   * @param packageName a {@link java.lang.String} object.
    */
   public static String getFullyQualifiedSelectorClassName(String packageName, SelectorPojo selector) {
     return getFullyQualifiedClassName(packageName, selector, "");
@@ -92,6 +104,8 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getClassName.</p>
+   *
    * @param specPojo to extract name from
    * @return class name from spec file
    */
@@ -100,6 +114,8 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getClassName.</p>
+   *
    * @param string kebap cased string
    * @return class name formatted string from kebap string
    */
@@ -108,6 +124,8 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getConstantName.</p>
+   *
    * @param selector to extract name from
    * @return selectors element name formatted for use as constant name
    */
@@ -119,6 +137,8 @@ public final class FormatUtil {
   }
 
   /**
+   * <p>getSelectorsPackageName.</p>
+   *
    * @param packageRoot root package to prepend
    * @param spec to extract package name from
    * @return absolute package name built from package root and spec

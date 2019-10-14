@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.selenium;
 
 /**
  * Run modes are set externally to enable running in different scenarios.
+ *
+ * @since 1.0.0
  */
 public enum RunMode {
 
@@ -44,6 +46,8 @@ public enum RunMode {
   }
 
   /**
+   * <p>getRunMode.</p>
+   *
    * @return string representation of run mode.
    */
   public String getRunMode() {

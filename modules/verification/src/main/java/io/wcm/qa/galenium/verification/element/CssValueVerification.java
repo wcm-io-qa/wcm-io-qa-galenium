@@ -27,10 +27,14 @@ import io.wcm.qa.galenium.verification.element.base.ElementBasedStringVerificati
 
 /**
  * Make sure an attribute is set on an element.
+ *
+ * @since 1.0.0
  */
 public class CssValueVerification extends ElementBasedStringVerification<CssValueSampler> {
 
   /**
+   * <p>Constructor for CssValueVerification.</p>
+   *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
    */
@@ -40,6 +44,8 @@ public class CssValueVerification extends ElementBasedStringVerification<CssValu
   }
 
   /**
+   * <p>Constructor for CssValueVerification.</p>
+   *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
    * @param expectedValue to verify against

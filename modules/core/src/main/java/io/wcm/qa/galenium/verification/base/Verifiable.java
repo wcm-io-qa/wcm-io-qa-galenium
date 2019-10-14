@@ -21,11 +21,14 @@ package io.wcm.qa.galenium.verification.base;
 
 /**
  * Represents verifiable objects in a lambda friendly way.
+ *
+ * @since 1.0.0
  */
 public interface Verifiable {
 
   /**
    * Attempts verification, if it was not attempted before, and returns whether it was successful
+   *
    * @return whether verification was successful
    */
   boolean verify();

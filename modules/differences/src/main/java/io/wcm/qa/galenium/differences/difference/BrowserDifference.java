@@ -26,7 +26,9 @@ import io.wcm.qa.galenium.differences.base.DifferenceBase;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
+ * {@link io.wcm.qa.galenium.device.TestDevice} based {@link io.wcm.qa.galenium.differences.base.Difference} using {@link io.wcm.qa.galenium.device.BrowserType}.
+ *
+ * @since 1.0.0
  */
 public class BrowserDifference extends DifferenceBase {
 

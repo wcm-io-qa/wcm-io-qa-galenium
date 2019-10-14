@@ -29,7 +29,9 @@ import io.wcm.qa.galenium.verification.base.Verifiable;
 /**
  * Abstract base class for implementations verifying the stability of samples. The mechanism is that two consecutive
  * samples have to be equal.
+ *
  * @param <T> type of sample
+ * @since 1.0.0
  */
 public abstract class Stability<T> implements Verifiable {
 
@@ -40,17 +42,26 @@ public abstract class Stability<T> implements Verifiable {
   private Sampler<T> sampler;
 
   /**
+   * <p>Constructor for Stability.</p>
+   *
    * @param sampler to use in verification
    */
   public Stability(Sampler<T> sampler) {
     setSampler(sampler);
   }
 
+  /**
+   * <p>Getter for the field <code>sampler</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.sampling.Sampler} object.
+   */
   public Sampler<T> getSampler() {
     return sampler;
   }
 
   /**
+   * <p>Setter for the field <code>sampler</code>.</p>
+   *
    * @param sampler to use in verification
    */
   public void setSampler(Sampler<T> sampler) {
@@ -60,6 +71,7 @@ public abstract class Stability<T> implements Verifiable {
     this.sampler = sampler;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean verify() {
     getLogger().debug(getClass().getSimpleName() + ": checking for stability");

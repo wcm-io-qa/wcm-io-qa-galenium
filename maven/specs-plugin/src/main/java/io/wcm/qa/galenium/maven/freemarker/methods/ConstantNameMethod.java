@@ -24,6 +24,8 @@ import io.wcm.qa.galenium.maven.freemarker.util.FormatUtil;
 
 /**
  * Extracts constant name from selector.
+ *
+ * @since 1.0.0
  */
 public class ConstantNameMethod extends AbstractTemplateMethod<SelectorPojo> {
 

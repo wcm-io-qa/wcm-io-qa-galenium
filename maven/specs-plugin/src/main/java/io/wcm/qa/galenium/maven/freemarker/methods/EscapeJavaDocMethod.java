@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.maven.freemarker.methods;
 
 /**
  * Escapes strign for JavaDoc.
+ *
+ * @since 1.0.0
  */
 public class EscapeJavaDocMethod extends AbstractTemplateMethod<String> {
 

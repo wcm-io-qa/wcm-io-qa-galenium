@@ -24,6 +24,8 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Base class encapsulating common functionality to verify aspects of elements.
+ *
+ * @since 1.0.0
  */
 public abstract class ElementBasedVerification<S extends ElementBasedSampler<T>, T> extends SelectorBasedVerification<S, T> {
 

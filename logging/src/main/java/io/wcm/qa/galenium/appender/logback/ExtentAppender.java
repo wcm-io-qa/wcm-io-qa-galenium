@@ -34,7 +34,9 @@ import ch.qos.logback.core.CoreConstants;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
- * Logback appender for writing to {@link ExtentReports}.
+ * Logback appender for writing to {@link com.relevantcodes.extentreports.ExtentReports}.
+ *
+ * @since 1.0.0
  */
 public class ExtentAppender extends AppenderBase<ILoggingEvent> {
 

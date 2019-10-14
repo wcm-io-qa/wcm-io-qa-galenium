@@ -23,11 +23,15 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Make sure current URL contains a certain value.
+ *
+ * @since 1.0.0
  */
 public class PartialUrlVerification extends CurrentUrlVerification {
 
 
   /**
+   * <p>Constructor for PartialUrlVerification.</p>
+   *
    * @param verificationName for use in reporting
    * @param expectedUrlPart to look for in URL
    */

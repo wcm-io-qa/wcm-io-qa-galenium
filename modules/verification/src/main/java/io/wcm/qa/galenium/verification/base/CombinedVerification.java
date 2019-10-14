@@ -31,6 +31,8 @@ import io.wcm.qa.galenium.sampling.CanCache;
 
 /**
  * Combines multiple verifications into a single verification.
+ *
+ * @since 1.0.0
  */
 public class CombinedVerification implements Verification, CanCache {
 
@@ -41,6 +43,8 @@ public class CombinedVerification implements Verification, CanCache {
   private boolean reportSuccess = !GaleniumConfiguration.isSparseReporting();
 
   /**
+   * <p>Constructor for CombinedVerification.</p>
+   *
    * @param verifications initial set of verifications
    */
   public CombinedVerification(Verification... verifications) {
@@ -51,7 +55,9 @@ public class CombinedVerification implements Verification, CanCache {
 
   /**
    * Add a difference to all verifications being combined in this one.
+   *
    * @param difference new difference to add to all member verifications
+   * @return a {@link io.wcm.qa.galenium.verification.base.CombinedVerification} object.
    */
   public CombinedVerification addDifference(Difference difference) {
     for (Verification verification : getMembers()) {
@@ -64,51 +70,91 @@ public class CombinedVerification implements Verification, CanCache {
 
   /**
    * Add another check.
+   *
    * @param verification to also verify as part of this comined verification
+   * @return a {@link io.wcm.qa.galenium.verification.base.CombinedVerification} object.
    */
   public CombinedVerification addVerification(Verification verification) {
     getMembers().add(verification);
     return this;
   }
 
+  /**
+   * <p>Getter for the field <code>combinedMessages</code>.</p>
+   *
+   * @return a {@link java.util.Collection} object.
+   */
   public Collection<String> getCombinedMessages() {
     return combinedMessages;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Throwable getException() {
     return exception;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getMessage() {
     return getCombinedMessage();
   }
 
+  /**
+   * <p>Getter for the field <code>messageSeparator</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getMessageSeparator() {
     return messageSeparator;
   }
 
+  /**
+   * <p>isReportSuccess.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isReportSuccess() {
     return reportSuccess;
   }
 
+  /**
+   * <p>Setter for the field <code>combinedMessages</code>.</p>
+   *
+   * @param combinedMessages a {@link java.util.Collection} object.
+   */
   public void setCombinedMessages(Collection<String> combinedMessages) {
     this.combinedMessages = combinedMessages;
   }
 
+  /**
+   * <p>Setter for the field <code>exception</code>.</p>
+   *
+   * @param exception a {@link java.lang.Throwable} object.
+   */
   public void setException(Throwable exception) {
     this.exception = exception;
   }
 
+  /**
+   * <p>Setter for the field <code>messageSeparator</code>.</p>
+   *
+   * @param messageSeparator a {@link java.lang.String} object.
+   */
   public void setMessageSeparator(String messageSeparator) {
     this.messageSeparator = messageSeparator;
   }
 
+  /**
+   * <p>Setter for the field <code>reportSuccess</code>.</p>
+   *
+   * @param reportSuccess a boolean.
+   */
   public void setReportSuccess(boolean reportSuccess) {
     this.reportSuccess = reportSuccess;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean verify() {
     if (hasMembers()) {
@@ -157,6 +203,7 @@ public class CombinedVerification implements Verification, CanCache {
     return noFailures;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     for (Verification verification : getMembers()) {
@@ -167,6 +214,7 @@ public class CombinedVerification implements Verification, CanCache {
     return false;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean activateCache) {
     for (Verification verification : getMembers()) {

@@ -24,9 +24,12 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Samples title of current page.
+ *
+ * @since 1.0.0
  */
 public class PageTitleSampler extends CachingBasedSampler<String> {
 
+  /** {@inheritDoc} */
   @Override
   public String sampleValue() {
     return GaleniumContext.getDriver().getTitle();

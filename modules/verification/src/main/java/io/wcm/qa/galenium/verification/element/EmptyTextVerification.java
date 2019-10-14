@@ -25,10 +25,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Verifies that element has no text.
+ *
+ * @since 1.0.0
  */
 public class EmptyTextVerification extends TextVerification {
 
   /**
+   * <p>Constructor for EmptyTextVerification.</p>
+   *
    * @param selector identifies element
    */
   public EmptyTextVerification(Selector selector) {

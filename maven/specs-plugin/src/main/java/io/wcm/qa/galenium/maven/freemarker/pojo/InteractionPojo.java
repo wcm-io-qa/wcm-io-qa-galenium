@@ -27,20 +27,26 @@ import io.wcm.qa.galenium.interaction.Element;
 import io.wcm.qa.galenium.maven.freemarker.util.ReflectionUtil;
 
 /**
- * Provides methods from {@link Element} class.
+ * Provides methods from {@link io.wcm.qa.galenium.interaction.Element} class.
+ *
+ * @since 1.0.0
  */
 public class InteractionPojo {
 
   private Class delegatee;
 
   /**
-   * @param delegateeClass
+   * <p>Constructor for InteractionPojo.</p>
+   *
+   * @param delegateeClass a {@link java.lang.Class} object.
    */
   public InteractionPojo(Class delegateeClass) {
     setDelegatee(delegateeClass);
   }
 
   /**
+   * <p>getMethods.</p>
+   *
    * @return methods pojo for use in code generation
    */
   public Collection<InteractionMethodPojo> getMethods() {
@@ -72,10 +78,20 @@ public class InteractionPojo {
     return ReflectionUtil.isStatic(method) && ReflectionUtil.isPublic(method) && hasSelectorArgument(method);
   }
 
+  /**
+   * <p>Getter for the field <code>delegatee</code>.</p>
+   *
+   * @return a {@link java.lang.Class} object.
+   */
   public Class getDelegatee() {
     return delegatee;
   }
 
+  /**
+   * <p>Setter for the field <code>delegatee</code>.</p>
+   *
+   * @param delegatee a {@link java.lang.Class} object.
+   */
   public void setDelegatee(Class delegatee) {
     this.delegatee = delegatee;
   }

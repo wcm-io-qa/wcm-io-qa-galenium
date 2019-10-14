@@ -55,7 +55,9 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * Utility methods to run Galen layout checks from Selenium tests. Integration via {@link GaleniumContext}.
+ * Utility methods to run Galen layout checks from Selenium tests. Integration via {@link io.wcm.qa.galenium.util.GaleniumContext}.
+ *
+ * @since 1.0.0
  */
 public final class GalenLayoutChecker {
 
@@ -66,7 +68,8 @@ public final class GalenLayoutChecker {
   /**
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from section name of spec factory and used as folder name in reports
-   * @param specFactory {@link ImageComparisonSpecFactory} to generate spec to check
+   *
+   * @param specFactory {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory} to generate spec to check
    * @return report on spec test
    */
   public static LayoutReport checkLayout(ImageComparisonSpecFactory specFactory) {
@@ -77,6 +80,7 @@ public final class GalenLayoutChecker {
   /**
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from first section of spec and used as folder name in reports
+   *
    * @param spec Galen spec to check
    * @return report on spec test
    */
@@ -86,6 +90,7 @@ public final class GalenLayoutChecker {
 
   /**
    * Checks Galen spec against current state of driver.
+   *
    * @param testName test name used as folder name in reports
    * @param spec Galen spec to check
    * @return report on spec test
@@ -97,6 +102,7 @@ public final class GalenLayoutChecker {
 
   /**
    * Checks Galen spec against current state of driver using the tags.
+   *
    * @param testName test name used as folder name in reports
    * @param spec Galen spec to check
    * @param tags tags to use to filter rules
@@ -116,6 +122,7 @@ public final class GalenLayoutChecker {
 
   /**
    * Checks Galen spec against current state of driver.
+   *
    * @param testName test name used as folder name in reports
    * @param spec Galen spec to check
    * @param device device to retrieve driver
@@ -130,6 +137,7 @@ public final class GalenLayoutChecker {
 
   /**
    * Checks Galen spec against current state of driver.
+   *
    * @param testName test name used as folder name in reports
    * @param specPath path to spec file
    * @return report on spec test
@@ -141,6 +149,7 @@ public final class GalenLayoutChecker {
 
   /**
    * Checks Galen spec against current state of driver.
+   *
    * @param testName testname, also used as foldernames in reports
    * @param specPath path to the Galen spec
    * @param device Device for the test
@@ -157,6 +166,8 @@ public final class GalenLayoutChecker {
   }
 
   /**
+   * <p>handleLayoutReport.</p>
+   *
    * @param layoutReport Galen layout report
    * @param errorMessage message to use for errors and failures
    * @param successMessage message to use in case of success

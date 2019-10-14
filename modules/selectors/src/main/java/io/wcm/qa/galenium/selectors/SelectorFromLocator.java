@@ -25,11 +25,15 @@ import io.wcm.qa.galenium.selectors.base.AbstractNestedSelectorBase;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- * Turns a Galen {@link Locator} object into a Galenium {@link Selector}.
+ * Turns a Galen {@link com.galenframework.specs.page.Locator} object into a Galenium {@link io.wcm.qa.galenium.selectors.base.Selector}.
+ *
+ * @since 1.0.0
  */
 public class SelectorFromLocator extends AbstractNestedSelectorBase {
 
   /**
+   * <p>Constructor for SelectorFromLocator.</p>
+   *
    * @param locator to use in Selector construction
    */
   public SelectorFromLocator(Locator locator) {
@@ -37,6 +41,8 @@ public class SelectorFromLocator extends AbstractNestedSelectorBase {
   }
 
   /**
+   * <p>Constructor for SelectorFromLocator.</p>
+   *
    * @param elementName alternative name for use in reporting
    * @param locator to use in Selector construction
    */

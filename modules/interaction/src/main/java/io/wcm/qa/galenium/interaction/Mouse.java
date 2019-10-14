@@ -32,6 +32,8 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Mouse interaction methods.
+ *
+ * @since 1.0.0
  */
 public final class Mouse {
 
@@ -49,6 +51,7 @@ public final class Mouse {
 
   /**
    * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
+   *
    * @param selector identifies element
    */
   public static void clickLocation(Selector selector) {
@@ -58,6 +61,7 @@ public final class Mouse {
   /**
    * Click at location of nth element defined by selector. Useful when encountering 'other element would receive click'
    * exceptions.
+   *
    * @param selector identifies elements
    * @param index which of the elements
    */
@@ -68,6 +72,7 @@ public final class Mouse {
 
   /**
    * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
+   *
    * @param element to click at location of
    */
   public static void clickLocation(WebElement element) {
@@ -76,6 +81,8 @@ public final class Mouse {
   }
 
   /**
+   * <p>getVerticalScrollPosition.</p>
+   *
    * @return current vertical scroll position of browser with 0 being the very top
    */
   public static Long getVerticalScrollPosition() {
@@ -93,8 +100,9 @@ public final class Mouse {
 
   /**
    * Move horizontally.
-   * @param horizontalOffset
-   * @param verticalOffset
+   *
+   * @param horizontalOffset a int.
+   * @param verticalOffset a int.
    */
   public static void moveByOffset(int horizontalOffset, int verticalOffset) {
     getActions().moveByOffset(horizontalOffset, verticalOffset).perform();
@@ -102,6 +110,7 @@ public final class Mouse {
 
   /**
    * Move mouse horizontally over page and scroll if necessary to keep it in viewport.
+   *
    * @param horizontalOffset to move mouse horizontally by (negative values move to the left.
    */
   public static void moveHorizontally(int horizontalOffset) {
@@ -117,6 +126,7 @@ public final class Mouse {
 
   /**
    * Move mouse pointer to element.
+   *
    * @param selector identifies element
    */
   public static void moveTo(Selector selector) {
@@ -125,6 +135,7 @@ public final class Mouse {
 
   /**
    * Move mouse pointer to element.
+   *
    * @param selector identifies element
    * @param index which of the elements
    */
@@ -135,6 +146,7 @@ public final class Mouse {
 
   /**
    * Move mouse pointer to element.
+   *
    * @param element to move to
    */
   public static void moveTo(WebElement element) {

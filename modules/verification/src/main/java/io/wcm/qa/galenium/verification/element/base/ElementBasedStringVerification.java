@@ -26,7 +26,9 @@ import io.wcm.qa.galenium.sampling.element.base.ElementBasedStringSampler;
 
 /**
  * Abstract base class for implementations to verification on strings sampled from web elements.
+ *
  * @param <S>
+ * @since 1.0.0
  */
 public abstract class ElementBasedStringVerification<S extends ElementBasedStringSampler> extends ElementBasedVerification<S, String> {
 

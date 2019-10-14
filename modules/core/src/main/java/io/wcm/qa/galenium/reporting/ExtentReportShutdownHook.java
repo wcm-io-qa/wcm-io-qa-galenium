@@ -22,9 +22,12 @@ package io.wcm.qa.galenium.reporting;
 
 /**
  * Shutdown hook to finish Extent report.
+ *
+ * @since 1.0.0
  */
 public class ExtentReportShutdownHook extends Thread {
 
+  /** {@inheritDoc} */
   @Override
   public void run() {
     GaleniumReportUtil.finishExtentReports();

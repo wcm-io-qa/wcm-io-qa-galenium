@@ -26,6 +26,8 @@ import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that string is contained in sample.
+ *
+ * @since 1.0.0
  */
 public class ContainsStringVerification extends StringVerification {
 
@@ -33,6 +35,7 @@ public class ContainsStringVerification extends StringVerification {
 
   /**
    * Verify against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param searchString to find in input
    * @param sampler sampler to provide input
@@ -44,6 +47,7 @@ public class ContainsStringVerification extends StringVerification {
 
   /**
    * Verify against fixed string.
+   *
    * @param verificationName name for this check
    * @param searchString to find in input
    * @param sample fixed input sample
@@ -52,10 +56,20 @@ public class ContainsStringVerification extends StringVerification {
     this(verificationName, searchString, new FixedStringSampler(sample));
   }
 
+  /**
+   * <p>Getter for the field <code>searchString</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getSearchString() {
     return searchString;
   }
 
+  /**
+   * <p>Setter for the field <code>searchString</code>.</p>
+   *
+   * @param searchString a {@link java.lang.String} object.
+   */
   public void setSearchString(String searchString) {
     this.searchString = searchString;
   }

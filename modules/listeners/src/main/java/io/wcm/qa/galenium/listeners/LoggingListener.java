@@ -47,15 +47,19 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
  * tests are run in parallel threads, it will close the WebDriver after each
  * test method. If they are run sequentially in the main thread, the same
  * WebDriver will be re-used and close after the last test case.
+ *
+ * @since 1.0.0
  */
 public class LoggingListener extends TestListenerAdapter {
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
     getLogger().trace("Generating Galen reports.");
     GaleniumReportUtil.createGalenReports();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext context) {
     Logger logger = getLogger();
@@ -81,6 +85,7 @@ public class LoggingListener extends TestListenerAdapter {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult result) {
     updateExtentTest(result);
@@ -98,6 +103,7 @@ public class LoggingListener extends TestListenerAdapter {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     updateExtentTest(result);

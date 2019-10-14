@@ -56,6 +56,7 @@ class GaleniumExtentReports extends ExtentReports {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public synchronized void close() {
     log.info("attempting closing GaleniumExtentReports");
@@ -75,6 +76,12 @@ class GaleniumExtentReports extends ExtentReports {
     log.info("closed GaleniumExtentReports");
   }
 
+  /**
+   * <p>getExtentTest.</p>
+   *
+   * @param name a {@link java.lang.String} object.
+   * @return a {@link com.relevantcodes.extentreports.ExtentTest} object.
+   */
   public ExtentTest getExtentTest(String name) {
     if (map.containsKey(name)) {
       return map.get(name);
@@ -82,6 +89,7 @@ class GaleniumExtentReports extends ExtentReports {
     return startTest(name, "");
   }
 
+  /** {@inheritDoc} */
   @Override
   public synchronized ExtentTest startTest(String testName, String description) {
     log.info("starting ExtentTest: " + testName + " (" + description + ")");

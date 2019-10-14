@@ -43,12 +43,16 @@ import io.wcm.qa.galenium.verification.base.VerificationBase;
 
 /**
  * Make sure an element looks like a sample image.
+ *
+ * @since 1.0.0
  */
 public class VisualVerification extends VerificationBase<Object> {
 
   private ImageComparisonSpecFactory specFactory;
 
   /**
+   * <p>Constructor for VisualVerification.</p>
+   *
    * @param selector to identify element
    */
   public VisualVerification(Selector selector) {
@@ -57,6 +61,7 @@ public class VisualVerification extends VerificationBase<Object> {
     setSpecFactory(new ImageComparisonSpecFactory(selector));
   }
 
+  /** {@inheritDoc} */
   @Override
   public VisualVerification addDifference(Difference difference) {
     // handle factory
@@ -69,6 +74,7 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Add an object to ignore during image comparison.
+   *
    * @param selectorToIgnore identify element to ignore
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
@@ -77,55 +83,103 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * If set the scroll position will be taken into account when needed.
+   *
    * @param yCorrection vertical scroll position value
    */
   public void correctForSrollPosition(int yCorrection) {
     getSpecFactory().correctForSrollPosition(yCorrection);
   }
 
+  /**
+   * <p>getAllowedError.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getAllowedError() {
     return getSpecFactory().getAllowedError();
   }
 
+  /**
+   * <p>getAllowedOffset.</p>
+   *
+   * @return a int.
+   */
   public int getAllowedOffset() {
     return getSpecFactory().getAllowedOffset();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Comparator<Difference> getComparator() {
     return this.specFactory.getComparator();
   }
 
+  /**
+   * <p>getFilename.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getFilename() {
     return getSpecFactory().getFilename();
   }
 
+  /**
+   * <p>getFoldername.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getFoldername() {
     return getSpecFactory().getFoldername();
   }
 
+  /**
+   * <p>getObjectsToIgnore.</p>
+   *
+   * @return a {@link java.util.List} object.
+   */
   public List<Selector> getObjectsToIgnore() {
     return getSpecFactory().getObjectsToIgnore();
   }
 
+  /**
+   * <p>getSectionName.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getSectionName() {
     return getSpecFactory().getSectionName();
   }
 
+  /**
+   * <p>Getter for the field <code>specFactory</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory} object.
+   */
   public ImageComparisonSpecFactory getSpecFactory() {
     return specFactory;
   }
 
+  /**
+   * <p>getValidationListener.</p>
+   *
+   * @return a {@link com.galenframework.validation.ValidationListener} object.
+   */
   public ValidationListener getValidationListener() {
     return getSpecFactory().getValidationListener();
   }
 
+  /**
+   * <p>isZeroToleranceWarning.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isZeroToleranceWarning() {
     return getSpecFactory().isZeroToleranceWarning();
   }
 
   /**
    * Percentage of pixels which can have different values without failing verification. Overrides allowed error pixel.
+   *
    * @param allowedErrorPercentage tolerance in percent
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
@@ -135,6 +189,7 @@ public class VisualVerification extends VerificationBase<Object> {
   /**
    * Total number of pixels which can have different values without failing verification. Overrides allowed error
    * percentage.
+   *
    * @param allowedErrorPixels tolerance in total number of pixels
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
@@ -143,19 +198,22 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Allow image to be displaced by a few pixels.
+   *
    * @param allowedOffset maximum offset to take into account
    */
   public void setAllowedOffset(int allowedOffset) {
     getSpecFactory().setAllowedOffset(allowedOffset);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setComparator(Comparator<Difference> comparator) {
     this.specFactory.setComparator(comparator);
   }
 
   /**
-   * Apply positional corrections in form of a {@link CorrectionsRect}.
+   * Apply positional corrections in form of a {@link com.galenframework.specs.page.CorrectionsRect}.
+   *
    * @param corrections to apply when comparing
    */
   public void setCorrections(CorrectionsRect corrections) {
@@ -164,6 +222,7 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Filename of sample.
+   *
    * @param filename new file name
    */
   public void setFilename(String filename) {
@@ -172,6 +231,7 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Foldername of sample.
+   *
    * @param foldername new folder name
    */
   public void setFoldername(String foldername) {
@@ -180,6 +240,7 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Ignore a list of objects when doing image comparison.
+   *
    * @param objectsToIgnore list to ignore
    */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
@@ -187,17 +248,26 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   /**
+   * <p>setSectionName.</p>
+   *
    * @param sectionName used in reporting
    */
   public void setSectionName(String sectionName) {
     getSpecFactory().setSectionName(sectionName);
   }
 
+  /**
+   * <p>Setter for the field <code>specFactory</code>.</p>
+   *
+   * @param specFactory a {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory} object.
+   */
   public void setSpecFactory(ImageComparisonSpecFactory specFactory) {
     this.specFactory = specFactory;
   }
 
   /**
+   * <p>setValidationListener.</p>
+   *
    * @param validationListener listener to use for this comparison
    */
   public void setValidationListener(ValidationListener validationListener) {
@@ -208,6 +278,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * Compare images with no tolerances, but only warn. Allowed pixel percentage and count are ignored along with allowed
    * offset. If this results in a failed verification a warning will be reported and a new sample stored, but the test
    * run will continue.
+   *
    * @param zeroToleranceWarning whether to use zero tolerance approach
    */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {

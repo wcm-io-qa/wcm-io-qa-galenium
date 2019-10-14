@@ -27,19 +27,24 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Base class for element sampling.
+ *
  * @param <T> type to return as sample
+ * @since 1.0.0
  */
 public abstract class ElementBasedSampler<T> extends SelectorBasedSampler<T> {
 
   private WebElement cachedElement;
 
   /**
+   * <p>Constructor for ElementBasedSampler.</p>
+   *
    * @param selector to identify element
    */
   public ElementBasedSampler(Selector selector) {
     super(selector);
   }
 
+  /** {@inheritDoc} */
   @Override
   public T sampleValue() {
     try {

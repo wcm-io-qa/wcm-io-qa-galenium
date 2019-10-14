@@ -26,12 +26,16 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Samples an attribute of a web element.
+ *
+ * @since 1.0.0
  */
 public class CssValueSampler extends ElementBasedStringSampler {
 
   private String cssValueName;
 
   /**
+   * <p>Constructor for CssValueSampler.</p>
+   *
    * @param selector identifies element
    * @param cssValueName name of CSS value to sample
    */
@@ -40,6 +44,11 @@ public class CssValueSampler extends ElementBasedStringSampler {
     setAttributeName(cssValueName);
   }
 
+  /**
+   * <p>Getter for the field <code>cssValueName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getCssValueName() {
     return cssValueName;
   }

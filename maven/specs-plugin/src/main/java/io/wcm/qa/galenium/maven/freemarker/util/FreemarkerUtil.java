@@ -50,6 +50,8 @@ import io.wcm.qa.galenium.selectors.base.NestedSelector;
 
 /**
  * Utility methods to build data models for use in freemarker code generation.
+ *
+ * @since 1.0.0
  */
 public final class FreemarkerUtil {
 
@@ -60,9 +62,12 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForInteractiveSelector.</p>
+   *
    * @param packageRoot package for interactive selector interface
    * @param className of interactive selector interface
    * @return data model for generating interactive selector interface
+   * @param interfaceName a {@link java.lang.String} object.
    */
   public static Map<String, Object> getDataModelForInteractiveSelector(String packageRoot, String interfaceName, String className) {
     Map<String, Object> model = getCommonDataModel();
@@ -76,10 +81,12 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForSelector.</p>
+   *
    * @param selector selector to build data model for
    * @param spec selector is taken from
    * @param packageName package of interactive selector interface
-   * @param interactiveClassName
+   * @param interactiveClassName a {@link java.lang.String} object.
    * @param interactiveInterfaceName name of interactive selector interface
    * @return data model for use in generating selector class
    */
@@ -98,6 +105,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForSpec.</p>
+   *
    * @param spec to generate Java class for
    * @param packagePrefixSpecs root package
    * @return data model for generating spec class
@@ -112,10 +121,12 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForWebElement.</p>
+   *
    * @param selector selector to build data model for
    * @param spec selector is taken from
    * @param packageName package of interactive selector interface
-   * @param interactiveClassName
+   * @param interactiveClassName a {@link java.lang.String} object.
    * @param interactiveInterfaceName name of interactive selector interface
    * @return data model for use in generating selector class
    */
@@ -132,6 +143,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getOutputFile.</p>
+   *
    * @param outputDir directory
    * @param outputPackage package
    * @param outputClassName class name
@@ -145,6 +158,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getTemplate.</p>
+   *
    * @param directory template root folder
    * @param name name of template
    * @return freemarker template
@@ -162,6 +177,7 @@ public final class FreemarkerUtil {
 
   /**
    * Actually process template to generate code.
+   *
    * @param template to process
    * @param dataModel to use
    * @param outputFile to write to

@@ -32,10 +32,20 @@ class ChromeEmulatorOptionsProvider extends ChromeOptionsProvider {
     setChromeEmulator(emulatorString);
   }
 
+  /**
+   * <p>Getter for the field <code>chromeEmulator</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getChromeEmulator() {
     return chromeEmulator;
   }
 
+  /**
+   * <p>Setter for the field <code>chromeEmulator</code>.</p>
+   *
+   * @param chromeEmulator a {@link java.lang.String} object.
+   */
   public void setChromeEmulator(String chromeEmulator) {
     this.chromeEmulator = chromeEmulator;
   }

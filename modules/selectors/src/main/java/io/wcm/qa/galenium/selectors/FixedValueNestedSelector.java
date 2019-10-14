@@ -29,8 +29,10 @@ import io.wcm.qa.galenium.selectors.base.NestedSelector;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- * {@link NestedSelector} implementation immediately setting {@link By}, {@link Locator}, parent and children values on
+ * {@link io.wcm.qa.galenium.selectors.base.NestedSelector} implementation immediately setting {@link org.openqa.selenium.By}, {@link com.galenframework.specs.page.Locator}, parent and children values on
  * instantiation. This avoids harder to trace errors inherent in lazy evaluation used in other implementations.
+ *
+ * @since 1.0.0
  */
 public class FixedValueNestedSelector extends FixedValueSelector implements NestedSelector {
 
@@ -40,7 +42,8 @@ public class FixedValueNestedSelector extends FixedValueSelector implements Nest
   private Selector relative;
 
   /**
-   * Uses the element name, selector CSS, {@link By}, {@link Locator}, parent and children from selector.
+   * Uses the element name, selector CSS, {@link org.openqa.selenium.By}, {@link com.galenframework.specs.page.Locator}, parent and children from selector.
+   *
    * @param selector to extract values from
    */
   public FixedValueNestedSelector(NestedSelector selector) {
@@ -50,6 +53,7 @@ public class FixedValueNestedSelector extends FixedValueSelector implements Nest
 
   /**
    * Uses the parameters as values.
+   *
    * @param elementName to use for selector
    * @param css to use for selector
    * @param by to use for selector
@@ -68,32 +72,38 @@ public class FixedValueNestedSelector extends FixedValueSelector implements Nest
     this.relative = relative;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Selector asAbsolute() {
     return absolute;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Selector asRelative() {
     return relative;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Collection<NestedSelector> getChildren() {
     return children;
   }
 
+  /** {@inheritDoc} */
   @Override
   public NestedSelector getParent() {
     return parent;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasChildren() {
     boolean hasNoChildren = ((children == null) || (children.isEmpty()));
     return !hasNoChildren;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasParent() {
     return parent != null;

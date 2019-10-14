@@ -23,10 +23,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Make sure a certain element is not visible.
+ *
+ * @since 1.0.0
  */
 public class InvisibilityVerification extends VisibilityVerification {
 
   /**
+   * <p>Constructor for InvisibilityVerification.</p>
+   *
    * @param selector to identify element
    */
   public InvisibilityVerification(Selector selector) {

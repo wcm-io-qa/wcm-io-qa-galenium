@@ -29,6 +29,8 @@ import net.lightbody.bmp.core.har.HarEntry;
 /**
  * Verifies stability of entries in Har. Succeeds if the same number of entries are in Har in two consequtive
  * verification attempts.
+ *
+ * @since 1.0.0
  */
 public class HarStability extends Stability<List<HarEntry>> {
 

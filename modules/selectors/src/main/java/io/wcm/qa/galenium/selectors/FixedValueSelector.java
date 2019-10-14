@@ -27,15 +27,18 @@ import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- * Selector implementation immediately setting {@link By} and {@link Locator} values on instantiation.
+ * Selector implementation immediately setting {@link org.openqa.selenium.By} and {@link com.galenframework.specs.page.Locator} values on instantiation.
  * This avoids harder to trace errors inherent in lazy evaluation used in other implementations.
+ *
+ * @since 1.0.0
  */
 public class FixedValueSelector extends AbstractSelectorBase {
 
   private String elementName;
 
   /**
-   * Uses the element name, selector CSS, {@link By}, and {@link Locator} from selector.
+   * Uses the element name, selector CSS, {@link org.openqa.selenium.By}, and {@link com.galenframework.specs.page.Locator} from selector.
+   *
    * @param selector to extract values from
    */
   public FixedValueSelector(Selector selector) {
@@ -44,6 +47,7 @@ public class FixedValueSelector extends AbstractSelectorBase {
 
   /**
    * Uses the parameters as values.
+   *
    * @param elementName to use for selector
    * @param css to use for selector
    * @param by to use for selector
@@ -56,6 +60,7 @@ public class FixedValueSelector extends AbstractSelectorBase {
     setString(css);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String elementName() {
     return elementName;

@@ -23,10 +23,14 @@ import io.wcm.qa.galenium.verification.base.CombinedVerification;
 
 /**
  * Verifies current page title and URL.
+ *
+ * @since 1.0.0
  */
 public class TitleAndUrlVerification extends CombinedVerification {
 
   /**
+   * <p>Constructor for TitleAndUrlVerification.</p>
+   *
    * @param verificationName name for this particular check
    */
   public TitleAndUrlVerification(String verificationName) {

@@ -27,6 +27,8 @@ import io.wcm.qa.galenium.differences.base.DifferenceBase;
 
 /**
  * Differnce based on current test method.
+ *
+ * @since 1.0.0
  */
 public class TestMethodNameDifference extends DifferenceBase {
 

@@ -29,6 +29,8 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Utility methods for interaction with web form elements.
+ *
+ * @since 1.0.0
  */
 public final class FormElement {
 
@@ -40,6 +42,7 @@ public final class FormElement {
 
   /**
    * Enters text into element which replaces any text that might already be in element.
+   *
    * @param selector identifies the element
    * @param text value to enter
    */

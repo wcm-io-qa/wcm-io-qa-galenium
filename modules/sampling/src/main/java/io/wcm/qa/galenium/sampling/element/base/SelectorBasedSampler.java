@@ -24,23 +24,37 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Selector based sampling.
+ *
  * @param <T> type of sample
+ * @since 1.0.0
  */
 public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
 
   private Selector selector;
 
   /**
+   * <p>Constructor for SelectorBasedSampler.</p>
+   *
    * @param selector to identify element(s)
    */
   public SelectorBasedSampler(Selector selector) {
     setSelector(selector);
   }
 
+  /**
+   * <p>Getter for the field <code>selector</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.selectors.base.Selector} object.
+   */
   public Selector getSelector() {
     return selector;
   }
 
+  /**
+   * <p>Setter for the field <code>selector</code>.</p>
+   *
+   * @param selector a {@link io.wcm.qa.galenium.selectors.base.Selector} object.
+   */
   public void setSelector(Selector selector) {
     this.selector = selector;
   }

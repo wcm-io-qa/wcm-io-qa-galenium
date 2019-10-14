@@ -33,6 +33,8 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Browser and horizontal viewport size as differences.
+ *
+ * @since 1.0.0
  */
 public class TestDeviceDifferences implements Differences {
 
@@ -49,27 +51,32 @@ public class TestDeviceDifferences implements Differences {
 
   /**
    * Constructor.
+   *
    * @param device to base differences on
    */
   public TestDeviceDifferences(TestDevice device) {
     setDevice(device);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     return getDifferences().asFilePath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     return getDifferences().asPropertyKey();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     return getDifferences().iterator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();

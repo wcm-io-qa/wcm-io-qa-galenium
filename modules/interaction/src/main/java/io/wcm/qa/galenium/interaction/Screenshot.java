@@ -28,6 +28,8 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Methods for grabbing pixels from Browser.
+ *
+ * @since 1.0.0
  */
 public final class Screenshot {
 
@@ -37,6 +39,7 @@ public final class Screenshot {
 
   /**
    * Takes screenshot of element.
+   *
    * @param selector identifies element
    * @param index identifies which instance
    * @return message to log to report
@@ -56,6 +59,7 @@ public final class Screenshot {
 
   /**
    * Takes screenshot of element.
+   *
    * @param selector identifies element
    * @return message to log to report
    */

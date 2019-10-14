@@ -34,6 +34,8 @@ import io.wcm.qa.galenium.selectors.SelectorFromString;
 
 /**
  * Creates Selectors for use with Galenium.
+ *
+ * @since 1.0.0
  */
 public final class SelectorFactory {
 
@@ -42,6 +44,8 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromCss.</p>
+   *
    * @param selectorString CSS selector
    * @return Galenium selector representing the CSS selector
    */
@@ -50,6 +54,8 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromCss.</p>
+   *
    * @param elementName name to use for selector
    * @param selectorString CSS selector
    * @return Galenium selector representing the CSS selector
@@ -61,6 +67,8 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromLocator.</p>
+   *
    * @param locator to construct selector from
    * @return Galenium selector representing the locator
    */
@@ -70,6 +78,8 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromLocator.</p>
+   *
    * @param elementName alternative name to use in Selector
    * @param locator to construct selector from
    * @return Galenium selector representing the locator
@@ -80,6 +90,8 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromSelector.</p>
+   *
    * @param sourceSelector to take values from
    * @return new selector with values identical to source selector
    */
@@ -88,6 +100,8 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromSelector.</p>
+   *
    * @param sourceSelector to take values from
    * @return new selector with values identical to source selector
    */
@@ -96,26 +110,30 @@ public final class SelectorFactory {
   }
 
   /**
+   * <p>fromValues.</p>
+   *
    * @param elementName element name
    * @param css CSS value
-   * @param by Selenium {@link By}
-   * @param locator Galen {@link Locator}
-   * @return a {@link NestedSelector} built using the passed values
+   * @param by Selenium {@link org.openqa.selenium.By}
+   * @param locator Galen {@link com.galenframework.specs.page.Locator}
+   * @return a {@link io.wcm.qa.galenium.selectors.base.NestedSelector} built using the passed values
    */
   public static Selector fromValues(String elementName, String css, By by, Locator locator) {
     return new FixedValueSelector(elementName, css, by, locator);
   }
 
   /**
+   * <p>fromValues.</p>
+   *
    * @param elementName element name
    * @param css CSS value
-   * @param by Selenium {@link By}
-   * @param locator Galen {@link Locator}
+   * @param by Selenium {@link org.openqa.selenium.By}
+   * @param locator Galen {@link com.galenframework.specs.page.Locator}
    * @param absolute absolute version integrating CSS from ancestors
    * @param relative relative version with CSS relative to direct parent
    * @param parent parent selector
    * @param children child selectors
-   * @return a {@link NestedSelector} built using the passed values
+   * @return a {@link io.wcm.qa.galenium.selectors.base.NestedSelector} built using the passed values
    */
   public static NestedSelector fromValues(String elementName, String css, By by, Locator locator, Selector absolute,
       Selector relative, NestedSelector parent, Collection<NestedSelector> children) {
@@ -124,6 +142,7 @@ public final class SelectorFactory {
 
   /**
    * Constructs absolute selector from selector relative to a parent selector.
+   *
    * @param parent parent selector to be used as base
    * @param relativeSelector relative to parent
    * @return new selector that is relative to the parent selector
@@ -134,6 +153,7 @@ public final class SelectorFactory {
 
   /**
    * Constructs absolute selector from selector relative to a parent selector.
+   *
    * @param parent parent selector to be used as base
    * @param relativeCssSelector relative to parent
    * @return new selector that is relative to the parent selector
@@ -144,6 +164,7 @@ public final class SelectorFactory {
 
   /**
    * Constructs absolute selector from selector relative to a parent selector.
+   *
    * @param parent parent selector to be used as base
    * @param childName to use in construction of name of relative selector
    * @param relativeCssSelector relative to parent

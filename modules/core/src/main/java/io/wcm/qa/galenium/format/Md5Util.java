@@ -34,6 +34,12 @@ final class Md5Util {
     // do not instantiate
   }
 
+  /**
+   * <p>getMd5AsAscii.</p>
+   *
+   * @param input an array of {@link byte} objects.
+   * @return a {@link java.lang.String} object.
+   */
   public static String getMd5AsAscii(byte[] input) {
     try {
       MessageDigest digest = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);

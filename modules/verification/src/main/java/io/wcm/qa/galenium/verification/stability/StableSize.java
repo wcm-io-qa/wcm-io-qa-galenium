@@ -27,10 +27,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Verifies stable size of element. Useful when waiting for animated size changes of elements to finish.
+ *
+ * @since 1.0.0
  */
 public class StableSize extends Stability<Dimension> {
 
   /**
+   * <p>Constructor for StableSize.</p>
+   *
    * @param selector identifies the element
    */
   public StableSize(Selector selector) {

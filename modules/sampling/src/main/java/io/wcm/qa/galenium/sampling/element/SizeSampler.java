@@ -27,10 +27,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Samples size of element.
+ *
+ * @since 1.0.0
  */
 public class SizeSampler extends ElementBasedSampler<Dimension> {
 
   /**
+   * <p>Constructor for SizeSampler.</p>
+   *
    * @param selector identifies element
    */
   public SizeSampler(Selector selector) {

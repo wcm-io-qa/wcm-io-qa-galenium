@@ -26,12 +26,16 @@ import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerificatio
 
 /**
  * Make sure current URL is a certain value.
+ *
+ * @since 1.0.0
  */
 public class CurrentUrlVerification extends StringSamplerBasedVerification {
 
   private static final String KEY_PART_URL = "url";
 
   /**
+   * <p>Constructor for CurrentUrlVerification.</p>
+   *
    * @param verificationName for use in reporting
    */
   public CurrentUrlVerification(String verificationName) {
@@ -39,6 +43,8 @@ public class CurrentUrlVerification extends StringSamplerBasedVerification {
   }
 
   /**
+   * <p>Constructor for CurrentUrlVerification.</p>
+   *
    * @param verificationName for use in reporting
    * @param expectedUrl to match against
    */

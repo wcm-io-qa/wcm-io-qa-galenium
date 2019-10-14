@@ -28,6 +28,8 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Uses current URL as difference.
+ *
+ * @since 1.0.0
  */
 public abstract class UrlDifference extends DifferenceBase {
 
@@ -42,6 +44,7 @@ public abstract class UrlDifference extends DifferenceBase {
 
   /**
    * Uses URL from param.
+   *
    * @param url URL to use as difference
    */
   public UrlDifference(String url) {

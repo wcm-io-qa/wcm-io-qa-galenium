@@ -21,6 +21,8 @@ package io.wcm.qa.galenium.device;
 
 /**
  * Browser types that can be used with Galenium.
+ *
+ * @since 1.0.0
  */
 public enum BrowserType {
   /** Chrome */
@@ -37,6 +39,8 @@ public enum BrowserType {
   }
 
   /**
+   * <p>getBrowser.</p>
+   *
    * @return string representation of browser type to feed to Selenium
    */
   public String getBrowser() {

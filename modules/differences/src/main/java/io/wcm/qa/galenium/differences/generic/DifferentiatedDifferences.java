@@ -29,11 +29,14 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 /**
  * Differences are sorted and a cut off value determines which part goes into the folder name and which part into the
  * filename.
+ *
+ * @since 1.0.0
  */
 public class DifferentiatedDifferences extends SortedDifferences {
 
   private int cutoff = 2;
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     Collection<Difference> differences = getDifferences();
@@ -53,14 +56,25 @@ public class DifferentiatedDifferences extends SortedDifferences {
     return folderPart + "/" + filePart;
   }
 
+  /**
+   * <p>Getter for the field <code>cutoff</code>.</p>
+   *
+   * @return a int.
+   */
   public int getCutoff() {
     return cutoff;
   }
 
+  /**
+   * <p>Setter for the field <code>cutoff</code>.</p>
+   *
+   * @param cutoff a int.
+   */
   public void setCutoff(int cutoff) {
     this.cutoff = cutoff;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     return super.toString() + " cutoff: " + getCutoff();

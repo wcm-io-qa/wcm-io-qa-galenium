@@ -27,10 +27,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Verifies stable position of element. Useful when waiting for animated moving of elements to finish.
+ *
+ * @since 1.0.0
  */
 public class StablePosition extends Stability<Point> {
 
   /**
+   * <p>Constructor for StablePosition.</p>
+   *
    * @param selector identifies element
    */
   public StablePosition(Selector selector) {

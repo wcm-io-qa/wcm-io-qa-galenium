@@ -54,6 +54,8 @@ import io.wcm.qa.galenium.util.BrowserUtil;
 
 /**
  * Factory for fileless image comparison specs.
+ *
+ * @since 1.0.0
  */
 public class ImageComparisonSpecFactory {
 
@@ -75,6 +77,8 @@ public class ImageComparisonSpecFactory {
   private boolean zeroToleranceWarning;
 
   /**
+   * <p>Constructor for ImageComparisonSpecFactory.</p>
+   *
    * @param selector selector for main object
    */
   public ImageComparisonSpecFactory(Selector selector) {
@@ -85,6 +89,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>Constructor for ImageComparisonSpecFactory.</p>
+   *
    * @param selector selector for main object
    * @param elementName object name to use
    */
@@ -96,6 +102,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>addAll.</p>
+   *
    * @param toBeAppended differences to be appended
    * @return true if this list changed as a result of the call
    */
@@ -104,6 +112,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>addDifference.</p>
+   *
    * @param difference appends a difference
    */
   public void addDifference(Difference difference) {
@@ -111,6 +121,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>addObjectToIgnore.</p>
+   *
    * @param selectorToIgnore the area of this object will be ignored in image comparison
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
@@ -125,6 +137,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>correctForSrollPosition.</p>
+   *
    * @param yCorrection amount of scrolling
    */
   public void correctForSrollPosition(int yCorrection) {
@@ -134,6 +148,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>Getter for the field <code>allowedError</code>.</p>
+   *
    * @return allowed error string
    */
   public String getAllowedError() {
@@ -141,29 +157,53 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>Getter for the field <code>allowedOffset</code>.</p>
+   *
    * @return offset to analyse
    */
   public int getAllowedOffset() {
     return allowedOffset;
   }
 
+  /**
+   * <p>getComparator.</p>
+   *
+   * @return a {@link java.util.Comparator} object.
+   */
   public Comparator<Difference> getComparator() {
     return this.differences.getComparator();
   }
 
+  /**
+   * <p>Getter for the field <code>differences</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.differences.generic.SortedDifferences} object.
+   */
   public SortedDifferences getDifferences() {
     return differences;
   }
 
+  /**
+   * <p>Getter for the field <code>elementName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getElementName() {
     return elementName;
   }
 
+  /**
+   * <p>Getter for the field <code>filename</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getFilename() {
     return filename;
   }
 
   /**
+   * <p>Getter for the field <code>foldername</code>.</p>
+   *
    * @return the set folder name or one constructed from differences
    */
   public String getFoldername() {
@@ -177,11 +217,18 @@ public class ImageComparisonSpecFactory {
     return stringBuilder.toString();
   }
 
+  /**
+   * <p>Getter for the field <code>objectsToIgnore</code>.</p>
+   *
+   * @return a {@link java.util.List} object.
+   */
   public List<Selector> getObjectsToIgnore() {
     return objectsToIgnore;
   }
 
   /**
+   * <p>getPageSpecInstance.</p>
+   *
    * @return page spec according to params set on factory
    */
   public PageSpec getPageSpecInstance() {
@@ -224,23 +271,45 @@ public class ImageComparisonSpecFactory {
     return pageSpec;
   }
 
+  /**
+   * <p>Getter for the field <code>sectionName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getSectionName() {
     return sectionName;
   }
 
+  /**
+   * <p>Getter for the field <code>selector</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.selectors.base.Selector} object.
+   */
   public Selector getSelector() {
     return selector;
   }
 
+  /**
+   * <p>Getter for the field <code>validationListener</code>.</p>
+   *
+   * @return a {@link com.galenframework.validation.ValidationListener} object.
+   */
   public ValidationListener getValidationListener() {
     return validationListener;
   }
 
+  /**
+   * <p>isZeroToleranceWarning.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
   }
 
   /**
+   * <p>setAllowedErrorPercent.</p>
+   *
    * @param allowedErrorPercentage zero or negative will result in zero tolerance
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
@@ -253,6 +322,8 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
+   * <p>setAllowedErrorPixel.</p>
+   *
    * @param allowedErrorPixels zero or negative will result in zero tolerance
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
@@ -264,53 +335,110 @@ public class ImageComparisonSpecFactory {
     }
   }
 
+  /**
+   * <p>Setter for the field <code>allowedOffset</code>.</p>
+   *
+   * @param allowedOffset a int.
+   */
   public void setAllowedOffset(int allowedOffset) {
     this.allowedOffset = allowedOffset;
   }
 
   /**
+   * <p>setComparator.</p>
+   *
    * @param comparator used to order differences in a consistent manner
    */
   public void setComparator(Comparator<Difference> comparator) {
     this.differences.setComparator(comparator);
   }
 
+  /**
+   * <p>Setter for the field <code>corrections</code>.</p>
+   *
+   * @param corrections a {@link com.galenframework.specs.page.CorrectionsRect} object.
+   */
   public void setCorrections(CorrectionsRect corrections) {
     this.corrections = corrections;
   }
 
+  /**
+   * <p>Setter for the field <code>differences</code>.</p>
+   *
+   * @param differences a {@link io.wcm.qa.galenium.differences.generic.SortedDifferences} object.
+   */
   public void setDifferences(SortedDifferences differences) {
     this.differences = differences;
   }
 
+  /**
+   * <p>Setter for the field <code>elementName</code>.</p>
+   *
+   * @param elementName a {@link java.lang.String} object.
+   */
   public void setElementName(String elementName) {
     this.elementName = elementName;
   }
 
+  /**
+   * <p>Setter for the field <code>filename</code>.</p>
+   *
+   * @param filename a {@link java.lang.String} object.
+   */
   public void setFilename(String filename) {
     this.filename = filename;
   }
 
+  /**
+   * <p>Setter for the field <code>foldername</code>.</p>
+   *
+   * @param foldername a {@link java.lang.String} object.
+   */
   public void setFoldername(String foldername) {
     this.foldername = foldername;
   }
 
+  /**
+   * <p>Setter for the field <code>objectsToIgnore</code>.</p>
+   *
+   * @param objectsToIgnore a {@link java.util.List} object.
+   */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
     this.objectsToIgnore = objectsToIgnore;
   }
 
+  /**
+   * <p>Setter for the field <code>sectionName</code>.</p>
+   *
+   * @param sectionName a {@link java.lang.String} object.
+   */
   public void setSectionName(String sectionName) {
     this.sectionName = sectionName;
   }
 
+  /**
+   * <p>Setter for the field <code>selector</code>.</p>
+   *
+   * @param selector a {@link io.wcm.qa.galenium.selectors.base.Selector} object.
+   */
   public void setSelector(Selector selector) {
     this.selector = selector;
   }
 
+  /**
+   * <p>Setter for the field <code>validationListener</code>.</p>
+   *
+   * @param validationListener a {@link com.galenframework.validation.ValidationListener} object.
+   */
   public void setValidationListener(ValidationListener validationListener) {
     this.validationListener = validationListener;
   }
 
+  /**
+   * <p>Setter for the field <code>zeroToleranceWarning</code>.</p>
+   *
+   * @param zeroToleranceWarning a boolean.
+   */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     this.zeroToleranceWarning = zeroToleranceWarning;
   }

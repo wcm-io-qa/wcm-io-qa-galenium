@@ -26,11 +26,14 @@ import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that string is empty.
+ *
+ * @since 1.0.0
  */
 public class EmptyStringVerification extends StringVerification {
 
   /**
    * Verify sampled input is empty.
+   *
    * @param verificationName name for this check
    * @param sampler provides input sample
    */
@@ -40,6 +43,7 @@ public class EmptyStringVerification extends StringVerification {
 
   /**
    * Verify fixed string is empty.
+   *
    * @param verificationName name for this check
    * @param sample fixed input sample
    */

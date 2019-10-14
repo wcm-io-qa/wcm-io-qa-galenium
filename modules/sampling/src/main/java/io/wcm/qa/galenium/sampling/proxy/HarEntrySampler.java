@@ -29,7 +29,9 @@ import net.lightbody.bmp.core.har.HarEntry;
 import net.lightbody.bmp.core.har.HarLog;
 
 /**
- * Samples {@link HarEntry} instances from a {@link HarSampler}.
+ * Samples {@link net.lightbody.bmp.core.har.HarEntry} instances from a {@link io.wcm.qa.galenium.sampling.proxy.HarSampler}.
+ *
+ * @since 1.0.0
  */
 public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har, List<HarEntry>> {
 

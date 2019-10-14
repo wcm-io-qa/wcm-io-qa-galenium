@@ -29,7 +29,9 @@ import io.wcm.qa.galenium.verification.base.Verification;
 
 
 /**
- * Uses {@link GaleniumContext#getAssertion()} to fail if {@link Verification} contains an exception.
+ * Uses {@link io.wcm.qa.galenium.util.GaleniumContext#getAssertion()} to fail if {@link io.wcm.qa.galenium.verification.base.Verification} contains an exception.
+ *
+ * @since 1.0.0
  */
 public class DefaultVerificationStrategy extends VerificationStrategyBase {
 

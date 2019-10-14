@@ -27,19 +27,28 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Soft assertion with Galenium reporting integration.
+ *
+ * @since 1.0.0
  */
 public class GaleniumSoftAssertion extends SoftAssert {
 
+  /**
+   * <p>getLogger.</p>
+   *
+   * @return a {@link org.slf4j.Logger} object.
+   */
   public Logger getLogger() {
     return GaleniumReportUtil.getLogger();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
     getLogger().error(GaleniumReportUtil.MARKER_FAIL, assertCommand.getMessage());
     super.onAssertFailure(assertCommand, ex);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
     if (getLogger().isDebugEnabled()) {

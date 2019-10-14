@@ -25,26 +25,36 @@ import com.galenframework.specs.page.Locator;
 
 /**
  * Interface to represent selectors in Galenium. Selectors are used to identify elements in a page. This interface is
- * used throughout Galenium up to the final hand off to Galen (as {@link Locator}) or Selenium (as {@link By}).
+ * used throughout Galenium up to the final hand off to Galen (as {@link com.galenframework.specs.page.Locator}) or Selenium (as {@link org.openqa.selenium.By}).
+ *
+ * @since 1.0.0
  */
 public interface Selector {
 
   /**
+   * <p>asBy.</p>
+   *
    * @return Selenium By object representing this selector
    */
   By asBy();
 
   /**
+   * <p>asLocator.</p>
+   *
    * @return Galen Locator representing this selector
    */
   Locator asLocator();
 
   /**
+   * <p>asString.</p>
+   *
    * @return String representing a CSS selector
    */
   String asString();
 
   /**
+   * <p>elementName.</p>
+   *
    * @return string representation that can be used as object name in Galen
    */
   String elementName();

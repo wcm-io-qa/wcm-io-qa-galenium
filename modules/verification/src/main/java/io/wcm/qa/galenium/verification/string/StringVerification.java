@@ -25,11 +25,14 @@ import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerificatio
 
 /**
  * Generic sampler based string equality verification.
+ *
+ * @since 1.0.0
  */
 public class StringVerification extends StringSamplerBasedVerification {
 
   /**
    * Verify against sampled input.
+   *
    * @param verificationName name for this check
    * @param sampler to provide input
    */
@@ -39,6 +42,7 @@ public class StringVerification extends StringSamplerBasedVerification {
 
   /**
    * Verify against fixed sample.
+   *
    * @param verificationName name for this check
    * @param sample to verify
    */

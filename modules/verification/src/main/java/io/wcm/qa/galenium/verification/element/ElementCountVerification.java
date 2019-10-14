@@ -28,10 +28,14 @@ import io.wcm.qa.galenium.verification.element.base.SelectorBasedVerification;
 
 /**
  * Make sure a certain number of elements are present.
+ *
+ * @since 1.0.0
  */
 public class ElementCountVerification extends SelectorBasedVerification<ElementCountSampler, Integer> {
 
   /**
+   * <p>Constructor for ElementCountVerification.</p>
+   *
    * @param selector identifies elements to count
    */
   public ElementCountVerification(Selector selector) {
@@ -39,6 +43,8 @@ public class ElementCountVerification extends SelectorBasedVerification<ElementC
   }
 
   /**
+   * <p>Constructor for ElementCountVerification.</p>
+   *
    * @param selector to identify element
    * @param expectedCount to verify against
    */

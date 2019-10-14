@@ -45,6 +45,8 @@ import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Utility class to manage thread safe WebDriver instances.
+ *
+ * @since 1.0.0
  */
 public final class WebDriverManager {
 
@@ -87,6 +89,8 @@ public final class WebDriverManager {
   }
 
   /**
+   * <p>getCurrentDriver.</p>
+   *
    * @return driver from current thread's context
    */
   public static WebDriver getCurrentDriver() {
@@ -94,6 +98,8 @@ public final class WebDriverManager {
   }
 
   /**
+   * <p>getDriver.</p>
+   *
    * @param testDevice test device to use for this driver
    * @return WebDriver for current thread.
    */

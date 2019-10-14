@@ -29,6 +29,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Utility methods for extracting string values from text files with one value per line.
+ *
+ * @since 1.0.0
  */
 public final class TextFileUtil {
 
@@ -38,6 +40,7 @@ public final class TextFileUtil {
 
   /**
    * Read lines from file to String collection.
+   *
    * @param file to read from
    * @return list of strings with one string per line
    */
@@ -52,6 +55,7 @@ public final class TextFileUtil {
 
   /**
    * Read lines from file to String collection.
+   *
    * @param filePath to read from
    * @return list of strings with one string per line
    */

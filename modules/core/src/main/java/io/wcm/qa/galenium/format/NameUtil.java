@@ -29,6 +29,8 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Utility methods to get solid names for code, tests and files.
+ *
+ * @since 1.0.0
  */
 public final class NameUtil {
 
@@ -50,6 +52,7 @@ public final class NameUtil {
 
   /**
    * Get string input sanitized for use in names.
+   *
    * @param input to clean and shorten
    * @param maxLength maximal length of returned clean version
    * @return cleaned version respecting the maximal length

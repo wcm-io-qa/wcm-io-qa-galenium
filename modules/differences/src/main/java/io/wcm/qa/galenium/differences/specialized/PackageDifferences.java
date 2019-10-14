@@ -31,6 +31,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Package name as differences. Allows relative package names by setting root package name.
+ *
+ * @since 1.0.0
  */
 public class PackageDifferences implements Differences {
 
@@ -40,6 +42,8 @@ public class PackageDifferences implements Differences {
   private String rootPackage;
 
   /**
+   * <p>Constructor for PackageDifferences.</p>
+   *
    * @param p to base name on
    */
   public PackageDifferences(Package p) {
@@ -50,6 +54,8 @@ public class PackageDifferences implements Differences {
   }
 
   /**
+   * <p>Constructor for PackageDifferences.</p>
+   *
    * @param p to base name on
    * @param root to remove from beginning of package name
    */
@@ -58,26 +64,39 @@ public class PackageDifferences implements Differences {
     setRootPackage(root);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     initialize();
     return getDifferences().asFilePath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     initialize();
     return getDifferences().asPropertyKey();
   }
 
+  /**
+   * <p>Getter for the field <code>mainPackage</code>.</p>
+   *
+   * @return a {@link java.lang.Package} object.
+   */
   public Package getMainPackage() {
     return mainPackage;
   }
 
+  /**
+   * <p>Getter for the field <code>rootPackage</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getRootPackage() {
     return rootPackage;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     initialize();
@@ -85,6 +104,8 @@ public class PackageDifferences implements Differences {
   }
 
   /**
+   * <p>setPackage.</p>
+   *
    * @param p to base name on
    */
   public void setPackage(Package p) {
@@ -93,6 +114,8 @@ public class PackageDifferences implements Differences {
   }
 
   /**
+   * <p>Setter for the field <code>rootPackage</code>.</p>
+   *
    * @param rootPackage to remove from beginning of package name
    */
   public void setRootPackage(String rootPackage) {
@@ -100,6 +123,7 @@ public class PackageDifferences implements Differences {
     setDirty();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     initialize();

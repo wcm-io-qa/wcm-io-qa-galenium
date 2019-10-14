@@ -27,7 +27,9 @@ import io.wcm.qa.galenium.sampling.transform.base.RegexBasedSampler;
 
 /**
  * Samples a specific group from first match of regular expression.
+ *
  * @param <S>
+ * @since 1.0.0
  */
 public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBasedSampler<S, String> {
 
@@ -35,6 +37,8 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
   private int groupIndex;
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
    */
@@ -43,6 +47,8 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
   }
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
    * @param groupIndex index of group to sample
@@ -54,16 +60,20 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
 
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    */
   public RegexSingleGroupSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
   }
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param groupIndex index of group to sample
    */
   public RegexSingleGroupSampler(S inputSampler, String regex, int groupIndex) {

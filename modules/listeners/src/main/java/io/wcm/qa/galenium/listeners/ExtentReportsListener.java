@@ -42,45 +42,55 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
- * Handles {@link ExtentReports} life cycle.
+ * Handles {@link com.relevantcodes.extentreports.ExtentReports} life cycle.
+ *
+ * @since 1.0.0
  */
 public class ExtentReportsListener implements ITestListener, IConfigurationListener2 {
 
+  /** {@inheritDoc} */
   @Override
   public void beforeConfiguration(ITestResult tr) {
     GaleniumReportUtil.getExtentTest(tr);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onConfigurationFailure(ITestResult itr) {
     // nothing to do
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onConfigurationSkip(ITestResult itr) {
     // nothing to do
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onConfigurationSuccess(ITestResult itr) {
     // nothing to do
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
     GaleniumReportUtil.finishExtentReports();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext context) {
     // nothing to do
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     // nothing to do
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult result) {
     String logMsgHtml = "Error when dealing with test failure.";
@@ -122,16 +132,19 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult result) {
     GaleniumReportUtil.endExtentTest(result, LogStatus.SKIP, "SKIPPED");
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     GaleniumReportUtil.getExtentTest(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult result) {
     try {

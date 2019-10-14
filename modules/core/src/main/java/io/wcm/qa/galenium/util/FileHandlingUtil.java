@@ -32,6 +32,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Convenience methods for file and path handling.
+ *
+ * @since 1.0.0
  */
 public final class FileHandlingUtil {
 
@@ -40,6 +42,8 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>constructRelativeFile.</p>
+   *
    * @param rootDirectory to be relative to
    * @param file to get relative path for
    * @return file with relative path
@@ -49,6 +53,8 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>constructRelativeFile.</p>
+   *
    * @param rootPath to be relative to
    * @param filePath to make relative
    * @return file with relative path
@@ -58,6 +64,8 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>constructRelativePath.</p>
+   *
    * @param rootDirectory to be relative to
    * @param file to get relative path for
    * @return relative path for file
@@ -84,6 +92,8 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>constructRelativePath.</p>
+   *
    * @param rootPath to be relative to
    * @param filePath to make relative
    * @return file with relative path
@@ -93,6 +103,8 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>ensureParent.</p>
+   *
    * @param file will have an existing parent directory on success
    */
   public static void ensureParent(File file) {

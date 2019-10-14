@@ -26,11 +26,14 @@ import io.wcm.qa.galenium.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that regular expression does not match any part of the sample.
+ *
+ * @since 1.0.0
  */
 public class DoesNotContainPatternVerification extends ContainsPatternVerification {
 
   /**
    * Pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sample fixed sample to verify against
@@ -41,6 +44,7 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sampler sampler to provide input sample
@@ -51,6 +55,7 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
 
   /**
    * String pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sample fixed sample to verify against
@@ -61,6 +66,7 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sampler sampler to provide input sample

@@ -44,22 +44,24 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
  * Contained by default:
  * <ul>
  * <li>
- * {@link LoggingListener}
+ * {@link io.wcm.qa.galenium.listeners.LoggingListener}
  * </li>
  * <li>
- * {@link ExtentReportsListener}
+ * {@link io.wcm.qa.galenium.listeners.ExtentReportsListener}
  * </li>
  * <li>
- * {@link WebDriverListener}
+ * {@link io.wcm.qa.galenium.listeners.WebDriverListener}
  * </li>
  * <li>
- * {@link TextSamplePersistenceListener}
+ * {@link io.wcm.qa.galenium.listeners.TextSamplePersistenceListener}
  * </li>
  * <li>
- * {@link RetryAnalyzer} if galenium.retryMax is greater than zero
+ * {@link io.wcm.qa.galenium.listeners.RetryAnalyzer} if galenium.retryMax is greater than zero
  * </li>
  * </ul>
  * You can extend this class and add your own listeners using the {@link #add(ITestNGListener)} method.
+ *
+ * @since 1.0.0
  */
 public class DefaultGaleniumListener extends TestListenerAdapter implements IAnnotationTransformer {
 
@@ -83,6 +85,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   /**
    * Adds an additional test listener.
+   *
    * @param listener to add
    * @return true
    */
@@ -92,13 +95,15 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   /**
    * Adds an additional test listener.
+   *
    * @param index index at which the specified element is to be inserted
    * @param listener to add
    */
   public void add(int index, ITestNGListener listener) {
     listeners.add(index, listener);
   }
-  
+
+  /** {@inheritDoc} */
   @Override
   public void beforeConfiguration(ITestResult tr) {
     getLogger().trace("+++LISTENER: beforeConfiguration(ITestResult tr)");
@@ -111,6 +116,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.beforeConfiguration(tr);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
     getLogger().trace("+++LISTENER: onFinish(ITestContext context)");
@@ -123,6 +129,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onFinish(context);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext context) {
     getLogger().trace("+++LISTENER: onStart(ITestContext context)");
@@ -135,6 +142,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onStart(context);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailedButWithinSuccessPercentage(ITestResult result)");
@@ -147,6 +155,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onTestFailedButWithinSuccessPercentage(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestFailure(ITestResult result)");
@@ -159,6 +168,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onTestFailure(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult result) {
     getLogger().trace("LISTENER: onTestSkipped(ITestResult result)");
@@ -171,6 +181,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onTestSkipped(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestStart(ITestResult result)");
@@ -183,6 +194,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onTestStart(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult result) {
     getLogger().trace("+++LISTENER: onTestSuccess(ITestResult result)");
@@ -195,6 +207,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
     super.onTestSuccess(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
     getLogger().trace("+++LISTENER: transform("

@@ -22,15 +22,21 @@ package io.wcm.qa.galenium.differences.base;
 
 /**
  * Provides Difference based keys for persisting samples and naming tests.
+ *
+ * @since 1.0.0
  */
 public interface Differences extends Iterable<Difference> {
 
   /**
+   * <p>asFilePath.</p>
+   *
    * @return differences' tags concatenated with '/' and/or '-'
    */
   String asFilePath();
 
   /**
+   * <p>asPropertyKey.</p>
+   *
    * @return differences' tags concatenated with '.'
    */
   String asPropertyKey();

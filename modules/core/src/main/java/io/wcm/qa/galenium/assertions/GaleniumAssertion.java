@@ -29,20 +29,29 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Assertion with Galenium reporting integration.
+ *
+ * @since 1.0.0
  */
 public class GaleniumAssertion extends Assertion {
 
   private static final Marker MARKER_ASSERTION = MarkerFactory.getMarker("galenium.assertion");
 
+  /**
+   * <p>getLogger.</p>
+   *
+   * @return a {@link org.slf4j.Logger} object.
+   */
   public Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER_ASSERTION);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
     super.onAssertFailure(assertCommand, ex);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAssertSuccess(IAssert<?> assertCommand) {
     if (getLogger().isDebugEnabled()) {

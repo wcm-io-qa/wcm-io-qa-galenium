@@ -43,6 +43,8 @@ import io.wcm.qa.galenium.exceptions.GaleniumException;
 
 /**
  * Convenience methods to handle straight HTTP connections without going through Selenium.
+ *
+ * @since 1.0.0
  */
 public final class HttpUtil {
 
@@ -57,6 +59,7 @@ public final class HttpUtil {
 
   /**
    * Posts parameters as form entity to URL.
+   *
    * @param url to post to
    * @param paramMap to send with request
    * @return response to POST

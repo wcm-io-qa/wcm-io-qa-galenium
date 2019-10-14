@@ -38,12 +38,15 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Simple retry analyzer to deal with flaky tests in TestNG.
+ *
+ * @since 1.0.0
  */
 public class RetryAnalyzer implements IRetryAnalyzer {
 
   private static final int MAX_RETRY_COUNT = GaleniumConfiguration.getNumberOfRetries();
   private Map<Object, AtomicInteger> counts = new Hashtable<Object, AtomicInteger>();
 
+  /** {@inheritDoc} */
   @Override
   public boolean retry(ITestResult result) {
     if (getCount(result).incrementAndGet() > MAX_RETRY_COUNT) {

@@ -25,10 +25,14 @@ import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
  * Base class for String sampling from elements.
+ *
+ * @since 1.0.0
  */
 public abstract class ElementBasedStringSampler extends ElementBasedSampler<String> {
 
   /**
+   * <p>Constructor for ElementBasedStringSampler.</p>
+   *
    * @param selector identifies element
    */
   public ElementBasedStringSampler(Selector selector) {

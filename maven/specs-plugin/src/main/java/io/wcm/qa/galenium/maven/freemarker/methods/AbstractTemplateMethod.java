@@ -30,10 +30,13 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 
 /**
  * Abstract base class for implentations of template methods.
+ *
  * @param <S>
+ * @since 1.0.0
  */
 public abstract class AbstractTemplateMethod<S> implements TemplateMethodModelEx {
 
+  /** {@inheritDoc} */
   @Override
   public Object exec(List arguments) throws TemplateModelException {
     if (arguments == null || arguments.isEmpty()) {

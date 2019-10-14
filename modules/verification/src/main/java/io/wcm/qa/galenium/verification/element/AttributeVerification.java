@@ -27,10 +27,14 @@ import io.wcm.qa.galenium.verification.element.base.ElementBasedStringVerificati
 
 /**
  * Make sure an attribute is set on an element.
+ *
+ * @since 1.0.0
  */
 public class AttributeVerification extends ElementBasedStringVerification<AttributeSampler> {
 
   /**
+   * <p>Constructor for AttributeVerification.</p>
+   *
    * @param selector to identify element
    * @param attributeName name of attribute to check
    */
@@ -40,6 +44,8 @@ public class AttributeVerification extends ElementBasedStringVerification<Attrib
   }
 
   /**
+   * <p>Constructor for AttributeVerification.</p>
+   *
    * @param selector to identify element
    * @param attributeName name of attribute to check
    * @param expectedValue to verify against

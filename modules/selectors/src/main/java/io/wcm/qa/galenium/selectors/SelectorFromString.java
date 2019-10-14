@@ -23,11 +23,15 @@ import io.wcm.qa.galenium.selectors.base.AbstractSelectorBase;
 import io.wcm.qa.galenium.selectors.base.Selector;
 
 /**
- * Implementation of {@link Selector} interface.
+ * Implementation of {@link io.wcm.qa.galenium.selectors.base.Selector} interface.
+ *
+ * @since 1.0.0
  */
 public class SelectorFromString extends AbstractSelectorBase {
 
   /**
+   * <p>Constructor for SelectorFromString.</p>
+   *
    * @param selectorString CSS selector
    */
   public SelectorFromString(String selectorString) {

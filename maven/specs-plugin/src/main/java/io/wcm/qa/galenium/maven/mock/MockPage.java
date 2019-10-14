@@ -27,65 +27,79 @@ import com.galenframework.page.PageElement;
 import com.galenframework.specs.page.Locator;
 
 /**
- * Mock {@link Page} to facilitate parsing specs without need for real browser interaction.
+ * Mock {@link com.galenframework.page.Page} to facilitate parsing specs without need for real browser interaction.
+ *
+ * @since 1.0.0
  */
 public class MockPage implements Page {
 
+  /** {@inheritDoc} */
   @Override
   public Page createFrameContext(PageElement mainObject) {
     return new MockPage();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Page createObjectContextPage(Locator mainObjectLocator) {
     return new MockPage();
   }
 
+  /** {@inheritDoc} */
   @Override
   public PageElement getObject(Locator objectLocator) {
     return new MockPageElement();
   }
 
+  /** {@inheritDoc} */
   @Override
   public PageElement getObject(String objectName, Locator objectLocator) {
     return new MockPageElement();
   }
 
+  /** {@inheritDoc} */
   @Override
   public int getObjectCount(Locator locator) {
     return 2;
   }
 
+  /** {@inheritDoc} */
   @Override
   public File getScreenshotFile() {
     return new File("DUMMY_IMAGE_FILE_PATH");
   }
 
+  /** {@inheritDoc} */
   @Override
   public BufferedImage getScreenshotImage() {
     return new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
   }
 
+  /** {@inheritDoc} */
   @Override
   public PageElement getSpecialObject(String objectName) {
     return new MockPageElement();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTitle() {
     return "DUMMY_PAGE_TITLE";
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setScreenshot(File screenshotFile) {
     // do nothing
   }
 
+  /** {@inheritDoc} */
   @Override
   public void switchToFrame(PageElement mainObject) {
     // do nothing
   }
 
+  /** {@inheritDoc} */
   @Override
   public void switchToParentFrame() {
     // do nothing

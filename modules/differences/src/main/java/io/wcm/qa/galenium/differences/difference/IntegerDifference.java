@@ -23,6 +23,8 @@ import io.wcm.qa.galenium.differences.base.DifferenceBase;
 
 /**
  * Integer based difference for use with index or count values.
+ *
+ * @since 1.0.0
  */
 public class IntegerDifference extends DifferenceBase {
 
@@ -36,6 +38,8 @@ public class IntegerDifference extends DifferenceBase {
   }
 
   /**
+   * <p>Constructor for IntegerDifference.</p>
+   *
    * @param index index to use
    */
   public IntegerDifference(int index) {
@@ -49,6 +53,11 @@ public class IntegerDifference extends DifferenceBase {
     setIndex(getIndex() - 1);
   }
 
+  /**
+   * <p>Getter for the field <code>index</code>.</p>
+   *
+   * @return a int.
+   */
   public int getIndex() {
     return index;
   }
@@ -60,6 +69,11 @@ public class IntegerDifference extends DifferenceBase {
     setIndex(getIndex() + 1);
   }
 
+  /**
+   * <p>Setter for the field <code>index</code>.</p>
+   *
+   * @param index a int.
+   */
   public void setIndex(int index) {
     this.index = index;
   }

@@ -41,6 +41,8 @@ import io.wcm.qa.galenium.webdriver.WebDriverManager;
 
 /**
  * Utility methods for interaction with web elements.
+ *
+ * @since 1.0.0
  */
 public final class Element {
 
@@ -52,6 +54,7 @@ public final class Element {
 
   /**
    * Click element.
+   *
    * @param selector identifies the element
    */
   public static void click(Selector selector) {
@@ -61,8 +64,10 @@ public final class Element {
 
   /**
    * Click element with specific text.
+   *
    * @param selector identifies the elements to be checked for partial text
    * @param searchStr string to be found as part of text of element
+   * @return a boolean.
    */
   public static boolean clickByPartialText(Selector selector, String searchStr) {
     getLogger().debug("looking for pattern: '" + searchStr + "'");
@@ -77,7 +82,9 @@ public final class Element {
 
   /**
    * Click element.
+   *
    * @param selector identifies the element
+   * @param index a int.
    */
   public static void clickNth(Selector selector, int index) {
     WebElement element = findNthOrFail(selector, index);
@@ -85,6 +92,8 @@ public final class Element {
   }
 
   /**
+   * <p>find.</p>
+   *
    * @param selector used to find first matching element
    * @return matching element if it is visible or null
    */
@@ -93,6 +102,8 @@ public final class Element {
   }
 
   /**
+   * <p>findAll.</p>
+   *
    * @param selector used to find elements
    * @return list of elements matched by selector
    */
@@ -101,6 +112,8 @@ public final class Element {
   }
 
   /**
+   * <p>findAllNow.</p>
+   *
    * @param selector used to find elements
    * @return list of elements matched by selector
    */
@@ -110,6 +123,7 @@ public final class Element {
 
   /**
    * Find elements by partial text.
+   *
    * @param selector used to find elements
    * @param searchStr used to filter elements that contain this text
    * @return matching element if it is visible or null
@@ -127,6 +141,7 @@ public final class Element {
 
   /**
    * Will return immediately whether element is found or not.
+   *
    * @param selector used to find element
    * @return matching element if it is visible or null
    */
@@ -139,6 +154,8 @@ public final class Element {
   }
 
   /**
+   * <p>findNth.</p>
+   *
    * @param selector used to find elements
    * @param index used to choose which element
    * @return matching element if it is visible or null
@@ -148,6 +165,8 @@ public final class Element {
   }
 
   /**
+   * <p>findNthNow.</p>
+   *
    * @param selector used to find elements
    * @param index used to choose which element
    * @return matching element if it is immediately visible or null
@@ -157,29 +176,30 @@ public final class Element {
   }
 
   /**
-   * Return nth element or fail with {@link GaleniumException}.
+   * Return nth element or fail with {@link io.wcm.qa.galenium.exceptions.GaleniumException}.
+   *
    * @param selector identifies elements
    * @param index identifies which element
    * @return matching element
-   * @throws GaleniumException when element cannot be found
    */
   public static WebElement findNthOrFail(Selector selector, int index) {
     return findNthOrFail(selector, index, TimeoutType.DEFAULT);
   }
 
   /**
-   * Return nth element immediately or fail with {@link GaleniumException}.
+   * Return nth element immediately or fail with {@link io.wcm.qa.galenium.exceptions.GaleniumException}.
+   *
    * @param selector identifies elements
    * @param index identifies which element
    * @return matching element
-   * @throws GaleniumException when element cannot be found
    */
   public static WebElement findNthOrFailNow(Selector selector, int index) {
     return findNthOrFail(selector, index, TimeoutType.NOW);
   }
 
   /**
-   * Return element or fail with {@link GaleniumException}.
+   * Return element or fail with {@link io.wcm.qa.galenium.exceptions.GaleniumException}.
+   *
    * @param selector identifies the element
    * @return element found
    */
@@ -188,7 +208,8 @@ public final class Element {
   }
 
   /**
-   * Return element or fail with {@link GaleniumException} immediately.
+   * Return element or fail with {@link io.wcm.qa.galenium.exceptions.GaleniumException} immediately.
+   *
    * @param selector identifies the element
    * @return element found
    */
@@ -199,6 +220,7 @@ public final class Element {
 
   /**
    * Checks whether element attribute value equals string argument.
+   *
    * @param selector identifies element
    * @param name attribute to check
    * @param value value to compare against
@@ -214,6 +236,7 @@ public final class Element {
 
   /**
    * Checks for CSS class on element.
+   *
    * @param selector identifies element
    * @param cssClass CSS class to check for
    * @return whether element has a CSS class equal to the value passed
@@ -229,8 +252,11 @@ public final class Element {
   }
 
   /**
+   * <p>isNthVisible.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found immediately and is displayed
+   * @param index a int.
    */
   public static boolean isNthVisible(Selector selector, int index) {
     WebElement element = findNth(selector, index);
@@ -238,8 +264,11 @@ public final class Element {
   }
 
   /**
+   * <p>isNthVisibleNow.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found immediately and is displayed
+   * @param index a int.
    */
   public static boolean isNthVisibleNow(Selector selector, int index) {
     WebElement element = findNthNow(selector, index);
@@ -247,6 +276,8 @@ public final class Element {
   }
 
   /**
+   * <p>isVisible.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found and is displayed
    */
@@ -255,6 +286,8 @@ public final class Element {
   }
 
   /**
+   * <p>isVisibleNow.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found and is displayed
    */
@@ -264,6 +297,7 @@ public final class Element {
 
   /**
    * Scroll element into view.
+   *
    * @param selector identifies element
    */
   public static void scrollTo(Selector selector) {
@@ -273,6 +307,7 @@ public final class Element {
 
   /**
    * Scroll element into view.
+   *
    * @param elementToScrollTo element to scroll to
    */
   public static void scrollTo(WebElement elementToScrollTo) {
@@ -283,7 +318,9 @@ public final class Element {
 
   /**
    * Scroll nth element into view.
+   *
    * @param selector identifies element
+   * @param index a int.
    */
   public static void scrollToNth(Selector selector, int index) {
     StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);

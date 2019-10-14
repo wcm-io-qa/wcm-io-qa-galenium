@@ -26,12 +26,16 @@ import io.wcm.qa.galenium.verification.string.base.StringSamplerBasedVerificatio
 
 /**
  * Verifies current page's title.
+ *
+ * @since 1.0.0
  */
 public class PageTitleVerification extends StringSamplerBasedVerification {
 
   private static final String KEY_PART_PAGE_TITLE = "title";
 
   /**
+   * <p>Constructor for PageTitleVerification.</p>
+   *
    * @param verificationName to use in reporting
    */
   public PageTitleVerification(String verificationName) {
@@ -39,6 +43,8 @@ public class PageTitleVerification extends StringSamplerBasedVerification {
   }
 
   /**
+   * <p>Constructor for PageTitleVerification.</p>
+   *
    * @param verificationName to use in reporting
    * @param expectedTitle to verify against
    */

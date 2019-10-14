@@ -27,10 +27,14 @@ import io.wcm.qa.galenium.verification.element.base.ElementBasedStringVerificati
 
 /**
  * Verifies text of element.
+ *
+ * @since 1.0.0
  */
 public class TextVerification extends ElementBasedStringVerification<TextSampler> {
 
   /**
+   * <p>Constructor for TextVerification.</p>
+   *
    * @param selector to identify element
    */
   public TextVerification(Selector selector) {
@@ -39,6 +43,8 @@ public class TextVerification extends ElementBasedStringVerification<TextSampler
   }
 
   /**
+   * <p>Constructor for TextVerification.</p>
+   *
    * @param selector to identify element
    * @param expectedValue to verify against
    */

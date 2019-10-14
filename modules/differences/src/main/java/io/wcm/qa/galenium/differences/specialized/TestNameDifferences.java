@@ -33,6 +33,8 @@ import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 /**
  * Used to generate test names from Differences. Uses class, package and test device information. Allows additional
  * differences.
+ *
+ * @since 1.0.0
  */
 public class TestNameDifferences implements Differences {
 
@@ -50,6 +52,7 @@ public class TestNameDifferences implements Differences {
 
   /**
    * Will be appended to end of test name.
+   *
    * @param difference to add
    * @return true if this collection changed as a result of the call
    */
@@ -59,6 +62,7 @@ public class TestNameDifferences implements Differences {
 
   /**
    * Will be appended to end of test name.
+   *
    * @param toBeAppended multiple differences to add
    * @return true if this collection changed as a result of the call
    */
@@ -66,20 +70,28 @@ public class TestNameDifferences implements Differences {
     return getAdditionalDifferences().addAll(toBeAppended);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     return getCombinedDifferences().asFilePath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     return getCombinedDifferences().asPropertyKey();
   }
 
+  /**
+   * <p>Getter for the field <code>classNameMaxLength</code>.</p>
+   *
+   * @return a int.
+   */
   public int getClassNameMaxLength() {
     return classNameMaxLength;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     return getCombinedDifferences().iterator();
@@ -87,6 +99,7 @@ public class TestNameDifferences implements Differences {
 
   /**
    * Package and class name will be used in test name.
+   *
    * @param testClass to use for class and package name
    */
   public void setClass(Class testClass) {
@@ -94,6 +107,8 @@ public class TestNameDifferences implements Differences {
   }
 
   /**
+   * <p>Setter for the field <code>classNameMaxLength</code>.</p>
+   *
    * @param maxLength to restrict class name part of test name to
    */
   public void setClassNameMaxLength(int maxLength) {
@@ -105,6 +120,7 @@ public class TestNameDifferences implements Differences {
 
   /**
    * Name part from package will be relative to root package.
+   *
    * @param rootPackage package name to use in relativization
    */
   public void setRootPackage(String rootPackage) {
@@ -113,12 +129,14 @@ public class TestNameDifferences implements Differences {
 
   /**
    * Browser and viewport width are added to middle of test name.
+   *
    * @param device to use for differences
    */
   public void setTestDevice(TestDevice device) {
     setDeviceDifferences(new TestDeviceDifferences(device));
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();

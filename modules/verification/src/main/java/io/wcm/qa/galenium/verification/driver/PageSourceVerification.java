@@ -33,6 +33,8 @@ import io.wcm.qa.galenium.verification.string.DoesNotContainStringVerification;
 
 /**
  * Verifies occurence of patterns and strings in page source.
+ *
+ * @since 1.0.0
  */
 public class PageSourceVerification extends CombiningStringBasedVerification {
 
@@ -47,6 +49,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when pattern is not found.
+   *
    * @param pattern to find in input
    * @param message description of pattern
    */
@@ -56,6 +59,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when string is not found.
+   *
    * @param string to find in input
    * @param message description of pattern
    */
@@ -65,6 +69,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when pattern is not found.
+   *
    * @param regex to find in input
    * @param message description of pattern
    */
@@ -73,6 +78,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
   }
   /**
    * Verification will fail, when pattern is found.
+   *
    * @param pattern to not find in input
    * @param message description of pattern
    */
@@ -82,6 +88,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when string is found.
+   *
    * @param string to not find in input
    * @param message description of pattern
    */
@@ -91,6 +98,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when pattern is found.
+   *
    * @param regex to not find in input
    * @param message description of pattern
    */

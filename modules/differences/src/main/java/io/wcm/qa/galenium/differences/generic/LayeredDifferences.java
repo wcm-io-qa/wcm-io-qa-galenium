@@ -26,6 +26,8 @@ import io.wcm.qa.galenium.differences.base.Differences;
 
 /**
  * Three layers of differences.
+ *
+ * @since 1.0.0
  */
 public class LayeredDifferences implements Differences {
 
@@ -33,18 +35,22 @@ public class LayeredDifferences implements Differences {
   private Differences secondary;
   private Differences tertiary;
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     return getCombinedDifferences().asFilePath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     return getCombinedDifferences().asPropertyKey();
   }
 
   /**
-   * @return all three layers as one {@link Differences} object
+   * <p>getCombinedDifferences.</p>
+   *
+   * @return all three layers as one {@link io.wcm.qa.galenium.differences.base.Differences} object
    */
   public Differences getCombinedDifferences() {
     MutableDifferences mutableDifferences = new MutableDifferences();
@@ -54,35 +60,67 @@ public class LayeredDifferences implements Differences {
     return mutableDifferences;
   }
 
+  /**
+   * <p>Getter for the field <code>primary</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   */
   public Differences getPrimary() {
     return primary;
   }
 
+  /**
+   * <p>Getter for the field <code>secondary</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   */
   public Differences getSecondary() {
     return secondary;
   }
 
+  /**
+   * <p>Getter for the field <code>tertiary</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   */
   public Differences getTertiary() {
     return tertiary;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     return getCombinedDifferences().iterator();
   }
 
+  /**
+   * <p>Setter for the field <code>primary</code>.</p>
+   *
+   * @param primary a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   */
   public void setPrimary(Differences primary) {
     this.primary = primary;
   }
 
+  /**
+   * <p>Setter for the field <code>secondary</code>.</p>
+   *
+   * @param secondary a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   */
   public void setSecondary(Differences secondary) {
     this.secondary = secondary;
   }
 
+  /**
+   * <p>Setter for the field <code>tertiary</code>.</p>
+   *
+   * @param tertiary a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   */
   public void setTertiary(Differences tertiary) {
     this.tertiary = tertiary;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
