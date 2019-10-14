@@ -44,6 +44,8 @@ public class TestDeviceDifferences implements Differences {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public TestDeviceDifferences() {
     super();
@@ -53,6 +55,7 @@ public class TestDeviceDifferences implements Differences {
    * Constructor.
    *
    * @param device to base differences on
+   * @since 2.0.0
    */
   public TestDeviceDifferences(TestDevice device) {
     setDevice(device);

@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
-import io.wcm.qa.galenium.differences.difference.ClassNameDifference;
+import io.wcm.qa.galenium.differences.difference.testcase.ClassNameDifference;
 import io.wcm.qa.galenium.differences.generic.MutableDifferences;
 
 /**
@@ -40,6 +40,7 @@ public class ClassDifferences implements Differences {
    * <p>Constructor for ClassDifferences.</p>
    *
    * @param clazz to extract class and package name from
+   * @since 2.0.0
    */
   public ClassDifferences(Class clazz) {
     setClass(clazz);
@@ -61,6 +62,7 @@ public class ClassDifferences implements Differences {
    * <p>getRootPackage.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getRootPackage() {
     return getPackageDifferences().getRootPackage();
@@ -76,6 +78,7 @@ public class ClassDifferences implements Differences {
    * <p>setClass.</p>
    *
    * @param clazz to extract class and package name from
+   * @since 2.0.0
    */
   public void setClass(Class clazz) {
     setClassDifference(new ClassNameDifference(clazz));
@@ -86,6 +89,7 @@ public class ClassDifferences implements Differences {
    * Set maximum length of class name in rendered keys.
    *
    * @param maxLength when to start shortening class name differnce key
+   * @since 2.0.0
    */
   public void setClassNameMaxLength(int maxLength) {
     getClassDifference().setMaxTagLength(maxLength);
@@ -95,6 +99,7 @@ public class ClassDifferences implements Differences {
    * <p>setPackage.</p>
    *
    * @param p to extract package name from
+   * @since 2.0.0
    */
   public void setPackage(Package p) {
     setPackageDifferences(new PackageDifferences(p));
@@ -104,6 +109,7 @@ public class ClassDifferences implements Differences {
    * <p>setRootPackage.</p>
    *
    * @param rootPackage will be removed from beginning of package name
+   * @since 2.0.0
    */
   public void setRootPackage(String rootPackage) {
     getPackageDifferences().setRootPackage(rootPackage);

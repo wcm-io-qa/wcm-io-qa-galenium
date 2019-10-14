@@ -28,7 +28,6 @@ import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.PageSpec;
-import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.base.Difference;
@@ -37,7 +36,9 @@ import io.wcm.qa.galenium.exceptions.GalenLayoutException;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.galen.GalenHelperUtil;
 import io.wcm.qa.galenium.galen.GalenLayoutChecker;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
+import io.wcm.qa.galenium.imagecomparison.IcValidationListener;
+import io.wcm.qa.galenium.imagecomparison.IcsFactory;
+import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.verification.base.VerificationBase;
 
@@ -48,24 +49,25 @@ import io.wcm.qa.galenium.verification.base.VerificationBase;
  */
 public class VisualVerification extends VerificationBase<Object> {
 
-  private ImageComparisonSpecFactory specFactory;
+  private ImageComparisonSpecDefinition specDefinition;
 
   /**
    * <p>Constructor for VisualVerification.</p>
    *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public VisualVerification(Selector selector) {
     super("Visual(" + selector.elementName() + ")");
     setPreVerification(new VisibilityVerification(selector));
-    setSpecFactory(new ImageComparisonSpecFactory(selector));
+    setSpecDefinition(new ImageComparisonSpecDefinition(selector));
   }
 
   /** {@inheritDoc} */
   @Override
   public VisualVerification addDifference(Difference difference) {
     // handle factory
-    getSpecFactory().addDifference(difference);
+    getSpecDefinition().addDifference(difference);
 
     // handle self
     super.addDifference(difference);
@@ -76,114 +78,109 @@ public class VisualVerification extends VerificationBase<Object> {
    * Add an object to ignore during image comparison.
    *
    * @param selectorToIgnore identify element to ignore
+   * @since 2.0.0
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
-    getSpecFactory().addObjectToIgnore(selectorToIgnore);
+    getSpecDefinition().addObjectToIgnore(selectorToIgnore);
   }
 
   /**
    * If set the scroll position will be taken into account when needed.
    *
    * @param yCorrection vertical scroll position value
+   * @since 2.0.0
    */
   public void correctForSrollPosition(int yCorrection) {
-    getSpecFactory().correctForSrollPosition(yCorrection);
+    getSpecDefinition().correctForSrollPosition(yCorrection);
   }
 
   /**
    * <p>getAllowedError.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getAllowedError() {
-    return getSpecFactory().getAllowedError();
+    return getSpecDefinition().getAllowedError();
   }
 
   /**
    * <p>getAllowedOffset.</p>
    *
    * @return a int.
+   * @since 2.0.0
    */
   public int getAllowedOffset() {
-    return getSpecFactory().getAllowedOffset();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Comparator<Difference> getComparator() {
-    return this.specFactory.getComparator();
+    return getSpecDefinition().getAllowedOffset();
   }
 
   /**
    * <p>getFilename.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getFilename() {
-    return getSpecFactory().getFilename();
+    return getSpecDefinition().getFilename();
   }
 
   /**
    * <p>getFoldername.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getFoldername() {
-    return getSpecFactory().getFoldername();
+    return getSpecDefinition().getFoldername();
   }
 
   /**
    * <p>getObjectsToIgnore.</p>
    *
    * @return a {@link java.util.List} object.
+   * @since 2.0.0
    */
   public List<Selector> getObjectsToIgnore() {
-    return getSpecFactory().getObjectsToIgnore();
+    return getSpecDefinition().getObjectsToIgnore();
   }
 
   /**
    * <p>getSectionName.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getSectionName() {
-    return getSpecFactory().getSectionName();
+    return getSpecDefinition().getSectionName();
   }
 
   /**
-   * <p>Getter for the field <code>specFactory</code>.</p>
+   * <p>Getter for the field <code>specDefinition</code>.</p>
    *
-   * @return a {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory} object.
+   * @return a {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecDefinition} object.
    */
-  public ImageComparisonSpecFactory getSpecFactory() {
-    return specFactory;
-  }
-
-  /**
-   * <p>getValidationListener.</p>
-   *
-   * @return a {@link com.galenframework.validation.ValidationListener} object.
-   */
-  public ValidationListener getValidationListener() {
-    return getSpecFactory().getValidationListener();
+  public ImageComparisonSpecDefinition getSpecDefinition() {
+    return specDefinition;
   }
 
   /**
    * <p>isZeroToleranceWarning.</p>
    *
    * @return a boolean.
+   * @since 2.0.0
    */
   public boolean isZeroToleranceWarning() {
-    return getSpecFactory().isZeroToleranceWarning();
+    return getSpecDefinition().isZeroToleranceWarning();
   }
 
   /**
    * Percentage of pixels which can have different values without failing verification. Overrides allowed error pixel.
    *
    * @param allowedErrorPercentage tolerance in percent
+   * @since 2.0.0
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
-    getSpecFactory().setAllowedErrorPercent(allowedErrorPercentage);
+    getSpecDefinition().setAllowedErrorPercent(allowedErrorPercentage);
   }
 
   /**
@@ -191,87 +188,85 @@ public class VisualVerification extends VerificationBase<Object> {
    * percentage.
    *
    * @param allowedErrorPixels tolerance in total number of pixels
+   * @since 2.0.0
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
-    getSpecFactory().setAllowedErrorPixel(allowedErrorPixels);
+    getSpecDefinition().setAllowedErrorPixel(allowedErrorPixels);
   }
 
   /**
    * Allow image to be displaced by a few pixels.
    *
    * @param allowedOffset maximum offset to take into account
+   * @since 2.0.0
    */
   public void setAllowedOffset(int allowedOffset) {
-    getSpecFactory().setAllowedOffset(allowedOffset);
+    getSpecDefinition().setAllowedOffset(allowedOffset);
   }
 
   /** {@inheritDoc} */
   @Override
   public void setComparator(Comparator<Difference> comparator) {
-    this.specFactory.setComparator(comparator);
+    this.specDefinition.setComparator(comparator);
   }
 
   /**
    * Apply positional corrections in form of a {@link com.galenframework.specs.page.CorrectionsRect}.
    *
    * @param corrections to apply when comparing
+   * @since 2.0.0
    */
   public void setCorrections(CorrectionsRect corrections) {
-    getSpecFactory().setCorrections(corrections);
+    getSpecDefinition().setCorrections(corrections);
   }
 
   /**
    * Filename of sample.
    *
    * @param filename new file name
+   * @since 2.0.0
    */
   public void setFilename(String filename) {
-    getSpecFactory().setFilename(filename);
+    getSpecDefinition().setFilename(filename);
   }
 
   /**
    * Foldername of sample.
    *
    * @param foldername new folder name
+   * @since 2.0.0
    */
   public void setFoldername(String foldername) {
-    getSpecFactory().setFoldername(foldername);
+    getSpecDefinition().setFoldername(foldername);
   }
 
   /**
    * Ignore a list of objects when doing image comparison.
    *
    * @param objectsToIgnore list to ignore
+   * @since 2.0.0
    */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
-    getSpecFactory().setObjectsToIgnore(objectsToIgnore);
+    getSpecDefinition().setObjectsToIgnore(objectsToIgnore);
   }
 
   /**
    * <p>setSectionName.</p>
    *
    * @param sectionName used in reporting
+   * @since 2.0.0
    */
   public void setSectionName(String sectionName) {
-    getSpecFactory().setSectionName(sectionName);
+    getSpecDefinition().setSectionName(sectionName);
   }
 
   /**
-   * <p>Setter for the field <code>specFactory</code>.</p>
+   * <p>Setter for the field <code>specDefinition</code>.</p>
    *
-   * @param specFactory a {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory} object.
+   * @param def a {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecDefinition} object.
    */
-  public void setSpecFactory(ImageComparisonSpecFactory specFactory) {
-    this.specFactory = specFactory;
-  }
-
-  /**
-   * <p>setValidationListener.</p>
-   *
-   * @param validationListener listener to use for this comparison
-   */
-  public void setValidationListener(ValidationListener validationListener) {
-    getSpecFactory().setValidationListener(validationListener);
+  public void setSpecDefinition(ImageComparisonSpecDefinition def) {
+    this.specDefinition = def;
   }
 
   /**
@@ -280,9 +275,10 @@ public class VisualVerification extends VerificationBase<Object> {
    * run will continue.
    *
    * @param zeroToleranceWarning whether to use zero tolerance approach
+   * @since 2.0.0
    */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
-    getSpecFactory().setZeroToleranceWarning(zeroToleranceWarning);
+    getSpecDefinition().setZeroToleranceWarning(zeroToleranceWarning);
   }
 
   @Override
@@ -293,15 +289,11 @@ public class VisualVerification extends VerificationBase<Object> {
   @Override
   protected boolean doVerification() {
     LayoutReport layoutReport;
-    if (getValidationListener() == null) {
-      layoutReport = GalenLayoutChecker.checkLayout(getSpecFactory());
-    }
-    else {
-      PageSpec spec = specFactory.getPageSpecInstance();
-      TestDevice testDevice = getTestDevice();
-      SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
-      layoutReport = GalenLayoutChecker.checkLayout(specFactory.getSectionName(), spec, testDevice, tags, getValidationListener());
-    }
+
+    PageSpec spec = IcsFactory.getPageSpec(specDefinition);
+    TestDevice testDevice = getTestDevice();
+    SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
+    layoutReport = GalenLayoutChecker.checkLayout(specDefinition.getSectionName(), spec, testDevice, tags, new IcValidationListener());
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
@@ -339,8 +331,10 @@ public class VisualVerification extends VerificationBase<Object> {
   @Override
   protected void setDifferences(SortedDifferences differences) {
     // handle factory
-    getSpecFactory().clearDifferences();
-    getSpecFactory().addAll(differences.getDifferences());
+    getSpecDefinition().clearDifferences();
+    for (Difference difference : differences.getDifferences()) {
+      getSpecDefinition().addDifference(difference);
+    }
 
     // handle self
     super.setDifferences(differences);

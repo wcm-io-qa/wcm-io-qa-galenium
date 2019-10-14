@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +56,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
-  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browsermob.proxy";
+  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browser.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
@@ -1080,7 +1079,7 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * {@link #isSaveSampledTexts()}
+   * false
    * </pre>
    *
    * </li>
@@ -1089,9 +1088,6 @@ public final class GaleniumConfiguration {
    * @return whether to ignore errors when validating samples
    */
   public static boolean isSamplingVerificationIgnore() {
-    if (asString(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS) == null) {
-      return isSaveSampledTexts();
-    }
     return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS);
   }
 
@@ -1286,7 +1282,7 @@ public final class GaleniumConfiguration {
    * <li>Key:
    *
    * <pre>
-   * galenium.browsermob.proxy
+   * galenium.browser.proxy
    * </pre>
    *
    * </li>
@@ -1302,7 +1298,7 @@ public final class GaleniumConfiguration {
    *
    * @return whether to use BrowserMob Proxy for drivers
    */
-  public static boolean isUseBrowserMobProxy() {
+  public static boolean isUseBrowserProxy() {
     return asBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 

@@ -37,6 +37,7 @@ public class StableText extends Stability<String> implements Verifiable {
    * Constructor.
    *
    * @param selector to check text of
+   * @since 2.0.0
    */
   public StableText(Selector selector) {
     super(new TextSampler(selector));

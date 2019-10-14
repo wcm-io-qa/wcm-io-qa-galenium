@@ -44,6 +44,7 @@ public final class DifferenceUtil {
    * @param differences to get names from
    * @param separator to use between the elements.
    * @return all names joined using the separator.
+   * @since 2.0.0
    */
   public static String joinNamesWith(Iterable<Difference> differences, String separator) {
     List<String> list = new ArrayList<String>();
@@ -60,6 +61,7 @@ public final class DifferenceUtil {
    * @param differences to get tag values from
    * @param separator to use between the elements.
    * @return all tag values joined using the separator.
+   * @since 2.0.0
    */
   public static String joinTagsWith(Iterable<Difference> differences, String separator) {
     List<String> list = new ArrayList<String>();

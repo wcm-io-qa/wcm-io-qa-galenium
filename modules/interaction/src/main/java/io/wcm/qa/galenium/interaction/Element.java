@@ -37,7 +37,7 @@ import org.slf4j.Marker;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.webdriver.WebDriverManagement;
 
 /**
  * Utility methods for interaction with web elements.
@@ -350,10 +350,10 @@ public final class Element {
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {
     WebDriver driver = getDriver();
     if (isNow(type)) {
-      switchDriverToNow(driver);
+      switchDriverToNow();
     }
     List<WebElement> allElements = driver.findElements(selector.asBy());
-    switchDriverToDefaultTimeout(driver);
+    switchDriverToDefaultTimeout();
     return allElements;
   }
 
@@ -433,12 +433,12 @@ public final class Element {
     return element != null && element.isDisplayed();
   }
 
-  private static void switchDriverToDefaultTimeout(WebDriver driver) {
-    WebDriverManager.setDefaultTimeout();
+  private static void switchDriverToDefaultTimeout() {
+    WebDriverManagement.setDefaultTimeout();
   }
 
-  private static void switchDriverToNow(WebDriver driver) {
-    WebDriverManager.setZeroTimeout();
+  private static void switchDriverToNow() {
+    WebDriverManagement.setZeroTimeout();
   }
 
   private enum TimeoutType {

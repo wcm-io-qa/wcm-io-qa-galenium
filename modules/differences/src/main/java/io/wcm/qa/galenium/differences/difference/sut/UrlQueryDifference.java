@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,37 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
-
-import io.wcm.qa.galenium.device.BrowserType;
-import io.wcm.qa.galenium.device.TestDevice;
-import io.wcm.qa.galenium.differences.base.Difference;
-import io.wcm.qa.galenium.differences.base.DifferenceBase;
-import io.wcm.qa.galenium.util.GaleniumContext;
+package io.wcm.qa.galenium.differences.difference.sut;
 
 /**
- * {@link io.wcm.qa.galenium.device.TestDevice} based {@link io.wcm.qa.galenium.differences.base.Difference} using {@link io.wcm.qa.galenium.device.BrowserType}.
+ * Uses the query parameters to URL as difference.
  *
  * @since 1.0.0
  */
-public class BrowserDifference extends DifferenceBase {
+public class UrlQueryDifference extends UrlDifference {
+
+  /**
+   * Uses current URL.
+   *
+   * @since 2.0.0
+   */
+  public UrlQueryDifference() {
+    super();
+  }
+
+  /**
+   * <p>Constructor for UrlQueryDifference.</p>
+   *
+   * @param url to extract parameters from
+   * @since 2.0.0
+   */
+  public UrlQueryDifference(String url) {
+    super(url);
+  }
 
   @Override
   protected String getRawTag() {
-    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
+    return getUrl().getQuery();
   }
 
 }

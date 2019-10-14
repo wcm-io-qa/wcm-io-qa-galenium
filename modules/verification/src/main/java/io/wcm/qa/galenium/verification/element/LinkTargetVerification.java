@@ -34,6 +34,7 @@ public class LinkTargetVerification extends AttributeVerification {
    * <p>Constructor for LinkTargetVerification.</p>
    *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public LinkTargetVerification(Selector selector) {
     super(selector, ATTRIBUTE_NAME_HREF);
@@ -44,6 +45,7 @@ public class LinkTargetVerification extends AttributeVerification {
    *
    * @param selector to identify element
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public LinkTargetVerification(Selector selector, String expectedValue) {
     super(selector, ATTRIBUTE_NAME_HREF, expectedValue);

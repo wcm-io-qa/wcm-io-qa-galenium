@@ -51,6 +51,7 @@ public class LayeredDifferences implements Differences {
    * <p>getCombinedDifferences.</p>
    *
    * @return all three layers as one {@link io.wcm.qa.galenium.differences.base.Differences} object
+   * @since 2.0.0
    */
   public Differences getCombinedDifferences() {
     MutableDifferences mutableDifferences = new MutableDifferences();
@@ -64,6 +65,7 @@ public class LayeredDifferences implements Differences {
    * <p>Getter for the field <code>primary</code>.</p>
    *
    * @return a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   * @since 2.0.0
    */
   public Differences getPrimary() {
     return primary;
@@ -73,6 +75,7 @@ public class LayeredDifferences implements Differences {
    * <p>Getter for the field <code>secondary</code>.</p>
    *
    * @return a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   * @since 2.0.0
    */
   public Differences getSecondary() {
     return secondary;
@@ -82,6 +85,7 @@ public class LayeredDifferences implements Differences {
    * <p>Getter for the field <code>tertiary</code>.</p>
    *
    * @return a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   * @since 2.0.0
    */
   public Differences getTertiary() {
     return tertiary;
@@ -97,6 +101,7 @@ public class LayeredDifferences implements Differences {
    * <p>Setter for the field <code>primary</code>.</p>
    *
    * @param primary a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   * @since 2.0.0
    */
   public void setPrimary(Differences primary) {
     this.primary = primary;
@@ -106,6 +111,7 @@ public class LayeredDifferences implements Differences {
    * <p>Setter for the field <code>secondary</code>.</p>
    *
    * @param secondary a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   * @since 2.0.0
    */
   public void setSecondary(Differences secondary) {
     this.secondary = secondary;
@@ -115,6 +121,7 @@ public class LayeredDifferences implements Differences {
    * <p>Setter for the field <code>tertiary</code>.</p>
    *
    * @param tertiary a {@link io.wcm.qa.galenium.differences.base.Differences} object.
+   * @since 2.0.0
    */
   public void setTertiary(Differences tertiary) {
     this.tertiary = tertiary;

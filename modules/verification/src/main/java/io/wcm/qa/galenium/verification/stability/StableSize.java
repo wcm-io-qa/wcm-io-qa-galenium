@@ -36,6 +36,7 @@ public class StableSize extends Stability<Dimension> {
    * <p>Constructor for StableSize.</p>
    *
    * @param selector identifies the element
+   * @since 2.0.0
    */
   public StableSize(Selector selector) {
     super(new SizeSampler(selector));

@@ -43,7 +43,7 @@ import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
 import io.wcm.qa.galenium.util.TestInfoUtil;
 import io.wcm.qa.galenium.webdriver.HasDevice;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.webdriver.WebDriverManagement;
 
 /**
  * Handles {@link org.openqa.selenium.WebDriver} life cycle in single and multi threaded scenarios.
@@ -111,7 +111,7 @@ public class WebDriverListener implements ITestListener {
         }
         if (testDevice != null) {
           getLogger().debug("new driver for: " + testDevice);
-          WebDriverManager.getDriver(testDevice);
+          WebDriverManagement.getDriver(testDevice);
         }
         else {
           getLogger().debug("no test device set for: " + result.getTestName());
@@ -177,7 +177,7 @@ public class WebDriverListener implements ITestListener {
   }
 
   protected void closeDriver() {
-    WebDriverManager.closeDriver();
+    WebDriverManagement.closeDriver();
   }
 
   protected Logger getLogger() {

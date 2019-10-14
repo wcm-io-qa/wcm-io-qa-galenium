@@ -45,6 +45,7 @@ public abstract class Stability<T> implements Verifiable {
    * <p>Constructor for Stability.</p>
    *
    * @param sampler to use in verification
+   * @since 2.0.0
    */
   public Stability(Sampler<T> sampler) {
     setSampler(sampler);
@@ -54,6 +55,7 @@ public abstract class Stability<T> implements Verifiable {
    * <p>Getter for the field <code>sampler</code>.</p>
    *
    * @return a {@link io.wcm.qa.galenium.sampling.Sampler} object.
+   * @since 2.0.0
    */
   public Sampler<T> getSampler() {
     return sampler;
@@ -63,6 +65,7 @@ public abstract class Stability<T> implements Verifiable {
    * <p>Setter for the field <code>sampler</code>.</p>
    *
    * @param sampler to use in verification
+   * @since 2.0.0
    */
   public void setSampler(Sampler<T> sampler) {
     if (sampler instanceof CanCache) {

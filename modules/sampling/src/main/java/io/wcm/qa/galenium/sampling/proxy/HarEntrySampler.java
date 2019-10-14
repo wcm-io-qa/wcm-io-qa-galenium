@@ -23,10 +23,11 @@ import java.util.List;
 
 import org.apache.commons.collections4.ListUtils;
 
+import com.browserup.harreader.model.Har;
+import com.browserup.harreader.model.HarEntry;
+import com.browserup.harreader.model.HarLog;
+
 import io.wcm.qa.galenium.sampling.transform.base.TransformationBasedSampler;
-import net.lightbody.bmp.core.har.Har;
-import net.lightbody.bmp.core.har.HarEntry;
-import net.lightbody.bmp.core.har.HarLog;
 
 /**
  * Samples {@link net.lightbody.bmp.core.har.HarEntry} instances from a {@link io.wcm.qa.galenium.sampling.proxy.HarSampler}.
@@ -49,7 +50,7 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
   @Override
   protected List<HarEntry> transform(Har inputSample) {
     if (inputSample == null) {
-      getLogger().debug("Har was null. (means BMP is not recording");
+      getLogger().debug("Har was null. (means BrowserUp Proxy is not recording)");
       return handleEmptySample();
     }
     HarLog log = inputSample.getLog();

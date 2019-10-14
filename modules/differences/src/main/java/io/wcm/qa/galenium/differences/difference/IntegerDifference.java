@@ -32,6 +32,8 @@ public class IntegerDifference extends DifferenceBase {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public IntegerDifference() {
     this(0);
@@ -41,6 +43,7 @@ public class IntegerDifference extends DifferenceBase {
    * <p>Constructor for IntegerDifference.</p>
    *
    * @param index index to use
+   * @since 2.0.0
    */
   public IntegerDifference(int index) {
     setIndex(index);
@@ -48,6 +51,8 @@ public class IntegerDifference extends DifferenceBase {
 
   /**
    * Decrement or count down.
+   *
+   * @since 2.0.0
    */
   public void decrement() {
     setIndex(getIndex() - 1);
@@ -57,6 +62,7 @@ public class IntegerDifference extends DifferenceBase {
    * <p>Getter for the field <code>index</code>.</p>
    *
    * @return a int.
+   * @since 2.0.0
    */
   public int getIndex() {
     return index;
@@ -64,6 +70,8 @@ public class IntegerDifference extends DifferenceBase {
 
   /**
    * Increment aka increase index by one.
+   *
+   * @since 2.0.0
    */
   public void increment() {
     setIndex(getIndex() + 1);
@@ -73,6 +81,7 @@ public class IntegerDifference extends DifferenceBase {
    * <p>Setter for the field <code>index</code>.</p>
    *
    * @param index a int.
+   * @since 2.0.0
    */
   public void setIndex(int index) {
     this.index = index;

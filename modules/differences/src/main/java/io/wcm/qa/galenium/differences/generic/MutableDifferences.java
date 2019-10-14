@@ -41,6 +41,7 @@ public class MutableDifferences implements Differences {
    *
    * @param difference to be appended
    * @return true if adding changed anything
+   * @since 2.0.0
    */
   public boolean add(Difference difference) {
     if (difference == null) {
@@ -54,6 +55,7 @@ public class MutableDifferences implements Differences {
    *
    * @param toBeAppended Collection of differences to be appended
    * @return if differences changed after appending
+   * @since 2.0.0
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
     boolean changed = false;
@@ -70,6 +72,7 @@ public class MutableDifferences implements Differences {
    *
    * @param toBeAppended Collection of differences to be appended
    * @return if differences changed after appending
+   * @since 2.0.0
    */
   public boolean addAll(Iterable<? extends Difference> toBeAppended) {
     boolean changed = false;
@@ -95,6 +98,8 @@ public class MutableDifferences implements Differences {
 
   /**
    * See {@link java.util.ArrayList#clear()}
+   *
+   * @since 2.0.0
    */
   public void clear() {
     getDifferences().clear();
@@ -104,6 +109,7 @@ public class MutableDifferences implements Differences {
    * <p>Getter for the field <code>differences</code>.</p>
    *
    * @return a {@link java.util.Collection} object.
+   * @since 2.0.0
    */
   public Collection<Difference> getDifferences() {
     return differences;
@@ -120,6 +126,7 @@ public class MutableDifferences implements Differences {
    *
    * @param difference to be removed
    * @return true if difference existed and was removed
+   * @since 2.0.0
    */
   public boolean remove(Difference difference) {
     return getDifferences().remove(difference);

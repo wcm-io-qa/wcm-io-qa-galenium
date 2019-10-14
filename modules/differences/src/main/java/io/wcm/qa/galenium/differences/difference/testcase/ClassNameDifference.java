@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,25 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.testcase;
 
-import io.wcm.qa.galenium.selectors.base.Selector;
+import io.wcm.qa.galenium.differences.difference.StringDifference;
 
 /**
- * Difference based on selector name.
+ * Uses simple name of class (without package) as difference.
  *
  * @since 1.0.0
  */
-public class SelectorDifference extends StringDifference {
+public class ClassNameDifference extends StringDifference {
 
   /**
-   * <p>Constructor for SelectorDifference.</p>
+   * <p>Constructor for ClassNameDifference.</p>
    *
-   * @param selector to get name from
+   * @param clazz to get name from
+   * @since 2.0.0
    */
-  public SelectorDifference(Selector selector) {
-    super(selector.elementName());
+  public ClassNameDifference(Class clazz) {
+    super(clazz.getSimpleName());
   }
 
 }

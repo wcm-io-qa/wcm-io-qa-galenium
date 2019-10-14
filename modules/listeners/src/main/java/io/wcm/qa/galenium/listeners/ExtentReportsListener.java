@@ -39,7 +39,7 @@ import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Handles {@link com.relevantcodes.extentreports.ExtentReports} life cycle.
@@ -164,7 +164,7 @@ public class ExtentReportsListener implements ITestListener, IConfigurationListe
   }
 
   private WebDriver getDriver() {
-    return WebDriverManager.getCurrentDriver();
+    return GaleniumContext.getDriver();
   }
 
   private String getHtmlEscapedMessage(Throwable throwable) {

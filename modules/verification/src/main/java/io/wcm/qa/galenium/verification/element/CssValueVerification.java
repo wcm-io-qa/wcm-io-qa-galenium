@@ -37,6 +37,7 @@ public class CssValueVerification extends ElementBasedStringVerification<CssValu
    *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
+   * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName) {
     super(selector.elementName(), new CssValueSampler(selector, cssValueName));
@@ -49,6 +50,7 @@ public class CssValueVerification extends ElementBasedStringVerification<CssValu
    * @param selector to identify element
    * @param cssValueName name of attribute to check
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName, String expectedValue) {
     this(selector, cssValueName);

@@ -45,6 +45,7 @@ public class PackageDifferences implements Differences {
    * <p>Constructor for PackageDifferences.</p>
    *
    * @param p to base name on
+   * @since 2.0.0
    */
   public PackageDifferences(Package p) {
     if (p == null) {
@@ -58,6 +59,7 @@ public class PackageDifferences implements Differences {
    *
    * @param p to base name on
    * @param root to remove from beginning of package name
+   * @since 2.0.0
    */
   public PackageDifferences(Package p, String root) {
     this(p);
@@ -82,6 +84,7 @@ public class PackageDifferences implements Differences {
    * <p>Getter for the field <code>mainPackage</code>.</p>
    *
    * @return a {@link java.lang.Package} object.
+   * @since 2.0.0
    */
   public Package getMainPackage() {
     return mainPackage;
@@ -91,6 +94,7 @@ public class PackageDifferences implements Differences {
    * <p>Getter for the field <code>rootPackage</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getRootPackage() {
     return rootPackage;
@@ -107,6 +111,7 @@ public class PackageDifferences implements Differences {
    * <p>setPackage.</p>
    *
    * @param p to base name on
+   * @since 2.0.0
    */
   public void setPackage(Package p) {
     setMainPackage(p);
@@ -117,6 +122,7 @@ public class PackageDifferences implements Differences {
    * <p>Setter for the field <code>rootPackage</code>.</p>
    *
    * @param rootPackage to remove from beginning of package name
+   * @since 2.0.0
    */
   public void setRootPackage(String rootPackage) {
     this.rootPackage = rootPackage;
@@ -152,11 +158,12 @@ public class PackageDifferences implements Differences {
 
   private void initialize() {
     if (isDirty()) {
-      setDifferences(new MutableDifferences());
+      MutableDifferences freshDifferences = new MutableDifferences();
       String[] splitUpPackageName = getRelativePackageName().split("\\.");
       for (String namePart : splitUpPackageName) {
-        getDifferences().add(new StringDifference(namePart));
+        freshDifferences.add(new StringDifference(namePart));
       }
+      setDifferences(freshDifferences);
       setClean();
     }
   }

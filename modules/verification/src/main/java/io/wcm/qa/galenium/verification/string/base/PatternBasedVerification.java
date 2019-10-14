@@ -43,6 +43,7 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
    * <p>Getter for the field <code>pattern</code>.</p>
    *
    * @return a {@link java.util.regex.Pattern} object.
+   * @since 2.0.0
    */
   public Pattern getPattern() {
     return pattern;
@@ -52,6 +53,7 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
    * <p>Setter for the field <code>pattern</code>.</p>
    *
    * @param pattern a {@link java.util.regex.Pattern} object.
+   * @since 2.0.0
    */
   public void setPattern(Pattern pattern) {
     this.pattern = pattern;

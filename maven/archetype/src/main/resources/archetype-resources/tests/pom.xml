@@ -15,24 +15,9 @@
   <name>${projectName} UI Tests</name>
   <packaging>jar</packaging>
 
-
-  <dependencies>
-  </dependencies>
-
   <!-- distribution management -->
   <build>
     <plugins>
-
-      <!-- Download Webdriver binaries -->
-      <plugin>
-        <groupId>com.lazerycode.selenium</groupId>
-        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>pre-integration-test</phase>
-          </execution>
-        </executions>
-      </plugin>
 
       <!-- do not deploy this test project into maven repository -->
       <plugin>
@@ -48,7 +33,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
-          <skip>false</skip>
+          <skip>${galenium.skipTests}</skip>
         </configuration>
       </plugin>
 
@@ -59,23 +44,6 @@
         <configuration>
           <skipDeploy>true</skipDeploy>
         </configuration>
-      </plugin>
-
-      <!-- make sure sources for generated classes are available -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>include-project-specific-resources</id>
-            <goals>
-              <goal>sources</goal>
-            </goals>
-            <configuration>
-              <includeArtifactIds>${artifactId}.specs</includeArtifactIds>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
 
     </plugins>

@@ -178,7 +178,7 @@ public final class Wait {
    * @param url to load
    */
   public static void forUrl(String url) {
-    Wait.forUrl(url, DEFAULT_TIMEOUT);
+    forUrl(url, DEFAULT_TIMEOUT);
   }
 
   /**
@@ -187,7 +187,6 @@ public final class Wait {
    * @param url to load
    * @param timeOutInSeconds how long to wait for URL to be current
    */
-  @SuppressWarnings("unchecked")
   public static void forUrl(String url, int timeOutInSeconds) {
     getLogger().trace("waiting for URL: '" + url + "'");
     WebDriverWait wait = getWait(timeOutInSeconds);

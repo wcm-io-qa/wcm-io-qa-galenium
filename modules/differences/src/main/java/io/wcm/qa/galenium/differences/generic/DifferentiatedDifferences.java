@@ -60,6 +60,7 @@ public class DifferentiatedDifferences extends SortedDifferences {
    * <p>Getter for the field <code>cutoff</code>.</p>
    *
    * @return a int.
+   * @since 2.0.0
    */
   public int getCutoff() {
     return cutoff;
@@ -69,6 +70,7 @@ public class DifferentiatedDifferences extends SortedDifferences {
    * <p>Setter for the field <code>cutoff</code>.</p>
    *
    * @param cutoff a int.
+   * @since 2.0.0
    */
   public void setCutoff(int cutoff) {
     this.cutoff = cutoff;

@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,43 +17,44 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.driver;
 
-import io.wcm.qa.galenium.differences.base.Difference;
+import org.apache.commons.lang3.SystemUtils;
+
 import io.wcm.qa.galenium.differences.base.DifferenceBase;
 
 /**
- * Simple {@link io.wcm.qa.galenium.differences.base.Difference} using the string assigned in constructor.
+ * Uses {@link org.apache.commons.lang3.SystemUtils} to tell apart the big three OSes:
+ * <ul>
+ * <li>LINUX</li>
+ * <li>OSX</li>
+ * <li>WINDOWS</li>
+ * </ul>
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class StringDifference extends DifferenceBase {
+public class OsFamilyDifference extends DifferenceBase {
 
-  private String tag;
-
-  /**
-   * <p>Constructor for StringDifference.</p>
-   *
-   * @param tag to use
-   * @since 2.0.0
-   */
-  public StringDifference(String tag) {
-    setTag(tag);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String getName() {
-    return super.getName() + "." + getTag();
+  private enum OsFamily {
+    LINUX, OSX, WINDOWS, UNKNOWN
   }
 
   @Override
   protected String getRawTag() {
-    return tag;
+    return getOsFamily().name();
   }
 
-  protected void setTag(String tag) {
-    this.tag = tag;
+  private OsFamily getOsFamily() {
+    if (SystemUtils.IS_OS_LINUX) {
+      return OsFamily.LINUX;
+    }
+    if (SystemUtils.IS_OS_MAC_OSX) {
+      return OsFamily.OSX;
+    }
+    if (SystemUtils.IS_OS_WINDOWS) {
+      return OsFamily.WINDOWS;
+    }
+    return OsFamily.UNKNOWN;
   }
 
 }

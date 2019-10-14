@@ -21,9 +21,9 @@ package io.wcm.qa.galenium.verification.proxy;
 
 import java.util.List;
 
-import net.lightbody.bmp.core.har.HarEntry;
-import net.lightbody.bmp.core.har.HarRequest;
-import net.lightbody.bmp.core.har.HarResponse;
+import com.browserup.harreader.model.HarEntry;
+import com.browserup.harreader.model.HarRequest;
+import com.browserup.harreader.model.HarResponse;
 
 /**
  * Verifies stability and then checks for unfinished requests.

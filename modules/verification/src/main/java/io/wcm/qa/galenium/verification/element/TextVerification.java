@@ -36,6 +36,7 @@ public class TextVerification extends ElementBasedStringVerification<TextSampler
    * <p>Constructor for TextVerification.</p>
    *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public TextVerification(Selector selector) {
     super(selector.elementName(), new TextSampler(selector));
@@ -47,6 +48,7 @@ public class TextVerification extends ElementBasedStringVerification<TextSampler
    *
    * @param selector to identify element
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public TextVerification(Selector selector, String expectedValue) {
     this(selector);

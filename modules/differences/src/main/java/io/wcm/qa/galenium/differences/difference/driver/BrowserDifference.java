@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2018 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.driver;
+
+import io.wcm.qa.galenium.device.BrowserType;
+import io.wcm.qa.galenium.device.TestDevice;
+import io.wcm.qa.galenium.differences.base.Difference;
+import io.wcm.qa.galenium.differences.base.DifferenceBase;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
- * Uses URL path relative to host as difference.
+ * {@link io.wcm.qa.galenium.device.TestDevice} based {@link io.wcm.qa.galenium.differences.base.Difference} using {@link io.wcm.qa.galenium.device.BrowserType}.
  *
  * @since 1.0.0
  */
-public class RelativePathDifference extends UrlDifference {
-
-
-  /**
-   * Uses current URL from driver.
-   */
-  public RelativePathDifference() {
-    super();
-  }
-
-  /**
-   * Uses current URL from driver.
-   *
-   * @param url a {@link java.lang.String} object.
-   */
-  public RelativePathDifference(String url) {
-    super(url);
-  }
+public class BrowserDifference extends DifferenceBase {
 
   @Override
   protected String getRawTag() {
-    return getUrl().getPath();
+    return GaleniumContext.getTestDevice().getBrowserType().getBrowser();
   }
 
 }

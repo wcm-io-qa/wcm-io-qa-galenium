@@ -23,7 +23,28 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.0.0" date="not released yet">
+    <release version="2.0.0" date="2019-07-17">
+      <action type="update" dev="apegam">
+        Replace BrowserMob Proxy with actively maintained fork BrowserUp Proxy.  
+      </action>
+      <action type="update" dev="apegam">
+        Only include Selenium drivers for Chrome, FF and IE as dependencies.  
+      </action>
+      <action type="add" dev="apegam">
+        Added Webdriver download from Java code.
+      </action>
+      <action type="remove" dev="apegam">
+        Removed Webdriver download via Maven plugin.
+      </action>
+      <action type="update" dev="apegam">
+        Split Difference implementations into packages.
+      </action>
+      <action type="update" dev="apegam">
+        New versions for parents and dependencies.
+      </action>
+    </release>
+
+    <release version="1.0.0" date="2019-03-27">
       <action type="add" dev="apegam">
         Add start scripts to archetype.
       </action>

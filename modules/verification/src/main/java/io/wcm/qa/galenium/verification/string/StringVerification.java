@@ -35,6 +35,7 @@ public class StringVerification extends StringSamplerBasedVerification {
    *
    * @param verificationName name for this check
    * @param sampler to provide input
+   * @since 2.0.0
    */
   public StringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
@@ -45,6 +46,7 @@ public class StringVerification extends StringSamplerBasedVerification {
    *
    * @param verificationName name for this check
    * @param sample to verify
+   * @since 2.0.0
    */
   public StringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));

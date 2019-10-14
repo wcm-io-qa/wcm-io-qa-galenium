@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.sut;
 
 import java.net.URL;
 
@@ -32,6 +32,8 @@ public class RelativeUrlWithQueryDifference extends UrlDifference {
 
   /**
    * Uses current URL.
+   *
+   * @since 2.0.0
    */
   public RelativeUrlWithQueryDifference() {
     super();
@@ -41,6 +43,7 @@ public class RelativeUrlWithQueryDifference extends UrlDifference {
    * Uses URL build from parameter string.
    *
    * @param url to extract path and query from
+   * @since 2.0.0
    */
   public RelativeUrlWithQueryDifference(String url) {
     super(url);

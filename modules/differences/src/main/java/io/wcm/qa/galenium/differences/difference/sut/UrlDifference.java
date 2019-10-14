@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.sut;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +37,8 @@ public abstract class UrlDifference extends DifferenceBase {
 
   /**
    * Uses current URL from driver.
+   *
+   * @since 2.0.0
    */
   public UrlDifference() {
     this(null);
@@ -46,6 +48,7 @@ public abstract class UrlDifference extends DifferenceBase {
    * Uses URL from param.
    *
    * @param url URL to use as difference
+   * @since 2.0.0
    */
   public UrlDifference(String url) {
     this.url = url;

@@ -40,6 +40,7 @@ public final class Check {
    * Uses {@link io.wcm.qa.galenium.verification.strategy.VerificationStrategy} from {@link io.wcm.qa.galenium.util.GaleniumContext} to handle a list of verifications.
    *
    * @param verifications to verify
+   * @since 2.0.0
    */
   public static void verify(Verification... verifications) {
     for (Verification verification : verifications) {

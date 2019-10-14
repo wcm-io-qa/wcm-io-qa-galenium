@@ -19,9 +19,10 @@
  */
 package io.wcm.qa.galenium.sampling.proxy;
 
+import com.browserup.harreader.model.Har;
+
+import io.wcm.qa.galenium.proxy.BrowserProxyUtil;
 import io.wcm.qa.galenium.sampling.base.CachingBasedSampler;
-import io.wcm.qa.galenium.util.BrowserMobUtil;
-import net.lightbody.bmp.core.har.Har;
 
 /**
  * Samples Har from BrowserMob Proxy.
@@ -37,7 +38,7 @@ public class HarSampler extends CachingBasedSampler<Har> {
   }
 
   private Har getHar() {
-    return BrowserMobUtil.getBrowserMobProxy().getHar();
+    return BrowserProxyUtil.getBrowserProxy().getHar();
   }
 
 }

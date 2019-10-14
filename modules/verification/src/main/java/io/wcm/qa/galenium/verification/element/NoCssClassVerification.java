@@ -33,6 +33,7 @@ public class NoCssClassVerification extends CssClassVerification {
    *
    * @param selector to identify element
    * @param cssClass to verify against
+   * @since 2.0.0
    */
   public NoCssClassVerification(Selector selector, String cssClass) {
     super(selector, cssClass);

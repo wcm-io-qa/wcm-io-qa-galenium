@@ -21,34 +21,23 @@ package io.wcm.qa.galenium.imagecomparison;
 
 import static java.util.Locale.ENGLISH;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.galenframework.parser.SyntaxException;
-import com.galenframework.speclang2.specs.SpecReader;
-import com.galenframework.specs.Spec;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.CorrectionsRect.Correction;
 import com.galenframework.specs.page.CorrectionsRect.Type;
 import com.galenframework.specs.page.Locator;
-import com.galenframework.specs.page.ObjectSpecs;
-import com.galenframework.specs.page.PageSection;
-import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
-import io.wcm.qa.galenium.exceptions.GaleniumException;
 import io.wcm.qa.galenium.interaction.Mouse;
-import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.util.BrowserUtil;
 
@@ -57,7 +46,7 @@ import io.wcm.qa.galenium.util.BrowserUtil;
  *
  * @since 1.0.0
  */
-public class ImageComparisonSpecFactory {
+public class ImageComparisonSpecDefinition implements IcsDefinition {
 
   private static final String DEFAULT_PAGE_SECTION_NAME = "Image Comparison";
   private static final Correction NO_CORRECTION = new Correction(0, CorrectionsRect.Type.PLUS);
@@ -73,15 +62,16 @@ public class ImageComparisonSpecFactory {
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
 
-  private ValidationListener validationListener = new ImageComparisonValidationListener();
   private boolean zeroToleranceWarning;
+  private ValidationListener validationListener;
 
   /**
    * <p>Constructor for ImageComparisonSpecFactory.</p>
    *
    * @param selector selector for main object
+   * @since 2.0.0
    */
-  public ImageComparisonSpecFactory(Selector selector) {
+  public ImageComparisonSpecDefinition(Selector selector) {
     this(selector, selector.elementName());
     if (BrowserUtil.isChrome()) {
       correctForSrollPosition(Mouse.getVerticalScrollPosition().intValue());
@@ -93,8 +83,9 @@ public class ImageComparisonSpecFactory {
    *
    * @param selector selector for main object
    * @param elementName object name to use
+   * @since 2.0.0
    */
-  public ImageComparisonSpecFactory(Selector selector, String elementName) {
+  public ImageComparisonSpecDefinition(Selector selector, String elementName) {
     setSelector(selector);
     setElementName(elementName);
     setFilename(elementName.toLowerCase(ENGLISH) + ".png");
@@ -106,6 +97,7 @@ public class ImageComparisonSpecFactory {
    *
    * @param toBeAppended differences to be appended
    * @return true if this list changed as a result of the call
+   * @since 2.0.0
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
     return getDifferences().addAll(toBeAppended);
@@ -115,6 +107,7 @@ public class ImageComparisonSpecFactory {
    * <p>addDifference.</p>
    *
    * @param difference appends a difference
+   * @since 2.0.0
    */
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
@@ -124,6 +117,7 @@ public class ImageComparisonSpecFactory {
    * <p>addObjectToIgnore.</p>
    *
    * @param selectorToIgnore the area of this object will be ignored in image comparison
+   * @since 2.0.0
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
     getObjectsToIgnore().add(selectorToIgnore);
@@ -131,16 +125,15 @@ public class ImageComparisonSpecFactory {
 
   /**
    * Removes all differences added to this factory.
+   *
+   * @since 2.0.0
    */
   public void clearDifferences() {
     getDifferences().clear();
   }
 
-  /**
-   * <p>correctForSrollPosition.</p>
-   *
-   * @param yCorrection amount of scrolling
-   */
+  /** {@inheritDoc} */
+  @Override
   public void correctForSrollPosition(int yCorrection) {
     Correction top = new Correction(yCorrection, Type.MINUS);
     CorrectionsRect correctionsRect = new CorrectionsRect(NO_CORRECTION, top, NO_CORRECTION, NO_CORRECTION);
@@ -148,19 +141,21 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
-   * <p>Getter for the field <code>allowedError</code>.</p>
+   * {@inheritDoc}
    *
-   * @return allowed error string
+   * <p>Getter for the field <code>allowedError</code>.</p>
    */
+  @Override
   public String getAllowedError() {
     return allowedError;
   }
 
   /**
-   * <p>Getter for the field <code>allowedOffset</code>.</p>
+   * {@inheritDoc}
    *
-   * @return offset to analyse
+   * <p>Getter for the field <code>allowedOffset</code>.</p>
    */
+  @Override
   public int getAllowedOffset() {
     return allowedOffset;
   }
@@ -169,9 +164,22 @@ public class ImageComparisonSpecFactory {
    * <p>getComparator.</p>
    *
    * @return a {@link java.util.Comparator} object.
+   * @since 2.0.0
    */
   public Comparator<Difference> getComparator() {
     return this.differences.getComparator();
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>
+   * Getter for the field <code>differences</code>.
+   * </p>
+   */
+  @Override
+  public CorrectionsRect getCorrections() {
+    return corrections;
   }
 
   /**
@@ -182,30 +190,32 @@ public class ImageComparisonSpecFactory {
   public SortedDifferences getDifferences() {
     return differences;
   }
-
   /**
-   * <p>Getter for the field <code>elementName</code>.</p>
+   * {@inheritDoc}
    *
-   * @return a {@link java.lang.String} object.
+   * <p>Getter for the field <code>elementName</code>.</p>
    */
+  @Override
   public String getElementName() {
     return elementName;
   }
 
   /**
-   * <p>Getter for the field <code>filename</code>.</p>
+   * {@inheritDoc}
    *
-   * @return a {@link java.lang.String} object.
+   * <p>Getter for the field <code>filename</code>.</p>
    */
+  @Override
   public String getFilename() {
     return filename;
   }
 
   /**
-   * <p>Getter for the field <code>foldername</code>.</p>
+   * {@inheritDoc}
    *
-   * @return the set folder name or one constructed from differences
+   * <p>Getter for the field <code>foldername</code>.</p>
    */
+  @Override
   public String getFoldername() {
     if (foldername != null) {
       return foldername;
@@ -218,73 +228,47 @@ public class ImageComparisonSpecFactory {
   }
 
   /**
-   * <p>Getter for the field <code>objectsToIgnore</code>.</p>
+   * {@inheritDoc}
    *
-   * @return a {@link java.util.List} object.
+   * <p>Getter for the field <code>objectsToIgnore</code>.</p>
    */
+  @Override
   public List<Selector> getObjectsToIgnore() {
     return objectsToIgnore;
   }
 
   /**
-   * <p>getPageSpecInstance.</p>
+   * {@inheritDoc}
    *
-   * @return page spec according to params set on factory
+   * <p>
+   * getPageSpecInstance.
+   * </p>
    */
-  public PageSpec getPageSpecInstance() {
-    // specs
-    Spec spec = getSpecForText(getImageComparisonSpecText());
-    ObjectSpecs objectSpecs = new ObjectSpecs(getElementName());
-
-    Spec insideViewportSpec = getSpecForText("inside viewport");
-    objectSpecs.addSpec(insideViewportSpec);
-
-    objectSpecs.addSpec(spec);
-    if (GaleniumConfiguration.isSaveSampledImages()) {
-      spec.setOnlyWarn(true);
-      insideViewportSpec.setOnlyWarn(true);
+  @Override
+  public Locator getLocator() {
+    Locator locator = getSelector().asLocator();
+    if (hasCorrections()) {
+      locator.withCorrections(getCorrections());
     }
-    else if (isZeroToleranceWarning()) {
-      Spec zeroToleranceSpec = getSpecForText(getZeroToleranceImageComparisonSpecText());
-      zeroToleranceSpec.setOnlyWarn(true);
-      objectSpecs.addSpec(zeroToleranceSpec);
-    }
-
-    // page section
-    PageSection pageSection = new PageSection(getSectionName());
-    pageSection.addObjects(objectSpecs);
-
-    // page spec
-    PageSpec pageSpec = new PageSpec();
-    pageSpec.addObject(getElementName(), getLocator());
-    if (!getObjectsToIgnore().isEmpty()) {
-      for (Selector objectToIgnore : objectsToIgnore) {
-        Locator asLocator = objectToIgnore.asLocator();
-        if (hasCorrections()) {
-          asLocator.withCorrections(getCorrections());
-        }
-        pageSpec.addObject(objectToIgnore.elementName(), asLocator);
-      }
-    }
-    pageSpec.addSection(pageSection);
-
-    return pageSpec;
+    return locator;
   }
 
   /**
-   * <p>Getter for the field <code>sectionName</code>.</p>
+   * {@inheritDoc}
    *
-   * @return a {@link java.lang.String} object.
+   * <p>Getter for the field <code>sectionName</code>.</p>
    */
+  @Override
   public String getSectionName() {
     return sectionName;
   }
 
   /**
-   * <p>Getter for the field <code>selector</code>.</p>
+   * {@inheritDoc}
    *
-   * @return a {@link io.wcm.qa.galenium.selectors.base.Selector} object.
+   * <p>Getter for the field <code>selector</code>.</p>
    */
+  @Override
   public Selector getSelector() {
     return selector;
   }
@@ -293,16 +277,18 @@ public class ImageComparisonSpecFactory {
    * <p>Getter for the field <code>validationListener</code>.</p>
    *
    * @return a {@link com.galenframework.validation.ValidationListener} object.
+   * @since 2.0.0
    */
   public ValidationListener getValidationListener() {
-    return validationListener;
+    return new IcValidationListener();
   }
 
   /**
-   * <p>isZeroToleranceWarning.</p>
+   * {@inheritDoc}
    *
-   * @return a boolean.
+   * <p>isZeroToleranceWarning.</p>
    */
+  @Override
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
   }
@@ -311,6 +297,7 @@ public class ImageComparisonSpecFactory {
    * <p>setAllowedErrorPercent.</p>
    *
    * @param allowedErrorPercentage zero or negative will result in zero tolerance
+   * @since 2.0.0
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
     if (allowedErrorPercentage > 0) {
@@ -325,6 +312,7 @@ public class ImageComparisonSpecFactory {
    * <p>setAllowedErrorPixel.</p>
    *
    * @param allowedErrorPixels zero or negative will result in zero tolerance
+   * @since 2.0.0
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
     if (allowedErrorPixels > 0) {
@@ -339,6 +327,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>allowedOffset</code>.</p>
    *
    * @param allowedOffset a int.
+   * @since 2.0.0
    */
   public void setAllowedOffset(int allowedOffset) {
     this.allowedOffset = allowedOffset;
@@ -348,6 +337,7 @@ public class ImageComparisonSpecFactory {
    * <p>setComparator.</p>
    *
    * @param comparator used to order differences in a consistent manner
+   * @since 2.0.0
    */
   public void setComparator(Comparator<Difference> comparator) {
     this.differences.setComparator(comparator);
@@ -357,6 +347,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>corrections</code>.</p>
    *
    * @param corrections a {@link com.galenframework.specs.page.CorrectionsRect} object.
+   * @since 2.0.0
    */
   public void setCorrections(CorrectionsRect corrections) {
     this.corrections = corrections;
@@ -366,6 +357,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>differences</code>.</p>
    *
    * @param differences a {@link io.wcm.qa.galenium.differences.generic.SortedDifferences} object.
+   * @since 2.0.0
    */
   public void setDifferences(SortedDifferences differences) {
     this.differences = differences;
@@ -375,6 +367,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>elementName</code>.</p>
    *
    * @param elementName a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public void setElementName(String elementName) {
     this.elementName = elementName;
@@ -384,6 +377,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>filename</code>.</p>
    *
    * @param filename a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public void setFilename(String filename) {
     this.filename = filename;
@@ -393,6 +387,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>foldername</code>.</p>
    *
    * @param foldername a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public void setFoldername(String foldername) {
     this.foldername = foldername;
@@ -402,6 +397,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>objectsToIgnore</code>.</p>
    *
    * @param objectsToIgnore a {@link java.util.List} object.
+   * @since 2.0.0
    */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
     this.objectsToIgnore = objectsToIgnore;
@@ -411,6 +407,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>sectionName</code>.</p>
    *
    * @param sectionName a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public void setSectionName(String sectionName) {
     this.sectionName = sectionName;
@@ -420,6 +417,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>selector</code>.</p>
    *
    * @param selector a {@link io.wcm.qa.galenium.selectors.base.Selector} object.
+   * @since 2.0.0
    */
   public void setSelector(Selector selector) {
     this.selector = selector;
@@ -429,6 +427,7 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>validationListener</code>.</p>
    *
    * @param validationListener a {@link com.galenframework.validation.ValidationListener} object.
+   * @since 2.0.0
    */
   public void setValidationListener(ValidationListener validationListener) {
     this.validationListener = validationListener;
@@ -438,126 +437,14 @@ public class ImageComparisonSpecFactory {
    * <p>Setter for the field <code>zeroToleranceWarning</code>.</p>
    *
    * @param zeroToleranceWarning a boolean.
+   * @since 2.0.0
    */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     this.zeroToleranceWarning = zeroToleranceWarning;
   }
 
-  private Spec getSpecForText(String specText) {
-    try {
-      return new SpecReader().read(specText);
-    }
-    catch (IllegalArgumentException | SyntaxException ex) {
-      String msg = "when parsing spec text: '" + specText + "'";
-      GaleniumReportUtil.getLogger().error(msg);
-      throw new GaleniumException(msg, ex);
-    }
-  }
-
   private boolean hasCorrections() {
     return getCorrections() != null;
-  }
-
-  protected CorrectionsRect getCorrections() {
-    return corrections;
-  }
-
-  protected String getImageComparisonSpecText() {
-    String error;
-    int offset;
-    if (GaleniumConfiguration.isSaveSampledImages()) {
-      error = StringUtils.EMPTY;
-      offset = 0;
-    }
-    else {
-      error = getAllowedError();
-      offset = getAllowedOffset();
-    }
-    return getImageComparisonSpecText(getFoldername(), getFilename(), error, offset);
-  }
-
-  protected String getImageComparisonSpecText(String folder, String fileName, String error, int offset) {
-    StringBuilder specText = new StringBuilder();
-
-    // boiler plate
-    specText.append("image file ");
-
-    // image file
-    specText.append(getImageOrDummySamplePath(folder, fileName));
-
-    // tolerance
-    if (StringUtils.isNotBlank(error)) {
-      specText.append(", error ");
-      specText.append(error);
-    }
-    if (offset > 0) {
-      specText.append(", analyze-offset ");
-      specText.append(offset);
-    }
-    if (!getObjectsToIgnore().isEmpty()) {
-      List<Selector> objects = getObjectsToIgnore();
-      specText.append(", ignore-objects ");
-      if (objects.size() == 1) {
-        specText.append(objects.get(0));
-      }
-      else {
-        specText.append("[");
-        Collection<String> elementNames = new HashSet<String>();
-
-        for (Selector object : objects) {
-          elementNames.add(object.elementName());
-        }
-
-        specText.append(StringUtils.join(elementNames, ", "));
-        specText.append("]");
-      }
-    }
-
-    return specText.toString();
-  }
-
-  private String getImageOrDummySamplePath(String folder, String fileName) {
-    String fullFilePath;
-
-    // folder
-    if (StringUtils.isNotBlank(folder)) {
-      fullFilePath = FilenameUtils.concat(folder, fileName);
-    }
-    else {
-      // no folder means fileName is all the path info we have
-      fullFilePath = fileName;
-    }
-
-    createDummyIfSampleDoesNotExist(fullFilePath);
-
-    return fullFilePath;
-  }
-
-  private void createDummyIfSampleDoesNotExist(String fullFilePath) {
-    if (isExpectedImageSampleMissing(fullFilePath)) {
-      GaleniumReportUtil.getLogger().info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
-
-      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
-      File targetFile = new File(fullFilePath);
-
-      ImageComparisonUtil.writeDummySample(targetFile);
-    }
-  }
-
-  private boolean isExpectedImageSampleMissing(String fullFilePath) {
-    return !new File(fullFilePath).isFile();
-  }
-
-  protected Locator getLocator() {
-    Locator locator = getSelector().asLocator();
-    if (hasCorrections()) {
-      locator.withCorrections(getCorrections());
-    }
-    return locator;
-  }
-
-  protected String getZeroToleranceImageComparisonSpecText() {
-    return getImageComparisonSpecText(getFoldername(), getFilename(), "", 0);
   }
 
 }

@@ -34,6 +34,7 @@ public class EmptyTextVerification extends TextVerification {
    * <p>Constructor for EmptyTextVerification.</p>
    *
    * @param selector identifies element
+   * @since 2.0.0
    */
   public EmptyTextVerification(Selector selector) {
     super(selector);

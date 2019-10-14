@@ -31,6 +31,8 @@ public class StableScrollPosition extends Stability<Long> {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public StableScrollPosition() {
     super(new ScrollPositionSampler());

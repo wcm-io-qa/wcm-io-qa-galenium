@@ -38,8 +38,8 @@ import org.apache.commons.collections4.properties.SortedProperties;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.configuration.PropertiesUtil;
@@ -84,7 +84,9 @@ public final class TextSampleManager {
    * @param value added
    */
   public static void addNewTextSample(String key, String value) {
-    getLogger().trace("adding new text sample: " + key + "->'" + value + "'");
+    String escapeHtml = GaleniumReportUtil.escapeHtml(value);
+
+    getLogger().trace("adding new text sample: " + key + "->'" + StringUtils.abbreviateMiddle(escapeHtml, "...", 200) + "'");
     SAMPLED_TEXTS.setProperty(key, value);
   }
 

@@ -40,7 +40,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.webdriver.WebDriverManager;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * This listener is also responsible for closing the WebDriver instances. If
@@ -133,7 +133,7 @@ public class LoggingListener extends TestListenerAdapter {
   }
 
   protected void takeScreenshot(ITestResult result) {
-    WebDriver driver = WebDriverManager.getCurrentDriver();
+    WebDriver driver = GaleniumContext.getDriver();
     if (driver != null) {
       GaleniumReportUtil.takeScreenshot(result, driver);
     }

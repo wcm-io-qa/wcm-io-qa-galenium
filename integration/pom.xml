@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.parent_toplevel</artifactId>
-    <version>4</version>
+    <version>5</version>
     <relativePath />
   </parent>
 
@@ -30,7 +30,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.integration</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <description>Test automation integration parent.</description>
 
   <modules>
@@ -43,10 +43,6 @@
 
     <!-- activated with command line switch in local and CI scripts -->
     <integrationtests.skip>true</integrationtests.skip>
-
-    <!-- compiler settings (override for properties from io.wcm.maven.global-parent) -->
-    <build.compiler.source>1.8</build.compiler.source>
-    <build.compiler.target>1.8</build.compiler.target>
 
     <!-- wcm.io QA -->
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
@@ -72,23 +68,14 @@
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
     <galenium.sampling.image.directory.expected>${project.build.directory}/test-classes/images</galenium.sampling.image.directory.expected>
-    <galenium.sampling.image.save>true</galenium.sampling.image.save>
     <galenium.sampling.text.directory.actual>${project.build.directory}/sampled/text</galenium.sampling.text.directory.actual>
     <galenium.sampling.text.directory.expected>${project.build.directory}/test-classes/text</galenium.sampling.text.directory.expected>
-    <galenium.sampling.text.save>true</galenium.sampling.text.save>
     <galenium.sampling.text.file>expected.properties</galenium.sampling.text.file>
     <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
     <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
     <galenium.screenshotOnSuccess>true</galenium.screenshotOnSuccess>
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.webdriver.browser.loglevel>INFO</galenium.webdriver.browser.loglevel>
-    <galenium.webdriver.download.binaries>${project.build.directory}/driverbinaries</galenium.webdriver.download.binaries>
-    <galenium.webdriver.download.chrome.version>2.43</galenium.webdriver.download.chrome.version>
-    <galenium.webdriver.download.firefox.version>0.23.0</galenium.webdriver.download.firefox.version>
-    <galenium.webdriver.download.repository.folder>${galenium.resources.directory}/driverdownload</galenium.webdriver.download.repository.folder>
-    <galenium.webdriver.download.repository.file>${galenium.browser}.xml</galenium.webdriver.download.repository.file>
-    <galenium.webdriver.download.repositoryMap>${galenium.webdriver.download.repository.folder}/${galenium.webdriver.download.repository.file}</galenium.webdriver.download.repositoryMap>
-    <galenium.webdriver.download.zips>${project.build.directory}/driverdownloadzips</galenium.webdriver.download.zips>
     <galenium.webdriver.timeout>5</galenium.webdriver.timeout>
 
     <!-- Selenium -->
@@ -97,8 +84,6 @@
     <!-- Galen -->
     <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
 
-    <!-- Webdriver download -->
-    <com.lazerycode.selenium.driver-binary-downloader-maven-plugin>1.0.17</com.lazerycode.selenium.driver-binary-downloader-maven-plugin>
   </properties>
 
   <dependencies>
@@ -107,7 +92,7 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.logging</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
     </dependency>
 
   </dependencies>
@@ -120,6 +105,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
           <executions>
             <execution>
               <id>unpack-specs</id>
@@ -141,6 +127,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
           <executions>
             <execution>
               <id>copy-specs</id>
@@ -187,7 +174,7 @@
         <plugin>
           <groupId>io.wcm.qa</groupId>
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-          <version>1.0.0</version>
+          <version>2.0.0</version>
           <configuration>
             <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
             <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>

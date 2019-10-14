@@ -20,11 +20,12 @@
 package io.wcm.qa.galenium.galen;
 
 
+
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_FAIL;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.galenium.util.GaleniumContext.getTestDevice;
-import static io.wcm.qa.galenium.webdriver.WebDriverManager.getDriver;
+import static io.wcm.qa.galenium.webdriver.WebDriverManagement.getDriver;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,7 +51,9 @@ import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.exceptions.GalenLayoutException;
-import io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory;
+import io.wcm.qa.galenium.imagecomparison.IcValidationListener;
+import io.wcm.qa.galenium.imagecomparison.IcsDefinition;
+import io.wcm.qa.galenium.imagecomparison.IcsFactory;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
 import io.wcm.qa.galenium.util.GaleniumContext;
 
@@ -69,12 +72,12 @@ public final class GalenLayoutChecker {
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from section name of spec factory and used as folder name in reports
    *
-   * @param specFactory {@link io.wcm.qa.galenium.imagecomparison.ImageComparisonSpecFactory} to generate spec to check
    * @return report on spec test
+   * @param specDefinition a {@link io.wcm.qa.galenium.imagecomparison.IcsDefinition} object.
    */
-  public static LayoutReport checkLayout(ImageComparisonSpecFactory specFactory) {
-    PageSpec spec = specFactory.getPageSpecInstance();
-    return checkLayout(specFactory.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), specFactory.getValidationListener());
+  public static LayoutReport checkLayout(IcsDefinition specDefinition) {
+    PageSpec spec = IcsFactory.getPageSpec(specDefinition);
+    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), new IcValidationListener());
   }
 
   /**

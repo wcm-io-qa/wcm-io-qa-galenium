@@ -29,8 +29,8 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.proxy.BrowserProxyUtil;
 import io.wcm.qa.galenium.reporting.GaleniumReportUtil;
-import io.wcm.qa.galenium.util.BrowserMobUtil;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
 
@@ -69,15 +69,15 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
 
   private static Proxy getProxyToUse() {
     Proxy proxy = null;
-    if (GaleniumConfiguration.isUseBrowserMobProxy()) {
-      proxy = BrowserMobUtil.getSeleniumProxy();
+    if (GaleniumConfiguration.isUseBrowserProxy()) {
+      proxy = BrowserProxyUtil.getSeleniumProxy();
     }
     else if (isHttpsProxyConfigured()) {
       proxy = new Proxy();
       String proxyHost = GaleniumConfiguration.getHttpsProxyHost();
       String proxyPort = GaleniumConfiguration.getHttpsProxyPort();
       proxy.setSslProxy(proxyHost + ":" + proxyPort);
-      WebDriverManager.getLogger().debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
+      WebDriverManagement.getLogger().debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
     }
     return proxy;
   }
@@ -87,7 +87,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   }
 
   protected Logger getLogger() {
-    return WebDriverManager.getLogger();
+    return WebDriverManagement.getLogger();
   }
 
   protected abstract void log(O options);

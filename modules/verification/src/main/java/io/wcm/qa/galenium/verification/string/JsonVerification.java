@@ -54,6 +54,7 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
    * <p>Getter for the field <code>keyPrefix</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getKeyPrefix() {
     return keyPrefix;
@@ -63,6 +64,7 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
    * <p>Setter for the field <code>keyPrefix</code>.</p>
    *
    * @param keyPrefix a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public void setKeyPrefix(String keyPrefix) {
     this.keyPrefix = keyPrefix;

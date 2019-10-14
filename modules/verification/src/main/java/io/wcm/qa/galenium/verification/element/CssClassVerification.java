@@ -38,6 +38,7 @@ public class CssClassVerification extends AttributeVerification {
    * Constructor for {@link io.wcm.qa.galenium.selectors.base.Selector}.
    *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public CssClassVerification(Selector selector) {
     super(selector, ATTRIBUTE_NAME_CLASS);
@@ -48,6 +49,7 @@ public class CssClassVerification extends AttributeVerification {
    *
    * @param selector to identify element
    * @param cssClass to verify against
+   * @since 2.0.0
    */
   public CssClassVerification(Selector selector, String cssClass) {
     super(selector, ATTRIBUTE_NAME_CLASS, cssClass);

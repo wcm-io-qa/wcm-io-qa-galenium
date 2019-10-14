@@ -18,10 +18,11 @@ import java.io.File;
 import java.util.Collection;
 import java.util.ArrayList;
 
+import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
+import io.wcm.qa.galenium.galen.GalenHelperUtil;
+import io.wcm.qa.galenium.selectors.SelectorFromLocator;
 import io.wcm.qa.galenium.selectors.base.Selector;
 import io.wcm.qa.galenium.selectors.base.SelectorFactory;
-import io.wcm.qa.galenium.selectors.SelectorFromLocator;
-import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 
 /**
  * Java version of '${spec.filename}'. 
@@ -42,17 +43,14 @@ public class ${classNameForSpec} {
     SectionFilter includeFilter = getSectionFilter(includeTags);
     SectionFilter deviceFilter = getSectionFilter(getTestDevice());
     SectionFilter sectionFilter = getCombinedSectionFilter(deviceFilter, includeFilter);
-    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec(), sectionFilter);
+    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec(sectionFilter), sectionFilter);
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
     handleLayoutReport(layoutReport, errorMessage, successMessage);
   }
 
-  public PageSpec getPageSpec() {
-    if (pageSpec == null) {
-      pageSpec = readSpec(GaleniumConfiguration.getGalenSpecPath() + RELATIVE_PATH);
-    }
-    return pageSpec;
+  public PageSpec getPageSpec(SectionFilter sectionFilter) {
+     return readSpec(GalenHelperUtil.getBrowser(), GaleniumConfiguration.getGalenSpecPath() + RELATIVE_PATH, sectionFilter);
   }
 
 <#if spec.tags??>

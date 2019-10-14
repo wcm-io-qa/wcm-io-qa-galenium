@@ -43,6 +43,7 @@ import org.testng.Reporter;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
 import com.galenframework.reports.TestNgReportBuilder;
+import com.google.common.html.HtmlEscapers;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -228,6 +229,17 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * Uses {@link com.google.common.html.HtmlEscapers} to escape text for use in logging.
+   *
+   * @param string potentially includes unescaped HTML
+   * @return best effort HTML escaping
+   */
+  public static String escapeHtml(String string) {
+    String escapedString = HtmlEscapers.htmlEscaper().escape(StringUtils.stripToEmpty(string));
+    return StringUtils.replace(escapedString, "\n", "</br>");
+  }
+
+  /**
    * Finish and flush ExtentReports.
    */
   public static void finishExtentReports() {
@@ -281,13 +293,6 @@ public final class GaleniumReportUtil {
     ExtentTest newReport = GLOBAL_EXTENT_REPORTS.getExtentTest(name);
     setExtentTest(newReport);
     return newReport;
-  }
-
-  private static boolean reportFitsName(String name, ExtentTest currentReport) {
-    return currentReport != null
-        && currentReport.getTest() != null
-        && currentReport.getTest().getName() != null
-        && currentReport.getTest().getName().equals(name);
   }
 
   /**
@@ -487,6 +492,13 @@ public final class GaleniumReportUtil {
       }
     }
     return true;
+  }
+
+  private static boolean reportFitsName(String name, ExtentTest currentReport) {
+    return currentReport != null
+        && currentReport.getTest() != null
+        && currentReport.getTest().getName() != null
+        && currentReport.getTest().getName().equals(name);
   }
 
   private static void setExtentTest(ExtentTest extentTest) {

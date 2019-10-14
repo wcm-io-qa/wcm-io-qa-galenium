@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.util;
+package io.wcm.qa.galenium.proxy;
 
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.MARKER_INFO;
 import static io.wcm.qa.galenium.reporting.GaleniumReportUtil.getLogger;
@@ -27,24 +27,26 @@ import java.net.URI;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Proxy;
 
+import com.browserup.bup.BrowserUpProxy;
+import com.browserup.bup.BrowserUpProxyServer;
+import com.browserup.bup.client.ClientUtil;
+import com.browserup.bup.proxy.auth.AuthType;
+
 import io.wcm.qa.galenium.configuration.GaleniumConfiguration;
 import io.wcm.qa.galenium.exceptions.GaleniumException;
-import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.BrowserMobProxyServer;
-import net.lightbody.bmp.client.ClientUtil;
-import net.lightbody.bmp.proxy.auth.AuthType;
+import io.wcm.qa.galenium.util.GaleniumContext;
 
 /**
  * Configuring the BrowserMob Proxy.
  *
  * @since 1.0.0
  */
-public final class BrowserMobUtil {
+public final class BrowserProxyUtil {
 
-  private static final String BROWSER_MOB_PROXY = "galenium.proxy.browserMob";
+  private static final String BROWSER_PROXY = "galenium.proxy.browser";
   private static final String SELENIUM_PROXY = "galenium.proxy.selenium";
 
-  private BrowserMobUtil() {
+  private BrowserProxyUtil() {
     // do not instantiate
   }
 
@@ -68,7 +70,7 @@ public final class BrowserMobUtil {
   public static void addBasicAuth(String url, String name, String pass) {
     String domain = extractDomain(url);
     getLogger().debug(MARKER_INFO, "setting basic auth for domain '" + domain + "'");
-    getBrowserMobProxy().autoAuthorization(domain, name, pass, AuthType.BASIC);
+    getBrowserProxy().autoAuthorization(domain, name, pass, AuthType.BASIC);
   }
 
   private static String extractDomain(String url) {
@@ -97,7 +99,7 @@ public final class BrowserMobUtil {
    */
   public static void addHeader(String name, String value) {
     getLogger().debug(MARKER_INFO, "adding header: " + name);
-    getBrowserMobProxy().addHeader(name, value);
+    getBrowserProxy().addHeader(name, value);
   }
 
   /**
@@ -108,7 +110,7 @@ public final class BrowserMobUtil {
   public static Proxy getSeleniumProxy() {
     Proxy seleniumProxy = (Proxy)GaleniumContext.get(SELENIUM_PROXY);
     if (seleniumProxy == null) {
-      seleniumProxy = ClientUtil.createSeleniumProxy(getBrowserMobProxy());
+      seleniumProxy = ClientUtil.createSeleniumProxy(getBrowserProxy());
       GaleniumContext.put(SELENIUM_PROXY, seleniumProxy);
     }
     return seleniumProxy;
@@ -118,19 +120,19 @@ public final class BrowserMobUtil {
   /**
    * BrowserMob Proxy from Galenium context.
    *
-   * @return the BMP for the current thread
+   * @return the BrowserUp Proxy for the current thread
    */
-  public static BrowserMobProxy getBrowserMobProxy() {
-    if (!GaleniumConfiguration.isUseBrowserMobProxy()) {
-      throw new GaleniumException("set 'galenium.browsermob.proxy' to true before fetching browsermob proxy.");
+  public static BrowserUpProxy getBrowserProxy() {
+    if (!GaleniumConfiguration.isUseBrowserProxy()) {
+      throw new GaleniumException("set 'galenium.browser.proxy' to true before fetching browser proxy.");
     }
-    BrowserMobProxy proxy = (BrowserMobProxy)GaleniumContext.get(BROWSER_MOB_PROXY);
+    BrowserUpProxy proxy = (BrowserUpProxy)GaleniumContext.get(BROWSER_PROXY);
     if (proxy == null) {
-      proxy = new BrowserMobProxyServer();
+      proxy = new BrowserUpProxyServer();
       proxy.setMitmDisabled(false);
       proxy.setTrustAllServers(true);
       proxy.start();
-      GaleniumContext.put(BROWSER_MOB_PROXY, proxy);
+      GaleniumContext.put(BROWSER_PROXY, proxy);
     }
     return proxy;
   }

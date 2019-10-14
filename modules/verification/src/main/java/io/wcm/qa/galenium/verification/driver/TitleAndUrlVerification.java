@@ -32,6 +32,7 @@ public class TitleAndUrlVerification extends CombinedVerification {
    * <p>Constructor for TitleAndUrlVerification.</p>
    *
    * @param verificationName name for this particular check
+   * @since 2.0.0
    */
   public TitleAndUrlVerification(String verificationName) {
     super(new CurrentUrlVerification(verificationName), new PageTitleVerification(verificationName));

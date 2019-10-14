@@ -37,6 +37,7 @@ public class AttributeVerification extends ElementBasedStringVerification<Attrib
    *
    * @param selector to identify element
    * @param attributeName name of attribute to check
+   * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName) {
     super(selector.elementName(), new AttributeSampler(selector, attributeName));
@@ -49,6 +50,7 @@ public class AttributeVerification extends ElementBasedStringVerification<Attrib
    * @param selector to identify element
    * @param attributeName name of attribute to check
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     this(selector, attributeName);

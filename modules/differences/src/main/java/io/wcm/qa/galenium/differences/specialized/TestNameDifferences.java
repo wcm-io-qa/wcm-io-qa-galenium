@@ -26,7 +26,7 @@ import org.testng.ITest;
 import io.wcm.qa.galenium.device.TestDevice;
 import io.wcm.qa.galenium.differences.base.Difference;
 import io.wcm.qa.galenium.differences.base.Differences;
-import io.wcm.qa.galenium.differences.difference.TestMethodNameDifference;
+import io.wcm.qa.galenium.differences.difference.testcase.TestMethodNameDifference;
 import io.wcm.qa.galenium.differences.generic.LayeredDifferences;
 import io.wcm.qa.galenium.differences.generic.SortedDifferences;
 
@@ -45,6 +45,8 @@ public class TestNameDifferences implements Differences {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public TestNameDifferences() {
     getAdditionalDifferences().add(new TestMethodNameDifference());
@@ -55,6 +57,7 @@ public class TestNameDifferences implements Differences {
    *
    * @param difference to add
    * @return true if this collection changed as a result of the call
+   * @since 2.0.0
    */
   public boolean addAdditionalDifference(Difference difference) {
     return getAdditionalDifferences().add(difference);
@@ -65,6 +68,7 @@ public class TestNameDifferences implements Differences {
    *
    * @param toBeAppended multiple differences to add
    * @return true if this collection changed as a result of the call
+   * @since 2.0.0
    */
   public boolean addAdditionalDifferences(Differences toBeAppended) {
     return getAdditionalDifferences().addAll(toBeAppended);
@@ -86,6 +90,7 @@ public class TestNameDifferences implements Differences {
    * <p>Getter for the field <code>classNameMaxLength</code>.</p>
    *
    * @return a int.
+   * @since 2.0.0
    */
   public int getClassNameMaxLength() {
     return classNameMaxLength;
@@ -101,6 +106,7 @@ public class TestNameDifferences implements Differences {
    * Package and class name will be used in test name.
    *
    * @param testClass to use for class and package name
+   * @since 2.0.0
    */
   public void setClass(Class testClass) {
     setClassDifferences(new ClassDifferences(testClass));
@@ -110,6 +116,7 @@ public class TestNameDifferences implements Differences {
    * <p>Setter for the field <code>classNameMaxLength</code>.</p>
    *
    * @param maxLength to restrict class name part of test name to
+   * @since 2.0.0
    */
   public void setClassNameMaxLength(int maxLength) {
     classNameMaxLength = maxLength;
@@ -122,6 +129,7 @@ public class TestNameDifferences implements Differences {
    * Name part from package will be relative to root package.
    *
    * @param rootPackage package name to use in relativization
+   * @since 2.0.0
    */
   public void setRootPackage(String rootPackage) {
     getClassDifferences().setRootPackage(rootPackage);
@@ -131,6 +139,7 @@ public class TestNameDifferences implements Differences {
    * Browser and viewport width are added to middle of test name.
    *
    * @param device to use for differences
+   * @since 2.0.0
    */
   public void setTestDevice(TestDevice device) {
     setDeviceDifferences(new TestDeviceDifferences(device));

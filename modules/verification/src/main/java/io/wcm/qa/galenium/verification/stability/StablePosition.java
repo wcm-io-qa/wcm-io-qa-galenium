@@ -36,6 +36,7 @@ public class StablePosition extends Stability<Point> {
    * <p>Constructor for StablePosition.</p>
    *
    * @param selector identifies element
+   * @since 2.0.0
    */
   public StablePosition(Selector selector) {
     super(new LocationSampler(selector));

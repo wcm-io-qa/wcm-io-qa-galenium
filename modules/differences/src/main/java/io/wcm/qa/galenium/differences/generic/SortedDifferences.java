@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import io.wcm.qa.galenium.differences.base.Difference;
 
 /**
@@ -39,6 +41,8 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Use default comparator.
+   *
+   * @since 2.0.0
    */
   public SortedDifferences() {
     this(DEFAULT_DIFFERENCE_COMPARATOR);
@@ -48,6 +52,7 @@ public class SortedDifferences extends MutableDifferences {
    * Use default comparator.
    *
    * @param comparator a {@link java.util.Comparator} object.
+   * @since 2.0.0
    */
   public SortedDifferences(Comparator<Difference> comparator) {
     setDifferences(new TreeSet<Difference>(comparator));
@@ -58,6 +63,7 @@ public class SortedDifferences extends MutableDifferences {
    * <p>Getter for the field <code>comparator</code>.</p>
    *
    * @return the configured comparator or {@link io.wcm.qa.galenium.differences.generic.DifferenceNameComparator} if none is set
+   * @since 2.0.0
    */
   public Comparator<Difference> getComparator() {
     if (comparator == null) {
@@ -76,11 +82,15 @@ public class SortedDifferences extends MutableDifferences {
    * Set a new comparator and reorder already existing differences.
    *
    * @param comparator to use from now on
+   * @since 2.0.0
    */
   public void setComparator(Comparator<Difference> comparator) {
     this.comparator = comparator;
     TreeSet<Difference> newDifferences = new TreeSet<Difference>(comparator);
-    newDifferences.addAll(getDifferences());
+    Collection<Difference> oldDifferences = getDifferences();
+    if (CollectionUtils.isNotEmpty(oldDifferences)) {
+      newDifferences.addAll(oldDifferences);
+    }
     setDifferences(newDifferences);
   }
 

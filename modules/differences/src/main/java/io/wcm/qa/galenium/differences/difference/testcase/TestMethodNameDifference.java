@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.testcase;
 
 import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
@@ -37,6 +37,8 @@ public class TestMethodNameDifference extends DifferenceBase {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public TestMethodNameDifference() {
     setMaxTagLength(50);

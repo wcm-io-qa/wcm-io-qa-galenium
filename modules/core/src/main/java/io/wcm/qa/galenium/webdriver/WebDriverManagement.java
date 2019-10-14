@@ -48,12 +48,12 @@ import io.wcm.qa.galenium.util.GaleniumContext;
  *
  * @since 1.0.0
  */
-public final class WebDriverManager {
+public final class WebDriverManagement {
 
   /** Marker for use in logging related directly to webdriver handling and internals. */
   public static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("galenium.webdriver");
 
-  private WebDriverManager() {
+  private WebDriverManagement() {
     // do not instantiate
   }
 

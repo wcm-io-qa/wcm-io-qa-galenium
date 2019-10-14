@@ -32,6 +32,7 @@ public class InvisibilityVerification extends VisibilityVerification {
    * <p>Constructor for InvisibilityVerification.</p>
    *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public InvisibilityVerification(Selector selector) {
     super(selector);

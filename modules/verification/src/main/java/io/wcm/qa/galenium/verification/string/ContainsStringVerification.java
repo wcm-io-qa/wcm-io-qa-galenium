@@ -39,6 +39,7 @@ public class ContainsStringVerification extends StringVerification {
    * @param verificationName name for this check
    * @param searchString to find in input
    * @param sampler sampler to provide input
+   * @since 2.0.0
    */
   public ContainsStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
     super(verificationName, sampler);
@@ -51,6 +52,7 @@ public class ContainsStringVerification extends StringVerification {
    * @param verificationName name for this check
    * @param searchString to find in input
    * @param sample fixed input sample
+   * @since 2.0.0
    */
   public ContainsStringVerification(String verificationName, String searchString, String sample) {
     this(verificationName, searchString, new FixedStringSampler(sample));
@@ -60,6 +62,7 @@ public class ContainsStringVerification extends StringVerification {
    * <p>Getter for the field <code>searchString</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public String getSearchString() {
     return searchString;
@@ -69,6 +72,7 @@ public class ContainsStringVerification extends StringVerification {
    * <p>Setter for the field <code>searchString</code>.</p>
    *
    * @param searchString a {@link java.lang.String} object.
+   * @since 2.0.0
    */
   public void setSearchString(String searchString) {
     this.searchString = searchString;

@@ -4,7 +4,7 @@
   <parent>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
     <groupId>io.wcm.qa</groupId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -12,10 +12,10 @@
   <description>Generates and packages Java classes from Galen specs.</description>
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <packaging>maven-plugin</packaging>
 
-  <url>http://qa.wcm.io/galenium/io.wcm.qa.galenium.specs-maven-plugin</url>
+  <url>https://qa.wcm.io/galenium/io.wcm.qa.galenium.specs-maven-plugin</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,14 +39,13 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galen</artifactId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
     </dependency>
 
     <!-- Utils -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.6</version>
     </dependency>
 
   </dependencies>

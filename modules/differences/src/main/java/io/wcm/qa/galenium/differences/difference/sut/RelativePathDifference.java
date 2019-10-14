@@ -17,34 +17,38 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.galenium.differences.difference;
+package io.wcm.qa.galenium.differences.difference.sut;
 
 /**
- * Uses the query parameters to URL as difference.
+ * Uses URL path relative to host as difference.
  *
  * @since 1.0.0
  */
-public class UrlQueryDifference extends UrlDifference {
+public class RelativePathDifference extends UrlDifference {
+
 
   /**
-   * Uses current URL.
+   * Uses current URL from driver.
+   *
+   * @since 2.0.0
    */
-  public UrlQueryDifference() {
+  public RelativePathDifference() {
     super();
   }
 
   /**
-   * <p>Constructor for UrlQueryDifference.</p>
+   * Uses current URL from driver.
    *
-   * @param url to extract parameters from
+   * @param url a {@link java.lang.String} object.
+   * @since 2.0.0
    */
-  public UrlQueryDifference(String url) {
+  public RelativePathDifference(String url) {
     super(url);
   }
 
   @Override
   protected String getRawTag() {
-    return getUrl().getQuery();
+    return getUrl().getPath();
   }
 
 }

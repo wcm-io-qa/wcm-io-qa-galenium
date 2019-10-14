@@ -36,6 +36,7 @@ public class EmptyStringVerification extends StringVerification {
    *
    * @param verificationName name for this check
    * @param sampler provides input sample
+   * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
@@ -46,6 +47,7 @@ public class EmptyStringVerification extends StringVerification {
    *
    * @param verificationName name for this check
    * @param sample fixed input sample
+   * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));
