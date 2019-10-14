@@ -24,6 +24,9 @@
   <body>
 
     <release version="4.0.0" date="not-released-yet">
+      <action type="update" dev="apegam">
+        Move existing AEM interaction to new package and rename to reflect author login nature.
+      </action>
       <action type="add" dev="apegam">
         Added a more basic test class without need for browser.
       </action>

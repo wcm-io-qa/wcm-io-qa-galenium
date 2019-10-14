@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.interaction;
+package io.wcm.qa.glnm.interaction.aem.author;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorUser;
