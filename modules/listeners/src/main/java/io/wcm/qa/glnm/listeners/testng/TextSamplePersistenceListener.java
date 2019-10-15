@@ -26,9 +26,12 @@ import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 
 /**
  * Handles persisting text samples at the end of test run.
+ *
+ * @since 1.0.0
  */
 public class TextSamplePersistenceListener extends TestListenerAdapter {
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext testContext) {
     TextSampleManager.persistNewTextSamples();

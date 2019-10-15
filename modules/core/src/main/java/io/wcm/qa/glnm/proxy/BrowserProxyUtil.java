@@ -37,6 +37,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Configuring the BrowserMob Proxy.
+ *
+ * @since 1.0.0
  */
 public final class BrowserProxyUtil {
 
@@ -50,8 +52,10 @@ public final class BrowserProxyUtil {
 
   /**
    * Add basic authentication header to every request.
+   *
    * @param name user name to use for auth
    * @param pass password to use for auth
+   * @since 3.0.0
    */
   public static void addBasicAuth(String name, String pass) {
     addBasicAuth("", name, pass);
@@ -59,9 +63,11 @@ public final class BrowserProxyUtil {
 
   /**
    * Add basic authentication header to every request.
+   *
    * @param url to extract protected domain from
    * @param name user name to use for auth
    * @param pass password to use for auth
+   * @since 3.0.0
    */
   public static void addBasicAuth(String url, String name, String pass) {
     String domain = extractDomain(url);
@@ -89,8 +95,10 @@ public final class BrowserProxyUtil {
 
   /**
    * Add header to every request.
+   *
    * @param name header name
    * @param value header value
+   * @since 3.0.0
    */
   public static void addHeader(String name, String value) {
     LOG.debug("adding header: " + name);
@@ -98,7 +106,10 @@ public final class BrowserProxyUtil {
   }
 
   /**
+   * <p>getSeleniumProxy.</p>
+   *
    * @return Selenium proxy using BrowserMob Proxy
+   * @since 3.0.0
    */
   public static Proxy getSeleniumProxy() {
     Proxy seleniumProxy = (Proxy)GaleniumContext.get(SELENIUM_PROXY);
@@ -112,7 +123,9 @@ public final class BrowserProxyUtil {
 
   /**
    * BrowserMob Proxy from Galenium context.
+   *
    * @return the BrowserUp Proxy for the current thread
+   * @since 3.0.0
    */
   public static BrowserUpProxy getBrowserProxy() {
     if (!GaleniumConfiguration.isUseBrowserProxy()) {

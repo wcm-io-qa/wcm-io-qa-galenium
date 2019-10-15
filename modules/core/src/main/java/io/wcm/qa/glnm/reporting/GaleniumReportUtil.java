@@ -52,6 +52,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility class containing methods handling reporting.
+ *
+ * @since 1.0.0
  */
 public final class GaleniumReportUtil {
 
@@ -69,7 +71,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Add GalenTestInfo to global list for generating reports.
+   *
    * @param galenTestInfo Galen test info to add to result set
+   * @since 3.0.0
    */
   public static void addGalenResult(GalenTestInfo galenTestInfo) {
     if (isAddResult(galenTestInfo)) {
@@ -79,7 +83,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Assigns categories to test in report.
+   *
    * @param categories to add
+   * @since 3.0.0
    */
   public static void assignCategories(String... categories) {
     for (String category : categories) {
@@ -89,7 +95,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Assigns a single category to test in report.
+   *
    * @param category to add
+   * @since 4.0.0
    */
   public static void assignCategory(String category) {
     //    TODO: possibly add Allure category
@@ -97,7 +105,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Write all test results to Galen report.
+   *
    * @param testInfos list to persist test information
+   * @since 3.0.0
    */
   public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) {
     try {
@@ -110,6 +120,8 @@ public final class GaleniumReportUtil {
 
   /**
    * Create reports from global list of GalenTestInfos.
+   *
+   * @since 3.0.0
    */
   public static void createGalenReports() {
     createGalenHtmlReport(GLOBAL_GALEN_RESULTS);
@@ -118,7 +130,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Write all test results to TestNG report.
+   *
    * @param testInfos list to persist test information
+   * @since 3.0.0
    */
   public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) {
     try {
@@ -130,9 +144,11 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Uses {@link HtmlEscapers} to escape text for use in logging.
+   * Uses {@link com.google.common.html.HtmlEscapers} to escape text for use in logging.
+   *
    * @param string potentially includes unescaped HTML
    * @return best effort HTML escaping
+   * @since 3.0.0
    */
   public static String escapeHtml(String string) {
     String escapedString = HtmlEscapers.htmlEscaper().escape(StringUtils.stripToEmpty(string));
@@ -141,7 +157,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Take screenshot of current browser window and add to reports. Uses random filename.
+   *
    * @return log message including screenshot if everything was successful
+   * @since 3.0.0
    */
   public static String takeScreenshot() {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
@@ -149,10 +167,24 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * Captures image of single element in page.
+   *
+   * @param takesScreenshot to capture
+   * @return message to log screenshot to report
+   * @since 3.0.0
+   */
+  public static String takeScreenshot(TakesScreenshot takesScreenshot) {
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    return takeScreenshot(randomAlphanumeric, takesScreenshot);
+  }
+
+  /**
    * Take screenshot of current browser window and add to reports.
+   *
    * @param result to generate filename from
    * @param driver to take screenshot from
    * @return log message including screenshot if everything was successful
+   * @since 3.0.0
    */
   public static String takeScreenshot(ITestResult result, WebDriver driver) {
     String resultName = getAlphanumericTestName(result);
@@ -161,9 +193,11 @@ public final class GaleniumReportUtil {
 
   /**
    * Take screenshot of current browser window and add to reports.
+   *
    * @param resultName to use in filename
    * @param takesScreenshot to take screenshot from
    * @return log message including screenshot if everything was successful
+   * @since 3.0.0
    */
   public static String takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
     String destScreenshotFilePath = null;
@@ -218,16 +252,6 @@ public final class GaleniumReportUtil {
     }
 
     return logMsg.toString();
-  }
-
-  /**
-   * Captures image of single element in page.
-   * @param takesScreenshot to capture
-   * @return message to log screenshot to report
-   */
-  public static String takeScreenshot(TakesScreenshot takesScreenshot) {
-    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    return takeScreenshot(randomAlphanumeric, takesScreenshot);
   }
 
   private static TakesScreenshot getTakesScreenshot() {

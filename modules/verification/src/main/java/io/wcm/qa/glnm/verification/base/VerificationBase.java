@@ -33,8 +33,10 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
 
 /**
- * Common base for {@link Difference} aware Galenium {@link Verification}.
+ * Common base for  {@link io.wcm.qa.glnm.differences.base.Difference} aware Galenium  {@link io.wcm.qa.glnm.verification.base.Verification}.
+ *
  * @param <T> sample type
+ * @since 1.0.0
  */
 public abstract class VerificationBase<T> implements Verification, CanCache {
 
@@ -65,6 +67,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
 
   /**
    * Add a difference to this verification.
+   *
    * @param difference to add
    * @return this
    */
@@ -74,25 +77,30 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
+   * <p>getComparator.</p>
+   *
    * @return comparator used to sort differences
    */
   public Comparator<Difference> getComparator() {
     return getDifferences().getComparator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Throwable getException() {
     return exception;
   }
 
+  /**
+   * <p>Getter for the field <code>keyMaxLength</code>.</p>
+   *
+   * @return a int.
+   */
   public int getKeyMaxLength() {
     return keyMaxLength;
   }
 
-  /**
-   * @see Verification#getMessage()
-   * @return aggregated success or failure message for this verification
-   */
+  /** {@inheritDoc} */
   @Override
   public String getMessage() {
     if (isVerified() == null) {
@@ -110,6 +118,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   /**
    * Pre verification is run before this verification to test whether it makes sense to attempt verification. Verifying
    * an attribute value is futile if the element does not exist, for example.
+   *
    * @return pre verification
    */
   public Verification getPreVerification() {
@@ -117,24 +126,30 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
+   * <p>Getter for the field <code>verificationName</code>.</p>
+   *
    * @return name of this verification
    */
   public String getVerificationName() {
     return verificationName;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     return caching;
   }
 
   /**
+   * <p>isVerified.</p>
+   *
    * @return whether verification was successful or null, if verification did not run yet.
    */
   public Boolean isVerified() {
     return verified;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean caching) {
     this.caching = caching;
@@ -142,21 +157,35 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
+   * <p>setComparator.</p>
+   *
    * @param comparator to use for sorting associated differences
    */
   public void setComparator(Comparator<Difference> comparator) {
     getDifferences().setComparator(comparator);
   }
 
+  /**
+   * <p>Setter for the field <code>exception</code>.</p>
+   *
+   * @param exception a {@link java.lang.Throwable} object.
+   */
   public void setException(Throwable exception) {
     this.exception = exception;
   }
 
+  /**
+   * <p>Setter for the field <code>keyMaxLength</code>.</p>
+   *
+   * @param keyMaxLength a int.
+   */
   public void setKeyMaxLength(int keyMaxLength) {
     this.keyMaxLength = keyMaxLength;
   }
 
   /**
+   * <p>Setter for the field <code>preVerification</code>.</p>
+   *
    * @param preVerification to verify before attempting main verification
    */
   public void setPreVerification(Verification preVerification) {
@@ -164,10 +193,16 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     setCachingInPreVerification(caching);
   }
 
+  /**
+   * <p>Setter for the field <code>verified</code>.</p>
+   *
+   * @param verified a {@link java.lang.Boolean} object.
+   */
   public void setVerified(Boolean verified) {
     this.verified = verified;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -193,6 +228,8 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * Runs pre verification and this verification using built-in text sampling.
    */
   @Override

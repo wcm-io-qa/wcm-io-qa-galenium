@@ -58,6 +58,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Goal which finds Galen specs, extracts objects and generates Java code from it.
+ *
+ * @since 1.0.0
  */
 @Mojo(name = "specs", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class GalenSpecsMojo extends AbstractMojo {
@@ -153,6 +155,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   @Parameter(defaultValue = "web-element.ftlh", property = "webElementTemplate")
   private String webElementTemplate;
 
+  /** {@inheritDoc} */
   @Override
   public void execute() throws MojoExecutionException {
 

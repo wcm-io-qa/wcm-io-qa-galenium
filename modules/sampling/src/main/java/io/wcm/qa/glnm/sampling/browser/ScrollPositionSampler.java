@@ -24,9 +24,12 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
  * Samples current scrolling position of page.
+ *
+ * @since 1.0.0
  */
 public class ScrollPositionSampler extends CachingBasedSampler<Long> {
 
+  /** {@inheritDoc} */
   @Override
   public Long freshSample() {
     return Mouse.getVerticalScrollPosition();

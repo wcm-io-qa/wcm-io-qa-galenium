@@ -46,6 +46,8 @@ import io.wcm.qa.glnm.util.HttpUtil;
 
 /**
  * AEM specific utility methods.
+ *
+ * @since 1.0.0
  */
 public final class AuthorLogin {
 
@@ -71,6 +73,8 @@ public final class AuthorLogin {
   }
 
   /**
+   * <p>isAuthorLogin.</p>
+   *
    * @return whether current page is AEM author login page
    */
   public static boolean isAuthorLogin() {
@@ -79,6 +83,7 @@ public final class AuthorLogin {
 
   /**
    * Login to author if on AEM author login page.
+   *
    * @return successful login
    */
   public static boolean loginToAuthor() {
@@ -88,6 +93,7 @@ public final class AuthorLogin {
 
   /**
    * Load URL and login to AEM author if landing on login page.
+   *
    * @param targetUrl URL to load
    * @return successful login
    */
@@ -98,6 +104,7 @@ public final class AuthorLogin {
 
   /**
    * Load URL and login to AEM author with credentials if landing on login page.
+   *
    * @param targetUrl URL to load
    * @param authorUser user for author instance
    * @param authorPass password for author instance
@@ -108,6 +115,8 @@ public final class AuthorLogin {
   }
 
   /**
+   * <p>loginToAuthor.</p>
+   *
    * @param initialUrl URL to load
    * @param finalUrl URL to check for
    * @param authorUser user for author instance
@@ -143,9 +152,10 @@ public final class AuthorLogin {
 
   /**
    * Posting to login URL and check for HTTP status 200.
-   * @param authorBaseUrl
-   * @param authorUser
-   * @param authorPass
+   *
+   * @param authorBaseUrl a {@link java.lang.String} object.
+   * @param authorUser a {@link java.lang.String} object.
+   * @param authorPass a {@link java.lang.String} object.
    * @return whether POST response had status code 200
    */
   public static boolean loginToAuthorViaHttp(String authorBaseUrl, String authorUser, String authorPass) {

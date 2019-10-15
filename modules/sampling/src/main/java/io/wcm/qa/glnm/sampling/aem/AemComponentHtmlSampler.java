@@ -26,10 +26,14 @@ import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
  * Sampler to fetch HTML from directly from an AEM component.
+ *
+ * @since 3.0.0
  */
 public class AemComponentHtmlSampler extends JsoupRawStringSampler {
 
   /**
+   * <p>Constructor for AemComponentHtmlSampler.</p>
+   *
    * @param url to fetch HTML from
    */
   public AemComponentHtmlSampler(String url) {
@@ -38,6 +42,8 @@ public class AemComponentHtmlSampler extends JsoupRawStringSampler {
   }
 
   /**
+   * <p>Constructor for AemComponentHtmlSampler.</p>
+   *
    * @param contentPath path to page
    * @param componentName name of component to check
    */
@@ -45,11 +51,18 @@ public class AemComponentHtmlSampler extends JsoupRawStringSampler {
     this(AemComponentUtil.urlBuilder(contentPath, componentName).build().toString());
   }
 
+  /**
+   * <p>getRequestCookies.</p>
+   *
+   * @return a {@link java.util.Map} object.
+   */
   public Map<String, String> getRequestCookies() {
     return getInput().getRequestCookies();
   }
 
   /**
+   * <p>setRequestCookies.</p>
+   *
    * @param requestCookies to use when fetching document
    */
   public void setRequestCookies(Map<String, String> requestCookies) {

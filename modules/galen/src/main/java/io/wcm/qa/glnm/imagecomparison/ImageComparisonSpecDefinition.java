@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.imagecomparison;
 import static java.util.Locale.ENGLISH;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -42,6 +43,8 @@ import io.wcm.qa.glnm.util.BrowserUtil;
 
 /**
  * Factory for fileless image comparison specs.
+ *
+ * @since 1.0.0
  */
 public class ImageComparisonSpecDefinition implements IcsDefinition {
 
@@ -51,6 +54,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   private String allowedError;
   private int allowedOffset;
   private CorrectionsRect corrections;
+  private boolean cropIfOutside;
   private SortedDifferences differences = new SortedDifferences();
   private String elementName;
   private String filename;
@@ -58,11 +62,13 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
   private Selector selector;
-
   private boolean zeroToleranceWarning;
 
   /**
+   * <p>Constructor for ImageComparisonSpecFactory.</p>
+   *
    * @param selector selector for main object
+   * @since 2.0.0
    */
   public ImageComparisonSpecDefinition(Selector selector) {
     this(selector, selector.elementName());
@@ -72,8 +78,11 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   }
 
   /**
+   * <p>Constructor for ImageComparisonSpecFactory.</p>
+   *
    * @param selector selector for main object
    * @param elementName object name to use
+   * @since 2.0.0
    */
   public ImageComparisonSpecDefinition(Selector selector, String elementName) {
     setSelector(selector);
@@ -83,14 +92,31 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   }
 
   /**
+   * <p>addAll.</p>
+   *
+   * @param toBeAppended differences to be appended
+   * @return true if this list changed as a result of the call
+   * @since 2.0.0
+   */
+  public boolean addAll(Collection<? extends Difference> toBeAppended) {
+    return getDifferences().addAll(toBeAppended);
+  }
+
+  /**
+   * <p>addDifference.</p>
+   *
    * @param difference appends a difference
+   * @since 2.0.0
    */
   public void addDifference(Difference difference) {
     getDifferences().add(difference);
   }
 
   /**
+   * <p>addObjectToIgnore.</p>
+   *
    * @param selectorToIgnore the area of this object will be ignored in image comparison
+   * @since 2.0.0
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
     getObjectsToIgnore().add(selectorToIgnore);
@@ -98,14 +124,14 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
 
   /**
    * Removes all differences added to this factory.
+   *
+   * @since 2.0.0
    */
   public void clearDifferences() {
     getDifferences().clear();
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#correctForSrollPosition(int)
-   */
+  /** {@inheritDoc} */
   @Override
   public void correctForSrollPosition(int yCorrection) {
     Correction top = new Correction(yCorrection, Type.MINUS);
@@ -113,52 +139,80 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     setCorrections(correctionsRect);
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getAllowedError()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>allowedError</code>.</p>
    */
   @Override
   public String getAllowedError() {
     return allowedError;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getAllowedOffset()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>allowedOffset</code>.</p>
    */
   @Override
   public int getAllowedOffset() {
     return allowedOffset;
   }
 
+  /**
+   * <p>getComparator.</p>
+   *
+   * @return a {@link java.util.Comparator} object.
+   * @since 2.0.0
+   */
+  public Comparator<Difference> getComparator() {
+    return this.differences.getComparator();
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>
+   * Getter for the field <code>differences</code>.
+   * </p>
+   */
   @Override
   public CorrectionsRect getCorrections() {
     return corrections;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getDifferences()
+  /**
+   * <p>Getter for the field <code>differences</code>.</p>
+   *
+   * @return a  {@link io.wcm.qa.glnm.differences.generic.SortedDifferences} object.
    */
   public SortedDifferences getDifferences() {
     return differences;
   }
-
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getElementName()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>elementName</code>.</p>
    */
   @Override
   public String getElementName() {
     return elementName;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getFilename()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>filename</code>.</p>
    */
   @Override
   public String getFilename() {
     return filename;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getFoldername()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>foldername</code>.</p>
    */
   @Override
   public String getFoldername() {
@@ -172,6 +226,23 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     return stringBuilder.toString();
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>objectsToIgnore</code>.</p>
+   */
+  @Override
+  public List<Selector> getObjectsToIgnore() {
+    return objectsToIgnore;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>
+   * getPageSpecInstance.
+   * </p>
+   */
   @Override
   public Locator getLocator() {
     Locator locator = getSelector().asLocator();
@@ -181,47 +252,53 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     return locator;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getObjectsToIgnore()
-   */
-  @Override
-  public List<Selector> getObjectsToIgnore() {
-    return objectsToIgnore;
-  }
-
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getSectionName()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>sectionName</code>.</p>
    */
   @Override
   public String getSectionName() {
     return sectionName;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getSelector()
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Getter for the field <code>selector</code>.</p>
    */
   @Override
   public Selector getSelector() {
     return selector;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#getValidationListener()
+  /**
+   * <p>Getter for the field <code>validationListener</code>.</p>
+   *
+   * @return a {@link com.galenframework.validation.ValidationListener} object.
+   * @since 2.0.0
    */
   public ValidationListener getValidationListener() {
     return new IcValidationListener();
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.galenium.imagecomparison.IcsDefinition#isZeroToleranceWarning()
-   */
+  /** {@inheritDoc} */
+  @Override
+  public boolean isCropIfOutside() {
+    return cropIfOutside;
+  }
+
+  /** {@inheritDoc} */
   @Override
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
   }
 
   /**
+   * <p>setAllowedErrorPercent.</p>
+   *
    * @param allowedErrorPercentage zero or negative will result in zero tolerance
+   * @since 2.0.0
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
     if (allowedErrorPercentage > 0) {
@@ -233,7 +310,10 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   }
 
   /**
+   * <p>setAllowedErrorPixel.</p>
+   *
    * @param allowedErrorPixels zero or negative will result in zero tolerance
+   * @since 2.0.0
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
     if (allowedErrorPixels > 0) {
@@ -244,49 +324,121 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     }
   }
 
+  /**
+   * <p>Setter for the field <code>allowedOffset</code>.</p>
+   *
+   * @param allowedOffset a int.
+   * @since 2.0.0
+   */
   public void setAllowedOffset(int allowedOffset) {
     this.allowedOffset = allowedOffset;
   }
 
   /**
+   * <p>setComparator.</p>
+   *
    * @param comparator used to order differences in a consistent manner
+   * @since 2.0.0
    */
   public void setComparator(Comparator<Difference> comparator) {
     this.differences.setComparator(comparator);
   }
 
+  /**
+   * <p>Setter for the field <code>corrections</code>.</p>
+   *
+   * @param corrections a {@link com.galenframework.specs.page.CorrectionsRect} object.
+   * @since 2.0.0
+   */
   public void setCorrections(CorrectionsRect corrections) {
     this.corrections = corrections;
   }
 
+  /**
+   * <p>Setter for the field <code>cropIfOutside</code>.</p>
+   *
+   * @param cropIfOutside a boolean.
+   */
+  public void setCropIfOutside(boolean cropIfOutside) {
+    this.cropIfOutside = cropIfOutside;
+  }
+
+  /**
+   * <p>Setter for the field <code>differences</code>.</p>
+   *
+   * @param differences a  {@link io.wcm.qa.glnm.differences.generic.SortedDifferences} object.
+   * @since 2.0.0
+   */
   public void setDifferences(SortedDifferences differences) {
     this.differences = differences;
   }
 
+  /**
+   * <p>Setter for the field <code>elementName</code>.</p>
+   *
+   * @param elementName a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public void setElementName(String elementName) {
     this.elementName = elementName;
   }
 
+  /**
+   * <p>Setter for the field <code>filename</code>.</p>
+   *
+   * @param filename a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public void setFilename(String filename) {
     this.filename = filename;
   }
 
+  /**
+   * <p>Setter for the field <code>foldername</code>.</p>
+   *
+   * @param foldername a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public void setFoldername(String foldername) {
     this.foldername = foldername;
   }
 
+  /**
+   * <p>Setter for the field <code>objectsToIgnore</code>.</p>
+   *
+   * @param objectsToIgnore a {@link java.util.List} object.
+   * @since 2.0.0
+   */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
     this.objectsToIgnore = objectsToIgnore;
   }
 
+  /**
+   * <p>Setter for the field <code>sectionName</code>.</p>
+   *
+   * @param sectionName a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public void setSectionName(String sectionName) {
     this.sectionName = sectionName;
   }
 
+  /**
+   * <p>Setter for the field <code>selector</code>.</p>
+   *
+   * @param selector a  {@link io.wcm.qa.glnm.selectors.base.Selector} object.
+   * @since 2.0.0
+   */
   public void setSelector(Selector selector) {
     this.selector = selector;
   }
 
+  /**
+   * <p>Setter for the field <code>zeroToleranceWarning</code>.</p>
+   *
+   * @param zeroToleranceWarning a boolean.
+   * @since 2.0.0
+   */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     this.zeroToleranceWarning = zeroToleranceWarning;
   }

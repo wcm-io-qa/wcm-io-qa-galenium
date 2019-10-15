@@ -28,8 +28,10 @@ import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Abstract base class for implementations that transform string samples based on a regular expression.
- * @param <S>
- * @param <O>
+ *
+ * @param <S> type of input sampler
+ * @param <O> type of transformed output returned by this sampler
+ * @since 1.0.0
  */
 public abstract class RegexBasedSampler<S extends Sampler<String>, O> extends TransformationBasedSampler<S, String, O> {
 
@@ -37,8 +39,11 @@ public abstract class RegexBasedSampler<S extends Sampler<String>, O> extends Tr
   private Pattern pattern;
 
   /**
+   * <p>Constructor for RegexBasedSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexBasedSampler(S inputSampler, Pattern pattern) {
     super(inputSampler);
@@ -46,26 +51,44 @@ public abstract class RegexBasedSampler<S extends Sampler<String>, O> extends Tr
   }
 
   /**
+   * <p>Constructor for RegexBasedSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexBasedSampler(S inputSampler, String regex) {
     this(inputSampler, regex, DEFAULT_FLAGS);
   }
 
   /**
+   * <p>Constructor for RegexBasedSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param flags to regular expression
+   * @since 3.0.0
    */
   public RegexBasedSampler(S inputSampler, String regex, int flags) {
     this(inputSampler, Pattern.compile(regex, flags));
   }
 
+  /**
+   * <p>Getter for the field <code>pattern</code>.</p>
+   *
+   * @return a {@link java.util.regex.Pattern} object.
+   * @since 3.0.0
+   */
   public Pattern getPattern() {
     return pattern;
   }
 
+  /**
+   * <p>Setter for the field <code>pattern</code>.</p>
+   *
+   * @param pattern a {@link java.util.regex.Pattern} object.
+   * @since 3.0.0
+   */
   public void setPattern(Pattern pattern) {
     this.pattern = pattern;
   }

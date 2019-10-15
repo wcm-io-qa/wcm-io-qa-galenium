@@ -43,6 +43,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility class to manage thread safe WebDriver instances.
+ *
+ * @since 1.0.0
  */
 public final class WebDriverManagement {
 
@@ -54,6 +56,8 @@ public final class WebDriverManagement {
 
   /**
    * Quits Selenium WebDriver instance managed by this class.
+   *
+   * @since 3.0.0
    */
   public static void closeDriver() {
     if (getCurrentDriver() != null) {
@@ -84,15 +88,21 @@ public final class WebDriverManagement {
   }
 
   /**
+   * <p>getCurrentDriver.</p>
+   *
    * @return driver from current thread's context
+   * @since 3.0.0
    */
   public static WebDriver getCurrentDriver() {
     return GaleniumContext.getDriver();
   }
 
   /**
+   * <p>getDriver.</p>
+   *
    * @param testDevice test device to use for this driver
    * @return WebDriver for current thread.
+   * @since 3.0.0
    */
   public static WebDriver getDriver(TestDevice testDevice) {
     if (testDevice == null) {
@@ -149,8 +159,11 @@ public final class WebDriverManagement {
   }
 
   /**
+   * <p>isBrowser.</p>
+   *
    * @param testDevice to check
    * @return whether this test device is a browser that needs a webdriver
+   * @since 3.0.0
    */
   public static boolean isBrowser(TestDevice testDevice) {
     return testDevice != null && testDevice.getBrowserType() != BrowserType.NO_BROWSER;
@@ -158,6 +171,8 @@ public final class WebDriverManagement {
 
   /**
    * Set implicit wait to configured default timeout.
+   *
+   * @since 3.0.0
    */
   public static void setDefaultTimeout() {
     getCurrentDriver().manage().timeouts().implicitlyWait(GaleniumConfiguration.getDefaultWebdriverTimeout(), TimeUnit.SECONDS);
@@ -165,6 +180,8 @@ public final class WebDriverManagement {
 
   /**
    * Set implicit wait to 0 seconds timeout.
+   *
+   * @since 3.0.0
    */
   public static void setZeroTimeout() {
     getCurrentDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);

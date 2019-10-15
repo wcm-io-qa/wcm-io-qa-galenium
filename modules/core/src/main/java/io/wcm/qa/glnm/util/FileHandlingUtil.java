@@ -32,6 +32,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Convenience methods for file and path handling.
+ *
+ * @since 1.0.0
  */
 public final class FileHandlingUtil {
 
@@ -42,27 +44,36 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>constructRelativeFile.</p>
+   *
    * @param rootDirectory to be relative to
    * @param file to get relative path for
    * @return file with relative path
+   * @since 3.0.0
    */
   public static File constructRelativeFile(File rootDirectory, File file) {
     return new File(constructRelativePath(rootDirectory, file));
   }
 
   /**
+   * <p>constructRelativeFile.</p>
+   *
    * @param rootPath to be relative to
    * @param filePath to make relative
    * @return file with relative path
+   * @since 3.0.0
    */
   public static File constructRelativeFile(String rootPath, String filePath) {
     return new File(constructRelativePath(rootPath, filePath));
   }
 
   /**
+   * <p>constructRelativePath.</p>
+   *
    * @param rootDirectory to be relative to
    * @param file to get relative path for
    * @return relative path for file
+   * @since 3.0.0
    */
   public static String constructRelativePath(File rootDirectory, File file) {
     if (LOG.isTraceEnabled()) {
@@ -86,16 +97,22 @@ public final class FileHandlingUtil {
   }
 
   /**
+   * <p>constructRelativePath.</p>
+   *
    * @param rootPath to be relative to
    * @param filePath to make relative
    * @return file with relative path
+   * @since 3.0.0
    */
   public static String constructRelativePath(String rootPath, String filePath) {
     return StringUtils.difference(rootPath, filePath);
   }
 
   /**
+   * <p>ensureParent.</p>
+   *
    * @param file will have an existing parent directory on success
+   * @since 3.0.0
    */
   public static void ensureParent(File file) {
     File parentFile = file.getParentFile();

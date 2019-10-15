@@ -44,9 +44,12 @@ import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
+ * <p>Abstract SamplerBasedDiffVerification class.</p>
+ *
  * @param <S> type of sampler
  * @param <I> type of input sample
  * @param <O> type of input sample collection
+ * @since 3.0.0
  */
 public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O extends List<I>> extends SamplerBasedVerification<S, O> {
 
@@ -60,7 +63,8 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
   }
 
   /**
-   * Writes formatted diff to {@link StringBuilder}.
+   * Writes formatted diff to {@link java.lang.StringBuilder}.
+   *
    * @param builder to write to
    * @param maxLines to limit number of diff lines written
    */
@@ -100,14 +104,29 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
     }
   }
 
+  /**
+   * <p>Getter for the field <code>diffResult</code>.</p>
+   *
+   * @return a {@link com.github.difflib.patch.Patch} object.
+   */
   public Patch<I> getDiffResult() {
     return diffResult;
   }
 
+  /**
+   * <p>Getter for the field <code>maxLinesInFailureMessage</code>.</p>
+   *
+   * @return a int.
+   */
   public int getMaxLinesInFailureMessage() {
     return maxLinesInFailureMessage;
   }
 
+  /**
+   * <p>Setter for the field <code>maxLinesInFailureMessage</code>.</p>
+   *
+   * @param maxLinesInFailureMessage a int.
+   */
   public void setMaxLinesInFailureMessage(int maxLinesInFailureMessage) {
     this.maxLinesInFailureMessage = maxLinesInFailureMessage;
   }

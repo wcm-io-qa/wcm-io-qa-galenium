@@ -25,9 +25,12 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Samples the page source of current page.
+ *
+ * @since 1.0.0
  */
 public class PageSourceSampler extends CachingBasedSampler<String> implements Sampler<String> {
 
+  /** {@inheritDoc} */
   @Override
   public String freshSample() {
     return GaleniumContext.getDriver().getPageSource();

@@ -29,6 +29,8 @@ import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Abstract base class to verify strings based on regular expression.
+ *
+ * @since 1.0.0
  */
 public abstract class PatternBasedVerification extends StringSamplerBasedVerification {
 
@@ -42,10 +44,22 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
     setPattern(pattern);
   }
 
+  /**
+   * <p>Getter for the field <code>pattern</code>.</p>
+   *
+   * @return a {@link java.util.regex.Pattern} object.
+   * @since 2.0.0
+   */
   public Pattern getPattern() {
     return pattern;
   }
 
+  /**
+   * <p>Setter for the field <code>pattern</code>.</p>
+   *
+   * @param pattern a {@link java.util.regex.Pattern} object.
+   * @since 2.0.0
+   */
   public void setPattern(Pattern pattern) {
     this.pattern = pattern;
   }

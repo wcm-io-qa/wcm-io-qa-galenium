@@ -26,6 +26,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Make sure a certain CSS class is set on an element.
+ *
+ * @since 1.0.0
  */
 public class CssClassVerification extends AttributeVerification {
 
@@ -33,17 +35,21 @@ public class CssClassVerification extends AttributeVerification {
   private String expectedValue;
 
   /**
-   * Constructor for {@link Selector}.
+   * Constructor for  {@link io.wcm.qa.glnm.selectors.base.Selector}.
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public CssClassVerification(Selector selector) {
     super(selector, ATTRIBUTE_NAME_CLASS);
   }
 
   /**
-   * Constructor for {@link Selector}.
+   * Constructor for  {@link io.wcm.qa.glnm.selectors.base.Selector}.
+   *
    * @param selector to identify element
    * @param cssClass to verify against
+   * @since 2.0.0
    */
   public CssClassVerification(Selector selector, String cssClass) {
     super(selector, ATTRIBUTE_NAME_CLASS, cssClass);

@@ -32,12 +32,15 @@ import com.galenframework.validation.ValidationResult;
 
 
 /**
- * {@link CombinedValidationListener} to handle storing of sampled image files in ZIP file.
+ * {@link com.galenframework.validation.CombinedValidationListener} to handle storing of sampled image files in ZIP file.
+ *
+ * @since 2.0.0
  */
 public class IcValidationListener extends CombinedValidationListener {
 
   private static final Logger LOG = LoggerFactory.getLogger(IcValidationListener.class);
 
+  /** {@inheritDoc} */
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);

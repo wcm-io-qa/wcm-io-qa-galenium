@@ -29,15 +29,19 @@ import io.wcm.qa.glnm.differences.util.DifferenceUtil;
 
 /**
  * Holds dimensions of potential differences for samples and supplies them either as file path or property key.
+ *
+ * @since 1.0.0
  */
 public class MutableDifferences implements Differences {
 
   private Collection<Difference> differences = new ArrayList<Difference>();
 
   /**
-   * See {@link ArrayList#add(Object)}
+   * See {@link java.util.ArrayList#add(Object)}
+   *
    * @param difference to be appended
    * @return true if adding changed anything
+   * @since 2.0.0
    */
   public boolean add(Difference difference) {
     if (difference == null) {
@@ -47,9 +51,11 @@ public class MutableDifferences implements Differences {
   }
 
   /**
-   * See {@link ArrayList#addAll(Collection)}
+   * See {@link java.util.ArrayList#addAll(Collection)}
+   *
    * @param toBeAppended Collection of differences to be appended
    * @return if differences changed after appending
+   * @since 2.0.0
    */
   public boolean addAll(Collection<? extends Difference> toBeAppended) {
     boolean changed = false;
@@ -62,8 +68,11 @@ public class MutableDifferences implements Differences {
   }
 
   /**
+   * <p>addAll.</p>
+   *
    * @param toBeAppended Collection of differences to be appended
    * @return if differences changed after appending
+   * @since 2.0.0
    */
   public boolean addAll(Iterable<? extends Difference> toBeAppended) {
     boolean changed = false;
@@ -75,41 +84,55 @@ public class MutableDifferences implements Differences {
     return changed;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     return joinTagsWith("/");
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     return joinTagsWith(".");
   }
 
   /**
-   * See {@link ArrayList#clear()}
+   * See {@link java.util.ArrayList#clear()}
+   *
+   * @since 2.0.0
    */
   public void clear() {
     getDifferences().clear();
   }
 
+  /**
+   * <p>Getter for the field <code>differences</code>.</p>
+   *
+   * @return a {@link java.util.Collection} object.
+   * @since 2.0.0
+   */
   public Collection<Difference> getDifferences() {
     return differences;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     return getDifferences().iterator();
   }
 
   /**
-   * See {@link ArrayList#remove(Object)}
+   * See {@link java.util.ArrayList#remove(Object)}
+   *
    * @param difference to be removed
    * @return true if difference existed and was removed
+   * @since 2.0.0
    */
   public boolean remove(Difference difference) {
     return getDifferences().remove(difference);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();

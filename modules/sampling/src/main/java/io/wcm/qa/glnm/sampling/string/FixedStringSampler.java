@@ -23,18 +23,24 @@ import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Samples the same fixed string every time.
+ *
+ * @since 1.0.0
  */
 public class FixedStringSampler implements Sampler<String> {
 
   private String fixedString;
 
   /**
+   * <p>Constructor for FixedStringSampler.</p>
+   *
    * @param sample sample to return for every sampling
+   * @since 3.0.0
    */
   public FixedStringSampler(String sample) {
     fixedString = sample;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String sampleValue() {
     return fixedString;

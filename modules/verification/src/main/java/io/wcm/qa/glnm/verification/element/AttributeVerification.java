@@ -29,14 +29,19 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerificatio
 
 /**
  * Make sure an attribute is set on an element.
+ *
+ * @since 1.0.0
  */
 public class AttributeVerification extends WebElementBasedStringVerification<AttributeSampler> {
 
   private static final Logger LOG = LoggerFactory.getLogger(AttributeVerification.class);
 
   /**
+   * <p>Constructor for AttributeVerification.</p>
+   *
    * @param selector to identify element
    * @param attributeName name of attribute to check
+   * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName) {
     super(selector.elementName(), new AttributeSampler(selector, attributeName));
@@ -44,9 +49,12 @@ public class AttributeVerification extends WebElementBasedStringVerification<Att
   }
 
   /**
+   * <p>Constructor for AttributeVerification.</p>
+   *
    * @param selector to identify element
    * @param attributeName name of attribute to check
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     this(selector, attributeName);

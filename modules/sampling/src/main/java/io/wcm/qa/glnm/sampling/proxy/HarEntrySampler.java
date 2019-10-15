@@ -32,7 +32,9 @@ import com.browserup.harreader.model.HarLog;
 import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
- * Samples {@link HarEntry} instances from a {@link HarSampler}.
+ * Samples {@link com.browserup.harreader.model.HarEntry} instances from a {@link io.wcm.qa.glnm.sampling.proxy.HarSampler}.
+ *
+ * @since 1.0.0
  */
 public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har, List<HarEntry>> {
 
@@ -40,6 +42,8 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
 
   /**
    * Constructor.
+   *
+   * @since 3.0.0
    */
   public HarEntrySampler() {
     super(new HarSampler());

@@ -29,13 +29,17 @@ import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Samples {@link WebElement} from browser.
+ * Samples {@link org.openqa.selenium.WebElement} from browser.
+ *
+ * @since 3.0.0
  */
 public class WebElementSampler extends SelectorBasedSampler<WebElement> {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebElementSampler.class);
 
   /**
+   * <p>Constructor for WebElementSampler.</p>
+   *
    * @param selector to retrieve element
    */
   public WebElementSampler(Selector selector) {

@@ -27,17 +27,21 @@ import org.testng.TestListenerAdapter;
 
 /**
  * Logs memory usage.
+ *
+ * @since 1.0.0
  */
 public class MemoryUsageListener extends TestListenerAdapter {
 
   private static final Logger LOG = LoggerFactory.getLogger(MemoryUsageListener.class);
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext testContext) {
     logMemory();
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext testContext) {
     logMemory();
@@ -45,6 +49,7 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult tr) {
     logMemory();
@@ -52,6 +57,7 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult tr) {
     logMemory();
@@ -59,12 +65,14 @@ public class MemoryUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     logMemory();
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult tr) {
     logMemory();

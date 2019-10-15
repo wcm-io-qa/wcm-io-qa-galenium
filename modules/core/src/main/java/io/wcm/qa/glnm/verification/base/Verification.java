@@ -21,16 +21,24 @@ package io.wcm.qa.glnm.verification.base;
 
 /**
  * Unifies different kinds of verification done while UI testing.
+ *
+ * @since 1.0.0
  */
 public interface Verification extends Verifiable {
 
   /**
+   * <p>getException.</p>
+   *
    * @return Throwable if one occured during verification
+   * @since 3.0.0
    */
   Throwable getException();
 
   /**
-   * @return verification message
+   * <p>getMessage.</p>
+   *
+   * @return aggregated success or failure message for this verification
+   * @since 3.0.0
    */
   String getMessage();
 

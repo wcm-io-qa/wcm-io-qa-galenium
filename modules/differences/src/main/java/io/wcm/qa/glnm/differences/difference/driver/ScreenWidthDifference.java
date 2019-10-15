@@ -25,10 +25,13 @@ import io.wcm.qa.glnm.differences.base.DifferenceBase;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * {@link TestDevice} based {@link Difference}.
+ *  {@link io.wcm.qa.glnm.device.TestDevice} based  {@link io.wcm.qa.glnm.differences.base.Difference}.
+ *
+ * @since 1.0.0
  */
 public class ScreenWidthDifference extends DifferenceBase {
 
+  /** {@inheritDoc} */
   @Override
   public String getName() {
     return "width";

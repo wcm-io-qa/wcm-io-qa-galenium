@@ -26,7 +26,9 @@ import io.wcm.qa.glnm.verification.base.Verification;
 import io.wcm.qa.glnm.verification.strategy.VerificationStrategy;
 
 /**
- * Handles verification using the strategy from {@link GaleniumContext#getVerificationStrategy()}.
+ * Handles verification using the strategy from  {@link io.wcm.qa.glnm.util.GaleniumContext#getVerificationStrategy()}.
+ *
+ * @since 1.0.0
  */
 public final class Check {
 
@@ -35,8 +37,10 @@ public final class Check {
   }
 
   /**
-   * Uses {@link VerificationStrategy} from {@link GaleniumContext} to handle a list of verifications.
+   * Uses  {@link io.wcm.qa.glnm.verification.strategy.VerificationStrategy} from  {@link io.wcm.qa.glnm.util.GaleniumContext} to handle a list of verifications.
+   *
    * @param verifications to verify
+   * @since 2.0.0
    */
   public static void verify(Verification... verifications) {
     for (Verification verification : verifications) {

@@ -24,6 +24,8 @@ import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 
 /**
  * Package name for selector paackage.
+ *
+ * @since 1.0.0
  */
 public class PackageNameMethod extends AbstractTemplateMethod<SpecPojo> {
 

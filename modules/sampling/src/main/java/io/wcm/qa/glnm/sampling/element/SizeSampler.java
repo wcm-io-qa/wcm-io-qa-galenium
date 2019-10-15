@@ -27,11 +27,16 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples size of element.
+ *
+ * @since 1.0.0
  */
 public class SizeSampler extends WebElementBasedSampler<Dimension> {
 
   /**
+   * <p>Constructor for SizeSampler.</p>
+   *
    * @param selector identifies element
+   * @since 3.0.0
    */
   public SizeSampler(Selector selector) {
     super(selector);

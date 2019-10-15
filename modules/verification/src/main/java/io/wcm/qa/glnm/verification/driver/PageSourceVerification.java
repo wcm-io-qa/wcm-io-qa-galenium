@@ -33,6 +33,8 @@ import io.wcm.qa.glnm.verification.string.DoesNotContainStringVerification;
 
 /**
  * Verifies occurence of patterns and strings in page source.
+ *
+ * @since 1.0.0
  */
 public class PageSourceVerification extends CombiningStringBasedVerification {
 
@@ -47,8 +49,10 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when pattern is not found.
+   *
    * @param pattern to find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustContain(Pattern pattern, String message) {
     mustPatterns.put(pattern, message);
@@ -56,8 +60,10 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when string is not found.
+   *
    * @param string to find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustContain(String string, String message) {
     mustStrings.put(string, message);
@@ -65,16 +71,20 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when pattern is not found.
+   *
    * @param regex to find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustContainPattern(String regex, String message) {
     mustContain(Pattern.compile(regex), message);
   }
   /**
    * Verification will fail, when pattern is found.
+   *
    * @param pattern to not find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustNotContain(Pattern pattern, String message) {
     mustNotPatterns.put(pattern, message);
@@ -82,8 +92,10 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when string is found.
+   *
    * @param string to not find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustNotContain(String string, String message) {
     mustNotStrings.put(string, message);
@@ -91,8 +103,10 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
 
   /**
    * Verification will fail, when pattern is found.
+   *
    * @param regex to not find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustNotContainPattern(String regex, String message) {
     mustNotContain(Pattern.compile(regex), message);

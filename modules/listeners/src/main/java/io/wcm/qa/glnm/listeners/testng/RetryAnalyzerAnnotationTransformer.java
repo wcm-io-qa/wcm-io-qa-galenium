@@ -26,10 +26,14 @@ import org.testng.IAnnotationTransformer;
 import org.testng.annotations.ITestAnnotation;
 
 /**
- * Sets {@link RetryAnalyzer} on test classes to facilitate retries without too much boiler plate.
+ * Sets {@link io.wcm.qa.glnm.listeners.testng.RetryAnalyzer} on test classes to facilitate retries without too
+ * much boiler plate.
+ *
+ * @since 1.0.0
  */
 public class RetryAnalyzerAnnotationTransformer implements IAnnotationTransformer {
 
+  /** {@inheritDoc} */
   @Override
   public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
     if (annotation.getRetryAnalyzerClass() == null) {

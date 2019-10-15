@@ -43,6 +43,8 @@ import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
+ *
+ * @since 1.0.0
  */
 public final class TestInfoUtil {
 
@@ -55,8 +57,10 @@ public final class TestInfoUtil {
 
   /**
    * Replaces all non-alphanumeric characters with underscore.
+   *
    * @param result to extract test name from
    * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
+   * @since 3.0.0
    */
   public static String getAlphanumericTestName(ITestResult result) {
     String name = result.getName();
@@ -64,9 +68,11 @@ public final class TestInfoUtil {
   }
 
   /**
-   * Gets test device if test case in this result implements {@link HasDevice}.
+   * Gets test device if test case in this result implements  {@link io.wcm.qa.glnm.webdriver.HasDevice}.
+   *
    * @param result test result to retrieve test case from
    * @return device if one was found
+   * @since 3.0.0
    */
   public static TestDevice getTestDevice(ITestResult result) {
     Object testClass = result.getInstance();
@@ -77,8 +83,11 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>hasWarnings.</p>
+   *
    * @param testInfo to check
    * @return whether there are warnings in the results
+   * @since 3.0.0
    */
   public static boolean hasWarnings(GalenTestInfo testInfo) {
     TestReport report = testInfo.getReport();
@@ -96,15 +105,21 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>isFailed.</p>
+   *
    * @param testInfo to check
    * @return whether test failed
+   * @since 3.0.0
    */
   public static boolean isFailed(GalenTestInfo testInfo) {
     return testInfo.isFailed();
   }
 
   /**
+   * <p>logGalenTestInfo.</p>
+   *
    * @param testInfo to log
+   * @since 3.0.0
    */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {

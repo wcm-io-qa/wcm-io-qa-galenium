@@ -35,7 +35,9 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Abstract base class for implementations verifying JSON formatted inputs.
+ *
  * @param <S> sampler supplying raw JSON string
+ * @since 1.0.0
  */
 public abstract class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
 
@@ -51,10 +53,22 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
     setExpectedValue(EMPTY_EXPECTED_VALUE);
   }
 
+  /**
+   * <p>Getter for the field <code>keyPrefix</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getKeyPrefix() {
     return keyPrefix;
   }
 
+  /**
+   * <p>Setter for the field <code>keyPrefix</code>.</p>
+   *
+   * @param keyPrefix a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public void setKeyPrefix(String keyPrefix) {
     this.keyPrefix = keyPrefix;
   }

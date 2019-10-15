@@ -27,6 +27,8 @@ import io.wcm.qa.glnm.differences.base.DifferenceBase;
 
 /**
  * Differnce based on current test method.
+ *
+ * @since 1.0.0
  */
 public class TestMethodNameDifference extends DifferenceBase {
 
@@ -35,6 +37,8 @@ public class TestMethodNameDifference extends DifferenceBase {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public TestMethodNameDifference() {
     setMaxTagLength(50);

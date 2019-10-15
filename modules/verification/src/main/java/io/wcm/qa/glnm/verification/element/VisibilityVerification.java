@@ -30,6 +30,8 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedVerification;
 
 /**
  * Verifies that an element is visible on page.
+ *
+ * @since 1.0.0
  */
 public class VisibilityVerification extends WebElementBasedVerification<VisibilitySampler, Boolean> {
 
@@ -37,7 +39,9 @@ public class VisibilityVerification extends WebElementBasedVerification<Visibili
 
   /**
    * Constructor.
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public VisibilityVerification(Selector selector) {
     super(selector.elementName(), new VisibilitySampler(selector));

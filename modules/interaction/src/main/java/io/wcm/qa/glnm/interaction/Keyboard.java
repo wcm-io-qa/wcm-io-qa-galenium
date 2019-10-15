@@ -26,6 +26,8 @@ import org.openqa.selenium.interactions.Actions;
 
 /**
  * Keyboard interaction methods.
+ *
+ * @since 1.0.0
  */
 public final class Keyboard {
 
@@ -38,6 +40,7 @@ public final class Keyboard {
 
   /**
    * Sending keys to where the current focus is.
+   *
    * @param text keys to send
    */
   public static void sendKeys(String text) {
@@ -46,6 +49,7 @@ public final class Keyboard {
 
   /**
    * Sending keys to where the current focus is.
+   *
    * @param keys keys to send
    */
   public static void sendKeys(Keys... keys) {

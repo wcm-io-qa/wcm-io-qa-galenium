@@ -47,6 +47,8 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
  * Utility methods for parsing Galen specs.
+ *
+ * @since 1.0.0
  */
 public final class ParsingUtil {
 
@@ -58,6 +60,7 @@ public final class ParsingUtil {
 
   /**
    * Extracts all selectors defined in spec.
+   *
    * @param specFile to parse
    * @return all defined objects as selectors
    */
@@ -67,6 +70,8 @@ public final class ParsingUtil {
   }
 
   /**
+   * <p>getTags.</p>
+   *
    * @param specFile to parse
    * @return all tags used in spec
    */
@@ -98,6 +103,7 @@ public final class ParsingUtil {
 
   /**
    * Parse spec.
+   *
    * @param specFile to parse
    * @return Java object representing the parsed Galen spec file
    */

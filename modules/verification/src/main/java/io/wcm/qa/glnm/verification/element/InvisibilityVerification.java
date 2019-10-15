@@ -26,13 +26,18 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Make sure a certain element is not visible.
+ *
+ * @since 1.0.0
  */
 public class InvisibilityVerification extends VisibilityVerification {
 
   private static final Logger LOG = LoggerFactory.getLogger(InvisibilityVerification.class);
 
   /**
+   * <p>Constructor for InvisibilityVerification.</p>
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public InvisibilityVerification(Selector selector) {
     super(selector);

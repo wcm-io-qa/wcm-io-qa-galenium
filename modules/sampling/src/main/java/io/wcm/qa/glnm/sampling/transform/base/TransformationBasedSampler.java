@@ -25,21 +25,27 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
  * Abstract base class for transforming samplers.
+ *
  * @param <S> type of sampler providing the input
  * @param <I> type of input
- * @param <O> type of output
+ * @param <O> type of transformed output
+ * @since 1.0.0
  */
 public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> {
 
   private S input;
 
   /**
+   * <p>Constructor for TransformationBasedSampler.</p>
+   *
    * @param inputSampler providing the input sample to transform
+   * @since 3.0.0
    */
   public TransformationBasedSampler(S inputSampler) {
     setInput(inputSampler);
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     if (isCachingInput()) {
@@ -48,6 +54,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     return super.isCaching();
   }
 
+  /** {@inheritDoc} */
   @Override
   public O freshSample() {
     I inputSample = getInput().sampleValue();
@@ -55,6 +62,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     return outputSample;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean activateCache) {
     super.setCaching(activateCache);

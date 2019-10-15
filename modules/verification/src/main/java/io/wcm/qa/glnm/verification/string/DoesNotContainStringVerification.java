@@ -24,14 +24,18 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that string is not contained in sample.
+ *
+ * @since 1.0.0
  */
 public class DoesNotContainStringVerification extends ContainsStringVerification {
 
   /**
    * Verify against fixed string.
+   *
    * @param verificationName name for this check
    * @param searchString to not find in input
    * @param sample fixed input sample
+   * @since 2.0.0
    */
   public DoesNotContainStringVerification(String verificationName, String searchString, String sample) {
     this(verificationName, searchString, new FixedStringSampler(sample));
@@ -39,9 +43,11 @@ public class DoesNotContainStringVerification extends ContainsStringVerification
 
   /**
    * Verify against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param searchString to not find in input
    * @param sampler sampler to provide input
+   * @since 2.0.0
    */
   public DoesNotContainStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
     super(verificationName, searchString, sampler);

@@ -23,11 +23,16 @@ import io.wcm.qa.glnm.differences.difference.StringDifference;
 
 /**
  * Uses simple name of class (without package) as difference.
+ *
+ * @since 1.0.0
  */
 public class ClassNameDifference extends StringDifference {
 
   /**
+   * <p>Constructor for ClassNameDifference.</p>
+   *
    * @param clazz to get name from
+   * @since 2.0.0
    */
   public ClassNameDifference(Class clazz) {
     super(clazz.getSimpleName());

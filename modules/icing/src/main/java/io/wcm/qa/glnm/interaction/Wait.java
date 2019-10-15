@@ -41,6 +41,8 @@ import io.wcm.qa.glnm.verification.element.VisibilityVerification;
 
 /**
  * Wraps WebDriverWait functionalities.
+ *
+ * @since 1.0.0
  */
 public final class Wait {
 
@@ -54,7 +56,8 @@ public final class Wait {
   }
 
   /**
-   * Waits for {@link Verifiable} or {@link Verification}.
+   * Waits for  {@link io.wcm.qa.glnm.verification.base.Verifiable} or  {@link io.wcm.qa.glnm.verification.base.Verification}.
+   *
    * @param condition to wait for
    */
   public static void forCondition(Verifiable condition) {
@@ -63,7 +66,8 @@ public final class Wait {
   }
 
   /**
-   * Waits for {@link Verifiable} or {@link Verification}.
+   * Waits for  {@link io.wcm.qa.glnm.verification.base.Verifiable} or  {@link io.wcm.qa.glnm.verification.base.Verification}.
+   *
    * @param condition to wait for
    * @param timeout how many seconds to wait
    */
@@ -73,7 +77,8 @@ public final class Wait {
   }
 
   /**
-   * Waits for {@link Verifiable} or {@link Verification}.
+   * Waits for  {@link io.wcm.qa.glnm.verification.base.Verifiable} or  {@link io.wcm.qa.glnm.verification.base.Verification}.
+   *
    * @param condition to wait for
    * @param timeOut how many seconds to wait
    * @param pollingInterval how many milliseconds between attempts
@@ -102,6 +107,7 @@ public final class Wait {
 
   /**
    * Wait for "DOM ready" for a maximum of seconds specified by parameter.
+   *
    * @param timeOutInSeconds how long to wait for "DOM ready"
    */
   public static void forDomReady(int timeOutInSeconds) {
@@ -111,6 +117,7 @@ public final class Wait {
 
   /**
    * Wait for element to be invisible or not in page.
+   *
    * @param selector identifies element
    */
   public static void forInvisibility(Selector selector) {
@@ -119,6 +126,7 @@ public final class Wait {
 
   /**
    * Wait for element to be invisible or not in page.
+   *
    * @param selector identifies element
    * @param timeout how many seconds to wait
    */
@@ -128,6 +136,7 @@ public final class Wait {
 
   /**
    * Wait for element to display text from expected properties.
+   *
    * @param selector identifies element
    */
   public static void forText(Selector selector) {
@@ -136,6 +145,7 @@ public final class Wait {
 
   /**
    * Wait for element to display text from expected properties.
+   *
    * @param selector identifies element
    * @param timeout how many seconds to wait
    */
@@ -145,6 +155,7 @@ public final class Wait {
 
   /**
    * Wait for element to display text.
+   *
    * @param selector identifies element
    * @param text to match
    */
@@ -154,6 +165,7 @@ public final class Wait {
 
   /**
    * Wait for element to display text.
+   *
    * @param selector identifies element
    * @param text to match
    * @param timeout how many seconds to wait
@@ -164,6 +176,7 @@ public final class Wait {
 
   /**
    * Load URL and wait for it to be loaded.
+   *
    * @param url to load
    */
   public static void forUrl(String url) {
@@ -172,6 +185,7 @@ public final class Wait {
 
   /**
    * Load URL and wait passed number of seconds for it to be loaded.
+   *
    * @param url to load
    * @param timeOutInSeconds how long to wait for URL to be current
    */
@@ -184,6 +198,7 @@ public final class Wait {
 
   /**
    * Wait for element to be visible.
+   *
    * @param selector identifies element
    */
   public static void forVisibility(Selector selector) {
@@ -192,6 +207,7 @@ public final class Wait {
 
   /**
    * Wait for element to be visible.
+   *
    * @param selector identifies element
    * @param timeout how many seconds to wait
    */

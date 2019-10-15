@@ -25,32 +25,49 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 
 /**
- * DataModel for browser types, screen sizes and Galen tags. Used to initialize {@link WebDriver}.
+ * DataModel for browser types, screen sizes and Galen tags. Used to initialize {@link org.openqa.selenium.WebDriver}.
+ *
+ * @since 1.0.0
  */
 public interface TestDevice {
 
   /**
+   * <p>getBrowserType.</p>
+   *
    * @return browser to use for this device
+   * @since 3.0.0
    */
   BrowserType getBrowserType();
 
   /**
+   * <p>getChromeEmulator.</p>
+   *
    * @return chrome emulator string if set or null
+   * @since 3.0.0
    */
   String getChromeEmulator();
 
   /**
+   * <p>getTags.</p>
+   *
    * @return include tags to use in Galen tests and specs
+   * @since 3.0.0
    */
   List<String> getTags();
 
   /**
+   * <p>getName.</p>
+   *
    * @return test device name for use in logging and test case names
+   * @since 3.0.0
    */
   String getName();
 
   /**
+   * <p>getScreenSize.</p>
+   *
    * @return viewport size for this test device
+   * @since 3.0.0
    */
   Dimension getScreenSize();
 

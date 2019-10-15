@@ -23,14 +23,18 @@ import java.io.File;
 
 /**
  * Differences prepared to give path to properties file and key within properties file.
+ *
+ * @since 1.0.0
  */
 public class TextPersistenceDifferences extends LayeredDifferences {
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     return new File(getPrimary().asFilePath(), getSecondary().asPropertyKey()).getPath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     return getTertiary().asPropertyKey();

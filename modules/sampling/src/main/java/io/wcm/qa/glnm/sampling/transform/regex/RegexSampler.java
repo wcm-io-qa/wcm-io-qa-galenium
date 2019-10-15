@@ -30,32 +30,43 @@ import io.wcm.qa.glnm.sampling.transform.base.RegexBasedSampler;
 
 /**
  * Samples first match of regular expression from input string.
+ *
  * @param <S>
+ * @since 1.0.0
  */
 public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S, String> {
 
   private static final Logger LOG = LoggerFactory.getLogger(RegexSampler.class);
 
   /**
+   * <p>Constructor for RegexSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
   /**
+   * <p>Constructor for RegexSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
   }
 
   /**
+   * <p>Constructor for RegexSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param flags to regular expression
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, String regex, int flags) {
     super(inputSampler, regex, flags);

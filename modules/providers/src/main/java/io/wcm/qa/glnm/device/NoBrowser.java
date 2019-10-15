@@ -26,32 +26,39 @@ import org.openqa.selenium.Dimension;
 
 /**
  * Basic Not-A-Browser test device.
+ *
+ * @since 3.0.0
  */
 public class NoBrowser implements TestDevice {
 
   private static final List<String> NO_TAGS = Collections.emptyList();
   private static final Dimension NO_DIMENSION = new Dimension(-1, -1);
 
+  /** {@inheritDoc} */
   @Override
   public BrowserType getBrowserType() {
     return BrowserType.NO_BROWSER;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getChromeEmulator() {
     return null;
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<String> getTags() {
     return NO_TAGS;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getName() {
     return getBrowserType().getBrowser();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Dimension getScreenSize() {
     return NO_DIMENSION;
@@ -59,6 +66,7 @@ public class NoBrowser implements TestDevice {
 
   /**
    * Factory method.
+   *
    * @return a test device
    */
   public static NoBrowser instance() {

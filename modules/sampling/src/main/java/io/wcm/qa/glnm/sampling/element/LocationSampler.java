@@ -29,13 +29,18 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples position of web element.
+ *
+ * @since 1.0.0
  */
 public class LocationSampler extends WebElementBasedSampler<Point> {
 
   private static final Logger LOG = LoggerFactory.getLogger(LocationSampler.class);
 
   /**
+   * <p>Constructor for LocationSampler.</p>
+   *
    * @param selector identifies element
+   * @since 3.0.0
    */
   public LocationSampler(Selector selector) {
     super(selector);

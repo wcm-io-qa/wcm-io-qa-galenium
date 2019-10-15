@@ -37,7 +37,10 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   private static final Logger LOG = LoggerFactory.getLogger(OptionsProvider.class);
 
   /**
+   * <p>getOptions.</p>
+   *
    * @return capabilities for browser
+   * @since 1.0.0
    */
   public O getOptions() {
     O options = getBrowserSpecificOptions();

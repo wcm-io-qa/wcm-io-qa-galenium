@@ -28,13 +28,18 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Verifies stable position of element. Useful when waiting for animated moving of elements to finish.
+ *
+ * @since 1.0.0
  */
 public class StablePosition extends Stability<Point> {
 
   private static final Logger LOG = LoggerFactory.getLogger(StablePosition.class);
 
   /**
+   * <p>Constructor for StablePosition.</p>
+   *
    * @param selector identifies element
+   * @since 2.0.0
    */
   public StablePosition(Selector selector) {
     super(new LocationSampler(selector));

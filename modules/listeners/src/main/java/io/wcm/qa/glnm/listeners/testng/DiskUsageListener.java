@@ -30,6 +30,8 @@ import org.testng.TestListenerAdapter;
 
 /**
  * Logs memory usage.
+ *
+ * @since 1.0.0
  */
 public class DiskUsageListener extends TestListenerAdapter {
 
@@ -39,12 +41,14 @@ public class DiskUsageListener extends TestListenerAdapter {
       "/dev/shm"
   };
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext testContext) {
     logDiskUsage();
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext testContext) {
     logDiskUsage();
@@ -52,6 +56,7 @@ public class DiskUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult tr) {
     logDiskUsage();
@@ -59,6 +64,7 @@ public class DiskUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult tr) {
     logDiskUsage();
@@ -66,12 +72,14 @@ public class DiskUsageListener extends TestListenerAdapter {
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     logDiskUsage();
   }
 
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult tr) {
     logDiskUsage();

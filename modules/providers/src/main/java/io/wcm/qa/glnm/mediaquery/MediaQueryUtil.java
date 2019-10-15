@@ -43,7 +43,9 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * Some convenience methods around {@link MediaQuery}.
+ * Some convenience methods around  {@link io.wcm.qa.glnm.mediaquery.MediaQuery}.
+ *
+ * @since 1.0.0
  */
 public final class MediaQueryUtil {
 
@@ -61,7 +63,10 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getCurrentMediaQuery.</p>
+   *
    * @return the media query used in current test device
+   * @since 3.0.0
    */
   public static MediaQuery getCurrentMediaQuery() {
     WebDriver driver = GaleniumContext.getDriver();
@@ -73,8 +78,10 @@ public final class MediaQueryUtil {
 
   /**
    * Returns matching media query from configuration.
+   *
    * @param testDevice to match
    * @return media query
+   * @since 3.0.0
    */
   public static MediaQuery getMatchingMediaQuery(TestDevice testDevice) {
     Collection<MediaQuery> mediaQueries = getMediaQueries();
@@ -87,7 +94,10 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @return get all defined media queries
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries() {
     String propertiesFilePath = GaleniumConfiguration.getMediaQueryPropertiesPath();
@@ -99,8 +109,11 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param mediaQueryPropertyFile to get media query definitions from
    * @return all media queries configured in properties file
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries(File mediaQueryPropertyFile) {
     if (mediaQueryPropertyFile == null) {
@@ -114,8 +127,11 @@ public final class MediaQueryUtil {
 
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param mediaQueryProperties to get media query definitions from
    * @return all media queries configured in properties
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries(Properties mediaQueryProperties) {
     if (MAP_MEDIA_QUERIES_PROPERTIES.containsKey(mediaQueryProperties)) {
@@ -142,8 +158,11 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param propertiesFilePath to get properties file with media query definitions from
    * @return all media queries configured in properties file
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries(String propertiesFilePath) {
     if (MAP_MEDIA_QUERIES_FILENAMES.containsKey(propertiesFilePath)) {
@@ -156,8 +175,11 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueryByName.</p>
+   *
    * @param name of media query to retrieve
    * @return media query matching name
+   * @since 3.0.0
    */
   public static MediaQuery getMediaQueryByName(String name) {
     Collection<MediaQuery> mediaQueries = getMediaQueries();
@@ -170,11 +192,13 @@ public final class MediaQueryUtil {
   }
 
   /**
-   * Factory method to create {@link MediaQuery}
+   * Factory method to create  {@link io.wcm.qa.glnm.mediaquery.MediaQuery}
+   *
    * @param mediaQueryName name to use for media query
    * @param lowerBound to use as lower bound in media query
    * @param upperBound to use as upper bound in media query
    * @return a new media query instance
+   * @since 3.0.0
    */
   public static MediaQuery getNewMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
     if (lowerBound < CONFIGURED_MIN_WIDTH) {

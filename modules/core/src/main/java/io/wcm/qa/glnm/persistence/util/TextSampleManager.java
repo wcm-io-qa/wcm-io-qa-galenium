@@ -52,9 +52,11 @@ import io.wcm.qa.glnm.configuration.PropertiesUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
- * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link Properties}
- * file located at {@link GaleniumConfiguration#getTextComparisonFile()} in
- * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
+ * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link java.util.Properties}
+ * file located at  {@link io.wcm.qa.glnm.configuration.GaleniumConfiguration#getTextComparisonFile()} in
+ *  {@link io.wcm.qa.glnm.configuration.GaleniumConfiguration#getTextComparisonInputDirectory()}.
+ *
+ * @since 1.0.0
  */
 public final class TextSampleManager {
 
@@ -83,6 +85,9 @@ public final class TextSampleManager {
   }
 
   /**
+   * Writes text samples directly to file.
+   *
+   * @since 3.0.0
    * @param key to identify persistence location
    * @param lines to persist
    */
@@ -105,8 +110,10 @@ public final class TextSampleManager {
 
   /**
    * Adds a new text sample for optional persisting.
+   *
    * @param key this door is opened with the key to your imagination
    * @param value added
+   * @since 3.0.0
    */
   public static void addNewTextSample(String key, String value) {
     String escapeHtml = GaleniumReportUtil.escapeHtml(value);
@@ -116,8 +123,11 @@ public final class TextSampleManager {
   }
 
   /**
+   * <p>getExpectedText.</p>
+   *
    * @param key to look up text
    * @return text expected for this key
+   * @since 3.0.0
    */
   public static List<String> getExpectedLines(String key) {
     try {
@@ -137,20 +147,32 @@ public final class TextSampleManager {
   }
 
   /**
+   * <p>getExpectedText.</p>
+   *
    * @param key to look up text
    * @return text expected for this key
+   * @since 3.0.0
    */
   public static String getExpectedText(String key) {
     return EXPECTED_TEXTS.getProperty(key);
   }
 
+  /**
+   * <p>getExpectedTexts.</p>
+   *
+   * @return a {@link java.util.Properties} object.
+   * @since 3.0.0
+   */
   public static Properties getExpectedTexts() {
     return EXPECTED_TEXTS;
   }
 
   /**
+   * <p>getExpectedTextsForPrefix.</p>
+   *
    * @param prefix used to filter properties
    * @return new Properties containing only entries starting with the prefix
+   * @since 3.0.0
    */
   public static Properties getExpectedTextsForPrefix(String prefix) {
     return PropertiesUtil.getAllPropertiesWithPrefix(EXPECTED_TEXTS, prefix);
@@ -158,6 +180,8 @@ public final class TextSampleManager {
 
   /**
    * Write all stored new text samples to disk for easy replacement of existing expected values.
+   *
+   * @since 3.0.0
    */
   public static void persistNewTextSamples() {
     if (SAMPLED_TEXTS.isEmpty()) {

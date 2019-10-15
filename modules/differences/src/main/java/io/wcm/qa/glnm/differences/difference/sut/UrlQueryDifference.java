@@ -21,18 +21,25 @@ package io.wcm.qa.glnm.differences.difference.sut;
 
 /**
  * Uses the query parameters to URL as difference.
+ *
+ * @since 1.0.0
  */
 public class UrlQueryDifference extends UrlDifference {
 
   /**
    * Uses current URL.
+   *
+   * @since 2.0.0
    */
   public UrlQueryDifference() {
     super();
   }
 
   /**
+   * <p>Constructor for UrlQueryDifference.</p>
+   *
    * @param url to extract parameters from
+   * @since 2.0.0
    */
   public UrlQueryDifference(String url) {
     super(url);
