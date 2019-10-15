@@ -22,7 +22,6 @@ package io.wcm.qa.glnm.device;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
 
 /**
  * DataModel for browser types, screen sizes and Galen tags. Used to initialize {@link org.openqa.selenium.WebDriver}.

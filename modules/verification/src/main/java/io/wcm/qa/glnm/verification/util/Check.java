@@ -21,9 +21,7 @@ package io.wcm.qa.glnm.verification.util;
 
 import static io.wcm.qa.glnm.util.GaleniumContext.getVerificationStrategy;
 
-import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.verification.base.Verification;
-import io.wcm.qa.glnm.verification.strategy.VerificationStrategy;
 
 /**
  * Handles verification using the strategy from  {@link io.wcm.qa.glnm.util.GaleniumContext#getVerificationStrategy()}.

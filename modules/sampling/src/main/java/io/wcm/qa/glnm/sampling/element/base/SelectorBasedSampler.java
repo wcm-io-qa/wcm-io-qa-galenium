@@ -19,8 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.element.base;
 
-import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
+import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Selector based sampling.

@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.verification.base.Verification;
 import io.wcm.qa.glnm.verification.strategy.DefaultVerificationStrategy;
 import io.wcm.qa.glnm.verification.strategy.IgnoreFailuresStrategy;
 import io.wcm.qa.glnm.verification.strategy.VerificationStrategy;
