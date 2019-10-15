@@ -139,7 +139,10 @@ public class GaleniumContext {
   }
 
   /**
-   * @return {@link GaleniumContext} object for this thread
+   * <p>getContext.</p>
+   *
+   * @return {@link io.wcm.qa.glnm.util.GaleniumContext} object for this thread
+   * @since 4.0.0
    */
   public static GaleniumContext getContext() {
     return THREAD_LOCAL_CONTEXT.get();
@@ -156,6 +159,8 @@ public class GaleniumContext {
   }
 
   /**
+   * <p>Getter for the field <code>testDescription</code>.</p>
+   *
    * @return short description of the current test
    * @since 3.0.0
    */

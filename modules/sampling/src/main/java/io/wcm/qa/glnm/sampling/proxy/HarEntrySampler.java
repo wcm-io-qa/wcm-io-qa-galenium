@@ -32,7 +32,7 @@ import com.browserup.harreader.model.HarLog;
 import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
- * Samples {@link net.lightbody.bmp.core.har.HarEntry} instances from a  {@link io.wcm.qa.glnm.sampling.proxy.HarSampler}.
+ * Samples {@link com.browserup.harreader.model.HarEntry} instances from a {@link io.wcm.qa.glnm.sampling.proxy.HarSampler}.
  *
  * @since 1.0.0
  */

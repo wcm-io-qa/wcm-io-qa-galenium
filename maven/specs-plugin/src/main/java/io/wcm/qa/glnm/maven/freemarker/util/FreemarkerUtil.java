@@ -71,7 +71,6 @@ public final class FreemarkerUtil {
    * @param interfaceName name of interactive selector interface to implement
    * @param className of interactive selector class
    * @return data model for generating interactive selector interface
-   * @param interfaceName a {@link java.lang.String} object.
    */
   public static Map<String, Object> getDataModelForInteractiveSelector(String packageRoot, String interfaceName, String className) {
     Map<String, Object> model = getCommonDataModel();

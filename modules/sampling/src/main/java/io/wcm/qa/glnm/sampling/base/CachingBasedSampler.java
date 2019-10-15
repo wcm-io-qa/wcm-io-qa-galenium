@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.sampling.CachingSampler;
 /**
  * Abstract base class for caching samplers.
  *
- * @param <T>
+ * @param <T> type of sample returned by sampler
  * @since 1.0.0
  */
 public abstract class CachingBasedSampler<T> implements CachingSampler<T> {

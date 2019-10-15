@@ -29,7 +29,7 @@ import io.wcm.qa.glnm.verification.base.Verification;
 
 
 /**
- * Fail if {@link Verification} contains an exception.
+ * Fail if {@link io.wcm.qa.glnm.verification.base.Verification} contains an exception.
  *
  * @since 1.0.0
  */

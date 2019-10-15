@@ -29,8 +29,8 @@ import io.wcm.qa.glnm.sampling.Sampler;
 /**
  * Abstract base class for implementations that transform string samples based on a regular expression.
  *
- * @param <S>
- * @param <O>
+ * @param <S> type of input sampler
+ * @param <O> type of transformed output returned by this sampler
  * @since 1.0.0
  */
 public abstract class RegexBasedSampler<S extends Sampler<String>, O> extends TransformationBasedSampler<S, String, O> {

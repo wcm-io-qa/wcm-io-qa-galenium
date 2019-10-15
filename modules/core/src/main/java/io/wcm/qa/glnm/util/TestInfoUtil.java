@@ -57,6 +57,7 @@ public final class TestInfoUtil {
 
   /**
    * Replaces all non-alphanumeric characters with underscore.
+   *
    * @param result to extract test name from
    * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
    * @since 3.0.0

@@ -41,6 +41,8 @@ import io.wcm.qa.glnm.logging.logback.MarkedLogger;
 
 /**
  * Utility methods and constants around logging.
+ *
+ * @since 4.0.0
  */
 public final class GaleniumLoggingUtil {
 
@@ -101,26 +103,30 @@ public final class GaleniumLoggingUtil {
   }
 
   /**
-   * Gets a logger which marks every entry with the passed {@link Marker}.
+   * Gets a logger which marks every entry with the passed {@link org.slf4j.Marker}.
+   *
    * @param marker to use with this logger
    * @param logger to wrap in marked logger
-   * @return a {@link MarkedLogger} using the marker
+   * @return a {@link io.wcm.qa.glnm.logging.logback.MarkedLogger} using the marker
    */
   public static Logger getMarkedLogger(Marker marker, Logger logger) {
     return new MarkedLogger(logger, marker);
   }
 
   /**
-   * Gets a logger which marks every entry with a {@link Marker} using the passed string.
+   * Gets a logger which marks every entry with a {@link org.slf4j.Marker} using the passed string.
+   *
    * @param marker to use with this logger
    * @param logger to wrap in marked logger
-   * @return a {@link MarkedLogger} using the marker
+   * @return a {@link io.wcm.qa.glnm.logging.logback.MarkedLogger} using the marker
    */
   public static Logger getMarkedLogger(String marker, Logger logger) {
     return getMarkedLogger(getMarker(marker), logger);
   }
 
   /**
+   * <p>getMarker.</p>
+   *
    * @param name marker name
    * @return marker for use with marked logger
    */

@@ -24,7 +24,6 @@ import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getNumberOfBrow
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;

@@ -106,7 +106,6 @@ public final class CsvUtil {
    * @param beanClass type of bean to populate
    * @param <T> type of bean as generic to create typed collection
    * @return collection with one bean per row in CSV
-   * @param <T> a T object.
    * @since 3.0.0
    */
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {

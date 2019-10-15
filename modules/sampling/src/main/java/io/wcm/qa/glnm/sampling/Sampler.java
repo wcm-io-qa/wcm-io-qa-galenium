@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.sampling;
 /**
  * Generic sampler.
  *
- * @param <T>
+ * @param <T> type of sample returned by sampler
  * @since 1.0.0
  */
 public interface Sampler<T> {

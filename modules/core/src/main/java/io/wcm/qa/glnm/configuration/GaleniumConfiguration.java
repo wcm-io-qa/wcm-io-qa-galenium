@@ -848,6 +848,7 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return root folder for storing test logs
    */
   public static String getTestLogDirectory() {

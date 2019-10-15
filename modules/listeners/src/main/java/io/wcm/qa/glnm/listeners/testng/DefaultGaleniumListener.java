@@ -38,24 +38,17 @@ import org.testng.annotations.ITestAnnotation;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 
 /**
- * Listener to manage WebDriver management, reporting and screenshots. This listener is just a container for other
- * listeners that will be called throughout test and suite lifecycle.
- * Contained by default:
+ * Listener to manage WebDriver management, reporting and screenshots. This
+ * listener is just a container for other listeners that will be called
+ * throughout test and suite lifecycle. Contained by default:
  * <ul>
- * <li>
- *  {@link io.wcm.qa.glnm.listeners.LoggingListener}
- * </li>
- * <li>
- * {@link WebDriverListener}
- * </li>
- * <li>
- *  {@link io.wcm.qa.glnm.listeners.TextSamplePersistenceListener}
- * </li>
- * <li>
- *  {@link io.wcm.qa.glnm.listeners.RetryAnalyzer} if galenium.retryMax is greater than zero
- * </li>
+ * <li>{@link io.wcm.qa.glnm.listeners.testng.LoggingListener}</li>
+ * <li>{@link io.wcm.qa.glnm.listeners.testng.WebDriverListener}</li>
+ * <li>{@link io.wcm.qa.glnm.listeners.testng.TextSamplePersistenceListener}</li>
+ * <li>{@link io.wcm.qa.glnm.listeners.testng.RetryAnalyzer} if galenium.retryMax is greater than zero</li>
  * </ul>
- * You can extend this class and add your own listeners using the {@link #add(ITestNGListener)} method.
+ * You can extend this class and add your own listeners using the
+ * {@link #add(ITestNGListener)} method.
  *
  * @since 1.0.0
  */
@@ -67,6 +60,8 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   /**
    * Constructor.
+   *
+   * @since 4.0.0
    */
   public DefaultGaleniumListener() {
     add(new LoggingListener());
@@ -82,6 +77,7 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
    *
    * @param index index at which the specified element is to be inserted
    * @param listener to add
+   * @since 4.0.0
    */
   public void add(int index, ITestNGListener listener) {
     listeners.add(index, listener);
@@ -89,8 +85,10 @@ public class DefaultGaleniumListener extends TestListenerAdapter implements IAnn
 
   /**
    * Adds an additional test listener.
+   *
    * @param listener to add
    * @return true
+   * @since 4.0.0
    */
   public boolean add(ITestNGListener listener) {
     return listeners.add(listener);

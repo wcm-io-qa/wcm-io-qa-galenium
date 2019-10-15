@@ -26,7 +26,8 @@ import org.testng.IAnnotationTransformer;
 import org.testng.annotations.ITestAnnotation;
 
 /**
- * Sets  {@link io.wcm.qa.glnm.listeners.RetryAnalyzer} on test classes to facilitate retries without too much boiler plate.
+ * Sets {@link io.wcm.qa.glnm.listeners.testng.RetryAnalyzer} on test classes to facilitate retries without too
+ * much boiler plate.
  *
  * @since 1.0.0
  */

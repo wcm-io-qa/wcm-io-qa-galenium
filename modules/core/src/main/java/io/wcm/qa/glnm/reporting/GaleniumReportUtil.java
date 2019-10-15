@@ -83,6 +83,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Assigns categories to test in report.
+   *
    * @param categories to add
    * @since 3.0.0
    */
@@ -94,7 +95,9 @@ public final class GaleniumReportUtil {
 
   /**
    * Assigns a single category to test in report.
+   *
    * @param category to add
+   * @since 4.0.0
    */
   public static void assignCategory(String category) {
     //    TODO: possibly add Allure category
@@ -141,7 +144,8 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Uses {@link HtmlEscapers} to escape text for use in logging.
+   * Uses {@link com.google.common.html.HtmlEscapers} to escape text for use in logging.
+   *
    * @param string potentially includes unescaped HTML
    * @return best effort HTML escaping
    * @since 3.0.0

@@ -26,9 +26,7 @@ import org.testng.ITest;
 import org.testng.SkipException;
 
 /**
- * Base class using
- * {@link io.wcm.qa.glnm.differences.specialized.TestNameDifferences} to
- * generate test name for TestNG's {@link org.testng.ITest} interface.
+ * Base class with test name for TestNG's {@link org.testng.ITest} interface.
  *
  * @since 3.0.0
  */
@@ -55,14 +53,8 @@ public class AbstractNamedTest implements ITest {
   }
 
   /**
-<<<<<<< HEAD
-   * Convenience method delegating to {@link io.wcm.qa.glnm.reporting.GaleniumReportUtil#getLogger()}.
-   *
-   * @return current logger
-=======
    * @param skipMessage will be logged and added to {@link SkipException} as message
    * @param ex will be logged and added to {@link SkipException} as cause
->>>>>>> develop
    */
   protected void skipTest(String skipMessage, Throwable ex) {
     LOG.info("Skipping: " + skipMessage, ex);

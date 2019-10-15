@@ -26,16 +26,23 @@ import io.qameta.allure.listener.TestLifecycleListener;
 import io.qameta.allure.model.TestResult;
 import io.wcm.qa.glnm.logging.util.GaleniumLoggingUtil;
 
+/**
+ * <p>AllureReportContainerListener class.</p>
+ *
+ * @since 4.0.0
+ */
 public class AllureReportContainerListener implements TestLifecycleListener {
 
   private static final Logger LOG = LoggerFactory.getLogger(AllureReportContainerListener.class);
 
+  /** {@inheritDoc} */
   @Override
   public void afterTestStart(TestResult result) {
     LOG.debug("start logging");
     GaleniumLoggingUtil.startTestLogging();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void beforeTestStop(TestResult result) {
     LOG.debug("stop logging");

@@ -37,7 +37,6 @@ public class InteractionPojo {
   /**
    * <p>Constructor for InteractionPojo.</p>
    *
-   * @param delegateeClass a {@link java.lang.Class} object.
    * @param delegateeClass to delegate to
    */
   public InteractionPojo(Class delegateeClass) {

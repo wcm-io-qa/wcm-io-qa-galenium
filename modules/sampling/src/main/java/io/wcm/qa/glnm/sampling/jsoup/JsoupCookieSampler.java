@@ -35,7 +35,7 @@ import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 /**
  * Samples cookies from a Jsoup network response.
  *
- * @param <T>
+ * @param <T> type of sample returned by sampler
  * @since 3.0.0
  */
 public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBasedSampler<T> {

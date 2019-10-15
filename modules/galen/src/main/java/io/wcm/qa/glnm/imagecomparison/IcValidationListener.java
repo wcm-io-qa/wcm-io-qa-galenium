@@ -40,6 +40,7 @@ public class IcValidationListener extends CombinedValidationListener {
 
   private static final Logger LOG = LoggerFactory.getLogger(IcValidationListener.class);
 
+  /** {@inheritDoc} */
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);

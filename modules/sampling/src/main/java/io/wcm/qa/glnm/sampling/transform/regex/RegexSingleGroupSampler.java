@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.sampling.transform.base.RegexBasedSampler;
 /**
  * Samples a specific group from first match of regular expression.
  *
- * @param <S>
+ * @param <S> type of input sampler
  * @since 1.0.0
  */
 public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBasedSampler<S, String> {

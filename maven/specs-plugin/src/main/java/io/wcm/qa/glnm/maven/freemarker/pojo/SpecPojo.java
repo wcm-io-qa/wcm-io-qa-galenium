@@ -91,6 +91,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getRelativeFilePath.</p>
+   *
    * @return relative path to Galen spec file
    */
   public String getRelativeFilePath() {

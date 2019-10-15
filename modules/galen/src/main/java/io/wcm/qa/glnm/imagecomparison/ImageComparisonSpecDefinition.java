@@ -360,7 +360,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    * @param cropIfOutside a boolean.
    */
   public void setCropIfOutside(boolean cropIfOutside) {
-	  this.cropIfOutside = cropIfOutside;
+    this.cropIfOutside = cropIfOutside;
   }
 
   /**
@@ -431,15 +431,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    */
   public void setSelector(Selector selector) {
     this.selector = selector;
-  }
-
-  /**
-   * <p>Setter for the field <code>validationListener</code>.</p>
-   *
-   * @param validationListener a {@link com.galenframework.validation.ValidationListener} object.
-   * @since 2.0.0
-   */
-  public void setValidationListener(ValidationListener validationListener) {
   }
 
   /**

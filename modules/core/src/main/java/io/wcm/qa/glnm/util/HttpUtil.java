@@ -65,7 +65,6 @@ public final class HttpUtil {
    *
    * @param resp to read from
    * @return stream reader for response contents
-   * @throws java.io.IOException if any.
    * @since 3.0.0
    */
   public static InputStreamReader getResponseReader(HttpResponse resp) {

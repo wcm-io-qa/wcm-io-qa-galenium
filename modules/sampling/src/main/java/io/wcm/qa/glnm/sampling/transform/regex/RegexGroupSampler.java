@@ -30,7 +30,7 @@ import io.wcm.qa.glnm.sampling.transform.base.RegexGroupBasedSampler;
 /**
  * Samples groups extracted with regular expression.
  *
- * @param <S>
+ * @param <S> type of input sampler
  * @since 1.0.0
  */
 public class RegexGroupSampler<S extends Sampler<String>> extends RegexGroupBasedSampler<S> {

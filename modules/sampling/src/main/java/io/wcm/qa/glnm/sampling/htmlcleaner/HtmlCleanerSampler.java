@@ -100,6 +100,11 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     return htmlSerializer;
   }
 
+  /**
+   * <p>isSortCssClasses.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isSortCssClasses() {
     return sortCssClasses;
   }
@@ -122,6 +127,11 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     this.htmlSerializer = htmlSerializer;
   }
 
+  /**
+   * <p>Setter for the field <code>sortCssClasses</code>.</p>
+   *
+   * @param sortCssClasses a boolean.
+   */
   public void setSortCssClasses(boolean sortCssClasses) {
     this.sortCssClasses = sortCssClasses;
   }

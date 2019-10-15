@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.sampling.Sampler;
 /**
  * Abstract base class for implementations extracting groups from a string based on regular expression.
  *
- * @param <S>
+ * @param <S> type of input sampler
  * @since 1.0.0
  */
 public abstract class RegexGroupBasedSampler<S extends Sampler<String>> extends RegexBasedSampler<S, Collection<String>> {

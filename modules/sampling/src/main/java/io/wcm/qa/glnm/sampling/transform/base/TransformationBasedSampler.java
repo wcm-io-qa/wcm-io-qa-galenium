@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
  *
  * @param <S> type of sampler providing the input
  * @param <I> type of input
- * @param <O> type of output
+ * @param <O> type of transformed output
  * @since 1.0.0
  */
 public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> {

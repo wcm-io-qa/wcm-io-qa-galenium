@@ -51,6 +51,7 @@ public class LoggingListener extends TestListenerAdapter {
 
   private static final Logger LOG = LoggerFactory.getLogger(LoggingListener.class);
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
     LOG.trace("Generating Galen reports.");
