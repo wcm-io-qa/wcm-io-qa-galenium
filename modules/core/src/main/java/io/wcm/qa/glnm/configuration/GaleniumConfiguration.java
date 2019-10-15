@@ -1158,60 +1158,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Store image samples to disk.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.image.save
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether to save sampled images to disk
-   * @since 3.0.0
-   */
-  public static boolean isSaveSampledImages() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_SAVE);
-  }
-
-  /**
-   * Store text samples to properties file on disk.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.text.save
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether to save sampled texts to disk
-   * @since 3.0.0
-   */
-  public static boolean isSaveSampledTexts() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_SAVE);
-  }
-
-  /**
    * Usually Galenium will log to ExtentReports, but it can be skipped.
    * <ul>
    * <li>Key:
