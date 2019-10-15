@@ -9,13 +9,9 @@
     <relativePath>parent/pom.xml</relativePath>
   </parent>
 
-
-  <groupId>${groupId}</groupId>
   <artifactId>${artifactId}</artifactId>
-  <version>${version}</version>
   <name>${projectName} Galenium</name>
   <packaging>pom</packaging>
-
 
   <build>
     <plugins>

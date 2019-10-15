@@ -23,7 +23,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <relativePath>../../integration/specs</relativePath>
   </parent>
 
@@ -31,7 +31,7 @@
   <groupId>io.wcm.qa</groupId>
   <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.0</version>
+  <version>3.0.0</version>
   <description>Test automation example Galen specs.</description>
 
   <properties>
@@ -48,7 +48,7 @@
         <configuration>
           <licenseName>apache_v2</licenseName>
           <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-          <projectName>wcm.io.qa.galenium.example</projectName>
+          <projectName>io.wcm.qa.galenium.example</projectName>
           <excludes>
             <exclude>**/*.json</exclude>
             <exclude>**/*.html</exclude>

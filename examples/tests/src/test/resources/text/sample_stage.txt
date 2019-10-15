@@ -1,0 +1,22 @@
+<div class="stageheader section">
+ <div class="stage-large"> 
+  <img src="/content/dam/wcm-io-samples/content/stageheader-outside2.jpg/_jcr_content/renditions/original./stageheader-outside2.jpg" alt="stageheader-outside2.jpg"> 
+  <div class="stage-overlay"> 
+   <div class="box-padding"> 
+    <div class="stage-title"> 
+     <h2 class="title title-section">adaptTo() 2013</h2> 
+     <p>23.–25. September 2013 Kulturbrauerei Berlin</p> 
+    </div> 
+    <div class="stage-cta-box"> 
+     <div class="stageheaderLinkItem section">
+      <p> <a class="stage-cta"> Get tickets now </a> </p> 
+      <div class="cq-placeholder" data-emptytext="Stage Header Link Item"></div> 
+     </div> 
+     <div class="stageheaderLinkItem section">
+      <p> <a class="stage-cta" href="/content/wcm-io-samples/en/conference/call-for-papers.html?wcmmode=disabled"> Submit paper </a> </p> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div>

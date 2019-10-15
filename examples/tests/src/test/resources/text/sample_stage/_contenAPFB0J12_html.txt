@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html><head> 
+  <title>adaptTo() 2012</title> 
+  <link href="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.css" rel="stylesheet" type="text/css" /> 
+  <script src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/messaging.js" type="text/javascript"></script> 
+  <script src="/libs/granite/author/deviceemulator/clientlibs.js" type="text/javascript"></script> 
+  <script src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.js" type="text/javascript"></script> 
+   
+  <link href="/etc.clientlibs/clientlibs/granite/coralui2.css" rel="stylesheet" type="text/css" /> 
+  <style>
+      body { margin: 15px; }
+    </style> 
+  
+ </head><body class="coral--light">
+  
+  <h1>adaptTo() 2012</h1> 
+  <p> This page forwards to <a href="http://adapt.to/2012/">http://adapt.to/2012/</a> </p>   
+   
+ 
+</body></html>

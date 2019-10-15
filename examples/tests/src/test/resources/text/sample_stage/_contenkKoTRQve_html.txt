@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html><head> 
+  <title>ARCHIVE</title> 
+  <link href="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.css" rel="stylesheet" type="text/css" /> 
+  <script src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/messaging.js" type="text/javascript"></script> 
+  <script src="/libs/granite/author/deviceemulator/clientlibs.js" type="text/javascript"></script> 
+  <script src="/libs/cq/gui/components/authoring/editors/clientlibs/internal/page.js" type="text/javascript"></script> 
+   
+  <link href="/etc.clientlibs/clientlibs/granite/coralui2.css" rel="stylesheet" type="text/css" /> 
+  <style>
+      body { margin: 15px; }
+    </style> 
+  
+ </head><body class="coral--light">
+  
+  <h1>ARCHIVE</h1> 
+  <ul> 
+   <li><a href="/content/wcm-io-samples/en/tools/navigation/footernav/archive/adaptto---2011.html">adaptTo() 2011</a></li> 
+   <li><a href="/content/wcm-io-samples/en/tools/navigation/footernav/archive/adaptto---2012.html">adaptTo() 2012</a></li> 
+  </ul>   
+   
+ 
+</body></html>
