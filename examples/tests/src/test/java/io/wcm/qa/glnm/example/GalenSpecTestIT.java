@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
@@ -32,6 +34,8 @@ import io.wcm.qa.glnm.providers.TestDeviceProvider;
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
 
+  private static final Logger LOG = LoggerFactory.getLogger(GalenSpecTestIT.class);
+
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
@@ -39,7 +43,7 @@ public class GalenSpecTestIT extends AbstractExampleBase {
 
   @Test
   public void checkConferencePageWithNavigationAndGalenSpec() {
-    getLogger().info("Testing Conference Page");
+    LOG.info("Testing Conference Page");
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
@@ -48,7 +52,7 @@ public class GalenSpecTestIT extends AbstractExampleBase {
 
   @Test
   public void checkHomepageWithGalenSpec() {
-    getLogger().info("Testing Homepage");
+    LOG.info("Testing Homepage");
     loadStartUrl();
     Homepage.check();
   }

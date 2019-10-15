@@ -25,8 +25,6 @@ import java.util.Collection;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.galenframework.specs.page.PageSpec;
-
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.galen.GalenHelperUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
@@ -41,7 +39,6 @@ import io.wcm.qa.glnm.util.FileHandlingUtil;
  */
 public class SpecPojo {
 
-  private PageSpec pageSpec;
   private Collection<SelectorPojo> selectors;
   private File specFile;
   private Collection<String> tags;
@@ -94,20 +91,6 @@ public class SpecPojo {
   }
 
   /**
-   * <p>Getter for the field <code>pageSpec</code>.</p>
-   *
-   * @return parsed Galen spec
-   */
-  public PageSpec getPageSpec() {
-    if (pageSpec == null) {
-      pageSpec = ParsingUtil.readSpec(getSpecFile());
-    }
-    return pageSpec;
-  }
-
-  /**
-   * <p>getRelativeFilePath.</p>
-   *
    * @return relative path to Galen spec file
    */
   public String getRelativeFilePath() {
@@ -138,7 +121,7 @@ public class SpecPojo {
   public Collection<SelectorPojo> getSelectors() {
     if (selectors == null) {
       selectors = new ArrayList<SelectorPojo>();
-      for (NestedSelector selector : GalenHelperUtil.getObjects(getPageSpec())) {
+      for (NestedSelector selector : GalenHelperUtil.getObjects(ParsingUtil.readSpec(getSpecFile()))) {
         selectors.add(new SelectorPojo(this, selector));
       }
     }

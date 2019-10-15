@@ -46,7 +46,6 @@ public class PageSourceIT extends AbstractNamedTest {
   @Factory(dataProviderClass = ContentPathProvider.class, dataProvider = ContentPathProvider.ALL_PAGES_FOR_EXAMPLE_TEMPLATES)
   public PageSourceIT(String contentPath) {
     setRelativePath(contentPath + ".html");
-    getNameDifferences().addAdditionalDifference(new StringDifference(contentPath));
   }
 
   protected String getRelativePath() {

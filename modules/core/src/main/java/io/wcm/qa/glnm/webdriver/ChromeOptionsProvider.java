@@ -25,19 +25,21 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(ChromeOptionsProvider.class);
   private static final String OPTIONS_KEY_BINARY = "binary";
-  protected static final String OPTIONS_KEY_ARGS = "args";
+  private static final String OPTIONS_KEY_ARGS = "args";
 
   private ChromeOptions augmentOptions(ChromeOptions options) {
     String chromeBinaryPath = GaleniumConfiguration.getChromeBinaryPath();
     if (StringUtils.isNotBlank(chromeBinaryPath)) {
-      getLogger().debug("setting binary path: '" + chromeBinaryPath + "'");
+      LOG.debug("setting binary path: '" + chromeBinaryPath + "'");
       addChromeOption(options, OPTIONS_KEY_BINARY, chromeBinaryPath);
     }
     return options;
@@ -54,7 +56,7 @@ class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
         break;
 
       default:
-        getLogger().debug(GaleniumReportUtil.MARKER_ERROR, "cannot map option key: '" + key + "'");
+        LOG.debug("cannot map option key: '" + key + "'");
         break;
     }
     return chromeOptions;
@@ -62,15 +64,15 @@ class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
 
   @Override
   protected ChromeOptions getBrowserSpecificOptions() {
-    getLogger().debug("creating capabilities for Chrome");
+    LOG.debug("creating capabilities for Chrome");
     ChromeOptions options = newOptions();
     return augmentOptions(options);
   }
 
   @Override
   protected void log(ChromeOptions options) {
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("generated capabilities: " + options);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("generated capabilities: " + options);
       Object chromeOptionsCapability = options.getCapability(ChromeOptions.CAPABILITY);
       if (chromeOptionsCapability != null) {
         if (chromeOptionsCapability instanceof ChromeOptions) {
@@ -86,7 +88,7 @@ class ChromeOptionsProvider extends OptionsProvider<ChromeOptions> {
             sb.append(entry.getValue());
             sb.append("'");
           }
-          getLogger().trace(sb.toString());
+          LOG.trace(sb.toString());
         }
       }
     }

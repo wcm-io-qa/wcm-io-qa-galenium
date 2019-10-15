@@ -24,6 +24,11 @@ import java.util.function.BiPredicate;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.algorithm.DiffException;
+import com.github.difflib.patch.Patch;
+
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
@@ -58,6 +63,18 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
    */
   public void setIgnoreWhitespace(boolean ignoreWhitespace) {
     this.ignoreWhitespace = ignoreWhitespace;
+  }
+
+  @Override
+  protected void diff(List<String> expectedValue, List<String> actualValue) {
+    Patch<String> diff;
+    try {
+      diff = DiffUtils.diff(expectedValue, actualValue, getDiffEqualizer());
+      setDiffResult(diff);
+    }
+    catch (DiffException ex) {
+      throw new GaleniumException("Malfunctioning diff.", ex);
+    }
   }
 
   @Override

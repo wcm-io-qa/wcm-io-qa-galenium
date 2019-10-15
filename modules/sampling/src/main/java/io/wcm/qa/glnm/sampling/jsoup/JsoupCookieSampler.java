@@ -26,6 +26,8 @@ import java.util.Map;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
@@ -37,6 +39,8 @@ import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
  * @since 3.0.0
  */
 public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBasedSampler<T> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(JsoupCookieSampler.class);
 
   /**
    * <p>Constructor for JsoupCookieSampler.</p>
@@ -72,7 +76,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
 
     Request request = connection.request();
     URL url = request.url();
-    getLogger().info("sending " + getMethod() + " request to '" + url + "'");
+    LOG.info("sending " + getMethod() + " request to '" + url + "'");
 
     try {
 
@@ -80,7 +84,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
       connection.execute();
 
       Map<String, String> cookies = connection.response().cookies();
-      getLogger().debug("got " + cookies.size() + " cookies from '" + url + "'");
+      LOG.debug("got " + cookies.size() + " cookies from '" + url + "'");
 
       return cookies;
     }

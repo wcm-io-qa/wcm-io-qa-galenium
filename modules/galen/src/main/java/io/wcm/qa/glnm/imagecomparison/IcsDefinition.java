@@ -111,17 +111,17 @@ public interface IcsDefinition {
   Selector getSelector();
 
   /**
-   * <p>isZeroToleranceWarning.</p>
-   *
-   * @return whether to add a zero tolerance check at warning level
-   */
-  boolean isZeroToleranceWarning();
-
-  /**
    * <p>isCropIfOutside.</p>
    *
    * @return whether to ignore sampling outside of raster
    */
   boolean isCropIfOutside();
+
+  /**
+   * <p>isZeroToleranceWarning.</p>
+   *
+   * @return whether to add a zero tolerance check at warning level
+   */
+  boolean isZeroToleranceWarning();
 
 }

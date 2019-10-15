@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2017 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/changes/1.0.0"
+    xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
+  <body>
+    <release version="4.0.0" date="not-released-yet">
+      <action type="add" dev="apegam">
+        Add support for Allure reporting.
+      </action>
+      <action type="remove" dev="apegam">
+        Removed ExtentReports.
+      </action>
+      <action type="remove" dev="apegam">
+        Removed GaleniumAssertion.
+      </action>
+    </release>
+
+    <release version="3.0.0" date="2019-09-30">
+      <action type="update" dev="apegam">
+        Renamed all Java packages by changing 'galenium' to 'glnm'.
+      </action>
+      <action type="update" dev="apegam">
+        Bumped versions for dependencies and plugins.
+      </action>
+      <action type="update" dev="apegam">
+        Some cleaning up in archetype.
+      </action>
+      <action type="update" dev="apegam">
+        New dedicated base class for tests that does not assume browser interaction. Original base class renamed.
+      </action>
+      <action type="add" dev="apegam">
+        New base class for tests that does not assume browser interaction.
+      </action>
+      <action type="add" dev="apegam">
+        JCR query sampler to be used in dataprovider or verification.
+      </action>
+      <action type="add" dev="apegam">
+        Example of AEM specific test using content path provider based on JCR query.
+      </action>
+      <action type="add" dev="apegam">
+        Example of page HTML source comparison.
+      </action>
+      <action type="add" dev="apegam">
+        Added special "no browser" device.
+      </action>
+      <action type="add" dev="apegam">
+        Handling for multi-line samples.
+      </action>
+      <action type="add" dev="apegam">
+        Image comparison can now handle 'crop-if-outside' Galen parameter.
+      </action>
+      <action type="add" dev="apegam">
+        TestNG dataprovider convenience methods for providing from file or sampler.
+      </action>
+      <action type="add" dev="apegam">
+        JSoup and HTML Cleaner functionality around sampling HTML and cookies.
+      </action>
+      <action type="update" dev="apegam">
+        Switch to github maintained java-diff-utils.
+      </action>
+      <action type="add" dev="apegam">
+        Diff based verification for multi-line comparisons.
+      </action>
+    </release>
+
+    <release version="2.0.0" date="2019-07-17">
+      <action type="update" dev="apegam">
+        Replace BrowserMob Proxy with actively maintained fork BrowserUp Proxy.
+      </action>
+      <action type="update" dev="apegam">
+        Only include Selenium drivers for Chrome, FF and IE as dependencies.
+      </action>
+      <action type="add" dev="apegam">
+        Added Webdriver download from Java code.
+      </action>
+      <action type="remove" dev="apegam">
+        Removed Webdriver download via Maven plugin.
+      </action>
+      <action type="update" dev="apegam">
+        Split Difference implementations into packages.
+      </action>
+    </release>
+
+    <release version="1.0.0" date="2019-03-27">
+      <action type="add" dev="apegam">
+        Add start scripts to archetype.
+      </action>
+      <action type="fix" dev="apegam">
+        Version and other properties in archetype now filtered correctly.
+      </action>
+      <action type="update" dev="apegam">
+        New versions for parents and dependencies.
+      </action>
+    </release>
+
+    <release version="0.1.22" date="2018-12-17">
+      <action type="add" dev="pmannel">
+        Parameters to pass HTTPS proxy to webdriver.
+      </action>
+      <action type="update" dev="rdahlem">
+        Generated expected keys are sorted. Text comparison is in four-digit display to make it better sortable.
+      </action>
+    </release>
+
+    <release version="0.1.20" date="2018-12-03">
+      <action type="add" dev="apegam">
+        Code generation now also generates GaleniumWebElements.
+      </action>
+      <action type="add" dev="apegam">
+        Maven archetype for generating spec and test project.
+      </action>
+      <action type="update" dev="apegam">
+        Documentation.
+      </action>
+      <action type="update" dev="apegam">
+        Maven site generation.
+      </action>
+      <action type="update" dev="apegam">
+        Newest webdriver for Firefox and Chrome.
+      </action>
+      <action type="update" dev="apegam">
+        New versions for parents and dependencies.
+      </action>
+      <action type="add" dev="apegam">
+        Convenience methods to wait for visibility and text.
+      </action>
+    </release>
+
+    <release version="0.1.18" date="2018-08-09">
+      <action type="update" dev="apegam">
+        Use JSONFlattener instead of GSon to get grid host.
+      </action>
+      <action type="update" dev="apegam">
+        Now using Selenium 3.14.0.
+      </action>
+      <action type="update" dev="apegam">
+        Fix some warnings.
+      </action>
+      <action type="update" dev="apegam">
+        Screenshots on success are now default for integrated projects.
+      </action>
+    </release>
+
+    <release version="0.1.16" date="2018-08-08">
+      <action type="fix" dev="apegam">
+        NPE in isVerified under certain conditions.
+      </action>
+      <action type="update" dev="apegam">
+        Now using Maven Plugin API 3.5.4.
+      </action>
+      <action type="update" dev="apegam">
+        Now using Selenium 3.13.0.
+      </action>
+      <action type="add" dev="apegam">
+        Name sanitization and shortening using MD5 infixes.
+      </action>
+      <action type="update" dev="apegam">
+        Better logging configuration.
+      </action>
+      <action type="add" dev="apegam">
+        Integration modules to use as parents for test projects.
+      </action>
+      <action type="update" dev="apegam">
+        Clean up POMs.
+      </action>
+      <action type="update" dev="apegam">
+        A lot of name changes.
+      </action>
+      <action type="add" dev="apegam">
+        JSON verification.
+      </action>
+      <action type="add" dev="apegam">
+        Use BrowserMob for Har sampling, stability, and sanity.
+      </action>
+      <action type="update" dev="apegam">
+        Test names are now based on Differences.
+      </action>
+      <action type="update" dev="apegam">
+        Stability is now a verification.
+      </action>
+      <action type="update" dev="apegam">
+        Only download drivers for browsers used in test run.
+      </action>
+      <action type="add" dev="apegam">
+        Media query support in device data providers.
+      </action>
+      <action type="add" dev="apegam">
+        CSV based device configuration.
+      </action>
+      <action type="update" dev="apegam">
+        Moved caching from Verifications to Samplers.
+      </action>
+      <action type="add" dev="apegam">
+        Sampler based Verifications.
+      </action>
+      <action type="update" dev="apegam">
+        Default thread count for tests is now CPU count.
+      </action>
+      <action type="add" dev="apegam">
+        Includes/excludes for Galen specs used in code generation.
+      </action>
+      <action type="update" dev="apegam">
+        Maven module structure.
+      </action>
+      <action type="add" dev="apegam">
+        Support for headless Firefox.
+      </action>
+      <action type="update" dev="apegam">
+        New webdriver configuration.
+      </action>
+    </release>
+
+    <release version="0.1.14" date="2018-06-20">
+      <action type="update" dev="apegam">
+        Update example to use code generation with new Maven plugin.
+      </action>
+      <action type="add" dev="apegam">
+        Media query concept with data provider support.
+      </action>
+      <action type="update" dev="apegam">
+        Update dependencies.
+      </action>
+      <action type="add" dev="apegam">
+        Verifiable stability concept to wait for changes to the page like animations, page loading, or rendering.
+      </action>
+      <action type="add" dev="apegam">
+        Sampler concept.
+      </action>
+      <action type="add" dev="apegam">
+        Dedicated core and convenience submodules formed by splitting up galenium.
+      </action>
+      <action type="update" dev="apegam">
+        Retry analyzer integration now automatically, if retryMax is greater than zero.
+      </action>
+      <action type="update" dev="apegam">
+        Break up InteractionUtil into more specialized classes.
+      </action>
+      <action type="add" dev="apegam">
+        Added BrowserMob Proxy for basic authentication.
+      </action>
+      <action type="add" dev="apegam">
+        Add Maven plugin for generating Java Selectors from Galen specifications.
+      </action>
+      <action type="add" dev="apegam">
+        Add configuration options for SSL certificate handling.
+      </action>
+    </release>
+
+    <release version="0.1.12" date="2018-03-27">
+      <action type="update" dev="apegam">
+        Switch WebDriver creation from DesiredCapabilities to Options.
+      </action>
+      <action type="update" dev="apegam">
+        Updated webdrivers to newest versions.
+      </action>
+    </release>
+
+    <release version="0.1.10" date="2018-03-22">
+      <action type="update" dev="apegam">
+        Dependencies updated to newest versions.
+      </action>
+      <action type="add" dev="apegam">
+        Maven plugin to generate Selectors from Galen specs.
+      </action>
+      <action type="add" dev="apegam">
+        Added cookie fetching capabilities.
+      </action>
+      <action type="update" dev="apegam">
+        Now deleting Selenium's screenshots to avoid disk space problems on systems not cleaning their temp directory.
+      </action>
+      <action type="remove" dev="apegam">
+        Removed PhantomJS.
+      </action>
+    </release>
+
+    <release version="0.1.8" date="2017-09-26">
+      <action type="add" dev="apegam">
+        Added configuration option for browser log level.
+      </action>
+      <action type="update" dev="apegam">
+        Updated chromedriver and geckodriver versions.
+      </action>
+      <action type="update" dev="apegam">
+        Javadoc and code clean up.
+      </action>
+      <action type="update" dev="apegam">
+        Bump Galen version to 2.3.5 and Selenium to 3.5.3.
+      </action>
+      <action type="fix" dev="apegam">
+        Bugfixes.
+      </action>
+    </release>
+
+    <release version="0.1.6" date="2017-06-27">
+      <action type="add" dev="apegam">
+        Added text sampling.
+      </action>
+      <action type="update" dev="apegam">
+        Improved image sampling.
+      </action>
+      <action type="add" dev="apegam">
+        Added AemUtil for AEM specific helper methods.
+      </action>
+      <action type="update" dev="apegam">
+        Upgrade to TestNG 6.11.
+      </action>
+      <action type="update" dev="apegam">
+        Upgrade to Galen 2.3.3 with Selenium 3.
+      </action>
+      <action type="add" dev="apegam">
+        Firefox as browser in example project.
+      </action>
+      <action type="add" dev="apegam">
+        Configurable lazy loading for webdriver.
+      </action>
+      <action type="add" dev="apegam">
+        Headless Chrome.
+      </action>
+      <action type="add" dev="apegam">
+        Factory methods for relative selector construction.
+      </action>
+      <action type="update" dev="apegam">
+        Refactored WebDriver management and creation.
+      </action>
+      <action type="add" dev="apegam">
+        Headless tests with Chrome/Chromium.
+      </action>
+      <action type="add" dev="apegam">
+        Screenshots on success optional. Default false.
+      </action>
+      <action type="update" dev="apegam">
+        More verbose logging around web driver handling.
+      </action>
+      <action type="add" dev="apegam">
+        String based driver management to integrate Galen JS tests.
+      </action>
+      <action type="add" dev="apegam">
+        Configurable retries for driver instantiation.
+      </action>
+      <action type="add" dev="apegam">
+        Add HTTP BasicAuth credentials to base URL.
+      </action>
+    </release>
+
+    <release version="0.1.4" date="2017-02-22">
+      <action type="fix" dev="apegam">
+        Context now holding all objects previously in WebDriverManager.
+      </action>
+      <action type="add" dev="apegam">
+        Category handling to report utility.
+      </action>
+      <action type="fix" dev="bbaumann">
+        Fix for chromedriver_mac. Set version to 64bit.
+      </action>
+      <action type="add" dev="apegam">
+        More methods in InteractionUtil and driver from context used.
+      </action>
+      <action type="add" dev="apegam">
+        New concept of using verification objects.
+      </action>
+      <action type="add" dev="apegam">
+        Marked logger to have finer control in reporting.
+      </action>
+    </release>
+
+    <release version="0.1.2" date="2017-02-22">
+      <action type="add" dev="apegam">
+        Context object to hold thread specific objects.
+      </action>
+      <action type="add" dev="apegam">
+        New listener structure.
+      </action>
+      <action type="fix" dev="apegam">
+        NPE in ExtentAppender.
+      </action>
+    </release>
+
+    <release version="0.1.0" date="2017-01-20">
+      <action type="add" dev="apegam">
+        Initial release.
+      </action>
+    </release>
+
+  </body>
+</document>

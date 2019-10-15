@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.difflib.DiffUtils;
 import com.github.difflib.algorithm.DiffException;
 import com.github.difflib.patch.AbstractDelta;
@@ -50,8 +53,10 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
  */
 public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O extends List<I>> extends SamplerBasedVerification<S, O> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(SamplerBasedDiffVerification.class);
+
   private Patch<I> diffResult;
-  private int maxLinesInFailureMessage = 20;
+  private int maxLinesInFailureMessage = 5;
 
   protected SamplerBasedDiffVerification(String verificationName, S sampler) {
     super(verificationName, sampler);
@@ -168,16 +173,16 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
 
   @Override
   protected void afterVerification() {
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
-      getLogger().trace("(" + getVerificationName() + ") found " + getDiffCount() + " differences.");
-      getLogger().trace("verified: " + isVerified());
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
+      LOG.trace("(" + getVerificationName() + ") found " + getDiffCount() + " differences.");
+      LOG.trace("verified: " + isVerified());
     }
     if (!isVerified()) {
       persistSample(getExpectedKey(), getCachedValue());
     }
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("done verifying (" + toString() + ")");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("done verifying (" + toString() + ")");
     }
   }
 

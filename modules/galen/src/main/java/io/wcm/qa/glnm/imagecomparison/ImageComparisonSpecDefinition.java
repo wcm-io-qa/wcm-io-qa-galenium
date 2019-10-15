@@ -54,15 +54,14 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   private String allowedError;
   private int allowedOffset;
   private CorrectionsRect corrections;
-  private boolean cropIfOutside = true;
   private SortedDifferences differences = new SortedDifferences();
   private String elementName;
   private String filename;
   private String foldername;
   private List<Selector> objectsToIgnore = new ArrayList<Selector>();
   private String sectionName = DEFAULT_PAGE_SECTION_NAME;
-
   private Selector selector;
+
   private boolean zeroToleranceWarning;
   private ValidationListener validationListener;
 

@@ -24,7 +24,6 @@ import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;
-import io.wcm.qa.glnm.util.BrowserUtil;
 import io.wcm.qa.glnm.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.glnm.verification.util.Check;
 
@@ -48,14 +47,6 @@ public class NavigationIT extends AbstractExampleBase {
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
-    if (BrowserUtil.isFirefox()) {
-      try {
-        Thread.sleep(1000);
-      }
-      catch (InterruptedException ex) {
-        getLogger().debug("exception when sleeping after click", ex);
-      }
-    }
     Check.verify(new TitleAndUrlVerification("conference"));
   }
 

@@ -19,13 +19,14 @@
  */
 package io.wcm.qa.glnm.maven.freemarker.util;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -56,6 +57,8 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
 public final class FreemarkerUtil {
 
   private static final Configuration CONFIGURATION = generateConfiguration();
+
+  private static final Logger LOG = LoggerFactory.getLogger(FreemarkerUtil.class);
 
   private FreemarkerUtil() {
     // do not instantiate
@@ -187,9 +190,9 @@ public final class FreemarkerUtil {
     FileWriter out = null;
     try {
       out = new FileWriter(outputFile);
-      getLogger().debug("generating '" + outputFile.getPath() + "'");
+      LOG.debug("generating '" + outputFile.getPath() + "'");
       template.process(dataModel, out);
-      getLogger().info("generated '" + outputFile.getPath() + "'");
+      LOG.info("generated '" + outputFile.getPath() + "'");
     }
     catch (IOException | TemplateException ex) {
       throw new GaleniumException("template exception", ex);
@@ -207,7 +210,7 @@ public final class FreemarkerUtil {
   }
 
   private static Configuration generateConfiguration() {
-    Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
+    Configuration cfg = new Configuration();
     cfg.setDefaultEncoding("UTF-8");
     cfg.setTemplateExceptionHandler(getExceptionHandler());
     return cfg;

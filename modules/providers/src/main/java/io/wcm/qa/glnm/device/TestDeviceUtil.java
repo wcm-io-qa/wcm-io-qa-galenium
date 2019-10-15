@@ -27,13 +27,14 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.openqa.selenium.Dimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.CsvUtil;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.mediaquery.MediaQuery;
 import io.wcm.qa.glnm.mediaquery.MediaQueryUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Convenience methods around test devices.
@@ -43,18 +44,11 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 public final class TestDeviceUtil {
 
   private static final File CSV_FILE_DEVICES = new File(GaleniumConfiguration.getDeviceCsvFilePath());
+  private static final Logger LOG = LoggerFactory.getLogger(TestDeviceUtil.class);
   private static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
 
   private TestDeviceUtil() {
     // do not instantiate
-  }
-
-  static List<String> getIncludeTags(DeviceProfile profile) {
-    return Collections.singletonList(profile.getBrowser());
-  }
-
-  static Dimension getDimensionFromProfile(DeviceProfile profile) {
-    return new Dimension(profile.getWidth(), profile.getHeight());
   }
 
   /**
@@ -121,11 +115,11 @@ public final class TestDeviceUtil {
     Collection<DeviceProfile> profiles = CsvUtil.<DeviceProfile>parseToBeans(CSV_FILE_DEVICES, DeviceProfile.class);
     for (DeviceProfile deviceProfile : profiles) {
       if (isProfileMatchesBrowsers(deviceProfile)) {
-        GaleniumReportUtil.getLogger().debug("adding device: " + deviceProfile);
+        LOG.debug("adding device: " + deviceProfile);
         testDevices.add(getTestDevice(deviceProfile));
       }
       else {
-        GaleniumReportUtil.getLogger().debug("skipping device: " + deviceProfile);
+        LOG.debug("skipping device: " + deviceProfile);
       }
     }
     return testDevices;
@@ -154,10 +148,6 @@ public final class TestDeviceUtil {
     return testDevice;
   }
 
-  private static void setIncludeTags(TestDeviceImpl testDevice, BrowserType browserType, String mediaQueryName) {
-    testDevice.setTags(getIncludeTags(browserType, mediaQueryName));
-  }
-
   private static TestDevice getTestDevice(DeviceProfile deviceProfile) {
     TestDeviceImpl testDevice = new TestDeviceImpl(deviceProfile);
     MediaQuery mediaQuery = MediaQueryUtil.getMatchingMediaQuery(testDevice);
@@ -169,6 +159,18 @@ public final class TestDeviceUtil {
   private static boolean isProfileMatchesBrowsers(DeviceProfile deviceProfile) {
     List<BrowserType> browserTypes = GaleniumConfiguration.getBrowserTypes();
     return browserTypes.contains(deviceProfile.getBrowserType());
+  }
+
+  private static void setIncludeTags(TestDeviceImpl testDevice, BrowserType browserType, String mediaQueryName) {
+    testDevice.setTags(getIncludeTags(browserType, mediaQueryName));
+  }
+
+  static Dimension getDimensionFromProfile(DeviceProfile profile) {
+    return new Dimension(profile.getWidth(), profile.getHeight());
+  }
+
+  static List<String> getIncludeTags(DeviceProfile profile) {
+    return Collections.singletonList(profile.getBrowser());
   }
 
 }

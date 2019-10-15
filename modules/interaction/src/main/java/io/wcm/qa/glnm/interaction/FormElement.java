@@ -22,9 +22,8 @@ package io.wcm.qa.glnm.interaction;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -34,7 +33,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public final class FormElement {
 
-  private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
+  private static final Logger LOG = LoggerFactory.getLogger(FormElement.class);
 
   private FormElement() {
     // do not instantiate
@@ -52,13 +51,9 @@ public final class FormElement {
       input.clear();
     }
     catch (InvalidElementStateException ex) {
-      getLogger().debug(GaleniumReportUtil.MARKER_WARN, "could not clear element: '" + selector + "'");
+      LOG.debug("could not clear element: '" + selector + "'");
     }
     input.sendKeys(text);
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
 }

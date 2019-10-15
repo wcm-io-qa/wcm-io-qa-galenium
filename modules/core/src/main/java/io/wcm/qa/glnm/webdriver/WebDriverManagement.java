@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.webdriver;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isHeadless;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import java.util.concurrent.TimeUnit;
@@ -31,8 +30,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
@@ -41,7 +39,6 @@ import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.BrowserType;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
@@ -51,8 +48,7 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 public final class WebDriverManagement {
 
-  /** Marker for use in logging related directly to webdriver handling and internals. */
-  public static final Marker MARKER_WEBDRIVER = MarkerFactory.getMarker("galenium.webdriver");
+  private static final Logger LOG = LoggerFactory.getLogger(WebDriverManagement.class);
 
   private WebDriverManagement() {
     // do not instantiate
@@ -70,24 +66,24 @@ public final class WebDriverManagement {
       }
       catch (WebDriverException ex) {
         if (ex.getCause() instanceof InterruptedException) {
-          logInfo("attempting to close driver again after InterruptedException.");
-          logDebug("attempting to close driver after InterruptedException.", ex);
+          LOG.info("attempting to close driver again after InterruptedException.");
+          LOG.debug("attempting to close driver after InterruptedException.", ex);
           quitDriver();
         }
         else {
           String msg = "Exception when closing driver.";
-          logError(msg, ex);
+          LOG.error(msg, ex);
           throw new SkipException("Skipping test because of driver problems. ", ex);
         }
       }
       finally {
         setDriver(null);
         setTestDevice(null);
-        logInfo("Driver and Device set to null");
+        LOG.info("Driver and Device set to null");
       }
     }
     else {
-      logDebug("Unnecessary call to close driver.", new GaleniumException("Attempting to close non existent driver."));
+      LOG.debug("Unnecessary call to close driver.", new GaleniumException("Attempting to close non existent driver."));
     }
   }
 
@@ -115,20 +111,20 @@ public final class WebDriverManagement {
 
     boolean needsNewDriver = needsNewDriver(testDevice);
     if (needsNewDriver) {
-      logInfo("Needs new device: " + testDevice.toString());
+      LOG.info("Needs new device: " + testDevice.toString());
       if (getCurrentDriver() != null) {
         closeDriver();
       }
       WebDriver newDriver = WebDriverFactory.newDriver(testDevice);
       setDriver(newDriver);
       getCurrentDriver().manage().deleteAllCookies();
-      logInfo("Deleted all cookies.");
+      LOG.info("Deleted all cookies.");
     }
 
     // only resize when different or new
     if (needsNewDriver || needsWindowResize(testDevice)) {
       if (isSuppressAutoAdjustBrowserSize()) {
-        logDebug("resizing suppressed.");
+        LOG.debug("resizing suppressed.");
       }
       else {
         try {
@@ -138,25 +134,25 @@ public final class WebDriverManagement {
         catch (WebDriverException ex) {
           if (!isHeadless()) {
             // headless chrome does not have a window target
-            logDebug("Exception when resizing browser", ex);
+            LOG.debug("Exception when resizing browser", ex);
           }
         }
       }
     }
 
     setTestDevice(testDevice);
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("driver for test device: " + testDevice);
-      getLogger().trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("driver for test device: " + testDevice);
+      LOG.trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
       Dimension windowSize = getWindowSize();
       if (windowSize == null && GaleniumConfiguration.isHeadless()) {
-        getLogger().trace("driver window size: none (headless)");
+        LOG.trace("driver window size: none (headless)");
       }
       else if (windowSize == null) {
-        getLogger().trace("driver window size: none");
+        LOG.trace("driver window size: none");
       }
       else {
-        getLogger().trace("driver window size: " + toString(windowSize));
+        LOG.trace("driver window size: " + toString(windowSize));
       }
     }
     return getCurrentDriver();
@@ -197,95 +193,75 @@ public final class WebDriverManagement {
     }
     catch (NullPointerException | WebDriverException ex) {
       if (!GaleniumConfiguration.isHeadless()) {
-        getLogger().trace(MARKER_ERROR, "exception when fetching window size", ex);
+        LOG.trace("exception when fetching window size", ex);
       }
     }
     return null;
   }
 
-  private static void logDebug(String msg) {
-    getLogger().debug(msg);
-  }
-
-  private static void logDebug(String msg, Throwable ex) {
-    getLogger().debug(msg, ex);
-  }
-
-  private static void logError(String msg, Throwable ex) {
-    getLogger().error(msg, ex);
-  }
-
-  private static void logInfo(String msg) {
-    getLogger().info(msg);
-  }
-
-  private static void logTrace(String msg) {
-    getLogger().trace(msg);
-  }
-
   private static boolean needsNewDriver(TestDevice testDevice) {
 
     if (getCurrentDriver() == null) {
-      logTrace("needs new device: driver is null");
+      LOG.trace("needs new device: driver is null");
       return true;
     }
     if (GaleniumConfiguration.isWebDriverAlwaysNew()) {
-      logTrace("needs new device: always");
+      LOG.trace("needs new device: always");
       return true;
     }
     if (getTestDevice() == null) {
-      logTrace("needs new device: no previous test device");
+      LOG.trace("needs new device: no previous test device");
       return true;
     }
     if (testDevice.getBrowserType() != getTestDevice().getBrowserType()) {
-      logTrace("needs new device: different browser type ("
-          + testDevice.getBrowserType()
-          + " != "
-          + getTestDevice().getBrowserType()
-          + ")");
+      LOG.trace("needs new device: different browser type ("
+      + testDevice.getBrowserType()
+      + " != "
+      + getTestDevice().getBrowserType()
+      + ")");
       return true;
     }
     if (testDevice.getChromeEmulator() != null
         && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator())) {
-      logTrace("needs new device: different emulator ("
-          + testDevice.getChromeEmulator()
-          + " != "
-          + getTestDevice().getChromeEmulator()
-          + ")");
+      LOG.trace("needs new device: different emulator ("
+      + testDevice.getChromeEmulator()
+      + " != "
+      + getTestDevice().getChromeEmulator()
+      + ")");
       return true;
     }
-    logTrace("no need for new device: " + testDevice);
+    LOG.trace("no need for new device: " + testDevice);
     return false;
   }
 
   private static boolean needsWindowResize(TestDevice testDevice) {
     if (GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()) {
-      logTrace("no need for resize: suppress galen auto adjust");
+      LOG.trace("no need for resize: suppress galen auto adjust");
       return false;
     }
     if (StringUtils.isNotBlank(testDevice.getChromeEmulator())) {
-      logTrace("no need for resize: chrome emulator set (" + testDevice.getChromeEmulator() + ")");
+      LOG.trace("no need for resize: chrome emulator set (" + testDevice.getChromeEmulator() + ")");
       return false;
     }
     if (getTestDevice() != null
         && testDevice.getScreenSize() != null
         && testDevice.getScreenSize().equals(getTestDevice().getScreenSize())) {
-      logTrace("no need for resize: same screen size");
+      LOG.trace("no need for resize: same screen size");
       return false;
     }
     return true;
   }
 
   private static void quitDriver() {
-    logInfo("Attempting to close driver");
+    LOG.info("Attempting to close driver");
     getCurrentDriver().quit();
-    logInfo("Closed driver");
+    LOG.info("Closed driver");
     setDriver(null);
   }
 
   private static void setDriver(WebDriver driver) {
     GaleniumContext.getContext().setDriver(driver);
-    logTrace("set driver: " + driver);
+    LOG.trace("set driver: " + driver);
   }
 
   /**
@@ -293,11 +269,11 @@ public final class WebDriverManagement {
    */
   private static void setTestDevice(TestDevice testDevice) {
     if (testDevice != getTestDevice()) {
-      logDebug("setting new test device from WebDriverManager: " + testDevice);
+      LOG.debug("setting new test device from WebDriverManager: " + testDevice);
       GaleniumContext.getContext().setTestDevice(testDevice);
     }
     else {
-      logTrace("not setting same test device twice: " + testDevice);
+      LOG.trace("not setting same test device twice: " + testDevice);
     }
   }
 
@@ -308,8 +284,5 @@ public final class WebDriverManagement {
     return dimension.getWidth() + "x" + dimension.getHeight();
   }
 
-  static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER_WEBDRIVER);
-  }
 
 }

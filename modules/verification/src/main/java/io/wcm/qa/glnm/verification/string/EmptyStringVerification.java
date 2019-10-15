@@ -20,6 +20,8 @@
 package io.wcm.qa.glnm.verification.string;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
@@ -30,6 +32,8 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
  * @since 1.0.0
  */
 public class EmptyStringVerification extends StringVerification {
+
+  private static final Logger LOG = LoggerFactory.getLogger(EmptyStringVerification.class);
 
   /**
    * Verify sampled input is empty.
@@ -56,8 +60,8 @@ public class EmptyStringVerification extends StringVerification {
   @Override
   protected void afterVerification() {
     String cachedValue = getCachedValue();
-    getLogger().trace("found: '" + cachedValue + "'");
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("found: '" + cachedValue + "'");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

@@ -20,6 +20,8 @@
 package io.wcm.qa.glnm.verification.string;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
@@ -30,6 +32,8 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
  * @since 1.0.0
  */
 public class ContainsStringVerification extends StringVerification {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ContainsStringVerification.class);
 
   private String searchString;
 
@@ -80,7 +84,7 @@ public class ContainsStringVerification extends StringVerification {
 
   @Override
   protected void afterVerification() {
-    getLogger().debug("done checking '" + getVerificationName() + "'");
+    LOG.debug("done checking '" + getVerificationName() + "'");
   }
 
   @Override

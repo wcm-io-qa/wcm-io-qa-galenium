@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
@@ -47,7 +48,7 @@ public final class TextFileUtil {
    */
   public static Collection<String> parse(File file) {
     try {
-      return FileUtils.readLines(file);
+      return FileUtils.readLines(file, StandardCharsets.UTF_8);
     }
     catch (IOException ex) {
       throw new GaleniumException("when trying to parse text file: " + ex);

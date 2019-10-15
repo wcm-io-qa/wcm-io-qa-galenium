@@ -32,7 +32,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.CssClassSorter;
-import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.HtmlAttributeSorter;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
@@ -45,8 +44,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   private CleanerProperties htmlCleanerProperties;
 
   private HtmlSerializer htmlSerializer;
-
-  private boolean sortAttributes = true;
 
   private boolean sortCssClasses = true;
 
@@ -103,20 +100,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     return htmlSerializer;
   }
 
-  /**
-   * <p>isSortAttributes.</p>
-   *
-   * @return a boolean.
-   */
-  public boolean isSortAttributes() {
-    return sortAttributes;
-  }
-
-  /**
-   * <p>isSortCssClasses.</p>
-   *
-   * @return a boolean.
-   */
   public boolean isSortCssClasses() {
     return sortCssClasses;
   }
@@ -139,20 +122,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     this.htmlSerializer = htmlSerializer;
   }
 
-  /**
-   * <p>Setter for the field <code>sortAttributes</code>.</p>
-   *
-   * @param sortAttributes a boolean.
-   */
-  public void setSortAttributes(boolean sortAttributes) {
-    this.sortAttributes = sortAttributes;
-  }
-
-  /**
-   * <p>Setter for the field <code>sortCssClasses</code>.</p>
-   *
-   * @param sortCssClasses a boolean.
-   */
   public void setSortCssClasses(boolean sortCssClasses) {
     this.sortCssClasses = sortCssClasses;
   }
@@ -169,9 +138,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     TagNode cleanedHtml = htmlCleaner.clean(jsoupHtml);
     if (isSortCssClasses()) {
       cleanedHtml.traverse(new CssClassSorter());
-    }
-    if (isSortAttributes()) {
-      cleanedHtml.traverse(new HtmlAttributeSorter());
     }
     for (TagNodeVisitor visitor : getVisitors()) {
       cleanedHtml.traverse(visitor);

@@ -21,58 +21,52 @@ package io.wcm.qa.glnm.testcase;
 
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
 
-import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-
 /**
- * Base class using {@link io.wcm.qa.glnm.differences.specialized.TestNameDifferences} to generate test name for TestNG's {@link org.testng.ITest} interface.
+ * Base class using
+ * {@link io.wcm.qa.glnm.differences.specialized.TestNameDifferences} to
+ * generate test name for TestNG's {@link org.testng.ITest} interface.
  *
  * @since 3.0.0
  */
 public class AbstractNamedTest implements ITest {
 
-  private TestNameDifferences nameDifferences = new TestNameDifferences();
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractNamedTest.class);
 
   protected AbstractNamedTest() {
     super();
-    getNameDifferences().setClass(getClass());
-    getNameDifferences().setClassNameMaxLength(30);
   }
 
   /** {@inheritDoc} */
   @Override
   public String getTestName() {
-    return getNameDifferences().asPropertyKey();
-  }
-
-  protected TestNameDifferences getNameDifferences() {
-    return nameDifferences;
-  }
-
-  protected void setNameDifferences(TestNameDifferences nameDifferences) {
-    this.nameDifferences = nameDifferences;
-  }
-
-  protected void skipTest(String skipMessage) {
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
-    throw new SkipException(skipMessage);
-  }
-
-  protected void skipTest(String skipMessage, Throwable ex) {
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
-    throw new SkipException(skipMessage, ex);
+    return getClass().getName();
   }
 
   /**
+   * @param skipMessage will be logged and added to {@link SkipException}
+   */
+  protected void skipTest(String skipMessage) {
+    LOG.info("Skipping: " + skipMessage);
+    throw new SkipException(skipMessage);
+  }
+
+  /**
+<<<<<<< HEAD
    * Convenience method delegating to {@link io.wcm.qa.glnm.reporting.GaleniumReportUtil#getLogger()}.
    *
    * @return current logger
+=======
+   * @param skipMessage will be logged and added to {@link SkipException} as message
+   * @param ex will be logged and added to {@link SkipException} as cause
+>>>>>>> develop
    */
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+  protected void skipTest(String skipMessage, Throwable ex) {
+    LOG.info("Skipping: " + skipMessage, ex);
+    throw new SkipException(skipMessage, ex);
   }
 
 }

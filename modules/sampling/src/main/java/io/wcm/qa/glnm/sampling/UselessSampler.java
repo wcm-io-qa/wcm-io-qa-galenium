@@ -22,7 +22,8 @@ package io.wcm.qa.glnm.sampling;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
- * <p>UselessSampler class.</p>
+ * Unusable sampler which throws an exception when sampled. Awkward workaround to avoid passing a null sampler.
+ * @param <T> type never to sample
  *
  * @since 3.0.0
  */

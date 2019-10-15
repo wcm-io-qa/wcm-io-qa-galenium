@@ -21,6 +21,8 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
@@ -33,6 +35,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public class WebElementSampler extends SelectorBasedSampler<WebElement> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(WebElementSampler.class);
+
   /**
    * <p>Constructor for WebElementSampler.</p>
    *
@@ -42,20 +46,20 @@ public class WebElementSampler extends SelectorBasedSampler<WebElement> {
     super(selector);
   }
 
+  private WebElement findElement() {
+    WebElement freshElement = Element.findNow(getSelector());
+    LOG.trace("element sampler (" + getElementName() + ") found: " + freshElement);
+    return freshElement;
+  }
+
   @Override
   protected WebElement freshSample() {
     try {
       return findElement();
     }
     catch (StaleElementReferenceException ex) {
-      getLogger().debug("caught StaleElementReferencesException: '" + getElementName() + "'");
+      LOG.debug("caught StaleElementReferencesException: '" + getElementName() + "'");
       return findElement();
     }
-  }
-
-  private WebElement findElement() {
-    WebElement freshElement = Element.findNow(getSelector());
-    getLogger().trace("element sampler (" + getElementName() + ") found: " + freshElement);
-    return freshElement;
   }
 }

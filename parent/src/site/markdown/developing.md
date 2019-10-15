@@ -24,4 +24,3 @@ TODO: describe Maven modules (parent|specs|test) based on archetype default layo
 * Selenium Grid
   * Browsers
   * OSs
- 

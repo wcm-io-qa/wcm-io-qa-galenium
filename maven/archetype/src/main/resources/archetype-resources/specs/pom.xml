@@ -9,11 +9,11 @@
     <relativePath />
   </parent>
 
-  <groupId>\${groupId}</groupId>
+
+  <groupId>${groupId}</groupId>
   <artifactId>\${artifactId}</artifactId>
   <version>\${version}</version>
   <name>\${projectName} Galen specs</name>
-
   <packaging>jar</packaging>
 
   <properties>
@@ -55,6 +55,19 @@
           <excludes>*.xml</excludes>
           <classesDirectory>\${galenium.generated.class}</classesDirectory>
         </configuration>
+        <executions>
+          <execution>
+            <id>tests</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>**/*.gspec</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>

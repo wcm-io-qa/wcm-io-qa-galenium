@@ -39,7 +39,6 @@ public abstract class AbstractBrowserBasedTest extends AbstractNamedTest impleme
   public AbstractBrowserBasedTest(TestDevice testDevice) {
     super();
     setDevice(testDevice);
-    getNameDifferences().setTestDevice(testDevice);
   }
 
   /** {@inheritDoc} */

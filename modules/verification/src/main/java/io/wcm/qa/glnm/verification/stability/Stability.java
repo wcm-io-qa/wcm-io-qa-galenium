@@ -20,8 +20,8 @@
 package io.wcm.qa.glnm.verification.stability;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.base.Verifiable;
@@ -34,6 +34,8 @@ import io.wcm.qa.glnm.verification.base.Verifiable;
  * @since 1.0.0
  */
 public abstract class Stability<T> implements Verifiable {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Stability.class);
 
   private boolean firstRun = true;
 
@@ -77,7 +79,7 @@ public abstract class Stability<T> implements Verifiable {
   /** {@inheritDoc} */
   @Override
   public boolean verify() {
-    getLogger().debug(getClass().getSimpleName() + ": checking for stability");
+    LOG.debug(getClass().getSimpleName() + ": checking for stability");
     T currentSampleValue = getSampler().sampleValue();
     if (firstRun) {
       setOldSampleValue(currentSampleValue);
@@ -101,7 +103,7 @@ public abstract class Stability<T> implements Verifiable {
     else if (currentSampleValue == null) {
       return false;
     }
-    getLogger().trace(getClass().getSimpleName() + ": both samples are non-null, now checking for equality.");
+    LOG.trace(getClass().getSimpleName() + ": both samples are non-null, now checking for equality.");
     return checkForEquality(getOldSampleValue(), currentSampleValue);
   }
 
@@ -112,10 +114,6 @@ public abstract class Stability<T> implements Verifiable {
    * @return whether the two values are equal
    */
   protected abstract boolean checkForEquality(T oldValue, T newValue);
-
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
-  }
 
   protected T getOldSampleValue() {
     return oldSampleValue;

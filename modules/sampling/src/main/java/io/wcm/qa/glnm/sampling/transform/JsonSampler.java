@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.wnameless.json.flattener.JsonFlattener;
 
 import io.wcm.qa.glnm.sampling.Sampler;
@@ -35,6 +38,8 @@ import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
  * @since 1.0.0
  */
 public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, String>> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(JsonSampler.class);
 
   private static final String STRING_REPRESENTATION_NULL = "null";
 
@@ -66,7 +71,7 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
 
   @Override
   protected Map<String, String> transform(String inputSample) {
-    getLogger().debug("JsonSampler: attempting to parse '" + inputSample + "'");
+    LOG.debug("JsonSampler: attempting to parse '" + inputSample + "'");
     return ensureOnlyStringValues(JsonFlattener.flattenAsMap(inputSample));
   }
 

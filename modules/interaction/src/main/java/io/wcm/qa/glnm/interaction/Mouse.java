@@ -19,14 +19,12 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import com.galenframework.browser.SeleniumBrowser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.selectors.base.Selector;
 
@@ -37,6 +35,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public final class Mouse {
 
+  private static final Logger LOG = LoggerFactory.getLogger(Mouse.class);
+
   private Mouse() {
     // do not instantiate
   }
@@ -45,7 +45,7 @@ public final class Mouse {
    * Click at current position.
    */
   public static void click() {
-    getLogger().debug("Clicking at current position.");
+    LOG.debug("Clicking at current position.");
     getActions().click().perform();
   }
 
@@ -86,7 +86,6 @@ public final class Mouse {
    * @return current vertical scroll position of browser with 0 being the very top
    */
   public static Long getVerticalScrollPosition() {
-    SeleniumBrowser seleniumBrowser = new SeleniumBrowser(getDriver());
     StringBuilder builder = new StringBuilder();
     builder.append("if (window.pageYOffset) ");
     builder.append("return window.pageYOffset;");
@@ -94,7 +93,7 @@ public final class Mouse {
     builder.append("return window.document.documentElement.scrollTop;");
     builder.append("else ");
     builder.append("return window.document.body.scrollTop;");
-    Long scrollYPosition = (Long)seleniumBrowser.executeJavascript(builder.toString());
+    Long scrollYPosition = (Long)Browser.executeJs(builder.toString());
     return scrollYPosition;
   }
 
@@ -115,10 +114,10 @@ public final class Mouse {
    */
   public static void moveHorizontally(int horizontalOffset) {
     if (horizontalOffset > 0) {
-      getLogger().debug(MARKER_INFO, "move mouse right by " + horizontalOffset);
+      LOG.debug("move mouse right by " + horizontalOffset);
     }
     else if (horizontalOffset < 0) {
-      getLogger().debug(MARKER_INFO, "move mouse left by " + -horizontalOffset);
+      LOG.debug("move mouse left by " + -horizontalOffset);
     }
     int verticalOffset = 0;
     moveByOffset(horizontalOffset, verticalOffset);
@@ -150,7 +149,7 @@ public final class Mouse {
    * @param element to move to
    */
   public static void moveTo(WebElement element) {
-    getLogger().debug("Moving to element: " + element);
+    LOG.debug("Moving to element: " + element);
     getActions().moveToElement(element).perform();
   }
 

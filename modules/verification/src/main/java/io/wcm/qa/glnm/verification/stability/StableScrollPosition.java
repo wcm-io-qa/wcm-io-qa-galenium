@@ -19,7 +19,9 @@
  */
 package io.wcm.qa.glnm.verification.stability;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.sampling.browser.ScrollPositionSampler;
 
 /**
@@ -28,6 +30,8 @@ import io.wcm.qa.glnm.sampling.browser.ScrollPositionSampler;
  * @since 1.0.0
  */
 public class StableScrollPosition extends Stability<Long> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(StableScrollPosition.class);
 
   /**
    * Constructor.
@@ -40,7 +44,7 @@ public class StableScrollPosition extends Stability<Long> {
 
   @Override
   protected boolean checkForEquality(Long value1, Long value2) {
-    GaleniumReportUtil.getLogger().trace("comparing scroll positions: '" + value1 + "' <> '" + value2 + "'");
+    LOG.trace("comparing scroll positions: '" + value1 + "' <> '" + value2 + "'");
     return value1.equals(value2);
   }
 

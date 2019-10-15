@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.glnm.verification.element;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -27,6 +30,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @since 1.0.0
  */
 public class InvisibilityVerification extends VisibilityVerification {
+
+  private static final Logger LOG = LoggerFactory.getLogger(InvisibilityVerification.class);
 
   /**
    * <p>Constructor for InvisibilityVerification.</p>
@@ -41,17 +46,17 @@ public class InvisibilityVerification extends VisibilityVerification {
   @Override
   protected void afterVerification() {
     if (isVerified()) {
-      getLogger().trace("successfully confirmed invisibility of '" + getElementName() + "'");
+      LOG.trace("successfully confirmed invisibility of '" + getElementName() + "'");
     }
     else {
-      getLogger().trace("could not confirm invisibility of '" + getElementName() + "'");
+      LOG.trace("could not confirm invisibility of '" + getElementName() + "'");
     }
   }
 
   @Override
   protected boolean doVerification() {
     Boolean visibilityResult = super.doVerification();
-    getLogger().debug("visibility was '" + visibilityResult + "' when checking for invisibility");
+    LOG.debug("visibility was '" + visibilityResult + "' when checking for invisibility");
     return !visibilityResult;
   }
 

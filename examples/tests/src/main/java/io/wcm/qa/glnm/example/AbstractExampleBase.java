@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.glnm.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.selectors.common.Page;
 import io.wcm.qa.glnm.example.selectors.common.Page.Navigation;
@@ -37,13 +40,13 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
   private static final int CUTOFF_MOBILE_WIDTH = 601;
   protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   protected static final String PATH_TO_HOMEPAGE = "/en.html";
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractExampleBase.class);
 
   /**
    * @param testDevice test device to use for test
    */
   public AbstractExampleBase(TestDevice testDevice) {
     super(testDevice);
-    getNameDifferences().setRootPackage(ROOT_PACKAGE_FOR_TESTS);
   }
 
   private void navShouldBeVisible() {
@@ -66,7 +69,7 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
 
   protected void loadStartUrl() {
     if (Aem.loginToAuthor(getStartUrl())) {
-      getLogger().debug("loaded start URL: " + getStartUrl());
+      LOG.debug("loaded start URL: " + getStartUrl());
       return;
     }
     throw new GaleniumException("could not login to author when loading start URL.");

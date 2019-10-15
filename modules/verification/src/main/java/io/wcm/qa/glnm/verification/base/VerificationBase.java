@@ -19,12 +19,11 @@
  */
 package io.wcm.qa.glnm.verification.base;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
-
 import java.util.Comparator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
@@ -42,6 +41,7 @@ import io.wcm.qa.glnm.sampling.CanCache;
 public abstract class VerificationBase<T> implements Verification, CanCache {
 
   private static final int DEFAULT_MAX_NAME_LENGTH_IN_KEY = 30;
+  private static final Logger LOG = LoggerFactory.getLogger(VerificationBase.class);
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
 
   private T actualValue;
@@ -234,9 +234,9 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   @Override
   public boolean verify() {
-    getLogger().trace("verifying (" + toString() + ")");
+    LOG.trace("verifying (" + toString() + ")");
     if (hasPreVerification()) {
-      getLogger().trace("preverifying (" + getPreVerification().toString() + ")");
+      LOG.trace("preverifying (" + getPreVerification().toString() + ")");
       if (!getPreVerification().verify()) {
         return false;
       }
@@ -245,7 +245,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
       setVerified(doVerification());
     }
     catch (GaleniumException ex) {
-      getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
+      LOG.debug(toString() + ": error occured during verification", ex);
       setException(ex);
       setVerified(false);
     }
@@ -261,14 +261,14 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   protected void afterVerification() {
-    getLogger().trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
+    LOG.trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
     T cachedValue = getCachedValue();
-    getLogger().trace("found: '" + getValueForLogging(cachedValue) + "'");
+    LOG.trace("found: '" + getValueForLogging(cachedValue) + "'");
     if (!isVerified() && cachedValue != null) {
       String expectedKey = getExpectedKey();
       persistSample(expectedKey, cachedValue);
     }
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   /**
@@ -282,7 +282,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected T getActualValue() {
     if (!isCaching()) {
-      getLogger().trace("invalidating cache for: '" + toString() + "'");
+      LOG.trace("invalidating cache for: '" + toString() + "'");
       actualValue = null;
     }
     if (actualValue == null) {
@@ -340,8 +340,8 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected abstract String getFailureMessage();
 
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+  protected int getMaximumStringLengthForLogging() {
+    return 800;
   }
 
   /**
@@ -363,10 +363,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     String escaped = GaleniumReportUtil.escapeHtml(value.toString());
     String abbreviated = StringUtils.abbreviateMiddle(escaped, "...", getMaximumStringLengthForLogging());
     return abbreviated;
-  }
-
-  protected int getMaximumStringLengthForLogging() {
-    return 800;
   }
 
   /**

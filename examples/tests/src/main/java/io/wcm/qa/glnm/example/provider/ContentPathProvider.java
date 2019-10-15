@@ -19,10 +19,11 @@
  */
 package io.wcm.qa.glnm.example.provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 
 import io.wcm.qa.glnm.providers.TestNgProviderUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AllPagesForTemplateSampler;
 
@@ -35,6 +36,8 @@ public final class ContentPathProvider {
    * All pages created with the example application.
    */
   public static final String ALL_PAGES_FOR_EXAMPLE_TEMPLATES = "AllPagesForTemplates";
+
+  private static final Logger LOG = LoggerFactory.getLogger(ContentPathProvider.class);
   private static final String ROOT_PATH = "/content/wcm-io-samples";
   private static final String TEMPLATE_NAME_PATTERN = "/apps/wcm-io-samples/core/templates/%";
 
@@ -47,7 +50,7 @@ public final class ContentPathProvider {
    */
   @DataProvider(name = ALL_PAGES_FOR_EXAMPLE_TEMPLATES)
   public static Object[][] allPages() {
-    GaleniumReportUtil.getLogger().debug("Data providing: " + ALL_PAGES_FOR_EXAMPLE_TEMPLATES);
+    LOG.debug("Data providing: " + ALL_PAGES_FOR_EXAMPLE_TEMPLATES);
     Sampler<Iterable> sampler = new AllPagesForTemplateSampler(TEMPLATE_NAME_PATTERN, ROOT_PATH);
     return TestNgProviderUtil.fromSampler(sampler);
   }
