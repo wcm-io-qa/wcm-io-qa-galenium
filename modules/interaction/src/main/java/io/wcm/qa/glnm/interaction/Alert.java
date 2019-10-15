@@ -25,6 +25,8 @@ import org.openqa.selenium.NoAlertPresentException;
 
 /**
  * Alert related convenience methods.
+ *
+ * @since 1.0.0
  */
 public final class Alert {
 
@@ -34,6 +36,7 @@ public final class Alert {
 
   /**
    * Accepting alert popups in browser.
+   *
    * @return whether an alert was accepted
    */
   public static boolean accept() {
@@ -45,6 +48,8 @@ public final class Alert {
   }
 
   /**
+   * <p>isShowing.</p>
+   *
    * @return whether browser is showing an alert popup.
    */
   public static boolean isShowing() {

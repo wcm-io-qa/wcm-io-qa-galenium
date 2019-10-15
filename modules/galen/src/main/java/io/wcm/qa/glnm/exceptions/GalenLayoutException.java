@@ -21,12 +21,16 @@ package io.wcm.qa.glnm.exceptions;
 
 /**
  * Wrapper exception for Galen layout problems.
+ *
+ * @since 1.0.0
  */
 public class GalenLayoutException extends GaleniumException {
 
   private static final long serialVersionUID = -152759653372481359L;
 
   /**
+   * <p>Constructor for GalenLayoutException.</p>
+   *
    * @see RuntimeException
    * @param message message
    * @param ex original exception

@@ -28,6 +28,8 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that string is empty.
+ *
+ * @since 1.0.0
  */
 public class EmptyStringVerification extends StringVerification {
 
@@ -35,8 +37,10 @@ public class EmptyStringVerification extends StringVerification {
 
   /**
    * Verify sampled input is empty.
+   *
    * @param verificationName name for this check
    * @param sampler provides input sample
+   * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
@@ -44,8 +48,10 @@ public class EmptyStringVerification extends StringVerification {
 
   /**
    * Verify fixed string is empty.
+   *
    * @param verificationName name for this check
    * @param sample fixed input sample
+   * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));

@@ -26,11 +26,16 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Existence and visibility of element.
+ *
+ * @since 1.0.0
  */
 public class VisibilitySampler extends WebElementBasedSampler<Boolean> {
 
   /**
+   * <p>Constructor for VisibilitySampler.</p>
+   *
    * @param selector to identify element
+   * @since 3.0.0
    */
   public VisibilitySampler(Selector selector) {
     super(selector);

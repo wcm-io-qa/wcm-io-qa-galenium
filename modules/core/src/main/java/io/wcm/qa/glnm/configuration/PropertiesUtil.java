@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Helper methods for dealing with Properties.
+ *
+ * @since 1.0.0
  */
 public final class PropertiesUtil {
 
@@ -48,9 +50,11 @@ public final class PropertiesUtil {
 
   /**
    * Filter properties by key part.
+   *
    * @param properties to filter
    * @param searchString to filter by
    * @return only properties containing the search string in their key
+   * @since 3.0.0
    */
   public static Properties getAllPropertiesContaining(Properties properties, String searchString) {
     return getFilteredProperties(properties, Pattern.compile(REGEX_WILDCARD + searchString + REGEX_WILDCARD));
@@ -58,9 +62,11 @@ public final class PropertiesUtil {
 
   /**
    * Filter properties by key prefix.
+   *
    * @param properties to filter
    * @param prefix to filter by
    * @return only properties with a key starting with the prefix string
+   * @since 3.0.0
    */
   public static Properties getAllPropertiesWithPrefix(Properties properties, String prefix) {
     return getFilteredProperties(properties, Pattern.compile(prefix + REGEX_WILDCARD));
@@ -68,9 +74,11 @@ public final class PropertiesUtil {
 
   /**
    * Filter properties by regular expression.
+   *
    * @param properties to filter
    * @param filter regex pattern to filter by
    * @return only properties with a key matching the regular expression
+   * @since 3.0.0
    */
   public static Properties getFilteredProperties(Properties properties, Pattern filter) {
     Properties filteredProperties = new Properties();
@@ -91,9 +99,11 @@ public final class PropertiesUtil {
 
   /**
    * Load properties from file.
+   *
    * @param properties to fill from file
    * @param filePath to properties file
    * @return properties from file
+   * @since 3.0.0
    */
   public static Properties loadProperties(Properties properties, String filePath) {
     try {
@@ -122,8 +132,10 @@ public final class PropertiesUtil {
 
   /**
    * Load properties from file.
+   *
    * @param filePath to properties file
    * @return properties from file
+   * @since 3.0.0
    */
   public static Properties loadProperties(String filePath) {
     return loadProperties(new Properties(), filePath);

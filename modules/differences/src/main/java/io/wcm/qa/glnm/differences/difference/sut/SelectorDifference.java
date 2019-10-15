@@ -24,11 +24,16 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Difference based on selector name.
+ *
+ * @since 1.0.0
  */
 public class SelectorDifference extends StringDifference {
 
   /**
+   * <p>Constructor for SelectorDifference.</p>
+   *
    * @param selector to get name from
+   * @since 2.0.0
    */
   public SelectorDifference(Selector selector) {
     super(selector.elementName());

@@ -21,16 +21,21 @@ package io.wcm.qa.glnm.differences.base;
 
 /**
  * Encapsulates one difference impacting a sample.
+ *
+ * @since 1.0.0
  */
 public interface Difference {
 
   /**
+   * <p>getName.</p>
+   *
    * @return a descriptive name for this difference type
    */
   String getName();
 
   /**
    * The current value for the differing part of current difference instance.
+   *
    * @return a short, simple string representation to be used in folder names or property keys
    */
   String getTag();

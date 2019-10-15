@@ -23,17 +23,20 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.maven.freemarker.util.ReflectionUtil;
 
 /**
- * Provides methods from {@link Element} class.
+ * Provides methods from  {@link io.wcm.qa.glnm.interaction.Element} class.
+ *
+ * @since 1.0.0
  */
 public class InteractionPojo {
 
   private Class delegatee;
 
   /**
+   * <p>Constructor for InteractionPojo.</p>
+   *
    * @param delegateeClass to delegate to
    */
   public InteractionPojo(Class delegateeClass) {
@@ -41,6 +44,8 @@ public class InteractionPojo {
   }
 
   /**
+   * <p>getMethods.</p>
+   *
    * @return methods pojo for use in code generation
    */
   public Collection<InteractionMethodPojo> getMethods() {
@@ -72,10 +77,20 @@ public class InteractionPojo {
     return ReflectionUtil.isStatic(method) && ReflectionUtil.isPublic(method) && hasSelectorArgument(method);
   }
 
+  /**
+   * <p>Getter for the field <code>delegatee</code>.</p>
+   *
+   * @return a {@link java.lang.Class} object.
+   */
   public Class getDelegatee() {
     return delegatee;
   }
 
+  /**
+   * <p>Setter for the field <code>delegatee</code>.</p>
+   *
+   * @param delegatee a {@link java.lang.Class} object.
+   */
   public void setDelegatee(Class delegatee) {
     this.delegatee = delegatee;
   }

@@ -23,10 +23,13 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Unusable sampler which throws an exception when sampled. Awkward workaround to avoid passing a null sampler.
- * @param <T>
+ *
+ * @param <T> type never to sample
+ * @since 3.0.0
  */
 public final class UselessSampler<T> implements Sampler<T> {
 
+  /** {@inheritDoc} */
   @Override
   public T sampleValue() {
     throw new GaleniumException("This sampler should never be used to sample.");

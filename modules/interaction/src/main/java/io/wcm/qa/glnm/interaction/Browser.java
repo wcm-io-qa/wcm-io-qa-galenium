@@ -34,6 +34,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Alert related convenience methods.
+ *
+ * @since 1.0.0
  */
 public final class Browser {
 
@@ -54,6 +56,7 @@ public final class Browser {
 
   /**
    * Executes Javascript in current browser.
+   *
    * @param jsCode code to execute
    * @param parameters parameters to Javascript code
    * @return return value of Javascript execution
@@ -75,6 +78,8 @@ public final class Browser {
   }
 
   /**
+   * <p>isCurrentUrl.</p>
+   *
    * @param url to check against
    * @return whether browser is currently pointing at URL
    */
@@ -84,12 +89,18 @@ public final class Browser {
     return StringUtils.equals(url, currentUrl);
   }
 
+  /**
+   * <p>getCurrentUrl.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public static String getCurrentUrl() {
     return getDriver().getCurrentUrl();
   }
 
   /**
    * Load URL in browser.
+   *
    * @param url to load
    */
   public static void load(String url) {
@@ -106,6 +117,7 @@ public final class Browser {
 
   /**
    * Load URL in browser and fail test if URL does not match.
+   *
    * @param url to load
    */
   public static void loadExactly(String url) {
@@ -115,6 +127,7 @@ public final class Browser {
 
   /**
    * Navigate to URL.
+   *
    * @param url URL to navigate to
    */
   public static void navigateTo(String url) {
@@ -124,6 +137,7 @@ public final class Browser {
 
   /**
    * Navigate to URL.
+   *
    * @param url to navigate to
    */
   public static void navigateTo(URL url) {

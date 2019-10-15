@@ -23,6 +23,8 @@ import io.wcm.qa.glnm.differences.base.DifferenceBase;
 
 /**
  * Integer based difference for use with index or count values.
+ *
+ * @since 1.0.0
  */
 public class IntegerDifference extends DifferenceBase {
 
@@ -30,13 +32,18 @@ public class IntegerDifference extends DifferenceBase {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public IntegerDifference() {
     this(0);
   }
 
   /**
+   * <p>Constructor for IntegerDifference.</p>
+   *
    * @param index index to use
+   * @since 2.0.0
    */
   public IntegerDifference(int index) {
     setIndex(index);
@@ -44,22 +51,38 @@ public class IntegerDifference extends DifferenceBase {
 
   /**
    * Decrement or count down.
+   *
+   * @since 2.0.0
    */
   public void decrement() {
     setIndex(getIndex() - 1);
   }
 
+  /**
+   * <p>Getter for the field <code>index</code>.</p>
+   *
+   * @return a int.
+   * @since 2.0.0
+   */
   public int getIndex() {
     return index;
   }
 
   /**
    * Increment aka increase index by one.
+   *
+   * @since 2.0.0
    */
   public void increment() {
     setIndex(getIndex() + 1);
   }
 
+  /**
+   * <p>Setter for the field <code>index</code>.</p>
+   *
+   * @param index a int.
+   * @since 2.0.0
+   */
   public void setIndex(int index) {
     this.index = index;
   }

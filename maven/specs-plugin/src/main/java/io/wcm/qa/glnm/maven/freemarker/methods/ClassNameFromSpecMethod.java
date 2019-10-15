@@ -24,6 +24,8 @@ import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 
 /**
  * Clean and format spec name for use in Java class name.
+ *
+ * @since 1.0.0
  */
 public class ClassNameFromSpecMethod extends AbstractTemplateMethod<SpecPojo> {
 

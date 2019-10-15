@@ -44,6 +44,8 @@ import io.wcm.qa.glnm.util.HttpUtil;
 
 /**
  * Utility class to fetch name of Selenium Grid node.
+ *
+ * @since 1.0.0
  */
 public final class GridHostExtractor {
 
@@ -61,9 +63,12 @@ public final class GridHostExtractor {
   }
 
   /**
+   * <p>getGridNodeHostname.</p>
+   *
    * @return the hostname of the Selenium Grid node the test is run on or NO_HOST_RETRIEVED if
    *         hostname cannot be retrieved or NOT_REMOTE if driver is not a
-   *         {@link RemoteWebDriver}.
+   *         {@link org.openqa.selenium.remote.RemoteWebDriver}.
+   * @since 3.0.0
    */
   public static String getGridNodeHostname() {
     WebDriver driver = getDriver();
@@ -77,10 +82,13 @@ public final class GridHostExtractor {
   }
 
   /**
+   * <p>getHostnameAndPort.</p>
+   *
    * @param hostname hostname for Selenium Grid hub
    * @param port port for Selenium Grid hub
    * @param session session ID to use
    * @return proxy ID of associated Selenium Grid node
+   * @since 3.0.0
    */
   public static String getHostnameAndPort(String hostname, int port, SessionId session) {
 

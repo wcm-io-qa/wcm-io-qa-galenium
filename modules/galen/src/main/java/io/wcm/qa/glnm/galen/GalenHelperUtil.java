@@ -60,6 +60,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Helper methods for dealing with Galen.
+ *
+ * @since 1.0.0
  */
 public final class GalenHelperUtil {
 
@@ -74,12 +76,18 @@ public final class GalenHelperUtil {
     // do not instantiate
   }
 
+  /**
+   * <p>getBrowser.</p>
+   *
+   * @return a {@link com.galenframework.browser.Browser} object.
+   */
   public static Browser getBrowser() {
     return new SeleniumBrowser(GaleniumContext.getDriver());
   }
 
   /**
-   * Turns test device into {@link SeleniumBrowser} as expected by Galen.
+   * Turns test device into {@link com.galenframework.browser.SeleniumBrowser} as expected by Galen.
+   *
    * @param device to turn into browser
    * @return browser object for use with Galen
    */
@@ -88,6 +96,8 @@ public final class GalenHelperUtil {
   }
 
   /**
+   * <p>getCombinedSectionFilter.</p>
+   *
    * @param filtersToCombine list of SectionFilters
    * @return section filter containing all included and excluded tags of the passed filters
    */
@@ -109,7 +119,8 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Turn Galen syntax size string into Selenium {@link Dimension}.
+   * Turn Galen syntax size string into Selenium {@link org.openqa.selenium.Dimension}.
+   *
    * @param size to parse
    * @return Selenium representation of size
    */
@@ -120,6 +131,7 @@ public final class GalenHelperUtil {
 
   /**
    * Get named object from spec.
+   *
    * @param spec to extract object from
    * @param objectName name to use for extraction
    * @return selector representing named object from spec
@@ -130,7 +142,8 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Get objects from {@link PageSpec}.
+   * Get objects from {@link com.galenframework.specs.page.PageSpec}.
+   *
    * @param spec to extract objects from
    * @return selectors for all objects found in spec
    */
@@ -142,7 +155,8 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Get tags device as Galen {@link SectionFilter}.
+   * Get tags device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
+   *
    * @param includeTags tags to use in filter
    * @return filter ready for use with Galen
    */
@@ -155,7 +169,8 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Get tags from device as Galen {@link SectionFilter}.
+   * Get tags from device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
+   *
    * @param device to get tags from
    * @return filter ready for use with Galen
    */
@@ -164,7 +179,8 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Get tags from current device as Galen {@link SectionFilter}. Empty filter when no device set.
+   * Get tags from current device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}. Empty filter when no device set.
+   *
    * @return filter ready for use with Galen
    */
   public static SectionFilter getTags() {
@@ -176,7 +192,8 @@ public final class GalenHelperUtil {
 
   /**
    * Read a spec from path. Basically a convenience mapping to
-   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
    * @param browser to get current page from
    * @param specPath path to spec file
    * @param tags tag based filter
@@ -188,7 +205,8 @@ public final class GalenHelperUtil {
 
   /**
    * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
-   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
    * @param specPath path to spec file
    * @return Galen page spec object
    */
@@ -198,7 +216,8 @@ public final class GalenHelperUtil {
 
   /**
    * Read a spec from path. Basically a convenience mapping to
-   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
    * @param specPath path to spec file
    * @param tags tag based filter
    * @param page page to retrieve objects from
@@ -219,7 +238,8 @@ public final class GalenHelperUtil {
 
   /**
    * Read a spec from path. Basically a convenience mapping to
-   * {@link PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
    * @param device to use to get page
    * @param specPath path to spec file
    * @param tags tag based filter

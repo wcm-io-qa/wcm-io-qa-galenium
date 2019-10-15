@@ -27,6 +27,8 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Most sampling is String based.
+ *
+ * @since 1.0.0
  */
 public abstract class StringSamplerBasedVerification extends SamplerBasedVerification<Sampler<String>, String> {
 

@@ -26,9 +26,11 @@ import io.wcm.qa.glnm.sampling.Sampler;
 /**
  * Abstract Sampler to split single Sample into multiple objects. For example, splitting a String into multiple lines or
  * words.
+ *
  * @param <S> type input sampler
- * @param <I>
- * @param <O>
+ * @param <I> type of input sample
+ * @param <O> type of transformed sample returned
+ * @since 3.0.0
  */
 public abstract class SplittingSampler<S extends Sampler<I>, I, O extends Collection<I>> extends TransformationBasedSampler<S, I, O> {
 

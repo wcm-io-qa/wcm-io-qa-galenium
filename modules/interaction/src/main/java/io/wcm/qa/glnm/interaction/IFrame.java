@@ -29,6 +29,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility methods for switching IFrames.
+ *
+ * @since 1.0.0
  */
 public final class IFrame {
 
@@ -37,6 +39,8 @@ public final class IFrame {
   }
 
   /**
+   * <p>switchTo.</p>
+   *
    * @param selector identifies IFrame to switch to
    */
   public static void switchTo(Selector selector) {
@@ -45,6 +49,8 @@ public final class IFrame {
   }
 
   /**
+   * <p>switchTo.</p>
+   *
    * @param iFrameElement element to switch to
    */
   public static void switchTo(WebElement iFrameElement) {

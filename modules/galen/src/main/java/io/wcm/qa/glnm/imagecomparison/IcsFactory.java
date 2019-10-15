@@ -33,6 +33,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Factory class to get image comparing Galen specs.
+ *
+ * @since 2.0.0
  */
 public final class IcsFactory {
 
@@ -41,6 +43,8 @@ public final class IcsFactory {
   }
 
   /**
+   * <p>getPageSpec.</p>
+   *
    * @param def parameters for spec generation
    * @return a parsed Galen page spec
    */

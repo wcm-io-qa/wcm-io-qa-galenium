@@ -23,11 +23,16 @@ import io.wcm.qa.glnm.device.TestDevice;
 
 /**
  * Used to mark tests which have an associated test device.
+ *
+ * @since 1.0.0
  */
 public interface HasDevice {
 
   /**
+   * <p>getDevice.</p>
+   *
    * @return the test device configured
+   * @since 3.0.0
    */
   TestDevice getDevice();
 }

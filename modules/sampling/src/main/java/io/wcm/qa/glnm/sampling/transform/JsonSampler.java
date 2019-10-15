@@ -33,7 +33,9 @@ import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
  * Samples JSON formatted data into a flat map.
- * @param <S>
+ *
+ * @param <S> type of sampler supplying a JSON string
+ * @since 1.0.0
  */
 public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, String>> {
 
@@ -42,7 +44,10 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
   private static final String STRING_REPRESENTATION_NULL = "null";
 
   /**
+   * <p>Constructor for JsonSampler.</p>
+   *
    * @param inputSampler providing the JSON as String
+   * @since 3.0.0
    */
   public JsonSampler(S inputSampler) {
     super(inputSampler);

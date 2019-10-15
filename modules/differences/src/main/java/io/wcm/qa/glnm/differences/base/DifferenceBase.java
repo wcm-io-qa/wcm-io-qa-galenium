@@ -24,7 +24,9 @@ import org.apache.commons.lang3.StringUtils;
 import io.wcm.qa.glnm.format.NameUtil;
 
 /**
- * Basic functionality needed by most {@link Difference} implementations.
+ * Basic functionality needed by most  {@link io.wcm.qa.glnm.differences.base.Difference} implementations.
+ *
+ * @since 1.0.0
  */
 public abstract class DifferenceBase implements Difference {
 
@@ -33,10 +35,16 @@ public abstract class DifferenceBase implements Difference {
   private int maxTagLength = DEFAULT_MAX_TAG_LENGTH;
   private String name;
 
+  /**
+   * <p>Getter for the field <code>maxTagLength</code>.</p>
+   *
+   * @return a int.
+   */
   public int getMaxTagLength() {
     return maxTagLength;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getName() {
     if (StringUtils.isBlank(name)) {
@@ -48,19 +56,31 @@ public abstract class DifferenceBase implements Difference {
     return name;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTag() {
     return NameUtil.getSanitized(getRawTag(), getMaxTagLength());
   }
 
+  /**
+   * <p>Setter for the field <code>maxTagLength</code>.</p>
+   *
+   * @param maxTagLength a int.
+   */
   public void setMaxTagLength(int maxTagLength) {
     this.maxTagLength = maxTagLength;
   }
 
+  /**
+   * <p>Setter for the field <code>name</code>.</p>
+   *
+   * @param name a {@link java.lang.String} object.
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     return getName() + ": '" + getTag() + "'";

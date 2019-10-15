@@ -27,11 +27,15 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Base class for element sampling.
+ *
+ * @since 3.0.0
  */
 public abstract class WebElementBasedSampler<O>
     extends TransformationBasedSampler<WebElementSampler, WebElement, O> {
 
   /**
+   * <p>Constructor for WebElementBasedSampler.</p>
+   *
    * @param selector to identify element
    */
   public WebElementBasedSampler(Selector selector) {
@@ -43,6 +47,11 @@ public abstract class WebElementBasedSampler<O>
     return freshSample(inputSample);
   }
 
+  /**
+   * <p>getSelector.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.selectors.base.Selector} object.
+   */
   public Selector getSelector() {
     return getInput().getSelector();
   }

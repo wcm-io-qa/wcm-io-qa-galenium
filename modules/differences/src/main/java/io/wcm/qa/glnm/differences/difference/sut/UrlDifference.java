@@ -28,6 +28,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Uses current URL as difference.
+ *
+ * @since 1.0.0
  */
 public abstract class UrlDifference extends DifferenceBase {
 
@@ -35,6 +37,8 @@ public abstract class UrlDifference extends DifferenceBase {
 
   /**
    * Uses current URL from driver.
+   *
+   * @since 2.0.0
    */
   public UrlDifference() {
     this(null);
@@ -42,7 +46,9 @@ public abstract class UrlDifference extends DifferenceBase {
 
   /**
    * Uses URL from param.
+   *
    * @param url URL to use as difference
+   * @since 2.0.0
    */
   public UrlDifference(String url) {
     this.url = url;

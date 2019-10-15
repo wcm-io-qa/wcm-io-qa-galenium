@@ -26,6 +26,8 @@ import io.wcm.qa.glnm.verification.base.VerificationBase;
 
 /**
  * Abstract base class for implementations verifying string inputs.
+ *
+ * @since 1.0.0
  */
 public abstract class StringVerificationBase extends VerificationBase<String> {
 

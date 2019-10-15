@@ -26,10 +26,14 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 
 /**
  * Diffing a String not fetched with sampler.
+ *
+ * @since 3.0.0
  */
 public class FixedStringDiffVerification extends StringDiffVerification<Sampler<List<String>>, Sampler<String>> {
 
   /**
+   * <p>Constructor for FixedStringDiffVerification.</p>
+   *
    * @param verificationName name to use in logging
    * @param actualValue fixed string to diff
    */

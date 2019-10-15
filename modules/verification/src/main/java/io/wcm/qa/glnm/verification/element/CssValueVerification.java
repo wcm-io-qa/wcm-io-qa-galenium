@@ -29,14 +29,19 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerificatio
 
 /**
  * Make sure an attribute is set on an element.
+ *
+ * @since 1.0.0
  */
 public class CssValueVerification extends WebElementBasedStringVerification<CssValueSampler> {
 
   private static final Logger LOG = LoggerFactory.getLogger(CssValueVerification.class);
 
   /**
+   * <p>Constructor for CssValueVerification.</p>
+   *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
+   * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName) {
     super(selector.elementName(), new CssValueSampler(selector, cssValueName));
@@ -44,9 +49,12 @@ public class CssValueVerification extends WebElementBasedStringVerification<CssV
   }
 
   /**
+   * <p>Constructor for CssValueVerification.</p>
+   *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName, String expectedValue) {
     this(selector, cssValueName);

@@ -33,6 +33,8 @@ import io.wcm.qa.glnm.verification.stability.Stability;
 /**
  * Verifies stability of entries in Har. Succeeds if the same number of entries are in Har in two consequtive
  * verification attempts.
+ *
+ * @since 1.0.0
  */
 public class HarStability extends Stability<List<HarEntry>> {
 
@@ -40,6 +42,8 @@ public class HarStability extends Stability<List<HarEntry>> {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public HarStability() {
     super(new HarEntrySampler());

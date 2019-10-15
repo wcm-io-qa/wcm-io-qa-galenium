@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Convenience methods to set system properties.
+ *
+ * @since 1.0.0
  */
 public final class ConfigurationUtil {
 
@@ -40,8 +42,10 @@ public final class ConfigurationUtil {
 
   /**
    * Adds a system property.
+   *
    * @param name of property
    * @param value of property
+   * @since 3.0.0
    */
   public static void addProperty(Object name, Object value) {
     if (name == null || value == null) {
@@ -55,7 +59,9 @@ public final class ConfigurationUtil {
 
   /**
    * Add properties from map to system properties.
+   *
    * @param newProperties to add
+   * @since 3.0.0
    */
   public static void addToSystemProperties(Map<String, String> newProperties) {
     Set<Entry<String, String>> entrySet = newProperties.entrySet();
@@ -73,7 +79,9 @@ public final class ConfigurationUtil {
 
   /**
    * Add system properties.
+   *
    * @param newProperties to add
+   * @since 3.0.0
    */
   public static void addToSystemProperties(Properties newProperties) {
     for (String name : newProperties.stringPropertyNames()) {

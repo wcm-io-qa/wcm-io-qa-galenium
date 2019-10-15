@@ -21,12 +21,16 @@ package io.wcm.qa.glnm.differences.difference.sut;
 
 /**
  * Uses URL path relative to host as difference.
+ *
+ * @since 1.0.0
  */
 public class RelativePathDifference extends UrlDifference {
 
 
   /**
    * Uses current URL from driver.
+   *
+   * @since 2.0.0
    */
   public RelativePathDifference() {
     super();
@@ -34,6 +38,8 @@ public class RelativePathDifference extends UrlDifference {
 
   /**
    * Uses current URL from driver.
+   *
+   * @since 2.0.0
    * @param url to construct difference from
    */
   public RelativePathDifference(String url) {

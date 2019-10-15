@@ -25,16 +25,22 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Counts elements matching the selector.
+ *
+ * @since 1.0.0
  */
 public class ElementCountSampler extends SelectorBasedSampler<Integer> {
 
   /**
+   * <p>Constructor for ElementCountSampler.</p>
+   *
    * @param selector identifies elements to be counted
+   * @since 3.0.0
    */
   public ElementCountSampler(Selector selector) {
     super(selector);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Integer freshSample() {
     return Element.findAll(getSelector()).size();

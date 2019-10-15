@@ -28,65 +28,98 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Parameters for constructing image comparison spec.
+ *
+ * @since 2.0.0
  */
 public interface IcsDefinition {
 
   /**
+   * <p>correctForSrollPosition.</p>
+   *
    * @param yCorrection amount of scrolling
    */
   void correctForSrollPosition(int yCorrection);
 
   /**
+   * <p>getAllowedError.</p>
+   *
    * @return allowed error string
    */
   String getAllowedError();
 
   /**
+   * <p>getAllowedOffset.</p>
+   *
    * @return offset to analyse
    */
   int getAllowedOffset();
 
   /**
+   * <p>getCorrections.</p>
+   *
    * @return corrections applied to locator
    */
   CorrectionsRect getCorrections();
 
   /**
+   * <p>getElementName.</p>
+   *
    * @return name of element
    */
   String getElementName();
 
   /**
+   * <p>getFilename.</p>
+   *
    * @return the filename of image sample to compare against
    */
   String getFilename();
 
   /**
+   * <p>getFoldername.</p>
+   *
    * @return the folder name of image sample to compare against
    */
   String getFoldername();
 
   /**
+   * <p>getLocator.</p>
+   *
    * @return selector as locator with corrections
    */
   Locator getLocator();
 
   /**
+   * <p>getObjectsToIgnore.</p>
+   *
    * @return list of objects to ignore
    */
   List<Selector> getObjectsToIgnore();
 
   /**
+   * <p>getSectionName.</p>
+   *
    * @return name of Galen spec section
    */
   String getSectionName();
 
   /**
+   * <p>getSelector.</p>
+   *
    * @return selector of element to check
    */
   Selector getSelector();
 
   /**
+   * <p>isCropIfOutside.</p>
+   *
+   * @return whether to ignore sampling outside of raster
+   */
+  boolean isCropIfOutside();
+
+  /**
+   * <p>isZeroToleranceWarning.</p>
+   *
    * @return whether to add a zero tolerance check at warning level
    */
   boolean isZeroToleranceWarning();

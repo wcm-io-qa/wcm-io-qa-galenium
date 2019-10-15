@@ -27,7 +27,9 @@ import io.wcm.qa.glnm.sampling.CachingSampler;
 
 /**
  * Abstract base class for caching samplers.
- * @param <T>
+ *
+ * @param <T> type of sample returned by sampler
+ * @since 1.0.0
  */
 public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
 
@@ -36,11 +38,13 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
   private T cachedValue;
   private boolean caching;
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     return caching;
   }
 
+  /** {@inheritDoc} */
   @Override
   public T sampleValue() {
     if (isCaching() && getCachedValue() != null) {
@@ -60,6 +64,7 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean activateCache) {
     this.caching = activateCache;

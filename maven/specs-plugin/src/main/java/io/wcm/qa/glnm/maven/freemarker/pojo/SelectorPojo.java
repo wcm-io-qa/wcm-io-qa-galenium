@@ -31,6 +31,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Wrapper for NestedSelector plus references to spec.
+ *
+ * @since 1.0.0
  */
 public class SelectorPojo implements NestedSelector {
 
@@ -39,6 +41,7 @@ public class SelectorPojo implements NestedSelector {
 
   /**
    * Constructor.
+   *
    * @param spec selector is from
    * @param selector to delegate to
    */
@@ -47,36 +50,43 @@ public class SelectorPojo implements NestedSelector {
     setDelegatee(selector);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Selector asAbsolute() {
     return getDelegatee().asAbsolute();
   }
 
+  /** {@inheritDoc} */
   @Override
   public By asBy() {
     return getDelegatee().asBy();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Locator asLocator() {
     return getDelegatee().asLocator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Selector asRelative() {
     return getDelegatee().asRelative();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asString() {
     return getDelegatee().asString();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String elementName() {
     return getDelegatee().elementName();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Collection<NestedSelector> getChildren() {
     Collection<NestedSelector> children = new ArrayList<>();
@@ -86,20 +96,28 @@ public class SelectorPojo implements NestedSelector {
     return children;
   }
 
+  /** {@inheritDoc} */
   @Override
   public NestedSelector getParent() {
     return wrap(getDelegatee().getParent());
   }
 
+  /**
+   * <p>Getter for the field <code>spec</code>.</p>
+   *
+   * @return a  {@link io.wcm.qa.glnm.maven.freemarker.pojo.SpecPojo} object.
+   */
   public SpecPojo getSpec() {
     return spec;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasChildren() {
     return getDelegatee().hasChildren();
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasParent() {
     return getDelegatee().hasParent();

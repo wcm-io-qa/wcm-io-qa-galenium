@@ -32,12 +32,15 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Abstract base class for implentations of template methods.
- * @param <S>
+ *
+ * @param <S> return type of method
+ * @since 1.0.0
  */
 public abstract class AbstractTemplateMethod<S> implements TemplateMethodModelEx {
 
   private static final Logger LOG = LoggerFactory.getLogger(AbstractTemplateMethod.class);
 
+  /** {@inheritDoc} */
   @Override
   public Object exec(List arguments) throws TemplateModelException {
     if (arguments == null || arguments.isEmpty()) {

@@ -21,12 +21,17 @@ package io.wcm.qa.glnm.sampling;
 
 /**
  * Generic sampler.
- * @param <T>
+ *
+ * @param <T> type of sample returned by sampler
+ * @since 1.0.0
  */
 public interface Sampler<T> {
 
   /**
+   * <p>sampleValue.</p>
+   *
    * @return a fresh sample
+   * @since 3.0.0
    */
   T sampleValue();
 

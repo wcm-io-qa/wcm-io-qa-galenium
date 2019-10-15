@@ -26,20 +26,31 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples an attribute of a web element.
+ *
+ * @since 1.0.0
  */
 public class CssValueSampler extends WebElementBasedSampler<String> {
 
   private String cssValueName;
 
   /**
+   * <p>Constructor for CssValueSampler.</p>
+   *
    * @param selector identifies element
    * @param cssValueName name of CSS value to sample
+   * @since 3.0.0
    */
   public CssValueSampler(Selector selector, String cssValueName) {
     super(selector);
     setAttributeName(cssValueName);
   }
 
+  /**
+   * <p>Getter for the field <code>cssValueName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 3.0.0
+   */
   public String getCssValueName() {
     return cssValueName;
   }

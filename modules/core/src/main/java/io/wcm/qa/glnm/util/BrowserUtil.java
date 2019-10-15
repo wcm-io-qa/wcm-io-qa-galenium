@@ -28,6 +28,8 @@ import io.wcm.qa.glnm.device.TestDevice;
 
 /**
  * Collection of utility methods when dealing with browsers.
+ *
+ * @since 1.0.0
  */
 public final class BrowserUtil {
 
@@ -36,21 +38,30 @@ public final class BrowserUtil {
   }
 
   /**
+   * <p>isChrome.</p>
+   *
    * @return whether current browser is Chrome
+   * @since 3.0.0
    */
   public static boolean isChrome() {
     return isBrowser(CHROME);
   }
 
   /**
+   * <p>isFirefox.</p>
+   *
    * @return whether current browser is Firefox
+   * @since 3.0.0
    */
   public static boolean isFirefox() {
     return isBrowser(FIREFOX);
   }
 
   /**
+   * <p>isInternetExplorer.</p>
+   *
    * @return whether current browser is Internet Explorer
+   * @since 3.0.0
    */
   public static boolean isInternetExplorer() {
     return isBrowser(IE);

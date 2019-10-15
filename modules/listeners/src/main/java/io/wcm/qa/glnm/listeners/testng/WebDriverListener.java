@@ -24,7 +24,6 @@ import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getNumberOfBrow
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -42,13 +41,16 @@ import io.wcm.qa.glnm.util.TestInfoUtil;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
- * Handles {@link WebDriver} life cycle in single and multi threaded scenarios.
+ * Handles {@link org.openqa.selenium.WebDriver} life cycle in single and multi threaded scenarios.
+ *
+ * @since 1.0.0
  */
 public class WebDriverListener implements ITestListener {
 
   private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
   private static final Logger LOG = LoggerFactory.getLogger(WebDriverListener.class);
 
+  /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
     // if not running multiple tests/method/classes in parallel, then the same WebDriver instance is
@@ -59,6 +61,7 @@ public class WebDriverListener implements ITestListener {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onStart(ITestContext context) {
     LOG.trace("WebDriverListener active.");
@@ -66,21 +69,25 @@ public class WebDriverListener implements ITestListener {
     setAdjustViewportInGalen(!isSuppressAutoAdjustBrowserSize());
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
     closeDriverIfRunningInParallel(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult result) {
     closeDriverIfRunningInParallel(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSkipped(ITestResult result) {
     closeDriverIfRunningInParallel(result);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
     // do nothing for lazy initialization
@@ -120,6 +127,7 @@ public class WebDriverListener implements ITestListener {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult result) {
     closeDriverIfRunningInParallel(result);

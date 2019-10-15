@@ -26,20 +26,31 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples an attribute of a web element.
+ *
+ * @since 1.0.0
  */
 public class AttributeSampler extends WebElementBasedSampler<String> {
 
   private String attributeName;
 
   /**
+   * <p>Constructor for AttributeSampler.</p>
+   *
    * @param selector identifies element
    * @param attributeName name of attribute to sample
+   * @since 3.0.0
    */
   public AttributeSampler(Selector selector, String attributeName) {
     super(selector);
     setAttributeName(attributeName);
   }
 
+  /**
+   * <p>Getter for the field <code>attributeName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 3.0.0
+   */
   public String getAttributeName() {
     return attributeName;
   }

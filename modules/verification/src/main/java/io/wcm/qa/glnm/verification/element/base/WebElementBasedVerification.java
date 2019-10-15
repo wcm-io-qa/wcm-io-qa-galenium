@@ -25,6 +25,8 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Base class encapsulating common functionality to verify aspects of elements.
+ *
+ * @since 1.0.0
  */
 public abstract class WebElementBasedVerification<S extends WebElementBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 

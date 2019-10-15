@@ -24,12 +24,14 @@ import org.apache.commons.lang3.SystemUtils;
 import io.wcm.qa.glnm.differences.base.DifferenceBase;
 
 /**
- * Uses {@link SystemUtils} to tell apart the big three OSes:
+ * Uses {@link org.apache.commons.lang3.SystemUtils} to tell apart the big three OSes:
  * <ul>
  * <li>LINUX</li>
  * <li>OSX</li>
  * <li>WINDOWS</li>
  * </ul>
+ *
+ * @since 2.0.0
  */
 public class OsFamilyDifference extends DifferenceBase {
 

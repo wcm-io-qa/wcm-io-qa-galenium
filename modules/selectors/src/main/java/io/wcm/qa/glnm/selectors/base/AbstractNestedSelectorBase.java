@@ -27,7 +27,9 @@ import org.openqa.selenium.By;
 import com.galenframework.specs.page.Locator;
 
 /**
- * Abstract base class for {@link NestedSelector} implementations.
+ * Abstract base class for  {@link io.wcm.qa.glnm.selectors.base.NestedSelector} implementations.
+ *
+ * @since 1.0.0
  */
 public class AbstractNestedSelectorBase extends AbstractSelectorBase implements NestedSelector {
 
@@ -37,12 +39,15 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
   private Selector relative;
 
   /**
+   * <p>addChild.</p>
+   *
    * @param child to add
    */
   public void addChild(NestedSelector child) {
     getChildren().add(child);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Selector asAbsolute() {
     if (getAbsolute() == null) {
@@ -54,6 +59,7 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#asBy()
    */
+  /** {@inheritDoc} */
   @Override
   public By asBy() {
     return asAbsolute().asBy();
@@ -62,11 +68,13 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#asLocator()
    */
+  /** {@inheritDoc} */
   @Override
   public Locator asLocator() {
     return asAbsolute().asLocator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Selector asRelative() {
     if (getRelative() == null) {
@@ -78,6 +86,7 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#asString()
    */
+  /** {@inheritDoc} */
   @Override
   public String asString() {
     return asAbsolute().asString();
@@ -86,11 +95,13 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
   /* (non-Javadoc)
    * @see io.wcm.qa.galenium.selectors.AbstractSelectorBase#elementName()
    */
+  /** {@inheritDoc} */
   @Override
   public String elementName() {
     return asAbsolute().elementName();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Collection<NestedSelector> getChildren() {
     if (children == null) {
@@ -99,16 +110,19 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
     return children;
   }
 
+  /** {@inheritDoc} */
   @Override
   public NestedSelector getParent() {
     return parent;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasChildren() {
     return !getChildren().isEmpty();
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean hasParent() {
     return getParent() != null;
@@ -116,6 +130,7 @@ public class AbstractNestedSelectorBase extends AbstractSelectorBase implements 
 
   /**
    * Set parent and update selector state.
+   *
    * @param parent new parent selector
    */
   public void setParent(NestedSelector parent) {

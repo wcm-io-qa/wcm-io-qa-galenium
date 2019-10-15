@@ -21,12 +21,16 @@ package io.wcm.qa.glnm.verification.base;
 
 /**
  * Represents verifiable objects in a lambda friendly way.
+ *
+ * @since 1.0.0
  */
 public interface Verifiable {
 
   /**
    * Attempts verification, if it was not attempted before, and returns whether it was successful
+   *
    * @return whether verification was successful
+   * @since 3.0.0
    */
   boolean verify();
 }

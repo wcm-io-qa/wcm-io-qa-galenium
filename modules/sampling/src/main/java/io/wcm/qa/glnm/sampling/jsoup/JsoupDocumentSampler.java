@@ -32,19 +32,24 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 
 /**
- * Uses {@link Jsoup} to fetch HTML from a URL.
+ * Uses {@link org.jsoup.Jsoup} to fetch HTML from a URL.
+ *
+ * @since 3.0.0
  */
 public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
 
   private static final Logger LOG = LoggerFactory.getLogger(JsoupDocumentSampler.class);
 
   /**
+   * <p>Constructor for JsoupDocumentSampler.</p>
+   *
    * @param url to fetch HTML from
    */
   public JsoupDocumentSampler(String url) {
     super(url);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Document freshSample() {
     return getDocument();

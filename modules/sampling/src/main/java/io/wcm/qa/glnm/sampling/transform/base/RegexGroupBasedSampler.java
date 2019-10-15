@@ -27,32 +27,43 @@ import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Abstract base class for implementations extracting groups from a string based on regular expression.
- * @param <S>
+ *
+ * @param <S> type of input sampler
+ * @since 1.0.0
  */
 public abstract class RegexGroupBasedSampler<S extends Sampler<String>> extends RegexBasedSampler<S, Collection<String>> {
 
   private boolean includeWholeMatchGroup = true;
 
   /**
+   * <p>Constructor for RegexGroupBasedSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexGroupBasedSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
   /**
+   * <p>Constructor for RegexGroupBasedSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexGroupBasedSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
   }
 
   /**
+   * <p>Constructor for RegexGroupBasedSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param flags to regular expression
+   * @since 3.0.0
    */
   public RegexGroupBasedSampler(S inputSampler, String regex, int flags) {
     super(inputSampler, regex, flags);

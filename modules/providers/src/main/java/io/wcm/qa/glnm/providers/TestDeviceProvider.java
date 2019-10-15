@@ -27,6 +27,8 @@ import io.wcm.qa.glnm.device.TestDeviceUtil;
 
 /**
  * TestNG data provider for test devices.
+ *
+ * @since 1.0.0
  */
 public final class TestDeviceProvider {
 
@@ -42,7 +44,10 @@ public final class TestDeviceProvider {
   }
 
   /**
+   * <p>provideSingleTestDevice.</p>
+   *
    * @return single test device
+   * @since 3.0.0
    */
   @DataProvider(name = GALENIUM_SINGLE_TEST_DEVICE)
   public static Object[][] provideSingleTestDevice() {
@@ -51,7 +56,10 @@ public final class TestDeviceProvider {
   }
 
   /**
+   * <p>provideTestDevices.</p>
+   *
    * @return all test devices
+   * @since 3.0.0
    */
   @DataProvider(name = GALENIUM_TEST_DEVICES_ALL)
   public static Object[][] provideTestDevices() {
@@ -59,7 +67,10 @@ public final class TestDeviceProvider {
   }
 
   /**
+   * <p>provideTestDevicesFromDeviceCsv.</p>
+   *
    * @return all test devices from device config
+   * @since 3.0.0
    */
   @DataProvider(name = GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)
   public static Object[][] provideTestDevicesFromDeviceCsv() {

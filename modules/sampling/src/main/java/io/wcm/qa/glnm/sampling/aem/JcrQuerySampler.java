@@ -44,6 +44,8 @@ import io.wcm.qa.glnm.sampling.transform.JsonSampler;
 
 /**
  * Samples paths from JCQ query against AEM author.
+ *
+ * @since 3.0.0
  */
 public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
 
@@ -81,6 +83,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>addLikeProperty.</p>
+   *
    * @param name of property to filter by
    * @param pattern jcr:like pattern to match value of property
    * @return this
@@ -91,6 +95,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>addStrictProperty.</p>
+   *
    * @param name of property to filter by
    * @param value exact value of property
    * @return this
@@ -100,6 +106,7 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     return this;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Map<String, String> freshSample() {
     String url = buildUrl();
@@ -120,39 +127,81 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     return Maps.filterKeys(freshSample, HIT_KEY_FILTER);
   }
 
+  /**
+   * <p>Getter for the field <code>hostName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getHostName() {
     return hostName;
   }
 
+  /**
+   * <p>Getter for the field <code>maxNumberOfResults</code>.</p>
+   *
+   * @return a int.
+   */
   public int getMaxNumberOfResults() {
     return maxNumberOfResults;
   }
 
+  /**
+   * <p>Getter for the field <code>password</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPassword() {
     return password;
   }
 
+  /**
+   * <p>Getter for the field <code>path</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * <p>Getter for the field <code>port</code>.</p>
+   *
+   * @return a int.
+   */
   public int getPort() {
     return port;
   }
 
+  /**
+   * <p>Getter for the field <code>protocol</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getProtocol() {
     return protocol;
   }
 
+  /**
+   * <p>Getter for the field <code>userName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getUserName() {
     return userName;
   }
 
+  /**
+   * <p>isLoginToAuthor.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isLoginToAuthor() {
     return loginToAuthor;
   }
 
   /**
+   * <p>Setter for the field <code>hostName</code>.</p>
+   *
    * @param host to use for login and query
    * @return this
    */
@@ -162,6 +211,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>loginToAuthor</code>.</p>
+   *
    * @param login whether to login before querying
    * @return this
    */
@@ -171,6 +222,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>maxNumberOfResults</code>.</p>
+   *
    * @param maxResults limit on number of returned results (default: 1000)
    * @return this
    */
@@ -180,6 +233,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>password</code>.</p>
+   *
    * @param pass to use for login
    * @return this
    */
@@ -189,6 +244,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>path</code>.</p>
+   *
    * @param rootPath to use as constraint
    * @return this
    */
@@ -198,6 +255,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>port</code>.</p>
+   *
    * @param portNumber to use for query and login
    * @return this
    */
@@ -207,6 +266,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>protocol</code>.</p>
+   *
    * @param scheme to use for query and login
    * @return this
    */
@@ -216,6 +277,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>Setter for the field <code>userName</code>.</p>
+   *
    * @param user to use for login
    * @return this
    */

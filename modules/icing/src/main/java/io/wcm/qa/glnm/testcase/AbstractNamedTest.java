@@ -26,7 +26,9 @@ import org.testng.ITest;
 import org.testng.SkipException;
 
 /**
- * Base class with test name for TestNG's {@link ITest} interface.
+ * Base class with test name for TestNG's {@link org.testng.ITest} interface.
+ *
+ * @since 3.0.0
  */
 public class AbstractNamedTest implements ITest {
 
@@ -36,6 +38,7 @@ public class AbstractNamedTest implements ITest {
     super();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTestName() {
     return getClass().getName();

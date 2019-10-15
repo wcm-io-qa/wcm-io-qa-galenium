@@ -26,21 +26,29 @@ import io.wcm.qa.glnm.verification.string.base.StringSamplerBasedVerification;
 
 /**
  * Verifies current page's title.
+ *
+ * @since 1.0.0
  */
 public class PageTitleVerification extends StringSamplerBasedVerification {
 
   private static final String KEY_PART_PAGE_TITLE = "title";
 
   /**
+   * <p>Constructor for PageTitleVerification.</p>
+   *
    * @param verificationName to use in reporting
+   * @since 3.0.0
    */
   public PageTitleVerification(String verificationName) {
     super(verificationName, new PageTitleSampler());
   }
 
   /**
+   * <p>Constructor for PageTitleVerification.</p>
+   *
    * @param verificationName to use in reporting
    * @param expectedTitle to verify against
+   * @since 3.0.0
    */
   public PageTitleVerification(String verificationName, String expectedTitle) {
     this(verificationName);

@@ -27,13 +27,18 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Verifies that element has no text.
+ *
+ * @since 1.0.0
  */
 public class EmptyTextVerification extends TextVerification {
 
   private static final Logger LOG = LoggerFactory.getLogger(EmptyTextVerification.class);
 
   /**
+   * <p>Constructor for EmptyTextVerification.</p>
+   *
    * @param selector identifies element
+   * @since 2.0.0
    */
   public EmptyTextVerification(Selector selector) {
     super(selector);

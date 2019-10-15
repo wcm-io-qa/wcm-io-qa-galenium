@@ -26,7 +26,9 @@ import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 
 /**
  * Abstract base class for implementations to verification on strings sampled from web elements.
+ *
  * @param <S> sampler taking strings from elements
+ * @since 1.0.0
  */
 public abstract class WebElementBasedStringVerification<S extends WebElementBasedSampler<String>> extends WebElementBasedVerification<S, String> {
 

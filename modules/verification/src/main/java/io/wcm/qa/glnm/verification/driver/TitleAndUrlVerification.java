@@ -23,11 +23,16 @@ import io.wcm.qa.glnm.verification.base.CombinedVerification;
 
 /**
  * Verifies current page title and URL.
+ *
+ * @since 1.0.0
  */
 public class TitleAndUrlVerification extends CombinedVerification {
 
   /**
+   * <p>Constructor for TitleAndUrlVerification.</p>
+   *
    * @param verificationName name for this particular check
+   * @since 2.0.0
    */
   public TitleAndUrlVerification(String verificationName) {
     super(new CurrentUrlVerification(verificationName), new PageTitleVerification(verificationName));

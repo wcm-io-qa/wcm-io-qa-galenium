@@ -26,6 +26,8 @@ import io.wcm.qa.glnm.sampling.browser.ScrollPositionSampler;
 
 /**
  * Verifies stable scroll position of current page. Useful when waiting for scrolling to finish.
+ *
+ * @since 1.0.0
  */
 public class StableScrollPosition extends Stability<Long> {
 
@@ -33,6 +35,8 @@ public class StableScrollPosition extends Stability<Long> {
 
   /**
    * Constructor.
+   *
+   * @since 2.0.0
    */
   public StableScrollPosition() {
     super(new ScrollPositionSampler());

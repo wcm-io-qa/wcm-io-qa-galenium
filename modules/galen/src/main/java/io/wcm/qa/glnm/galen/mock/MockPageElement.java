@@ -24,41 +24,49 @@ import com.galenframework.page.Rect;
 
 final class MockPageElement extends PageElement {
 
+  /** {@inheritDoc} */
   @Override
   public String getCssProperty(String cssPropertyName) {
     return "DUMMY_CSS_PROPERTY";
   }
 
+  /** {@inheritDoc} */
   @Override
   public int getHeight() {
     return 0;
   }
 
+  /** {@inheritDoc} */
   @Override
   public int getLeft() {
     return 0;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getText() {
     return null;
   }
 
+  /** {@inheritDoc} */
   @Override
   public int getTop() {
     return 0;
   }
 
+  /** {@inheritDoc} */
   @Override
   public int getWidth() {
     return 0;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isPresent() {
     return true;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isVisible() {
     return true;
