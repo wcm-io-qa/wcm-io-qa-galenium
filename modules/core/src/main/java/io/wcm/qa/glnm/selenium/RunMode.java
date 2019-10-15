@@ -49,6 +49,7 @@ public enum RunMode {
    * <p>getRunMode.</p>
    *
    * @return string representation of run mode.
+   * @since 3.0.0
    */
   public String getRunMode() {
     return mRunMode;

@@ -47,6 +47,7 @@ public final class FileHandlingUtil {
    * @param rootDirectory to be relative to
    * @param file to get relative path for
    * @return file with relative path
+   * @since 3.0.0
    */
   public static File constructRelativeFile(File rootDirectory, File file) {
     return new File(constructRelativePath(rootDirectory, file));
@@ -58,6 +59,7 @@ public final class FileHandlingUtil {
    * @param rootPath to be relative to
    * @param filePath to make relative
    * @return file with relative path
+   * @since 3.0.0
    */
   public static File constructRelativeFile(String rootPath, String filePath) {
     return new File(constructRelativePath(rootPath, filePath));
@@ -69,6 +71,7 @@ public final class FileHandlingUtil {
    * @param rootDirectory to be relative to
    * @param file to get relative path for
    * @return relative path for file
+   * @since 3.0.0
    */
   public static String constructRelativePath(File rootDirectory, File file) {
     if (getLogger().isTraceEnabled()) {
@@ -97,6 +100,7 @@ public final class FileHandlingUtil {
    * @param rootPath to be relative to
    * @param filePath to make relative
    * @return file with relative path
+   * @since 3.0.0
    */
   public static String constructRelativePath(String rootPath, String filePath) {
     return StringUtils.difference(rootPath, filePath);
@@ -106,6 +110,7 @@ public final class FileHandlingUtil {
    * <p>ensureParent.</p>
    *
    * @param file will have an existing parent directory on success
+   * @since 3.0.0
    */
   public static void ensureParent(File file) {
     File parentFile = file.getParentFile();

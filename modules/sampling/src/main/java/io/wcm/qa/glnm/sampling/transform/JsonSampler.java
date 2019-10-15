@@ -42,6 +42,7 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
    * <p>Constructor for JsonSampler.</p>
    *
    * @param inputSampler providing the JSON as String
+   * @since 3.0.0
    */
   public JsonSampler(S inputSampler) {
     super(inputSampler);

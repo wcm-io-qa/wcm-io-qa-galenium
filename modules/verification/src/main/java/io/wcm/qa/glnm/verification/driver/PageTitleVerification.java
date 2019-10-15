@@ -37,6 +37,7 @@ public class PageTitleVerification extends StringSamplerBasedVerification {
    * <p>Constructor for PageTitleVerification.</p>
    *
    * @param verificationName to use in reporting
+   * @since 3.0.0
    */
   public PageTitleVerification(String verificationName) {
     super(verificationName, new PageTitleSampler());
@@ -47,6 +48,7 @@ public class PageTitleVerification extends StringSamplerBasedVerification {
    *
    * @param verificationName to use in reporting
    * @param expectedTitle to verify against
+   * @since 3.0.0
    */
   public PageTitleVerification(String verificationName, String expectedTitle) {
     this(verificationName);

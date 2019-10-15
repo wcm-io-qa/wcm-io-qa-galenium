@@ -26,13 +26,17 @@ import java.util.function.BiPredicate;
 import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
- * A {@link StringDiffVerification} that allows to add
+ * A {@link io.wcm.qa.glnm.verification.diff.StringDiffVerification} that allows to add
+ *
+ * @since 3.0.0
  */
 public class ScrubbableStringDiffVerification extends StringDiffVerification {
 
   private List<BiPredicate<String, String>> scrubbers = new ArrayList<BiPredicate<String, String>>();
 
   /**
+   * <p>Constructor for ScrubbableStringDiffVerification.</p>
+   *
    * @param verificationName for logging and reporting
    * @param sampler to fetch sample
    */
@@ -48,6 +52,8 @@ public class ScrubbableStringDiffVerification extends StringDiffVerification {
   }
 
   /**
+   * <p>withScrubber.</p>
+   *
    * @param scrubber to append to scrubber list
    * @return this
    */

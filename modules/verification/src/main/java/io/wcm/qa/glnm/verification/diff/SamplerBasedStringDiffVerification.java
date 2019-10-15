@@ -30,7 +30,9 @@ import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
 
 /**
  * Diff based verification for String based samplers.
+ *
  * @param <S> sampler to use
+ * @since 3.0.0
  */
 public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<String>>> extends SamplerBasedDiffVerification<S, String, List<String>> {
 
@@ -40,10 +42,20 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
     super(verificationName, sampler);
   }
 
+  /**
+   * <p>isIgnoreWhitespace.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isIgnoreWhitespace() {
     return ignoreWhitespace;
   }
 
+  /**
+   * <p>Setter for the field <code>ignoreWhitespace</code>.</p>
+   *
+   * @param ignoreWhitespace a boolean.
+   */
   public void setIgnoreWhitespace(boolean ignoreWhitespace) {
     this.ignoreWhitespace = ignoreWhitespace;
   }

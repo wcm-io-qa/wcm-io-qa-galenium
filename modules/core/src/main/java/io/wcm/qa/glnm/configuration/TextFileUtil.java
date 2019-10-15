@@ -43,6 +43,7 @@ public final class TextFileUtil {
    *
    * @param file to read from
    * @return list of strings with one string per line
+   * @since 3.0.0
    */
   public static Collection<String> parse(File file) {
     try {
@@ -58,6 +59,7 @@ public final class TextFileUtil {
    *
    * @param filePath to read from
    * @return list of strings with one string per line
+   * @since 3.0.0
    */
   public static Collection<String> parse(final String filePath) {
     return parse(new File(filePath));

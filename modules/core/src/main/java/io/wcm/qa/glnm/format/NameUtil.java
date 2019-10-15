@@ -57,6 +57,7 @@ public final class NameUtil {
    * @param input to clean and shorten
    * @param maxLength maximal length of returned clean version
    * @return cleaned version respecting the maximal length
+   * @since 3.0.0
    */
   public static String getSanitized(String input, int maxLength) {
     String cleaned = cleanCharacters(input);

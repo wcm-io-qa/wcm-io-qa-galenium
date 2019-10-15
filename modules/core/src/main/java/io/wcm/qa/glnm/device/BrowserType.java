@@ -44,6 +44,7 @@ public enum BrowserType {
    * <p>getBrowser.</p>
    *
    * @return string representation of browser type to feed to Selenium
+   * @since 3.0.0
    */
   public String getBrowser() {
     return mBrowser;

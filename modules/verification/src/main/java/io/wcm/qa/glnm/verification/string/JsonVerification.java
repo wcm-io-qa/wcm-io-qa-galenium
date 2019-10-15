@@ -33,6 +33,7 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Abstract base class for implementations verifying JSON formatted inputs.
+ *
  * @param <S> sampler supplying raw JSON string
  * @since 1.0.0
  */

@@ -37,6 +37,7 @@ public class LocationSampler extends WebElementBasedSampler<Point> {
    * <p>Constructor for LocationSampler.</p>
    *
    * @param selector identifies element
+   * @since 3.0.0
    */
   public LocationSampler(Selector selector) {
     super(selector);

@@ -35,6 +35,7 @@ public interface TestDevice {
    * <p>getBrowserType.</p>
    *
    * @return browser to use for this device
+   * @since 3.0.0
    */
   BrowserType getBrowserType();
 
@@ -42,6 +43,7 @@ public interface TestDevice {
    * <p>getChromeEmulator.</p>
    *
    * @return chrome emulator string if set or null
+   * @since 3.0.0
    */
   String getChromeEmulator();
 
@@ -49,6 +51,7 @@ public interface TestDevice {
    * <p>getTags.</p>
    *
    * @return include tags to use in Galen tests and specs
+   * @since 3.0.0
    */
   List<String> getTags();
 
@@ -56,6 +59,7 @@ public interface TestDevice {
    * <p>getName.</p>
    *
    * @return test device name for use in logging and test case names
+   * @since 3.0.0
    */
   String getName();
 
@@ -63,6 +67,7 @@ public interface TestDevice {
    * <p>getScreenSize.</p>
    *
    * @return viewport size for this test device
+   * @since 3.0.0
    */
   Dimension getScreenSize();
 

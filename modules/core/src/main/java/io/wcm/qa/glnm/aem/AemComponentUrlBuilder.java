@@ -26,6 +26,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Encapsulates logic to directly talk to components.
+ *
+ * @since 3.0.0
  */
 public class AemComponentUrlBuilder {
 
@@ -46,6 +48,8 @@ public class AemComponentUrlBuilder {
   }
 
   /**
+   * <p>build.</p>
+   *
    * @return configured URL
    */
   public URL build() {
@@ -68,6 +72,8 @@ public class AemComponentUrlBuilder {
   }
 
   /**
+   * <p>Setter for the field <code>authorInstance</code>.</p>
+   *
    * @param isAuthor whether SUT is an author instance
    * @return this
    */
@@ -77,6 +83,8 @@ public class AemComponentUrlBuilder {
   }
 
   /**
+   * <p>Setter for the field <code>componentName</code>.</p>
+   *
    * @param name of component to address
    * @return this
    */
@@ -86,6 +94,8 @@ public class AemComponentUrlBuilder {
   }
 
   /**
+   * <p>Setter for the field <code>contentPath</code>.</p>
+   *
    * @param path to page
    * @return this
    */
@@ -96,6 +106,7 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 'html'.
+   *
    * @param renderFormat defines rendering format for component
    * @return this
    */
@@ -106,6 +117,7 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 'localhost'.
+   *
    * @param hostName of AEM instance
    * @return this
    */
@@ -116,6 +128,7 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 4502.
+   *
    * @param aemPort of AEM instance, set to -1 to omit port
    * @return this
    */
@@ -126,7 +139,7 @@ public class AemComponentUrlBuilder {
 
   /**
    * Default 'http'.
-
+   *
    * @param networkProtocol to use for fetching
    * @return this
    */

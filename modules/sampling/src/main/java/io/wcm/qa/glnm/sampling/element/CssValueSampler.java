@@ -38,6 +38,7 @@ public class CssValueSampler extends WebElementBasedSampler<String> {
    *
    * @param selector identifies element
    * @param cssValueName name of CSS value to sample
+   * @since 3.0.0
    */
   public CssValueSampler(Selector selector, String cssValueName) {
     super(selector);
@@ -48,6 +49,7 @@ public class CssValueSampler extends WebElementBasedSampler<String> {
    * <p>Getter for the field <code>cssValueName</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public String getCssValueName() {
     return cssValueName;

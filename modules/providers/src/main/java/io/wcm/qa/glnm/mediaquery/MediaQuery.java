@@ -31,6 +31,7 @@ public interface MediaQuery {
    * <p>getLowerBound.</p>
    *
    * @return lower bound in pixels
+   * @since 3.0.0
    */
   int getLowerBound();
 
@@ -38,6 +39,7 @@ public interface MediaQuery {
    * <p>getName.</p>
    *
    * @return name of media query
+   * @since 3.0.0
    */
   String getName();
 
@@ -45,6 +47,7 @@ public interface MediaQuery {
    * <p>getUpperBound.</p>
    *
    * @return upper bound in pixels
+   * @since 3.0.0
    */
   int getUpperBound();
 

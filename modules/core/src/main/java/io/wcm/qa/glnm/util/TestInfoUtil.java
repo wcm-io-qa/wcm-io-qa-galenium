@@ -69,6 +69,7 @@ public final class TestInfoUtil {
    *
    * @param test to add categories to
    * @param result source for TestNG groups, browser, and breakpoints
+   * @since 3.0.0
    */
   public static void assignCategories(ExtentTest test, ITestResult result) {
 
@@ -97,6 +98,7 @@ public final class TestInfoUtil {
    *
    * @param result test result to retrieve test case from
    * @return device if one was found
+   * @since 3.0.0
    */
   public static TestDevice getTestDevice(ITestResult result) {
     Object testClass = result.getInstance();
@@ -111,6 +113,7 @@ public final class TestInfoUtil {
    *
    * @param testInfo to check
    * @return whether there are warnings in the results
+   * @since 3.0.0
    */
   public static boolean hasWarnings(GalenTestInfo testInfo) {
     TestReport report = testInfo.getReport();
@@ -132,6 +135,7 @@ public final class TestInfoUtil {
    *
    * @param testInfo to check
    * @return whether test failed
+   * @since 3.0.0
    */
   public static boolean isFailed(GalenTestInfo testInfo) {
     return testInfo.isFailed();
@@ -141,6 +145,7 @@ public final class TestInfoUtil {
    * <p>logGalenTestInfo.</p>
    *
    * @param testInfo to log
+   * @since 3.0.0
    */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {
@@ -220,6 +225,7 @@ public final class TestInfoUtil {
    *
    * @param result to extract test name from
    * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
+   * @since 3.0.0
    */
   public static String getAlphanumericTestName(ITestResult result) {
     String name = result.getName();

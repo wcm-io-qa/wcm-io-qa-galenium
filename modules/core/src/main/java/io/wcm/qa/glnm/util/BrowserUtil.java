@@ -41,6 +41,7 @@ public final class BrowserUtil {
    * <p>isChrome.</p>
    *
    * @return whether current browser is Chrome
+   * @since 3.0.0
    */
   public static boolean isChrome() {
     return isBrowser(CHROME);
@@ -50,6 +51,7 @@ public final class BrowserUtil {
    * <p>isFirefox.</p>
    *
    * @return whether current browser is Firefox
+   * @since 3.0.0
    */
   public static boolean isFirefox() {
     return isBrowser(FIREFOX);
@@ -59,6 +61,7 @@ public final class BrowserUtil {
    * <p>isInternetExplorer.</p>
    *
    * @return whether current browser is Internet Explorer
+   * @since 3.0.0
    */
   public static boolean isInternetExplorer() {
     return isBrowser(IE);

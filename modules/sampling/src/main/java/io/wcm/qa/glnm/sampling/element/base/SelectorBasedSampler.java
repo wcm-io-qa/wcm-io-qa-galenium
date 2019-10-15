@@ -36,6 +36,7 @@ public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Constructor for SelectorBasedSampler.</p>
    *
    * @param selector to identify element(s)
+   * @since 3.0.0
    */
   public SelectorBasedSampler(Selector selector) {
     setSelector(selector);
@@ -45,6 +46,7 @@ public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Getter for the field <code>selector</code>.</p>
    *
    * @return a  {@link io.wcm.qa.glnm.selectors.base.Selector} object.
+   * @since 3.0.0
    */
   public Selector getSelector() {
     return selector;
@@ -54,6 +56,7 @@ public abstract class SelectorBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Setter for the field <code>selector</code>.</p>
    *
    * @param selector a  {@link io.wcm.qa.glnm.selectors.base.Selector} object.
+   * @since 3.0.0
    */
   public void setSelector(Selector selector) {
     this.selector = selector;

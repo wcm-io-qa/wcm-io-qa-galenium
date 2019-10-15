@@ -21,8 +21,14 @@ package io.wcm.qa.glnm.sampling;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
+/**
+ * <p>UselessSampler class.</p>
+ *
+ * @since 3.0.0
+ */
 public final class UselessSampler<T> implements Sampler<T> {
 
+  /** {@inheritDoc} */
   @Override
   public T sampleValue() {
     throw new GaleniumException("This sampler should never be used to sample.");

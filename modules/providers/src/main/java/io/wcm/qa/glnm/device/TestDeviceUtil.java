@@ -61,6 +61,7 @@ public final class TestDeviceUtil {
    * <p>getSingleTestDevice.</p>
    *
    * @return first of the configured test devices
+   * @since 3.0.0
    */
   public static List<Object> getSingleTestDevice() {
     Collection<TestDevice> testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
@@ -81,6 +82,7 @@ public final class TestDeviceUtil {
    * @param browserType browser to use
    * @param mediaQuery media query to get upper bound from
    * @return test device
+   * @since 3.0.0
    */
   public static TestDevice getTestDeviceForUpperBound(BrowserType browserType, MediaQuery mediaQuery) {
     int upperBound = mediaQuery.getUpperBound();
@@ -92,6 +94,7 @@ public final class TestDeviceUtil {
    * Test devices using the configured Browsers and upper bounds of the configured media queries.
    *
    * @return configured test devices
+   * @since 3.0.0
    */
   public static Collection<TestDevice> getTestDevicesForBrowsersAndMqs() {
     Collection<TestDevice> testDevices = new ArrayList<>();
@@ -111,6 +114,7 @@ public final class TestDeviceUtil {
    * <p>getTestDevicesFromDevicesCsv.</p>
    *
    * @return all test devices defined in CSV
+   * @since 3.0.0
    */
   public static Collection<TestDevice> getTestDevicesFromDevicesCsv() {
     Collection<TestDevice> testDevices = new ArrayList<>();

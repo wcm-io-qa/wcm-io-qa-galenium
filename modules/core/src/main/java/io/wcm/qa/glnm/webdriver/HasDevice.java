@@ -32,6 +32,7 @@ public interface HasDevice {
    * <p>getDevice.</p>
    *
    * @return the test device configured
+   * @since 3.0.0
    */
   TestDevice getDevice();
 }

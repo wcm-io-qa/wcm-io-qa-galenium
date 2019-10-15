@@ -158,6 +158,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * <p>Getter for the field <code>specDefinition</code>.</p>
    *
    * @return a  {@link io.wcm.qa.glnm.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @since 3.0.0
    */
   public ImageComparisonSpecDefinition getSpecDefinition() {
     return specDefinition;
@@ -264,6 +265,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * <p>Setter for the field <code>specDefinition</code>.</p>
    *
    * @param def a  {@link io.wcm.qa.glnm.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @since 3.0.0
    */
   public void setSpecDefinition(ImageComparisonSpecDefinition def) {
     this.specDefinition = def;

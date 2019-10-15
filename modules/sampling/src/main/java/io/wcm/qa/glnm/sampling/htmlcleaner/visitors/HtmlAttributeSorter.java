@@ -29,9 +29,12 @@ import org.htmlcleaner.TagNodeVisitor;
 
 /**
  * Sorts all attributes.
+ *
+ * @since 3.0.0
  */
 public class HtmlAttributeSorter implements TagNodeVisitor {
 
+  /** {@inheritDoc} */
   @Override
   public boolean visit(TagNode parentNode, HtmlNode htmlNode) {
 

@@ -26,6 +26,8 @@ import io.wcm.qa.glnm.sampling.jsoup.JsoupCookieSampler;
 
 /**
  * Fetches login cookies from AEM author instance.
+ *
+ * @since 3.0.0
  */
 public class AemAuthorLoginSampler extends JsoupCookieSampler {
 
@@ -44,6 +46,7 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
 
   /**
    * Login using default port '4502'.
+   *
    * @param url to author instance
    */
   public AemAuthorLoginSampler(String url) {
@@ -51,6 +54,8 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
   }
 
   /**
+   * <p>Constructor for AemAuthorLoginSampler.</p>
+   *
    * @param url to author instance
    * @param port of author instance
    */
@@ -58,10 +63,20 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
     super(buildLoginUrl(url, port));
   }
 
+  /**
+   * <p>setPassword.</p>
+   *
+   * @param password a {@link java.lang.String} object.
+   */
   public void setPassword(String password) {
     pass = password;
   }
 
+  /**
+   * <p>setUsername.</p>
+   *
+   * @param username a {@link java.lang.String} object.
+   */
   public void setUsername(String username) {
     user = username;
   }

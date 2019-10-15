@@ -68,6 +68,7 @@ public final class GridHostExtractor {
    * @return the hostname of the Selenium Grid node the test is run on or NO_HOST_RETRIEVED if
    *         hostname cannot be retrieved or NOT_REMOTE if driver is not a
    *         {@link org.openqa.selenium.remote.RemoteWebDriver}.
+   * @since 3.0.0
    */
   public static String getGridNodeHostname() {
     WebDriver driver = getDriver();
@@ -87,6 +88,7 @@ public final class GridHostExtractor {
    * @param port port for Selenium Grid hub
    * @param session session ID to use
    * @return proxy ID of associated Selenium Grid node
+   * @since 3.0.0
    */
   public static String getHostnameAndPort(String hostname, int port, SessionId session) {
 

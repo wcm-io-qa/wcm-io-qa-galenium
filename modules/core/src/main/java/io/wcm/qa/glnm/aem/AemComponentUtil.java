@@ -21,6 +21,8 @@ package io.wcm.qa.glnm.aem;
 
 /**
  * Helper methods for handling AEM components.
+ *
+ * @since 3.0.0
  */
 public final class AemComponentUtil {
 
@@ -29,6 +31,8 @@ public final class AemComponentUtil {
   }
 
   /**
+   * <p>urlBuilder.</p>
+   *
    * @return configurable builder for component URL
    */
   public static AemComponentUrlBuilder urlBuilder() {
@@ -36,6 +40,8 @@ public final class AemComponentUtil {
   }
 
   /**
+   * <p>urlBuilder.</p>
+   *
    * @param contentPath to use in URL
    * @param componentName to use in URL
    * @return builder preconfigured for page and component

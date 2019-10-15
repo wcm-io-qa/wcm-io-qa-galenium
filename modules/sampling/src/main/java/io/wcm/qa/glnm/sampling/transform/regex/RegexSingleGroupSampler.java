@@ -41,6 +41,7 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
    *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
@@ -52,6 +53,7 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
    * @param inputSampler providing the input string
    * @param pattern used to transform
    * @param groupIndex index of group to sample
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, Pattern pattern, int groupIndex) {
     this(inputSampler, pattern);
@@ -64,6 +66,7 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
    *
    * @param inputSampler providing the input string
    * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
@@ -75,6 +78,7 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
    * @param inputSampler providing the input string
    * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param groupIndex index of group to sample
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, String regex, int groupIndex) {
     this(inputSampler, regex);

@@ -125,6 +125,7 @@ public final class GaleniumReportUtil {
    * Add GalenTestInfo to global list for generating reports.
    *
    * @param galenTestInfo Galen test info to add to result set
+   * @since 3.0.0
    */
   public static void addGalenResult(GalenTestInfo galenTestInfo) {
     if (isAddResult(galenTestInfo)) {
@@ -136,6 +137,7 @@ public final class GaleniumReportUtil {
    * Assigns categories to {@link com.relevantcodes.extentreports.ExtentTest}.
    *
    * @param categories to add
+   * @since 3.0.0
    */
   public static void assignCategories(String... categories) {
     for (String category : categories) {
@@ -147,6 +149,7 @@ public final class GaleniumReportUtil {
    * Assigns a single category to {@link com.relevantcodes.extentreports.ExtentTest}.
    *
    * @param category to add
+   * @since 3.0.0
    */
   public static void assignCategory(String category) {
     ExtentTest extentTest = getExtentTest();
@@ -158,6 +161,7 @@ public final class GaleniumReportUtil {
    *
    * @param extentTest to add to
    * @param category to add
+   * @since 3.0.0
    */
   public static void assignCategory(ExtentTest extentTest, String category) {
     if (StringUtils.isBlank(category)) {
@@ -177,6 +181,7 @@ public final class GaleniumReportUtil {
    * Write all test results to Galen report.
    *
    * @param testInfos list to persist test information
+   * @since 3.0.0
    */
   public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) {
     try {
@@ -189,6 +194,8 @@ public final class GaleniumReportUtil {
 
   /**
    * Create reports from global list of GalenTestInfos.
+   *
+   * @since 3.0.0
    */
   public static void createGalenReports() {
     createGalenHtmlReport(GLOBAL_GALEN_RESULTS);
@@ -199,6 +206,7 @@ public final class GaleniumReportUtil {
    * Write all test results to TestNG report.
    *
    * @param testInfos list to persist test information
+   * @since 3.0.0
    */
   public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) {
     try {
@@ -215,6 +223,7 @@ public final class GaleniumReportUtil {
    * @param result current test result
    * @param status status to use for final message
    * @param details final message
+   * @since 3.0.0
    */
   public static void endExtentTest(ITestResult result, LogStatus status, String details) {
     getInternalLogger().trace("GaleniumReportUtilendExtentTest(): getting extent test.");
@@ -233,6 +242,7 @@ public final class GaleniumReportUtil {
    *
    * @param string potentially includes unescaped HTML
    * @return best effort HTML escaping
+   * @since 3.0.0
    */
   public static String escapeHtml(String string) {
     String escapedString = HtmlEscapers.htmlEscaper().escape(StringUtils.stripToEmpty(string));
@@ -241,6 +251,8 @@ public final class GaleniumReportUtil {
 
   /**
    * Finish and flush ExtentReports.
+   *
+   * @since 3.0.0
    */
   public static void finishExtentReports() {
     ExtentReports extentReport = getExtentReports();
@@ -255,6 +267,7 @@ public final class GaleniumReportUtil {
    * <p>getExtentReports.</p>
    *
    * @return a {@link com.relevantcodes.extentreports.ExtentReports} object.
+   * @since 3.0.0
    */
   public static ExtentReports getExtentReports() {
     return GLOBAL_EXTENT_REPORTS;
@@ -264,6 +277,7 @@ public final class GaleniumReportUtil {
    * <p>getExtentTest.</p>
    *
    * @return a {@link com.relevantcodes.extentreports.ExtentTest} object.
+   * @since 3.0.0
    */
   public static ExtentTest getExtentTest() {
     return GaleniumContext.getExtentTest();
@@ -274,6 +288,7 @@ public final class GaleniumReportUtil {
    *
    * @param result current test result
    * @return test report associated with result
+   * @since 3.0.0
    */
   public static ExtentTest getExtentTest(ITestResult result) {
     return getExtentTest(result.getTestName());
@@ -284,6 +299,7 @@ public final class GaleniumReportUtil {
    *
    * @param name test name to retrieve test
    * @return test report associated with result
+   * @since 3.0.0
    */
   public static ExtentTest getExtentTest(String name) {
     ExtentTest currentReport = getExtentTest();
@@ -299,6 +315,7 @@ public final class GaleniumReportUtil {
    * <p>getLogger.</p>
    *
    * @return the logger used for the current test, if no test is set, it will use "no.test.name.set" as the test name
+   * @since 3.0.0
    */
   public static Logger getLogger() {
     ExtentTest extentTest = getExtentTest();
@@ -317,6 +334,7 @@ public final class GaleniumReportUtil {
    *
    * @param marker to use with this logger
    * @return a  {@link io.wcm.qa.glnm.reporting.MarkedLogger} using the marker
+   * @since 3.0.0
    */
   public static Logger getMarkedLogger(Marker marker) {
     return new MarkedLogger(getLogger(), marker);
@@ -327,6 +345,7 @@ public final class GaleniumReportUtil {
    *
    * @param name marker name
    * @return marker for use with marked logger
+   * @since 3.0.0
    */
   public static Marker getMarker(String name) {
     Marker marker = MarkerFactory.getMarker(name);
@@ -340,6 +359,7 @@ public final class GaleniumReportUtil {
    * @param result a {@link org.testng.ITestResult} object.
    * @param extentTest a {@link com.relevantcodes.extentreports.ExtentTest} object.
    * @return whether both have a test name and it is equal
+   * @since 3.0.0
    */
   public static boolean haveMatchingName(ITestResult result, ExtentTest extentTest) {
     if (result == null || extentTest == null) {
@@ -365,6 +385,7 @@ public final class GaleniumReportUtil {
    * Take screenshot of current browser window and add to reports. Uses random filename.
    *
    * @return log message including screenshot if everything was successful
+   * @since 3.0.0
    */
   public static String takeScreenshot() {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
@@ -376,6 +397,7 @@ public final class GaleniumReportUtil {
    *
    * @param takesScreenshot to capture
    * @return message to log screenshot to report
+   * @since 3.0.0
    */
   public static String takeScreenshot(TakesScreenshot takesScreenshot) {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
@@ -388,6 +410,7 @@ public final class GaleniumReportUtil {
    * @param result to generate filename from
    * @param driver to take screenshot from
    * @return log message including screenshot if everything was successful
+   * @since 3.0.0
    */
   public static String takeScreenshot(ITestResult result, WebDriver driver) {
     String resultName = getAlphanumericTestName(result);
@@ -400,6 +423,7 @@ public final class GaleniumReportUtil {
    * @param resultName to use in filename
    * @param takesScreenshot to take screenshot from
    * @return log message including screenshot if everything was successful
+   * @since 3.0.0
    */
   public static String takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
     String destScreenshotFilePath = null;

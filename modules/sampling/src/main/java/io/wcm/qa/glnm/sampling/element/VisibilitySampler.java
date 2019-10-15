@@ -35,6 +35,7 @@ public class VisibilitySampler extends WebElementBasedSampler<Boolean> {
    * <p>Constructor for VisibilitySampler.</p>
    *
    * @param selector to identify element
+   * @since 3.0.0
    */
   public VisibilitySampler(Selector selector) {
     super(selector);

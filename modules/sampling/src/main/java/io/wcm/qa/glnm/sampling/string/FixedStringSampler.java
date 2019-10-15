@@ -34,6 +34,7 @@ public class FixedStringSampler implements Sampler<String> {
    * <p>Constructor for FixedStringSampler.</p>
    *
    * @param sample sample to return for every sampling
+   * @since 3.0.0
    */
   public FixedStringSampler(String sample) {
     fixedString = sample;

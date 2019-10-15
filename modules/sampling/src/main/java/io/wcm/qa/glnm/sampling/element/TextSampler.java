@@ -35,6 +35,7 @@ public class TextSampler extends WebElementBasedSampler<String> {
    * <p>Constructor for TextSampler.</p>
    *
    * @param selector identifies element.
+   * @since 3.0.0
    */
   public TextSampler(Selector selector) {
     super(selector);

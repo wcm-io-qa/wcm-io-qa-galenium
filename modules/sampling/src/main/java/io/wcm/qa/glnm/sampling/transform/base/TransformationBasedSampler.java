@@ -39,6 +39,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
    * <p>Constructor for TransformationBasedSampler.</p>
    *
    * @param inputSampler providing the input sample to transform
+   * @since 3.0.0
    */
   public TransformationBasedSampler(S inputSampler) {
     setInput(inputSampler);

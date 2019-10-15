@@ -284,11 +284,13 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     return new IcValidationListener();
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCropIfOutside() {
     return cropIfOutside;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isZeroToleranceWarning() {
     return zeroToleranceWarning;
@@ -354,6 +356,11 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     this.corrections = corrections;
   }
 
+  /**
+   * <p>Setter for the field <code>cropIfOutside</code>.</p>
+   *
+   * @param cropIfOutside a boolean.
+   */
   public void setCropIfOutside(boolean cropIfOutside) {
 	  this.cropIfOutside = cropIfOutside;
   }

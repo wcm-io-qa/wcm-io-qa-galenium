@@ -49,8 +49,10 @@ public final class TestNgProviderUtil {
 
   /**
    * Read string parameters from UTF-8 input file. Each line becomes one parameter.
+   *
    * @param input UTF-8 encoded text file to read from
-   * @return array ready to use in {@link DataProvider}
+   * @return array ready to use in {@link org.testng.annotations.DataProvider}
+   * @since 3.0.0
    */
   public static Object[][] fromFile(File input) {
     return fromFile(input, StandardCharsets.UTF_8);
@@ -58,9 +60,11 @@ public final class TestNgProviderUtil {
 
   /**
    * Read string parameters from input file. Each line becomes one parameter.
+   *
    * @param input text file to read from
    * @param charset encoding of file
-   * @return array ready to use in {@link DataProvider}
+   * @return array ready to use in {@link org.testng.annotations.DataProvider}
+   * @since 3.0.0
    */
   public static Object[][] fromFile(File input, Charset charset) {
 
@@ -86,8 +90,11 @@ public final class TestNgProviderUtil {
   }
 
   /**
+   * <p>fromSampler.</p>
+   *
    * @param sampler to generate arguments
    * @return arguments based on sampler result
+   * @since 3.0.0
    */
   public static Object[][] fromSampler(Sampler<Iterable> sampler) {
     return combine(sampler.sampleValue());
@@ -100,6 +107,7 @@ public final class TestNgProviderUtil {
    *
    * @param argumentList iterable to turn into object array
    * @return a two dimensional object array containing the arguments
+   * @since 3.0.0
    */
   public static Object[][] combine(Iterable argumentList) {
     Collection<Object[]> combinedArguments = new ArrayList<>();
@@ -122,6 +130,7 @@ public final class TestNgProviderUtil {
    *
    * @param argumentLists iterables to combine
    * @return a two dimensional object array containing the Cartesian product of the iterable arguments
+   * @since 3.0.0
    */
   public static Object[][] combine(Iterable... argumentLists) {
     trace("combining " + argumentLists.length + " Iterables");

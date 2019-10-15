@@ -68,6 +68,7 @@ public class GaleniumContext {
    * Assertion to use. Default is  {@link io.wcm.qa.glnm.assertions.GaleniumAssertion}.
    *
    * @param assertion can be soft assertion
+   * @since 3.0.0
    */
   public void setAssertion(GaleniumAssertion assertion) {
     this.assertion = assertion;
@@ -79,6 +80,7 @@ public class GaleniumContext {
    *  {@link io.wcm.qa.glnm.device.TestDevice}.
    *
    * @param driver WebDriver to use for everything
+   * @since 3.0.0
    */
   public void setDriver(WebDriver driver) {
     this.driver = driver;
@@ -88,6 +90,7 @@ public class GaleniumContext {
    * Used for {@link com.relevantcodes.extentreports.ExtentReports} reporting. Galenium should handle this internally without additional interaction.
    *
    * @param extentTest report instance
+   * @since 3.0.0
    */
   public void setExtentTest(ExtentTest extentTest) {
     this.extentTest = extentTest;
@@ -97,6 +100,7 @@ public class GaleniumContext {
    * A short description of current test.
    *
    * @param testDescription short description of test
+   * @since 3.0.0
    */
   public void setTestDescription(String testDescription) {
     this.testDescription = testDescription;
@@ -106,6 +110,7 @@ public class GaleniumContext {
    * The test device is central to Galenium's WebDriver handling.
    *
    * @param testDevice device to use
+   * @since 3.0.0
    */
   public void setTestDevice(TestDevice testDevice) {
     this.testDevice = testDevice;
@@ -115,6 +120,7 @@ public class GaleniumContext {
    * Name to use in reporting.
    *
    * @param testName new test name
+   * @since 3.0.0
    */
   public void setTestName(String testName) {
     this.testName = testName;
@@ -125,6 +131,7 @@ public class GaleniumContext {
    * collecting samples to compare against in future runs.
    *
    * @param verificationStrategy strategy to use
+   * @since 3.0.0
    */
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;
@@ -149,6 +156,7 @@ public class GaleniumContext {
    * @param key used for retrieving custom object
    * @return the value to which the specified key is mapped, or null if this thread context contains no mapping for the
    *         key
+   * @since 3.0.0
    */
   public static Object get(String key) {
     return THREAD_LOCAL_CONTEXT.get().additionalMappings.get(key);
@@ -158,6 +166,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>assertion</code>.</p>
    *
    * @return {@link org.testng.asserts.Assertion} to use
+   * @since 3.0.0
    */
   public static GaleniumAssertion getAssertion() {
     return THREAD_LOCAL_CONTEXT.get().assertion;
@@ -167,6 +176,7 @@ public class GaleniumContext {
    * <p>getContext.</p>
    *
    * @return  {@link io.wcm.qa.glnm.util.GaleniumContext} object for this thread
+   * @since 3.0.0
    */
   public static GaleniumContext getContext() {
     return THREAD_LOCAL_CONTEXT.get();
@@ -176,6 +186,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>driver</code>.</p>
    *
    * @return driver to use with Selenium and Galen
+   * @since 3.0.0
    */
   public static WebDriver getDriver() {
     return THREAD_LOCAL_CONTEXT.get().driver;
@@ -185,6 +196,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>extentTest</code>.</p>
    *
    * @return test report to write to
+   * @since 3.0.0
    */
   public static ExtentTest getExtentTest() {
     return THREAD_LOCAL_CONTEXT.get().extentTest;
@@ -194,6 +206,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>testDescription</code>.</p>
    *
    * @return short description of the current test
+   * @since 3.0.0
    */
   public static String getTestDescription() {
     return THREAD_LOCAL_CONTEXT.get().testDescription;
@@ -203,6 +216,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>testDevice</code>.</p>
    *
    * @return current test device for this thread
+   * @since 3.0.0
    */
   public static TestDevice getTestDevice() {
     return THREAD_LOCAL_CONTEXT.get().testDevice;
@@ -212,6 +226,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>testName</code>.</p>
    *
    * @return name of the current test used for reporting
+   * @since 3.0.0
    */
   public static String getTestName() {
     return THREAD_LOCAL_CONTEXT.get().testName;
@@ -221,6 +236,7 @@ public class GaleniumContext {
    * <p>Getter for the field <code>verificationStrategy</code>.</p>
    *
    * @return verification strategy to use
+   * @since 3.0.0
    */
   public static VerificationStrategy getVerificationStrategy() {
     return THREAD_LOCAL_CONTEXT.get().verificationStrategy;
@@ -232,6 +248,7 @@ public class GaleniumContext {
    * @param key used to store and retrieve object
    * @param customObject custom object
    * @return the previous value associated with key in this thread, or null if there was no mapping for key
+   * @since 3.0.0
    */
   public static Object put(String key, Object customObject) {
     return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(key, customObject);

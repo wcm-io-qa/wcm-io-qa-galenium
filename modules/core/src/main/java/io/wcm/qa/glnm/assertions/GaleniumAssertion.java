@@ -40,6 +40,7 @@ public class GaleniumAssertion extends Assertion {
    * <p>getLogger.</p>
    *
    * @return a {@link org.slf4j.Logger} object.
+   * @since 3.0.0
    */
   public Logger getLogger() {
     return GaleniumReportUtil.getMarkedLogger(MARKER_ASSERTION);

@@ -38,6 +38,7 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
    *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
@@ -48,6 +49,7 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
    *
    * @param inputSampler providing the input string
    * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
@@ -59,6 +61,7 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
    * @param inputSampler providing the input string
    * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param flags to regular expression
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, String regex, int flags) {
     super(inputSampler, regex, flags);

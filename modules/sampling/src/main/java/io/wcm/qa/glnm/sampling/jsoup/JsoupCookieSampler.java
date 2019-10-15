@@ -32,11 +32,15 @@ import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 
 /**
  * Samples cookies from a Jsoup network response.
+ *
  * @param <T>
+ * @since 3.0.0
  */
 public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBasedSampler<T> {
 
   /**
+   * <p>Constructor for JsoupCookieSampler.</p>
+   *
    * @param url to fetch cookies from
    */
   public JsoupCookieSampler(String url) {
@@ -45,6 +49,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
 
   private Method method = Method.POST;
 
+  /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
   public T freshSample() {
@@ -52,6 +57,8 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
   }
 
   /**
+   * <p>Setter for the field <code>method</code>.</p>
+   *
    * @param requestMethod HTTP method to use for retrieval
    * @return this
    */

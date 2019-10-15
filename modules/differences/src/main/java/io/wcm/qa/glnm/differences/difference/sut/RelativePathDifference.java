@@ -38,6 +38,7 @@ public class RelativePathDifference extends UrlDifference {
 
   /**
    * Uses current URL from driver.
+   *
    * @since 2.0.0
    * @param url to construct difference from
    */

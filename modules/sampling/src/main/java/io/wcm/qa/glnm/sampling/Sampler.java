@@ -31,6 +31,7 @@ public interface Sampler<T> {
    * <p>sampleValue.</p>
    *
    * @return a fresh sample
+   * @since 3.0.0
    */
   T sampleValue();
 

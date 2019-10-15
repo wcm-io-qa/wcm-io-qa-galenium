@@ -29,6 +29,8 @@ import io.wcm.qa.glnm.sampling.transform.StringToListSampler;
 
 /**
  * Does a straightforward comparison of page source.
+ *
+ * @since 3.0.0
  */
 public class StringDiffVerification<OS extends Sampler<List<String>>, IS extends Sampler<String>>
     extends SamplerBasedStringDiffVerification<OS> {
@@ -37,6 +39,7 @@ public class StringDiffVerification<OS extends Sampler<List<String>>, IS extends
 
   /**
    * Splitting at newlines.
+   *
    * @param verificationName name to use for reporting and logging
    * @param sampler input sampler
    */
@@ -45,9 +48,11 @@ public class StringDiffVerification<OS extends Sampler<List<String>>, IS extends
   }
 
   /**
+   * <p>Constructor for StringDiffVerification.</p>
+   *
    * @param verificationName name to use for reporting and logging
    * @param sampler input sampler
-   * @param delimiter delimiter string fed to {@link StringUtils#split(String, String)}
+   * @param delimiter delimiter string fed to {@link org.apache.commons.lang3.StringUtils#split(String, String)}
    */
   @SuppressWarnings("unchecked")
   public StringDiffVerification(String verificationName, IS sampler, String delimiter) {

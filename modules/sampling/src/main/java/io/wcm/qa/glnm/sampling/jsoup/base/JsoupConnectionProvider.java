@@ -22,11 +22,15 @@ package io.wcm.qa.glnm.sampling.jsoup.base;
 import org.jsoup.Connection;
 
 /**
- * Provides Jsoup {@link Connection}.
+ * Provides Jsoup {@link org.jsoup.Connection}.
+ *
+ * @since 3.0.0
  */
 public interface JsoupConnectionProvider {
 
   /**
+   * <p>getConnection.</p>
+   *
    * @return Jsoup connection
    */
   Connection getConnection();

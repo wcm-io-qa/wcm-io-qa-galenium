@@ -31,11 +31,14 @@ import org.htmlcleaner.TagNodeVisitor;
 
 /**
  * Sorts strings in class attributes.
+ *
+ * @since 3.0.0
  */
 public final class CssClassSorter implements TagNodeVisitor {
 
   private static final String CSS_CLASS = "class";
 
+  /** {@inheritDoc} */
   @Override
   public boolean visit(TagNode parentNode, HtmlNode htmlNode) {
     if (!(htmlNode instanceof TagNode)) {

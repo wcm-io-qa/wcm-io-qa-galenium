@@ -52,6 +52,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
    *
    * @param pattern to find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustContain(Pattern pattern, String message) {
     mustPatterns.put(pattern, message);
@@ -62,6 +63,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
    *
    * @param string to find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustContain(String string, String message) {
     mustStrings.put(string, message);
@@ -72,6 +74,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
    *
    * @param regex to find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustContainPattern(String regex, String message) {
     mustContain(Pattern.compile(regex), message);
@@ -81,6 +84,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
    *
    * @param pattern to not find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustNotContain(Pattern pattern, String message) {
     mustNotPatterns.put(pattern, message);
@@ -91,6 +95,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
    *
    * @param string to not find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustNotContain(String string, String message) {
     mustNotStrings.put(string, message);
@@ -101,6 +106,7 @@ public class PageSourceVerification extends CombiningStringBasedVerification {
    *
    * @param regex to not find in input
    * @param message description of pattern
+   * @since 3.0.0
    */
   public void mustNotContainPattern(String regex, String message) {
     mustNotContain(Pattern.compile(regex), message);

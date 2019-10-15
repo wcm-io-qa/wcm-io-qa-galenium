@@ -37,6 +37,7 @@ public class CurrentUrlVerification extends StringSamplerBasedVerification {
    * <p>Constructor for CurrentUrlVerification.</p>
    *
    * @param verificationName for use in reporting
+   * @since 3.0.0
    */
   public CurrentUrlVerification(String verificationName) {
     super(verificationName, new CurrentUrlSampler());
@@ -47,6 +48,7 @@ public class CurrentUrlVerification extends StringSamplerBasedVerification {
    *
    * @param verificationName for use in reporting
    * @param expectedUrl to match against
+   * @since 3.0.0
    */
   public CurrentUrlVerification(String verificationName, String expectedUrl) {
     this(verificationName);

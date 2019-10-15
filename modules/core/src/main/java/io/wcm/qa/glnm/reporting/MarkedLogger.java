@@ -38,6 +38,7 @@ public class MarkedLogger implements Logger {
    *
    * @param delegateLogger logger to wrap
    * @param additionalMarker marker to use
+   * @since 3.0.0
    */
   public MarkedLogger(Logger delegateLogger, Marker additionalMarker) {
     delegate = delegateLogger;

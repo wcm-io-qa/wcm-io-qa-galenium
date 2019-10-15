@@ -53,6 +53,7 @@ public final class HttpUtil {
    * <p>getNewClient.</p>
    *
    * @return fresh closable HTTP client
+   * @since 3.0.0
    */
   public static CloseableHttpClient getNewClient() {
     CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -65,6 +66,7 @@ public final class HttpUtil {
    * @param resp to read from
    * @return stream reader for response contents
    * @throws java.io.IOException if any.
+   * @since 3.0.0
    */
   public static InputStreamReader getResponseReader(HttpResponse resp) throws IOException {
     return new InputStreamReader(resp.getEntity().getContent());
@@ -76,6 +78,7 @@ public final class HttpUtil {
    * @param url to post to
    * @param paramMap to send with request
    * @return response to POST
+   * @since 3.0.0
    */
   public static HttpResponse postForm(URL url, Map<String, String> paramMap) {
     ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();

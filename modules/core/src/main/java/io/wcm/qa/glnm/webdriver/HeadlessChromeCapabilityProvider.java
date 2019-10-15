@@ -50,6 +50,7 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
    * <p>Getter for the field <code>device</code>.</p>
    *
    * @return a  {@link io.wcm.qa.glnm.device.TestDevice} object.
+   * @since 3.0.0
    */
   public TestDevice getDevice() {
     return device;
@@ -59,6 +60,7 @@ class HeadlessChromeCapabilityProvider extends ChromeOptionsProvider {
    * <p>Setter for the field <code>device</code>.</p>
    *
    * @param device a  {@link io.wcm.qa.glnm.device.TestDevice} object.
+   * @since 3.0.0
    */
   public void setDevice(TestDevice device) {
     this.device = device;

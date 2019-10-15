@@ -38,6 +38,8 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
 
   /**
    * Constructor.
+   *
+   * @since 3.0.0
    */
   public HarEntrySampler() {
     super(new HarSampler());

@@ -44,6 +44,7 @@ public class TestDeviceImpl implements TestDevice {
    * <p>Constructor for TestDeviceImpl.</p>
    *
    * @param profile defining the device
+   * @since 3.0.0
    */
   public TestDeviceImpl(DeviceProfile profile) {
     this(
@@ -60,6 +61,7 @@ public class TestDeviceImpl implements TestDevice {
    * @param name for display
    * @param browserType browser
    * @param screenSize size when not in emulator mode
+   * @since 3.0.0
    */
   public TestDeviceImpl(String name, BrowserType browserType, Dimension screenSize) {
     this(name, browserType, screenSize, null, null);
@@ -84,6 +86,7 @@ public class TestDeviceImpl implements TestDevice {
    * Overwrite all existing tags with new list.
    *
    * @param tags new tags or null to reset
+   * @since 3.0.0
    */
   public void setTags(List<String> tags) {
     includeTags = ListUtils.emptyIfNull(tags);
@@ -93,6 +96,7 @@ public class TestDeviceImpl implements TestDevice {
    * <p>addTags.</p>
    *
    * @param tags a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public void addTags(String... tags) {
     CollectionUtils.addAll(includeTags, tags);
@@ -148,6 +152,7 @@ public class TestDeviceImpl implements TestDevice {
    * <p>Setter for the field <code>chromeEmulator</code>.</p>
    *
    * @param chromeEmulator chrome emulator string to use in web driver
+   * @since 3.0.0
    */
   public void setChromeEmulator(String chromeEmulator) {
     this.chromeEmulator = chromeEmulator;

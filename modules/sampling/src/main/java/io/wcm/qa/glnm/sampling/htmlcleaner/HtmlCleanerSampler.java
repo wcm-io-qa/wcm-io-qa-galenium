@@ -36,7 +36,9 @@ import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.HtmlAttributeSorter;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
- * Uses HTML cleaner to tidy up HTML samples fetched with {@link Jsoup}.
+ * Uses HTML cleaner to tidy up HTML samples fetched with {@link org.jsoup.Jsoup}.
+ *
+ * @since 3.0.0
  */
 public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
@@ -51,6 +53,8 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   private List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
 
   /**
+   * <p>Constructor for HtmlCleanerSampler.</p>
+   *
    * @param url to sample from
    */
   public HtmlCleanerSampler(String url) {
@@ -58,8 +62,10 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   }
 
   /**
+   * <p>Constructor for HtmlCleanerSampler.</p>
+   *
    * @param url to sample from
-   * @param cleanerProperties properties to configure {@link HtmlCleaner}
+   * @param cleanerProperties properties to configure {@link org.htmlcleaner.HtmlCleaner}
    */
   public HtmlCleanerSampler(String url, CleanerProperties cleanerProperties) {
     super(url);
@@ -68,17 +74,26 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   }
 
   /**
+   * <p>addVisitor.</p>
+   *
    * @param visitor to clean HTML
    */
   public void addVisitor(TagNodeVisitor visitor) {
     getVisitors().add(visitor);
   }
 
+  /**
+   * <p>Getter for the field <code>htmlCleanerProperties</code>.</p>
+   *
+   * @return a {@link org.htmlcleaner.CleanerProperties} object.
+   */
   public CleanerProperties getHtmlCleanerProperties() {
     return htmlCleanerProperties;
   }
 
   /**
+   * <p>Getter for the field <code>htmlSerializer</code>.</p>
+   *
    * @return serializer to use for HTML string serialization
    */
   public HtmlSerializer getHtmlSerializer() {
@@ -88,26 +103,56 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     return htmlSerializer;
   }
 
+  /**
+   * <p>isSortAttributes.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isSortAttributes() {
     return sortAttributes;
   }
 
+  /**
+   * <p>isSortCssClasses.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isSortCssClasses() {
     return sortCssClasses;
   }
 
+  /**
+   * <p>Setter for the field <code>htmlCleanerProperties</code>.</p>
+   *
+   * @param htmlCleanerProperties a {@link org.htmlcleaner.CleanerProperties} object.
+   */
   public void setHtmlCleanerProperties(CleanerProperties htmlCleanerProperties) {
     this.htmlCleanerProperties = htmlCleanerProperties;
   }
 
+  /**
+   * <p>Setter for the field <code>htmlSerializer</code>.</p>
+   *
+   * @param htmlSerializer a {@link org.htmlcleaner.HtmlSerializer} object.
+   */
   public void setHtmlSerializer(HtmlSerializer htmlSerializer) {
     this.htmlSerializer = htmlSerializer;
   }
 
+  /**
+   * <p>Setter for the field <code>sortAttributes</code>.</p>
+   *
+   * @param sortAttributes a boolean.
+   */
   public void setSortAttributes(boolean sortAttributes) {
     this.sortAttributes = sortAttributes;
   }
 
+  /**
+   * <p>Setter for the field <code>sortCssClasses</code>.</p>
+   *
+   * @param sortCssClasses a boolean.
+   */
   public void setSortCssClasses(boolean sortCssClasses) {
     this.sortCssClasses = sortCssClasses;
   }

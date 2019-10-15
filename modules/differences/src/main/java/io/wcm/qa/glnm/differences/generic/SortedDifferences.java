@@ -50,6 +50,7 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Use default comparator.
+   *
    * @since 2.0.0
    * @param comparator to use when sorting
    */

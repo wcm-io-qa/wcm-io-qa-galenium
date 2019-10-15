@@ -34,6 +34,7 @@ public class PartialUrlVerification extends CurrentUrlVerification {
    *
    * @param verificationName for use in reporting
    * @param expectedUrlPart to look for in URL
+   * @since 3.0.0
    */
   public PartialUrlVerification(String verificationName, String expectedUrlPart) {
     super(verificationName);

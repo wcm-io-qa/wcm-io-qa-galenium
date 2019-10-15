@@ -38,6 +38,7 @@ public class AttributeSampler extends WebElementBasedSampler<String> {
    *
    * @param selector identifies element
    * @param attributeName name of attribute to sample
+   * @since 3.0.0
    */
   public AttributeSampler(Selector selector, String attributeName) {
     super(selector);
@@ -48,6 +49,7 @@ public class AttributeSampler extends WebElementBasedSampler<String> {
    * <p>Getter for the field <code>attributeName</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public String getAttributeName() {
     return attributeName;

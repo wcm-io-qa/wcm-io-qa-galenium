@@ -56,6 +56,7 @@ public final class CsvUtil {
    *
    * @param csvFile to get parser for
    * @return parser to access data in CSV file
+   * @since 3.0.0
    */
   public static CSVParser parse(File csvFile) {
     return parse(csvFile, false);
@@ -67,6 +68,7 @@ public final class CsvUtil {
    * @param csvFile to get parser for
    * @param skipHeaderRecord a boolean.
    * @return parser to access data in CSV file
+   * @since 3.0.0
    */
   public static CSVParser parse(File csvFile, boolean skipHeaderRecord) {
     if (csvFile == null) {
@@ -89,6 +91,7 @@ public final class CsvUtil {
    *
    * @param csvFilePath path to file to get parser for
    * @return parser to access data in CSV file
+   * @since 3.0.0
    */
   public static CSVParser parse(String csvFilePath) {
     return parse(new File(csvFilePath));
@@ -101,6 +104,7 @@ public final class CsvUtil {
    * @param beanClass type of bean to populate
    * @return collection with one bean per row in CSV
    * @param <T> a T object.
+   * @since 3.0.0
    */
   public static <T> Collection<T> parseToBeans(File csvFile, Class<T> beanClass) {
     Collection<T> result = new ArrayList<>();

@@ -32,6 +32,7 @@ public class GaleniumException extends RuntimeException {
    * <p>Constructor for GaleniumException.</p>
    *
    * @param msg message for exception
+   * @since 3.0.0
    */
   public GaleniumException(String msg) {
     super(msg);
@@ -42,6 +43,7 @@ public class GaleniumException extends RuntimeException {
    *
    * @param msg message for exception
    * @param ex optional exception
+   * @since 3.0.0
    */
   public GaleniumException(String msg, Throwable ex) {
     super(msg, ex);

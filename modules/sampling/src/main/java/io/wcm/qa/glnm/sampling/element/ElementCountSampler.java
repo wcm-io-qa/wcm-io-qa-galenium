@@ -34,6 +34,7 @@ public class ElementCountSampler extends SelectorBasedSampler<Integer> {
    * <p>Constructor for ElementCountSampler.</p>
    *
    * @param selector identifies elements to be counted
+   * @since 3.0.0
    */
   public ElementCountSampler(Selector selector) {
     super(selector);

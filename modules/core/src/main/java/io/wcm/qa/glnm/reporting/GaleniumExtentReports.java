@@ -81,6 +81,7 @@ class GaleniumExtentReports extends ExtentReports {
    *
    * @param name a {@link java.lang.String} object.
    * @return a {@link com.relevantcodes.extentreports.ExtentTest} object.
+   * @since 3.0.0
    */
   public ExtentTest getExtentTest(String name) {
     if (map.containsKey(name)) {

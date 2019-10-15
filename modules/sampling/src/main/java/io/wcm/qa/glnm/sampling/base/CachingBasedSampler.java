@@ -62,6 +62,7 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean activateCache) {
     this.caching = activateCache;

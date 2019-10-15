@@ -39,6 +39,7 @@ final class Md5Util {
    *
    * @param input an array of {@link byte} objects.
    * @return a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public static String getMd5AsAscii(byte[] input) {
     try {

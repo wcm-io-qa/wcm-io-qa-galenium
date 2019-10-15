@@ -30,7 +30,9 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
  * Functionality that helps building Jsoup based samplers.
+ *
  * @param <T> type of sample returned by sampler
+ * @since 3.0.0
  */
 public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
 
@@ -39,28 +41,55 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
   private Sampler<Map<String, String>> cookieSampler;
 
   /**
+   * <p>Constructor for JsoupBasedSampler.</p>
+   *
    * @param url to connect to
    */
   public JsoupBasedSampler(String url) {
     setUrl(url);
   }
 
+  /**
+   * <p>Getter for the field <code>cookieSampler</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.sampling.Sampler} object.
+   */
   public Sampler<Map<String, String>> getCookieSampler() {
     return cookieSampler;
   }
 
+  /**
+   * <p>Getter for the field <code>requestCookies</code>.</p>
+   *
+   * @return a {@link java.util.Map} object.
+   */
   public Map<String, String> getRequestCookies() {
     return requestCookies;
   }
 
+  /**
+   * <p>Getter for the field <code>url</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getUrl() {
     return url;
   }
 
+  /**
+   * <p>Setter for the field <code>cookieSampler</code>.</p>
+   *
+   * @param cookieSampler a {@link io.wcm.qa.glnm.sampling.Sampler} object.
+   */
   public void setCookieSampler(Sampler<Map<String, String>> cookieSampler) {
     this.cookieSampler = cookieSampler;
   }
 
+  /**
+   * <p>Setter for the field <code>requestCookies</code>.</p>
+   *
+   * @param cookies a {@link java.util.Map} object.
+   */
   public void setRequestCookies(Map<String, String> cookies) {
     this.requestCookies = cookies;
   }

@@ -84,8 +84,10 @@ public final class TextSampleManager {
 
   /**
    * Writes text samples directly to file.
+   *
    * @param key used to construct file name
    * @param lines sample data to persist
+   * @since 3.0.0
    */
   public static void addNewMultiLineSample(String key, List<String> lines) {
     String sampleFileName = FilenameUtils.concat(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, key + ".txt");
@@ -109,6 +111,7 @@ public final class TextSampleManager {
    *
    * @param key this door is opened with the key to your imagination
    * @param value added
+   * @since 3.0.0
    */
   public static void addNewTextSample(String key, String value) {
     String escapeHtml = GaleniumReportUtil.escapeHtml(value);
@@ -122,6 +125,7 @@ public final class TextSampleManager {
    *
    * @param key to look up text
    * @return text expected for this key
+   * @since 3.0.0
    */
   public static List<String> getExpectedLines(String key) {
     try {
@@ -141,8 +145,11 @@ public final class TextSampleManager {
   }
 
   /**
+   * <p>getExpectedText.</p>
+   *
    * @param key to look up text
    * @return text expected for this key
+   * @since 3.0.0
    */
   public static String getExpectedText(String key) {
     return EXPECTED_TEXTS.getProperty(key);
@@ -152,6 +159,7 @@ public final class TextSampleManager {
    * <p>getExpectedTexts.</p>
    *
    * @return a {@link java.util.Properties} object.
+   * @since 3.0.0
    */
   public static Properties getExpectedTexts() {
     return EXPECTED_TEXTS;
@@ -162,6 +170,7 @@ public final class TextSampleManager {
    *
    * @param prefix used to filter properties
    * @return new Properties containing only entries starting with the prefix
+   * @since 3.0.0
    */
   public static Properties getExpectedTextsForPrefix(String prefix) {
     return PropertiesUtil.getAllPropertiesWithPrefix(EXPECTED_TEXTS, prefix);
@@ -169,6 +178,8 @@ public final class TextSampleManager {
 
   /**
    * Write all stored new text samples to disk for easy replacement of existing expected values.
+   *
+   * @since 3.0.0
    */
   public static void persistNewTextSamples() {
     if (SAMPLED_TEXTS.isEmpty()) {

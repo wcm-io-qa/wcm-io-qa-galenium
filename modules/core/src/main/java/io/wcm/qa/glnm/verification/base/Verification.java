@@ -30,6 +30,7 @@ public interface Verification extends Verifiable {
    * <p>getException.</p>
    *
    * @return Throwable if one occured during verification
+   * @since 3.0.0
    */
   Throwable getException();
 
@@ -37,6 +38,7 @@ public interface Verification extends Verifiable {
    * <p>getMessage.</p>
    *
    * @return aggregated success or failure message for this verification
+   * @since 3.0.0
    */
   String getMessage();
 

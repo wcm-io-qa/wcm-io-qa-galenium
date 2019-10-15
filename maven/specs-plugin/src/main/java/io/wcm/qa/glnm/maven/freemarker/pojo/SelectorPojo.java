@@ -41,6 +41,7 @@ public class SelectorPojo implements NestedSelector {
 
   /**
    * Constructor.
+   *
    * @param spec selector is from
    * @param selector to delegate to
    */

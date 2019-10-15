@@ -28,7 +28,9 @@ import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
- * Base class using {@link TestNameDifferences} to generate test name for TestNG's {@link ITest} interface.
+ * Base class using {@link io.wcm.qa.glnm.differences.specialized.TestNameDifferences} to generate test name for TestNG's {@link org.testng.ITest} interface.
+ *
+ * @since 3.0.0
  */
 public class AbstractNamedTest implements ITest {
 
@@ -40,6 +42,7 @@ public class AbstractNamedTest implements ITest {
     getNameDifferences().setClassNameMaxLength(30);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTestName() {
     return getNameDifferences().asPropertyKey();
@@ -64,7 +67,8 @@ public class AbstractNamedTest implements ITest {
   }
 
   /**
-   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
+   * Convenience method delegating to {@link io.wcm.qa.glnm.reporting.GaleniumReportUtil#getLogger()}.
+   *
    * @return current logger
    */
   public Logger getLogger() {

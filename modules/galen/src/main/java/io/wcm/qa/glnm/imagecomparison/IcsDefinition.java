@@ -118,6 +118,8 @@ public interface IcsDefinition {
   boolean isZeroToleranceWarning();
 
   /**
+   * <p>isCropIfOutside.</p>
+   *
    * @return whether to ignore sampling outside of raster
    */
   boolean isCropIfOutside();
