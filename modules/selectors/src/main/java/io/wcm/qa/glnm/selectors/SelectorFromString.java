@@ -20,7 +20,6 @@
 package io.wcm.qa.glnm.selectors;
 
 import io.wcm.qa.glnm.selectors.base.AbstractSelectorBase;
-import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Implementation of  {@link io.wcm.qa.glnm.selectors.base.Selector} interface.

@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.differences.difference;
 
-import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.DifferenceBase;
 
 /**
