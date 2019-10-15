@@ -29,6 +29,7 @@ import io.wcm.qa.glnm.sampling.transform.base.RegexGroupBasedSampler;
 
 /**
  * Samples groups from string sample only when regular expression matches the whole input string.
+ *
  * @param <S> type of input sampler
  * @since 1.0.0
  */
@@ -38,6 +39,7 @@ public class RegexMatchGroupSampler<S extends Sampler<String>> extends RegexGrou
    * <p>
    * Constructor for RegexMatchGroupSampler.
    * </p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
    * @since 3.0.0
@@ -50,6 +52,7 @@ public class RegexMatchGroupSampler<S extends Sampler<String>> extends RegexGrou
    * <p>
    * Constructor for RegexMatchGroupSampler.
    * </p>
+   *
    * @param inputSampler providing the input string
    * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @since 3.0.0
@@ -62,6 +65,7 @@ public class RegexMatchGroupSampler<S extends Sampler<String>> extends RegexGrou
    * <p>
    * Constructor for RegexMatchGroupSampler.
    * </p>
+   *
    * @param inputSampler providing the input string
    * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param flags to regular expression

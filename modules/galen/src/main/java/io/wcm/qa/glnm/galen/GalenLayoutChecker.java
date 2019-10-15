@@ -71,8 +71,8 @@ public final class GalenLayoutChecker {
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from section name of spec factory and used as folder name in reports
    *
+   * @param specDefinition {@link io.wcm.qa.glnm.imagecomparison.IcsDefinition} to generate spec to check
    * @return report on spec test
-   * @param specDefinition a  {@link io.wcm.qa.glnm.imagecomparison.IcsDefinition} object.
    */
   public static LayoutReport checkLayout(IcsDefinition specDefinition) {
     PageSpec spec = IcsFactory.getPageSpec(specDefinition);
