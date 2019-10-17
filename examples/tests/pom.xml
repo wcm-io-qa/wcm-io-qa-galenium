@@ -34,6 +34,7 @@
   <description>Test automation example tests.</description>
 
   <properties>
+    <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
     <galenium.example.run-ui-tests>false</galenium.example.run-ui-tests>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
@@ -133,6 +134,36 @@
                   <overWriteReleases>true</overWriteReleases>
                   <overWriteSnapshots>true</overWriteSnapshots>
                 </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>10.0.0-alpha0</version>
+            <configuration>
+              <httpConnector>
+                <port>4502</port>
+              </httpConnector>
+              <supportedPackagings>jar</supportedPackagings>
+              <stopKey>quit</stopKey>
+              <stopPort>9000</stopPort>
+            </configuration>
+            <executions>
+              <execution>
+                <id>start-jetty</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop-jetty</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
