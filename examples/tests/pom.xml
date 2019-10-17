@@ -34,12 +34,12 @@
   <description>Test automation example tests.</description>
 
   <properties>
+    <galenium.example.run-ui-tests>false</galenium.example.run-ui-tests>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
     <site.url.module.prefix>galenium/examples</site.url.module.prefix>
     <aspectj.version>1.8.10</aspectj.version>
   </properties>
-
 
   <dependencies>
 
@@ -87,12 +87,11 @@
         </configuration>
       </plugin>
 
-      <!-- Skip UI tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
+          <skip>!${galenium.example.run-ui-tests}</skip>
         </configuration>
       </plugin>
 
@@ -104,6 +103,7 @@
     <profile>
       <id>example</id>
       <properties>
+        <galenium.example.run-ui-tests>true</galenium.example.run-ui-tests>
         <integrationtests.skip>false</integrationtests.skip>
       </properties>
       <build>
@@ -113,15 +113,6 @@
           <plugin>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-maven</artifactId>
-          </plugin>
-
-          <!-- Run UI tests -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <skip>false</skip>
-            </configuration>
           </plugin>
 
           <plugin>
