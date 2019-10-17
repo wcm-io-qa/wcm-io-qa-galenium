@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.example;
+package io.wcm.qa.glnm.example.galen;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +25,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.example.AbstractExampleBase;
 import io.wcm.qa.glnm.example.specs.Conference;
 import io.wcm.qa.glnm.example.specs.Homepage;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;

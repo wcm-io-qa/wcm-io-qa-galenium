@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.example;
+package io.wcm.qa.glnm.example.interactive;
 
 import java.util.List;
 
@@ -29,6 +29,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.example.AbstractExampleBase;
 import io.wcm.qa.glnm.example.pageobjects.Footer;
 import io.wcm.qa.glnm.example.pageobjects.FooterNavSection;
 import io.wcm.qa.glnm.example.pageobjects.Homepage;

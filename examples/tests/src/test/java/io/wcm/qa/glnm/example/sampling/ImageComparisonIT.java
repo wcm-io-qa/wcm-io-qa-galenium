@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.example;
+package io.wcm.qa.glnm.example.sampling;
 
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.difference.driver.BrowserDifference;
 import io.wcm.qa.glnm.differences.difference.driver.ScreenWidthDifference;
+import io.wcm.qa.glnm.example.AbstractExampleBase;
 import io.wcm.qa.glnm.example.selectors.common.Page;
 import io.wcm.qa.glnm.example.selectors.homepage.Stage;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;

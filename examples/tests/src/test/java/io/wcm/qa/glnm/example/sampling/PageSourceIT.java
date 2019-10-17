@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.example;
+package io.wcm.qa.glnm.example.sampling;
 
 import java.util.List;
 
