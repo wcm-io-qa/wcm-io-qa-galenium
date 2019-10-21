@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,6 +101,26 @@ public class LoggingListener extends TestListenerAdapter {
     }
   }
 
+  @Override
+  public void onTestFailure(ITestResult tr) {
+    takeScreenshot(tr);
+  }
+
+  @Override
+  public void onTestFailedWithTimeout(ITestResult tr) {
+    takeScreenshot(tr);
+  }
+
+  @Override
+  public void onTestFailedButWithinSuccessPercentage(ITestResult tr) {
+    takeScreenshot(tr);
+  }
+
+  @Override
+  public void onTestSuccess(ITestResult tr) {
+    takeScreenshot(tr);
+  }
+
   /** {@inheritDoc} */
   @Override
   public void onTestStart(ITestResult result) {
@@ -121,9 +142,20 @@ public class LoggingListener extends TestListenerAdapter {
 
   protected void takeScreenshot(ITestResult result) {
     WebDriver driver = GaleniumContext.getDriver();
-    if (driver != null) {
-      GaleniumReportUtil.takeScreenshot(result, driver);
+    if (driver == null) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("no screenshot: driver null.");
+      }
+      return;
     }
+    if (!(driver instanceof TakesScreenshot)) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("no screenshot: driver does not screenshot.");
+      }
+      return;
+    }
+
+    GaleniumReportUtil.takeScreenshot(result, driver);
   }
 
 }
