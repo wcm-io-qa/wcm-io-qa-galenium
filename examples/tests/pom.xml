@@ -36,6 +36,7 @@
   <properties>
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
     <galenium.example.run-ui-tests>false</galenium.example.run-ui-tests>
+    <galenium.example.sut>jetty</galenium.example.sut>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
     <site.url.module.prefix>galenium/examples</site.url.module.prefix>
@@ -102,42 +103,15 @@
   <profiles>
 
     <profile>
-      <id>example</id>
-      <properties>
-        <galenium.example.run-ui-tests>true</galenium.example.run-ui-tests>
-        <integrationtests.skip>false</integrationtests.skip>
-      </properties>
+      <id>sut-jetty</id>
+      <activation>
+        <property>
+          <name>galenium.example.sut</name>
+          <value>jetty</value>
+        </property>
+      </activation>
       <build>
-
         <plugins>
-
-          <plugin>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-maven</artifactId>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>unpack-baseline</id>
-                <goals>
-                  <goal>unpack-dependencies</goal>
-                </goals>
-                <phase>generate-resources</phase>
-                <configuration>
-                  <includeArtifactIds>${galenium.sampling.artifactIds}</includeArtifactIds>
-                  <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
-                  <includes>**/*</includes>
-                  <excludeTransitive>false</excludeTransitive>
-                  <overWriteReleases>true</overWriteReleases>
-                  <overWriteSnapshots>true</overWriteSnapshots>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
           <plugin>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
@@ -164,6 +138,45 @@
                 <goals>
                   <goal>stop</goal>
                 </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>run-tests</id>
+      <properties>
+        <galenium.example.run-ui-tests>true</galenium.example.run-ui-tests>
+        <integrationtests.skip>false</integrationtests.skip>
+      </properties>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-maven</artifactId>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>unpack-baseline</id>
+                <goals>
+                  <goal>unpack-dependencies</goal>
+                </goals>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <includeArtifactIds>${galenium.sampling.artifactIds}</includeArtifactIds>
+                  <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+                  <includes>**/*</includes>
+                  <excludeTransitive>false</excludeTransitive>
+                  <overWriteReleases>true</overWriteReleases>
+                  <overWriteSnapshots>true</overWriteSnapshots>
+                </configuration>
               </execution>
             </executions>
           </plugin>
