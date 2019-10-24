@@ -4,6 +4,7 @@ addGoal clean
 addGoal install
 
 addProfile "run-tests"
+addProfile "sut-jetty"
 
 # Always update snapshots
 # addArg "-U";
