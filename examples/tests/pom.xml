@@ -37,6 +37,7 @@
     <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
     <galenium.example.run-ui-tests>false</galenium.example.run-ui-tests>
     <galenium.example.sut>jetty</galenium.example.sut>
+    <galenium.example.sut.author>false</galenium.example.sut.author>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
     <site.url.module.prefix>galenium/examples</site.url.module.prefix>
@@ -94,6 +95,9 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <skip>true</skip>
+          <properties>
+            <galenium.example.sut.author>${galenium.example.sut.author}</galenium.example.sut.author>
+          </properties>
         </configuration>
       </plugin>
 
@@ -143,6 +147,19 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <profile>
+      <id>sut-local-author</id>
+      <activation>
+        <property>
+          <name>galenium.example.sut</name>
+          <value>aem</value>
+        </property>
+      </activation>
+      <properties>
+        <galenium.example.sut.author>true</galenium.example.sut.author>
+      </properties>
     </profile>
 
     <profile>
