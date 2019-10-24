@@ -84,8 +84,7 @@
           <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
           <projectName>wcm.io.qa.galenium.example</projectName>
           <excludes>
-            <exclude>**/*.json</exclude>
-            <exclude>**/*.html</exclude>
+            <exclude>**/webapp/**/*</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -145,6 +144,15 @@
               </execution>
             </executions>
           </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <excludedGroups>aem</excludedGroups>
+            </configuration>
+          </plugin>
+
         </plugins>
       </build>
     </profile>
