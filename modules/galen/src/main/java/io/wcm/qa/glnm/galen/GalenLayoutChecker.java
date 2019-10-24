@@ -48,9 +48,9 @@ import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
-import io.wcm.qa.glnm.imagecomparison.IcValidationListener;
-import io.wcm.qa.glnm.imagecomparison.IcsDefinition;
-import io.wcm.qa.glnm.imagecomparison.IcsFactory;
+import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
+import io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition;
+import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
@@ -71,7 +71,7 @@ public final class GalenLayoutChecker {
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from section name of spec factory and used as folder name in reports
    *
-   * @param specDefinition {@link io.wcm.qa.glnm.imagecomparison.IcsDefinition} to generate spec to check
+   * @param specDefinition {@link io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition} to generate spec to check
    * @return report on spec test
    */
   public static LayoutReport checkLayout(IcsDefinition specDefinition) {
