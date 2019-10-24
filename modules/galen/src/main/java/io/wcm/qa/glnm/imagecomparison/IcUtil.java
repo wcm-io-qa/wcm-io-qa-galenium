@@ -67,36 +67,18 @@ final class IcUtil {
     // do not instantiate
   }
 
-  private static String getTargetPathFrom(Spec spec) {
-    File rootDirectory = new File(getExpectedImagesDirectory());
-    String imagePathFromSpec = getImagePathFrom(spec);
-    String relativeImagePath = constructRelativePath(rootDirectory, new File(imagePathFromSpec));
-    return getActualImagesDirectory() + File.separator + relativeImagePath;
-  }
+  private static void createDummyIfSampleDoesNotExist(String fullFilePath) {
+    if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
+      LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
 
-  private static File writeDummySample(File targetFile) {
-    try {
-      LOG.trace("begin writing dummy image '" + targetFile);
-      FileHandlingUtil.ensureParent(targetFile);
-      ImageIO.write(DUMMY_IMAGE, ".png", targetFile);
-      LOG.trace("done writing dummy image '" + targetFile);
-      return targetFile;
-    }
-    catch (IOException ex) {
-      throw new GaleniumException("could not write dummy image.", ex);
+      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
+      File targetFile = new File(fullFilePath);
+
+      writeDummySample(targetFile);
     }
   }
 
-  protected static String getImageComparisonSpecText(IcsDefinition def) {
-    return IcUtil.getImageComparisonSpecText(
-        def.getFoldername(),
-        def.getFilename(),
-        def.getAllowedError(),
-        def.getAllowedOffset(),
-        def.getObjectsToIgnore());
-  }
-
-  protected static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
+  private static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
     StringBuilder specText = new StringBuilder();
 
     // boiler plate
@@ -136,27 +118,7 @@ final class IcUtil {
     return specText.toString();
   }
 
-  protected static String getZeroToleranceImageComparisonSpecText(IcsDefinition def) {
-    return getImageComparisonSpecText(
-        def.getFoldername(),
-        def.getFilename(),
-        "",
-        0,
-        def.getObjectsToIgnore());
-  }
-
-  static void createDummyIfSampleDoesNotExist(String fullFilePath) {
-    if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
-      LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
-
-      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
-      File targetFile = new File(fullFilePath);
-
-      writeDummySample(targetFile);
-    }
-  }
-
-  static String getImageOrDummySamplePath(String folder, String fileName) {
+  private static String getImageOrDummySamplePath(String folder, String fileName) {
     String fullFilePath;
 
     // folder
@@ -173,7 +135,7 @@ final class IcUtil {
     return fullFilePath;
   }
 
-  static String getImagePathFrom(Spec spec) {
+  private static String getImagePathFrom(Spec spec) {
     Matcher matcher = REGEX_PATTERN_IMAGE_FILENAME.matcher(spec.toText());
     String imagePath = null;
     if (matcher.matches() && matcher.groupCount() >= 1) {
@@ -182,7 +144,7 @@ final class IcUtil {
     return imagePath;
   }
 
-  static File getOriginalFilteredImage(ValidationResult result) {
+  private static File getOriginalFilteredImage(ValidationResult result) {
     ValidationError error = result.getError();
     if (error == null) {
       LOG.debug("could not find error in validation result.");
@@ -203,7 +165,7 @@ final class IcUtil {
     return actualImage;
   }
 
-  static File getSampleSourceFile(Spec spec, ValidationResult result) {
+  private static File getSampleSourceFile(Spec spec, ValidationResult result) {
     String imagePath = getImagePathFrom(spec);
     if (StringUtils.isBlank(imagePath)) {
       LOG.warn("could not extract image name from: " + spec.toText());
@@ -218,11 +180,44 @@ final class IcUtil {
     return new File(imagePath);
   }
 
-  static File getSampleTargetFile(Spec spec) {
+  private static File getSampleTargetFile(Spec spec) {
     String targetPath = getTargetPathFrom(spec);
     File imageFile = new File(targetPath);
     FileHandlingUtil.ensureParent(imageFile);
     return imageFile;
+  }
+
+  private static String getTargetPathFrom(Spec spec) {
+    File rootDirectory = new File(getExpectedImagesDirectory());
+    String imagePathFromSpec = getImagePathFrom(spec);
+    String relativeImagePath = constructRelativePath(rootDirectory, new File(imagePathFromSpec));
+    return getActualImagesDirectory() + File.separator + relativeImagePath;
+  }
+
+  private static boolean isExpectedImageSampleMissing(String fullFilePath) {
+    return !new File(fullFilePath).isFile();
+  }
+
+  private static File writeDummySample(File targetFile) {
+    try {
+      LOG.trace("begin writing dummy image '" + targetFile);
+      FileHandlingUtil.ensureParent(targetFile);
+      ImageIO.write(DUMMY_IMAGE, ".png", targetFile);
+      LOG.trace("done writing dummy image '" + targetFile);
+      return targetFile;
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("could not write dummy image.", ex);
+    }
+  }
+
+  static String getImageComparisonSpecText(IcsDefinition def) {
+    return IcUtil.getImageComparisonSpecText(
+        def.getFoldername(),
+        def.getFilename(),
+        def.getAllowedError(),
+        def.getAllowedOffset(),
+        def.getObjectsToIgnore());
   }
 
   static Spec getSpecForText(String specText) {
@@ -236,29 +231,35 @@ final class IcUtil {
     }
   }
 
-  static boolean isExpectedImageSampleMissing(String fullFilePath) {
-    return !new File(fullFilePath).isFile();
+  static String getZeroToleranceImageComparisonSpecText(IcsDefinition def) {
+    return getImageComparisonSpecText(
+        def.getFoldername(),
+        def.getFilename(),
+        "",
+        0,
+        def.getObjectsToIgnore());
   }
 
   static boolean isImageComparisonSpec(Spec spec) {
     return StringUtils.contains(spec.toText(), "image file ");
   }
 
-  static void logSpec(Spec spec) {
-    LOG.debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_PATTERN_IMAGE_FILENAME.pattern() + ")");
-  }
-
   static void saveSample(String objectName, Spec spec, ValidationResult result) {
-    LOG.trace("saving sample: " + objectName);
-    logSpec(spec);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("checking for image file: " + spec.toText() + " (with regex: " + REGEX_PATTERN_IMAGE_FILENAME.pattern() + ")");
+    }
     File source = getSampleSourceFile(spec, result);
     if (source == null) {
-      LOG.debug("did not find source file: " + objectName);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("did not find source file: " + objectName);
+      }
       return;
     }
 
     File target = getSampleTargetFile(spec);
-    LOG.trace("begin copying image '" + source + "' -> '" + target + "'");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("begin copying image '" + source + "' -> '" + target + "'");
+    }
     try {
       FileUtils.copyFile(source, target);
     }
@@ -266,16 +267,8 @@ final class IcUtil {
       String msg = "could not write image: " + target;
       LOG.error(msg, ex);
     }
-    LOG.trace("done copying image '" + source + "' -> '" + target + "'");
-  }
-
-  static File writeDummySample() {
-    try {
-      File dummySample = File.createTempFile("dummy-sample", "png");
-      return writeDummySample(dummySample);
-    }
-    catch (IOException ex) {
-      throw new GaleniumException("could create temp file for dummy image.", ex);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("done copying image '" + source + "' -> '" + target + "'");
     }
   }
 
