@@ -33,9 +33,9 @@ import org.testng.ITestResult;
 import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.util.TestInfoUtil;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
@@ -116,7 +116,7 @@ public class WebDriverListener implements ITestListener {
       finally {
         if (getDriver() == null) {
           LOG.warn("driver not instantiated");
-          GaleniumReportUtil.assignCategory(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED);
+          Allure.label(CATEGORY_WEB_DRIVER_NOT_INSTANTIATED, "true");
           retries++;
         }
         else {
