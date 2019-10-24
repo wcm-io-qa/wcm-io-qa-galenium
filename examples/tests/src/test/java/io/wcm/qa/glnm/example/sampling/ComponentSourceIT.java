@@ -33,7 +33,7 @@ import io.wcm.qa.glnm.verification.util.Check;
 
 public class ComponentSourceIT extends AbstractNamedTest {
 
-  @Test
+  @Test(groups = "aem")
   public void checkStageSource() {
 
     AemComponentHtmlSampler sampler = new AemComponentHtmlSampler(getRelativePath(), "stage");
