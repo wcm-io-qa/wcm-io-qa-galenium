@@ -82,28 +82,6 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Assigns categories to test in report.
-   *
-   * @param categories to add
-   * @since 3.0.0
-   */
-  public static void assignCategories(String... categories) {
-    for (String category : categories) {
-      assignCategory(category);
-    }
-  }
-
-  /**
-   * Assigns a single category to test in report.
-   *
-   * @param category to add
-   * @since 4.0.0
-   */
-  public static void assignCategory(String category) {
-    //    TODO: possibly add Allure category
-  }
-
-  /**
    * Write all test results to Galen report.
    *
    * @param testInfos list to persist test information
