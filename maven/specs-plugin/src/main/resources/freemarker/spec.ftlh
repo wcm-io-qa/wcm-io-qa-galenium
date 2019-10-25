@@ -54,9 +54,8 @@ public class ${classNameForSpec} {
 
 <#if spec.tags??>
   <#list spec.tags as tag>
-    public ${classNameForSpec} with${classNameFromString(tag)}() {
-      tags.add("${tag}");
-      return this;
+    public static void check${classNameFromString(tag)}() {
+      check("${tag}");
     }
   </#list>
 </#if>
