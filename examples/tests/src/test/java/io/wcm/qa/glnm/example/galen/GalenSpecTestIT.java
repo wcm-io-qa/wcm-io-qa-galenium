@@ -48,7 +48,12 @@ public class GalenSpecTestIT extends AbstractExampleBase {
     loadStartUrl();
     openNav();
     clickConferenceNavLink();
-    Conference.check();
+    if (isMobile()) {
+      Conference.checkMobile();
+    }
+    else {
+      Conference.checkDesktop();
+    }
   }
 
   @Test
