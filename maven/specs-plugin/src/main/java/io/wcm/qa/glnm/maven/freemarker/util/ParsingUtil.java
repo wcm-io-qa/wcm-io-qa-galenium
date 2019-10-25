@@ -42,7 +42,7 @@ import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.mock.MockPage;
-import io.wcm.qa.glnm.galen.util.GalenSpecUtil;
+import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**

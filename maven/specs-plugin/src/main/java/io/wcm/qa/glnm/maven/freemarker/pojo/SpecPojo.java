@@ -26,7 +26,7 @@ import java.util.Collection;
 import org.apache.commons.io.FilenameUtils;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.galen.util.GalenSpecUtil;
+import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;

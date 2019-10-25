@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.util;
+package io.wcm.qa.glnm.galen.specs;
 
 import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;

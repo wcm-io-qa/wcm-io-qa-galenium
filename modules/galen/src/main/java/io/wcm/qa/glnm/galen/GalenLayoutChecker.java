@@ -51,7 +51,7 @@ import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
-import io.wcm.qa.glnm.galen.util.GalenSpecUtil;
+import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
