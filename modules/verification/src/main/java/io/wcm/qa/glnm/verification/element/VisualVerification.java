@@ -37,11 +37,12 @@ import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.GalenLayoutChecker;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
 import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.reports.GalenReports;
 import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
+import io.wcm.qa.glnm.galen.validation.GalenLayoutChecker;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.VerificationBase;
 
@@ -306,7 +307,7 @@ public class VisualVerification extends VerificationBase<Object> {
     SectionFilter tags = GalenSpecUtil.getSectionFilter(testDevice);
     layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
     try {
-      GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
+      GalenReports.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
     catch (GalenLayoutException ex) {
       LOG.debug("image comparison layout", ex);

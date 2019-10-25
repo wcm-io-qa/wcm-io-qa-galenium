@@ -80,6 +80,7 @@ public final class GalenSpecUtil {
    *
    * @param filtersToCombine list of SectionFilters
    * @return section filter containing all included and excluded tags
+   * @since 4.0.0
    */
   public static SectionFilter getCombinedSectionFilter(SectionFilter... filtersToCombine) {
     Bag<String> excludedTagBag = new HashBag<String>();
@@ -104,6 +105,7 @@ public final class GalenSpecUtil {
    * @param spec to extract object from
    * @param objectName name to use for extraction
    * @return selector representing named object from spec
+   * @since 4.0.0
    */
   public static Selector getObject(PageSpec spec, String objectName) {
     Locator objectLocator = spec.getObjectLocator(objectName);
@@ -115,6 +117,7 @@ public final class GalenSpecUtil {
    *
    * @param spec to extract objects from
    * @return selectors for all objects found in spec
+   * @since 4.0.0
    */
   public static Collection<NestedSelector> getObjects(PageSpec spec) {
 
@@ -128,6 +131,7 @@ public final class GalenSpecUtil {
    *
    * @param includeTags tags to use in filter
    * @return filter ready for use with Galen
+   * @since 4.0.0
    */
   public static SectionFilter getSectionFilter(String... includeTags) {
     List<String> tagList = new ArrayList<String>();
@@ -142,6 +146,7 @@ public final class GalenSpecUtil {
    *
    * @param device to get tags from
    * @return filter ready for use with Galen
+   * @since 4.0.0
    */
   public static SectionFilter getSectionFilter(TestDevice device) {
     return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
@@ -152,6 +157,7 @@ public final class GalenSpecUtil {
    * when no device set.
    *
    * @return filter ready for use with Galen
+   * @since 4.0.0
    */
   public static SectionFilter getTags() {
     if (getTestDevice() != null) {
@@ -168,6 +174,7 @@ public final class GalenSpecUtil {
    * @param specPath path to spec file
    * @param tags tag based filter
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
     return readSpec(specPath, tags, browser.getPage(), EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
@@ -179,6 +186,7 @@ public final class GalenSpecUtil {
    *
    * @param specPath path to spec file
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(String specPath) {
     return readSpec(GalenHelperUtil.getBrowser(), specPath, getTags());
@@ -195,6 +203,7 @@ public final class GalenSpecUtil {
    * @param jsVars JS variables to use for spec parsing
    * @param objects predefined objects
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(String specPath, SectionFilter tags, Page page, Properties properties, Map<String, Object> jsVars,
       Map<String, Locator> objects) {
@@ -214,6 +223,7 @@ public final class GalenSpecUtil {
    * @param specPath path to spec file
    * @param tags tag based filter
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
     return readSpec(GalenHelperUtil.getBrowser(device), specPath, tags);

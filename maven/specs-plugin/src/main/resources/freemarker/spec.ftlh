@@ -1,11 +1,11 @@
 <#assign classNameForSpec = className(spec) />
 package ${specRootPackageName};
 
+import static io.wcm.qa.glnm.galen.reports.GalenReports.handleLayoutReport;
 import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.readSpec;
 import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.getSectionFilter;
 import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.getCombinedSectionFilter;
 import static io.wcm.qa.glnm.galen.validation.GalenLayoutChecker.checkLayout;
-import static io.wcm.qa.glnm.galen.validation.GalenLayoutChecker.handleLayoutReport;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import com.galenframework.reports.model.LayoutReport;
@@ -30,7 +30,6 @@ import io.wcm.qa.glnm.selectors.base.SelectorFactory;
 public class ${classNameForSpec} {
 
   private static final String RELATIVE_PATH = "${spec.relativeFilePath}";
-  private PageSpec pageSpec;
 
 <#if spec.tags??>
   private Collection<String> tags = new ArrayList<>();</#if>

@@ -23,9 +23,7 @@ import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
 
 import java.io.IOException;
-import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +38,7 @@ import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.suite.GalenPageAction;
 import com.galenframework.validation.PageValidation;
-import com.galenframework.validation.ValidationError;
-import com.galenframework.validation.ValidationErrorException;
 import com.galenframework.validation.ValidationListener;
-import com.galenframework.validation.ValidationObject;
 import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.glnm.device.TestDevice;
@@ -75,6 +70,7 @@ public final class GalenLayoutChecker {
    *
    * @param specDefinition {@link io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition} to generate spec to check
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(IcsDefinition specDefinition) {
     PageSpec spec = IcsFactory.getPageSpec(specDefinition);
@@ -87,6 +83,7 @@ public final class GalenLayoutChecker {
    *
    * @param spec Galen spec to check
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(PageSpec spec) {
     return checkLayout(spec.getSections().get(0).getName(), spec);
@@ -98,6 +95,7 @@ public final class GalenLayoutChecker {
    * @param testName test name used as folder name in reports
    * @param spec Galen spec to check
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
     SectionFilter tags = GalenSpecUtil.getTags();
@@ -111,6 +109,7 @@ public final class GalenLayoutChecker {
    * @param spec Galen spec to check
    * @param tags tags to use to filter rules
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec, SectionFilter tags) {
     ValidationListener validationListener = getValidationListener();
@@ -133,6 +132,7 @@ public final class GalenLayoutChecker {
    * @param tags tags to use
    * @param validationListener validation listener to use, can be null
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device,
       SectionFilter tags, ValidationListener validationListener) {
@@ -145,6 +145,7 @@ public final class GalenLayoutChecker {
    * @param testName test name used as folder name in reports
    * @param specPath path to spec file
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(String testName, String specPath) {
     PageSpec spec = GalenSpecUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenSpecUtil.getTags());
@@ -159,6 +160,7 @@ public final class GalenLayoutChecker {
    * @param device Device for the test
    * @param validationListener validation listener to use, can be null
    * @return report on spec test
+   * @since 4.0.0
    */
   public static LayoutReport checkLayout(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
 
@@ -167,34 +169,6 @@ public final class GalenLayoutChecker {
     spec = GalenSpecUtil.readSpec(device, specPath, tags);
 
     return checkLayout(testName, spec, device, tags, validationListener);
-  }
-
-  /**
-   * <p>handleLayoutReport.</p>
-   *
-   * @param layoutReport Galen layout report
-   * @param errorMessage message to use for errors and failures
-   * @param successMessage message to use in case of success
-   */
-  public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
-    if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      LOG.debug(successMessage);
-    }
-    else {
-      List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
-      for (ValidationResult validationResult : validationErrorResults) {
-        ValidationError error = validationResult.getError();
-        String errorMessages = StringUtils.join(error.getMessages(), "|");
-        LOG.warn(errorMessages);
-      }
-      if (layoutReport.errors() > 0) {
-        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
-        List<String> messages = validationResult.getError().getMessages();
-        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-        throw new GalenLayoutException(errorMessage, ex);
-      }
-    }
   }
 
   private static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
