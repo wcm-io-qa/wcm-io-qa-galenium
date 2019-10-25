@@ -1,9 +1,9 @@
 <#assign classNameForSpec = className(spec) />
 package ${specRootPackageName};
 
-import static io.wcm.qa.glnm.galen.GalenHelperUtil.readSpec;
-import static io.wcm.qa.glnm.galen.GalenHelperUtil.getSectionFilter;
-import static io.wcm.qa.glnm.galen.GalenHelperUtil.getCombinedSectionFilter;
+import static io.wcm.qa.glnm.galen.util.GalenSpecUtil.readSpec;
+import static io.wcm.qa.glnm.galen.util.GalenSpecUtil.getSectionFilter;
+import static io.wcm.qa.glnm.galen.util.GalenSpecUtil.getCombinedSectionFilter;
 import static io.wcm.qa.glnm.galen.GalenLayoutChecker.checkLayout;
 import static io.wcm.qa.glnm.galen.GalenLayoutChecker.handleLayoutReport;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;

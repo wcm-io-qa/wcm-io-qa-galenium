@@ -37,11 +37,11 @@ import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
 import io.wcm.qa.glnm.galen.GalenLayoutChecker;
-import io.wcm.qa.glnm.imagecomparison.IcValidationListener;
-import io.wcm.qa.glnm.imagecomparison.IcsFactory;
-import io.wcm.qa.glnm.imagecomparison.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
+import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
+import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.util.GalenSpecUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.VerificationBase;
 
@@ -160,9 +160,11 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   /**
-   * <p>Getter for the field <code>specDefinition</code>.</p>
+   * <p>
+   * Getter for the field <code>specDefinition</code>.
+   * </p>
    *
-   * @return a  {@link io.wcm.qa.glnm.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @return a {@link io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition} object.
    * @since 3.0.0
    */
   public ImageComparisonSpecDefinition getSpecDefinition() {
@@ -267,9 +269,11 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   /**
-   * <p>Setter for the field <code>specDefinition</code>.</p>
+   * <p>
+   * Setter for the field <code>specDefinition</code>.
+   * </p>
    *
-   * @param def a  {@link io.wcm.qa.glnm.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @param def a {@link io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition} object.
    * @since 3.0.0
    */
   public void setSpecDefinition(ImageComparisonSpecDefinition def) {
@@ -299,7 +303,7 @@ public class VisualVerification extends VerificationBase<Object> {
 
     PageSpec spec = IcsFactory.getPageSpec(getSpecDefinition());
     TestDevice testDevice = getTestDevice();
-    SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
+    SectionFilter tags = GalenSpecUtil.getSectionFilter(testDevice);
     layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
     try {
       GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());

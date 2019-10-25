@@ -101,21 +101,25 @@ public class LoggingListener extends TestListenerAdapter {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailure(ITestResult tr) {
     takeScreenshot(tr);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailedWithTimeout(ITestResult tr) {
     takeScreenshot(tr);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult tr) {
     takeScreenshot(tr);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onTestSuccess(ITestResult tr) {
     takeScreenshot(tr);

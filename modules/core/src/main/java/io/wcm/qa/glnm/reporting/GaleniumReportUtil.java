@@ -123,6 +123,7 @@ public final class GaleniumReportUtil {
 
   /**
    * Uses {@link com.google.common.html.HtmlEscapers} to escape text for use in reporting.
+   *
    * @param string potentially includes unescaped HTML
    * @return best effort HTML escaping
    * @since 3.0.0

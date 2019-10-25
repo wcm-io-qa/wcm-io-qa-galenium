@@ -34,6 +34,7 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  * <p>
  * AllureReportContainerListener class.
  * </p>
+ *
  * @since 4.0.0
  */
 public class AllureReportContainerListener implements TestLifecycleListener {

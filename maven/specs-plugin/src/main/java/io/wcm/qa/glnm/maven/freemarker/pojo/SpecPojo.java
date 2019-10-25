@@ -26,7 +26,7 @@ import java.util.Collection;
 import org.apache.commons.io.FilenameUtils;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
+import io.wcm.qa.glnm.galen.util.GalenSpecUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
@@ -123,7 +123,7 @@ public class SpecPojo {
   public Collection<SelectorPojo> getSelectors() {
     if (selectors == null) {
       selectors = new ArrayList<SelectorPojo>();
-      for (NestedSelector selector : GalenHelperUtil.getObjects(ParsingUtil.readSpec(getSpecFile()))) {
+      for (NestedSelector selector : GalenSpecUtil.getObjects(ParsingUtil.readSpec(getSpecFile()))) {
         selectors.add(new SelectorPojo(this, selector));
       }
     }

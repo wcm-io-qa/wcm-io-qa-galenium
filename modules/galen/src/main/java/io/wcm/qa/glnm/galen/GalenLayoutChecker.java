@@ -51,6 +51,7 @@ import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
+import io.wcm.qa.glnm.galen.util.GalenSpecUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
@@ -76,7 +77,7 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(IcsDefinition specDefinition) {
     PageSpec spec = IcsFactory.getPageSpec(specDefinition);
-    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenHelperUtil.getTags(), new IcValidationListener());
+    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenSpecUtil.getTags(), new IcValidationListener());
   }
 
   /**
@@ -98,7 +99,7 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, PageSpec spec) {
-    SectionFilter tags = GalenHelperUtil.getTags();
+    SectionFilter tags = GalenSpecUtil.getTags();
     return checkLayout(testName, spec, tags);
   }
 
@@ -145,7 +146,7 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    */
   public static LayoutReport checkLayout(String testName, String specPath) {
-    PageSpec spec = GalenHelperUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenHelperUtil.getTags());
+    PageSpec spec = GalenSpecUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenSpecUtil.getTags());
     return checkLayout(testName, spec);
   }
 
@@ -160,9 +161,9 @@ public final class GalenLayoutChecker {
    */
   public static LayoutReport checkLayout(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
 
-    SectionFilter tags = GalenHelperUtil.getSectionFilter(device);
+    SectionFilter tags = GalenSpecUtil.getSectionFilter(device);
     PageSpec spec;
-    spec = GalenHelperUtil.readSpec(device, specPath, tags);
+    spec = GalenSpecUtil.readSpec(device, specPath, tags);
 
     return checkLayout(testName, spec, device, tags, validationListener);
   }
