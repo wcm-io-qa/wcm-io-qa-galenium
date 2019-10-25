@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen;
+package io.wcm.qa.glnm.galen.validation;
 
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
@@ -48,6 +48,7 @@ import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
+import io.wcm.qa.glnm.galen.GalenHelperUtil;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;

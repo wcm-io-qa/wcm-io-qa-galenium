@@ -4,8 +4,8 @@ package ${specRootPackageName};
 import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.readSpec;
 import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.getSectionFilter;
 import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.getCombinedSectionFilter;
-import static io.wcm.qa.glnm.galen.GalenLayoutChecker.checkLayout;
-import static io.wcm.qa.glnm.galen.GalenLayoutChecker.handleLayoutReport;
+import static io.wcm.qa.glnm.galen.validation.GalenLayoutChecker.checkLayout;
+import static io.wcm.qa.glnm.galen.validation.GalenLayoutChecker.handleLayoutReport;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import com.galenframework.reports.model.LayoutReport;
