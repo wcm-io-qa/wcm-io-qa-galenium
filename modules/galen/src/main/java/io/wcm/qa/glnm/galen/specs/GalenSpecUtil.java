@@ -272,6 +272,7 @@ public final class GalenSpecUtil {
     }
     return objects;
   }
+
   private static List<String> getBagAsUniqueList(Bag<String> bag) {
     List<String> excludedTagList = new ArrayList<>();
     excludedTagList.addAll(bag.uniqueSet());
