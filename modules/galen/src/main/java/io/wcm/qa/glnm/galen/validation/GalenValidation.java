@@ -52,15 +52,15 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * Utility methods to run Galen layout checks from Selenium tests. Integration via  {@link io.wcm.qa.glnm.util.GaleniumContext}.
- *
- * @since 1.0.0
+ * Utility methods to run Galen layout checks from Selenium tests. Integration via
+ * {@link io.wcm.qa.glnm.util.GaleniumContext}.
+ * @since 4.0.0
  */
-public final class GalenLayoutChecker {
+public final class GalenValidation {
 
-  private static final Logger LOG = LoggerFactory.getLogger(GalenLayoutChecker.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GalenValidation.class);
 
-  private GalenLayoutChecker() {
+  private GalenValidation() {
     // do not instantiate
   }
 
@@ -72,9 +72,9 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(IcsDefinition specDefinition) {
+  public static LayoutReport imageComparison(IcsDefinition specDefinition) {
     PageSpec spec = IcsFactory.getPageSpec(specDefinition);
-    return checkLayout(specDefinition.getSectionName(), spec, getTestDevice(), GalenSpecUtil.getTags(), new IcValidationListener());
+    return check(specDefinition.getSectionName(), spec, getTestDevice(), GalenSpecUtil.getTags(), new IcValidationListener());
   }
 
   /**
@@ -85,8 +85,8 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(PageSpec spec) {
-    return checkLayout(spec.getSections().get(0).getName(), spec);
+  public static LayoutReport check(PageSpec spec) {
+    return check(spec.getSections().get(0).getName(), spec);
   }
 
   /**
@@ -97,9 +97,9 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(String testName, PageSpec spec) {
+  public static LayoutReport check(String testName, PageSpec spec) {
     SectionFilter tags = GalenSpecUtil.getTags();
-    return checkLayout(testName, spec, tags);
+    return check(testName, spec, tags);
   }
 
   /**
@@ -111,9 +111,9 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(String testName, PageSpec spec, SectionFilter tags) {
+  public static LayoutReport check(String testName, PageSpec spec, SectionFilter tags) {
     ValidationListener validationListener = getValidationListener();
-    return checkLayout(
+    return check(
         testName,
         spec,
         getTestDevice(),
@@ -134,9 +134,9 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device,
+  public static LayoutReport check(String testName, PageSpec spec, TestDevice device,
       SectionFilter tags, ValidationListener validationListener) {
-    return checkLayout(testName, spec, device, tags, validationListener, GalenHelperUtil.getBrowser(device), getDriver(device));
+    return check(testName, spec, device, tags, validationListener, GalenHelperUtil.getBrowser(device), getDriver(device));
   }
 
   /**
@@ -147,9 +147,9 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(String testName, String specPath) {
+  public static LayoutReport check(String testName, String specPath) {
     PageSpec spec = GalenSpecUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenSpecUtil.getTags());
-    return checkLayout(testName, spec);
+    return check(testName, spec);
   }
 
   /**
@@ -162,16 +162,16 @@ public final class GalenLayoutChecker {
    * @return report on spec test
    * @since 4.0.0
    */
-  public static LayoutReport checkLayout(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
+  public static LayoutReport check(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
 
     SectionFilter tags = GalenSpecUtil.getSectionFilter(device);
     PageSpec spec;
     spec = GalenSpecUtil.readSpec(device, specPath, tags);
 
-    return checkLayout(testName, spec, device, tags, validationListener);
+    return check(testName, spec, device, tags, validationListener);
   }
 
-  private static LayoutReport checkLayout(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
+  private static LayoutReport check(String testName, PageSpec spec, TestDevice device, SectionFilter tags, ValidationListener validationListener,
       Browser browser, WebDriver driver) {
     if (LOG.isDebugEnabled()) {
       StringBuilder stringBuilder = new StringBuilder();

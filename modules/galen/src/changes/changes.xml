@@ -25,6 +25,9 @@
 
     <release version="4.0.0" date="not-released-yet">
       <action type="update" dev="apegam">
+        Rename functionality around Galen validation.
+      </action>
+      <action type="update" dev="apegam">
         Restructure packages to align with Galen naming. Move existing
         classes and create new classes to better separate concerns.
       </action>
