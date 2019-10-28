@@ -66,7 +66,7 @@ public final class GalenValidation {
 
   /**
    * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from section name of spec factory and used as folder name in reports
+   * Test name test name will be taken from section name of spec factory and used in reports
    *
    * @param specDefinition {@link io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition} to generate spec to check
    * @return report on spec test
@@ -79,7 +79,7 @@ public final class GalenValidation {
 
   /**
    * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from first section of spec and used as folder name in reports
+   * Test name test name will be taken from first section of spec and used in reports
    *
    * @param spec Galen spec to check
    * @return report on spec test
@@ -92,7 +92,7 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used as folder name in reports
+   * @param testName test name used in reports
    * @param spec Galen spec to check
    * @return report on spec test
    * @since 4.0.0
@@ -105,7 +105,7 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver using the tags.
    *
-   * @param testName test name used as folder name in reports
+   * @param testName test name used in reports
    * @param spec Galen spec to check
    * @param tags tags to use to filter rules
    * @return report on spec test
@@ -126,7 +126,7 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used as folder name in reports
+   * @param testName test name in reports
    * @param spec Galen spec to check
    * @param device device to retrieve driver
    * @param tags tags to use
@@ -142,7 +142,7 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used as folder name in reports
+   * @param testName test name used in reports
    * @param specPath path to spec file
    * @return report on spec test
    * @since 4.0.0
