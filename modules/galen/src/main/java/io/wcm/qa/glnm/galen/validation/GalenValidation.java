@@ -229,10 +229,10 @@ public final class GalenValidation {
     if (LOG.isTraceEnabled()) {
       return new TracingValidationListener();
     }
-    return new DummyValidationListener();
+    return new NoOpValidationListener();
   }
 
-  private static final class DummyValidationListener implements ValidationListener {
+  private static final class NoOpValidationListener implements ValidationListener {
 
     @Override
     public void onAfterObject(PageValidation pageValidation, String objectName) {
@@ -306,7 +306,7 @@ public final class GalenValidation {
 
     @Override
     public String toString() {
-      return "Dummy Validation Listener";
+      return "NoOp Validation Listener";
     }
   }
 
