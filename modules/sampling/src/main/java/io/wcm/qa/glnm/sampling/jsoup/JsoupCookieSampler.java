@@ -84,7 +84,9 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
       connection.execute();
 
       Map<String, String> cookies = connection.response().cookies();
-      LOG.debug("got " + cookies.size() + " cookies from '" + url + "'");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("got " + cookies.size() + " cookies from '" + url + "'");
+      }
 
       return cookies;
     }
