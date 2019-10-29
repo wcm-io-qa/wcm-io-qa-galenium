@@ -82,7 +82,7 @@ public final class GalenSpecUtil {
    * @return section filter containing all included and excluded tags
    * @since 4.0.0
    */
-  public static SectionFilter getCombinedSectionFilter(SectionFilter... filtersToCombine) {
+  public static SectionFilter combineSectionFilters(SectionFilter... filtersToCombine) {
     Bag<String> excludedTagBag = new HashBag<String>();
     Bag<String> includedTagBag = new HashBag<String>();
     for (SectionFilter sectionFilter : filtersToCombine) {
@@ -107,7 +107,7 @@ public final class GalenSpecUtil {
    * @return selector representing named object from spec
    * @since 4.0.0
    */
-  public static Selector getObject(PageSpec spec, String objectName) {
+  public static Selector extractObject(PageSpec spec, String objectName) {
     Locator objectLocator = spec.getObjectLocator(objectName);
     return fromLocator(objectName, objectLocator);
   }
@@ -133,7 +133,7 @@ public final class GalenSpecUtil {
    * @return filter ready for use with Galen
    * @since 4.0.0
    */
-  public static SectionFilter getSectionFilter(String... includeTags) {
+  public static SectionFilter asSectionFilter(String... includeTags) {
     List<String> tagList = new ArrayList<String>();
     if (includeTags != null) {
       Collections.addAll(tagList, includeTags);
@@ -148,7 +148,7 @@ public final class GalenSpecUtil {
    * @return filter ready for use with Galen
    * @since 4.0.0
    */
-  public static SectionFilter getSectionFilter(TestDevice device) {
+  public static SectionFilter asSectionFilter(TestDevice device) {
     return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
   }
 
@@ -159,11 +159,11 @@ public final class GalenSpecUtil {
    * @return filter ready for use with Galen
    * @since 4.0.0
    */
-  public static SectionFilter getTags() {
+  public static SectionFilter getDefaultIncludeTags() {
     if (getTestDevice() != null) {
-      return getSectionFilter(getTestDevice());
+      return asSectionFilter(getTestDevice());
     }
-    return getSectionFilter();
+    return asSectionFilter();
   }
 
   /**
@@ -189,7 +189,7 @@ public final class GalenSpecUtil {
    * @since 4.0.0
    */
   public static PageSpec readSpec(String specPath) {
-    return readSpec(GalenHelperUtil.getBrowser(), specPath, getTags());
+    return readSpec(GalenHelperUtil.getBrowser(), specPath, getDefaultIncludeTags());
   }
 
   /**

@@ -69,7 +69,7 @@ public final class GalenValidation {
    */
   public static LayoutReport imageComparison(IcsDefinition specDefinition) {
     PageSpec spec = IcsFactory.getPageSpec(specDefinition);
-    return check(specDefinition.getSectionName(), spec, getTestDevice(), GalenSpecUtil.getTags(), new IcValidationListener());
+    return check(specDefinition.getSectionName(), spec, getTestDevice(), GalenSpecUtil.getDefaultIncludeTags(), new IcValidationListener());
   }
 
   /**
@@ -93,7 +93,7 @@ public final class GalenValidation {
    * @since 4.0.0
    */
   public static LayoutReport check(String testName, PageSpec spec) {
-    SectionFilter tags = GalenSpecUtil.getTags();
+    SectionFilter tags = GalenSpecUtil.getDefaultIncludeTags();
     return check(testName, spec, tags);
   }
 
@@ -143,7 +143,7 @@ public final class GalenValidation {
    * @since 4.0.0
    */
   public static LayoutReport check(String testName, String specPath) {
-    PageSpec spec = GalenSpecUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenSpecUtil.getTags());
+    PageSpec spec = GalenSpecUtil.readSpec(GalenHelperUtil.getBrowser(), specPath, GalenSpecUtil.getDefaultIncludeTags());
     return check(testName, spec);
   }
 
@@ -159,7 +159,7 @@ public final class GalenValidation {
    */
   public static LayoutReport check(String testName, String specPath, TestDevice device, ValidationListener validationListener) {
 
-    SectionFilter tags = GalenSpecUtil.getSectionFilter(device);
+    SectionFilter tags = GalenSpecUtil.asSectionFilter(device);
     PageSpec spec;
     spec = GalenSpecUtil.readSpec(device, specPath, tags);
 
