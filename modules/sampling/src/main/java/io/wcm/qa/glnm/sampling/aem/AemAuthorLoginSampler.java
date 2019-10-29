@@ -112,7 +112,6 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
       return authorHostUrl + ":" + port + LOGIN_PATH;
     }
     return authorHostUrl + LOGIN_PATH;
-
   }
 
 }
