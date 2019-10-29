@@ -203,88 +203,72 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
    * <p>Setter for the field <code>hostName</code>.</p>
    *
    * @param host to use for login and query
-   * @return this
    */
-  public JcrQuerySampler setHostName(String host) {
+  public void setHostName(String host) {
     this.hostName = host;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>loginToAuthor</code>.</p>
    *
    * @param login whether to login before querying
-   * @return this
    */
-  public JcrQuerySampler setLoginToAuthor(boolean login) {
+  public void setLoginToAuthor(boolean login) {
     this.loginToAuthor = login;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>maxNumberOfResults</code>.</p>
    *
    * @param maxResults limit on number of returned results (default: 1000)
-   * @return this
    */
-  public JcrQuerySampler setMaxNumberOfResults(int maxResults) {
+  public void setMaxNumberOfResults(int maxResults) {
     this.maxNumberOfResults = maxResults;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>password</code>.</p>
    *
    * @param pass to use for login
-   * @return this
    */
-  public JcrQuerySampler setPassword(String pass) {
+  public void setPassword(String pass) {
     this.password = pass;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>path</code>.</p>
    *
    * @param rootPath to use as constraint
-   * @return this
    */
-  public JcrQuerySampler setPath(String rootPath) {
+  public void setPath(String rootPath) {
     this.path = rootPath;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>port</code>.</p>
    *
    * @param portNumber to use for query and login
-   * @return this
    */
-  public JcrQuerySampler setPort(int portNumber) {
+  public void setPort(int portNumber) {
     this.port = portNumber;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>protocol</code>.</p>
    *
    * @param scheme to use for query and login
-   * @return this
    */
-  public JcrQuerySampler setProtocol(String scheme) {
+  public void setProtocol(String scheme) {
     this.protocol = scheme;
-    return this;
   }
 
   /**
    * <p>Setter for the field <code>userName</code>.</p>
    *
    * @param user to use for login
-   * @return this
    */
-  public JcrQuerySampler setUserName(String user) {
+  public void setUserName(String user) {
     this.userName = user;
-    return this;
   }
 
   private String getQuery() {
