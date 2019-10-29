@@ -121,9 +121,8 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
     return connection;
   }
 
-  protected JsoupBasedSampler<T> setUrl(String newUrl) {
+  protected void setUrl(String newUrl) {
     this.url = newUrl;
-    return this;
   }
 
   protected boolean useCookieSampler() {
