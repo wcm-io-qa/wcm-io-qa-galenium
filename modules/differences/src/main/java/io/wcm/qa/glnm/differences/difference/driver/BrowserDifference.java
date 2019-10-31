@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.glnm.differences.difference.driver;
 
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.DifferenceBase;
 import io.wcm.qa.glnm.util.GaleniumContext;
 

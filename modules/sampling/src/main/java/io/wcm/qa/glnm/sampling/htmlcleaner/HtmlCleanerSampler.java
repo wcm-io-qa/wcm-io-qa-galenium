@@ -28,7 +28,6 @@ import org.htmlcleaner.HtmlSerializer;
 import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.TagNodeVisitor;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.CssClassSorter;

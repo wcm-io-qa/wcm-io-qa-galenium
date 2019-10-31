@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import org.testng.asserts.Assertion;
-
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**

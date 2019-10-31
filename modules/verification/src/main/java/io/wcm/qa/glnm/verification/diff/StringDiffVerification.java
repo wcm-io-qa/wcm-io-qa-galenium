@@ -21,8 +21,6 @@ package io.wcm.qa.glnm.verification.diff;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.StringToListSampler;

@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.differences.base.Difference;
-import io.wcm.qa.glnm.differences.base.Differences;
 
 /**
  * Helper methods for  {@link io.wcm.qa.glnm.differences.base.Differences} implementations.
