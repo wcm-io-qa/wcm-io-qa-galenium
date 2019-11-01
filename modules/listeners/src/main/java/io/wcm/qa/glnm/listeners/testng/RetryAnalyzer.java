@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.listeners.testng;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.assignCategory;
-
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,6 +29,7 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
@@ -53,13 +52,13 @@ public class RetryAnalyzer implements IRetryAnalyzer {
       // don't retry if max count is exceeded
       String failureMessage = "Failed last retry (" + getCount(result).get() + "): " + result.getTestName();
       logResult(result, failureMessage);
-      assignCategory("RERUN_MAX");
+      Allure.label("RERUN_MAX", "true");
       return false;
     }
 
     String infoMessage = "Rerunning test (" + getCount(result).get() + "): " + result.getTestName();
     logResult(result, infoMessage);
-    assignCategory("RERUN_" + getCount(result).get());
+    Allure.label("RERUN", "" + getCount(result).get());
     WebDriverManagement.closeDriver();
     return true;
   }

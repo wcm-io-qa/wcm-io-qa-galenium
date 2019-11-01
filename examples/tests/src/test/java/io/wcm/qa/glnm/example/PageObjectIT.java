@@ -36,7 +36,7 @@ import io.wcm.qa.glnm.example.pageobjects.LinkItem;
 import io.wcm.qa.glnm.example.pageobjects.Navigation;
 import io.wcm.qa.glnm.example.pageobjects.NavigationTopLevelEntry;
 import io.wcm.qa.glnm.example.pageobjects.Stage;
-import io.wcm.qa.glnm.interaction.Aem;
+import io.wcm.qa.glnm.interaction.aem.author.AuthorLogin;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;
 
 /**
@@ -63,7 +63,7 @@ public class PageObjectIT extends AbstractExampleBase {
 
   @Test
   public void testWithPageObjects() {
-    Aem.loginToAuthor(getHomepage().getPageUrl());
+    AuthorLogin.loginToAuthor(getHomepage().getPageUrl());
     checkNavigation();
     checkStage();
     checkFooter();

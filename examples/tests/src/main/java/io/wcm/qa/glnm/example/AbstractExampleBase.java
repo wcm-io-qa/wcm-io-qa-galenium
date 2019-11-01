@@ -26,9 +26,9 @@ import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.selectors.common.Page;
 import io.wcm.qa.glnm.example.selectors.common.Page.Navigation;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.interaction.Aem;
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.interaction.Wait;
+import io.wcm.qa.glnm.interaction.aem.author.AuthorLogin;
 import io.wcm.qa.glnm.testcase.AbstractBrowserBasedTest;
 
 /**
@@ -68,7 +68,7 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
   }
 
   protected void loadStartUrl() {
-    if (Aem.loginToAuthor(getStartUrl())) {
+    if (AuthorLogin.loginToAuthor(getStartUrl())) {
       LOG.debug("loaded start URL: " + getStartUrl());
       return;
     }
