@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.interaction;
+package io.wcm.qa.glnm.interaction.aem.author;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorUser;
@@ -36,6 +36,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.interaction.Browser;
+import io.wcm.qa.glnm.interaction.Element;
+import io.wcm.qa.glnm.interaction.FormElement;
+import io.wcm.qa.glnm.interaction.Wait;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.selectors.base.SelectorFactory;
 import io.wcm.qa.glnm.util.HttpUtil;
@@ -45,11 +49,11 @@ import io.wcm.qa.glnm.util.HttpUtil;
  *
  * @since 1.0.0
  */
-public final class Aem {
+public final class AuthorLogin {
 
   private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
 
-  private static final Logger LOG = LoggerFactory.getLogger(Aem.class);
+  private static final Logger LOG = LoggerFactory.getLogger(AuthorLogin.class);
 
   private static final String PARAM_NAME_CHARSET = "_charset_";
   private static final String PARAM_NAME_PASSWORD = "j_password";
@@ -64,7 +68,7 @@ public final class Aem {
   private static final Selector SELECTOR_AUTHOR_INPUT_USERNAME = SelectorFactory.fromCss("#username");
   private static final Selector SELECTOR_AUTHOR_LOGIN_BUTTON = SelectorFactory.fromCss("#submit-button");
 
-  private Aem() {
+  private AuthorLogin() {
     // do not instantiate
   }
 

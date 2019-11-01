@@ -19,9 +19,16 @@
  */
 package io.wcm.qa.glnm.sampling.aem;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
+import org.jsoup.Connection.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupCookieSampler;
 
 /**
@@ -31,26 +38,33 @@ import io.wcm.qa.glnm.sampling.jsoup.JsoupCookieSampler;
  */
 public class AemAuthorLoginSampler extends JsoupCookieSampler {
 
-  private static final String POST_DATA_CHARSET = "UTF-8";
+  private static final String DEFAULT_AUTHOR = "localhost";
+  private static final int DEFAULT_AUTHOR_PORT = 4502;
+  private static final String DEFAULT_PASSWORD = "admin";
+  private static final String DEFAULT_USER = "admin";
+  private static final Logger LOG = LoggerFactory.getLogger(AemAuthorLoginSampler.class);
   private static final String LOGIN_PATH = "/libs/granite/core/content/login.html/j_security_check";
-  private String user = "admin";
-  private String pass = "admin";
+  private static final String POST_DATA_CHARSET = "UTF-8";
+
+  private boolean needsXhr = false;
+  private String pass = DEFAULT_PASSWORD;
+  private String user = DEFAULT_USER;
 
 
   /**
    * Login to 'http://localhost:4502'.
    */
   public AemAuthorLoginSampler() {
-    this("http://localhost");
+    this(DEFAULT_AUTHOR);
   }
 
   /**
    * Login using default port '4502'.
    *
-   * @param url to author instance
+   * @param authorHostname name of author instance
    */
-  public AemAuthorLoginSampler(String url) {
-    this(url, 4502);
+  public AemAuthorLoginSampler(String authorHostname) {
+    this(authorHostname, DEFAULT_AUTHOR_PORT);
   }
 
   /**
@@ -61,6 +75,17 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
    */
   public AemAuthorLoginSampler(String url, int port) {
     super(buildLoginUrl(url, port));
+  }
+
+  /**
+   * Set whether to use XmlHttpRequests to fetch cookies. Activating XHR
+   * leads to a GET request executed prior to the actual cookie fetching
+   * request.
+   *
+   * @param needsXhr whether to activate XHR
+   */
+  public void setNeedsXhr(boolean needsXhr) {
+    this.needsXhr = needsXhr;
   }
 
   /**
@@ -81,16 +106,48 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
     user = username;
   }
 
+  private void openXhrConnection(Connection jsoupConnection) {
+    try {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("opening XHR connection via GET");
+      }
+      jsoupConnection.header("X-Requested-With", "XMLHttpRequest");
+      jsoupConnection.get();
+      if (LOG.isTraceEnabled()) {
+        Response response = jsoupConnection.response();
+        int code = response.statusCode();
+        String message = response.statusMessage();
+        LOG.debug("done opening XHR connection via GET: " + code + " - " + message);
+      }
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("When attempting to initialize XHR.", ex);
+    }
+  }
+
+  @Override
+  protected Map fetchCookies() {
+    Connection jsoupConnection = getJsoupConnection();
+    if (needsXhr()) {
+      openXhrConnection(jsoupConnection);
+    }
+    return super.fetchCookies();
+  }
+
   @Override
   protected Connection getJsoupConnection() {
     Connection connection = super.getJsoupConnection()
-        .data("_charset_", "utf-8")
-        .data("j_username", getUsername())
-        .data("j_password", getPassword())
-        .data("j_validate", "true")
-        .header("Content-Type", "application/x-www-form-urlencoded; charset=" + POST_DATA_CHARSET)
-        .postDataCharset(POST_DATA_CHARSET)
-        .ignoreHttpErrors(true);
+          .header("Accept", "*/*")
+          .data("_charset_", "utf-8")
+          .data("j_username", getUsername())
+          .data("j_password", getPassword())
+          .data("j_validate", "true")
+          .header("Content-Type", "application/x-www-form-urlencoded; charset=" + POST_DATA_CHARSET)
+          .postDataCharset(POST_DATA_CHARSET)
+          .referrer(getUrl())
+          .header("Cache-Control", "no-cache")
+          .header("Pragma", "no-cache")
+          .ignoreHttpErrors(true);
     return connection;
   }
 
@@ -105,6 +162,10 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
 
   protected String getUsername() {
     return user;
+  }
+
+  protected boolean needsXhr() {
+    return needsXhr;
   }
 
   private static String buildLoginUrl(String authorHostUrl, int port) {

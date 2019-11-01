@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.verification.element;
 
+
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import java.util.Comparator;
@@ -42,7 +43,7 @@ import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
 import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.glnm.galen.reports.GalenReports;
 import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
-import io.wcm.qa.glnm.galen.validation.GalenLayoutChecker;
+import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.VerificationBase;
 
@@ -304,8 +305,8 @@ public class VisualVerification extends VerificationBase<Object> {
 
     PageSpec spec = IcsFactory.getPageSpec(getSpecDefinition());
     TestDevice testDevice = getTestDevice();
-    SectionFilter tags = GalenSpecUtil.getSectionFilter(testDevice);
-    layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
+    SectionFilter tags = GalenSpecUtil.asSectionFilter(testDevice);
+    layoutReport = GalenValidation.check(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
     try {
       GalenReports.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
     }
