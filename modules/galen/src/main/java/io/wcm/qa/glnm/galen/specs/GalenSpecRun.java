@@ -34,7 +34,13 @@ public class GalenSpecRun {
   private LayoutReport report;
   private GalenSpec spec;
 
-  GalenSpecRun(GalenSpec spec, LayoutReport report) {
+  /**
+   * <p>Constructor for GalenSpecRun.</p>
+   *
+   * @param spec a {@link io.wcm.qa.glnm.galen.specs.GalenSpec} object.
+   * @param report a {@link com.galenframework.reports.model.LayoutReport} object.
+   */
+  public GalenSpecRun(GalenSpec spec, LayoutReport report) {
     this.setSpec(spec);
     this.setReport(report);
   }
@@ -43,6 +49,7 @@ public class GalenSpecRun {
    * When there are errors that are not marked as warning level only.
    *
    * @return whether spec has failed
+   * @since 4.0.0
    */
   public boolean hasFailed() {
     return getReport().errors() > 0;
@@ -52,6 +59,7 @@ public class GalenSpecRun {
    * When there are errors that are not marked as warning level only.
    *
    * @return whether spec has failed
+   * @since 4.0.0
    */
   public boolean hasWarnings() {
     return getReport().warnings() > 0;
@@ -62,12 +70,18 @@ public class GalenSpecRun {
    * When there are no errors or warnings the spec is considered clean.
    *
    * @return whether spec is clean
+   * @since 4.0.0
    */
   public boolean isClean() {
     return getValidationErrors().isEmpty();
   }
 
-  private List<ValidationResult> getValidationErrors() {
+  /**
+   * <p>getValidationErrors.</p>
+   *
+   * @return a {@link java.util.List} object.
+   */
+  public List<ValidationResult> getValidationErrors() {
     return getReport().getValidationErrorResults();
   }
 

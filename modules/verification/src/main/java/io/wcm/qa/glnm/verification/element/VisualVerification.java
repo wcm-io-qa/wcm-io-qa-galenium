@@ -20,29 +20,18 @@
 package io.wcm.qa.glnm.verification.element;
 
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
-
 import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.speclang2.pagespec.SectionFilter;
-import com.galenframework.specs.page.CorrectionsRect;
-import com.galenframework.specs.page.PageSpec;
-
-import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
-import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
-import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonProvider;
-import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition;
-import io.wcm.qa.glnm.galen.reports.GalenReports;
-import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
+import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
+import io.wcm.qa.glnm.galen.specs.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
 import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.VerificationBase;
@@ -166,7 +155,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * Getter for the field <code>specDefinition</code>.
    * </p>
    *
-   * @return a {@link io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @return a {@link io.wcm.qa.glnm.galen.specs.ImageComparisonSpecDefinition} object.
    * @since 3.0.0
    */
   public ImageComparisonSpecDefinition getSpecDefinition() {
@@ -221,12 +210,12 @@ public class VisualVerification extends VerificationBase<Object> {
   }
 
   /**
-   * Apply positional corrections in form of a {@link com.galenframework.specs.page.CorrectionsRect}.
+   * Apply positional corrections in form of a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect}.
    *
    * @param corrections to apply when comparing
    * @since 2.0.0
    */
-  public void setCorrections(CorrectionsRect corrections) {
+  public void setCorrections(GalenCorrectionRect corrections) {
     getSpecDefinition().setCorrections(corrections);
   }
 
@@ -275,7 +264,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * Setter for the field <code>specDefinition</code>.
    * </p>
    *
-   * @param def a {@link io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @param def a {@link io.wcm.qa.glnm.galen.specs.ImageComparisonSpecDefinition} object.
    * @since 3.0.0
    */
   public void setSpecDefinition(ImageComparisonSpecDefinition def) {
@@ -301,20 +290,8 @@ public class VisualVerification extends VerificationBase<Object> {
 
   @Override
   protected boolean doVerification() {
-    LayoutReport layoutReport;
-
-    PageSpec spec = new ImageComparisonProvider(getSpecDefinition()).getPageSpec();
-    TestDevice testDevice = getTestDevice();
-    SectionFilter tags = GalenSpecUtil.asSectionFilter(testDevice);
-    layoutReport = GalenValidation.check(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
-    try {
-      GalenReports.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
-    }
-    catch (GalenLayoutException ex) {
-      LOG.debug("image comparison layout", ex);
-      return false;
-    }
-    return true;
+    GalenSpecRun imageComparison = GalenValidation.imageComparison(getSpecDefinition());
+    return !imageComparison.hasFailed();
   }
 
   @Override

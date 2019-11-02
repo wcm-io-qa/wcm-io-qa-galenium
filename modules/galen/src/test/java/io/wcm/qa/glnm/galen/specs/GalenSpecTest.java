@@ -30,7 +30,7 @@ import com.galenframework.specs.page.PageSpec;
 public class GalenSpecTest {
 
   static final PageSpec SPEC = new PageSpec();
-  private static final GalenSpecProvider PROVIDER = new GalenSpecProvider() {
+  private static final GalenPageSpecProvider PROVIDER = new GalenPageSpecProvider() {
 
     @Override
     public PageSpec getPageSpec() {

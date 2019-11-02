@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import static java.util.Locale.ENGLISH;
 
@@ -28,15 +28,13 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.galenframework.specs.page.CorrectionsRect;
-import com.galenframework.specs.page.CorrectionsRect.Correction;
-import com.galenframework.specs.page.CorrectionsRect.Type;
-import com.galenframework.specs.page.Locator;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
+import io.wcm.qa.glnm.galen.specs.page.GalenCorrection;
+import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
 import io.wcm.qa.glnm.interaction.Mouse;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.util.BrowserUtil;
@@ -49,11 +47,10 @@ import io.wcm.qa.glnm.util.BrowserUtil;
 public class ImageComparisonSpecDefinition implements IcsDefinition {
 
   private static final String DEFAULT_PAGE_SECTION_NAME = "Image Comparison";
-  private static final Correction NO_CORRECTION = new Correction(0, CorrectionsRect.Type.PLUS);
 
   private String allowedError;
   private int allowedOffset;
-  private CorrectionsRect corrections;
+  private GalenCorrectionRect corrections;
   private boolean cropIfOutside;
   private SortedDifferences differences = new SortedDifferences();
   private String elementName;
@@ -134,9 +131,8 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   /** {@inheritDoc} */
   @Override
   public void correctForSrollPosition(int yCorrection) {
-    Correction top = new Correction(yCorrection, Type.MINUS);
-    CorrectionsRect correctionsRect = new CorrectionsRect(NO_CORRECTION, top, NO_CORRECTION, NO_CORRECTION);
-    setCorrections(correctionsRect);
+    GalenCorrection top = GalenCorrection.adjust(yCorrection);
+    setCorrections(new GalenCorrectionRect().withTop(top));
   }
 
   /**
@@ -177,7 +173,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    * </p>
    */
   @Override
-  public CorrectionsRect getCorrections() {
+  public GalenCorrectionRect getCorrections() {
     return corrections;
   }
 
@@ -235,22 +231,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   @Override
   public List<Selector> getObjectsToIgnore() {
     return objectsToIgnore;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * <p>
-   * getPageSpecInstance.
-   * </p>
-   */
-  @Override
-  public Locator getLocator() {
-    Locator locator = getSelector().asLocator();
-    if (hasCorrections()) {
-      locator.withCorrections(getCorrections());
-    }
-    return locator;
   }
 
   /**
@@ -351,7 +331,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    * @param corrections a {@link com.galenframework.specs.page.CorrectionsRect} object.
    * @since 2.0.0
    */
-  public void setCorrections(CorrectionsRect corrections) {
+  public void setCorrections(GalenCorrectionRect corrections) {
     this.corrections = corrections;
   }
 
@@ -443,10 +423,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     this.zeroToleranceWarning = zeroToleranceWarning;
-  }
-
-  private boolean hasCorrections() {
-    return getCorrections() != null;
   }
 
 }

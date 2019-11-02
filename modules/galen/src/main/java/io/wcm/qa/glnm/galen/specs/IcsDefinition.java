@@ -17,13 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import java.util.List;
 
-import com.galenframework.specs.page.CorrectionsRect;
-import com.galenframework.specs.page.Locator;
-
+import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -63,7 +61,7 @@ public interface IcsDefinition {
    * @return corrections applied to locator
    * @since 4.0.0
    */
-  CorrectionsRect getCorrections();
+  GalenCorrectionRect getCorrections();
 
   /**
    * <p>getElementName.</p>
@@ -88,14 +86,6 @@ public interface IcsDefinition {
    * @since 4.0.0
    */
   String getFoldername();
-
-  /**
-   * <p>getLocator.</p>
-   *
-   * @return selector as locator with corrections
-   * @since 4.0.0
-   */
-  Locator getLocator();
 
   /**
    * <p>getObjectsToIgnore.</p>

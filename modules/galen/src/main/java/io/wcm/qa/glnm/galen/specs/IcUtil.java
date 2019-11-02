@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getActualImagesDirectory;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getExpectedImagesDirectory;

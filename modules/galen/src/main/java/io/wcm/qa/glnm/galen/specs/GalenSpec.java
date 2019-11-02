@@ -19,9 +19,12 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import java.util.Collection;
+
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.galen.validation.GalenValidation;
+import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
  * Provide access to everything about this Galen spec.
@@ -30,37 +33,61 @@ import io.wcm.qa.glnm.galen.validation.GalenValidation;
  */
 public class GalenSpec {
 
-  private GalenSpecProvider galenSpecProvider;
+  private GalenPageSpecProvider galenSpecProvider;
   private PageSpec pageSpec;
 
   /**
    * Run the spec.
    *
    * @return representation of the run
+   * @since 4.0.0
    */
   public GalenSpecRun check() {
-    return new GalenSpecRun(this, GalenValidation.check(getPageSpec()));
+    return GalenValidation.check(this);
   }
 
   /**
-   * <p>Getter for the field <code>galenSpecProvider</code>.</p>
+   * <p>
+   * Getter for the field <code>galenSpecProvider</code>.
+   * </p>
    *
-   * @return a {@link io.wcm.qa.glnm.galen.specs.GalenSpecProvider} object.
+   * @return a {@link io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider} object.
+   * @since 4.0.0
    */
-  public GalenSpecProvider getGalenSpecProvider() {
+  public GalenPageSpecProvider getGalenSpecProvider() {
     return galenSpecProvider;
   }
 
+
   /**
-   * <p>Setter for the field <code>galenSpecProvider</code>.</p>
+   * <p>
+   * getObjects.
+   * </p>
    *
-   * @param galenSpecProvider a {@link io.wcm.qa.glnm.galen.specs.GalenSpecProvider} object.
+   * @return a {@link java.util.Collection} object.
    */
-  public void setGalenSpecProvider(GalenSpecProvider galenSpecProvider) {
+  public Collection<NestedSelector> getObjects() {
+    return GalenSpecUtil.getObjects(getPageSpec());
+  }
+
+  /**
+   * <p>
+   * Setter for the field <code>galenSpecProvider</code>.
+   * </p>
+   *
+   * @param galenSpecProvider a {@link io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider} object.
+   * @since 4.0.0
+   */
+  public void setGalenSpecProvider(GalenPageSpecProvider galenSpecProvider) {
     this.galenSpecProvider = galenSpecProvider;
   }
 
-  protected PageSpec getPageSpec() {
+  /**
+   * <p>Getter for the field <code>pageSpec</code>.</p>
+   *
+   * @return a {@link com.galenframework.specs.page.PageSpec} object.
+   */
+  public PageSpec getPageSpec() {
     if (pageSpec == null) {
       pageSpec = initPageSpec();
     }
@@ -69,5 +96,15 @@ public class GalenSpec {
 
   protected PageSpec initPageSpec() {
     return getGalenSpecProvider().getPageSpec();
+  }
+
+  /**
+   * <p>getName.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 4.0.0
+   */
+  public String getName() {
+    return getPageSpec().getSections().get(0).getName();
   }
 }

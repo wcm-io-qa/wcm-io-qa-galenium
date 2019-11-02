@@ -17,10 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.imagecomparison;
-
-import static io.wcm.qa.glnm.galen.imagecomparison.IcUtil.isImageComparisonSpec;
-import static io.wcm.qa.glnm.galen.imagecomparison.IcUtil.saveSample;
+package io.wcm.qa.glnm.galen.specs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +26,6 @@ import com.galenframework.specs.Spec;
 import com.galenframework.validation.CombinedValidationListener;
 import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationResult;
-
 
 /**
  * {@link com.galenframework.validation.CombinedValidationListener} to handle storing of sampled image files in ZIP file.
@@ -45,8 +41,8 @@ public class IcValidationListener extends CombinedValidationListener {
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
     LOG.trace("spec error triggered: " + objectName);
-    if (isImageComparisonSpec(spec)) {
-      saveSample(objectName, spec, result);
+    if (IcUtil.isImageComparisonSpec(spec)) {
+      IcUtil.saveSample(objectName, spec, result);
     }
     else {
       LOG.trace("not an image comparison spec");

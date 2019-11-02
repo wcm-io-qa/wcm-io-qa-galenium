@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import java.util.List;
 
@@ -76,7 +76,7 @@ final class IcsFactory {
     pageSpec.addObject(def.getElementName(), def.getSelector().asLocator());
     List<Selector> objectsToIgnore = def.getObjectsToIgnore();
     if (!objectsToIgnore.isEmpty()) {
-      CorrectionsRect corrections = def.getCorrections();
+      CorrectionsRect corrections = def.getCorrections().toCorrectionsRect();
       for (Selector objectToIgnore : objectsToIgnore) {
         Locator asLocator = objectToIgnore.asLocator();
         if (corrections != null) {

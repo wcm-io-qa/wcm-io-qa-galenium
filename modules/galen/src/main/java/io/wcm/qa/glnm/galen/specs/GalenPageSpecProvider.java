@@ -26,12 +26,13 @@ import com.galenframework.specs.page.PageSpec;
  *
  * @since 4.0.0
  */
-public interface GalenSpecProvider {
+public interface GalenPageSpecProvider {
 
   /**
    * <p>getPageSpec.</p>
    *
    * @return an executable spec
+   * @since 4.0.0
    */
   PageSpec getPageSpec();
 

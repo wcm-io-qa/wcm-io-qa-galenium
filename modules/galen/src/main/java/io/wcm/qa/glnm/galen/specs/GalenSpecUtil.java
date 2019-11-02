@@ -39,7 +39,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.galenframework.browser.Browser;
 import com.galenframework.page.Page;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
@@ -49,6 +48,7 @@ import com.galenframework.specs.page.PageSpec;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.galen.mock.MockPage;
 import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.selectors.SelectorFromLocator;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
@@ -59,7 +59,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 4.0.0
  */
-public final class GalenSpecUtil {
+final class GalenSpecUtil {
 
   private static final Map<String, Object> EMPTY_JS_VARS = null;
 
@@ -170,14 +170,14 @@ public final class GalenSpecUtil {
    * Read a spec from path. Basically a convenience mapping to
    * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
    *
-   * @param browser to get current page from
+   * @param mockPage to get current page from
    * @param specPath path to spec file
    * @param tags tag based filter
    * @return Galen page spec object
    * @since 4.0.0
    */
-  public static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
-    return readSpec(specPath, tags, browser.getPage(), EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+  public static PageSpec readSpec(Page mockPage, String specPath, SectionFilter tags) {
+    return readSpec(specPath, tags, mockPage, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
   }
 
   /**
@@ -189,7 +189,7 @@ public final class GalenSpecUtil {
    * @since 4.0.0
    */
   public static PageSpec readSpec(String specPath) {
-    return readSpec(GalenHelperUtil.getBrowser(), specPath, getDefaultIncludeTags());
+    return readSpec(new MockPage(), specPath, getDefaultIncludeTags());
   }
 
   /**
@@ -226,7 +226,7 @@ public final class GalenSpecUtil {
    * @since 4.0.0
    */
   public static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
-    return readSpec(GalenHelperUtil.getBrowser(device), specPath, tags);
+    return readSpec(GalenHelperUtil.getBrowser(device).getPage(), specPath, tags);
   }
 
   private static String cleanName(String name) {

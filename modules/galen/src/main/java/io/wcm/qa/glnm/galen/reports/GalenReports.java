@@ -32,6 +32,7 @@ import com.galenframework.validation.ValidationObject;
 import com.galenframework.validation.ValidationResult;
 
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
+import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 
 /**
  * <p>GalenReports class.</p>
@@ -45,6 +46,35 @@ public final class GalenReports {
   private GalenReports() {
     // do not instantiate
   }
+
+
+  /**
+   * <p>handleGalenSpecRun.</p>
+   *
+   * @param specRun a {@link io.wcm.qa.glnm.galen.specs.GalenSpecRun} object.
+   * @param errorMessage a {@link java.lang.String} object.
+   * @param successMessage a {@link java.lang.String} object.
+   */
+  public static void handleGalenSpecRun(GalenSpecRun specRun, String errorMessage, String successMessage) {
+    if (specRun.isClean()) {
+      LOG.debug(successMessage);
+      return;
+    }
+    List<ValidationResult> validationErrorResults = specRun.getValidationErrors();
+    for (ValidationResult validationResult : validationErrorResults) {
+      ValidationError error = validationResult.getError();
+      String errorMessages = StringUtils.join(error.getMessages(), "|");
+      LOG.warn(errorMessages);
+    }
+    if (specRun.hasFailed()) {
+      ValidationResult validationResult = specRun.getValidationErrors().get(0);
+      List<String> messages = validationResult.getError().getMessages();
+      List<ValidationObject> validationObjects = validationResult.getValidationObjects();
+      ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
+      throw new GalenLayoutException(errorMessage, ex);
+    }
+  }
+
 
   /**
    * <p>handleLayoutReport.</p>

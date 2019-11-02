@@ -17,18 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import com.galenframework.specs.page.PageSpec;
-
-import io.wcm.qa.glnm.galen.specs.GalenSpecProvider;
 
 /**
  * Provides executable Galen {@link com.galenframework.specs.page.PageSpec} given a definition.
  *
  * @since 4.0.0
  */
-public class ImageComparisonProvider implements GalenSpecProvider {
+public class ImageComparisonProvider implements GalenPageSpecProvider {
 
   private IcsDefinition definition;
 
@@ -36,6 +34,7 @@ public class ImageComparisonProvider implements GalenSpecProvider {
    * <p>Constructor for ImageComparisonProvider.</p>
    *
    * @param definition for generating the spec
+   * @since 4.0.0
    */
   public ImageComparisonProvider(IcsDefinition definition) {
     this.definition = definition;
