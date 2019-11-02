@@ -38,11 +38,11 @@ import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
 import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
+import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 

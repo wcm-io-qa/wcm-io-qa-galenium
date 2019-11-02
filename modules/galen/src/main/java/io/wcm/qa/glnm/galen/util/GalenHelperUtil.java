@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen;
+package io.wcm.qa.glnm.galen.util;
 
 import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
 
