@@ -1,11 +1,10 @@
 <#assign classNameForSpec = className(spec) />
 package ${specRootPackageName};
 
-import static io.wcm.qa.glnm.galen.GalenHelperUtil.readSpec;
-import static io.wcm.qa.glnm.galen.GalenHelperUtil.getSectionFilter;
-import static io.wcm.qa.glnm.galen.GalenHelperUtil.getCombinedSectionFilter;
-import static io.wcm.qa.glnm.galen.GalenLayoutChecker.checkLayout;
-import static io.wcm.qa.glnm.galen.GalenLayoutChecker.handleLayoutReport;
+import static io.wcm.qa.glnm.galen.reports.GalenReports.handleLayoutReport;
+import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.readSpec;
+import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.asSectionFilter;
+import static io.wcm.qa.glnm.galen.specs.GalenSpecUtil.combineSectionFilters;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import com.galenframework.reports.model.LayoutReport;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.galen.GalenHelperUtil;
+import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.selectors.SelectorFromLocator;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.selectors.base.SelectorFactory;
@@ -30,7 +30,6 @@ import io.wcm.qa.glnm.selectors.base.SelectorFactory;
 public class ${classNameForSpec} {
 
   private static final String RELATIVE_PATH = "${spec.relativeFilePath}";
-  private PageSpec pageSpec;
 
 <#if spec.tags??>
   private Collection<String> tags = new ArrayList<>();</#if>
@@ -40,10 +39,10 @@ public class ${classNameForSpec} {
   }
 
   private void checkSpec(String... includeTags) {
-    SectionFilter includeFilter = getSectionFilter(includeTags);
-    SectionFilter deviceFilter = getSectionFilter(getTestDevice());
-    SectionFilter sectionFilter = getCombinedSectionFilter(deviceFilter, includeFilter);
-    LayoutReport layoutReport = checkLayout(RELATIVE_PATH, getPageSpec(sectionFilter), sectionFilter);
+    SectionFilter includeFilter = asSectionFilter(includeTags);
+    SectionFilter deviceFilter = asSectionFilter(getTestDevice());
+    SectionFilter sectionFilter = combineSectionFilters(deviceFilter, includeFilter);
+    LayoutReport layoutReport = GalenValidation.check(RELATIVE_PATH, getPageSpec(sectionFilter), sectionFilter);
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
     handleLayoutReport(layoutReport, errorMessage, successMessage);
@@ -55,9 +54,8 @@ public class ${classNameForSpec} {
 
 <#if spec.tags??>
   <#list spec.tags as tag>
-    public ${classNameForSpec} with${classNameFromString(tag)}() {
-      tags.add("${tag}");
-      return this;
+    public static void check${classNameFromString(tag)}() {
+      check("${tag}");
     }
   </#list>
 </#if>

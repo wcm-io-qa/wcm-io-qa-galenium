@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.imagecomparison;
+package io.wcm.qa.glnm.galen.imagecomparison;
 
-import static io.wcm.qa.glnm.imagecomparison.IcUtil.isImageComparisonSpec;
-import static io.wcm.qa.glnm.imagecomparison.IcUtil.saveSample;
+import static io.wcm.qa.glnm.galen.imagecomparison.IcUtil.isImageComparisonSpec;
+import static io.wcm.qa.glnm.galen.imagecomparison.IcUtil.saveSample;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

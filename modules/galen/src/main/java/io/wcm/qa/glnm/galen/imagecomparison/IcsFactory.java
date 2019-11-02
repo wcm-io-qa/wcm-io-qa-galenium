@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.imagecomparison;
+package io.wcm.qa.glnm.galen.imagecomparison;
 
 import java.util.List;
 

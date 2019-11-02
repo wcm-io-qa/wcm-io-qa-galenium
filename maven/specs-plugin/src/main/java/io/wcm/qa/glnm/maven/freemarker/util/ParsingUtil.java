@@ -41,8 +41,8 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
 import io.wcm.qa.glnm.galen.mock.MockPage;
+import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
@@ -66,7 +66,7 @@ public final class ParsingUtil {
    */
   public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
     PageSpec galenSpec = readSpec(specFile);
-    return GalenHelperUtil.getObjects(galenSpec);
+    return GalenSpecUtil.getObjects(galenSpec);
   }
 
   /**
@@ -117,7 +117,7 @@ public final class ParsingUtil {
     Properties properties = new Properties();
     Map<String, Object> jsVars = emptyMap();
     Map<String, Locator> objects = null;
-    return GalenHelperUtil.readSpec(specPath, tags, page, properties, jsVars, objects);
+    return GalenSpecUtil.readSpec(specPath, tags, page, properties, jsVars, objects);
   }
 
 }
