@@ -30,8 +30,8 @@ import io.wcm.qa.glnm.galen.validation.GalenValidation;
  */
 public class GalenSpec {
 
-  private PageSpec pageSpec;
   private GalenSpecProvider galenSpecProvider;
+  private PageSpec pageSpec;
 
   /**
    * Run the spec.
@@ -42,6 +42,14 @@ public class GalenSpec {
     return new GalenSpecRun(this, GalenValidation.check(getPageSpec()));
   }
 
+  public GalenSpecProvider getGalenSpecProvider() {
+    return galenSpecProvider;
+  }
+
+  public void setGalenSpecProvider(GalenSpecProvider galenSpecProvider) {
+    this.galenSpecProvider = galenSpecProvider;
+  }
+
   protected PageSpec getPageSpec() {
     if (pageSpec == null) {
       pageSpec = initPageSpec();
@@ -50,10 +58,6 @@ public class GalenSpec {
   }
 
   protected PageSpec initPageSpec() {
-    return getPageSpecProvider().getPageSpec();
-  }
-
-  private GalenSpecProvider getPageSpecProvider() {
-    return galenSpecProvider;
+    return getGalenSpecProvider().getPageSpec();
   }
 }
