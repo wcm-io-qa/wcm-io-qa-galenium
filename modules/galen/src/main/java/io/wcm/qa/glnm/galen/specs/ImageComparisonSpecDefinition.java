@@ -131,7 +131,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   /** {@inheritDoc} */
   @Override
   public void correctForSrollPosition(int yCorrection) {
-    GalenCorrection top = GalenCorrection.adjust(yCorrection);
+    GalenCorrection top = GalenCorrection.adjust(-yCorrection);
     setCorrections(new GalenCorrectionRect().withTop(top));
   }
 
