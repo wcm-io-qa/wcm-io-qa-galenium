@@ -25,6 +25,8 @@ import org.openqa.selenium.Dimension;
 
 import com.galenframework.browser.Browser;
 import com.galenframework.browser.SeleniumBrowser;
+import com.galenframework.config.GalenConfig;
+import com.galenframework.config.GalenProperty;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.glnm.device.TestDevice;
@@ -60,6 +62,17 @@ public final class GalenHelperUtil {
    */
   public static Browser getBrowser(TestDevice device) {
     return new SeleniumBrowser(getDriver(device));
+  }
+
+  /**
+   * <p>adjustViewport.</p>
+   *
+   * @param adjustBrowserViewportSize a boolean.
+   */
+  public static void adjustViewport(boolean adjustBrowserViewportSize) {
+    GalenConfig.getConfig().setProperty(
+        GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE,
+        new Boolean(adjustBrowserViewportSize).toString());
   }
 
   /**
