@@ -49,6 +49,7 @@ import io.wcm.qa.glnm.util.GaleniumContext;
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via
  * {@link io.wcm.qa.glnm.util.GaleniumContext}.
+ *
  * @since 4.0.0
  */
 public final class GalenValidation {

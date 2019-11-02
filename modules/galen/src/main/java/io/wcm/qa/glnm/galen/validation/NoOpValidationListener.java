@@ -28,76 +28,91 @@ import com.galenframework.validation.ValidationResult;
 
 final class NoOpValidationListener implements ValidationListener {
 
+  /** {@inheritDoc} */
   @Override
   public void onAfterObject(PageValidation pageValidation, String objectName) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAfterPageAction(GalenPageAction action) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAfterSection(PageValidation pageValidation, PageSection pageSection) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAfterSpecGroup(PageValidation pageValidation, String specGroupName) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onAfterSubLayout(PageValidation pageValidation, String objectName) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onBeforePageAction(GalenPageAction action) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onBeforeSection(PageValidation pageValidation, PageSection pageSection) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onBeforeSpec(PageValidation pageValidation, String objectName, Spec spec) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onGlobalError(Exception e) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onObject(PageValidation pageValidation, String objectName) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onSpecGroup(PageValidation pageValidation, String specGroupName) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onSpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onSubLayout(PageValidation pageValidation, String objectName) {
     // noop
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     return "NoOp Validation Listener";
