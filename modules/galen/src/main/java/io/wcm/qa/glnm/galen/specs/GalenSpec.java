@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen;
+package io.wcm.qa.glnm.galen.specs;
 
 import com.galenframework.specs.page.PageSpec;
 
@@ -42,10 +42,20 @@ public class GalenSpec {
     return new GalenSpecRun(this, GalenValidation.check(getPageSpec()));
   }
 
+  /**
+   * <p>Getter for the field <code>galenSpecProvider</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.galen.specs.GalenSpecProvider} object.
+   */
   public GalenSpecProvider getGalenSpecProvider() {
     return galenSpecProvider;
   }
 
+  /**
+   * <p>Setter for the field <code>galenSpecProvider</code>.</p>
+   *
+   * @param galenSpecProvider a {@link io.wcm.qa.glnm.galen.specs.GalenSpecProvider} object.
+   */
   public void setGalenSpecProvider(GalenSpecProvider galenSpecProvider) {
     this.galenSpecProvider = galenSpecProvider;
   }

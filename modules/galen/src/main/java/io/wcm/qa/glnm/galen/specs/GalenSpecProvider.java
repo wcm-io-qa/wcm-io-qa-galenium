@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen;
+package io.wcm.qa.glnm.galen.specs;
 
 import com.galenframework.specs.page.PageSpec;
 

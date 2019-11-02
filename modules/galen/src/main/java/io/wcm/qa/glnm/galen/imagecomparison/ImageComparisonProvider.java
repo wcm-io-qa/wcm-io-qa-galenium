@@ -21,7 +21,7 @@ package io.wcm.qa.glnm.galen.imagecomparison;
 
 import com.galenframework.specs.page.PageSpec;
 
-import io.wcm.qa.glnm.galen.GalenSpecProvider;
+import io.wcm.qa.glnm.galen.specs.GalenSpecProvider;
 
 /**
  * Provides executable Galen {@link com.galenframework.specs.page.PageSpec} given a definition.
