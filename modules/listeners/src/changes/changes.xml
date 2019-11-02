@@ -24,22 +24,10 @@
   <body>
 
     <release version="4.0.0" date="not-released-yet">
-      <action type="add" dev="apegam">
-        Add spec provider concept and image comparison implementation
-        of it.
-      </action>
-      <action type="add" dev="apegam">
-        Add Galenium types to represent Galen specs and
-        results.
-      </action>
       <action type="update" dev="apegam">
-        Rename functionality around Galen validation.
-      </action>
-      <action type="update" dev="apegam">
-        Restructure packages to align with Galen naming. Move existing
-        classes and create new classes to better separate concerns.
+        Decouple listeners from direct Galen interaction by
+        using functionality from Galenium galen module.
       </action>
     </release>
-
   </body>
 </document>
