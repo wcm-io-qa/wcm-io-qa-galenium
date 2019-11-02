@@ -24,7 +24,11 @@
   <body>
 
     <release version="4.0.0" date="not-released-yet">
-      <action type="update" dev="apegam">
+      <action type="add" dev="apegam">
+        Add spec provider concept and image comparison implementation
+        of it.
+      </action>
+      <action type="add" dev="apegam">
         Add Galenium types to represent Galen specs and
         results.
       </action>

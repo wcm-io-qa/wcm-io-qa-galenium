@@ -40,7 +40,7 @@ import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
 import io.wcm.qa.glnm.galen.imagecomparison.IcsDefinition;
-import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
+import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonProvider;
 import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
 import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
@@ -68,7 +68,8 @@ public final class GalenValidation {
    * @since 4.0.0
    */
   public static LayoutReport imageComparison(IcsDefinition specDefinition) {
-    PageSpec spec = IcsFactory.getPageSpec(specDefinition);
+    ImageComparisonProvider imageComparisonProvider = new ImageComparisonProvider(specDefinition);
+    PageSpec spec = imageComparisonProvider.getPageSpec();
     return check(specDefinition.getSectionName(), spec, getTestDevice(), GalenSpecUtil.getDefaultIncludeTags(), new IcValidationListener());
   }
 

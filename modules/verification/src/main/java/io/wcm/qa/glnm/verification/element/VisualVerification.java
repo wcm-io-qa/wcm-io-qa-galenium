@@ -39,7 +39,7 @@ import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.imagecomparison.IcValidationListener;
-import io.wcm.qa.glnm.galen.imagecomparison.IcsFactory;
+import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonProvider;
 import io.wcm.qa.glnm.galen.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.glnm.galen.reports.GalenReports;
 import io.wcm.qa.glnm.galen.specs.GalenSpecUtil;
@@ -303,7 +303,7 @@ public class VisualVerification extends VerificationBase<Object> {
   protected boolean doVerification() {
     LayoutReport layoutReport;
 
-    PageSpec spec = IcsFactory.getPageSpec(getSpecDefinition());
+    PageSpec spec = new ImageComparisonProvider(getSpecDefinition()).getPageSpec();
     TestDevice testDevice = getTestDevice();
     SectionFilter tags = GalenSpecUtil.asSectionFilter(testDevice);
     layoutReport = GalenValidation.check(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
