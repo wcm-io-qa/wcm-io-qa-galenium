@@ -22,11 +22,15 @@ package io.wcm.qa.glnm.galen;
 import com.galenframework.specs.page.PageSpec;
 
 /**
- * Provides a {@link PageSpec} from either a file or constructed in code.
+ * Provides a {@link com.galenframework.specs.page.PageSpec} from either a file or constructed in code.
+ *
+ * @since 4.0.0
  */
 public interface GalenSpecProvider {
 
   /**
+   * <p>getPageSpec.</p>
+   *
    * @return an executable spec
    */
   PageSpec getPageSpec();

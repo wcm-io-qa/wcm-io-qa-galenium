@@ -26,6 +26,8 @@ import com.galenframework.validation.ValidationResult;
 
 /**
  * Represents an execution of a Galen spec.
+ *
+ * @since 4.0.0
  */
 public class GalenSpecRun {
 
@@ -39,6 +41,7 @@ public class GalenSpecRun {
 
   /**
    * When there are errors that are not marked as warning level only.
+   *
    * @return whether spec has failed
    */
   public boolean hasFailed() {
@@ -47,6 +50,7 @@ public class GalenSpecRun {
 
   /**
    * When there are errors that are not marked as warning level only.
+   *
    * @return whether spec has failed
    */
   public boolean hasWarnings() {
@@ -56,6 +60,7 @@ public class GalenSpecRun {
 
   /**
    * When there are no errors or warnings the spec is considered clean.
+   *
    * @return whether spec is clean
    */
   public boolean isClean() {

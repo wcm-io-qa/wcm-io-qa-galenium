@@ -24,13 +24,17 @@ import com.galenframework.specs.page.PageSpec;
 import io.wcm.qa.glnm.galen.GalenSpecProvider;
 
 /**
- * Provides executable Galen {@link PageSpec} given a definition.
+ * Provides executable Galen {@link com.galenframework.specs.page.PageSpec} given a definition.
+ *
+ * @since 4.0.0
  */
 public class ImageComparisonProvider implements GalenSpecProvider {
 
   private IcsDefinition definition;
 
   /**
+   * <p>Constructor for ImageComparisonProvider.</p>
+   *
    * @param definition for generating the spec
    */
   public ImageComparisonProvider(IcsDefinition definition) {
@@ -41,6 +45,7 @@ public class ImageComparisonProvider implements GalenSpecProvider {
     return definition;
   }
 
+  /** {@inheritDoc} */
   @Override
   public PageSpec getPageSpec() {
     return IcsFactory.getPageSpec(definition);

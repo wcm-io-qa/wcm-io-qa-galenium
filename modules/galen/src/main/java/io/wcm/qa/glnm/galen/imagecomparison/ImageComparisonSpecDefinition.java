@@ -185,6 +185,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    * <p>Getter for the field <code>differences</code>.</p>
    *
    * @return a  {@link io.wcm.qa.glnm.differences.generic.SortedDifferences} object.
+   * @since 4.0.0
    */
   public SortedDifferences getDifferences() {
     return differences;
@@ -358,6 +359,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
    * <p>Setter for the field <code>cropIfOutside</code>.</p>
    *
    * @param cropIfOutside a boolean.
+   * @since 4.0.0
    */
   public void setCropIfOutside(boolean cropIfOutside) {
     this.cropIfOutside = cropIfOutside;

@@ -25,6 +25,8 @@ import io.wcm.qa.glnm.galen.validation.GalenValidation;
 
 /**
  * Provide access to everything about this Galen spec.
+ *
+ * @since 4.0.0
  */
 public class GalenSpec {
 
@@ -33,6 +35,7 @@ public class GalenSpec {
 
   /**
    * Run the spec.
+   *
    * @return representation of the run
    */
   public GalenSpecRun check() {

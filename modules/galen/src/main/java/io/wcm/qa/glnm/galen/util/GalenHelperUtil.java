@@ -45,6 +45,7 @@ public final class GalenHelperUtil {
    * <p>getBrowser.</p>
    *
    * @return a {@link com.galenframework.browser.Browser} object.
+   * @since 4.0.0
    */
   public static Browser getBrowser() {
     return new SeleniumBrowser(GaleniumContext.getDriver());
@@ -55,6 +56,7 @@ public final class GalenHelperUtil {
    *
    * @param device to turn into browser
    * @return browser object for use with Galen
+   * @since 4.0.0
    */
   public static Browser getBrowser(TestDevice device) {
     return new SeleniumBrowser(getDriver(device));
@@ -65,6 +67,7 @@ public final class GalenHelperUtil {
    *
    * @param size to parse
    * @return Selenium representation of size
+   * @since 4.0.0
    */
   public static Dimension getDimension(String size) {
     java.awt.Dimension parsedSize = GalenUtils.readSize(size);
