@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen;
+package io.wcm.qa.glnm.galen.specs;
 
 import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
-import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,71 +36,53 @@ import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Dimension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.galenframework.browser.Browser;
-import com.galenframework.browser.SeleniumBrowser;
 import com.galenframework.page.Page;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
-import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.galen.mock.MockPage;
+import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.selectors.SelectorFromLocator;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * Helper methods for dealing with Galen.
+ * Utility methods for handling Galen specs.
  *
- * @since 1.0.0
+ * @since 4.0.0
  */
-public final class GalenHelperUtil {
+final class GalenSpecUtil {
 
   private static final Map<String, Object> EMPTY_JS_VARS = null;
 
   private static final Properties EMPTY_PROPERTIES = new Properties();
   private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
-  private static final Logger LOG = LoggerFactory.getLogger(GalenHelperUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GalenSpecUtil.class);
+
   private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
 
-  private GalenHelperUtil() {
+  private GalenSpecUtil() {
     // do not instantiate
   }
 
   /**
-   * <p>getBrowser.</p>
-   *
-   * @return a {@link com.galenframework.browser.Browser} object.
-   */
-  public static Browser getBrowser() {
-    return new SeleniumBrowser(GaleniumContext.getDriver());
-  }
-
-  /**
-   * Turns test device into {@link com.galenframework.browser.SeleniumBrowser} as expected by Galen.
-   *
-   * @param device to turn into browser
-   * @return browser object for use with Galen
-   */
-  public static Browser getBrowser(TestDevice device) {
-    return new SeleniumBrowser(getDriver(device));
-  }
-
-  /**
-   * <p>getCombinedSectionFilter.</p>
+   * <p>
+   * Combines multiple section filters by adding all the tags from the input filters.
+   * </p>
    *
    * @param filtersToCombine list of SectionFilters
-   * @return section filter containing all included and excluded tags of the passed filters
+   * @return section filter containing all included and excluded tags
+   * @since 4.0.0
    */
-  public static SectionFilter getCombinedSectionFilter(SectionFilter... filtersToCombine) {
+  public static SectionFilter combineSectionFilters(SectionFilter... filtersToCombine) {
     Bag<String> excludedTagBag = new HashBag<String>();
     Bag<String> includedTagBag = new HashBag<String>();
     for (SectionFilter sectionFilter : filtersToCombine) {
@@ -119,24 +100,14 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * Turn Galen syntax size string into Selenium {@link org.openqa.selenium.Dimension}.
-   *
-   * @param size to parse
-   * @return Selenium representation of size
-   */
-  public static Dimension getDimension(String size) {
-    java.awt.Dimension parsedSize = GalenUtils.readSize(size);
-    return new Dimension(parsedSize.width, parsedSize.height);
-  }
-
-  /**
    * Get named object from spec.
    *
    * @param spec to extract object from
    * @param objectName name to use for extraction
    * @return selector representing named object from spec
+   * @since 4.0.0
    */
-  public static Selector getObject(PageSpec spec, String objectName) {
+  public static Selector extractObject(PageSpec spec, String objectName) {
     Locator objectLocator = spec.getObjectLocator(objectName);
     return fromLocator(objectName, objectLocator);
   }
@@ -146,6 +117,7 @@ public final class GalenHelperUtil {
    *
    * @param spec to extract objects from
    * @return selectors for all objects found in spec
+   * @since 4.0.0
    */
   public static Collection<NestedSelector> getObjects(PageSpec spec) {
 
@@ -159,8 +131,9 @@ public final class GalenHelperUtil {
    *
    * @param includeTags tags to use in filter
    * @return filter ready for use with Galen
+   * @since 4.0.0
    */
-  public static SectionFilter getSectionFilter(String... includeTags) {
+  public static SectionFilter asSectionFilter(String... includeTags) {
     List<String> tagList = new ArrayList<String>();
     if (includeTags != null) {
       Collections.addAll(tagList, includeTags);
@@ -173,34 +146,38 @@ public final class GalenHelperUtil {
    *
    * @param device to get tags from
    * @return filter ready for use with Galen
+   * @since 4.0.0
    */
-  public static SectionFilter getSectionFilter(TestDevice device) {
+  public static SectionFilter asSectionFilter(TestDevice device) {
     return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
   }
 
   /**
-   * Get tags from current device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}. Empty filter when no device set.
+   * Get tags from current device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}. Empty filter
+   * when no device set.
    *
    * @return filter ready for use with Galen
+   * @since 4.0.0
    */
-  public static SectionFilter getTags() {
+  public static SectionFilter getDefaultIncludeTags() {
     if (getTestDevice() != null) {
-      return getSectionFilter(getTestDevice());
+      return asSectionFilter(getTestDevice());
     }
-    return getSectionFilter();
+    return asSectionFilter();
   }
 
   /**
    * Read a spec from path. Basically a convenience mapping to
    * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
    *
-   * @param browser to get current page from
+   * @param mockPage to get current page from
    * @param specPath path to spec file
    * @param tags tag based filter
    * @return Galen page spec object
+   * @since 4.0.0
    */
-  public static PageSpec readSpec(Browser browser, String specPath, SectionFilter tags) {
-    return readSpec(specPath, tags, browser.getPage(), EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+  public static PageSpec readSpec(Page mockPage, String specPath, SectionFilter tags) {
+    return readSpec(specPath, tags, mockPage, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
   }
 
   /**
@@ -209,9 +186,10 @@ public final class GalenHelperUtil {
    *
    * @param specPath path to spec file
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(String specPath) {
-    return readSpec(getBrowser(), specPath, getTags());
+    return readSpec(new MockPage(), specPath, getDefaultIncludeTags());
   }
 
   /**
@@ -225,6 +203,7 @@ public final class GalenHelperUtil {
    * @param jsVars JS variables to use for spec parsing
    * @param objects predefined objects
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(String specPath, SectionFilter tags, Page page, Properties properties, Map<String, Object> jsVars,
       Map<String, Locator> objects) {
@@ -244,9 +223,10 @@ public final class GalenHelperUtil {
    * @param specPath path to spec file
    * @param tags tag based filter
    * @return Galen page spec object
+   * @since 4.0.0
    */
   public static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
-    return readSpec(getBrowser(device), specPath, tags);
+    return readSpec(GalenHelperUtil.getBrowser(device).getPage(), specPath, tags);
   }
 
   private static String cleanName(String name) {
@@ -319,5 +299,4 @@ public final class GalenHelperUtil {
     LOG.info("mapped " + objectMapping.size() + " selectors.");
     return objectMapping;
   }
-
 }

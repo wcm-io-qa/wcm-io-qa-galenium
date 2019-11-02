@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 2.0.0
  */
-public final class IcsFactory {
+final class IcsFactory {
 
 
   private IcsFactory() {
@@ -48,7 +48,7 @@ public final class IcsFactory {
    * @param def parameters for spec generation
    * @return a parsed Galen page spec
    */
-  public static PageSpec getPageSpec(IcsDefinition def) {
+  static PageSpec getPageSpec(IcsDefinition def) {
     // specs
     Spec spec = IcUtil.getSpecForText(IcUtil.getImageComparisonSpecText(def));
     ObjectSpecs objectSpecs = new ObjectSpecs(def.getElementName());
@@ -76,7 +76,7 @@ public final class IcsFactory {
     pageSpec.addObject(def.getElementName(), def.getSelector().asLocator());
     List<Selector> objectsToIgnore = def.getObjectsToIgnore();
     if (!objectsToIgnore.isEmpty()) {
-      CorrectionsRect corrections = def.getCorrections();
+      CorrectionsRect corrections = def.getCorrections().toCorrectionsRect();
       for (Selector objectToIgnore : objectsToIgnore) {
         Locator asLocator = objectToIgnore.asLocator();
         if (corrections != null) {

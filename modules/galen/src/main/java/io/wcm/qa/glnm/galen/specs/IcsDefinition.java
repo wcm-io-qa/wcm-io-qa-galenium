@@ -17,13 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.imagecomparison;
+package io.wcm.qa.glnm.galen.specs;
 
 import java.util.List;
 
-import com.galenframework.specs.page.CorrectionsRect;
-import com.galenframework.specs.page.Locator;
-
+import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -37,6 +35,7 @@ public interface IcsDefinition {
    * <p>correctForSrollPosition.</p>
    *
    * @param yCorrection amount of scrolling
+   * @since 4.0.0
    */
   void correctForSrollPosition(int yCorrection);
 
@@ -44,6 +43,7 @@ public interface IcsDefinition {
    * <p>getAllowedError.</p>
    *
    * @return allowed error string
+   * @since 4.0.0
    */
   String getAllowedError();
 
@@ -51,6 +51,7 @@ public interface IcsDefinition {
    * <p>getAllowedOffset.</p>
    *
    * @return offset to analyse
+   * @since 4.0.0
    */
   int getAllowedOffset();
 
@@ -58,13 +59,15 @@ public interface IcsDefinition {
    * <p>getCorrections.</p>
    *
    * @return corrections applied to locator
+   * @since 4.0.0
    */
-  CorrectionsRect getCorrections();
+  GalenCorrectionRect getCorrections();
 
   /**
    * <p>getElementName.</p>
    *
    * @return name of element
+   * @since 4.0.0
    */
   String getElementName();
 
@@ -72,6 +75,7 @@ public interface IcsDefinition {
    * <p>getFilename.</p>
    *
    * @return the filename of image sample to compare against
+   * @since 4.0.0
    */
   String getFilename();
 
@@ -79,20 +83,15 @@ public interface IcsDefinition {
    * <p>getFoldername.</p>
    *
    * @return the folder name of image sample to compare against
+   * @since 4.0.0
    */
   String getFoldername();
-
-  /**
-   * <p>getLocator.</p>
-   *
-   * @return selector as locator with corrections
-   */
-  Locator getLocator();
 
   /**
    * <p>getObjectsToIgnore.</p>
    *
    * @return list of objects to ignore
+   * @since 4.0.0
    */
   List<Selector> getObjectsToIgnore();
 
@@ -100,6 +99,7 @@ public interface IcsDefinition {
    * <p>getSectionName.</p>
    *
    * @return name of Galen spec section
+   * @since 4.0.0
    */
   String getSectionName();
 
@@ -107,6 +107,7 @@ public interface IcsDefinition {
    * <p>getSelector.</p>
    *
    * @return selector of element to check
+   * @since 4.0.0
    */
   Selector getSelector();
 
@@ -114,6 +115,7 @@ public interface IcsDefinition {
    * <p>isCropIfOutside.</p>
    *
    * @return whether to ignore sampling outside of raster
+   * @since 4.0.0
    */
   boolean isCropIfOutside();
 
@@ -121,6 +123,7 @@ public interface IcsDefinition {
    * <p>isZeroToleranceWarning.</p>
    *
    * @return whether to add a zero tolerance check at warning level
+   * @since 4.0.0
    */
   boolean isZeroToleranceWarning();
 
