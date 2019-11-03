@@ -40,6 +40,34 @@ public final class GalenValidation {
   }
 
   /**
+   * Checks Galen spec against current state of driver.
+   *
+   * @param testName test name used in reports
+   * @param specPath path to spec file
+   * @return report on spec test
+   * @since 4.0.0
+   */
+  public static GalenSpecRun check(String testName, String specPath) {
+    GalenSpec spec = new FileBasedGalenSpec(specPath);
+    String[] tags = {};
+    return spec.check(tags);
+  }
+
+  /**
+   * Checks Galen spec against current state of driver.
+   *
+   * @param testName test name used in reports
+   * @param specPath path to spec file
+   * @return report on spec test
+   * @since 4.0.0
+   * @param tags a {@link java.lang.String} object.
+   */
+  public static GalenSpecRun check(String testName, String specPath, String... tags) {
+    GalenSpec spec = new FileBasedGalenSpec(specPath);
+    return spec.check(tags);
+  }
+
+  /**
    * <p>getNoOpValidationListener.</p>
    *
    * @return a {@link com.galenframework.validation.ValidationListener} object.
@@ -68,60 +96,6 @@ public final class GalenValidation {
   public static GalenSpecRun imageComparison(IcsDefinition specDefinition) {
     GalenSpec spec = new ImageComparisonSpec(specDefinition);
     return spec.check();
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from first section of spec and used in reports
-   *
-   * @param spec Galen spec to check
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(GalenSpec spec) {
-    String[] tags = {};
-    return spec.check(tags);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from first section of spec and used in reports
-   *
-   * @param spec Galen spec to check
-   * @return report on spec test
-   * @since 4.0.0
-   * @param tags a {@link java.lang.String} object.
-   */
-  public static GalenSpecRun check(GalenSpec spec, String... tags) {
-    return spec.check(tags);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   *
-   * @param testName test name used in reports
-   * @param specPath path to spec file
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(String testName, String specPath) {
-    GalenSpec spec = new FileBasedGalenSpec(specPath);
-    String[] tags = {};
-    return spec.check(tags);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   *
-   * @param testName test name used in reports
-   * @param specPath path to spec file
-   * @return report on spec test
-   * @since 4.0.0
-   * @param tags a {@link java.lang.String} object.
-   */
-  public static GalenSpecRun check(String testName, String specPath, String... tags) {
-    GalenSpec spec = new FileBasedGalenSpec(specPath);
-    return spec.check(tags);
   }
 
 }
