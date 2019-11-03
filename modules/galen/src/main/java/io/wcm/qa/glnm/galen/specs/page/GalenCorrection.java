@@ -87,7 +87,7 @@ public class GalenCorrection {
    * @return a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrection} object.
    * @since 4.0.0
    */
-  public static GalenCorrection none() {
+  public static GalenCorrection neutral() {
     return adjust(0);
   }
 
