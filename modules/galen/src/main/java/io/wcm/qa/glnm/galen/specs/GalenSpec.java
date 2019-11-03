@@ -21,20 +21,14 @@ package io.wcm.qa.glnm.galen.specs;
 
 import java.util.Collection;
 
-import com.galenframework.specs.page.PageSpec;
-
-import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
- * Provide access to everything about this Galen spec.
+ * Galenium representation of Galen spec. Can be executed.
  *
  * @since 4.0.0
  */
-public class GalenSpec {
-
-  private GalenPageSpecProvider galenSpecProvider;
-  private PageSpec pageSpec;
+public interface GalenSpec {
 
   /**
    * Run the spec.
@@ -42,22 +36,16 @@ public class GalenSpec {
    * @return representation of the run
    * @since 4.0.0
    */
-  public GalenSpecRun check() {
-    return GalenValidation.check(this);
-  }
+  GalenSpecRun check();
 
   /**
-   * <p>
-   * Getter for the field <code>galenSpecProvider</code>.
-   * </p>
+   * Run the spec with tags.
    *
-   * @return a {@link io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider} object.
+   * @return representation of the run
    * @since 4.0.0
+   * @param tags a {@link java.lang.String} object.
    */
-  public GalenPageSpecProvider getGalenSpecProvider() {
-    return galenSpecProvider;
-  }
-
+  GalenSpecRun check(String... tags);
 
   /**
    * <p>
@@ -66,37 +54,7 @@ public class GalenSpec {
    *
    * @return a {@link java.util.Collection} object.
    */
-  public Collection<NestedSelector> getObjects() {
-    return GalenSpecUtil.getObjects(getPageSpec());
-  }
-
-  /**
-   * <p>
-   * Setter for the field <code>galenSpecProvider</code>.
-   * </p>
-   *
-   * @param galenSpecProvider a {@link io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider} object.
-   * @since 4.0.0
-   */
-  public void setGalenSpecProvider(GalenPageSpecProvider galenSpecProvider) {
-    this.galenSpecProvider = galenSpecProvider;
-  }
-
-  /**
-   * <p>Getter for the field <code>pageSpec</code>.</p>
-   *
-   * @return a {@link com.galenframework.specs.page.PageSpec} object.
-   */
-  public PageSpec getPageSpec() {
-    if (pageSpec == null) {
-      pageSpec = initPageSpec();
-    }
-    return pageSpec;
-  }
-
-  protected PageSpec initPageSpec() {
-    return getGalenSpecProvider().getPageSpec();
-  }
+  Collection<NestedSelector> getObjects();
 
   /**
    * <p>getName.</p>
@@ -104,7 +62,6 @@ public class GalenSpec {
    * @return a {@link java.lang.String} object.
    * @since 4.0.0
    */
-  public String getName() {
-    return getPageSpec().getSections().get(0).getName();
-  }
+  String getName();
+
 }

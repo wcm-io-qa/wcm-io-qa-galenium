@@ -30,7 +30,7 @@ import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.galen.specs.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
 import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -155,7 +155,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * Getter for the field <code>specDefinition</code>.
    * </p>
    *
-   * @return a {@link io.wcm.qa.glnm.galen.specs.ImageComparisonSpecDefinition} object.
+   * @return a {@link io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition} object.
    * @since 3.0.0
    */
   public ImageComparisonSpecDefinition getSpecDefinition() {
@@ -264,7 +264,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * Setter for the field <code>specDefinition</code>.
    * </p>
    *
-   * @param def a {@link io.wcm.qa.glnm.galen.specs.ImageComparisonSpecDefinition} object.
+   * @param def a {@link io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition} object.
    * @since 3.0.0
    */
   public void setSpecDefinition(ImageComparisonSpecDefinition def) {

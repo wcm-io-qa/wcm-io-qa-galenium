@@ -19,30 +19,23 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
-import static io.wcm.qa.glnm.galen.specs.ProvidesSpecMatcher.providesSpec;
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import com.galenframework.specs.page.PageSpec;
+import com.galenframework.reports.model.LayoutReport;
 
 
-public class GalenSpecTest {
+public class GalenSpecRunTest {
 
-  static final PageSpec SPEC = new PageSpec();
-  private static final GalenPageSpecProvider PROVIDER = new GalenPageSpecProvider() {
-
-    @Override
-    public PageSpec getPageSpec() {
-      return SPEC;
-    }
-  };
+  LayoutReport cleanReport = Mockito.mock(LayoutReport.class);
+  private GalenSpec spec = Mockito.mock(GalenSpec.class);
+  GalenSpecRun cleanRun = new GalenSpecRun(spec, cleanReport);
 
   @Test
-  public void testInitializationViaProvider() {
-    GalenSpec galenSpecUnderTest = new GalenSpec();
-    galenSpecUnderTest.setGalenSpecProvider(PROVIDER);
-    assertThat(galenSpecUnderTest, providesSpec(SPEC));
+  public void testWarnings() {
+    MatcherAssert.assertThat(cleanRun, Matchers.hasProperty("clean", Matchers.equalTo(true)));
   }
 
 }

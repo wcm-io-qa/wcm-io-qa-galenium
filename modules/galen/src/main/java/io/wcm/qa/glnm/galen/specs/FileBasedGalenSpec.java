@@ -19,32 +19,30 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import java.io.File;
 
-import com.galenframework.specs.page.PageSpec;
+/**
+ * <p>FileBasedGalenSpec class.</p>
+ *
+ * @since 4.0.0
+ */
+public class FileBasedGalenSpec extends AbstractGalenSpec {
 
-final class ProvidesSpecMatcher extends TypeSafeMatcher<GalenSpec> {
-
-  private PageSpec spec;
-
-  ProvidesSpecMatcher(PageSpec expected) {
-    this.spec = expected;
+  /**
+   * <p>Constructor for FileBasedGalenSpec.</p>
+   *
+   * @param specFile a {@link java.io.File} object.
+   */
+  public FileBasedGalenSpec(File specFile) {
+    this(specFile.getPath());
   }
 
-  @Override
-  protected boolean matchesSafely(GalenSpec item) {
-    return item.getPageSpec() == spec;
+  /**
+   * <p>Constructor for FileBasedGalenSpec.</p>
+   *
+   * @param specPath a {@link java.lang.String} object.
+   */
+  public FileBasedGalenSpec(String specPath) {
+    super(new GalenSpecParsingProvider(specPath));
   }
-
-  @Override
-  public void describeTo(Description description) {
-    description.appendText("did not provide SPEC");
-  }
-
-  static Matcher<GalenSpec> providesSpec(PageSpec expected) {
-    return new ProvidesSpecMatcher(expected);
-  }
-
 }
