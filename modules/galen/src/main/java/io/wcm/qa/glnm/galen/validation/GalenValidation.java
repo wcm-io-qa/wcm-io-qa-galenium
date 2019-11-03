@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.wcm.qa.glnm.galen.specs.GalenLayout;
 import io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
@@ -38,8 +35,6 @@ import io.wcm.qa.glnm.galen.specs.ImageComparisonProvider;
  * @since 4.0.0
  */
 public final class GalenValidation {
-
-  private static final Logger LOG = LoggerFactory.getLogger(GalenValidation.class);
 
   private GalenValidation() {
     // do not instantiate
