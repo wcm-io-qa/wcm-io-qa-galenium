@@ -39,6 +39,7 @@ public class GalenSpecRun {
    *
    * @param spec a {@link io.wcm.qa.glnm.galen.specs.GalenSpec} object.
    * @param report a {@link com.galenframework.reports.model.LayoutReport} object.
+   * @since 4.0.0
    */
   public GalenSpecRun(GalenSpec spec, LayoutReport report) {
     this.setSpec(spec);
@@ -80,6 +81,7 @@ public class GalenSpecRun {
    * <p>getValidationErrors.</p>
    *
    * @return a {@link java.util.List} object.
+   * @since 4.0.0
    */
   public List<ValidationResult> getValidationErrors() {
     return getReport().getValidationErrorResults();

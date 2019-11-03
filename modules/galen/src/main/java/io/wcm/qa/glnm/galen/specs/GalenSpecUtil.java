@@ -32,9 +32,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.commons.collections4.Bag;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +49,6 @@ import io.wcm.qa.glnm.galen.mock.MockPage;
 import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.selectors.SelectorFromLocator;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
-import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Utility methods for handling Galen specs.
@@ -71,162 +67,6 @@ final class GalenSpecUtil {
 
   private GalenSpecUtil() {
     // do not instantiate
-  }
-
-  /**
-   * <p>
-   * Combines multiple section filters by adding all the tags from the input filters.
-   * </p>
-   *
-   * @param filtersToCombine list of SectionFilters
-   * @return section filter containing all included and excluded tags
-   * @since 4.0.0
-   */
-  public static SectionFilter combineSectionFilters(SectionFilter... filtersToCombine) {
-    Bag<String> excludedTagBag = new HashBag<String>();
-    Bag<String> includedTagBag = new HashBag<String>();
-    for (SectionFilter sectionFilter : filtersToCombine) {
-      excludedTagBag.addAll(sectionFilter.getExcludedTags());
-      includedTagBag.addAll(sectionFilter.getIncludedTags());
-    }
-    List<String> excludedTagList = getBagAsUniqueList(excludedTagBag);
-    List<String> includedTagList = getBagAsUniqueList(includedTagBag);
-    List<String> intersection = ListUtils.intersection(includedTagList, excludedTagList);
-    if (intersection.isEmpty()) {
-      return new SectionFilter(includedTagList, excludedTagList);
-    }
-    String intersectionAsString = StringUtils.join(intersection, ", ");
-    throw new GaleniumException("tags in included and excluded collide: [" + intersectionAsString + "]");
-  }
-
-  /**
-   * Get named object from spec.
-   *
-   * @param spec to extract object from
-   * @param objectName name to use for extraction
-   * @return selector representing named object from spec
-   * @since 4.0.0
-   */
-  public static Selector extractObject(PageSpec spec, String objectName) {
-    Locator objectLocator = spec.getObjectLocator(objectName);
-    return fromLocator(objectName, objectLocator);
-  }
-
-  /**
-   * Get objects from {@link com.galenframework.specs.page.PageSpec}.
-   *
-   * @param spec to extract objects from
-   * @return selectors for all objects found in spec
-   * @since 4.0.0
-   */
-  public static Collection<NestedSelector> getObjects(PageSpec spec) {
-
-    Map<String, SelectorFromLocator> objectMapping = getObjectMapping(spec);
-
-    return extractCollectionFromMapping(objectMapping);
-  }
-
-  /**
-   * Get tags device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
-   *
-   * @param includeTags tags to use in filter
-   * @return filter ready for use with Galen
-   * @since 4.0.0
-   */
-  public static SectionFilter asSectionFilter(String... includeTags) {
-    List<String> tagList = new ArrayList<String>();
-    if (includeTags != null) {
-      Collections.addAll(tagList, includeTags);
-    }
-    return new SectionFilter(tagList, EMPTY_TAG_LIST);
-  }
-
-  /**
-   * Get tags from device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
-   *
-   * @param device to get tags from
-   * @return filter ready for use with Galen
-   * @since 4.0.0
-   */
-  public static SectionFilter asSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
-  }
-
-  /**
-   * Get tags from current device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}. Empty filter
-   * when no device set.
-   *
-   * @return filter ready for use with Galen
-   * @since 4.0.0
-   */
-  public static SectionFilter getDefaultIncludeTags() {
-    if (getTestDevice() != null) {
-      return asSectionFilter(getTestDevice());
-    }
-    return asSectionFilter();
-  }
-
-  /**
-   * Read a spec from path. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param mockPage to get current page from
-   * @param specPath path to spec file
-   * @param tags tag based filter
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  public static PageSpec readSpec(Page mockPage, String specPath, SectionFilter tags) {
-    return readSpec(specPath, tags, mockPage, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
-  }
-
-  /**
-   * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param specPath path to spec file
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  public static PageSpec readSpec(String specPath) {
-    return readSpec(new MockPage(), specPath, getDefaultIncludeTags());
-  }
-
-  /**
-   * Read a spec from path. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param specPath path to spec file
-   * @param tags tag based filter
-   * @param page page to retrieve objects from
-   * @param properties properties for spec parsing
-   * @param jsVars JS variables to use for spec parsing
-   * @param objects predefined objects
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  public static PageSpec readSpec(String specPath, SectionFilter tags, Page page, Properties properties, Map<String, Object> jsVars,
-      Map<String, Locator> objects) {
-    try {
-      return PAGE_SPEC_READER.read(specPath, page, tags, properties, jsVars, objects);
-    }
-    catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec: '" + specPath + "'", ex);
-    }
-  }
-
-  /**
-   * Read a spec from path. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param device to use to get page
-   * @param specPath path to spec file
-   * @param tags tag based filter
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  public static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
-    return readSpec(GalenHelperUtil.getBrowser(device).getPage(), specPath, tags);
   }
 
   private static String cleanName(String name) {
@@ -273,12 +113,6 @@ final class GalenSpecUtil {
     return objects;
   }
 
-  private static List<String> getBagAsUniqueList(Bag<String> bag) {
-    List<String> excludedTagList = new ArrayList<>();
-    excludedTagList.addAll(bag.uniqueSet());
-    return excludedTagList;
-  }
-
   private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
     Map<String, SelectorFromLocator> objectMapping = new HashMap<String, SelectorFromLocator>();
     Map<String, Locator> objects = spec.getObjects();
@@ -298,5 +132,122 @@ final class GalenSpecUtil {
     }
     LOG.info("mapped " + objectMapping.size() + " selectors.");
     return objectMapping;
+  }
+
+  /**
+   * Get tags device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
+   *
+   * @param includeTags tags to use in filter
+   * @return filter ready for use with Galen
+   * @since 4.0.0
+   */
+  static SectionFilter asSectionFilter(String... includeTags) {
+    List<String> tagList = new ArrayList<String>();
+    if (includeTags != null) {
+      Collections.addAll(tagList, includeTags);
+    }
+    return new SectionFilter(tagList, EMPTY_TAG_LIST);
+  }
+
+  /**
+   * Get tags from device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
+   *
+   * @param device to get tags from
+   * @return filter ready for use with Galen
+   * @since 4.0.0
+   */
+  static SectionFilter asSectionFilter(TestDevice device) {
+    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
+  }
+
+  /**
+   * Get tags from current device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}. Empty filter
+   * when no device set.
+   *
+   * @return filter ready for use with Galen
+   * @since 4.0.0
+   */
+  static SectionFilter getDefaultIncludeTags() {
+    if (getTestDevice() != null) {
+      return asSectionFilter(getTestDevice());
+    }
+    return asSectionFilter();
+  }
+
+  /**
+   * Get objects from {@link com.galenframework.specs.page.PageSpec}.
+   *
+   * @param spec to extract objects from
+   * @return selectors for all objects found in spec
+   * @since 4.0.0
+   */
+  static Collection<NestedSelector> getObjects(PageSpec spec) {
+
+    Map<String, SelectorFromLocator> objectMapping = getObjectMapping(spec);
+
+    return extractCollectionFromMapping(objectMapping);
+  }
+
+  /**
+   * Read a spec from path. Basically a convenience mapping to
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
+   * @param mockPage to get current page from
+   * @param specPath path to spec file
+   * @param tags tag based filter
+   * @return Galen page spec object
+   * @since 4.0.0
+   */
+  static PageSpec readSpec(Page mockPage, String specPath, SectionFilter tags) {
+    return readSpec(specPath, tags, mockPage, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+  }
+
+  /**
+   * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
+   * @param specPath path to spec file
+   * @return Galen page spec object
+   * @since 4.0.0
+   */
+  static PageSpec readSpec(String specPath) {
+    return readSpec(new MockPage(), specPath, getDefaultIncludeTags());
+  }
+
+  /**
+   * Read a spec from path. Basically a convenience mapping to
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
+   * @param specPath path to spec file
+   * @param tags tag based filter
+   * @param page page to retrieve objects from
+   * @param properties properties for spec parsing
+   * @param jsVars JS variables to use for spec parsing
+   * @param objects predefined objects
+   * @return Galen page spec object
+   * @since 4.0.0
+   */
+  static PageSpec readSpec(String specPath, SectionFilter tags, Page page, Properties properties, Map<String, Object> jsVars,
+      Map<String, Locator> objects) {
+    try {
+      return PAGE_SPEC_READER.read(specPath, page, tags, properties, jsVars, objects);
+    }
+    catch (IOException ex) {
+      throw new GalenLayoutException("IOException when reading spec: '" + specPath + "'", ex);
+    }
+  }
+
+  /**
+   * Read a spec from path. Basically a convenience mapping to
+   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
+   *
+   * @param device to use to get page
+   * @param specPath path to spec file
+   * @param tags tag based filter
+   * @return Galen page spec object
+   * @since 4.0.0
+   */
+  static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
+    return readSpec(GalenHelperUtil.getBrowser(device).getPage(), specPath, tags);
   }
 }

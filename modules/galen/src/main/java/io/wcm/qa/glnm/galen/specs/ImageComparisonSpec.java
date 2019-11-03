@@ -19,32 +19,26 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import com.galenframework.validation.ValidationListener;
 
-import com.galenframework.specs.page.PageSpec;
+/**
+ * <p>ImageComparisonSpec class.</p>
+ *
+ * @since 4.0.0
+ */
+public class ImageComparisonSpec extends AbstractGalenSpec {
 
-final class ProvidesSpecMatcher extends TypeSafeMatcher<GalenSpec> {
-
-  private PageSpec spec;
-
-  ProvidesSpecMatcher(PageSpec expected) {
-    this.spec = expected;
+  /**
+   * <p>Constructor for ImageComparisonSpec.</p>
+   *
+   * @param specDefinition a {@link io.wcm.qa.glnm.galen.specs.IcsDefinition} object.
+   */
+  public ImageComparisonSpec(IcsDefinition specDefinition) {
+    super(new ImageComparisonProvider(specDefinition));
   }
 
   @Override
-  protected boolean matchesSafely(GalenSpec item) {
-    return item.getPageSpec() == spec;
+  protected ValidationListener getValidationListener() {
+    return new IcValidationListener();
   }
-
-  @Override
-  public void describeTo(Description description) {
-    description.appendText("did not provide SPEC");
-  }
-
-  static Matcher<GalenSpec> providesSpec(PageSpec expected) {
-    return new ProvidesSpecMatcher(expected);
-  }
-
 }

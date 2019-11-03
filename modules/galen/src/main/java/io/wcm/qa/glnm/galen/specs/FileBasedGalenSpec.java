@@ -19,49 +19,30 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
-import java.util.Collection;
-
-import io.wcm.qa.glnm.selectors.base.NestedSelector;
+import java.io.File;
 
 /**
- * Galenium representation of Galen spec. Can be executed.
+ * <p>FileBasedGalenSpec class.</p>
  *
  * @since 4.0.0
  */
-public interface GalenSpec {
+public class FileBasedGalenSpec extends AbstractGalenSpec {
 
   /**
-   * Run the spec.
+   * <p>Constructor for FileBasedGalenSpec.</p>
    *
-   * @return representation of the run
-   * @since 4.0.0
+   * @param specFile a {@link java.io.File} object.
    */
-  GalenSpecRun check();
+  public FileBasedGalenSpec(File specFile) {
+    this(specFile.getPath());
+  }
 
   /**
-   * Run the spec with tags.
+   * <p>Constructor for FileBasedGalenSpec.</p>
    *
-   * @return representation of the run
-   * @since 4.0.0
-   * @param tags a {@link java.lang.String} object.
+   * @param specPath a {@link java.lang.String} object.
    */
-  GalenSpecRun check(String... tags);
-
-  /**
-   * <p>
-   * getObjects.
-   * </p>
-   *
-   * @return a {@link java.util.Collection} object.
-   */
-  Collection<NestedSelector> getObjects();
-
-  /**
-   * <p>getName.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   * @since 4.0.0
-   */
-  String getName();
-
+  public FileBasedGalenSpec(String specPath) {
+    super(new GalenSpecParsingProvider(specPath));
+  }
 }

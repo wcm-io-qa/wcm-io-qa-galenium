@@ -25,6 +25,7 @@ import com.galenframework.api.Galen;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
+import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
@@ -45,48 +46,30 @@ public final class GalenLayout {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used in reports
    * @param spec Galen spec to check
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(String testName, GalenSpec spec) {
-    return check(testName, spec, null, null);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   *
-   * @param testName test name used in reports
-   * @param spec Galen spec to check
-   * @return report on spec test
-   * @since 4.0.0
    * @param tags a {@link java.lang.String} object.
+   * @return report on spec test
+   * @since 4.0.0
    */
-  public static GalenSpecRun check(String testName, GalenSpec spec, String... tags) {
-    return check(testName, spec, null, GalenSpecUtil.asSectionFilter(tags));
+  public static GalenSpecRun check(GalenSpec spec, String... tags) {
+    return check(spec, null, GalenSpecUtil.asSectionFilter(tags));
   }
 
-  /**
-   * <p>check.</p>
-   *
-   * @param testName a {@link java.lang.String} object.
-   * @param spec a {@link io.wcm.qa.glnm.galen.specs.GalenSpec} object.
-   * @param listener a {@link com.galenframework.validation.ValidationListener} object.
-   * @return a {@link io.wcm.qa.glnm.galen.specs.GalenSpecRun} object.
-   */
-  public static GalenSpecRun check(String testName, GalenSpec spec, ValidationListener listener) {
-    return check(testName, spec, listener, null);
-  }
-
-  private static GalenSpecRun check(
-      String testName,
+  static GalenSpecRun check(
       GalenSpec spec,
       ValidationListener validationListener,
       SectionFilter tags) {
+    return spec.check();
+  }
+
+  static LayoutReport check(
+      String testName,
+      PageSpec pageSpec,
+      SectionFilter tags,
+      ValidationListener validationListener) {
     try {
       LayoutReport layoutReport;
-      layoutReport = Galen.checkLayout(GalenHelperUtil.getBrowser(), spec.getPageSpec(), tags, validationListener);
+      layoutReport = Galen.checkLayout(GalenHelperUtil.getBrowser(), pageSpec, tags, validationListener);
       // Creating an object that will contain the information about the test
       GalenTestInfo test = GalenTestInfo.fromString(testName);
 
@@ -95,7 +78,7 @@ public final class GalenLayout {
 
       GaleniumReportUtil.addGalenResult(test);
 
-      return new GalenSpecRun(spec, layoutReport);
+      return layoutReport;
     }
     catch (IOException ex) {
       throw new GaleniumException("Specification check failed", ex);
