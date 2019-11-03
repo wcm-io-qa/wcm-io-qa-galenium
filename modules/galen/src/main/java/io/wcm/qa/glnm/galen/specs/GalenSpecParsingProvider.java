@@ -35,6 +35,7 @@ public class GalenSpecParsingProvider implements GalenPageSpecProvider {
    * <p>Constructor for GalenSpecParsingProvider.</p>
    *
    * @param specPath a {@link java.lang.String} object.
+   * @since 4.0.0
    */
   public GalenSpecParsingProvider(String specPath) {
     setSpecPath(specPath);
@@ -50,6 +51,7 @@ public class GalenSpecParsingProvider implements GalenPageSpecProvider {
    * <p>Getter for the field <code>specPath</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 4.0.0
    */
   public String getSpecPath() {
     return specPath;
@@ -59,6 +61,7 @@ public class GalenSpecParsingProvider implements GalenPageSpecProvider {
    * <p>Setter for the field <code>specPath</code>.</p>
    *
    * @param specPath a {@link java.lang.String} object.
+   * @since 4.0.0
    */
   public void setSpecPath(String specPath) {
     this.specPath = specPath;

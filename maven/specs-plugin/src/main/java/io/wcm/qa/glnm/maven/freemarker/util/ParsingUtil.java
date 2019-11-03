@@ -31,8 +31,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
-import io.wcm.qa.glnm.galen.specs.GalenSpecParsingProvider;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
@@ -55,8 +55,7 @@ public final class ParsingUtil {
    * @return all defined objects as selectors
    */
   public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
-    GalenSpec galenSpec = new GalenSpec();
-    galenSpec.setGalenSpecProvider(new GalenSpecParsingProvider(specFile.getPath()));
+    GalenSpec galenSpec = new FileBasedGalenSpec(specFile);
     return galenSpec.getObjects();
   }
 

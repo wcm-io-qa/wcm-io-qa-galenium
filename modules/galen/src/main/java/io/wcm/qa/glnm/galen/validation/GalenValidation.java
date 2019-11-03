@@ -19,17 +19,13 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.galenframework.validation.ValidationListener;
 
-import io.wcm.qa.glnm.galen.specs.GalenLayout;
-import io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider;
+import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
-import io.wcm.qa.glnm.galen.specs.GalenSpecParsingProvider;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.galen.specs.IcValidationListener;
-import io.wcm.qa.glnm.galen.specs.IcsDefinition;
-import io.wcm.qa.glnm.galen.specs.ImageComparisonProvider;
+import io.wcm.qa.glnm.galen.specs.ImageComparisonSpec;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via
@@ -39,50 +35,8 @@ import io.wcm.qa.glnm.galen.specs.ImageComparisonProvider;
  */
 public final class GalenValidation {
 
-  private static final Logger LOG = LoggerFactory.getLogger(GalenValidation.class);
-
   private GalenValidation() {
     // do not instantiate
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from section name of spec factory and used in reports
-   *
-   * @param specDefinition {@link io.wcm.qa.glnm.galen.specs.IcsDefinition} to generate spec to check
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun imageComparison(IcsDefinition specDefinition) {
-    GalenSpec spec = new GalenSpec();
-    ImageComparisonProvider imageComparisonProvider = new ImageComparisonProvider(specDefinition);
-    spec.setGalenSpecProvider(imageComparisonProvider);
-    return GalenLayout.check(specDefinition.getSectionName(), spec, new IcValidationListener());
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from first section of spec and used in reports
-   *
-   * @param spec Galen spec to check
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(GalenSpec spec) {
-    return GalenLayout.check(spec.getName(), spec);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   * Test name test name will be taken from first section of spec and used in reports
-   *
-   * @param spec Galen spec to check
-   * @return report on spec test
-   * @since 4.0.0
-   * @param tags a {@link java.lang.String} object.
-   */
-  public static GalenSpecRun check(GalenSpec spec, String... tags) {
-    return GalenLayout.check(spec.getName(), spec, tags);
   }
 
   /**
@@ -94,10 +48,9 @@ public final class GalenValidation {
    * @since 4.0.0
    */
   public static GalenSpecRun check(String testName, String specPath) {
-    GalenPageSpecProvider galenSpecProvider = new GalenSpecParsingProvider(specPath);
-    GalenSpec spec = new GalenSpec();
-    spec.setGalenSpecProvider(galenSpecProvider);
-    return GalenLayout.check(testName, spec);
+    GalenSpec spec = new FileBasedGalenSpec(specPath);
+    String[] tags = {};
+    return spec.check(tags);
   }
 
   /**
@@ -110,10 +63,39 @@ public final class GalenValidation {
    * @param tags a {@link java.lang.String} object.
    */
   public static GalenSpecRun check(String testName, String specPath, String... tags) {
-    GalenPageSpecProvider galenSpecProvider = new GalenSpecParsingProvider(specPath);
-    GalenSpec spec = new GalenSpec();
-    spec.setGalenSpecProvider(galenSpecProvider);
-    return GalenLayout.check(testName, spec, tags);
+    GalenSpec spec = new FileBasedGalenSpec(specPath);
+    return spec.check(tags);
+  }
+
+  /**
+   * <p>getNoOpValidationListener.</p>
+   *
+   * @return a {@link com.galenframework.validation.ValidationListener} object.
+   */
+  public static ValidationListener getNoOpValidationListener() {
+    return new NoOpValidationListener();
+  }
+
+  /**
+   * <p>getTracingValidationListener.</p>
+   *
+   * @return a {@link com.galenframework.validation.ValidationListener} object.
+   */
+  public static ValidationListener getTracingValidationListener() {
+    return new TracingValidationListener();
+  }
+
+  /**
+   * Checks Galen spec against current state of driver.
+   * Test name test name will be taken from section name of spec factory and used in reports
+   *
+   * @param specDefinition {@link io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition} to generate spec to check
+   * @return report on spec test
+   * @since 4.0.0
+   */
+  public static GalenSpecRun imageComparison(IcsDefinition specDefinition) {
+    GalenSpec spec = new ImageComparisonSpec(specDefinition);
+    return spec.check();
   }
 
 }

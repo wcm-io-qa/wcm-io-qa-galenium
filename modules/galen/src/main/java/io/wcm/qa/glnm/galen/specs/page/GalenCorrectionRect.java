@@ -28,10 +28,10 @@ import com.galenframework.specs.page.CorrectionsRect;
  */
 public class GalenCorrectionRect {
 
-  private GalenCorrection left = GalenCorrection.none();
-  private GalenCorrection top = GalenCorrection.none();
-  private GalenCorrection width = GalenCorrection.none();
-  private GalenCorrection height = GalenCorrection.none();
+  private GalenCorrection left = GalenCorrection.neutral();
+  private GalenCorrection top = GalenCorrection.neutral();
+  private GalenCorrection width = GalenCorrection.neutral();
+  private GalenCorrection height = GalenCorrection.neutral();
 
   /**
    * <p>withTop.</p>
