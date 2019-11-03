@@ -36,7 +36,7 @@ public class GalenCorrection {
   private int value;
 
 
-  GalenCorrection(Type type, int value) {
+  protected GalenCorrection(Type type, int value) {
     this.type = type;
     this.value = value;
   }
