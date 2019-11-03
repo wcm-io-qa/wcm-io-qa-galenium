@@ -37,29 +37,10 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  *
  * @since 4.0.0
  */
-public final class GalenLayout {
+final class GalenLayout {
 
   private GalenLayout() {
     // do not instantiate
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   *
-   * @param spec Galen spec to check
-   * @param tags a {@link java.lang.String} object.
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(GalenSpec spec, String... tags) {
-    return check(spec, null, GalenSpecUtil.asSectionFilter(tags));
-  }
-
-  static GalenSpecRun check(
-      GalenSpec spec,
-      ValidationListener validationListener,
-      SectionFilter tags) {
-    return spec.check();
   }
 
   static LayoutReport check(

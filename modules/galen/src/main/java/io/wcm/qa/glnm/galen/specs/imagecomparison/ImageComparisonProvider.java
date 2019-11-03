@@ -17,9 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.specs;
+package io.wcm.qa.glnm.galen.specs.imagecomparison;
 
 import com.galenframework.specs.page.PageSpec;
+
+import io.wcm.qa.glnm.galen.specs.GalenPageSpecProvider;
 
 /**
  * Provides executable Galen {@link com.galenframework.specs.page.PageSpec} given a definition.

@@ -21,6 +21,10 @@ package io.wcm.qa.glnm.galen.specs;
 
 import com.galenframework.validation.ValidationListener;
 
+import io.wcm.qa.glnm.galen.specs.imagecomparison.IcValidationListener;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonProvider;
+
 /**
  * <p>ImageComparisonSpec class.</p>
  *
@@ -29,9 +33,11 @@ import com.galenframework.validation.ValidationListener;
 public class ImageComparisonSpec extends AbstractGalenSpec {
 
   /**
-   * <p>Constructor for ImageComparisonSpec.</p>
+   * <p>
+   * Constructor for ImageComparisonSpec.
+   * </p>
    *
-   * @param specDefinition a {@link io.wcm.qa.glnm.galen.specs.IcsDefinition} object.
+   * @param specDefinition a {@link io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition} object.
    */
   public ImageComparisonSpec(IcsDefinition specDefinition) {
     super(new ImageComparisonProvider(specDefinition));

@@ -22,11 +22,10 @@ package io.wcm.qa.glnm.galen.validation;
 import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
-import io.wcm.qa.glnm.galen.specs.GalenLayout;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.galen.specs.IcsDefinition;
 import io.wcm.qa.glnm.galen.specs.ImageComparisonSpec;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via
@@ -62,7 +61,7 @@ public final class GalenValidation {
    * Checks Galen spec against current state of driver.
    * Test name test name will be taken from section name of spec factory and used in reports
    *
-   * @param specDefinition {@link io.wcm.qa.glnm.galen.specs.IcsDefinition} to generate spec to check
+   * @param specDefinition {@link io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition} to generate spec to check
    * @return report on spec test
    * @since 4.0.0
    */
@@ -80,7 +79,8 @@ public final class GalenValidation {
    * @since 4.0.0
    */
   public static GalenSpecRun check(GalenSpec spec) {
-    return GalenLayout.check(spec);
+    String[] tags = {};
+    return spec.check(tags);
   }
 
   /**
@@ -93,7 +93,7 @@ public final class GalenValidation {
    * @param tags a {@link java.lang.String} object.
    */
   public static GalenSpecRun check(GalenSpec spec, String... tags) {
-    return GalenLayout.check(spec, tags);
+    return spec.check(tags);
   }
 
   /**
@@ -106,7 +106,8 @@ public final class GalenValidation {
    */
   public static GalenSpecRun check(String testName, String specPath) {
     GalenSpec spec = new FileBasedGalenSpec(specPath);
-    return GalenLayout.check(spec);
+    String[] tags = {};
+    return spec.check(tags);
   }
 
   /**
@@ -120,7 +121,7 @@ public final class GalenValidation {
    */
   public static GalenSpecRun check(String testName, String specPath, String... tags) {
     GalenSpec spec = new FileBasedGalenSpec(specPath);
-    return GalenLayout.check(spec, tags);
+    return spec.check(tags);
   }
 
 }
