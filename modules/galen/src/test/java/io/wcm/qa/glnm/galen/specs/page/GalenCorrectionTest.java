@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.galen.specs.page;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
@@ -34,37 +33,31 @@ public class GalenCorrectionTest {
 
   @Test
   public void testNeutral() {
-    assertThat(GalenCorrection.neutral().toCorrection(),
-        allOf(
-            hasProperty("value", is(0)),
-            anyOf(
-                hasProperty("type", is(CorrectionsRect.Type.PLUS)),
-                hasProperty("type", is(CorrectionsRect.Type.MINUS)))));
+    assertThat(GalenCorrection.neutral(),
+        GalenCorrectionMatchers.isNeutral());
   }
 
   @Test
   public void testAdjustZero() {
-    assertThat(GalenCorrection.adjust(0).toCorrection(),
-        allOf(
-            hasProperty("value", is(0)),
-            anyOf(
-                hasProperty("type", is(CorrectionsRect.Type.PLUS)),
-                hasProperty("type", is(CorrectionsRect.Type.MINUS)))));
+    assertThat(GalenCorrection.adjust(0),
+        GalenCorrectionMatchers.isNeutral());
   }
 
   @Test
   public void testAdjustPlus() {
-    assertThat(GalenCorrection.adjust(42).toCorrection(),
-        allOf(
-            hasProperty("value", is(42)),
-            hasProperty("type", is(CorrectionsRect.Type.PLUS))));
+    assertThat(GalenCorrection.adjust(42),
+        hasProperty("correction",
+            allOf(
+                hasProperty("value", is(42)),
+                hasProperty("type", is(CorrectionsRect.Type.PLUS)))));
   }
 
   @Test
   public void testAdjustMinus() {
-    assertThat(GalenCorrection.adjust(-42).toCorrection(),
-        allOf(
-            hasProperty("value", is(42)),
-            hasProperty("type", is(CorrectionsRect.Type.MINUS))));
+    assertThat(GalenCorrection.adjust(-42),
+        hasProperty("correction",
+            allOf(
+                hasProperty("value", is(42)),
+                hasProperty("type", is(CorrectionsRect.Type.MINUS)))));
   }
 }

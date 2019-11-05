@@ -28,20 +28,36 @@ import com.galenframework.specs.page.CorrectionsRect;
  */
 public class GalenCorrectionRect {
 
+  private GalenCorrection height = GalenCorrection.neutral();
   private GalenCorrection left = GalenCorrection.neutral();
   private GalenCorrection top = GalenCorrection.neutral();
   private GalenCorrection width = GalenCorrection.neutral();
-  private GalenCorrection height = GalenCorrection.neutral();
 
   /**
-   * <p>withTop.</p>
+   * <p>toCorrectionsRect.</p>
    *
-   * @param newTop a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrection} object.
+   * @return a {@link com.galenframework.specs.page.CorrectionsRect} object.
+   * @since 4.0.0
+   */
+  public CorrectionsRect getCorrectionsRect() {
+    return new CorrectionsRect(
+        left.getCorrection(),
+        top.getCorrection(),
+        width.getCorrection(),
+        height.getCorrection());
+  }
+
+  /**
+   * <p>
+   * withBottom.
+   * </p>
+   *
+   * @param newBottom a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrection} object.
    * @return a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect} object.
    * @since 4.0.0
    */
-  public GalenCorrectionRect withTop(GalenCorrection newTop) {
-    top = newTop;
+  public GalenCorrectionRect withBottom(GalenCorrection newBottom) {
+    top = newBottom;
     return this;
   }
 
@@ -74,31 +90,15 @@ public class GalenCorrectionRect {
   }
 
   /**
-   * <p>
-   * withBottom.
-   * </p>
+   * <p>withTop.</p>
    *
-   * @param newBottom a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrection} object.
+   * @param newTop a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrection} object.
    * @return a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect} object.
    * @since 4.0.0
    */
-  public GalenCorrectionRect withBottom(GalenCorrection newBottom) {
-    top = newBottom;
+  public GalenCorrectionRect withTop(GalenCorrection newTop) {
+    top = newTop;
     return this;
-  }
-
-  /**
-   * <p>toCorrectionsRect.</p>
-   *
-   * @return a {@link com.galenframework.specs.page.CorrectionsRect} object.
-   * @since 4.0.0
-   */
-  public CorrectionsRect toCorrectionsRect() {
-    return new CorrectionsRect(
-        left.toCorrection(),
-        top.toCorrection(),
-        width.toCorrection(),
-        height.toCorrection());
   }
 
 }

@@ -76,7 +76,7 @@ final class IcsFactory {
     pageSpec.addObject(def.getElementName(), def.getSelector().asLocator());
     List<Selector> objectsToIgnore = def.getObjectsToIgnore();
     if (!objectsToIgnore.isEmpty()) {
-      CorrectionsRect corrections = def.getCorrections().toCorrectionsRect();
+      CorrectionsRect corrections = def.getCorrections().getCorrectionsRect();
       for (Selector objectToIgnore : objectsToIgnore) {
         Locator asLocator = objectToIgnore.asLocator();
         if (corrections != null) {
