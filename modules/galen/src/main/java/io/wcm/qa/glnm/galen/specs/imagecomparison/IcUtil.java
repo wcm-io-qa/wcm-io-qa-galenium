@@ -56,6 +56,8 @@ import io.wcm.qa.glnm.util.FileHandlingUtil;
  */
 final class IcUtil {
 
+  private static final String DUMMY_IMAGE_FORMAT = "png";
+
   private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
 
   private static final Logger LOG = LoggerFactory.getLogger(IcUtil.class);
@@ -67,7 +69,7 @@ final class IcUtil {
     // do not instantiate
   }
 
-  private static void createDummyIfSampleDoesNotExist(String fullFilePath) {
+  static void createDummyIfSampleDoesNotExist(String fullFilePath) {
     if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
       LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
 
@@ -135,13 +137,12 @@ final class IcUtil {
     return fullFilePath;
   }
 
-  private static String getImagePathFrom(Spec spec) {
+  static String getImagePathFrom(Spec spec) {
     Matcher matcher = REGEX_PATTERN_IMAGE_FILENAME.matcher(spec.toText());
-    String imagePath = null;
     if (matcher.matches() && matcher.groupCount() >= 1) {
-      imagePath = matcher.group(1);
+      return matcher.group(1);
     }
-    return imagePath;
+    return "";
   }
 
   private static File getOriginalFilteredImage(ValidationResult result) {
@@ -200,10 +201,18 @@ final class IcUtil {
 
   private static File writeDummySample(File targetFile) {
     try {
-      LOG.trace("begin writing dummy image '" + targetFile);
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("begin writing dummy image '" + targetFile);
+      }
       FileHandlingUtil.ensureParent(targetFile);
-      ImageIO.write(DUMMY_IMAGE, ".png", targetFile);
-      LOG.trace("done writing dummy image '" + targetFile);
+      if (ImageIO.write(DUMMY_IMAGE, DUMMY_IMAGE_FORMAT, targetFile)) {
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("done writing dummy image '" + targetFile);
+        }
+      }
+      else {
+        LOG.info("could not write dummy image '" + targetFile);
+      }
       return targetFile;
     }
     catch (IOException ex) {
