@@ -47,7 +47,6 @@ public final class GalenReports {
     // do not instantiate
   }
 
-
   /**
    * <p>handleGalenSpecRun.</p>
    *
@@ -74,7 +73,6 @@ public final class GalenReports {
       throw new GalenLayoutException(errorMessage, ex);
     }
   }
-
 
   /**
    * <p>handleLayoutReport.</p>

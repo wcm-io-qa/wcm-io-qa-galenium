@@ -39,6 +39,7 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  */
 abstract class AbstractGalenSpec implements GalenSpec {
 
+  private static final String[] WITHOUT_TAGS = new String[] {};
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGalenSpec.class);
   private GalenPageSpecProvider galenSpecProvider;
   private PageSpec pageSpec;
@@ -48,14 +49,10 @@ abstract class AbstractGalenSpec implements GalenSpec {
     galenSpecProvider = provider;
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.glnm.galen.specs.GalenSpec#check()
-   */
   /** {@inheritDoc} */
   @Override
   public GalenSpecRun check() {
-    LayoutReport report = runWithGalen();
-    return createRunFromReport(report);
+    return check(WITHOUT_TAGS);
   }
 
   /** {@inheritDoc} */
@@ -65,18 +62,12 @@ abstract class AbstractGalenSpec implements GalenSpec {
     return createRunFromReport(report);
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.glnm.galen.specs.GalenSpec#getName()
-   */
   /** {@inheritDoc} */
   @Override
   public String getName() {
     return getPageSpec().getSections().get(0).getName();
   }
 
-  /* (non-Javadoc)
-   * @see io.wcm.qa.glnm.galen.specs.GalenSpec#getObjects()
-   */
   /** {@inheritDoc} */
   @Override
   public Collection<NestedSelector> getObjects() {
@@ -98,12 +89,6 @@ abstract class AbstractGalenSpec implements GalenSpec {
   private GalenSpecRun createRunFromReport(LayoutReport report) {
     return new GalenSpecRun(this, report);
   }
-
-  private LayoutReport runWithGalen() {
-    SectionFilter defaultIncludeTags = GalenSpecUtil.getDefaultIncludeTags();
-    return runWithGalen(defaultIncludeTags);
-  }
-
 
   private LayoutReport runWithGalen(SectionFilter includeTags) {
     return GalenLayout.check(getName(), getPageSpec(), includeTags, getValidationListener());

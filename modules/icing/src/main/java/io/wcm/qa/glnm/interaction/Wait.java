@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.interaction;
 
+import java.time.Duration;
 import java.util.function.Function;
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -225,7 +226,10 @@ public final class Wait {
   }
 
   private static WebDriverWait getWait(int timeOutInSeconds, int pollingInterval) {
-    return new WebDriverWait(GaleniumContext.getDriver(), timeOutInSeconds, pollingInterval);
+    Duration polling = Duration.ofMillis(pollingInterval);
+    Duration timeout = Duration.ofSeconds(timeOutInSeconds);
+    WebDriver driver = GaleniumContext.getDriver();
+    return new WebDriverWait(driver, timeout, polling);
   }
 
   private static final class VerifiableExpectedCondition implements Function<WebDriver, Boolean> {

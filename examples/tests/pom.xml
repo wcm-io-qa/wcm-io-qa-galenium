@@ -34,12 +34,15 @@
   <description>Test automation example tests.</description>
 
   <properties>
+    <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
+    <galenium.example.run-ui-tests>false</galenium.example.run-ui-tests>
+    <galenium.example.sut>jetty</galenium.example.sut>
+    <galenium.example.sut.author>false</galenium.example.sut.author>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
     <site.url.module.prefix>galenium/examples</site.url.module.prefix>
     <aspectj.version>1.8.10</aspectj.version>
   </properties>
-
 
   <dependencies>
 
@@ -81,18 +84,19 @@
           <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
           <projectName>wcm.io.qa.galenium.example</projectName>
           <excludes>
-            <exclude>**/*.json</exclude>
-            <exclude>**/*.html</exclude>
+            <exclude>**/webapp/**/*</exclude>
           </excludes>
         </configuration>
       </plugin>
 
-      <!-- Skip UI tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <skip>true</skip>
+          <properties>
+            <galenium.example.sut.author>${galenium.example.sut.author}</galenium.example.sut.author>
+          </properties>
         </configuration>
       </plugin>
 
@@ -102,26 +106,82 @@
   <profiles>
 
     <profile>
-      <id>example</id>
+      <id>sut-jetty</id>
+      <activation>
+        <property>
+          <name>galenium.example.sut</name>
+          <value>jetty</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>10.0.0-alpha0</version>
+            <configuration>
+              <httpConnector>
+                <port>4502</port>
+              </httpConnector>
+              <supportedPackagings>jar</supportedPackagings>
+              <stopKey>quit</stopKey>
+              <stopPort>9000</stopPort>
+            </configuration>
+            <executions>
+              <execution>
+                <id>start-jetty</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop-jetty</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <excludedGroups>aem</excludedGroups>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>sut-local-author</id>
+      <activation>
+        <property>
+          <name>galenium.example.sut</name>
+          <value>aem</value>
+        </property>
+      </activation>
       <properties>
+        <galenium.example.sut.author>true</galenium.example.sut.author>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>run-tests</id>
+      <properties>
+        <galenium.example.run-ui-tests>true</galenium.example.run-ui-tests>
         <integrationtests.skip>false</integrationtests.skip>
       </properties>
       <build>
-
         <plugins>
 
           <plugin>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-maven</artifactId>
-          </plugin>
-
-          <!-- Run UI tests -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <skip>false</skip>
-            </configuration>
           </plugin>
 
           <plugin>
@@ -145,6 +205,14 @@
               </execution>
             </executions>
           </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <skip>false</skip>
+          </configuration>
+        </plugin>
 
         </plugins>
       </build>

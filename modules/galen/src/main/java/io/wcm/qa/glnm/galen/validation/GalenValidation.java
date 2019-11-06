@@ -86,7 +86,7 @@ public final class GalenValidation {
   }
 
   /**
-   * Checks Galen spec against current state of driver.
+   * Performs an image comparison against current state of driver.
    * Test name test name will be taken from section name of spec factory and used in reports
    *
    * @param specDefinition {@link io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition} to generate spec to check

@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.maven.freemarker.pojo;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;

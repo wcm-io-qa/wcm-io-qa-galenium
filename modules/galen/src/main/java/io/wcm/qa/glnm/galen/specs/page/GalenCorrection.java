@@ -35,7 +35,6 @@ public class GalenCorrection {
   private Type type;
   private int value;
 
-
   protected GalenCorrection(Type type, int value) {
     this.type = type;
     this.value = value;
@@ -69,7 +68,12 @@ public class GalenCorrection {
     return new GalenCorrection(Type.MINUS, -value);
   }
 
-  Correction toCorrection() {
+  /**
+   * <p>getCorrection.</p>
+   *
+   * @return a {@link com.galenframework.specs.page.CorrectionsRect.Correction} object.
+   */
+  public Correction getCorrection() {
     return new Correction(getValue(), getType());
   }
 
