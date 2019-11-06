@@ -23,6 +23,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.differences.difference.SystemPropertyDifference;
 import io.wcm.qa.glnm.differences.difference.driver.BrowserDifference;
 import io.wcm.qa.glnm.differences.difference.driver.ScreenWidthDifference;
 import io.wcm.qa.glnm.example.AbstractExampleBase;
@@ -37,6 +38,8 @@ import io.wcm.qa.glnm.verification.util.Check;
  * Example of how to use the {@link VisualVerification} to compare individual elements on a page.
  */
 public class ImageComparisonIT extends AbstractExampleBase {
+
+  private static final String GALENIUM_EXAMPLE_SUT = "galenium.example.sut";
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public ImageComparisonIT(TestDevice testDevice) {
@@ -66,6 +69,7 @@ public class ImageComparisonIT extends AbstractExampleBase {
     // browser and viewport width will make a difference
     verification.addDifference(new BrowserDifference());
     verification.addDifference(new ScreenWidthDifference());
+    verification.addDifference(new SystemPropertyDifference(GALENIUM_EXAMPLE_SUT));
 
     // compare image using spec
     Check.verify(verification);

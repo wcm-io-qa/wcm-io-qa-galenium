@@ -38,7 +38,6 @@ import io.wcm.qa.glnm.verification.driver.TitleAndUrlVerification;
 import io.wcm.qa.glnm.verification.element.CssClassVerification;
 import io.wcm.qa.glnm.verification.element.InvisibilityVerification;
 import io.wcm.qa.glnm.verification.element.LinkTargetVerification;
-import io.wcm.qa.glnm.verification.element.NoCssClassVerification;
 import io.wcm.qa.glnm.verification.element.VisibilityVerification;
 import io.wcm.qa.glnm.verification.element.VisualVerification;
 import io.wcm.qa.glnm.verification.util.Check;
@@ -63,12 +62,10 @@ public class VerificationIT extends AbstractExampleBase {
     verify(new TitleAndUrlVerification("Homepage"), new LogoVerification(), new VisibilityVerification(Stage.SELF));
 
     if (isMobile()) {
-      verify(new InvisibilityVerification(Navigation.LINK_TO_HOMEPAGE),
-          new InvisibilityVerification(Navigation.LINK_TO_CONFERENCE));
+      verify(new InvisibilityVerification(Navigation.LINK_TO_HOMEPAGE));
     }
     else {
-      verify(new CssClassVerification(Navigation.LINK_TO_HOMEPAGE, CSS_CLASS_NAVLINK_ACTIVE),
-          new NoCssClassVerification(Navigation.LINK_TO_CONFERENCE, CSS_CLASS_NAVLINK_ACTIVE));
+      verify(new CssClassVerification(Navigation.LINK_TO_HOMEPAGE, CSS_CLASS_NAVLINK_ACTIVE));
     }
 
     Check.verify(new LinkTargetVerification(Page.LOGO));

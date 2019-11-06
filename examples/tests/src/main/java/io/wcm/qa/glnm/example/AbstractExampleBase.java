@@ -55,10 +55,6 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
     Element.findOrFail(Page.NAVIGATION);
   }
 
-  protected void clickConferenceNavLink() {
-    Navigation.LINK_TO_CONFERENCE.click();
-  }
-
   protected abstract String getRelativePath();
 
   protected String getStartUrl() {
@@ -90,7 +86,7 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
     navShouldBeVisible();
     if (isMobile()) {
       Navigation.MENU_OPENER.click();
-      Wait.forVisibility(Navigation.LINK_TO_CONFERENCE);
+      Wait.forVisibility(Navigation.LINK_TO_HOMEPAGE);
     }
   }
 

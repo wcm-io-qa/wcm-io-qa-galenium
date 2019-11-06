@@ -3,7 +3,6 @@
       site-header             header.header-site
       navigation              nav#nav-main
           link-*              ul.navlist > li > a
-          link-to-conference  li > a[href$="conference.html"]
           link-to-homepage    li > a[href$="en.html"]
           menu-opener         a.menu-opener
       footer                  footer.footer-site

@@ -26,7 +26,6 @@ import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.AbstractExampleBase;
-import io.wcm.qa.glnm.example.specs.Conference;
 import io.wcm.qa.glnm.example.specs.Homepage;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;
 
@@ -40,20 +39,6 @@ public class GalenSpecTestIT extends AbstractExampleBase {
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public GalenSpecTestIT(TestDevice testDevice) {
     super(testDevice);
-  }
-
-  @Test
-  public void checkConferencePageWithNavigationAndGalenSpec() {
-    LOG.info("Testing Conference Page");
-    loadStartUrl();
-    openNav();
-    clickConferenceNavLink();
-    if (isMobile()) {
-      Conference.checkMobile();
-    }
-    else {
-      Conference.checkDesktop();
-    }
   }
 
   @Test
