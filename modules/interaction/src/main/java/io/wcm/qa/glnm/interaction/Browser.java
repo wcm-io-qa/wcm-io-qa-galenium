@@ -107,6 +107,7 @@ public final class Browser {
    */
   public static void load(String url) {
     Allure.step("loading URL: '" + url + "'");
+    Allure.link(url, url);
     getDriver().get(url);
   }
 
