@@ -143,9 +143,10 @@ final class GalenSpecUtil {
    */
   static SectionFilter asSectionFilter(String... includeTags) {
     List<String> tagList = new ArrayList<String>();
-    if (includeTags != null) {
-      Collections.addAll(tagList, includeTags);
+    if (includeTags == null || includeTags.length == 0) {
+      return new SectionFilter();
     }
+    Collections.addAll(tagList, includeTags);
     return new SectionFilter(tagList, EMPTY_TAG_LIST);
   }
 

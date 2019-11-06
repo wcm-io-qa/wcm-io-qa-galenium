@@ -39,6 +39,7 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  */
 abstract class AbstractGalenSpec implements GalenSpec {
 
+  private static final String[] WITHOUT_TAGS = new String[] {};
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGalenSpec.class);
   private GalenPageSpecProvider galenSpecProvider;
   private PageSpec pageSpec;
@@ -54,8 +55,7 @@ abstract class AbstractGalenSpec implements GalenSpec {
   /** {@inheritDoc} */
   @Override
   public GalenSpecRun check() {
-    LayoutReport report = runWithGalen();
-    return createRunFromReport(report);
+    return check(WITHOUT_TAGS);
   }
 
   /** {@inheritDoc} */
