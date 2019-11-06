@@ -85,7 +85,9 @@ public final class Browser {
    */
   public static boolean isCurrentUrl(String url) {
     String currentUrl = getCurrentUrl();
-    LOG.debug("checking current URL: " + currentUrl);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("checking current URL: " + currentUrl);
+    }
     return StringUtils.equals(url, currentUrl);
   }
 
