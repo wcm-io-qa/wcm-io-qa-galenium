@@ -60,7 +60,7 @@ public final class GalenReports {
       return;
     }
     logMessages(specRun.getValidationErrors());
-    if (specRun.hasFailed()) {
+    if (specRun.isFailed()) {
       handleErrors(errorMessage, specRun.getValidationErrors());
     }
   }

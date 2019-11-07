@@ -52,7 +52,7 @@ public class GalenSpecRun {
    * @return whether spec has failed
    * @since 4.0.0
    */
-  public boolean hasFailed() {
+  public boolean isFailed() {
     return getReport().errors() > 0;
   }
 
@@ -62,10 +62,9 @@ public class GalenSpecRun {
    * @return whether spec has failed
    * @since 4.0.0
    */
-  public boolean hasWarnings() {
+  public boolean isWarning() {
     return getReport().warnings() > 0;
   }
-
 
   /**
    * When there are no errors or warnings the spec is considered clean.
