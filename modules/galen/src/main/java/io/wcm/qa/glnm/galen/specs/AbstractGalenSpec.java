@@ -20,12 +20,14 @@
 package io.wcm.qa.glnm.galen.specs;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
+import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
@@ -39,9 +41,10 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  */
 abstract class AbstractGalenSpec implements GalenSpec {
 
-  private static final String[] WITHOUT_TAGS = new String[] {};
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGalenSpec.class);
+  private static final String[] WITHOUT_TAGS = new String[] {};
   private GalenPageSpecProvider galenSpecProvider;
+  private String name;
   private PageSpec pageSpec;
 
 
@@ -65,7 +68,10 @@ abstract class AbstractGalenSpec implements GalenSpec {
   /** {@inheritDoc} */
   @Override
   public String getName() {
-    return getPageSpec().getSections().get(0).getName();
+    if (name == null) {
+      name = initSpecName();
+    }
+    return name;
   }
 
   /** {@inheritDoc} */
@@ -86,8 +92,25 @@ abstract class AbstractGalenSpec implements GalenSpec {
     return pageSpec;
   }
 
+  /**
+   * <p>Setter for the field <code>name</code>.</p>
+   *
+   * @param name a {@link java.lang.String} object.
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
   private GalenSpecRun createRunFromReport(LayoutReport report) {
     return new GalenSpecRun(this, report);
+  }
+
+  private String initSpecName() {
+    List<PageSection> sections = getPageSpec().getSections();
+    if (sections == null || sections.isEmpty()) {
+      return getGalenSpecProvider().toString();
+    }
+    return sections.get(0).getName();
   }
 
   private LayoutReport runWithGalen(SectionFilter includeTags) {
