@@ -47,6 +47,16 @@ public class GalenSpecRun {
   }
 
   /**
+   * When there are no errors or warnings the spec is considered clean.
+   *
+   * @return whether spec is clean
+   * @since 4.0.0
+   */
+  public boolean isClean() {
+    return getValidationErrors().isEmpty();
+  }
+
+  /**
    * When there are errors that are not marked as warning level only.
    *
    * @return whether spec has failed
@@ -66,14 +76,12 @@ public class GalenSpecRun {
     return getReport().warnings() > 0;
   }
 
-  /**
-   * When there are no errors or warnings the spec is considered clean.
-   *
-   * @return whether spec is clean
-   * @since 4.0.0
-   */
-  public boolean isClean() {
-    return getValidationErrors().isEmpty();
+  protected LayoutReport getReport() {
+    return report;
+  }
+
+  protected GalenSpec getSpec() {
+    return spec;
   }
 
   /**
@@ -82,16 +90,8 @@ public class GalenSpecRun {
    * @return a {@link java.util.List} object.
    * @since 4.0.0
    */
-  public List<ValidationResult> getValidationErrors() {
+  protected List<ValidationResult> getValidationErrors() {
     return getReport().getValidationErrorResults();
-  }
-
-  protected LayoutReport getReport() {
-    return report;
-  }
-
-  protected GalenSpec getSpec() {
-    return spec;
   }
 
   protected void setReport(LayoutReport report) {

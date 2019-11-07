@@ -43,7 +43,6 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.mock.MockPage;
 import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
@@ -234,7 +233,7 @@ final class GalenSpecUtil {
       return PAGE_SPEC_READER.read(specPath, page, tags, properties, jsVars, objects);
     }
     catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec: '" + specPath + "'", ex);
+      throw new GaleniumException("IOException when reading spec: '" + specPath + "'", ex);
     }
   }
 

@@ -31,7 +31,7 @@ import com.galenframework.validation.ValidationErrorException;
 import com.galenframework.validation.ValidationObject;
 import com.galenframework.validation.ValidationResult;
 
-import io.wcm.qa.glnm.exceptions.GalenLayoutException;
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 
 /**
@@ -59,9 +59,8 @@ public final class GalenReports {
       LOG.debug(successMessage);
       return;
     }
-    logMessages(specRun.getValidationErrors());
     if (specRun.isFailed()) {
-      handleErrors(errorMessage, specRun.getValidationErrors());
+      throw new GaleniumException(errorMessage);
     }
   }
 
@@ -90,7 +89,7 @@ public final class GalenReports {
     List<String> messages = validationResult.getError().getMessages();
     List<ValidationObject> validationObjects = validationResult.getValidationObjects();
     ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-    throw new GalenLayoutException(errorMessage, ex);
+    throw new GaleniumException(errorMessage, ex);
   }
 
   private static void logMessages(List<ValidationResult> validationErrorResults) {
