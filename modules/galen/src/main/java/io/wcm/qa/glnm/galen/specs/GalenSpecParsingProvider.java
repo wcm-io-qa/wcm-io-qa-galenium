@@ -44,7 +44,7 @@ public class GalenSpecParsingProvider implements GalenPageSpecProvider {
   /** {@inheritDoc} */
   @Override
   public PageSpec getPageSpec() {
-    return GalenSpecUtil.readSpec(getSpecPath());
+    return GalenParsing.fromPath(getSpecPath());
   }
 
   /**

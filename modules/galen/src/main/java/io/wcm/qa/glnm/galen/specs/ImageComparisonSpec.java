@@ -38,6 +38,7 @@ public class ImageComparisonSpec extends AbstractGalenSpec {
    * </p>
    *
    * @param specDefinition a {@link io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition} object.
+   * @since 4.0.0
    */
   public ImageComparisonSpec(IcsDefinition specDefinition) {
     super(new ImageComparisonProvider(specDefinition));

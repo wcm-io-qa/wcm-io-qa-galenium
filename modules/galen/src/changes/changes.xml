@@ -25,6 +25,12 @@
 
     <release version="4.0.0" date="not-released-yet">
       <action type="add" dev="apegam">
+        Move parsing to dedicated new parsing utility class.
+      </action>
+      <action type="add" dev="apegam">
+        Tests for parts of Galenium's Galen API.
+      </action>
+      <action type="add" dev="apegam">
         Add spec provider concept and image comparison implementation
         of it.
       </action>
