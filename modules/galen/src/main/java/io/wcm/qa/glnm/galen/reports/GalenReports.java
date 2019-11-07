@@ -59,18 +59,9 @@ public final class GalenReports {
       LOG.debug(successMessage);
       return;
     }
-    List<ValidationResult> validationErrorResults = specRun.getValidationErrors();
-    for (ValidationResult validationResult : validationErrorResults) {
-      ValidationError error = validationResult.getError();
-      String errorMessages = StringUtils.join(error.getMessages(), "|");
-      LOG.warn(errorMessages);
-    }
+    logMessages(specRun.getValidationErrors());
     if (specRun.hasFailed()) {
-      ValidationResult validationResult = specRun.getValidationErrors().get(0);
-      List<String> messages = validationResult.getError().getMessages();
-      List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-      ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-      throw new GalenLayoutException(errorMessage, ex);
+      handleErrors(errorMessage, specRun.getValidationErrors());
     }
   }
 
@@ -85,21 +76,28 @@ public final class GalenReports {
   public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
     if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
       LOG.debug(successMessage);
+      return;
     }
-    else {
       List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
-      for (ValidationResult validationResult : validationErrorResults) {
-        ValidationError error = validationResult.getError();
-        String errorMessages = StringUtils.join(error.getMessages(), "|");
-        LOG.warn(errorMessages);
-      }
+      logMessages(validationErrorResults);
       if (layoutReport.errors() > 0) {
-        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
-        List<String> messages = validationResult.getError().getMessages();
-        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-        throw new GalenLayoutException(errorMessage, ex);
-      }
+        handleErrors(errorMessage, validationErrorResults);
+    }
+  }
+
+  private static void handleErrors(String errorMessage, List<ValidationResult> validationErrorResults) {
+    ValidationResult validationResult = validationErrorResults.get(0);
+    List<String> messages = validationResult.getError().getMessages();
+    List<ValidationObject> validationObjects = validationResult.getValidationObjects();
+    ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
+    throw new GalenLayoutException(errorMessage, ex);
+  }
+
+  private static void logMessages(List<ValidationResult> validationErrorResults) {
+    for (ValidationResult validationResult : validationErrorResults) {
+      ValidationError error = validationResult.getError();
+      String errorMessages = StringUtils.join(error.getMessages(), "|");
+      LOG.warn(errorMessages);
     }
   }
 
