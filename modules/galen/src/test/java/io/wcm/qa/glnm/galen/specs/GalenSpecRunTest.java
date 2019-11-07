@@ -34,7 +34,7 @@ public class GalenSpecRunTest {
   GalenSpecRun cleanRun = new GalenSpecRun(spec, cleanReport);
 
   @Test
-  public void testWarnings() {
+  public void testCleanRun() {
     MatcherAssert.assertThat(cleanRun, Matchers.hasProperty("clean", Matchers.equalTo(true)));
   }
 
