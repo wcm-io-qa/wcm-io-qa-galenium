@@ -42,8 +42,8 @@ public class GalenSpecRun {
    * @since 4.0.0
    */
   public GalenSpecRun(GalenSpec spec, LayoutReport report) {
-    this.setSpec(spec);
-    this.setReport(report);
+    setSpec(spec);
+    setReport(report);
   }
 
   /**
