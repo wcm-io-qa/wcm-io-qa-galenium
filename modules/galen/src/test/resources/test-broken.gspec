@@ -1,0 +1,8 @@
+@objects
+  page               #page
+    header           header
+   navigation       nav
+
+= Broken section =
+  never-declared:
+    inside parent

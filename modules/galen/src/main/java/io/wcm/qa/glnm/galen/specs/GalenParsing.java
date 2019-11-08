@@ -23,10 +23,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
-import com.galenframework.page.Page;
+import com.galenframework.parser.SyntaxException;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
-import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
@@ -57,8 +56,8 @@ public final class GalenParsing {
     try {
       return new PageSpecReader().read(specPath, new MockPage(), GalenSpecUtil.getDefaultIncludeTags(), EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
     }
-    catch (IOException ex) {
-      throw new GaleniumException("IOException when reading spec: '" + specPath + "'", ex);
+    catch (IOException | SyntaxException ex) {
+      throw new GaleniumException("Exception when parsing spec: '" + specPath + "'", ex);
     }
   }
 

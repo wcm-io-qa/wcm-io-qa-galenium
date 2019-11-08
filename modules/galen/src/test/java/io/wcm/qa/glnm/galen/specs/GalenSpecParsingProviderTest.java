@@ -21,10 +21,12 @@ package io.wcm.qa.glnm.galen.specs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URL;
 import java.util.List;
@@ -32,32 +34,63 @@ import java.util.List;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
+
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 
 public class GalenSpecParsingProviderTest {
 
   @Test
+  public void testParsingErrorBrokenSpec() {
+    assertThrows(GaleniumException.class, new Executable() {
+
+      @Override
+      public void execute() throws Throwable {
+        GalenParsing.fromPath(getPathToSpec("test-broken.gspec"));
+      }
+    });
+  }
+
+  @Test
+  public void testParsingErrorWrongPath() {
+    assertThrows(GaleniumException.class, new Executable() {
+
+      @Override
+      public void execute() throws Throwable {
+        GalenParsing.fromPath("test-non-existent.gspec");
+      }
+    });
+  }
+
+  @Test
   public void testSuccessfulParsing() {
-    URL resource = getClass().getClassLoader().getResource("test.gspec");
-    assertThat(resource, is(notNullValue()));
-    GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(resource.getPath());
+    String pathToSpec = getPathToSpec("test.gspec");
+    GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(pathToSpec);
 
     PageSpec pageSpec = specProvider.getPageSpec();
     assertThat(pageSpec, hasProperty("sections", hasSize(2)));
 
     List<PageSection> sections = pageSpec.getSections();
     assertThat(sections.get(0), allOf(
-            isCalled("Header section"),
-            hasProperty("sections", Matchers.hasSize(2))));
+        isNamed("Header section"),
+        hasProperty("sections", Matchers.hasSize(2))));
     assertThat(sections.get(1), allOf(
-            isCalled("Navigation section"),
-            hasProperty("sections", Matchers.is(Matchers.empty()))));
+        isNamed("Navigation section"),
+        hasProperty("sections", is(empty()))));
   }
 
-  private static Matcher<PageSection> isCalled(String name) {
+  private static String getPathToSpec(String specName) {
+    ClassLoader classLoader = GalenSpecParsingProviderTest.class.getClassLoader();
+    URL resource = classLoader.getResource(specName);
+    assertThat(resource, is(notNullValue()));
+    return resource.getPath();
+  }
+
+  private static Matcher<PageSection> isNamed(String name) {
     return Matchers.hasProperty("name", Matchers.is(name));
   }
 }
