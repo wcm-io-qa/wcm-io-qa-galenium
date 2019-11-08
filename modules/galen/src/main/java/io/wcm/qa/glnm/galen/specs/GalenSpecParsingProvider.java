@@ -30,7 +30,6 @@ public class GalenSpecParsingProvider implements GalenPageSpecProvider {
 
   private String specPath;
 
-
   /**
    * <p>Constructor for GalenSpecParsingProvider.</p>
    *
