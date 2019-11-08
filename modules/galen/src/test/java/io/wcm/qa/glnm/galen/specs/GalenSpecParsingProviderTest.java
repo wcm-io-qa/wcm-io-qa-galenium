@@ -20,7 +20,7 @@
 package io.wcm.qa.glnm.galen.specs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
@@ -44,13 +44,17 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 public class GalenSpecParsingProviderTest {
 
+  private static final String TEST_BROKEN_GSPEC = "test-broken.gspec";
+  private static final String TEST_GSPEC = "test.gspec";
+  private static final String TEST_NON_EXISTENT_GSPEC = "test-non-existent.gspec";
+
   @Test
   public void testParsingErrorBrokenSpec() {
     assertThrows(GaleniumException.class, new Executable() {
 
       @Override
       public void execute() throws Throwable {
-        GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(getPathToSpec("test-broken.gspec"));
+        GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(getPathToSpec(TEST_BROKEN_GSPEC));
         // getting the page spec will throw the exception
         specProvider.getPageSpec();
       }
@@ -63,26 +67,30 @@ public class GalenSpecParsingProviderTest {
 
       @Override
       public void execute() throws Throwable {
-        GalenParsing.fromPath("test-non-existent.gspec");
+        GalenParsing.fromPath(TEST_NON_EXISTENT_GSPEC);
       }
     });
   }
 
   @Test
   public void testSuccessfulParsing() {
-    String pathToSpec = getPathToSpec("test.gspec");
+    String pathToSpec = getPathToSpec(TEST_GSPEC);
     GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(pathToSpec);
 
     PageSpec pageSpec = specProvider.getPageSpec();
     assertThat(pageSpec, hasProperty("sections", hasSize(2)));
 
     List<PageSection> sections = pageSpec.getSections();
-    assertThat(sections.get(0), allOf(
-        isNamed("Header section"),
-        hasProperty("sections", Matchers.hasSize(2))));
-    assertThat(sections.get(1), allOf(
-        isNamed("Navigation section"),
-        hasProperty("sections", is(empty()))));
+    assertThat(sections.get(0),
+        both(
+            isNamed("Header section"))
+                .and(
+                    hasProperty("sections", Matchers.hasSize(2))));
+    assertThat(sections.get(1),
+        both(
+            isNamed("Navigation section"))
+                .and(
+                    hasProperty("sections", is(empty()))));
   }
 
   private static String getPathToSpec(String specName) {
