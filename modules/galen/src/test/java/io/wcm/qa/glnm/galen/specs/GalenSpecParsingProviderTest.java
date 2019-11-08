@@ -50,7 +50,9 @@ public class GalenSpecParsingProviderTest {
 
       @Override
       public void execute() throws Throwable {
-        GalenParsing.fromPath(getPathToSpec("test-broken.gspec"));
+        GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(getPathToSpec("test-broken.gspec"));
+        // getting the page spec will throw the exception
+        specProvider.getPageSpec();
       }
     });
   }
