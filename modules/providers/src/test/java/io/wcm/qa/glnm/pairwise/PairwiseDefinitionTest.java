@@ -79,7 +79,14 @@ public class PairwiseDefinitionTest {
         requirementsCount(5, domains(2, 1, 1)),
         requirementsCount(5, domains(1, 2, 1)),
         requirementsCount(5, domains(1, 1, 2)),
+        requirementsCount(11, domains(1, 2, 3)),
+        requirementsCount(11, domains(1, 3, 2)),
+        requirementsCount(11, domains(2, 1, 3)),
+        requirementsCount(11, domains(2, 3, 1)),
+        requirementsCount(11, domains(3, 1, 2)),
+        requirementsCount(11, domains(3, 2, 1)),
         requirementsCount(25, domains(5, 5)),
+        requirementsCount(870, domains(1, 2, 3, 4, 5, 6, 7, 8, 9)),
         requirementsCount(108, domains(10, 3, 6)));
   }
 
