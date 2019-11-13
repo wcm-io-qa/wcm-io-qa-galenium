@@ -32,17 +32,23 @@ import io.wcm.qa.glnm.verification.string.DoesNotContainPatternVerification;
 import io.wcm.qa.glnm.verification.string.DoesNotContainStringVerification;
 
 /**
- * Verifies occurence of patterns and strings in page source.
- *
+ * Abstract base class that verifies occurence of patterns and strings in page source. This is
+ * implemented as an abstract class to force implementation for specific needs.
  * @since 1.0.0
  */
-public class PageSourceVerification extends CombiningStringBasedVerification {
+public abstract class PageSourceVerification extends CombiningStringBasedVerification {
 
   private Map<Pattern, String> mustNotPatterns = new HashMap<Pattern, String>();
   private Map<String, String> mustNotStrings = new HashMap<String, String>();
   private Map<Pattern, String> mustPatterns = new HashMap<Pattern, String>();
   private Map<String, String> mustStrings = new HashMap<String, String>();
 
+  /**
+   * Implement and name verification. Add patterns in constructor using
+   * the public methods.
+   *
+   * @param verificationName used in reporting
+   */
   protected PageSourceVerification(String verificationName) {
     super(verificationName, new PageSourceSampler());
   }
