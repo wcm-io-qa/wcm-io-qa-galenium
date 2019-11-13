@@ -51,4 +51,28 @@ class Value {
     this.value = index;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public int hashCode() {
+    int hash = 13;
+    hash = 31 * hash + getDomain();
+    hash = 31 * hash + getValue();
+    return hash;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Value)) {
+      return false;
+    }
+    Value otherValue = (Value)obj;
+    if (getDomain() != otherValue.getDomain()) {
+      return false;
+    }
+    if (getValue() != otherValue.getValue()) {
+      return false;
+    }
+    return true;
+  }
 }
