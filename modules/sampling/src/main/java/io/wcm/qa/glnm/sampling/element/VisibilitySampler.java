@@ -41,7 +41,7 @@ public class VisibilitySampler extends WebElementBasedSampler<Boolean> {
     super(selector);
   }
 
-  private Boolean isDisplayed(WebElement element) {
+  protected Boolean isDisplayed(WebElement element) {
     return element != null && element.isDisplayed();
   }
 
