@@ -54,7 +54,17 @@
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galen</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.interaction</artifactId>
       <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -70,6 +80,11 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.sampling</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.selectors</artifactId>
       <version>4.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
