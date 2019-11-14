@@ -56,6 +56,15 @@ public final class Browser {
   }
 
   /**
+   * <p>getLog.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.interaction.BrowserLog} object.
+   */
+  public static BrowserLog getLog() {
+    return new BrowserLog();
+  }
+
+  /**
    * Executes Javascript in current browser.
    *
    * @param jsCode code to execute
