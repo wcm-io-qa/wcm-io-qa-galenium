@@ -43,6 +43,7 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
    * <p>Constructor for JsoupDocumentSampler.</p>
    *
    * @param url to fetch HTML from
+   * @since 3.0.0
    */
   public JsoupDocumentSampler(String url) {
     super(url);

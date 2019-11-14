@@ -32,6 +32,7 @@ public interface JsoupConnectionProvider {
    * <p>getConnection.</p>
    *
    * @return Jsoup connection
+   * @since 3.0.0
    */
   Connection getConnection();
 }
