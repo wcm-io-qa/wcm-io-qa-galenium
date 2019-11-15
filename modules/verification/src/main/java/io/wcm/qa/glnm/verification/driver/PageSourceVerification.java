@@ -34,6 +34,7 @@ import io.wcm.qa.glnm.verification.string.DoesNotContainStringVerification;
 /**
  * Abstract base class that verifies occurence of patterns and strings in page source. This is
  * implemented as an abstract class to force implementation for specific needs.
+ *
  * @since 1.0.0
  */
 public abstract class PageSourceVerification extends CombiningStringBasedVerification {
