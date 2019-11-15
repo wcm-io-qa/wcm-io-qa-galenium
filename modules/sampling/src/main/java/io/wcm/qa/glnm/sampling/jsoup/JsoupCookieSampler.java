@@ -50,6 +50,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
    * <p>Constructor for JsoupCookieSampler.</p>
    *
    * @param url to fetch cookies from
+   * @since 3.0.0
    */
   public JsoupCookieSampler(String url) {
     super(url);
@@ -68,6 +69,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
    * <p>Setter for the field <code>method</code>.</p>
    *
    * @param requestMethod HTTP method to use for retrieval
+   * @since 3.0.0
    */
   public void setMethod(Method requestMethod) {
     this.method = requestMethod;

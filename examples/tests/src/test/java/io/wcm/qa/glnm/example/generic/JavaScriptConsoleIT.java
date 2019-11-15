@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2018 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.driver;
+package io.wcm.qa.glnm.example.generic;
 
-import io.wcm.qa.glnm.interaction.Browser;
-import io.wcm.qa.glnm.sampling.Sampler;
-import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
+import org.testng.annotations.Test;
 
-/**
- * Samples the page source of current page.
- *
- * @since 1.0.0
- */
-public class PageSourceSampler extends CachingBasedSampler<String> implements Sampler<String> {
+import io.wcm.qa.glnm.example.AbstractExampleBase;
 
-  /** {@inheritDoc} */
+public class JavaScriptConsoleIT extends AbstractExampleBase {
+
+  @Test
+  public void checkConsole() {
+
+  }
+
   @Override
-  public String freshSample() {
-    return Browser.getPageSource();
+  protected String getRelativePath() {
+    return "en.html";
   }
 
 }

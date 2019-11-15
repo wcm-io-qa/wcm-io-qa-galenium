@@ -51,6 +51,10 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
     super(testDevice);
   }
 
+  public AbstractExampleBase() {
+    super();
+  }
+
   private void navShouldBeVisible() {
     Element.findOrFail(Page.NAVIGATION);
   }

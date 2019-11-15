@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
+import io.qameta.allure.Description;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.AbstractExampleBase;
 import io.wcm.qa.glnm.example.specs.Homepage;
@@ -42,8 +43,8 @@ public class GalenSpecTestIT extends AbstractExampleBase {
   }
 
   @Test
+  @Description("Testing Homepage")
   public void checkHomepageWithGalenSpec() {
-    LOG.info("Testing Homepage");
     loadStartUrl();
     Homepage.check();
   }

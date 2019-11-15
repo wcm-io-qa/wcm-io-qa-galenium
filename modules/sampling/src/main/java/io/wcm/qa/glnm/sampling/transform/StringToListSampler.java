@@ -41,6 +41,7 @@ public class StringToListSampler<S extends Sampler<String>> extends SplittingSam
    * <p>Constructor for StringToListSampler.</p>
    *
    * @param inputSampler to supply string
+   * @since 3.0.0
    */
   public StringToListSampler(S inputSampler) {
     this(inputSampler, null);
@@ -51,6 +52,7 @@ public class StringToListSampler<S extends Sampler<String>> extends SplittingSam
    *
    * @param inputSampler to supply string
    * @param delimiter to use when splitting
+   * @since 3.0.0
    */
   public StringToListSampler(S inputSampler, String delimiter) {
     super(inputSampler);
@@ -73,6 +75,7 @@ public class StringToListSampler<S extends Sampler<String>> extends SplittingSam
    * <p>Getter for the field <code>delimiter</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public String getDelimiter() {
     return delimiter;
@@ -82,6 +85,7 @@ public class StringToListSampler<S extends Sampler<String>> extends SplittingSam
    * <p>Setter for the field <code>delimiter</code>.</p>
    *
    * @param delimiter a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public void setDelimiter(String delimiter) {
     this.delimiter = delimiter;

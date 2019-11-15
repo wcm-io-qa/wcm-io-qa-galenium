@@ -41,6 +41,7 @@ public class WebElementSampler extends SelectorBasedSampler<WebElement> {
    * <p>Constructor for WebElementSampler.</p>
    *
    * @param selector to retrieve element
+   * @since 3.0.0
    */
   public WebElementSampler(Selector selector) {
     super(selector);

@@ -40,6 +40,7 @@ public abstract class JsoupElementBasedSampler<JDS extends Sampler<D>, D extends
    * <p>Constructor for JsoupElementBasedSampler.</p>
    *
    * @param inputSampler {@link org.jsoup.nodes.Document} sampler
+   * @since 3.0.0
    */
   public JsoupElementBasedSampler(JDS inputSampler) {
     super(inputSampler);

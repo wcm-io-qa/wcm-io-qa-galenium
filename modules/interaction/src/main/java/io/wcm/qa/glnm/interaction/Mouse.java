@@ -43,6 +43,8 @@ public final class Mouse {
 
   /**
    * Click at current position.
+   *
+   * @since 1.0.0
    */
   public static void click() {
     LOG.debug("Clicking at current position.");
@@ -53,6 +55,7 @@ public final class Mouse {
    * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
    *
    * @param selector identifies element
+   * @since 1.0.0
    */
   public static void clickLocation(Selector selector) {
     clickLocation(selector, 0);
@@ -64,6 +67,7 @@ public final class Mouse {
    *
    * @param selector identifies elements
    * @param index which of the elements
+   * @since 1.0.0
    */
   public static void clickLocation(Selector selector, int index) {
     moveTo(selector, index);
@@ -74,6 +78,7 @@ public final class Mouse {
    * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
    *
    * @param element to click at location of
+   * @since 1.0.0
    */
   public static void clickLocation(WebElement element) {
     moveTo(element);
@@ -84,6 +89,7 @@ public final class Mouse {
    * <p>getVerticalScrollPosition.</p>
    *
    * @return current vertical scroll position of browser with 0 being the very top
+   * @since 1.0.0
    */
   public static Long getVerticalScrollPosition() {
     StringBuilder builder = new StringBuilder();
@@ -102,6 +108,7 @@ public final class Mouse {
    *
    * @param horizontalOffset a int.
    * @param verticalOffset a int.
+   * @since 1.0.0
    */
   public static void moveByOffset(int horizontalOffset, int verticalOffset) {
     getActions().moveByOffset(horizontalOffset, verticalOffset).perform();
@@ -111,6 +118,7 @@ public final class Mouse {
    * Move mouse horizontally over page and scroll if necessary to keep it in viewport.
    *
    * @param horizontalOffset to move mouse horizontally by (negative values move to the left.
+   * @since 1.0.0
    */
   public static void moveHorizontally(int horizontalOffset) {
     if (horizontalOffset > 0) {
@@ -127,6 +135,7 @@ public final class Mouse {
    * Move mouse pointer to element.
    *
    * @param selector identifies element
+   * @since 1.0.0
    */
   public static void moveTo(Selector selector) {
     moveTo(selector, 0);
@@ -137,6 +146,7 @@ public final class Mouse {
    *
    * @param selector identifies element
    * @param index which of the elements
+   * @since 1.0.0
    */
   public static void moveTo(Selector selector, int index) {
     WebElement element = Element.findNthOrFail(selector, index);
@@ -147,6 +157,7 @@ public final class Mouse {
    * Move mouse pointer to element.
    *
    * @param element to move to
+   * @since 1.0.0
    */
   public static void moveTo(WebElement element) {
     LOG.debug("Moving to element: " + element);

@@ -37,6 +37,7 @@ public abstract class WebElementBasedSampler<O>
    * <p>Constructor for WebElementBasedSampler.</p>
    *
    * @param selector to identify element
+   * @since 3.0.0
    */
   public WebElementBasedSampler(Selector selector) {
     super(new WebElementSampler(selector));
@@ -51,6 +52,7 @@ public abstract class WebElementBasedSampler<O>
    * <p>getSelector.</p>
    *
    * @return a {@link io.wcm.qa.glnm.selectors.base.Selector} object.
+   * @since 3.0.0
    */
   public Selector getSelector() {
     return getInput().getSelector();
