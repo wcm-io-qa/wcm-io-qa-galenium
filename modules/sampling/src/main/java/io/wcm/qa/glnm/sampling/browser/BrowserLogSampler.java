@@ -30,7 +30,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
  *
  * @since 4.0.0
  */
-public class BrowserLogSampler extends CachingBasedSampler<Collection<String>> {
+public class BrowserLogSampler extends CachingBasedSampler<Iterable<String>> {
 
   private Level level;
 
