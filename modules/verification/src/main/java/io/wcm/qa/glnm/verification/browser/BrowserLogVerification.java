@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.verification.browser;
 
+import java.util.logging.Level;
+
 import io.wcm.qa.glnm.sampling.browser.BrowserLogSampler;
 import io.wcm.qa.glnm.sampling.transform.CountingSampler;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
@@ -35,14 +37,31 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
   /**
    * <p>Constructor for BrowserLogVerification.</p>
    */
-  @SuppressWarnings("unchecked")
   public BrowserLogVerification() {
-    super("BrowserLog", new CountingSampler(new BrowserLogSampler()));
+    this(new BrowserLogSampler());
   }
+
+  /**
+   * <p>Constructor for BrowserLogVerification.</p>
+   *
+   * @param minRelevantLevel a {@link java.util.logging.Level} object.
+   */
+  public BrowserLogVerification(Level minRelevantLevel) {
+    this(new BrowserLogSampler(minRelevantLevel));
+  }
+
+  /**
+   * <p>Constructor for BrowserLogVerification.</p>
+   *
+   * @param browserLogSampler a {@link io.wcm.qa.glnm.sampling.browser.BrowserLogSampler} object.
+   */
+  private BrowserLogVerification(BrowserLogSampler browserLogSampler) {
+    super("BrowserLog", new CountingSampler<String>(browserLogSampler));
+  }
+
 
   @Override
   protected boolean doVerification() {
-    // TODO: Auto-generated method stub
     return false;
   }
 
