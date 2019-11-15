@@ -21,6 +21,8 @@ package io.wcm.qa.glnm.verification.browser;
 
 import java.util.logging.Level;
 
+import org.apache.commons.lang3.StringUtils;
+
 import io.wcm.qa.glnm.sampling.browser.BrowserLogSampler;
 import io.wcm.qa.glnm.sampling.transform.CountingSampler;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
@@ -34,7 +36,7 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
  */
 public class BrowserLogVerification extends SamplerBasedVerification<CountingSampler<String>, Integer> {
 
-  private Level level = Level.SEVERE;
+  private BrowserLogSampler logSampler;
 
 
   /**
@@ -51,7 +53,6 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
    */
   public BrowserLogVerification(Level minRelevantLevel) {
     this(new BrowserLogSampler(minRelevantLevel));
-    setLevel(minRelevantLevel);
   }
 
   /**
@@ -61,16 +62,21 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
    */
   private BrowserLogVerification(BrowserLogSampler browserLogSampler) {
     super("BrowserLog", new CountingSampler<String>(browserLogSampler));
+    logSampler = browserLogSampler;
   }
 
   private Level getLevel() {
-    return this.level;
+    return getLogSampler().getLevel();
   }
 
-  private void setLevel(Level minRelevantLevel) {
-    level = minRelevantLevel;
+  /**
+   * <p>Getter for the field <code>logSampler</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.sampling.browser.BrowserLogSampler} object.
+   */
+  public BrowserLogSampler getLogSampler() {
+    return logSampler;
   }
-
 
   @Override
   protected boolean doVerification() {
@@ -79,7 +85,12 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
 
   @Override
   protected String getFailureMessage() {
-    return "found messages with at level " + getLevel() + " or higher";
+    StringBuilder stringBuilder = new StringBuilder()
+        .append("found messages with at level ")
+        .append(getLevel())
+        .append(" or higher:\n")
+        .append(StringUtils.join(getLogSampler().sampleValue(), '\n'));
+    return stringBuilder.toString();
   }
 
   @Override
@@ -95,5 +106,14 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
   @Override
   protected void persistSample(String key, Integer newValue) {
     // no sample to persist
+  }
+
+  /**
+   * <p>Setter for the field <code>logSampler</code>.</p>
+   *
+   * @param logSampler a {@link io.wcm.qa.glnm.sampling.browser.BrowserLogSampler} object.
+   */
+  public void setLogSampler(BrowserLogSampler logSampler) {
+    this.logSampler = logSampler;
   }
 }
