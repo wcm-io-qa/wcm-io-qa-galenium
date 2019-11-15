@@ -34,6 +34,9 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
  */
 public class BrowserLogVerification extends SamplerBasedVerification<CountingSampler<String>, Integer> {
 
+  private Level level = Level.SEVERE;
+
+
   /**
    * <p>Constructor for BrowserLogVerification.</p>
    */
@@ -48,6 +51,7 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
    */
   public BrowserLogVerification(Level minRelevantLevel) {
     this(new BrowserLogSampler(minRelevantLevel));
+    setLevel(minRelevantLevel);
   }
 
   /**
@@ -59,6 +63,14 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
     super("BrowserLog", new CountingSampler<String>(browserLogSampler));
   }
 
+  private Level getLevel() {
+    return this.level;
+  }
+
+  private void setLevel(Level minRelevantLevel) {
+    level = minRelevantLevel;
+  }
+
 
   @Override
   protected boolean doVerification() {
@@ -67,7 +79,7 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
 
   @Override
   protected String getFailureMessage() {
-    return null;
+    return "found messages with at level " + getLevel() + " or higher";
   }
 
   @Override
