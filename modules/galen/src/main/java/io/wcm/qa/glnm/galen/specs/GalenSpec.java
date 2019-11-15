@@ -53,6 +53,7 @@ public interface GalenSpec {
    * </p>
    *
    * @return a {@link java.util.Collection} object.
+   * @since 4.0.0
    */
   Collection<NestedSelector> getObjects();
 

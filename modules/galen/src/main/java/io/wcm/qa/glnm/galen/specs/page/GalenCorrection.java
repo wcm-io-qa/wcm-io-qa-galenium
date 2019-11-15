@@ -72,6 +72,7 @@ public class GalenCorrection {
    * <p>getCorrection.</p>
    *
    * @return a {@link com.galenframework.specs.page.CorrectionsRect.Correction} object.
+   * @since 4.0.0
    */
   public Correction getCorrection() {
     return new Correction(getValue(), getType());

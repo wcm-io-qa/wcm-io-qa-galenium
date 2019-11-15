@@ -291,7 +291,7 @@ public class VisualVerification extends VerificationBase<Object> {
   @Override
   protected boolean doVerification() {
     GalenSpecRun imageComparison = GalenValidation.imageComparison(getSpecDefinition());
-    return !imageComparison.hasFailed();
+    return !imageComparison.isFailed();
   }
 
   @Override

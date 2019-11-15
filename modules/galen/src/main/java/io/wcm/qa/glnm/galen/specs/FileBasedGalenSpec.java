@@ -21,6 +21,8 @@ package io.wcm.qa.glnm.galen.specs;
 
 import java.io.File;
 
+import org.apache.commons.io.FilenameUtils;
+
 /**
  * <p>FileBasedGalenSpec class.</p>
  *
@@ -44,5 +46,7 @@ public class FileBasedGalenSpec extends AbstractGalenSpec {
    */
   public FileBasedGalenSpec(String specPath) {
     super(new GalenSpecParsingProvider(specPath));
+    setName(FilenameUtils.getBaseName(specPath));
   }
+
 }

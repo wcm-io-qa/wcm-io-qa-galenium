@@ -42,30 +42,9 @@ public class GalenSpecRun {
    * @since 4.0.0
    */
   public GalenSpecRun(GalenSpec spec, LayoutReport report) {
-    this.setSpec(spec);
-    this.setReport(report);
+    setSpec(spec);
+    setReport(report);
   }
-
-  /**
-   * When there are errors that are not marked as warning level only.
-   *
-   * @return whether spec has failed
-   * @since 4.0.0
-   */
-  public boolean hasFailed() {
-    return getReport().errors() > 0;
-  }
-
-  /**
-   * When there are errors that are not marked as warning level only.
-   *
-   * @return whether spec has failed
-   * @since 4.0.0
-   */
-  public boolean hasWarnings() {
-    return getReport().warnings() > 0;
-  }
-
 
   /**
    * When there are no errors or warnings the spec is considered clean.
@@ -78,13 +57,23 @@ public class GalenSpecRun {
   }
 
   /**
-   * <p>getValidationErrors.</p>
+   * When there are errors that are not marked as warning level only.
    *
-   * @return a {@link java.util.List} object.
+   * @return whether spec has failed
    * @since 4.0.0
    */
-  public List<ValidationResult> getValidationErrors() {
-    return getReport().getValidationErrorResults();
+  public boolean isFailed() {
+    return getReport().errors() > 0;
+  }
+
+  /**
+   * When there are errors that are not marked as warning level only.
+   *
+   * @return whether spec has failed
+   * @since 4.0.0
+   */
+  public boolean isWarning() {
+    return getReport().warnings() > 0;
   }
 
   protected LayoutReport getReport() {
@@ -93,6 +82,16 @@ public class GalenSpecRun {
 
   protected GalenSpec getSpec() {
     return spec;
+  }
+
+  /**
+   * <p>getValidationErrors.</p>
+   *
+   * @return a {@link java.util.List} object.
+   * @since 4.0.0
+   */
+  protected List<ValidationResult> getValidationErrors() {
+    return getReport().getValidationErrorResults();
   }
 
   protected void setReport(LayoutReport report) {
