@@ -39,7 +39,7 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  *
  * @since 4.0.0
  */
-abstract class AbstractGalenSpec implements GalenSpec {
+public abstract class AbstractGalenSpec implements GalenSpec {
 
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGalenSpec.class);
   private static final String[] WITHOUT_TAGS = new String[] {};

@@ -24,8 +24,8 @@ import com.galenframework.validation.ValidationListener;
 import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.galen.specs.ImageComparisonSpec;
 import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpec;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via
