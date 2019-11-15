@@ -71,6 +71,7 @@ public final class GalenValidation {
    * <p>getNoOpValidationListener.</p>
    *
    * @return a {@link com.galenframework.validation.ValidationListener} object.
+   * @since 4.0.0
    */
   public static ValidationListener getNoOpValidationListener() {
     return new NoOpValidationListener();
@@ -80,6 +81,7 @@ public final class GalenValidation {
    * <p>getTracingValidationListener.</p>
    *
    * @return a {@link com.galenframework.validation.ValidationListener} object.
+   * @since 4.0.0
    */
   public static ValidationListener getTracingValidationListener() {
     return new TracingValidationListener();
