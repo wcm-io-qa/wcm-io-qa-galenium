@@ -71,8 +71,7 @@ public final class WebDriverManagement {
           quitDriver();
         }
         else {
-          String msg = "Exception when closing driver.";
-          LOG.error(msg, ex);
+          LOG.error("Exception when closing driver.", ex);
           throw new SkipException("Skipping test because of driver problems. ", ex);
         }
       }
@@ -83,7 +82,10 @@ public final class WebDriverManagement {
       }
     }
     else {
-      LOG.debug("Unnecessary call to close driver.", new GaleniumException("Attempting to close non existent driver."));
+      if (LOG.isDebugEnabled()) {
+        GaleniumException ex = new GaleniumException("Attempting to close non existent driver.");
+        LOG.debug("Unnecessary call to close driver.", ex);
+      }
     }
   }
 
