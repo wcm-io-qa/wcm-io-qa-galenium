@@ -17,13 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.specs;
+package io.wcm.qa.glnm.galen.specs.imagecomparison;
 
 import com.galenframework.validation.ValidationListener;
 
-import io.wcm.qa.glnm.galen.specs.imagecomparison.IcValidationListener;
-import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
-import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonProvider;
+import io.wcm.qa.glnm.galen.specs.AbstractGalenSpec;
 
 /**
  * <p>ImageComparisonSpec class.</p>
