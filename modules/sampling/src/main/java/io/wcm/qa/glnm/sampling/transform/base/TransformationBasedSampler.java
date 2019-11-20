@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.sampling.transform.base;
 
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.CanCache;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
@@ -34,6 +35,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> {
 
   private S input;
+  private boolean nullTolerant;
 
   /**
    * <p>Constructor for TransformationBasedSampler.</p>
@@ -47,6 +49,17 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
 
   /** {@inheritDoc} */
   @Override
+  public O freshSample() {
+    I inputSample = getInput().sampleValue();
+    if (inputSample == null) {
+      return handleNullInputSample();
+    }
+    O outputSample = transform(inputSample);
+    return outputSample;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public boolean isCaching() {
     if (isCachingInput()) {
       return super.isCaching() && ((CanCache)getInput()).isCaching();
@@ -54,12 +67,13 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     return super.isCaching();
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public O freshSample() {
-    I inputSample = getInput().sampleValue();
-    O outputSample = transform(inputSample);
-    return outputSample;
+  /**
+   * <p>Null tolerant transformations.</p>
+   *
+   * @return whether transformation can deal with null inputs.
+   */
+  public boolean isNullTolerant() {
+    return nullTolerant;
   }
 
   /** {@inheritDoc} */
@@ -71,8 +85,27 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     }
   }
 
+  /**
+   * <p>
+   * Allow null inputs.
+   * </p>
+   *
+   * @param nullTolerant whether transform can deal with null
+   */
+  public void setNullTolerant(boolean nullTolerant) {
+    this.nullTolerant = nullTolerant;
+  }
+
   protected S getInput() {
     return input;
+  }
+
+  protected O handleNullInputSample() {
+    if (isNullTolerant()) {
+      // if transformation can handle it, give it the null input
+      return transform((I)null);
+    }
+    throw new GaleniumException("Not transforming because input was null from: " + getInput());
   }
 
   protected boolean isCachingInput() {
