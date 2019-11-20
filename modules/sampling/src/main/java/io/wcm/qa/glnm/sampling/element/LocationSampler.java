@@ -53,5 +53,4 @@ public class LocationSampler extends WebElementBasedSampler<Point> {
     return location;
   }
 
-
 }
