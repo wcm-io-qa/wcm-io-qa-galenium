@@ -71,6 +71,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
    * <p>Null tolerant transformations.</p>
    *
    * @return whether transformation can deal with null inputs.
+   * @since 4.0.0
    */
   public boolean isNullTolerant() {
     return nullTolerant;
@@ -86,11 +87,10 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
   }
 
   /**
-   * <p>
-   * Allow null inputs.
-   * </p>
+   * <p>Allow null inputs.</p>
    *
    * @param nullTolerant whether transform can deal with null
+   * @since 4.0.0
    */
   public void setNullTolerant(boolean nullTolerant) {
     this.nullTolerant = nullTolerant;
