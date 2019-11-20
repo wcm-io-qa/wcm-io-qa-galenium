@@ -106,7 +106,7 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.wnameless</groupId>
+      <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
       <version>0.7.1</version>
     </dependency>

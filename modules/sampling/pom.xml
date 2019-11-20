@@ -61,7 +61,7 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.wnameless</groupId>
+      <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
       <optional>true</optional>
     </dependency>
