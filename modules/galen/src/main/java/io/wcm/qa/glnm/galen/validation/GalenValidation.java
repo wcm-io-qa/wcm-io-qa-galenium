@@ -42,12 +42,11 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used in reports
    * @param specPath path to spec file
    * @return report on spec test
    * @since 4.0.0
    */
-  public static GalenSpecRun check(String testName, String specPath) {
+  public static GalenSpecRun check(String specPath) {
     GalenSpec spec = new FileBasedGalenSpec(specPath);
     String[] tags = {};
     return spec.check(tags);
@@ -56,13 +55,12 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used in reports
    * @param specPath path to spec file
+   * @param tags a {@link java.lang.String} object.
    * @return report on spec test
    * @since 4.0.0
-   * @param tags a {@link java.lang.String} object.
    */
-  public static GalenSpecRun check(String testName, String specPath, String... tags) {
+  public static GalenSpecRun check(String specPath, String... tags) {
     GalenSpec spec = new FileBasedGalenSpec(specPath);
     return spec.check(tags);
   }
