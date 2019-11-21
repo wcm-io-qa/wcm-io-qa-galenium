@@ -39,8 +39,8 @@ public abstract class PatternBasedVerification extends StringSamplerBasedVerific
   private Matcher matcher;
   private Pattern pattern;
 
-  protected PatternBasedVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
-    super(verificationName, sampler);
+  protected PatternBasedVerification(Pattern pattern, Sampler<String> sampler) {
+    super(sampler);
     setPattern(pattern);
   }
 

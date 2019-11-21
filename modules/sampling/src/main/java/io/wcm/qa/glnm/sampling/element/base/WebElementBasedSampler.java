@@ -28,10 +28,11 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 /**
  * Base class for element sampling.
  *
+ * @param <T> type of sample to extract from each {@link org.openqa.selenium.WebElement}
  * @since 3.0.0
  */
-public abstract class WebElementBasedSampler<O>
-    extends TransformationBasedSampler<WebElementSampler, WebElement, O> {
+public abstract class WebElementBasedSampler<T>
+    extends TransformationBasedSampler<WebElementSampler, Iterable<WebElement>, T> {
 
   /**
    * <p>Constructor for WebElementBasedSampler.</p>
@@ -39,13 +40,8 @@ public abstract class WebElementBasedSampler<O>
    * @param selector to identify element
    * @since 3.0.0
    */
-  public WebElementBasedSampler(Selector selector) {
+  protected WebElementBasedSampler(Selector selector) {
     super(new WebElementSampler(selector));
-  }
-
-  @Override
-  protected O transform(WebElement inputSample) {
-    return freshSample(inputSample);
   }
 
   /**
@@ -58,5 +54,4 @@ public abstract class WebElementBasedSampler<O>
     return getInput().getSelector();
   }
 
-  protected abstract O freshSample(WebElement inputSample);
 }

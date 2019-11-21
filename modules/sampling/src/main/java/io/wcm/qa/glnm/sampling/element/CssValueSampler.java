@@ -21,7 +21,7 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.SingleElementSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -29,7 +29,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 1.0.0
  */
-public class CssValueSampler extends WebElementBasedSampler<String> {
+public class CssValueSampler extends SingleElementSampler<String> {
 
   private String cssValueName;
 

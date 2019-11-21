@@ -40,7 +40,7 @@ public class PageTitleVerification extends StringSamplerBasedVerification {
    * @since 3.0.0
    */
   public PageTitleVerification(String verificationName) {
-    super(verificationName, new PageTitleSampler());
+    super(new PageTitleSampler());
   }
 
   /**

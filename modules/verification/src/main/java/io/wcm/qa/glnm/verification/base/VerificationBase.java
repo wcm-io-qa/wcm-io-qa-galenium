@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.format.NameUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
 
@@ -51,18 +50,20 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   private T expectedValue;
   private int keyMaxLength = DEFAULT_MAX_NAME_LENGTH_IN_KEY;
   private Verification preVerification;
-  private String verificationName;
   private Boolean verified;
 
-
-  protected VerificationBase(String verificationName) {
-    setVerificationName(verificationName);
+  protected VerificationBase() {
     setCaching(true);
   }
 
-  protected VerificationBase(String verificationName, T expectedValue) {
-    this(verificationName);
+  protected VerificationBase(T expectedValue) {
+    this();
     setExpectedValue(expectedValue);
+  }
+
+
+  protected String getVerificationName() {
+    return toString();
   }
 
   /**
@@ -123,15 +124,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   public Verification getPreVerification() {
     return preVerification;
-  }
-
-  /**
-   * <p>Getter for the field <code>verificationName</code>.</p>
-   *
-   * @return name of this verification
-   */
-  public String getVerificationName() {
-    return verificationName;
   }
 
   /** {@inheritDoc} */
@@ -206,15 +198,8 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
-    String simpleClassName = getClass().getSimpleName();
-    if (isStripVerificationFromClassName()) {
-      stringBuilder.append(StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME));
-    }
-    else {
-      stringBuilder.append(simpleClassName);
-    }
+    stringBuilder.append(getCleanName());
     stringBuilder.append("(");
-    stringBuilder.append(getVerificationName());
     if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
       stringBuilder.append("|");
       stringBuilder.append(getDifferences());
@@ -251,6 +236,15 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     }
     afterVerification();
     return isVerified();
+  }
+
+  protected String getCleanName() {
+    String simpleClassName = getClass().getSimpleName();
+    String strippedClassName = simpleClassName;
+    if (isStripVerificationFromClassName()) {
+      strippedClassName = StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME);
+    }
+    return strippedClassName;
   }
 
   private void setCachingInPreVerification(boolean cachingForPreverification) {
@@ -301,10 +295,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
 
   protected T getCachedValue() {
     return actualValue;
-  }
-
-  protected String getCleanName() {
-    return NameUtil.getSanitized(getVerificationName().toLowerCase(), getKeyMaxLength());
   }
 
   protected SortedDifferences getDifferences() {
@@ -406,10 +396,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected void setExpectedValue(T value) {
     this.expectedValue = value;
-  }
-
-  protected void setVerificationName(String verificationName) {
-    this.verificationName = verificationName;
   }
 
 }

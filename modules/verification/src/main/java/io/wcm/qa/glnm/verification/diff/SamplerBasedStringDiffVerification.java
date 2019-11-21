@@ -43,8 +43,8 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
 
   private boolean ignoreWhitespace;
 
-  protected SamplerBasedStringDiffVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected SamplerBasedStringDiffVerification(S sampler) {
+    super(sampler);
   }
 
   /**

@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2018 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,34 +17,33 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.element;
+package io.wcm.qa.glnm.sampling.element.base;
 
-import org.openqa.selenium.Dimension;
+import org.apache.commons.collections4.IterableUtils;
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.glnm.sampling.element.base.SingleElementSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Samples size of element.
+ * Convenience class to extract sample from first element returned for selector.
  *
- * @since 1.0.0
+ * @param <T> type of sample to extract from element
+ * @since 4.0.0
  */
-public class SizeSampler extends SingleElementSampler<Dimension> {
+public abstract class SingleElementSampler<T> extends WebElementBasedSampler<T> {
 
-  /**
-   * <p>Constructor for SizeSampler.</p>
-   *
-   * @param selector identifies element
-   * @since 3.0.0
-   */
-  public SizeSampler(Selector selector) {
+  protected SingleElementSampler(Selector selector) {
     super(selector);
   }
 
   @Override
-  protected Dimension freshSample(WebElement element) {
-    return element.getSize();
+  protected T transform(Iterable<WebElement> inputSample) {
+    if (IterableUtils.isEmpty(inputSample)) {
+      return null;
+    }
+    return freshSample(IterableUtils.first(inputSample));
   }
+
+  protected abstract T freshSample(WebElement first);
 
 }

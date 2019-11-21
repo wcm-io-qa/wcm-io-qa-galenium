@@ -35,6 +35,7 @@ public class CountingSampler<I> extends TransformationBasedSampler<Sampler<Itera
    * <p>Constructor for CountingSampler.</p>
    *
    * @param inputSampler used to fetch elements to count
+   * @since 4.0.0
    */
   public CountingSampler(Sampler<Iterable<I>> inputSampler) {
     super(inputSampler);

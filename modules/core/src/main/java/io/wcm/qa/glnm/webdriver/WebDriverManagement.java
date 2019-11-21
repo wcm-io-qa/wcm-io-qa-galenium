@@ -97,6 +97,7 @@ public final class WebDriverManagement {
    * Return the driver already in use. Does not instantiate it and returns
    * null, if no driver is set.
    * *
+   *
    * @return driver from current thread's context
    * @since 3.0.0
    */

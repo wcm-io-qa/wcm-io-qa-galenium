@@ -55,7 +55,6 @@ public class StringDiffVerification<OS extends Sampler<List<String>>, IS extends
   @SuppressWarnings("unchecked")
   public StringDiffVerification(String verificationName, IS sampler, String delimiter) {
     super(
-        verificationName,
         (OS)new StringToListSampler<Sampler<String>>(sampler, delimiter));
   }
 
