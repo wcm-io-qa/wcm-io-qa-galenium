@@ -33,12 +33,12 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
 
-  protected StringVerificationBase(String verificationName) {
-    super(verificationName);
+  protected StringVerificationBase() {
+    super();
   }
 
-  protected StringVerificationBase(String verificationName, String expectedValue) {
-    this(verificationName);
+  protected StringVerificationBase(String expectedValue) {
+    this();
     setExpectedValue(expectedValue);
   }
 

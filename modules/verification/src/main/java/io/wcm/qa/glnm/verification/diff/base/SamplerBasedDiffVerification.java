@@ -58,8 +58,8 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
   private Patch<I> diffResult;
   private int maxLinesInFailureMessage = 5;
 
-  protected SamplerBasedDiffVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected SamplerBasedDiffVerification(S sampler) {
+    super(sampler);
   }
 
   /**

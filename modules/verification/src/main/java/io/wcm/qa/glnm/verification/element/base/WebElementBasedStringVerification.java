@@ -34,8 +34,8 @@ public abstract class WebElementBasedStringVerification<S extends WebElementBase
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
 
-  protected WebElementBasedStringVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected WebElementBasedStringVerification(S sampler) {
+    super(sampler);
   }
 
   @Override

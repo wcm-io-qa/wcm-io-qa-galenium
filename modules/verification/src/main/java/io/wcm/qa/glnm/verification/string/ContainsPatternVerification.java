@@ -53,7 +53,7 @@ public class ContainsPatternVerification extends PatternBasedVerification {
    * @since 2.0.0
    */
   public ContainsPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
-    super(verificationName, pattern, sampler);
+    super(pattern, sampler);
   }
 
   /**
