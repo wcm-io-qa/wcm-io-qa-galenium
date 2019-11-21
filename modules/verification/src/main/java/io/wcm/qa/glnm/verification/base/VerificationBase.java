@@ -197,25 +197,32 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   /** {@inheritDoc} */
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(getCleanName());
-    stringBuilder.append("(");
+    StringBuilder sb = new StringBuilder();
+
+    // class name
+    sb.append(getCleanedClassName());
+    sb.append("(");
+
+    // differences
     if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
-      stringBuilder.append("|");
-      stringBuilder.append(getDifferences());
+      sb.append(getDifferences());
     }
-    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append(", ");
-      stringBuilder.append(getAdditionalToStringInfo());
+
+    // optional additional info
+    String additionalToStringInfo = getAdditionalToStringInfo();
+    if (StringUtils.isNotBlank(additionalToStringInfo)) {
+      sb.append(", ");
+      sb.append(additionalToStringInfo);
     }
-    stringBuilder.append(")");
-    return stringBuilder.toString();
+    sb.append(")");
+
+    return sb.toString();
   }
 
   /**
-   * {@inheritDoc}
-   *
    * Runs pre verification and this verification using built-in text sampling.
+   *
+   * @return whether verification was successful
    */
   @Override
   public boolean verify() {
@@ -238,7 +245,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return isVerified();
   }
 
-  protected String getCleanName() {
+  protected String getCleanedClassName() {
     String simpleClassName = getClass().getSimpleName();
     String strippedClassName = simpleClassName;
     if (isStripVerificationFromClassName()) {
@@ -310,9 +317,9 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asPropertyKey();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanName() + "." + expectedKey;
+      return getCleanedClassName() + "." + expectedKey;
     }
-    return getCleanName();
+    return getCleanedClassName();
   }
 
   /**
