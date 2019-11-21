@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.element;
 
+import java.util.List;
+
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -33,7 +35,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 3.0.0
  */
-public class WebElementSampler extends SelectorBasedSampler<WebElement> {
+public class WebElementSampler extends SelectorBasedSampler<Iterable<WebElement>> {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebElementSampler.class);
 
@@ -47,20 +49,20 @@ public class WebElementSampler extends SelectorBasedSampler<WebElement> {
     super(selector);
   }
 
-  private WebElement findElement() {
-    WebElement freshElement = Element.findNow(getSelector());
-    LOG.trace("element sampler (" + getElementName() + ") found: " + freshElement);
-    return freshElement;
+  private List<WebElement> findElements() {
+    List<WebElement> freshElements = Element.findAllNow(getSelector());
+    LOG.trace("element sampler (" + getElementName() + ") found: " + freshElements.size() + " elements");
+    return freshElements;
   }
 
   @Override
-  protected WebElement freshSample() {
+  protected Iterable<WebElement> freshSample() {
     try {
-      return findElement();
+      return findElements();
     }
     catch (StaleElementReferenceException ex) {
       LOG.debug("caught StaleElementReferencesException: '" + getElementName() + "'");
-      return findElement();
+      return findElements();
     }
   }
 }

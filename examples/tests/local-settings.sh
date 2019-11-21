@@ -4,8 +4,8 @@ addGoal clean
 addGoal install
 
 addProfile "run-tests"
-addProfile "sut-jetty"
-
+addDef "galenium.example.sut=jetty"
+# addDef "galenium.sampling.verification.ignoreErrors=true"
 # Always update snapshots
 # addArg "-U";
 # Never download dependencies

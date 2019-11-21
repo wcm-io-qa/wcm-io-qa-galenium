@@ -44,7 +44,7 @@ public class CssValueVerification extends WebElementBasedStringVerification<CssV
    * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName) {
-    super(selector.elementName(), new CssValueSampler(selector, cssValueName));
+    super(new CssValueSampler(selector, cssValueName));
     setPreVerification(new VisibilityVerification(selector));
   }
 

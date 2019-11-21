@@ -23,12 +23,14 @@ import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isHeadless;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
@@ -47,6 +49,8 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  * @since 1.0.0
  */
 public final class WebDriverManagement {
+
+  private static final int DEFAULT_NUMBER_OF_POLLS_PER_CALL = 5;
 
   private static final Logger LOG = LoggerFactory.getLogger(WebDriverManagement.class);
 
@@ -71,8 +75,7 @@ public final class WebDriverManagement {
           quitDriver();
         }
         else {
-          String msg = "Exception when closing driver.";
-          LOG.error(msg, ex);
+          LOG.error("Exception when closing driver.", ex);
           throw new SkipException("Skipping test because of driver problems. ", ex);
         }
       }
@@ -83,12 +86,17 @@ public final class WebDriverManagement {
       }
     }
     else {
-      LOG.debug("Unnecessary call to close driver.", new GaleniumException("Attempting to close non existent driver."));
+      if (LOG.isDebugEnabled()) {
+        GaleniumException ex = new GaleniumException("Attempting to close non existent driver.");
+        LOG.debug("Unnecessary call to close driver.", ex);
+      }
     }
   }
 
   /**
-   * <p>getCurrentDriver.</p>
+   * Return the driver already in use. Does not instantiate it and returns
+   * null, if no driver is set.
+   * *
    *
    * @return driver from current thread's context
    * @since 3.0.0
@@ -96,7 +104,6 @@ public final class WebDriverManagement {
   public static WebDriver getCurrentDriver() {
     return GaleniumContext.getDriver();
   }
-
   /**
    * <p>getDriver.</p>
    *
@@ -159,7 +166,37 @@ public final class WebDriverManagement {
   }
 
   /**
-   * <p>isBrowser.</p>
+   * <p>
+   * Get a {@link org.openqa.selenium.support.ui.WebDriverWait} for the current driver..
+   * </p>
+   *
+   * @param timeOutInSeconds how many seconds to wait until giving up
+   * @return a {@link org.openqa.selenium.support.ui.WebDriverWait} configured with custom timeouts
+   * @since 4.0.0
+   */
+  public static WebDriverWait getWait(int timeOutInSeconds) {
+    return getWait(timeOutInSeconds, getPollingIntervalForTimeout(timeOutInSeconds));
+  }
+
+  /**
+   * <p>
+   * Get a {@link org.openqa.selenium.support.ui.WebDriverWait} for the current driver..
+   * </p>
+   *
+   * @param timeOutInSeconds how many seconds to wait until giving up
+   * @param pollingInterval how many milliseconds between polls
+   * @return a {@link org.openqa.selenium.support.ui.WebDriverWait} configured with custom timeouts
+   * @since 4.0.0
+   */
+  public static WebDriverWait getWait(int timeOutInSeconds, int pollingInterval) {
+    Duration polling = Duration.ofMillis(pollingInterval);
+    Duration timeout = Duration.ofSeconds(timeOutInSeconds);
+    WebDriver driver = GaleniumContext.getDriver();
+    return new WebDriverWait(driver, timeout, polling);
+  }
+
+  /**
+   * <p>Does the current browser match the test device.</p>
    *
    * @param testDevice to check
    * @return whether this test device is a browser that needs a webdriver
@@ -185,6 +222,11 @@ public final class WebDriverManagement {
    */
   public static void setZeroTimeout() {
     getCurrentDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+  }
+
+  private static int getPollingIntervalForTimeout(int timeoutInSeconds) {
+    int timeoutInMillis = timeoutInSeconds * 1000;
+    return timeoutInMillis / DEFAULT_NUMBER_OF_POLLS_PER_CALL;
   }
 
   private static Dimension getWindowSize() {

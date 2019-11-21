@@ -44,7 +44,7 @@ public class AttributeVerification extends WebElementBasedStringVerification<Att
    * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName) {
-    super(selector.elementName(), new AttributeSampler(selector, attributeName));
+    super(new AttributeSampler(selector, attributeName));
     setPreVerification(new VisibilityVerification(selector));
   }
 

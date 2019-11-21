@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.format.NameUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
 
@@ -51,18 +50,20 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   private T expectedValue;
   private int keyMaxLength = DEFAULT_MAX_NAME_LENGTH_IN_KEY;
   private Verification preVerification;
-  private String verificationName;
   private Boolean verified;
 
-
-  protected VerificationBase(String verificationName) {
-    setVerificationName(verificationName);
+  protected VerificationBase() {
     setCaching(true);
   }
 
-  protected VerificationBase(String verificationName, T expectedValue) {
-    this(verificationName);
+  protected VerificationBase(T expectedValue) {
+    this();
     setExpectedValue(expectedValue);
+  }
+
+
+  protected String getVerificationName() {
+    return toString();
   }
 
   /**
@@ -123,15 +124,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   public Verification getPreVerification() {
     return preVerification;
-  }
-
-  /**
-   * <p>Getter for the field <code>verificationName</code>.</p>
-   *
-   * @return name of this verification
-   */
-  public String getVerificationName() {
-    return verificationName;
   }
 
   /** {@inheritDoc} */
@@ -205,32 +197,32 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   /** {@inheritDoc} */
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    String simpleClassName = getClass().getSimpleName();
-    if (isStripVerificationFromClassName()) {
-      stringBuilder.append(StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME));
-    }
-    else {
-      stringBuilder.append(simpleClassName);
-    }
-    stringBuilder.append("(");
-    stringBuilder.append(getVerificationName());
+    StringBuilder sb = new StringBuilder();
+
+    // class name
+    sb.append(getCleanedClassName());
+    sb.append("(");
+
+    // differences
     if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
-      stringBuilder.append("|");
-      stringBuilder.append(getDifferences());
+      sb.append(getDifferences());
     }
-    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append(", ");
-      stringBuilder.append(getAdditionalToStringInfo());
+
+    // optional additional info
+    String additionalToStringInfo = getAdditionalToStringInfo();
+    if (StringUtils.isNotBlank(additionalToStringInfo)) {
+      sb.append(", ");
+      sb.append(additionalToStringInfo);
     }
-    stringBuilder.append(")");
-    return stringBuilder.toString();
+    sb.append(")");
+
+    return sb.toString();
   }
 
   /**
-   * {@inheritDoc}
-   *
    * Runs pre verification and this verification using built-in text sampling.
+   *
+   * @return whether verification was successful
    */
   @Override
   public boolean verify() {
@@ -251,6 +243,15 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     }
     afterVerification();
     return isVerified();
+  }
+
+  protected String getCleanedClassName() {
+    String simpleClassName = getClass().getSimpleName();
+    String strippedClassName = simpleClassName;
+    if (isStripVerificationFromClassName()) {
+      strippedClassName = StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME);
+    }
+    return strippedClassName;
   }
 
   private void setCachingInPreVerification(boolean cachingForPreverification) {
@@ -303,10 +304,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return actualValue;
   }
 
-  protected String getCleanName() {
-    return NameUtil.getSanitized(getVerificationName().toLowerCase(), getKeyMaxLength());
-  }
-
   protected SortedDifferences getDifferences() {
     if (differences == null) {
       differences = new SortedDifferences();
@@ -320,9 +317,9 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asPropertyKey();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanName() + "." + expectedKey;
+      return getCleanedClassName() + "." + expectedKey;
     }
-    return getCleanName();
+    return getCleanedClassName();
   }
 
   /**
@@ -406,10 +403,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected void setExpectedValue(T value) {
     this.expectedValue = value;
-  }
-
-  protected void setVerificationName(String verificationName) {
-    this.verificationName = verificationName;
   }
 
 }

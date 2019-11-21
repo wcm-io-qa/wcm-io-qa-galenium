@@ -61,7 +61,7 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.wnameless</groupId>
+      <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
       <optional>true</optional>
     </dependency>
@@ -93,7 +93,6 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>2.11.1</version>
       <optional>true</optional>
     </dependency>
 

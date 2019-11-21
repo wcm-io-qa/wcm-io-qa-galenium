@@ -54,7 +54,7 @@ public class VisualVerification extends VerificationBase<Object> {
    * @since 2.0.0
    */
   public VisualVerification(Selector selector) {
-    super("Visual(" + selector.elementName() + ")");
+    super();
     setPreVerification(new VisibilityVerification(selector));
     setSpecDefinition(new ImageComparisonSpecDefinition(selector));
   }

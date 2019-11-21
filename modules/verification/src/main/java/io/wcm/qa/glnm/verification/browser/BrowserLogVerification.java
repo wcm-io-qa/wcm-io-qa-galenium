@@ -37,7 +37,7 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
    */
   @SuppressWarnings("unchecked")
   public BrowserLogVerification() {
-    super("BrowserLog", new CountingSampler(new BrowserLogSampler()));
+    super(new CountingSampler(new BrowserLogSampler()));
   }
 
   @Override

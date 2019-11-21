@@ -48,8 +48,8 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
 
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
 
-  protected JsonVerification(String verificationName, S sampler) {
-    super(verificationName, new JsonSampler<S>(sampler));
+  protected JsonVerification(S sampler) {
+    super(new JsonSampler<S>(sampler));
     setExpectedValue(EMPTY_EXPECTED_VALUE);
   }
 

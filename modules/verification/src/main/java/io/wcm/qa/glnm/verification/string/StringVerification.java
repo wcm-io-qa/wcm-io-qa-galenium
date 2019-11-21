@@ -38,7 +38,7 @@ public class StringVerification extends StringSamplerBasedVerification {
    * @since 2.0.0
    */
   public StringVerification(String verificationName, Sampler<String> sampler) {
-    super(verificationName, sampler);
+    super(sampler);
   }
 
   /**

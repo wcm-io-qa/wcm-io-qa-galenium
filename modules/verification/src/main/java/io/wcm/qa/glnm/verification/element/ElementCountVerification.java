@@ -40,7 +40,7 @@ public class ElementCountVerification extends SelectorBasedVerification<ElementC
    * @since 2.0.0
    */
   public ElementCountVerification(Selector selector) {
-    super("count(" + selector.elementName() + ")", new ElementCountSampler(selector));
+    super(new ElementCountSampler(selector));
   }
 
   /**

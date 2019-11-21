@@ -53,7 +53,7 @@ public class MatchesPatternVerification extends PatternBasedVerification {
    * @since 2.0.0
    */
   public MatchesPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
-    super(verificationName, pattern, sampler);
+    super(pattern, sampler);
   }
 
   /**

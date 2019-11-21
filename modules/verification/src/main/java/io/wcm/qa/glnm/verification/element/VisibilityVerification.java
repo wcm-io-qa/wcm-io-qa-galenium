@@ -44,7 +44,7 @@ public class VisibilityVerification extends WebElementBasedVerification<Visibili
    * @since 2.0.0
    */
   public VisibilityVerification(Selector selector) {
-    super(selector.elementName(), new VisibilitySampler(selector));
+    super(new VisibilitySampler(selector));
   }
 
   private String getVerboseSelectorInfo() {
