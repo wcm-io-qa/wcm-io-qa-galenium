@@ -935,12 +935,12 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Directory to retrieve the text samples from.
+   * Directory to write the text samples to.
    * <ul>
    * <li>Key:
    *
    * <pre>
-   * galenium.sampling.text.directory.input
+   * galenium.sampling.text.directory.output
    * </pre>
    *
    * </li>
@@ -953,8 +953,7 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   *
-   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @return the root directory to write samples to
    * @since 3.0.0
    */
   public static String getTextComparisonOutputDirectory() {
