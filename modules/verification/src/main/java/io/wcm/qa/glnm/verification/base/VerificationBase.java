@@ -220,9 +220,9 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
-   * Runs pre verification and this verification using built-in text sampling.
+   * {@inheritDoc}
    *
-   * @return whether verification was successful
+   * Runs pre verification and this verification using built-in text sampling.
    */
   @Override
   public boolean verify() {
