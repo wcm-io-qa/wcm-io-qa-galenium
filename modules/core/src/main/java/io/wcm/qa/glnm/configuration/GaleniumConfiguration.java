@@ -953,6 +953,7 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return the root directory to write samples to
    * @since 3.0.0
    */
