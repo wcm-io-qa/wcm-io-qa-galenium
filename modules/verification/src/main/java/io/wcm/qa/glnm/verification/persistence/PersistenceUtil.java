@@ -50,16 +50,16 @@ final class PersistenceUtil {
     // do not instantiate
   }
 
+  private static File getOutputFile(Class clazz) {
+    String resourceName = getPropertiesResourceName(clazz);
+    File outputFile = getOutputFile(clazz, resourceName);
+    return outputFile;
+  }
+
   private static File getOutputFile(Class clazz, String resourceName) {
     String relativePath = ClassPathUtils.toFullyQualifiedPath(clazz, resourceName);
     String textOutputDirectory = GaleniumConfiguration.getTextComparisonOutputDirectory();
     File outputFile = FileUtils.getFile(textOutputDirectory, relativePath);
-    return outputFile;
-  }
-
-  private static File getOutputFile(Class clazz) {
-    String resourceName = getPropertiesResourceName(clazz);
-    File outputFile = getOutputFile(clazz, resourceName);
     return outputFile;
   }
 

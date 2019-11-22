@@ -20,7 +20,7 @@
 package io.wcm.qa.glnm.verification.element.base;
 
 import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
-import io.wcm.qa.glnm.verification.persistence.StringPersistence;
+import io.wcm.qa.glnm.verification.persistence.Persistence;
 
 /**
  * Abstract base class for implementations to verification on strings sampled from web elements.
@@ -32,7 +32,7 @@ public abstract class WebElementBasedStringVerification<S extends WebElementBase
 
   protected WebElementBasedStringVerification(S sampler) {
     super(sampler);
-    setPersistence(new StringPersistence(getClass()));
+    setPersistence(Persistence.forString(getClass()));
   }
 
 }

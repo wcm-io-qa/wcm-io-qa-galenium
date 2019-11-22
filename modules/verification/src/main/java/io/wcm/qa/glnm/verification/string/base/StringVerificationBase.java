@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.verification.string.base;
 import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.verification.base.VerificationBase;
-import io.wcm.qa.glnm.verification.persistence.StringPersistence;
+import io.wcm.qa.glnm.verification.persistence.Persistence;
 
 /**
  * Abstract base class for implementations verifying string inputs.
@@ -33,7 +33,7 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
 
   protected StringVerificationBase() {
     super();
-    setPersistence(new StringPersistence(getClass()));
+    setPersistence(Persistence.forString(getClass()));
   }
 
   protected StringVerificationBase(String expectedValue) {

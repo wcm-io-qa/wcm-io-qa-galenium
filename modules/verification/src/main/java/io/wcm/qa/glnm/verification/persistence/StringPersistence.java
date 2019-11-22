@@ -26,7 +26,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
  *
  * @since 4.0.0
  */
-public class StringPersistence implements SamplePersistence<String> {
+class StringPersistence implements SamplePersistence<String> {
 
 
   private SampleReader<String> reader;
@@ -38,7 +38,7 @@ public class StringPersistence implements SamplePersistence<String> {
    *
    * @param clazz a {@link java.lang.Class} object.
    */
-  public StringPersistence(Class clazz) {
+  StringPersistence(Class clazz) {
     reader = new SampleStringReader(clazz);
     writer = new SampleStringWriter(clazz);
   }

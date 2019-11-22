@@ -26,7 +26,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
  *
  * @since 4.0.0
  */
-public class BooleanPersistence implements SamplePersistence<Boolean> {
+class BooleanPersistence implements SamplePersistence<Boolean> {
 
   private SampleReader<Boolean> reader;
 
@@ -37,7 +37,7 @@ public class BooleanPersistence implements SamplePersistence<Boolean> {
    *
    * @param clazz a {@link java.lang.Class} object.
    */
-  public BooleanPersistence(Class clazz) {
+  BooleanPersistence(Class clazz) {
     reader = new BooleanReader(clazz);
     writer = new BooleanWriter(clazz);
   }

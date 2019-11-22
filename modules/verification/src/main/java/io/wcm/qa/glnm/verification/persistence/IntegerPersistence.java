@@ -26,7 +26,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
  *
  * @since 4.0.0
  */
-public class IntegerPersistence implements SamplePersistence<Integer> {
+class IntegerPersistence implements SamplePersistence<Integer> {
 
   private SampleReader<Integer> reader;
 
@@ -37,7 +37,7 @@ public class IntegerPersistence implements SamplePersistence<Integer> {
    *
    * @param clazz a {@link java.lang.Class} object.
    */
-  public IntegerPersistence(Class clazz) {
+  IntegerPersistence(Class clazz) {
     reader = new IntegerReader(clazz);
     writer = new IntegerWriter(clazz);
   }

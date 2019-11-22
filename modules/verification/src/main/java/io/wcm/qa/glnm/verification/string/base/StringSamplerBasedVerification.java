@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
-import io.wcm.qa.glnm.verification.persistence.StringPersistence;
+import io.wcm.qa.glnm.verification.persistence.Persistence;
 
 /**
  * Most sampling is String based.
@@ -34,7 +34,7 @@ public abstract class StringSamplerBasedVerification extends SamplerBasedVerific
 
   protected StringSamplerBasedVerification(Sampler<String> sampler) {
     super(sampler);
-    setPersistence(new StringPersistence(getClass()));
+    setPersistence(Persistence.forString(getClass()));
   }
 
   @Override

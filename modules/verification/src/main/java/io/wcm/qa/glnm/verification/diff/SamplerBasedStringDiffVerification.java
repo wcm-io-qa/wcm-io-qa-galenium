@@ -31,7 +31,7 @@ import com.github.difflib.patch.Patch;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
-import io.wcm.qa.glnm.verification.persistence.StringListPersistence;
+import io.wcm.qa.glnm.verification.persistence.Persistence;
 
 /**
  * Diff based verification for String based samplers.
@@ -45,7 +45,7 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
 
   protected SamplerBasedStringDiffVerification(S sampler) {
     super(sampler);
-    setPersistence(new StringListPersistence(getClass()));
+    setPersistence(Persistence.forStringList(getClass()));
   }
 
   /**
