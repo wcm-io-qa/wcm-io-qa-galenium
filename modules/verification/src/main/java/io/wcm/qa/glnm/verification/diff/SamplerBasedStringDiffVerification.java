@@ -29,9 +29,9 @@ import com.github.difflib.algorithm.DiffException;
 import com.github.difflib.patch.Patch;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
+import io.wcm.qa.glnm.verification.persistence.StringListPersistence;
 
 /**
  * Diff based verification for String based samplers.
@@ -45,6 +45,7 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
 
   protected SamplerBasedStringDiffVerification(S sampler) {
     super(sampler);
+    setPersistence(new StringListPersistence(getClass()));
   }
 
   /**
@@ -83,25 +84,6 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
       return new WhitespaceIgnoringEqualizer();
     }
     return new WhitespaceSensitiveEqualizer();
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    String expectedKey = getDifferences().asFilePath();
-    if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanedClassName() + "/" + expectedKey;
-    }
-    return getCleanedClassName();
-  }
-
-  @Override
-  protected List<String> initExpectedValue() {
-    return TextSampleManager.getExpectedLines(getExpectedKey());
-  }
-
-  @Override
-  protected void persistSample(String key, List<String> newValue) {
-    TextSampleManager.addNewMultiLineSample(getExpectedKey(), newValue);
   }
 
   private static final class WhitespaceIgnoringEqualizer implements BiPredicate<String, String> {

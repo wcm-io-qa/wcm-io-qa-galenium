@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.verification.diff;
 
 import java.util.List;
 
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.StringToListSampler;
 
@@ -56,16 +55,6 @@ public class StringDiffVerification<OS extends Sampler<List<String>>, IS extends
   public StringDiffVerification(String verificationName, IS sampler, String delimiter) {
     super(
         (OS)new StringToListSampler<Sampler<String>>(sampler, delimiter));
-  }
-
-  @Override
-  protected List<String> initExpectedValue() {
-    return TextSampleManager.getExpectedLines(getExpectedKey());
-  }
-
-  @Override
-  protected void persistSample(String key, List<String> newValue) {
-    TextSampleManager.addNewMultiLineSample(key, newValue);
   }
 
 }

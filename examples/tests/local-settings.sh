@@ -5,7 +5,7 @@ addGoal install
 
 addProfile "run-tests"
 addDef "galenium.example.sut=jetty"
-# addDef "galenium.sampling.verification.ignoreErrors=true"
+addDef "galenium.sampling.verification.ignoreErrors=true"
 # Always update snapshots
 # addArg "-U";
 # Never download dependencies

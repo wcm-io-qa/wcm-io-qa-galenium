@@ -42,13 +42,12 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
 
   @Override
   protected boolean doVerification() {
-    // TODO: Auto-generated method stub
-    return false;
+    return getActualValue() > 0;
   }
 
   @Override
   protected String getFailureMessage() {
-    return null;
+    return "Found " + getCachedValue() + " unexpected log messages";
   }
 
   @Override
@@ -61,8 +60,4 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
     return 0;
   }
 
-  @Override
-  protected void persistSample(String key, Integer newValue) {
-    // no sample to persist
-  }
 }

@@ -46,6 +46,7 @@ public class AttributeVerification extends WebElementBasedStringVerification<Att
   public AttributeVerification(Selector selector, String attributeName) {
     super(new AttributeSampler(selector, attributeName));
     setPreVerification(new VisibilityVerification(selector));
+    addDifference(attributeName);
   }
 
   /**
@@ -67,8 +68,7 @@ public class AttributeVerification extends WebElementBasedStringVerification<Att
     String cachedValue = getCachedValue();
     LOG.trace("found: '" + cachedValue + "'");
     if (!isVerified() && cachedValue != null) {
-      String expectedKey = getExpectedKey();
-      persistSample(expectedKey, cachedValue);
+      persistSample(cachedValue);
     }
     LOG.trace("done verifying (" + toString() + ")");
   }
@@ -84,11 +84,6 @@ public class AttributeVerification extends WebElementBasedStringVerification<Att
 
   protected String getElementWithAttributeName() {
     return getElementName() + "[" + getAttributeName() + "]";
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    return super.getExpectedKey() + "." + getAttributeName();
   }
 
   @Override

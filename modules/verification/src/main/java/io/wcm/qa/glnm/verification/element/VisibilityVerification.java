@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.element.VisibilitySampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.element.base.WebElementBasedVerification;
@@ -88,13 +87,4 @@ public class VisibilityVerification extends WebElementBasedVerification<Visibili
     return successMessage + getVerboseSelectorInfo();
   }
 
-  @Override
-  protected Boolean initExpectedValue() {
-    throw new GaleniumException("no need to init expected value, because always expects visibility");
-  }
-
-  @Override
-  protected void persistSample(String key, Boolean newValue) {
-    throw new GaleniumException("no need to persist expected value, because always expects visibility");
-  }
 }

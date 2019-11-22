@@ -21,9 +21,9 @@ package io.wcm.qa.glnm.verification.string.base;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
+import io.wcm.qa.glnm.verification.persistence.StringPersistence;
 
 /**
  * Most sampling is String based.
@@ -32,29 +32,14 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
  */
 public abstract class StringSamplerBasedVerification extends SamplerBasedVerification<Sampler<String>, String> {
 
-  private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
-
   protected StringSamplerBasedVerification(Sampler<String> sampler) {
     super(sampler);
+    setPersistence(new StringPersistence(getClass()));
   }
 
   @Override
   protected boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
-  }
-
-  @Override
-  protected String initExpectedValue() {
-    String expectedKey = getExpectedKey();
-    if (StringUtils.isNotBlank(expectedKey)) {
-      return TextSampleManager.getExpectedText(expectedKey);
-    }
-    return NO_EXPECTED_VALUE_SET;
-  }
-
-  @Override
-  protected void persistSample(String key, String newValue) {
-    TextSampleManager.addNewTextSample(key, newValue);
   }
 
 }

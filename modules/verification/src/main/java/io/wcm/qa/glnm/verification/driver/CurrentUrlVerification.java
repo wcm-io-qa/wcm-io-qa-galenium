@@ -19,8 +19,7 @@
  */
 package io.wcm.qa.glnm.verification.driver;
 
-import org.apache.commons.lang3.StringUtils;
-
+import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.sampling.driver.CurrentUrlSampler;
 import io.wcm.qa.glnm.verification.string.base.StringSamplerBasedVerification;
 
@@ -31,8 +30,6 @@ import io.wcm.qa.glnm.verification.string.base.StringSamplerBasedVerification;
  */
 public class CurrentUrlVerification extends StringSamplerBasedVerification {
 
-  private static final String KEY_PART_URL = "url";
-
   /**
    * <p>Constructor for CurrentUrlVerification.</p>
    *
@@ -41,6 +38,7 @@ public class CurrentUrlVerification extends StringSamplerBasedVerification {
    */
   public CurrentUrlVerification(String verificationName) {
     super(new CurrentUrlSampler());
+    addDifference(new StringDifference("url"));
   }
 
   /**
@@ -58,14 +56,6 @@ public class CurrentUrlVerification extends StringSamplerBasedVerification {
   @Override
   protected String getAdditionalToStringInfo() {
     return getExpectedValue();
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    if (StringUtils.isNotBlank(super.getExpectedKey())) {
-      return super.getExpectedKey() + "." + KEY_PART_URL;
-    }
-    return KEY_PART_URL;
   }
 
   @Override

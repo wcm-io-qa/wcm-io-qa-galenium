@@ -33,6 +33,18 @@ import io.wcm.qa.glnm.verification.string.base.PatternBasedVerification;
 public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
+   * Pattern against input provided by sampler.
+   *
+   * @param verificationName name for this check
+   * @param pattern to find in input
+   * @param sampler sampler to provide input sample
+   * @since 2.0.0
+   */
+  public MatchesPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
+    super(pattern, sampler);
+  }
+
+  /**
    * Pattern against fixed sample.
    *
    * @param verificationName name for this check
@@ -52,8 +64,8 @@ public class MatchesPatternVerification extends PatternBasedVerification {
    * @param sampler sampler to provide input sample
    * @since 2.0.0
    */
-  public MatchesPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
-    super(pattern, sampler);
+  public MatchesPatternVerification(String verificationName, String pattern, Sampler<String> sampler) {
+    this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   /**
@@ -66,18 +78,6 @@ public class MatchesPatternVerification extends PatternBasedVerification {
    */
   public MatchesPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
-  }
-
-  /**
-   * Pattern against input provided by sampler.
-   *
-   * @param verificationName name for this check
-   * @param pattern to find in input
-   * @param sampler sampler to provide input sample
-   * @since 2.0.0
-   */
-  public MatchesPatternVerification(String verificationName, String pattern, Sampler<String> sampler) {
-    this(verificationName, Pattern.compile(pattern), sampler);
   }
 
   @Override

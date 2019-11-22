@@ -41,6 +41,7 @@ public class TextVerification extends WebElementBasedStringVerification<TextSamp
   public TextVerification(Selector selector) {
     super(new TextSampler(selector));
     setPreVerification(new VisibilityVerification(selector));
+    addDifference("text");
   }
 
   /**
@@ -58,11 +59,6 @@ public class TextVerification extends WebElementBasedStringVerification<TextSamp
   @Override
   protected boolean doVerification() {
     return StringUtils.equals(getExpectedValue(), getActualValue());
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    return super.getExpectedKey() + ".text";
   }
 
   @Override

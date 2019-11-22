@@ -1,4 +1,3 @@
-package io.wcm.qa.glnm.verification.persistence;
 /*
  * #%L
  * wcm.io
@@ -18,6 +17,7 @@ package io.wcm.qa.glnm.verification.persistence;
  * limitations under the License.
  * #L%
  */
+package io.wcm.qa.glnm.verification.persistence;
 
 import java.util.Properties;
 
@@ -26,38 +26,13 @@ import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.base.Differences;
 
-/**
- * <p>SamplePropertiesReader class.</p>
- *
- * @since 4.0.0
- */
-public class SamplePropertiesReader extends SamplesForClass implements SampleReader<String> {
+abstract class SamplePropertiesReaderBase<T> extends SamplesForClass implements SampleReader<T> {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SamplePropertiesReader.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SamplePropertiesReaderBase.class);
   private Properties properties;
 
-  protected SamplePropertiesReader(Class clazz) {
+  protected SamplePropertiesReaderBase(Class clazz) {
     super(clazz);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String readSample(Differences differences) {
-    String key = differences.asPropertyKey();
-
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("fetching sample for: " + getSamplingClass() + "#" + key);
-    }
-    if (LOG.isDebugEnabled()) {
-      if (getProperties().containsKey(key)) {
-        LOG.debug("did not find sample for: " + getSamplingClass() + "#" + key);
-      }
-    }
-    return getProperty(key);
-  }
-
-  private String getProperty(String key) {
-    return getProperties().getProperty(key);
   }
 
   private Properties getProperties() {
@@ -65,6 +40,28 @@ public class SamplePropertiesReader extends SamplesForClass implements SampleRea
       properties = PersistenceUtil.getPropertiesFor(samplingClass);
     }
     return properties;
+  }
+
+  private String getSample(String key) {
+    return getProperties().getProperty(key);
+  }
+
+  private boolean hasSample(String key) {
+    return getProperties().containsKey(key);
+  }
+
+  protected String readSampleAsString(Differences differences) {
+    String key = differences.asPropertyKey();
+
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("fetching sample for: " + getSamplingClass() + "#" + key);
+    }
+    if (LOG.isDebugEnabled()) {
+      if (hasSample(key)) {
+        LOG.debug("did not find sample for: " + getSamplingClass() + "#" + key);
+      }
+    }
+    return getSample(key);
   }
 
 }

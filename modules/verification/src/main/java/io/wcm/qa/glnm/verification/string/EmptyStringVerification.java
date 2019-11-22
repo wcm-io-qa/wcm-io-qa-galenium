@@ -43,7 +43,7 @@ public class EmptyStringVerification extends StringVerification {
    * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, Sampler<String> sampler) {
-    super(verificationName, sampler);
+    super(sampler);
   }
 
   /**

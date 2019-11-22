@@ -46,6 +46,8 @@ public class CssValueVerification extends WebElementBasedStringVerification<CssV
   public CssValueVerification(Selector selector, String cssValueName) {
     super(new CssValueSampler(selector, cssValueName));
     setPreVerification(new VisibilityVerification(selector));
+    addDifference("css");
+    addDifference(cssValueName);
   }
 
   /**
@@ -67,8 +69,7 @@ public class CssValueVerification extends WebElementBasedStringVerification<CssV
     String cachedValue = getCachedValue();
     LOG.trace("found: '" + cachedValue + "'");
     if (!isVerified() && cachedValue != null) {
-      String expectedKey = getExpectedKey();
-      persistSample(expectedKey, cachedValue);
+      persistSample(cachedValue);
     }
     LOG.trace("done verifying (" + toString() + ")");
   }
@@ -84,11 +85,6 @@ public class CssValueVerification extends WebElementBasedStringVerification<CssV
 
   protected String getElementWithCssValueName() {
     return getElementName() + "[css." + getCssValueName() + "]";
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    return super.getExpectedKey() + ".css." + getCssValueName();
   }
 
   @Override

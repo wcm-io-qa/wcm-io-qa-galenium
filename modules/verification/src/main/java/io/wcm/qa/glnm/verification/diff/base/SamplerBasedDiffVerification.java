@@ -179,7 +179,7 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
       LOG.trace("verified: " + isVerified());
     }
     if (!isVerified()) {
-      persistSample(getExpectedKey(), getCachedValue());
+      persistSample(getCachedValue());
     }
     if (LOG.isTraceEnabled()) {
       LOG.trace("done verifying (" + toString() + ")");
@@ -213,19 +213,19 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
     }
   }
 
-  /**
-   * @return equalizer used when diffing
-   */
-  protected BiPredicate<I, I> getDiffEqualizer() {
-    return null;
-  }
-
   @Override
   protected boolean doVerification() {
     O expectedValue = getExpectedValue();
     O actualValue = getActualValue();
     diff(expectedValue, actualValue);
     return expectedValue.size() == actualValue.size() && getDiffCount() == 0;
+  }
+
+  /**
+   * @return equalizer used when diffing
+   */
+  protected BiPredicate<I, I> getDiffEqualizer() {
+    return null;
   }
 
   @Override

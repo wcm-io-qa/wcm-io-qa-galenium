@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.JsonSampler;
@@ -42,35 +43,12 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 public abstract class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
 
   private static final Map<String, String> EMPTY_EXPECTED_VALUE = MapUtils.emptyIfNull(null);
-  private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
   private static final Logger LOG = LoggerFactory.getLogger(JsonVerification.class);
   private CombinedVerification combinedVerification = new CombinedVerification();
-
-  private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
 
   protected JsonVerification(S sampler) {
     super(new JsonSampler<S>(sampler));
     setExpectedValue(EMPTY_EXPECTED_VALUE);
-  }
-
-  /**
-   * <p>Getter for the field <code>keyPrefix</code>.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   * @since 2.0.0
-   */
-  public String getKeyPrefix() {
-    return keyPrefix;
-  }
-
-  /**
-   * <p>Setter for the field <code>keyPrefix</code>.</p>
-   *
-   * @param keyPrefix a {@link java.lang.String} object.
-   * @since 2.0.0
-   */
-  public void setKeyPrefix(String keyPrefix) {
-    this.keyPrefix = keyPrefix;
   }
 
   private void addCheck(StringVerification verification) {
@@ -82,7 +60,9 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
   }
 
   private StringVerification getStringVerification(String key, String value) {
-    return new StringVerification(getExpectedAggregateKey(key), value);
+    StringVerification stringVerification = new StringVerification(value);
+    stringVerification.addDifference(new StringDifference(key));
+    return stringVerification;
   }
 
   private boolean verifyChecks() {
@@ -108,15 +88,6 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
     return combinedVerification;
   }
 
-  protected String getExpectedAggregateKey(String key) {
-    return getExpectedKey() + "." + key;
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    return super.getExpectedKey() + "." + getKeyPrefix();
-  }
-
   @Override
   protected String getFailureMessage() {
     return getCombinedMessage();
@@ -134,11 +105,6 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
   @Override
   protected Map<String, String> initExpectedValue() {
     throw new GaleniumException("there is no top level expected value, because everything is handled in combined verification.");
-  }
-
-  @Override
-  protected void persistSample(String key, Map<String, String> newValue) {
-    throw new GaleniumException("there is no top level sample persistence, because everything is handled in combined verification.");
   }
 
   protected void populateChecks() {

@@ -26,10 +26,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.base.Difference;
+import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
+import io.wcm.qa.glnm.verification.persistence.SamplePersistence;
+import io.wcm.qa.glnm.verification.persistence.SampleWriter;
 
 /**
  * Common base for  {@link io.wcm.qa.glnm.differences.base.Difference} aware Galenium  {@link io.wcm.qa.glnm.verification.base.Verification}.
@@ -49,6 +52,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   private Throwable exception;
   private T expectedValue;
   private int keyMaxLength = DEFAULT_MAX_NAME_LENGTH_IN_KEY;
+  private SamplePersistence<T> persistence;
   private Verification preVerification;
   private Boolean verified;
 
@@ -61,20 +65,22 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     setExpectedValue(expectedValue);
   }
 
-
-  protected String getVerificationName() {
-    return toString();
+  /**
+   * Add a difference to this verification.
+   *
+   * @param difference to add
+   */
+  public void addDifference(Difference difference) {
+    getDifferences().add(difference);
   }
 
   /**
    * Add a difference to this verification.
    *
    * @param difference to add
-   * @return this
    */
-  public VerificationBase<T> addDifference(Difference difference) {
-    getDifferences().add(difference);
-    return this;
+  public void addDifference(String difference) {
+    addDifference(new StringDifference(difference));
   }
 
   /**
@@ -114,6 +120,15 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
       return getSuccessMessage();
     }
     return getFailureMessage();
+  }
+
+  /**
+   * <p>Getter for the field <code>persistence</code>.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.verification.persistence.SamplePersistence} object.
+   */
+  public SamplePersistence<T> getPersistence() {
+    return persistence;
   }
 
   /**
@@ -173,6 +188,15 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   public void setKeyMaxLength(int keyMaxLength) {
     this.keyMaxLength = keyMaxLength;
+  }
+
+  /**
+   * <p>Setter for the field <code>persistence</code>.</p>
+   *
+   * @param persistence a {@link io.wcm.qa.glnm.verification.persistence.SamplePersistence} object.
+   */
+  public void setPersistence(SamplePersistence<T> persistence) {
+    this.persistence = persistence;
   }
 
   /**
@@ -245,15 +269,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return isVerified();
   }
 
-  protected String getCleanedClassName() {
-    String simpleClassName = getClass().getSimpleName();
-    String strippedClassName = simpleClassName;
-    if (isStripVerificationFromClassName()) {
-      strippedClassName = StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME);
-    }
-    return strippedClassName;
-  }
-
   private void setCachingInPreVerification(boolean cachingForPreverification) {
     Verification pre = getPreVerification();
     if (pre != null && pre instanceof CanCache) {
@@ -262,14 +277,19 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   protected void afterVerification() {
-    LOG.trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
-    T cachedValue = getCachedValue();
-    LOG.trace("found: '" + getValueForLogging(cachedValue) + "'");
-    if (!isVerified() && cachedValue != null) {
-      String expectedKey = getExpectedKey();
-      persistSample(expectedKey, cachedValue);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
     }
-    LOG.trace("done verifying (" + toString() + ")");
+    T cachedValue = getCachedValue();
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("found: '" + getValueForLogging(cachedValue) + "'");
+    }
+    if (!isVerified() && cachedValue != null) {
+      persistSample(cachedValue);
+    }
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("done verifying (" + toString() + ")");
+    }
   }
 
   /**
@@ -304,22 +324,20 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return actualValue;
   }
 
+  protected String getCleanedClassName() {
+    String simpleClassName = getClass().getSimpleName();
+    String strippedClassName = simpleClassName;
+    if (isStripVerificationFromClassName()) {
+      strippedClassName = StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME);
+    }
+    return strippedClassName;
+  }
+
   protected SortedDifferences getDifferences() {
     if (differences == null) {
       differences = new SortedDifferences();
     }
     return differences;
-  }
-
-  /**
-   * @return key to use in persisting and retrieving sample values
-   */
-  protected String getExpectedKey() {
-    String expectedKey = getDifferences().asPropertyKey();
-    if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanedClassName() + "." + expectedKey;
-    }
-    return getCleanedClassName();
   }
 
   /**
@@ -362,6 +380,10 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return abbreviated;
   }
 
+  protected String getVerificationName() {
+    return toString();
+  }
+
   /**
    * @return whether pre verification exists
    */
@@ -369,7 +391,20 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return getPreVerification() != null;
   }
 
-  protected abstract T initExpectedValue();
+  protected T initExpectedValue() {
+    if (getPersistence() == null) {
+      return initNullValue();
+    }
+    T readSample = getPersistence().reader().readSample(getDifferences());
+    if (readSample == null) {
+      return initNullValue();
+    }
+    return readSample;
+  }
+
+  protected T initNullValue() {
+    return null;
+  }
 
   /**
    * @return whether to remove "Verification" from name
@@ -378,10 +413,12 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return true;
   }
 
-  protected abstract void persistSample(String key, T newValue);
-
   protected void persistSample(T newValue) {
-    persistSample(getExpectedKey(), newValue);
+    if (getPersistence() == null) {
+      return;
+    }
+    SampleWriter<T> writer = getPersistence().writer();
+    writer.writeSample(getDifferences(), newValue);
   }
 
   /**

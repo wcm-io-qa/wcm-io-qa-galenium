@@ -109,6 +109,17 @@ public class CombinedVerification implements Verification, CanCache {
     return messageSeparator;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public boolean isCaching() {
+    for (Verification verification : getMembers()) {
+      if (verification instanceof CanCache && ((CanCache)verification).isCaching()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * <p>isReportSuccess.</p>
    *
@@ -116,6 +127,16 @@ public class CombinedVerification implements Verification, CanCache {
    */
   public boolean isReportSuccess() {
     return reportSuccess;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void setCaching(boolean activateCache) {
+    for (Verification verification : getMembers()) {
+      if (verification instanceof CanCache) {
+        ((CanCache)verification).setCaching(activateCache);
+      }
+    }
   }
 
   /**
@@ -201,27 +222,6 @@ public class CombinedVerification implements Verification, CanCache {
       }
     }
     return noFailures;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public boolean isCaching() {
-    for (Verification verification : getMembers()) {
-      if (verification instanceof CanCache && ((CanCache)verification).isCaching()) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void setCaching(boolean activateCache) {
-    for (Verification verification : getMembers()) {
-      if (verification instanceof CanCache) {
-        ((CanCache)verification).setCaching(activateCache);
-      }
-    }
   }
 
 }

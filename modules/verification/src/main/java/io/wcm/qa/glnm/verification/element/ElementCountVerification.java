@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.glnm.verification.element;
 
-import org.apache.commons.lang3.StringUtils;
-
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.element.ElementCountSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.element.base.SelectorBasedVerification;
@@ -72,20 +69,6 @@ public class ElementCountVerification extends SelectorBasedVerification<ElementC
   @Override
   protected String getSuccessMessage() {
     return "Found " + getExpectedValue() + " elements matching " + getElementName();
-  }
-
-  @Override
-  protected Integer initExpectedValue() {
-    String expectedKey = getExpectedKey();
-    if (StringUtils.isNotBlank(expectedKey)) {
-      return Integer.parseInt(TextSampleManager.getExpectedText(expectedKey));
-    }
-    return 0;
-  }
-
-  @Override
-  protected void persistSample(String key, Integer newValue) {
-    TextSampleManager.addNewTextSample(key, Integer.toString(newValue));
   }
 
 }

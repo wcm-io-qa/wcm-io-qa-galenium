@@ -32,39 +32,42 @@ import io.wcm.qa.glnm.differences.base.Differences;
  *
  * @since 4.0.0
  */
-public class SamplePropertiesWriter extends SamplesForClass implements SampleWriter<String> {
+abstract class SamplePropertiesWriterBase<T> extends SamplesForClass implements SampleWriter<T> {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SamplePropertiesWriter.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SamplePropertiesWriterBase.class);
 
+  private Properties properties = new Properties();
+
+  private boolean propertiesWritten;
   /**
    * <p>Constructor for SamplePropertiesWriter.</p>
    *
    * @param clazz a {@link java.lang.Class} object.
    */
-  public SamplePropertiesWriter(Class clazz) {
+  SamplePropertiesWriterBase(Class clazz) {
     super(clazz);
   }
 
-  private Properties properties = new Properties();
-
-  /** {@inheritDoc} */
-  @Override
-  public void writeSample(Differences differences, String sample) {
-    String key = differences.asPropertyKey();
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("writing sample for: " + getSamplingClass() + "#" + key);
-    }
-    getProperties().put(key, sample);
+  /**
+   * <p>persistSamples.</p>
+   *
+   * @since 4.0.0
+   */
+  public void persistSamples() {
+    PersistenceUtil.writePropertiesFor(getProperties(), getSamplingClass(), propertiesWritten);
+    propertiesWritten = true;
   }
 
   private Properties getProperties() {
     return properties;
   }
 
-  /**
-   * <p>persistSamples.</p>
-   */
-  public void persistSamples() {
-    PersistenceUtil.writePropertiesFor(getProperties(), getSamplingClass());
+  protected void writeSampleAsString(Differences differences, String sample) {
+    String key = differences.asPropertyKey();
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("writing sample for: " + getSamplingClass() + "#" + key);
+    }
+    getProperties().put(key, sample);
+    persistSamples();
   }
 }

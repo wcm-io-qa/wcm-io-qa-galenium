@@ -33,23 +33,21 @@ public class StringVerification extends StringSamplerBasedVerification {
   /**
    * Verify against sampled input.
    *
-   * @param verificationName name for this check
    * @param sampler to provide input
    * @since 2.0.0
    */
-  public StringVerification(String verificationName, Sampler<String> sampler) {
+  public StringVerification(Sampler<String> sampler) {
     super(sampler);
   }
 
   /**
    * Verify against fixed sample.
    *
-   * @param verificationName name for this check
    * @param sample to verify
    * @since 2.0.0
    */
-  public StringVerification(String verificationName, String sample) {
-    this(verificationName, new FixedStringSampler(sample));
+  public StringVerification(String sample) {
+    this(new FixedStringSampler(sample));
   }
 
   @Override

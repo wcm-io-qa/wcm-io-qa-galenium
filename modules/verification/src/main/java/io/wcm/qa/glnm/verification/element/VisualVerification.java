@@ -61,13 +61,12 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /** {@inheritDoc} */
   @Override
-  public VisualVerification addDifference(Difference difference) {
+  public void addDifference(Difference difference) {
     // handle factory
     getSpecDefinition().addDifference(difference);
 
     // handle self
     super.addDifference(difference);
-    return this;
   }
 
   /**
@@ -307,11 +306,6 @@ public class VisualVerification extends VerificationBase<Object> {
   @Override
   protected Object initExpectedValue() {
     throw new GaleniumException("expected value handled in spec factory.");
-  }
-
-  @Override
-  protected void persistSample(String key, Object newValue) {
-    throw new GaleniumException("persistence handled in validation listener.");
   }
 
   @Override

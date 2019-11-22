@@ -31,6 +31,7 @@ public interface SamplePersistence<T> {
    * <p>reader.</p>
    *
    * @return a {@link io.wcm.qa.glnm.verification.persistence.SampleReader} object.
+   * @since 4.0.0
    */
   SampleReader<T> reader();
 
@@ -38,6 +39,7 @@ public interface SamplePersistence<T> {
    * <p>writer.</p>
    *
    * @return a {@link io.wcm.qa.glnm.verification.persistence.SampleWriter} object.
+   * @since 4.0.0
    */
   SampleWriter<T> writer();
 

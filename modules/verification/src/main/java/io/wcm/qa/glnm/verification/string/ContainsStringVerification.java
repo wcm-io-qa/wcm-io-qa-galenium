@@ -46,7 +46,7 @@ public class ContainsStringVerification extends StringVerification {
    * @since 2.0.0
    */
   public ContainsStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
-    super(verificationName, sampler);
+    super(sampler);
     setSearchString(searchString);
   }
 

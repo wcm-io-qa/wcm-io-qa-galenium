@@ -24,47 +24,79 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 final class PersistenceUtil {
 
   private static final Logger LOG = LoggerFactory.getLogger(PersistenceUtil.class);
 
   private static final String POSTFIX_PROPERTIES = "properties";
+  private static final String POSTFIX_TXT = ".txt";
 
   private PersistenceUtil() {
     // do not instantiate
   }
 
-  private static InputStream getInputStream(Class clazz) {
-    return clazz.getResourceAsStream(getPropertiesResourceName(clazz));
-  }
-
-  private static File getOutputFile(Properties properties, Class clazz) {
-    String resourceName = getPropertiesResourceName(clazz);
+  private static File getOutputFile(Class clazz, String resourceName) {
     String relativePath = ClassPathUtils.toFullyQualifiedPath(clazz, resourceName);
     String textOutputDirectory = GaleniumConfiguration.getTextComparisonOutputDirectory();
     File outputFile = FileUtils.getFile(textOutputDirectory, relativePath);
-    LOG.info("writing {} properties to '{}'", properties.size(), outputFile.getPath());
     return outputFile;
   }
 
+  private static File getOutputFile(Class clazz) {
+    String resourceName = getPropertiesResourceName(clazz);
+    File outputFile = getOutputFile(clazz, resourceName);
+    return outputFile;
+  }
+
+  private static InputStream getPropertiesInputStream(Class clazz) {
+    return clazz.getResourceAsStream(getPropertiesResourceName(clazz));
+  }
+
   private static String getPropertiesResourceName(Class clazz) {
-    return clazz.getSimpleName() + "." + POSTFIX_PROPERTIES;
+    String resourceName = clazz.getSimpleName() + "." + POSTFIX_PROPERTIES;
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("properties resource name: " + resourceName);
+    }
+    return resourceName;
+  }
+
+  private static InputStream getTextFileInputStream(Class clazz, Differences differences) {
+    return clazz.getResourceAsStream(getTextFileResourceName(differences));
+  }
+
+  static List<String> getLinesFromTextFile(Class clazz, Differences differences) {
+    InputStream in = getTextFileInputStream(clazz, differences);
+    if (in == null) {
+      return Collections.emptyList();
+    }
+    try {
+      return IOUtils.readLines(in, StandardCharsets.UTF_8);
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("Could not read sample for: " + clazz + " with " + differences, ex);
+    }
   }
 
   static Properties getPropertiesFor(Class clazz) {
 
     try {
       Properties properties = new Properties();
-      InputStream in = getInputStream(clazz);
+      InputStream in = getPropertiesInputStream(clazz);
       properties.load(in);
       return properties;
     }
@@ -75,20 +107,40 @@ final class PersistenceUtil {
     }
   }
 
-  static void writePropertiesFor(Properties properties, String comments, Class clazz) {
+  static String getTextFileResourceName(Differences differences) {
+    String resourceName = differences.asFilePath() + POSTFIX_TXT;
+    LOG.debug("file resource name: " + resourceName);
+    return resourceName;
+  }
+
+  static void writeLinesToTextFile(Class clazz, Differences differences, List<String> lines) {
+    String resourceName = getTextFileResourceName(differences);
+    File outputFile = getOutputFile(clazz, resourceName);
     try {
-      File outputFile = getOutputFile(properties, clazz);
+      LOG.info("writing {} lines to '{}'", lines.size(), outputFile.getPath());
       FileUtils.forceMkdirParent(outputFile);
-      Writer writer = new FileWriter(outputFile);
-      properties.store(writer, comments);
+      FileUtils.writeLines(outputFile, lines);
     }
     catch (IOException ex) {
       LOG.error("could not persist samples.", ex);
     }
   }
 
-  static void writePropertiesFor(Properties properties, Class clazz) {
-    writePropertiesFor(properties, null, clazz);
+  static void writePropertiesFor(Properties properties, Class clazz, boolean append) {
+    writePropertiesFor(properties, null, clazz, append);
+  }
+
+  static void writePropertiesFor(Properties properties, String comments, Class clazz, boolean append) {
+    try {
+      File outputFile = getOutputFile(clazz);
+      LOG.info("writing {} properties to '{}'", properties.size(), outputFile.getPath());
+      FileUtils.forceMkdirParent(outputFile);
+      Writer writer = new FileWriter(outputFile, append);
+      properties.store(writer, comments);
+    }
+    catch (IOException ex) {
+      LOG.error("could not persist samples.", ex);
+    }
   }
 
 }

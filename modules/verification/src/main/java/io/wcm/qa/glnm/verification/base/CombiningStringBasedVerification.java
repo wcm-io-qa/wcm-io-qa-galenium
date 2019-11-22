@@ -40,7 +40,7 @@ public abstract class CombiningStringBasedVerification extends StringVerificatio
    * @param sampler to use for sampling
    */
   public CombiningStringBasedVerification(String verificationName, Sampler<String> sampler) {
-    super(verificationName, sampler);
+    super(sampler);
   }
 
   private boolean verifyChecks() {

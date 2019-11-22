@@ -21,8 +21,8 @@ package io.wcm.qa.glnm.verification.string.base;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.verification.base.VerificationBase;
+import io.wcm.qa.glnm.verification.persistence.StringPersistence;
 
 /**
  * Abstract base class for implementations verifying string inputs.
@@ -31,10 +31,9 @@ import io.wcm.qa.glnm.verification.base.VerificationBase;
  */
 public abstract class StringVerificationBase extends VerificationBase<String> {
 
-  private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
-
   protected StringVerificationBase() {
     super();
+    setPersistence(new StringPersistence(getClass()));
   }
 
   protected StringVerificationBase(String expectedValue) {
@@ -47,17 +46,4 @@ public abstract class StringVerificationBase extends VerificationBase<String> {
     return StringUtils.equals(getExpectedValue(), getActualValue());
   }
 
-  @Override
-  protected String initExpectedValue() {
-    String expectedKey = getExpectedKey();
-    if (StringUtils.isNotBlank(expectedKey)) {
-      return TextSampleManager.getExpectedText(expectedKey);
-    }
-    return NO_EXPECTED_VALUE_SET;
-  }
-
-  @Override
-  protected void persistSample(String key, String newValue) {
-    TextSampleManager.addNewTextSample(key, newValue);
-  }
 }

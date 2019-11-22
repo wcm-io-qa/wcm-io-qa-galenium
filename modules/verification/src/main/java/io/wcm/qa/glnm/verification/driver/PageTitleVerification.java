@@ -31,8 +31,6 @@ import io.wcm.qa.glnm.verification.string.base.StringSamplerBasedVerification;
  */
 public class PageTitleVerification extends StringSamplerBasedVerification {
 
-  private static final String KEY_PART_PAGE_TITLE = "title";
-
   /**
    * <p>Constructor for PageTitleVerification.</p>
    *
@@ -41,6 +39,7 @@ public class PageTitleVerification extends StringSamplerBasedVerification {
    */
   public PageTitleVerification(String verificationName) {
     super(new PageTitleSampler());
+    addDifference("title");
   }
 
   /**
@@ -58,14 +57,6 @@ public class PageTitleVerification extends StringSamplerBasedVerification {
   @Override
   protected String getAdditionalToStringInfo() {
     return getExpectedValue();
-  }
-
-  @Override
-  protected String getExpectedKey() {
-    if (StringUtils.isNotBlank(super.getExpectedKey())) {
-      return super.getExpectedKey() + "." + KEY_PART_PAGE_TITLE;
-    }
-    return KEY_PART_PAGE_TITLE;
   }
 
   @Override

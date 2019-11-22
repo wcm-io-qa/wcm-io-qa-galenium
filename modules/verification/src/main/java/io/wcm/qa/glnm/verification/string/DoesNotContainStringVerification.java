@@ -30,18 +30,6 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 public class DoesNotContainStringVerification extends ContainsStringVerification {
 
   /**
-   * Verify against fixed string.
-   *
-   * @param verificationName name for this check
-   * @param searchString to not find in input
-   * @param sample fixed input sample
-   * @since 2.0.0
-   */
-  public DoesNotContainStringVerification(String verificationName, String searchString, String sample) {
-    this(verificationName, searchString, new FixedStringSampler(sample));
-  }
-
-  /**
    * Verify against input provided by sampler.
    *
    * @param verificationName name for this check
@@ -51,6 +39,18 @@ public class DoesNotContainStringVerification extends ContainsStringVerification
    */
   public DoesNotContainStringVerification(String verificationName, String searchString, Sampler<String> sampler) {
     super(verificationName, searchString, sampler);
+  }
+
+  /**
+   * Verify against fixed string.
+   *
+   * @param verificationName name for this check
+   * @param searchString to not find in input
+   * @param sample fixed input sample
+   * @since 2.0.0
+   */
+  public DoesNotContainStringVerification(String verificationName, String searchString, String sample) {
+    this(verificationName, searchString, new FixedStringSampler(sample));
   }
 
   @Override

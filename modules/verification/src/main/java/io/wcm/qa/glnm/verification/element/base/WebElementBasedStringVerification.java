@@ -19,10 +19,8 @@
  */
 package io.wcm.qa.glnm.verification.element.base;
 
-import org.apache.commons.lang3.StringUtils;
-
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
+import io.wcm.qa.glnm.verification.persistence.StringPersistence;
 
 /**
  * Abstract base class for implementations to verification on strings sampled from web elements.
@@ -32,24 +30,9 @@ import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
  */
 public abstract class WebElementBasedStringVerification<S extends WebElementBasedSampler<String>> extends WebElementBasedVerification<S, String> {
 
-  private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
-
   protected WebElementBasedStringVerification(S sampler) {
     super(sampler);
-  }
-
-  @Override
-  protected String initExpectedValue() {
-    String expectedKey = getExpectedKey();
-    if (StringUtils.isNotBlank(expectedKey)) {
-      return TextSampleManager.getExpectedText(expectedKey);
-    }
-    return NO_EXPECTED_VALUE_SET;
-  }
-
-  @Override
-  protected void persistSample(String key, String newValue) {
-    TextSampleManager.addNewTextSample(key, newValue);
+    setPersistence(new StringPersistence(getClass()));
   }
 
 }
