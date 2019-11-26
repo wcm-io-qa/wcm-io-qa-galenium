@@ -23,9 +23,9 @@
 
   <parent>
     <groupId>io.wcm.qa</groupId>
-    <artifactId>io.wcm.qa.galenium.parent</artifactId>
+    <artifactId>io.wcm.qa.galenium.modules</artifactId>
     <version>4.0.0-SNAPSHOT</version>
-    <relativePath>../../parent/pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <name>Galenium Verification</name>
@@ -69,12 +69,6 @@
     <dependency>
       <groupId>com.browserup</groupId>
       <artifactId>browserup-proxy-core</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>com.galenframework</groupId>
-      <artifactId>galen-java-support</artifactId>
       <optional>true</optional>
     </dependency>
 

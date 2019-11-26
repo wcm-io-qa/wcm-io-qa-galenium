@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.maven.freemarker.pojo;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +27,8 @@ import java.util.Collection;
 import org.apache.commons.io.FilenameUtils;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
+import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
+import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
@@ -123,7 +125,8 @@ public class SpecPojo {
   public Collection<SelectorPojo> getSelectors() {
     if (selectors == null) {
       selectors = new ArrayList<SelectorPojo>();
-      for (NestedSelector selector : GalenHelperUtil.getObjects(ParsingUtil.readSpec(getSpecFile()))) {
+      GalenSpec galenSpec = new FileBasedGalenSpec(getSpecFile());
+      for (NestedSelector selector : galenSpec.getObjects()) {
         selectors.add(new SelectorPojo(this, selector));
       }
     }

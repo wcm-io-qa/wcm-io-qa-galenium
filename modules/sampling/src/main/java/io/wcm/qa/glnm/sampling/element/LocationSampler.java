@@ -24,7 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.SingleElementSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -32,7 +32,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 1.0.0
  */
-public class LocationSampler extends WebElementBasedSampler<Point> {
+public class LocationSampler extends SingleElementSampler<Point> {
 
   private static final Logger LOG = LoggerFactory.getLogger(LocationSampler.class);
 
@@ -52,6 +52,5 @@ public class LocationSampler extends WebElementBasedSampler<Point> {
     LOG.trace("Sampled location for '" + getInput().getSelector().elementName() + "': " + location);
     return location;
   }
-
 
 }

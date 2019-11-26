@@ -19,15 +19,21 @@
  */
 package io.wcm.qa.glnm.listeners.allure;
 
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.qameta.allure.listener.TestLifecycleListener;
 import io.qameta.allure.model.TestResult;
 import io.wcm.qa.glnm.logging.util.GaleniumLoggingUtil;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * <p>AllureReportContainerListener class.</p>
+ * <p>
+ * AllureReportContainerListener class.
+ * </p>
  *
  * @since 4.0.0
  */
@@ -38,14 +44,37 @@ public class AllureReportContainerListener implements TestLifecycleListener {
   /** {@inheritDoc} */
   @Override
   public void afterTestStart(TestResult result) {
-    LOG.debug("start logging");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("start logging");
+    }
     GaleniumLoggingUtil.startTestLogging();
   }
 
   /** {@inheritDoc} */
   @Override
   public void beforeTestStop(TestResult result) {
-    LOG.debug("stop logging");
+    takeScreenshot();
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("stop logging");
+    }
     GaleniumLoggingUtil.stopTestLogging();
+  }
+
+  protected void takeScreenshot() {
+    WebDriver driver = GaleniumContext.getDriver();
+    if (driver == null) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("no screenshot: driver null.");
+      }
+      return;
+    }
+    if (!(driver instanceof TakesScreenshot)) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("no screenshot: driver does not screenshot.");
+      }
+      return;
+    }
+
+    GaleniumReportUtil.takeScreenshot((TakesScreenshot)driver);
   }
 }

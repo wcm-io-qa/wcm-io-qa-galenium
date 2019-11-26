@@ -21,11 +21,15 @@ package io.wcm.qa.glnm.sampling.jsoup;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jsoup.Connection;
+import org.jsoup.Connection.KeyVal;
 import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Request;
+import org.jsoup.Connection.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +50,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
    * <p>Constructor for JsoupCookieSampler.</p>
    *
    * @param url to fetch cookies from
+   * @since 3.0.0
    */
   public JsoupCookieSampler(String url) {
     super(url);
@@ -64,27 +69,35 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
    * <p>Setter for the field <code>method</code>.</p>
    *
    * @param requestMethod HTTP method to use for retrieval
-   * @return this
+   * @since 3.0.0
    */
-  public JsoupCookieSampler<T> setMethod(Method requestMethod) {
+  public void setMethod(Method requestMethod) {
     this.method = requestMethod;
-    return this;
   }
 
   protected Map<String, String> fetchCookies() {
     Connection connection = getJsoupConnection();
 
-    Request request = connection.request();
-    URL url = request.url();
-    LOG.info("sending " + getMethod() + " request to '" + url + "'");
-
     try {
-
       connection.method(getMethod());
+
+      Request request = connection.request();
+      URL url = request.url();
+      LOG.info("sending " + getMethod() + " request to '" + url + "'");
+      logRequest(request);
+
       connection.execute();
 
-      Map<String, String> cookies = connection.response().cookies();
-      LOG.debug("got " + cookies.size() + " cookies from '" + url + "'");
+      Response response = connection.response();
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("response: " + response.statusCode() + " - " + response.statusMessage());
+      }
+      logResponse(response);
+
+      Map<String, String> cookies = response.cookies();
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("got " + cookies.size() + " cookies from '" + url + "'");
+      }
 
       return cookies;
     }
@@ -92,6 +105,26 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
       throw new GaleniumException("Could not fetch cookies", ex);
     }
 
+  }
+
+  private void logResponse(Response response) {
+    if (LOG.isTraceEnabled()) {
+      for (Entry<String, String> header : response.headers().entrySet()) {
+        LOG.trace("response-header: '" + header.getKey() + "' : '" + header.getValue() + "'");
+      }
+    }
+  }
+
+  private void logRequest(Request request) {
+    if (LOG.isTraceEnabled()) {
+      for (Entry<String, String> header : request.headers().entrySet()) {
+        LOG.trace("request-header: '" + header.getKey() + "' : '" + header.getValue() + "'");
+      }
+      Collection<KeyVal> data = request.data();
+      for (KeyVal keyVal : data) {
+        LOG.trace(keyVal.contentType() + ": '" + keyVal.key() + "' : '" + keyVal.value());
+      }
+    }
   }
 
   protected Method getMethod() {

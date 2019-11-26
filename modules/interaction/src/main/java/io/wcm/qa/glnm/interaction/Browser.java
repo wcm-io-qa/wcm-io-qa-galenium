@@ -31,6 +31,7 @@ import org.testng.Assert;
 
 import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Alert related convenience methods.
@@ -52,6 +53,15 @@ public final class Browser {
   public static void back() {
     Allure.step("navigating back");
     getDriver().navigate().back();
+  }
+
+  /**
+   * <p>getLog.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.interaction.BrowserLog} object.
+   */
+  public static BrowserLog getLog() {
+    return new BrowserLog();
   }
 
   /**
@@ -85,8 +95,19 @@ public final class Browser {
    */
   public static boolean isCurrentUrl(String url) {
     String currentUrl = getCurrentUrl();
-    LOG.debug("checking current URL: " + currentUrl);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("checking current URL: " + currentUrl);
+    }
     return StringUtils.equals(url, currentUrl);
+  }
+
+  /**
+   * <p>getPageSource.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public static String getPageSource() {
+    return GaleniumContext.getDriver().getPageSource();
   }
 
   /**
@@ -105,6 +126,7 @@ public final class Browser {
    */
   public static void load(String url) {
     Allure.step("loading URL: '" + url + "'");
+    Allure.link(url, url);
     getDriver().get(url);
   }
 

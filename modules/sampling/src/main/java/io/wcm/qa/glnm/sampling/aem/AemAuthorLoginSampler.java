@@ -46,7 +46,7 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
   private static final String LOGIN_PATH = "/libs/granite/core/content/login.html/j_security_check";
   private static final String POST_DATA_CHARSET = "UTF-8";
 
-  private boolean needsXhr = false;
+  private boolean needsXhr;
   private String pass = DEFAULT_PASSWORD;
   private String user = DEFAULT_USER;
 
@@ -173,7 +173,6 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
       return authorHostUrl + ":" + port + LOGIN_PATH;
     }
     return authorHostUrl + LOGIN_PATH;
-
   }
 
 }

@@ -43,6 +43,7 @@ public final class Screenshot {
    * @param selector identifies element
    * @param index identifies which instance
    * @return message to log to report
+   * @since 1.0.0
    */
   public static String takeScreenshotOfNth(Selector selector, int index) {
     List<WebElement> allElements = Element.findAll(selector);
@@ -62,6 +63,7 @@ public final class Screenshot {
    *
    * @param selector identifies element
    * @return message to log to report
+   * @since 1.0.0
    */
   public static String takeScreenshot(Selector selector) {
     WebElement element = Element.findOrFail(selector);

@@ -42,6 +42,7 @@ public final class IFrame {
    * <p>switchTo.</p>
    *
    * @param selector identifies IFrame to switch to
+   * @since 1.0.0
    */
   public static void switchTo(Selector selector) {
     Allure.step("switch to IFrame: " + selector);
@@ -52,6 +53,7 @@ public final class IFrame {
    * <p>switchTo.</p>
    *
    * @param iFrameElement element to switch to
+   * @since 1.0.0
    */
   public static void switchTo(WebElement iFrameElement) {
     Allure.step("switch to IFrame element: " + iFrameElement);
@@ -60,6 +62,8 @@ public final class IFrame {
 
   /**
    * Switch to default content.
+   *
+   * @since 1.0.0
    */
   public static void switchToDefault() {
     Allure.step("switch to default IFrame.");
@@ -68,6 +72,8 @@ public final class IFrame {
 
   /**
    * Switch to parent of current IFrame.
+   *
+   * @since 1.0.0
    */
   public static void switchToParent() {
     Allure.step("switch to parent IFrame.");

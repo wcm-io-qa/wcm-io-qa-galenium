@@ -47,19 +47,19 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
 
   /** {@inheritDoc} */
   @Override
+  public O freshSample() {
+    I inputSample = getInput().sampleValue();
+    O outputSample = transform(inputSample);
+    return outputSample;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public boolean isCaching() {
     if (isCachingInput()) {
       return super.isCaching() && ((CanCache)getInput()).isCaching();
     }
     return super.isCaching();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public O freshSample() {
-    I inputSample = getInput().sampleValue();
-    O outputSample = transform(inputSample);
-    return outputSample;
   }
 
   /** {@inheritDoc} */

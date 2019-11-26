@@ -1,0 +1,31 @@
+@objects
+  page                      #page
+    header                  header
+      icon                  .icon
+      caption               .header-caption
+      username              #username
+    navigation              nav
+      link-*                ul.navlist > li > a
+    footer                  footer.footer-site
+      footer-navigation     nav#nav-footer
+        footer-section      section
+    logo                    #logo
+
+= Header section =
+  = Icons and text =
+    header.icon:
+      inside header 10px top left
+
+    header.caption:
+      text is "Greetings!"
+
+  = User section =
+    header.username:
+      inside header 10px top right
+
+= Navigation section =
+   navigation.link-1:
+     inside parent 0px top left
+
+   navigation.link-#:
+     aligned vertically left navigation

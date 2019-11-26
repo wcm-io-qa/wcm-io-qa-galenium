@@ -44,6 +44,7 @@ public final class FormElement {
    *
    * @param selector identifies the element
    * @param text value to enter
+   * @since 1.0.0
    */
   public static void clearAndEnterText(Selector selector, String text) {
     WebElement input = Element.findOrFail(selector);

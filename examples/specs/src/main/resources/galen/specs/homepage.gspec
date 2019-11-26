@@ -17,8 +17,6 @@
         @on mobile
             page.navigation.link-*:
                 absent
-            page.navigation.link-to-conference:
-                absent
             page.navigation.link-to-homepage:
                 absent
 

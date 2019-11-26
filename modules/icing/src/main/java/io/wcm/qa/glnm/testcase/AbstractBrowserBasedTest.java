@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.testcase;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.device.TestDeviceUtil;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
@@ -31,6 +32,15 @@ import io.wcm.qa.glnm.webdriver.HasDevice;
 public abstract class AbstractBrowserBasedTest extends AbstractNamedTest implements HasDevice {
 
   private TestDevice device;
+
+
+  /**
+   * <p>Constructor for AbstractBrowserBasedTest.</p>
+   */
+  public AbstractBrowserBasedTest() {
+    this(TestDeviceUtil.getSingleTestDevice());
+  }
+
   /**
    * Constructor.
    *

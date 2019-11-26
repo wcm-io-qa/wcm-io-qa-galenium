@@ -51,7 +51,7 @@ public final class TextFileUtil {
       return FileUtils.readLines(file, StandardCharsets.UTF_8);
     }
     catch (IOException ex) {
-      throw new GaleniumException("when trying to parse text file: " + ex);
+      throw new GaleniumException("when trying to parse text file: ", ex);
     }
   }
 

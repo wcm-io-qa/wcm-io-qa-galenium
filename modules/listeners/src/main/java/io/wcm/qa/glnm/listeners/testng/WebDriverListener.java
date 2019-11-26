@@ -30,12 +30,10 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import com.galenframework.config.GalenConfig;
-import com.galenframework.config.GalenProperty;
-
 import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.util.TestInfoUtil;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
@@ -168,9 +166,7 @@ public class WebDriverListener implements ITestListener {
   }
 
   private void setAdjustViewportInGalen(boolean adjustBrowserViewportSize) {
-    GalenConfig.getConfig().setProperty(
-        GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE,
-        new Boolean(adjustBrowserViewportSize).toString());
+    GalenHelperUtil.adjustViewport(adjustBrowserViewportSize);
   }
 
   protected void closeDriver() {

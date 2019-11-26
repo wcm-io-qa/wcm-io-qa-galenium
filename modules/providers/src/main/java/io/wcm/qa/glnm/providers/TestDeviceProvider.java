@@ -51,7 +51,7 @@ public final class TestDeviceProvider {
    */
   @DataProvider(name = GALENIUM_SINGLE_TEST_DEVICE)
   public static Object[][] provideSingleTestDevice() {
-    List<Object> singleDeviceList = TestDeviceUtil.getSingleTestDevice();
+    List<Object> singleDeviceList = TestDeviceUtil.getSingleTestDeviceAsList();
     return TestNgProviderUtil.combine(singleDeviceList);
   }
 

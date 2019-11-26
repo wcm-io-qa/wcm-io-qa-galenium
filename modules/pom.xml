@@ -48,13 +48,25 @@
   <build>
     <plugins>
 
-      <!-- do not generate site for this project -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>javadoc-autofix</id>
+            <goals>
+              <goal>fix</goal>
+            </goals>
+            <phase>process-sources</phase>
+            <configuration>
+              <fixTags>link,since,param,throws,return</fixTags>
+              <force>true</force>
+              <ignoreClirr>true</ignoreClirr>
+              <level>public</level>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>

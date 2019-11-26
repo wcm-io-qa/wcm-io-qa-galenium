@@ -44,6 +44,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Constructor for JsoupBasedSampler.</p>
    *
    * @param url to connect to
+   * @since 3.0.0
    */
   public JsoupBasedSampler(String url) {
     setUrl(url);
@@ -53,6 +54,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Getter for the field <code>cookieSampler</code>.</p>
    *
    * @return a {@link io.wcm.qa.glnm.sampling.Sampler} object.
+   * @since 3.0.0
    */
   public Sampler<Map<String, String>> getCookieSampler() {
     return cookieSampler;
@@ -62,6 +64,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Getter for the field <code>requestCookies</code>.</p>
    *
    * @return a {@link java.util.Map} object.
+   * @since 3.0.0
    */
   public Map<String, String> getRequestCookies() {
     return requestCookies;
@@ -71,6 +74,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Getter for the field <code>url</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 3.0.0
    */
   public String getUrl() {
     return url;
@@ -80,6 +84,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Setter for the field <code>cookieSampler</code>.</p>
    *
    * @param cookieSampler a {@link io.wcm.qa.glnm.sampling.Sampler} object.
+   * @since 3.0.0
    */
   public void setCookieSampler(Sampler<Map<String, String>> cookieSampler) {
     this.cookieSampler = cookieSampler;
@@ -89,6 +94,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * <p>Setter for the field <code>requestCookies</code>.</p>
    *
    * @param cookies a {@link java.util.Map} object.
+   * @since 3.0.0
    */
   public void setRequestCookies(Map<String, String> cookies) {
     this.requestCookies = cookies;
@@ -121,9 +127,8 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
     return connection;
   }
 
-  protected JsoupBasedSampler<T> setUrl(String newUrl) {
+  protected void setUrl(String newUrl) {
     this.url = newUrl;
-    return this;
   }
 
   protected boolean useCookieSampler() {

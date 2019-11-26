@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.openqa.selenium.Dimension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,22 +52,35 @@ public final class TestDeviceUtil {
   }
 
   /**
-   * <p>getSingleTestDevice.</p>
+   * <p>
+   * getSingleTestDevice.
+   * </p>
    *
-   * @return first of the configured test devices
+   * @return one of the configured test devices as a singleton list
    * @since 3.0.0
    */
-  public static List<Object> getSingleTestDevice() {
+  public static List<Object> getSingleTestDeviceAsList() {
+    Object singleDevice = getSingleTestDevice();
+    List<Object> singleDeviceList = Collections.singletonList(singleDevice);
+    return singleDeviceList;
+  }
+
+  /**
+   * <p>
+   * getSingleTestDevice.
+   * </p>
+   *
+   * @return one of the configured test devices
+   * @since 4.0.0
+   */
+  public static TestDevice getSingleTestDevice() {
     Collection<TestDevice> testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
     if (testDevices == null || testDevices.isEmpty()) {
       throw new GaleniumException("no configured devices found, when trying to get single test device.");
     }
     int middle = testDevices.size() / 2;
-    // CollectionUtils#get() is deprecated for everything except Object
-    Object deviceCollectionAsObject = testDevices;
-    Object singleDevice = CollectionUtils.get(deviceCollectionAsObject, middle);
-    List<Object> singleDeviceList = Collections.singletonList(singleDevice);
-    return singleDeviceList;
+    TestDevice singleDevice = IterableUtils.get(testDevices, middle);
+    return singleDevice;
   }
 
   /**
