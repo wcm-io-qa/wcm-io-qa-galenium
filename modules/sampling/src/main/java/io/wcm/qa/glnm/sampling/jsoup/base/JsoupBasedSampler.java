@@ -36,9 +36,10 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
  */
 public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
 
-  private String url;
-  private Map<String, String> requestCookies = new HashMap<String, String>();
+  private JsoupConnectionProvider connectionProvider;
   private Sampler<Map<String, String>> cookieSampler;
+  private Map<String, String> requestCookies = new HashMap<String, String>();
+  private String url;
 
   /**
    * <p>Constructor for JsoupBasedSampler.</p>
@@ -80,6 +81,10 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
     return url;
   }
 
+  protected void setConnectionProvider(JsoupConnectionProvider connectionProvider) {
+    this.connectionProvider = connectionProvider;
+  }
+
   /**
    * <p>Setter for the field <code>cookieSampler</code>.</p>
    *
@@ -104,12 +109,17 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * @return {@link JsoupConnectionProvider} to use for connection
    */
   protected JsoupConnectionProvider getConnectionProvider() {
-    return new JsoupConnectionProvider() {
-      @Override
-      public Connection getConnection() {
-        return Jsoup.connect(getUrl());
-      }
-    };
+    if (connectionProvider == null) {
+      connectionProvider = new JsoupConnectionProvider() {
+
+        @Override
+        public Connection getConnection() {
+          return Jsoup.connect(getUrl());
+        }
+
+      };
+    }
+    return connectionProvider;
   }
 
   /**
