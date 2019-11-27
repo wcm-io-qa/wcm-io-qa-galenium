@@ -38,7 +38,6 @@ import com.google.common.collect.Maps;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
-import io.wcm.qa.glnm.sampling.UselessSampler;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 import io.wcm.qa.glnm.sampling.transform.JsonSampler;
 
@@ -77,9 +76,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   /**
    * Constructor.
    */
-  @SuppressWarnings("unchecked")
   public JcrQuerySampler() {
-    super(new UselessSampler());
+    super();
   }
 
   /**

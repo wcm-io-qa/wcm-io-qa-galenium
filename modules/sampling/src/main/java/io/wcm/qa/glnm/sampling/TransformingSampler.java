@@ -19,19 +19,21 @@
  */
 package io.wcm.qa.glnm.sampling;
 
-import io.wcm.qa.glnm.exceptions.GaleniumException;
-
 /**
- * Unusable sampler which throws an exception when sampled. Awkward workaround to avoid passing a null sampler.
+ * Generates sample based on sample from input sampler.
  *
- * @param <T> type never to sample
- * @since 3.0.0
+ * @param <IS> input sampler to get input from
+ * @param <I> type of input
+ * @param <O> type of output
+ * @since 4.0.0
  */
-public final class UselessSampler<T> implements Sampler<T> {
+public interface TransformingSampler<IS extends Sampler<I>, I, O> extends Sampler<O> {
 
-  /** {@inheritDoc} */
-  @Override
-  public T sampleValue() {
-    throw new GaleniumException("This sampler should never be used to sample.");
-  }
+  /**
+   * <p>getInput.</p>
+   *
+   * @return the input sampler
+   */
+  IS getInput();
+
 }
