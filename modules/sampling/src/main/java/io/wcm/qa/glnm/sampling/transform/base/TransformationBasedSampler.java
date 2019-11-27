@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.sampling.transform.base;
 
 import io.wcm.qa.glnm.sampling.CanCache;
 import io.wcm.qa.glnm.sampling.Sampler;
+import io.wcm.qa.glnm.sampling.TransformingSampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
@@ -31,7 +32,7 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
  * @param <O> type of transformed output
  * @since 1.0.0
  */
-public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> {
+public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> implements TransformingSampler<S, I, O> {
 
   private S input;
 
@@ -42,7 +43,16 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
    * @since 3.0.0
    */
   public TransformationBasedSampler(S inputSampler) {
+    this();
     setInput(inputSampler);
+  }
+
+  /**
+   * Transformation based samplers need an input sampler to operate. Using this
+   * constructor requires input to be configured via setter before sampling.
+   */
+  public TransformationBasedSampler() {
+    super();
   }
 
   /** {@inheritDoc} */
@@ -71,7 +81,9 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     }
   }
 
-  protected S getInput() {
+  /** {@inheritDoc} */
+  @Override
+  public S getInput() {
     return input;
   }
 
