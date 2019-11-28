@@ -56,15 +56,6 @@ public final class Browser {
   }
 
   /**
-   * <p>getLog.</p>
-   *
-   * @return a {@link io.wcm.qa.glnm.interaction.BrowserLog} object.
-   */
-  public static BrowserLog getLog() {
-    return new BrowserLog();
-  }
-
-  /**
    * Executes Javascript in current browser.
    *
    * @param jsCode code to execute
@@ -88,17 +79,21 @@ public final class Browser {
   }
 
   /**
-   * <p>isCurrentUrl.</p>
+   * <p>getCurrentUrl.</p>
    *
-   * @param url to check against
-   * @return whether browser is currently pointing at URL
+   * @return a {@link java.lang.String} object.
    */
-  public static boolean isCurrentUrl(String url) {
-    String currentUrl = getCurrentUrl();
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("checking current URL: " + currentUrl);
-    }
-    return StringUtils.equals(url, currentUrl);
+  public static String getCurrentUrl() {
+    return getDriver().getCurrentUrl();
+  }
+
+  /**
+   * <p>getLog.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.interaction.BrowserLog} object.
+   */
+  public static BrowserLog getLog() {
+    return new BrowserLog();
   }
 
   /**
@@ -110,13 +105,28 @@ public final class Browser {
     return GaleniumContext.getDriver().getPageSource();
   }
 
+
   /**
-   * <p>getCurrentUrl.</p>
+   * <p>getPageTitle.</p>
    *
    * @return a {@link java.lang.String} object.
    */
-  public static String getCurrentUrl() {
-    return getDriver().getCurrentUrl();
+  public static String getPageTitle() {
+    return getDriver().getTitle();
+  }
+
+  /**
+   * <p>isCurrentUrl.</p>
+   *
+   * @param url to check against
+   * @return whether browser is currently pointing at URL
+   */
+  public static boolean isCurrentUrl(String url) {
+    String currentUrl = getCurrentUrl();
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("checking current URL: " + currentUrl);
+    }
+    return StringUtils.equals(url, currentUrl);
   }
 
   /**

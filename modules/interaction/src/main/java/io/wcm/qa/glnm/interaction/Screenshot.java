@@ -22,7 +22,10 @@ package io.wcm.qa.glnm.interaction;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
@@ -33,8 +36,32 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public final class Screenshot {
 
+  private static final Logger LOG = LoggerFactory.getLogger(Screenshot.class);
+
   private Screenshot() {
     // do not instantiate
+  }
+
+  /**
+   * Takes a screenshot of the whole page by scrolling and stitching,
+   * attaches it to Allure report and adds a step to report.
+   */
+  public static void takeFullScreenshot() {
+    GaleniumReportUtil.takeFullScreenshot();
+    Allure.step("Full page screenshot: " + Browser.getPageTitle());
+  }
+
+  /**
+   * Takes screenshot of element.
+   *
+   * @param selector identifies element
+   * @since 4.0.0
+   */
+  public static void takeScreenshot(Selector selector) {
+    WebElement element = Element.findOrFail(selector);
+    Element.scrollTo(element);
+    GaleniumReportUtil.takeScreenshot(element);
+    Allure.step("Screenshot of element: " + selector);
   }
 
   /**
@@ -42,32 +69,26 @@ public final class Screenshot {
    *
    * @param selector identifies element
    * @param index identifies which instance
-   * @return message to log to report
-   * @since 1.0.0
+   * @since 4.0.0
    */
-  public static String takeScreenshotOfNth(Selector selector, int index) {
+  public static void takeScreenshotOfNth(Selector selector, int index) {
     List<WebElement> allElements = Element.findAll(selector);
     if (allElements.isEmpty()) {
-      return "could not take screenshot of '" + selector + "[" + index + "]': no elements found";
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("could not take screenshot of '" + selector + "[" + index + "]': no elements found");
+      }
+      return;
     }
     if (allElements.size() <= index) {
-      return "could not take screenshot of '" + selector + "[" + index + "]': only found " + allElements.size() + " instances";
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("could not take screenshot of '" + selector + "[" + index + "]': only found " + allElements.size() + " instances");
+      }
+      return;
     }
     WebElement element = allElements.get(index);
     Element.scrollTo(element);
-    return GaleniumReportUtil.takeScreenshot(element);
+    GaleniumReportUtil.takeScreenshot(element);
+    Allure.step("Screenshot of element: " + selector);
   }
 
-  /**
-   * Takes screenshot of element.
-   *
-   * @param selector identifies element
-   * @return message to log to report
-   * @since 1.0.0
-   */
-  public static String takeScreenshot(Selector selector) {
-    WebElement element = Element.findOrFail(selector);
-    Element.scrollTo(element);
-    return GaleniumReportUtil.takeScreenshot(element);
-  }
 }
