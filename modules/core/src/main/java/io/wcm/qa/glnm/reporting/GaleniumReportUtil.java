@@ -38,6 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 
+import com.galenframework.config.GalenConfig;
+import com.galenframework.config.GalenProperty;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
 import com.galenframework.reports.TestNgReportBuilder;
@@ -137,12 +139,29 @@ public final class GaleniumReportUtil {
    * stitching.
    */
   public static void takeFullScreenshot() {
+    GalenConfig galenConfig = GalenConfig.getConfig();
+    boolean fullPageScreenshotActivatedInGalen = galenConfig.getBooleanProperty(GalenProperty.SCREENSHOT_FULLPAGE);
+    if (!fullPageScreenshotActivatedInGalen) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("activate full page screenshot in Galen before screenshot");
+      }
+      galenConfig.setProperty(GalenProperty.SCREENSHOT_FULLPAGE, "true");
+    }
     try {
-      File screenshotFile = GalenUtils.takeScreenshot(GaleniumContext.getDriver());
+      File screenshotFile = GalenUtils.makeFullScreenshot(GaleniumContext.getDriver());
       handleScreenshotFile(screenshotFile);
     }
-    catch (IOException ex) {
+    catch (IOException | InterruptedException ex) {
       LOG.error("Could not take full screenshot.", ex);
+    }
+    finally {
+      if (!fullPageScreenshotActivatedInGalen) {
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("deactivate full page screenshot in Galen after screenshot");
+        }
+        galenConfig.setProperty(GalenProperty.SCREENSHOT_FULLPAGE, "false");
+      }
+
     }
   }
 
