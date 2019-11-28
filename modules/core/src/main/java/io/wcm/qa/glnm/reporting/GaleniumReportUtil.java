@@ -37,11 +37,11 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
 import com.galenframework.reports.TestNgReportBuilder;
+import com.galenframework.utils.GalenUtils;
 import com.google.common.html.HtmlEscapers;
 
 import freemarker.template.TemplateException;
@@ -57,11 +57,10 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 public final class GaleniumReportUtil {
 
-  private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
-
   private static final List<GalenTestInfo> GLOBAL_GALEN_RESULTS = new ArrayList<GalenTestInfo>();
+
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
   private static final String PATH_GALEN_REPORT = GaleniumConfiguration.getReportDirectory() + "/galen";
-  private static final String PATH_SCREENSHOTS_RELATIVE_ROOT = "../screenshots";
   private static final String PATH_SCREENSHOTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/screenshots";
   private static final String PATH_TESTNG_REPORT_XML = GaleniumConfiguration.getReportDirectory() + "/testng.xml";
 
@@ -134,26 +133,27 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Take screenshot of current browser window and add to reports. Uses random filename.
-   *
-   * @return log message including screenshot if everything was successful
-   * @since 3.0.0
+   * uses Galen functionality to get a full page screenshot by scrolling and
+   * stitching.
    */
-  public static String takeScreenshot() {
-    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    return takeScreenshot(randomAlphanumeric, getTakesScreenshot());
+  public static void takeFullScreenshot() {
+    try {
+      File screenshotFile = GalenUtils.takeScreenshot(GaleniumContext.getDriver());
+      handleScreenshotFile(screenshotFile);
+    }
+    catch (IOException ex) {
+      LOG.error("Could not take full screenshot.", ex);
+    }
   }
 
   /**
-   * Captures image of single element in page.
+   * Take screenshot of current browser window and add to reports. Uses random filename.
    *
-   * @param takesScreenshot to capture
-   * @return message to log screenshot to report
-   * @since 3.0.0
+   * @since 4.0.0
    */
-  public static String takeScreenshot(TakesScreenshot takesScreenshot) {
+  public static void takeScreenshot() {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    return takeScreenshot(randomAlphanumeric, takesScreenshot);
+    takeScreenshot(randomAlphanumeric, getTakesScreenshot());
   }
 
   /**
@@ -161,12 +161,11 @@ public final class GaleniumReportUtil {
    *
    * @param result to generate filename from
    * @param driver to take screenshot from
-   * @return log message including screenshot if everything was successful
-   * @since 3.0.0
+   * @since 4.0.0
    */
-  public static String takeScreenshot(ITestResult result, WebDriver driver) {
+  public static void takeScreenshot(ITestResult result, WebDriver driver) {
     String resultName = getAlphanumericTestName(result);
-    return takeScreenshot(resultName, getTakesScreenshot(driver));
+    takeScreenshot(resultName, getTakesScreenshot(driver));
   }
 
   /**
@@ -174,62 +173,23 @@ public final class GaleniumReportUtil {
    *
    * @param resultName to use in filename
    * @param takesScreenshot to take screenshot from
-   * @return log message including screenshot if everything was successful
-   * @since 3.0.0
+   * @since 4.0.0
    */
-  public static String takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
-    String destScreenshotFilePath = null;
-    String filenameOnly = null;
-    boolean screenshotSuccessful;
+  public static void takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
     LOG.debug("taking screenshot: " + takesScreenshot);
-    filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
     File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
-    if (screenshotFile != null) {
-      LOG.trace("screenshot taken: " + screenshotFile.getPath());
-      try {
-        File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
-        FileUtils.copyFile(screenshotFile, destFile);
-        LOG.trace("copied screenshot: " + destFile.getPath());
-        destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
-        Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(screenshotFile), ".png");
-        screenshotSuccessful = true;
-        if (FileUtils.deleteQuietly(screenshotFile)) {
-          LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
-        }
-        else {
-          LOG.trace("could not delete screenshot file: " + screenshotFile.getPath());
-        }
-      }
-      catch (IOException ex) {
-        LOG.error("Cannot copy screenshot.", ex);
-        screenshotSuccessful = false;
-      }
-    }
-    else {
-      LOG.debug("screenshot file is null.");
-      screenshotSuccessful = false;
-    }
+    handleScreenshotFile(resultName, screenshotFile);
+  }
 
-    StringBuilder logMsg = new StringBuilder();
-    if (screenshotSuccessful) {
-      logMsg.append("Screenshot: ").append(PATH_SCREENSHOTS_ROOT).append(File.separator).append(filenameOnly).append(System.lineSeparator());
-      if (destScreenshotFilePath != null) {
-        WebDriver driver;
-        if (takesScreenshot instanceof WebDriver) {
-          driver = (WebDriver)takesScreenshot;
-        }
-        else {
-          driver = GaleniumContext.getDriver();
-        }
-        if (driver != null) {
-          String url = driver.getCurrentUrl();
-          String title = driver.getTitle();
-          Reporter.log("<a href=\"" + url + "\"><img src=\"" + destScreenshotFilePath + "\" alt=\"" + title + "\"/></a>", true);
-        }
-      }
-    }
-
-    return logMsg.toString();
+  /**
+   * Captures image from screenshot capable instance which can be the driver or a single element in page.
+   *
+   * @param takesScreenshot to capture
+   * @since 4.0.0
+   */
+  public static void takeScreenshot(TakesScreenshot takesScreenshot) {
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    takeScreenshot(randomAlphanumeric, takesScreenshot);
   }
 
   private static TakesScreenshot getTakesScreenshot() {
@@ -247,6 +207,35 @@ public final class GaleniumReportUtil {
       throw new GaleniumException("driver cannot take screenshot");
     }
     return takesScreenshot;
+  }
+
+  private static void handleScreenshotFile(File screenshotFile) {
+    handleScreenshotFile(screenshotFile.getName(), screenshotFile);
+  }
+
+  private static void handleScreenshotFile(String resultName, File screenshotFile) {
+    if (screenshotFile != null) {
+      LOG.trace("screenshot taken: " + screenshotFile.getPath());
+      try {
+        String destFilename = System.currentTimeMillis() + "_" + resultName + ".png";
+        File destFile = new File(PATH_SCREENSHOTS_ROOT, destFilename);
+        FileUtils.copyFile(screenshotFile, destFile);
+        LOG.trace("copied screenshot: " + destFile.getPath());
+        Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(destFile), ".png");
+        if (FileUtils.deleteQuietly(screenshotFile)) {
+          LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
+        }
+        else {
+          LOG.trace("could not delete screenshot file: " + screenshotFile.getPath());
+        }
+      }
+      catch (IOException ex) {
+        LOG.error("Cannot copy screenshot.", ex);
+      }
+    }
+    else {
+      LOG.debug("screenshot file is null.");
+    }
   }
 
   private static boolean isAddResult(GalenTestInfo galenTestInfo) {
