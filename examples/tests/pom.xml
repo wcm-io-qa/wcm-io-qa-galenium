@@ -96,6 +96,7 @@
           <skip>true</skip>
           <properties>
             <galenium.example.sut.author>${galenium.example.sut.author}</galenium.example.sut.author>
+            <galenium.example.sut>${galenium.example.sut}</galenium.example.sut>
           </properties>
         </configuration>
       </plugin>
@@ -113,6 +114,10 @@
           <value>jetty</value>
         </property>
       </activation>
+      <properties>
+        <galenium.example.sut.author>false</galenium.example.sut.author>
+        <galenium.example.sut>jetty</galenium.example.sut>
+      </properties>
       <build>
         <plugins>
           <plugin>
@@ -167,6 +172,7 @@
       </activation>
       <properties>
         <galenium.example.sut.author>true</galenium.example.sut.author>
+        <galenium.example.sut>aem</galenium.example.sut>
       </properties>
     </profile>
 

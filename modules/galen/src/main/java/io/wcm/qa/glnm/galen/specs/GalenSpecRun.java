@@ -19,9 +19,14 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.galenframework.reports.model.LayoutReport;
+import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
 /**
@@ -44,6 +49,21 @@ public class GalenSpecRun {
   public GalenSpecRun(GalenSpec spec, LayoutReport report) {
     setSpec(spec);
     setReport(report);
+  }
+
+  /**
+   * Get all messages from all errors of this run.
+   *
+   * @return all messages of run
+   * @since 4.0.0
+   */
+  public Collection<String> getMessages() {
+    Collection<String> messages = new ArrayList<String>();
+    List<ValidationResult> validationErrors = getValidationErrors();
+    for (ValidationResult validationResult : validationErrors) {
+      messages.addAll(getMessages(validationResult));
+    }
+    return messages;
   }
 
   /**
@@ -74,6 +94,19 @@ public class GalenSpecRun {
    */
   public boolean isWarning() {
     return getReport().warnings() > 0;
+  }
+
+  private Collection<String> getMessages(ValidationResult validationResult) {
+    Collection<String> messages = new ArrayList<String>();
+    ValidationError error = validationResult.getError();
+    if (error != null) {
+      List<String> errorMessages = error.getMessages();
+      CollectionUtils.addAll(messages, errorMessages);
+    }
+    for (ValidationResult childResult : validationResult.getChildValidationResults()) {
+      messages.addAll(getMessages(childResult));
+    }
+    return messages;
   }
 
   protected LayoutReport getReport() {

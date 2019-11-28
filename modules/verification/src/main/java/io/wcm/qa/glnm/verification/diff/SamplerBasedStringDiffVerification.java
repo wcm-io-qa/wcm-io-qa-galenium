@@ -43,8 +43,8 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
 
   private boolean ignoreWhitespace;
 
-  protected SamplerBasedStringDiffVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected SamplerBasedStringDiffVerification(S sampler) {
+    super(sampler);
   }
 
   /**
@@ -89,9 +89,9 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asFilePath();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanName() + "/" + expectedKey;
+      return getCleanedClassName() + "/" + expectedKey;
     }
-    return getCleanName();
+    return getCleanedClassName();
   }
 
   @Override

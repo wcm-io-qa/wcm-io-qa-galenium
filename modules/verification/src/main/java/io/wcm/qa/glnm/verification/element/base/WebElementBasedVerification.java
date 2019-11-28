@@ -30,8 +30,8 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
  */
 public abstract class WebElementBasedVerification<S extends WebElementBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 
-  protected WebElementBasedVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected WebElementBasedVerification(S sampler) {
+    super(sampler);
   }
 
   protected String getElementName() {

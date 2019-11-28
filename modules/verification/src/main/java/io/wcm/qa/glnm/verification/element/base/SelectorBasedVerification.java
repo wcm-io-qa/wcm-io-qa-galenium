@@ -31,8 +31,8 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
  */
 public abstract class SelectorBasedVerification<S extends SelectorBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 
-  protected SelectorBasedVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected SelectorBasedVerification(S sampler) {
+    super(sampler);
   }
 
 }

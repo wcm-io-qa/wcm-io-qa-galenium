@@ -39,7 +39,7 @@ public class TextVerification extends WebElementBasedStringVerification<TextSamp
    * @since 2.0.0
    */
   public TextVerification(Selector selector) {
-    super(selector.elementName(), new TextSampler(selector));
+    super(new TextSampler(selector));
     setPreVerification(new VisibilityVerification(selector));
   }
 

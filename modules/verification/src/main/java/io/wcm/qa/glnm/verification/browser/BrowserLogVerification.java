@@ -61,7 +61,7 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
    * @param browserLogSampler a {@link io.wcm.qa.glnm.sampling.browser.BrowserLogSampler} object.
    */
   private BrowserLogVerification(BrowserLogSampler browserLogSampler) {
-    super("BrowserLog", new CountingSampler<String>(browserLogSampler));
+    super(new CountingSampler<String>(browserLogSampler));
     logSampler = browserLogSampler;
   }
 

@@ -53,6 +53,15 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
     super(inputSampler);
   }
 
+  /**
+   * <p>
+   * Constructor for JsonSampler which requires using setter to provide input sampler.
+   * </p>
+   */
+  public JsonSampler() {
+    super();
+  }
+
   private String asString(Entry<String, Object> entry) {
     Object value = entry.getValue();
     if (value == null) {

@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.example.galen;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
@@ -34,8 +32,6 @@ import io.wcm.qa.glnm.providers.TestDeviceProvider;
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
 public class GalenSpecTestIT extends AbstractExampleBase {
-
-  private static final Logger LOG = LoggerFactory.getLogger(GalenSpecTestIT.class);
 
   @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
   public GalenSpecTestIT(TestDevice testDevice) {

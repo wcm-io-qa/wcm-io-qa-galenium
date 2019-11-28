@@ -40,7 +40,7 @@ public class CurrentUrlVerification extends StringSamplerBasedVerification {
    * @since 3.0.0
    */
   public CurrentUrlVerification(String verificationName) {
-    super(verificationName, new CurrentUrlSampler());
+    super(new CurrentUrlSampler());
   }
 
   /**
