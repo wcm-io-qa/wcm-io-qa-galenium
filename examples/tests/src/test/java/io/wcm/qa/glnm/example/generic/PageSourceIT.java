@@ -35,7 +35,7 @@ public class PageSourceIT extends AbstractExampleBase {
   @Factory(dataProviderClass = ContentPathProvider.class, dataProvider = ContentPathProvider.ALL_PAGES)
   public PageSourceIT(String relativePath) {
     super();
-    setRelativePath("en.html");
+    setRelativePath(relativePath);
   }
 
   @Test
