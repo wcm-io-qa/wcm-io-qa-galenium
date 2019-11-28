@@ -75,6 +75,6 @@ public class AllureReportContainerListener implements TestLifecycleListener {
       return;
     }
 
-    GaleniumReportUtil.takeScreenshot((TakesScreenshot)driver);
+    GaleniumReportUtil.takeFullScreenshot();
   }
 }
