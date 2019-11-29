@@ -26,11 +26,11 @@ import java.util.function.Consumer;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.model.Parameter;
 import io.qameta.allure.model.TestResult;
 import io.qameta.allure.util.ResultsUtils;
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * <p>AllureInfoListener class.</p>
@@ -38,6 +38,9 @@ import io.wcm.qa.glnm.device.TestDevice;
  * @since 4.0.0
  */
 public class AllureInfoListener extends TestListenerAdapter {
+
+  /** Constant <code>CONTEXT_KEY_ALLURE_PARAMETERS="allure-parameters"</code> */
+  public static final String CONTEXT_KEY_ALLURE_PARAMETERS = "allure-parameters";
 
   private final class ParameterUpdater implements Consumer<TestResult> {
 
@@ -76,7 +79,7 @@ public class AllureInfoListener extends TestListenerAdapter {
     for (Object factoryParameter : factoryParameters) {
       addParameter(updater, factoryParameter);
     }
-    Allure.getLifecycle().updateTestCase(updater);
+    GaleniumContext.put(CONTEXT_KEY_ALLURE_PARAMETERS, updater);
   }
 
   private void addParameter(ParameterUpdater updater, Object factoryParameter) {
