@@ -33,6 +33,7 @@ public interface TransformingSampler<IS extends Sampler<I>, I, O> extends Sample
    * <p>getInput.</p>
    *
    * @return the input sampler
+   * @since 4.0.0
    */
   IS getInput();
 
