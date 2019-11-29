@@ -21,19 +21,17 @@ package io.wcm.qa.glnm.listeners.testng;
 
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
-import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
-import org.testng.ITestListener;
 import org.testng.ITestResult;
+import org.testng.TestListenerAdapter;
 
 import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 import io.wcm.qa.glnm.util.TestInfoUtil;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
@@ -43,7 +41,7 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  *
  * @since 1.0.0
  */
-public class WebDriverListener implements ITestListener {
+public class WebDriverListener extends TestListenerAdapter {
 
   private static final String CATEGORY_WEB_DRIVER_NOT_INSTANTIATED = "WEBDRIVER_NOT_INSTANTIATED";
   private static final Logger LOG = LoggerFactory.getLogger(WebDriverListener.class);
@@ -51,38 +49,7 @@ public class WebDriverListener implements ITestListener {
   /** {@inheritDoc} */
   @Override
   public void onFinish(ITestContext context) {
-    // if not running multiple tests/method/classes in parallel, then the same WebDriver instance is
-    // used for all tests methods, and we have to make sure to close the driver after all tests have finished
-    if (!isRunningTestsInSeparateThreads(context)) {
-      LOG.debug("Closing the WebDriver driver that was used for all tests...");
-      closeDriver();
-    }
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onStart(ITestContext context) {
-    LOG.trace("WebDriverListener active.");
-    // always executed in the main thread, so we can't initialize WebDrivers right here
-    setAdjustViewportInGalen(!isSuppressAutoAdjustBrowserSize());
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    closeDriverIfRunningInParallel(result);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestFailure(ITestResult result) {
-    closeDriverIfRunningInParallel(result);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestSkipped(ITestResult result) {
-    closeDriverIfRunningInParallel(result);
+    closeDriver();
   }
 
   /** {@inheritDoc} */
@@ -125,26 +92,6 @@ public class WebDriverListener implements ITestListener {
     }
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public void onTestSuccess(ITestResult result) {
-    closeDriverIfRunningInParallel(result);
-  }
-
-  private void closeDriverIfRunningInParallel(ITestResult result) {
-    ITestContext testContext = result.getTestContext();
-    if (getDriver() == null) {
-      LOG.debug("No WebDriver to close for thread " + Thread.currentThread().getName());
-    }
-    else if (isRunningTestsInSeparateThreads(testContext)) {
-      LOG.info("Closing WebDriver for thread " + Thread.currentThread().getName() + " on host '" + testContext.getSuite().getHost() + "'");
-      closeDriver();
-    }
-    else {
-      LOG.debug("Reusing WebDriver for thread " + Thread.currentThread().getName());
-    }
-  }
-
   private TestDevice getTestDevice(ITestResult result) {
     LOG.debug("fetch test device from result.");
     TestDevice testDevice = TestInfoUtil.getTestDevice(result);
@@ -153,20 +100,6 @@ public class WebDriverListener implements ITestListener {
       testDevice = GaleniumContext.getTestDevice();
     }
     return testDevice;
-  }
-
-  /**
-   * @param context of the current test case
-   * @return true if any of the parallel execution modes is used
-   */
-  private boolean isRunningTestsInSeparateThreads(ITestContext context) {
-
-    // getParallel() will return "methods", "classes", "tests" or "false" (which is the default)
-    return !"false".equals(context.getSuite().getParallel());
-  }
-
-  private void setAdjustViewportInGalen(boolean adjustBrowserViewportSize) {
-    GalenHelperUtil.adjustViewport(adjustBrowserViewportSize);
   }
 
   protected void closeDriver() {
