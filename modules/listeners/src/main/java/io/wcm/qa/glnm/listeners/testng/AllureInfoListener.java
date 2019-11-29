@@ -45,6 +45,7 @@ public class AllureInfoListener extends TestListenerAdapter {
 
     @Override
     public void accept(TestResult result) {
+      @SuppressWarnings("deprecation")
       List<Parameter> parameters = result.getParameters();
       List<Parameter> updatedParameters = update(parameters);
       result.setParameters(updatedParameters);
