@@ -113,42 +113,22 @@ public final class WebDriverManagement {
    * @since 3.0.0
    */
   public static WebDriver getDriver(TestDevice testDevice) {
+
     if (testDevice == null) {
       throw new GaleniumException("trying to create driver for null device");
     }
 
-    boolean needsNewDriver = needsNewDriver(testDevice);
-    if (needsNewDriver) {
-      LOG.info("Needs new device: " + testDevice.toString());
-      if (getCurrentDriver() != null) {
-        closeDriver();
-      }
-      WebDriver newDriver = WebDriverFactory.newDriver(testDevice);
-      setDriver(newDriver);
-      getCurrentDriver().manage().deleteAllCookies();
-      LOG.info("Deleted all cookies.");
+    if (needsNewDriver(testDevice)) {
+      setNewDriver(testDevice);
+      resizeBrowser(testDevice);
     }
-
-    // only resize when different or new
-    if (needsNewDriver || needsWindowResize(testDevice)) {
-      if (isSuppressAutoAdjustBrowserSize()) {
-        LOG.debug("resizing suppressed.");
-      }
-      else {
-        try {
-          Dimension screenSize = testDevice.getScreenSize();
-          GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getCurrentDriver(), screenSize.width, screenSize.height);
-        }
-        catch (WebDriverException ex) {
-          if (!isHeadless()) {
-            // headless chrome does not have a window target
-            LOG.debug("Exception when resizing browser", ex);
-          }
-        }
-      }
+    else if (needsWindowResize(testDevice)) {
+      // only resize when different or new
+      resizeBrowser(testDevice);
     }
 
     setTestDevice(testDevice);
+
     if (LOG.isTraceEnabled()) {
       LOG.trace("driver for test device: " + testDevice);
       LOG.trace("test device screen size: " + toString(getTestDevice().getScreenSize()));
@@ -164,6 +144,37 @@ public final class WebDriverManagement {
       }
     }
     return getCurrentDriver();
+  }
+
+  private static void resizeBrowser(TestDevice testDevice) {
+    if (isSuppressAutoAdjustBrowserSize()) {
+      LOG.debug("resizing suppressed.");
+    }
+    else {
+      try {
+        Dimension screenSize = testDevice.getScreenSize();
+        GalenUtils.autoAdjustBrowserWindowSizeToFitViewport(getCurrentDriver(), screenSize.width, screenSize.height);
+        LOG.debug("resized for: " + testDevice);
+      }
+      catch (WebDriverException ex) {
+        if (!isHeadless()) {
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Exception when resizing browser", ex);
+          }
+        }
+      }
+    }
+  }
+
+  private static void setNewDriver(TestDevice testDevice) {
+    LOG.info("Needs new driver: " + testDevice.toString());
+    if (getCurrentDriver() != null) {
+      closeDriver();
+    }
+    WebDriver newDriver = WebDriverFactory.newDriver(testDevice);
+    setDriver(newDriver);
+    getCurrentDriver().manage().deleteAllCookies();
+    LOG.info("Deleted all cookies.");
   }
 
   /**
@@ -245,19 +256,19 @@ public final class WebDriverManagement {
   private static boolean needsNewDriver(TestDevice testDevice) {
 
     if (getCurrentDriver() == null) {
-      LOG.trace("needs new device: driver is null");
+      LOG.trace("needs new driver: driver is null");
       return true;
     }
     if (GaleniumConfiguration.isWebDriverAlwaysNew()) {
-      LOG.trace("needs new device: always");
+      LOG.trace("needs new driver: always");
       return true;
     }
     if (getTestDevice() == null) {
-      LOG.trace("needs new device: no previous test device");
+      LOG.trace("needs new driver: no previous test device");
       return true;
     }
     if (testDevice.getBrowserType() != getTestDevice().getBrowserType()) {
-      LOG.trace("needs new device: different browser type ("
+      LOG.trace("needs new driver: different browser type ("
       + testDevice.getBrowserType()
       + " != "
       + getTestDevice().getBrowserType()
@@ -266,14 +277,14 @@ public final class WebDriverManagement {
     }
     if (testDevice.getChromeEmulator() != null
         && !testDevice.getChromeEmulator().equals(getTestDevice().getChromeEmulator())) {
-      LOG.trace("needs new device: different emulator ("
+      LOG.trace("needs new driver: different emulator ("
       + testDevice.getChromeEmulator()
       + " != "
       + getTestDevice().getChromeEmulator()
       + ")");
       return true;
     }
-    LOG.trace("no need for new device: " + testDevice);
+    LOG.trace("no need for new driver: " + testDevice);
     return false;
   }
 
