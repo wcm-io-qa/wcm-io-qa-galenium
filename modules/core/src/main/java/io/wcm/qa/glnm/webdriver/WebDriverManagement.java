@@ -278,10 +278,6 @@ public final class WebDriverManagement {
   }
 
   private static boolean needsWindowResize(TestDevice testDevice) {
-    if (GaleniumConfiguration.isSuppressAutoAdjustBrowserSize()) {
-      LOG.trace("no need for resize: suppress galen auto adjust");
-      return false;
-    }
     if (StringUtils.isNotBlank(testDevice.getChromeEmulator())) {
       LOG.trace("no need for resize: chrome emulator set (" + testDevice.getChromeEmulator() + ")");
       return false;
