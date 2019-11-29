@@ -104,6 +104,7 @@ public final class WebDriverManagement {
   public static WebDriver getCurrentDriver() {
     return GaleniumContext.getDriver();
   }
+
   /**
    * <p>getDriver.</p>
    *
