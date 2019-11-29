@@ -88,7 +88,7 @@ public class JsoupCookieSampler extends JsoupBasedSampler<Map<String, String>> {
 
       Response response = connection.response();
       if (LOG.isDebugEnabled()) {
-        LOG.debug("response: " + response.statusCode() + " - " + response.statusMessage());
+        LOG.debug("response(" + response.url() + "): " + response.statusCode() + " - " + response.statusMessage());
       }
       logResponse(response);
 
