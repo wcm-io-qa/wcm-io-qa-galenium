@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.listeners.testng;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getNumberOfBrowserInstantiationRetries;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.webdriver.WebDriverManagement.closeDriver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,10 +101,6 @@ public class WebDriverListener extends TestListenerAdapter {
       testDevice = GaleniumContext.getTestDevice();
     }
     return testDevice;
-  }
-
-  protected void closeDriver() {
-    WebDriverManagement.closeDriver();
   }
 
 }
