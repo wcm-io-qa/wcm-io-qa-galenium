@@ -21,8 +21,6 @@ package io.wcm.qa.glnm.listeners.allure;
 
 import java.util.function.Consumer;
 
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +29,6 @@ import io.qameta.allure.listener.TestLifecycleListener;
 import io.qameta.allure.model.TestResult;
 import io.wcm.qa.glnm.listeners.testng.AllureInfoListener;
 import io.wcm.qa.glnm.logging.util.GaleniumLoggingUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
@@ -57,7 +54,6 @@ public class AllureReportContainerListener implements TestLifecycleListener {
   /** {@inheritDoc} */
   @Override
   public void beforeTestStop(TestResult result) {
-    takeScreenshot();
     updateParameters();
     if (LOG.isDebugEnabled()) {
       LOG.debug("stop logging");
@@ -76,21 +72,4 @@ public class AllureReportContainerListener implements TestLifecycleListener {
     }
   }
 
-  protected void takeScreenshot() {
-    WebDriver driver = GaleniumContext.getDriver();
-    if (driver == null) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("no screenshot: driver null.");
-      }
-      return;
-    }
-    if (!(driver instanceof TakesScreenshot)) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("no screenshot: driver does not screenshot.");
-      }
-      return;
-    }
-
-    GaleniumReportUtil.takeFullScreenshot();
-  }
 }
