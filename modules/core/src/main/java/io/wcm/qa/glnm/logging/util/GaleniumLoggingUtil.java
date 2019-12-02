@@ -140,7 +140,7 @@ public final class GaleniumLoggingUtil {
    */
   public static void startTestLogging() {
     String currentTestCaseId = Allure.getLifecycle().getCurrentTestCase().orElse("NO_TEST_ID");
-    LOG.info("Stasrting test specific logging for: " + currentTestCaseId);
+    LOG.info("Starting test specific logging for: " + currentTestCaseId);
     MDC.put(MDC_PARAM_GLNM_TESTNAME, currentTestCaseId);
   }
 
