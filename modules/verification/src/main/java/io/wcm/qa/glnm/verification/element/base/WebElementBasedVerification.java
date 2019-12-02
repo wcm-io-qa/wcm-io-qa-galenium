@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.verification.element.base;
 
+import io.wcm.qa.glnm.differences.difference.sut.SelectorDifference;
 import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
@@ -32,6 +33,7 @@ public abstract class WebElementBasedVerification<S extends WebElementBasedSampl
 
   protected WebElementBasedVerification(S sampler) {
     super(sampler);
+    addDifference(new SelectorDifference(getSelector()));
   }
 
   protected String getElementName() {
