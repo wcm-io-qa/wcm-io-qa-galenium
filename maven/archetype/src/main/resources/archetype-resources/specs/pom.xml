@@ -52,24 +52,15 @@
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <skipIfEmpty>true</skipIfEmpty>
-          <excludes>*.xml</excludes>
-          <classesDirectory>\${galenium.generated.class}</classesDirectory>
+          <includes>
+            <include>**/*.gspec</include>
+            <include>**/*.class</include>
+          </includes>
+          <excludes>
+            <exclude>*.xml</exclude>
+          </excludes>
         </configuration>
-        <executions>
-          <execution>
-            <id>tests</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <includes>
-                <include>**/*.gspec</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
-
     </plugins>
 
   </build>
