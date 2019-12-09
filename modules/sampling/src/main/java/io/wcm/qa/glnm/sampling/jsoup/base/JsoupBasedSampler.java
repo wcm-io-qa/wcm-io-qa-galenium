@@ -144,7 +144,7 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
     }
     connection.ignoreContentType(true);
     try {
-      SSLContext context = SSLContext.getDefault();
+      SSLContext context = SSLContext.getInstance("TLS");
       context.init(null, InsecureTrustManagerFactory.INSTANCE.getTrustManagers(), null);
       SSLSocketFactory socketFactory = context.getSocketFactory();
       connection.sslSocketFactory(socketFactory);
