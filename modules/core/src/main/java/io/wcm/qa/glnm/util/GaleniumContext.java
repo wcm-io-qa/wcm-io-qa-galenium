@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
@@ -39,8 +37,6 @@ import io.wcm.qa.glnm.verification.strategy.VerificationStrategy;
  * @since 1.0.0
  */
 public class GaleniumContext {
-
-  private static final Logger LOG = LoggerFactory.getLogger(GaleniumContext.class);
 
   private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
     @Override
