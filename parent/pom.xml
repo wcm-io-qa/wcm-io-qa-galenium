@@ -85,6 +85,12 @@
       </dependency>
 
       <dependency>
+        <groupId>com.github.jknack</groupId>
+        <artifactId>handlebars</artifactId>
+        <version>4.1.2</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.github.wnameless.json</groupId>
         <artifactId>json-flattener</artifactId>
         <version>0.8.0</version>
