@@ -1,0 +1,56 @@
+package {{packageName}};
+
+import com.galenframework.specs.page.CorrectionsRect;
+import com.galenframework.specs.page.Locator;
+
+import io.wcm.qa.glnm.selectors.base.Selector;
+import io.wcm.qa.glnm.selectors.base.SelectorFactory;
+
+import {{rootPackageName}}.InteractiveSelector;
+import {{rootPackageName}}.InteractiveSelectorBase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Java version of '{{elementName}}' from {{spec.filename}}.
+ *
+ * This is GENERATED CODE and should not be modified manually.
+ */
+public class {{className}} extends InteractiveSelectorBase {
+
+  /** Special constant to access {{className}} as it is a root element. */
+  public static final {{className}} SELF = new {{className}}();
+  {{#children}}
+    {{> constant }}
+  {{/children}}
+
+  /**
+   * Constructor.
+   */
+  public {{className}}() {
+    super("{{elementName}}", {{> new-locator }} );
+    setBy(By.cssSelector("{{cssSelector}}"));
+  }
+
+  {{#children}}
+    {{> inner-class }}
+  {{/children}}
+
+  {{#children}}
+
+  public WebElement get{{className}}() {
+    return  {{constantName}}.find();
+  }
+
+  public WebElement getNth{{className}}(int index) {
+    return {{constantName}}.findNth(index);
+  }
+
+  public java.util.List<WebElement> get{{className}}s() {
+    return {{constantName}}.findAll();
+  }
+  {{/children}}
+
+
+}

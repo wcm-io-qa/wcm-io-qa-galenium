@@ -1,0 +1,8 @@
+
+new Locator("{{locatorType}}", "{{locatorValue}}", {{locatorIndex}})
+     {{#parent}}
+     .withParent({{> new-locator }})
+     {{/parent}}
+     {{#corrections}}
+     .withCorrections({{> correctionsRect }})
+     {{/corrections}}

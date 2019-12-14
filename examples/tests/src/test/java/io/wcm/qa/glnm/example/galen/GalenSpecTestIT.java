@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import io.qameta.allure.Description;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.AbstractExampleBase;
-import io.wcm.qa.glnm.example.specs.Homepage;
+import io.wcm.qa.glnm.example.selectors.specs.Homepage;
 import io.wcm.qa.glnm.providers.TestDeviceProvider;
 
 /**

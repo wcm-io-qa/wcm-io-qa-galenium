@@ -1,0 +1,27 @@
+package {{packageName}};
+
+import com.galenframework.specs.page.Locator;
+
+import io.wcm.qa.glnm.interaction.Element;
+import io.wcm.qa.glnm.interaction.FormElement;
+import io.wcm.qa.glnm.selectors.SelectorFromLocator;
+import io.wcm.qa.glnm.selectors.base.Selector;
+
+/**
+ * Interface for interactive selectors.
+ *
+ * This is GENERATED CODE and should not be modified manually.
+ */
+public abstract class InteractiveSelectorBase extends SelectorFromLocator implements InteractiveSelector {
+
+  protected InteractiveSelectorBase(String elementName, Locator locator) {
+    super(elementName, locator);
+  }
+
+  {{#methods}}
+     {{head}} {
+       {{body}}
+     }
+  {{/methods}}
+
+}

@@ -1,0 +1,17 @@
+package {{packageName}};
+
+import io.wcm.qa.glnm.interaction.Element;
+import io.wcm.qa.glnm.selectors.base.Selector;
+
+/**
+ * Interface for interactive selectors.
+ *
+ * This is GENERATED CODE and should not be modified manually.
+ */
+public interface InteractiveSelector extends Selector {
+
+  {{#methods}}
+     {{headForInterface}};
+  {{/methods}}
+
+}

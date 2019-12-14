@@ -1,0 +1,38 @@
+  /**
+   * Java version of '${selector.elementName()}' from ${spec.filename}.
+   */
+public static class {{className}} extends InteractiveSelectorBase {
+
+  {{#children}}
+    {{> constant }}
+  {{/children}}
+
+  /**
+   * Constructor.
+   */
+  public {{className}}() {
+    super("{{elementName}}", {{> new-locator }});
+    setBy(By.cssSelector("{{escapeJava asString}}"));
+  }
+
+  {{#children}}
+    {{> inner-class }}
+  {{/children}}
+
+  {{#children}}
+
+  public WebElement get{{className}}() {
+    return  {{constantName}}.find();
+  }
+
+  public WebElement getNth{{className}}(int index) {
+    return {{constantName}}.findNth(index);
+  }
+
+  public java.util.List<WebElement> get{{className}}s() {
+    return {{constantName}}.findAll();
+  }
+  {{/children}}
+
+
+}

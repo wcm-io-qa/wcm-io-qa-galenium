@@ -53,9 +53,7 @@
     <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
     <galenium.generated.class>${project.build.outputDirectory}</galenium.generated.class>
     <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
-    <galenium.generated.java.package>io.wcm.qa.glnm.example</galenium.generated.java.package>
-    <galenium.generated.java.package.selectors>${galenium.generated.java.package}.selectors</galenium.generated.java.package.selectors>
-    <galenium.generated.java.package.specs>${galenium.generated.java.package}.specs</galenium.generated.java.package.specs>
+    <galenium.generated.java.package>io.wcm.qa.glnm.example.selectors</galenium.generated.java.package>
     <galenium.generated.specs>${project.build.outputDirectory}</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
     <galenium.headless>true</galenium.headless>
@@ -186,14 +184,9 @@
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
           <version>4.0.0-SNAPSHOT</version>
           <configuration>
-            <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
-            <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>
-            <templateDirectory>${galenium.generated.templates}/freemarker</templateDirectory>
+            <packageRoot>${galenium.generated.java.package}</packageRoot>
             <inputDirectory>${galenium.specPath}</inputDirectory>
             <outputDirectory>${galenium.generated.java}</outputDirectory>
-            <selectorIncludes>
-              <include>**/*.gspec</include>
-            </selectorIncludes>
             <specIncludes>
               <include>**/*.gspec</include>
             </specIncludes>
@@ -202,7 +195,6 @@
               <!-- Galenium -->
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
-              <galenium.report.extent.skip>${galenium.report.extent.skip}</galenium.report.extent.skip>
             </systemPropertyVariables>
           </configuration>
           <executions>
