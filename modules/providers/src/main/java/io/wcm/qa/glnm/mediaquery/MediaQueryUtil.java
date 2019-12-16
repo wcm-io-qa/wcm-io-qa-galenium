@@ -125,7 +125,6 @@ public final class MediaQueryUtil {
     return getMediaQueries(mediaQueryPropertyFile.getPath());
   }
 
-
   /**
    * <p>getMediaQueries.</p>
    *
@@ -156,6 +155,7 @@ public final class MediaQueryUtil {
     MAP_MEDIA_QUERIES_PROPERTIES.put(mediaQueryProperties, mediaQueries);
     return mediaQueries;
   }
+
 
   /**
    * <p>getMediaQueries.</p>
@@ -214,6 +214,17 @@ public final class MediaQueryUtil {
       throw new GaleniumException("illegal media query lower and upper bound combination for '" + mediaQueryName + "': " + lowerBound + " > " + upperBound);
     }
     return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
+  }
+
+  /**
+   * <p>
+   * Whether current media query equals by name.
+   * </p>
+   * @param mq to compare current media query to
+   * @return whether the current media query has the same name
+   */
+  public static boolean isCurrentMediaQuery(MediaQuery mq) {
+    return StringUtils.equals(getCurrentMediaQuery().getName(), mq.getName());
   }
 
   private static Integer getIntegerValue(Entry<Object, Object> entry) {
