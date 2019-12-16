@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.galen.specs;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +62,7 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   /** {@inheritDoc} */
   @Override
   public GalenSpecRun check(String... tags) {
+    LOG.debug("checking '" + getName() + "' with " + ToStringBuilder.reflectionToString(tags));
     LayoutReport report = runWithGalen(GalenSpecUtil.asSectionFilter(tags));
     return createRunFromReport(report);
   }
