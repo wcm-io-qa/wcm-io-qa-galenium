@@ -31,22 +31,29 @@ import org.apache.commons.io.FilenameUtils;
 public class FileBasedGalenSpec extends AbstractGalenSpec {
 
   /**
-   * <p>Constructor for FileBasedGalenSpec.</p>
+   * <p>
+   * Constructor for FileBasedGalenSpec.
+   * </p>
    *
    * @param specFile a {@link java.io.File} object.
+   * @param tags include tags
    */
-  public FileBasedGalenSpec(File specFile) {
-    this(specFile.getPath());
+  public FileBasedGalenSpec(File specFile, String... tags) {
+    this(specFile.getPath(), tags);
   }
 
   /**
-   * <p>Constructor for FileBasedGalenSpec.</p>
+   * <p>
+   * Constructor for FileBasedGalenSpec.
+   * </p>
    *
    * @param specPath a {@link java.lang.String} object.
+   * @param tags include tags
    */
-  public FileBasedGalenSpec(String specPath) {
-    super(new GalenSpecParsingProvider(specPath));
+  public FileBasedGalenSpec(String specPath, String... tags) {
+    super(new GalenSpecParsingProvider(specPath, tags));
     setName(FilenameUtils.getBaseName(specPath));
+    addTags(tags);
   }
 
 }
