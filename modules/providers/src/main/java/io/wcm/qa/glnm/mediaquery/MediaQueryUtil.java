@@ -220,6 +220,7 @@ public final class MediaQueryUtil {
    * <p>
    * Whether current media query equals by name.
    * </p>
+   *
    * @param mq to compare current media query to
    * @return whether the current media query has the same name
    */

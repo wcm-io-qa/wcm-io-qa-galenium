@@ -61,7 +61,7 @@ public final class GalenValidation {
    * @since 4.0.0
    */
   public static GalenSpecRun check(String specPath, String... tags) {
-    GalenSpec spec = new FileBasedGalenSpec(specPath);
+    GalenSpec spec = new FileBasedGalenSpec(specPath, tags);
     return spec.check(tags);
   }
 

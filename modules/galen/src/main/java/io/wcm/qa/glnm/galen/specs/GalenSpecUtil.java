@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,17 +129,16 @@ final class GalenSpecUtil {
 
   /**
    * Get tags device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
-   *
-   * @param includeTags tags to use in filter
+   * @param tagsForThisRun tags to use in filter
    * @return filter ready for use with Galen
    * @since 4.0.0
    */
-  static SectionFilter asSectionFilter(String... includeTags) {
+  static SectionFilter asSectionFilter(List<String> tagsForThisRun) {
     List<String> tagList = new ArrayList<String>();
-    if (includeTags == null || includeTags.length == 0) {
-      return new SectionFilter();
+    if (ListUtils.emptyIfNull(tagList).isEmpty()) {
+      return emptySectionFilter();
     }
-    Collections.addAll(tagList, includeTags);
+    tagList.addAll(tagsForThisRun);
     return new SectionFilter(tagList, EMPTY_TAG_LIST);
   }
 
@@ -164,7 +164,11 @@ final class GalenSpecUtil {
     if (getTestDevice() != null) {
       return asSectionFilter(getTestDevice());
     }
-    return asSectionFilter();
+    return emptySectionFilter();
+  }
+
+  private static SectionFilter emptySectionFilter() {
+    return new SectionFilter();
   }
 
   /**
