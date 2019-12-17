@@ -68,7 +68,7 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   @Override
   public GalenSpecRun check(String... tags) {
     SectionFilter sectionFilter = getSectionFilter(tags);
-    LOG.debug("checking '" + getName() + "' with " + ToStringBuilder.reflectionToString(sectionFilter.getIncludedTags()));
+    LOG.info("checking '" + getName() + "' with " + ToStringBuilder.reflectionToString(sectionFilter.getIncludedTags()));
     LayoutReport report = runWithGalen(sectionFilter);
     return createRunFromReport(report);
   }
@@ -166,10 +166,6 @@ public abstract class AbstractGalenSpec implements GalenSpec {
 
   private LayoutReport runWithGalen(SectionFilter filter) {
     return GalenLayout.check(getRunName(filter), getPageSpec(), filter, getValidationListener());
-  }
-
-  protected boolean addTags(String... tags) {
-    return CollectionUtils.addAll(getIncludeTags(), tags);
   }
 
   /**

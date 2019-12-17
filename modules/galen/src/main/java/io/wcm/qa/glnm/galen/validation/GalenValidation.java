@@ -19,8 +19,12 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.galenframework.validation.ValidationListener;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
 import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
@@ -43,26 +47,20 @@ public final class GalenValidation {
    * Checks Galen spec against current state of driver.
    *
    * @param specPath path to spec file
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(String specPath) {
-    GalenSpec spec = new FileBasedGalenSpec(specPath);
-    String[] tags = {};
-    return spec.check(tags);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   *
-   * @param specPath path to spec file
    * @param tags a {@link java.lang.String} object.
    * @return report on spec test
    * @since 4.0.0
    */
   public static GalenSpecRun check(String specPath, String... tags) {
     GalenSpec spec = new FileBasedGalenSpec(specPath, tags);
-    return spec.check(tags);
+    GalenSpecRun check = spec.check(tags);
+    if (check.isFailed()) {
+      Allure.step("Failed '" + specPath + "' with [" + StringUtils.join(tags, ", ") + "]", Status.FAILED);
+    }
+    else if (check.isClean()) {
+      Allure.step("Successfully checked '" + specPath + "' with [" + StringUtils.join(tags, ", ") + "]");
+    }
+    return check;
   }
 
   /**
