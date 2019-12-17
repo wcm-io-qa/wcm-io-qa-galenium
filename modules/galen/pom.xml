@@ -97,6 +97,11 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-support</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
 </project>
