@@ -53,7 +53,6 @@ public class FileBasedGalenSpec extends AbstractGalenSpec {
   public FileBasedGalenSpec(String specPath, String... tags) {
     super(new GalenSpecParsingProvider(specPath, tags));
     setName(FilenameUtils.getBaseName(specPath));
-    addTags(tags);
   }
 
 }
