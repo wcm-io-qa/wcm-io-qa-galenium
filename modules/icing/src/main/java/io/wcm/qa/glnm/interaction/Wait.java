@@ -36,6 +36,7 @@ import io.wcm.qa.glnm.sampling.CanCache;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.Verifiable;
 import io.wcm.qa.glnm.verification.base.Verification;
+import io.wcm.qa.glnm.verification.base.VerificationBase;
 import io.wcm.qa.glnm.verification.element.InvisibilityVerification;
 import io.wcm.qa.glnm.verification.element.TextVerification;
 import io.wcm.qa.glnm.verification.element.VisibilityVerification;
@@ -229,6 +230,14 @@ public final class Wait {
     catch (TimeoutException ex) {
       if (verifiableCondition.isVerification()) {
         Verification verification = (Verification)verifiableCondition.getVerifiable();
+        if (verification instanceof VerificationBase) {
+          if (((VerificationBase)verification).isVerified()) {
+            if (LOG.isDebugEnabled()) {
+              LOG.debug("Time out, but verification not failing: " + verification.getMessage());
+            }
+            return;
+          }
+        }
         throw new GaleniumException(verification.getMessage(), ex);
       }
       throw ex;
