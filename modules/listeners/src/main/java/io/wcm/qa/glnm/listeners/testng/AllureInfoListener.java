@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.model.Parameter;
 import io.qameta.allure.model.TestResult;
 import io.qameta.allure.util.ResultsUtils;
@@ -55,6 +56,7 @@ public class AllureInfoListener extends TestListenerAdapter {
     }
     GaleniumContext.put(CONTEXT_KEY_ALLURE_PARAMETERS, updater);
     result.setTestName(getDifferentiatedTestName(result, factoryParameters));
+    Allure.step("Running on thread: '" + Thread.currentThread().getName() + "'");
   }
 
   private String getDifferentiatedTestName(ITestResult result, Object[] factoryParameters) {
