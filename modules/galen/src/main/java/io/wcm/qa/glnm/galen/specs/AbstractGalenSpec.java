@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGalenSpec.class);
   private static final String[] WITHOUT_TAGS = new String[] {};
   private GalenPageSpecProvider galenSpecProvider;
-  private List<String> includeTags = new ArrayList<String>();
   private String name;
   private PageSpec pageSpec;
 
@@ -71,15 +69,6 @@ public abstract class AbstractGalenSpec implements GalenSpec {
     LOG.info("checking '" + getName() + "' with " + ToStringBuilder.reflectionToString(sectionFilter.getIncludedTags()));
     LayoutReport report = runWithGalen(sectionFilter);
     return createRunFromReport(report);
-  }
-
-  /**
-   * <p>Getter for the field <code>includeTags</code>.</p>
-   *
-   * @return a {@link java.util.List} object.
-   */
-  public List<String> getIncludeTags() {
-    return includeTags;
   }
 
   /** {@inheritDoc} */
@@ -148,7 +137,6 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   private SectionFilter getSectionFilter(String... tags) {
     SectionFilter sectionFilter = GalenSpecUtil.getDefaultIncludeTags();
     CollectionUtils.addAll(sectionFilter.getIncludedTags(), tags);
-    CollectionUtils.addAll(sectionFilter.getIncludedTags(), getIncludeTags());
     return sectionFilter;
   }
 
