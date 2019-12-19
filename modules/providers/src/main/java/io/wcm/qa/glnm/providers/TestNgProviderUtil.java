@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -174,9 +174,8 @@ public final class TestNgProviderUtil {
     return combinedArguments;
   }
 
-  @SuppressWarnings("deprecation")
   private static int getLengthOfFirstElement(Collection<Object[]> combinedArguments) {
-    return CollectionUtils.get(combinedArguments, 0).length;
+    return IterableUtils.get(combinedArguments, 0).length;
   }
 
   private static void trace(String msg) {
