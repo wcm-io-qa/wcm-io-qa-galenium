@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
@@ -33,7 +31,6 @@ import io.qameta.allure.model.Parameter;
 import io.qameta.allure.model.TestResult;
 import io.qameta.allure.util.ResultsUtils;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.format.NameUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
@@ -55,20 +52,7 @@ public class AllureInfoListener extends TestListenerAdapter {
       addParameter(updater, factoryParameter);
     }
     GaleniumContext.put(CONTEXT_KEY_ALLURE_PARAMETERS, updater);
-    result.setTestName(getDifferentiatedTestName(result, factoryParameters));
     Allure.step("Running on thread: '" + Thread.currentThread().getName() + "'");
-  }
-
-  private String getDifferentiatedTestName(ITestResult result, Object[] factoryParameters) {
-    StringBuilder name = new StringBuilder().append(
-        result.getName());
-    for (Object parameter : factoryParameters) {
-      String reflectionToString = ToStringBuilder.reflectionToString(parameter, ToStringStyle.SHORT_PREFIX_STYLE);
-      String sanitized = NameUtil.getSanitized(reflectionToString, 20);
-      name.append("_")
-          .append(sanitized);
-    }
-    return name.toString();
   }
 
   private void addParameter(ParameterUpdater updater, Object factoryParameter) {
