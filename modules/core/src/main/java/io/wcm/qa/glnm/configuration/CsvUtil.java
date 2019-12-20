@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.IterableUtils;
@@ -148,7 +149,9 @@ public final class CsvUtil {
   }
 
   /**
-   * <p>parseToEnums.</p>
+   * <p>
+   * Parse the CSV and return Enum values.
+   * </p>
    *
    * @param parser a {@link org.apache.commons.csv.CSVParser} object.
    * @return a {@link java.util.List} object.
@@ -158,6 +161,26 @@ public final class CsvUtil {
     return EnumUtil.toEnumValues(namedColumns);
   }
 
+  /**
+   * <p>transformToEnumsOrStrings.</p>
+   *
+   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
+   * @return a {@link java.util.List} object.
+   */
+  public static List<List<?>> transformToEnumsOrStrings(CSVParser parser) {
+    List<List<?>> result = new ArrayList<List<?>>();
+    Map<String, List<String>> namedColumns = transformToNamedColumns(parser);
+    for (Entry<String, List<String>> entry : namedColumns.entrySet()) {
+      List<String> value = entry.getValue();
+      try {
+        result.add(EnumUtil.toEnumValues(entry.getKey(), value));
+      }
+      catch (GaleniumException ex) {
+        result.add(value);
+      }
+    }
+    return result;
+  }
 
   private static void addToColumn(List<List<String>> columns, int index, String value) {
     List<String> list = columns.get(index);
