@@ -25,9 +25,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -99,6 +101,70 @@ public final class CsvUtil {
     return parse(new File(csvFilePath));
   }
 
+  /**
+   * <p>parseToEnums.</p>
+   *
+   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
+   * @return a {@link java.util.List} object.
+   */
+  public static List<List<Enum>> parseToEnums(CSVParser parser) {
+    List<String> headerNames = getHeaderNames(parser);
+    List<List<String>> columns = parseToColumns(parser);
+    return EnumUtil.toEnumValues(headerNames, columns);
+  }
+
+  /**
+   * <p>parseToColumns.</p>
+   *
+   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
+   * @return a {@link java.util.List} object.
+   */
+  public static List<List<String>> parseToColumns(CSVParser parser) {
+    List<CSVRecord> records = fetchRecords(parser);
+    List<List<String>> columns = new ArrayList<List<String>>();
+    for (CSVRecord csvRecord : records) {
+      for (int i = 0; i < csvRecord.size(); i++) {
+        addToColumn(columns, i, csvRecord.get(i));
+      }
+    }
+    return columns;
+  }
+
+
+  private static List<CSVRecord> fetchRecords(CSVParser parser) {
+    return fetchRecords(parser, true);
+  }
+
+  private static void addToColumn(List<List<String>> columns, int index, String value) {
+    List<String> list = columns.get(index);
+    if (list == null) {
+      list = new ArrayList<String>();
+      columns.set(index, list);
+    }
+    list.add(value);
+  }
+
+  private static List<CSVRecord> fetchRecords(CSVParser parser, boolean failOnEmpty) {
+    List<CSVRecord> records;
+    try {
+      records = parser.getRecords();
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("When fetching records.", ex);
+    }
+    if (failOnEmpty && records.isEmpty()) {
+      throw new GaleniumException("CSV parser returned no records.");
+    }
+    return records;
+  }
+
+  private static List<String> getHeaderNames(CSVParser parser) {
+    List<String> headerNames = parser.getHeaderNames();
+    if (IterableUtils.isEmpty(headerNames)) {
+      throw new GaleniumException("No header names in CSV");
+    }
+    return headerNames;
+  }
   /**
    * Populate beans with CSV data.
    *
