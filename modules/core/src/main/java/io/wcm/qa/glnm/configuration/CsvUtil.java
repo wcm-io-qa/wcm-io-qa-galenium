@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public final class CsvUtil {
    * @since 3.0.0
    */
   public static CSVParser parse(File csvFile) {
-    return parse(csvFile, false);
+    return parseFromFile(csvFile, false);
   }
 
   /**
@@ -72,9 +73,8 @@ public final class CsvUtil {
    * @param csvFile to get parser for
    * @param skipHeaderRecord whether to skip header record while parsing
    * @return parser to access data in CSV file
-   * @since 3.0.0
    */
-  public static CSVParser parse(File csvFile, boolean skipHeaderRecord) {
+  public static CSVParser parseFromFile(File csvFile, boolean skipHeaderRecord) {
     if (csvFile == null) {
       throw new GaleniumException("error when checking CSV input: file is null");
     }
@@ -95,76 +95,11 @@ public final class CsvUtil {
    *
    * @param csvFilePath path to file to get parser for
    * @return parser to access data in CSV file
-   * @since 3.0.0
    */
-  public static CSVParser parse(String csvFilePath) {
+  public static CSVParser parseFromFile(String csvFilePath) {
     return parse(new File(csvFilePath));
   }
 
-  /**
-   * <p>parseToEnums.</p>
-   *
-   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
-   * @return a {@link java.util.List} object.
-   */
-  public static List<List<Enum>> parseToEnums(CSVParser parser) {
-    List<String> headerNames = getHeaderNames(parser);
-    List<List<String>> columns = parseToColumns(parser);
-    return EnumUtil.toEnumValues(headerNames, columns);
-  }
-
-  /**
-   * <p>parseToColumns.</p>
-   *
-   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
-   * @return a {@link java.util.List} object.
-   */
-  public static List<List<String>> parseToColumns(CSVParser parser) {
-    List<CSVRecord> records = fetchRecords(parser);
-    List<List<String>> columns = new ArrayList<List<String>>();
-    for (CSVRecord csvRecord : records) {
-      for (int i = 0; i < csvRecord.size(); i++) {
-        addToColumn(columns, i, csvRecord.get(i));
-      }
-    }
-    return columns;
-  }
-
-
-  private static List<CSVRecord> fetchRecords(CSVParser parser) {
-    return fetchRecords(parser, true);
-  }
-
-  private static void addToColumn(List<List<String>> columns, int index, String value) {
-    List<String> list = columns.get(index);
-    if (list == null) {
-      list = new ArrayList<String>();
-      columns.set(index, list);
-    }
-    list.add(value);
-  }
-
-  private static List<CSVRecord> fetchRecords(CSVParser parser, boolean failOnEmpty) {
-    List<CSVRecord> records;
-    try {
-      records = parser.getRecords();
-    }
-    catch (IOException ex) {
-      throw new GaleniumException("When fetching records.", ex);
-    }
-    if (failOnEmpty && records.isEmpty()) {
-      throw new GaleniumException("CSV parser returned no records.");
-    }
-    return records;
-  }
-
-  private static List<String> getHeaderNames(CSVParser parser) {
-    List<String> headerNames = parser.getHeaderNames();
-    if (IterableUtils.isEmpty(headerNames)) {
-      throw new GaleniumException("No header names in CSV");
-    }
-    return headerNames;
-  }
   /**
    * Populate beans with CSV data.
    *
@@ -193,6 +128,80 @@ public final class CsvUtil {
       }
     }
     return result;
+  }
+
+  /**
+   * <p>parseToColumns.</p>
+   *
+   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
+   * @return a {@link java.util.List} object.
+   */
+  public static List<List<String>> parseToColumns(CSVParser parser) {
+    List<CSVRecord> records = fetchRecords(parser);
+    List<List<String>> columns = new ArrayList<List<String>>();
+    for (CSVRecord csvRecord : records) {
+      for (int i = 0; i < csvRecord.size(); i++) {
+        addToColumn(columns, i, csvRecord.get(i));
+      }
+    }
+    return columns;
+  }
+
+  /**
+   * <p>parseToEnums.</p>
+   *
+   * @param parser a {@link org.apache.commons.csv.CSVParser} object.
+   * @return a {@link java.util.List} object.
+   */
+  public static List<List<Enum>> transformToEnums(CSVParser parser) {
+    Map<String, List<String>> namedColumns = transformToNamedColumns(parser);
+    return EnumUtil.toEnumValues(namedColumns);
+  }
+
+
+  private static void addToColumn(List<List<String>> columns, int index, String value) {
+    List<String> list = columns.get(index);
+    if (list == null) {
+      list = new ArrayList<String>();
+      columns.set(index, list);
+    }
+    list.add(value);
+  }
+
+  private static List<CSVRecord> fetchRecords(CSVParser parser) {
+    return fetchRecords(parser, true);
+  }
+
+  private static List<CSVRecord> fetchRecords(CSVParser parser, boolean failOnEmpty) {
+    List<CSVRecord> records;
+    try {
+      records = parser.getRecords();
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("When fetching records.", ex);
+    }
+    if (failOnEmpty && records.isEmpty()) {
+      throw new GaleniumException("CSV parser returned no records.");
+    }
+    return records;
+  }
+
+  private static List<String> getHeaderNames(CSVParser parser) {
+    List<String> headerNames = parser.getHeaderNames();
+    if (IterableUtils.isEmpty(headerNames)) {
+      throw new GaleniumException("No header names in CSV");
+    }
+    return headerNames;
+  }
+  private static Map<String, List<String>> transformToNamedColumns(CSVParser parser) {
+    List<String> headerNames = getHeaderNames(parser);
+    List<List<String>> columns = parseToColumns(parser);
+    Map<String, List<String>> namedColumns = new HashMap<String, List<String>>();
+    int i = 0;
+    for (String name : headerNames) {
+      namedColumns.put(name, columns.get(i++));
+    }
+    return namedColumns;
   }
 
 }

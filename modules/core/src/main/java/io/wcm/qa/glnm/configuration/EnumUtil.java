@@ -22,6 +22,8 @@ package io.wcm.qa.glnm.configuration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.EnumUtils;
@@ -45,14 +47,13 @@ public final class EnumUtil {
   /**
    * <p>toEnumValues.</p>
    *
-   * @param headerNames a {@link java.util.List} object.
-   * @param columns a {@link java.util.List} object.
    * @return a {@link java.util.List} object.
+   * @param namedColumns a {@link java.util.Map} object.
    */
-  public static List<List<Enum>> toEnumValues(List<String> headerNames, List<List<String>> columns) {
+  public static List<List<Enum>> toEnumValues(Map<String, List<String>> namedColumns) {
     List<List<Enum>> result = new ArrayList<List<Enum>>();
-    for (int i = 0; i < headerNames.size(); i++) {
-      result.add(toEnumValues(headerNames.get(i), columns.get(i)));
+    for (Entry<String, List<String>> entry : namedColumns.entrySet()) {
+      result.add(toEnumValues(entry.getKey(), entry.getValue()));
     }
     return result;
   }
