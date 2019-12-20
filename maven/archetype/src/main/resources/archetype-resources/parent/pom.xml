@@ -35,7 +35,6 @@
     <galenium.mediaquery.width.min>320</galenium.mediaquery.width.min>
     <galenium.mediaquery.height>1000</galenium.mediaquery.height>
     <galenium.mediaquery.properties>\${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
-    <galenium.mediaquery.extentCategory>MQ_</galenium.mediaquery.extentCategory>
     <galenium.report.rootPath>\${project.build.directory}/glnm-reports</galenium.report.rootPath>
     <galenium.retryMax>0</galenium.retryMax>
     <galenium.skipTests>true</galenium.skipTests>

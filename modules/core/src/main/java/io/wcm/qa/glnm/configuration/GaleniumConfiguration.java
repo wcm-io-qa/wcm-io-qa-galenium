@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -79,10 +78,8 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN = "galenium.mediaquery.width.min";
   private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
-  private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
-  private static final String SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT = "galenium.report.extent.skip";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX = "galenium.webdriver.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_RETRY_MAX = "galenium.retryMax";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX = "galenium.sampling.image.chromefix";
@@ -791,16 +788,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * <p>getReportConfig.</p>
-   *
-   * @return config file for ExtentReports
-   * @since 3.0.0
-   */
-  public static File getReportConfig() {
-    return asFile(SYSTEM_PROPERTY_NAME_REPORT_CONFIG);
-  }
-
-  /**
    * Report root folder.
    * <ul>
    * <li>Key:
@@ -1158,33 +1145,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Usually Galenium will log to ExtentReports, but it can be skipped.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.report.extent.skip
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether TestNG is used
-   * @since 3.0.0
-   */
-  public static boolean isSkipExtentReports() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT);
-  }
-
-  /**
    * Sparse reporting is a different set of logging configuration. This allows to configure to different kinds of
    * reporting for local development with more debugging needs and for CI which should give you a quick view of the
    * important test steps and their results.
@@ -1405,17 +1365,6 @@ public final class GaleniumConfiguration {
 
   private static boolean asBoolean(String systemPropertyName) {
     return Boolean.getBoolean(systemPropertyName);
-  }
-
-  private static File asFile(String systemPropertyName) {
-    String filePath = asString(systemPropertyName);
-    if (StringUtils.isNotBlank(filePath)) {
-      File file = new File(filePath);
-      if (file.isFile()) {
-        return file;
-      }
-    }
-    return null;
   }
 
   private static Integer asInteger(String systemPropertyName, int defaultValue) {

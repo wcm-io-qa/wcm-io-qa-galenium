@@ -202,7 +202,6 @@
               <!-- Galenium -->
               <galenium.report.rootPath>${galenium.report.rootPath}</galenium.report.rootPath>
               <galenium.specPath>${galenium.specPath}</galenium.specPath>
-              <galenium.report.extent.skip>${galenium.report.extent.skip}</galenium.report.extent.skip>
             </systemPropertyVariables>
           </configuration>
           <executions>

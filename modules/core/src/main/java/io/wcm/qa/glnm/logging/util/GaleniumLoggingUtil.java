@@ -35,7 +35,6 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 import io.qameta.allure.Allure;
-import io.qameta.allure.model.Status;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.logging.logback.MarkedLogger;
 
@@ -45,50 +44,6 @@ import io.wcm.qa.glnm.logging.logback.MarkedLogger;
  * @since 4.0.0
  */
 public final class GaleniumLoggingUtil {
-
-  /**
-   * For special ERROR log status.
-   * @deprecated Use Allure compatible markers or use SLF4J log level {@link ch.qos.logback.core.status.Status#ERROR}.
-   */
-  @Deprecated
-  public static final Marker MARKER_ERROR = getMarker("ERROR");
-
-  /**
-   * For all special ExtentReports events.
-   * @deprecated Use Allure compatible markers.
-   */
-  @Deprecated
-  public static final Marker MARKER_EXTENT_REPORT = MarkerFactory.getMarker("EXTENT_REPORT");
-
-  /** For special FAIL log status. */
-  public static final Marker MARKER_FAIL = getMarker(Status.FAILED);
-
-  /**
-   * For special FATAL log status.
-   * @deprecated Use Allure compatible markers or use SLF4J log levels.
-   */
-  @Deprecated
-  public static final Marker MARKER_FATAL = getMarker("FATAL");
-
-  /**
-   * For special INFO log status.
-   * @deprecated Use Allure compatible markers or use SLF4J log level {@link ch.qos.logback.core.status.Status#INFO}.
-   */
-  @Deprecated
-  public static final Marker MARKER_INFO = getMarker("INFO");
-
-  /** For special PASS log status. */
-  public static final Marker MARKER_PASS = getMarker(Status.PASSED);
-
-  /** For special SKIP log status. */
-  public static final Marker MARKER_SKIP = getMarker(Status.SKIPPED);
-
-  /**
-   * For special WARN log status.
-   * @deprecated Use Allure compatible markers or use SLF4J log level {@link ch.qos.logback.core.status.Status#WARN}.
-   */
-  @Deprecated
-  public static final Marker MARKER_WARN = getMarker("WARN");
 
   private static final String MDC_PARAM_GLNM_TESTNAME = "glnm.testname";
 
@@ -186,10 +141,6 @@ public final class GaleniumLoggingUtil {
     Collection<File> logFiles = FileUtils.listFiles(TEST_LOG_ROOT, logFileFilter, TRUE_FILE_FILTER);
     LOG.debug("Found " + logFiles.size() + " log files for test id: '" + testIdOfFinishedTest + "'");
     return logFiles;
-  }
-
-  private static Marker getMarker(Status logStatus) {
-    return getMarker(logStatus.name());
   }
 
 }
