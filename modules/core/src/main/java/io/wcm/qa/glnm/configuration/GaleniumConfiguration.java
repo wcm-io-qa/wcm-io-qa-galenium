@@ -835,6 +835,7 @@ public final class GaleniumConfiguration {
    * </ul>
    *
    * @return root folder for storing test logs
+   * @since 4.0.0
    */
   public static String getTestLogDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_LOG_DIR, "target/testlogs");

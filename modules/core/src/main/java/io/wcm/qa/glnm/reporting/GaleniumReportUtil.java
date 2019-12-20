@@ -137,6 +137,8 @@ public final class GaleniumReportUtil {
   /**
    * uses Galen functionality to get a full page screenshot by scrolling and
    * stitching.
+   *
+   * @since 4.0.0
    */
   public static void takeFullScreenshot() {
     GalenConfig galenConfig = GalenConfig.getConfig();

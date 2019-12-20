@@ -63,6 +63,7 @@ public final class GaleniumLoggingUtil {
    * @param marker to use with this logger
    * @param logger to wrap in marked logger
    * @return a {@link io.wcm.qa.glnm.logging.logback.MarkedLogger} using the marker
+   * @since 4.0.0
    */
   public static Logger getMarkedLogger(Marker marker, Logger logger) {
     return new MarkedLogger(logger, marker);
@@ -74,6 +75,7 @@ public final class GaleniumLoggingUtil {
    * @param marker to use with this logger
    * @param logger to wrap in marked logger
    * @return a {@link io.wcm.qa.glnm.logging.logback.MarkedLogger} using the marker
+   * @since 4.0.0
    */
   public static Logger getMarkedLogger(String marker, Logger logger) {
     return getMarkedLogger(getMarker(marker), logger);
@@ -84,6 +86,7 @@ public final class GaleniumLoggingUtil {
    *
    * @param name marker name
    * @return marker for use with marked logger
+   * @since 4.0.0
    */
   public static Marker getMarker(String name) {
     Marker marker = MarkerFactory.getMarker(name);
@@ -92,6 +95,8 @@ public final class GaleniumLoggingUtil {
 
   /**
    * Initializes logging per test.
+   *
+   * @since 4.0.0
    */
   public static void startTestLogging() {
     String currentTestCaseId = Allure.getLifecycle().getCurrentTestCase().orElse("NO_TEST_ID");
@@ -101,6 +106,8 @@ public final class GaleniumLoggingUtil {
 
   /**
    * Stops test specific logging.
+   *
+   * @since 4.0.0
    */
   public static void stopTestLogging() {
     String testIdOfFinishedTest = MDC.get(MDC_PARAM_GLNM_TESTNAME);
