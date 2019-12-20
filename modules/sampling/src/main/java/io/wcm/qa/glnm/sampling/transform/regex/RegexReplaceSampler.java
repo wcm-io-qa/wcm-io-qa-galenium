@@ -45,6 +45,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    * @param pattern used to identify matches to replace
    * @param replacement replacement string
    * @param replaceAll whether to replace all or just the first occurence
+   * @since 4.0.0
    */
   public RegexReplaceSampler(S inputSampler, Pattern pattern, String replacement, boolean replaceAll) {
     super(inputSampler, pattern);
@@ -58,6 +59,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    * @param inputSampler provides input to be matched against
    * @param pattern used to identify matches to replace
    * @param replacement replacement string
+   * @since 4.0.0
    */
   public RegexReplaceSampler(S inputSampler, Pattern pattern, String replacement) {
     this(inputSampler, pattern, replacement, false);
@@ -68,6 +70,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    *
    * @param inputSampler provides input to be matched against
    * @param pattern used to identify matches to replace
+   * @since 4.0.0
    */
   public RegexReplaceSampler(S inputSampler, Pattern pattern) {
     this(inputSampler, pattern, StringUtils.EMPTY);
@@ -77,6 +80,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    * <p>Getter for the field <code>replacement</code>.</p>
    *
    * @return a {@link java.lang.String} object.
+   * @since 4.0.0
    */
   public String getReplacement() {
     return replacement;
@@ -86,6 +90,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    * <p>isReplaceAll.</p>
    *
    * @return a boolean.
+   * @since 4.0.0
    */
   public boolean isReplaceAll() {
     return replaceAll;
@@ -95,6 +100,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    * <p>Setter for the field <code>replaceAll</code>.</p>
    *
    * @param replaceAll a boolean.
+   * @since 4.0.0
    */
   public void setReplaceAll(boolean replaceAll) {
     this.replaceAll = replaceAll;
@@ -104,6 +110,7 @@ public class RegexReplaceSampler<S extends Sampler<String>> extends RegexBasedSa
    * <p>Setter for the field <code>replacement</code>.</p>
    *
    * @param replacement a {@link java.lang.String} object.
+   * @since 4.0.0
    */
   public void setReplacement(String replacement) {
     this.replacement = replacement;
