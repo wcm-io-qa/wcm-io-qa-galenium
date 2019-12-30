@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.model.Parameter;
 import io.qameta.allure.model.TestResult;
 import io.qameta.allure.util.ResultsUtils;
@@ -42,7 +43,30 @@ public class AllureInfoListener extends TestListenerAdapter {
   /** Constant <code>CONTEXT_KEY_ALLURE_PARAMETERS="allure-parameters"</code> */
   public static final String CONTEXT_KEY_ALLURE_PARAMETERS = "allure-parameters";
 
-  private final class ParameterUpdater implements Consumer<TestResult> {
+  /** {@inheritDoc} */
+  @Override
+  public void onTestStart(ITestResult result) {
+    ParameterUpdater updater = new ParameterUpdater();
+    Object[] factoryParameters = result.getFactoryParameters();
+    for (Object factoryParameter : factoryParameters) {
+      addParameter(updater, factoryParameter);
+    }
+    GaleniumContext.put(CONTEXT_KEY_ALLURE_PARAMETERS, updater);
+    Allure.step("Running on thread: '" + Thread.currentThread().getName() + "'");
+  }
+
+  private void addParameter(ParameterUpdater updater, Object factoryParameter) {
+    if (factoryParameter instanceof TestDevice) {
+      TestDevice device = (TestDevice)factoryParameter;
+      updater.addParameter("Browser", device.getBrowserType().getBrowser());
+      updater.addParameter("Size", device.getScreenSize().toString());
+      return;
+    }
+    String name = factoryParameter.getClass().getName();
+    updater.addParameter(name, factoryParameter.toString());
+  }
+
+  private static final class ParameterUpdater implements Consumer<TestResult> {
 
     private List<Parameter> additionalParameters = new ArrayList<Parameter>();
 
@@ -52,6 +76,10 @@ public class AllureInfoListener extends TestListenerAdapter {
       List<Parameter> parameters = result.getParameters();
       List<Parameter> updatedParameters = update(parameters);
       result.setParameters(updatedParameters);
+    }
+
+    private List<Parameter> additionalParameters() {
+      return additionalParameters;
     }
 
     private void addParameter(String name, String value) {
@@ -65,32 +93,6 @@ public class AllureInfoListener extends TestListenerAdapter {
       return updated;
     }
 
-    private List<Parameter> additionalParameters() {
-      return additionalParameters;
-    }
-
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestStart(ITestResult result) {
-    ParameterUpdater updater = new ParameterUpdater();
-    Object[] factoryParameters = result.getFactoryParameters();
-    for (Object factoryParameter : factoryParameters) {
-      addParameter(updater, factoryParameter);
-    }
-    GaleniumContext.put(CONTEXT_KEY_ALLURE_PARAMETERS, updater);
-  }
-
-  private void addParameter(ParameterUpdater updater, Object factoryParameter) {
-    if (factoryParameter instanceof TestDevice) {
-      TestDevice device = (TestDevice)factoryParameter;
-      updater.addParameter("Browser", device.getBrowserType().getBrowser());
-      updater.addParameter("Size", device.getScreenSize().toString());
-      return;
-    }
-    String name = factoryParameter.getClass().getName();
-    updater.addParameter(name, factoryParameter.toString());
   }
 
 }

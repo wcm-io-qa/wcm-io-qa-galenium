@@ -66,7 +66,7 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   @Override
   public GalenSpecRun check(String... tags) {
     SectionFilter sectionFilter = getSectionFilter(tags);
-    LOG.debug("checking '" + getName() + "' with " + ToStringBuilder.reflectionToString(sectionFilter.getIncludedTags()));
+    LOG.info("checking '" + getName() + "' with " + ToStringBuilder.reflectionToString(sectionFilter.getIncludedTags()));
     LayoutReport report = runWithGalen(sectionFilter);
     return createRunFromReport(report);
   }
