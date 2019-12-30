@@ -32,6 +32,12 @@
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
   <description>Test automation integration parent for the actual UI tests.</description>
+  <url>https://qa.wcm.io/galenium/</url>
+
+  <properties>
+    <integrationtests.skip>false</integrationtests.skip>
+    <site.url.module.prefix>integration</site.url.module.prefix>
+  </properties>
 
   <dependencies>
 
