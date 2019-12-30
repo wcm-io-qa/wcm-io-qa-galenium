@@ -169,14 +169,15 @@ public final class CsvUtil {
    */
   public static List<List<?>> transformToEnumsOrStrings(CSVParser parser) {
     List<List<?>> result = new ArrayList<List<?>>();
-    Map<String, List<String>> namedColumns = transformToNamedColumns(parser);
-    for (Entry<String, List<String>> entry : namedColumns.entrySet()) {
-      List<String> value = entry.getValue();
+    Map<String, List<String>> columnNameToValuesMap = transformToNamedColumns(parser);
+    for (Entry<String, List<String>> nameAndValues : columnNameToValuesMap.entrySet()) {
+      String columnName = nameAndValues.getKey();
+      List<String> valuesInColumn = nameAndValues.getValue();
       try {
-        result.add(EnumUtil.toEnumValues(entry.getKey(), value));
+        result.add(EnumUtil.toEnumValues(columnName, valuesInColumn));
       }
       catch (GaleniumException ex) {
-        result.add(value);
+        result.add(valuesInColumn);
       }
     }
     return result;
