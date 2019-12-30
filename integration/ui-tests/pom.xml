@@ -106,6 +106,20 @@
     </dependency>
 
     <dependency>
+      <groupId>com.browserup</groupId>
+      <artifactId>browserup-proxy-core</artifactId>
+      <version>2.0.1</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+      <version>2.4.4</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
       <version>0.8.0</version>
@@ -374,4 +388,32 @@
     </profile>
 
   </profiles>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <id>integrated-javadocs</id>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+            <inherited>false</inherited>
+            <configuration>
+              <skip>false</skip>
+              <source>8</source>
+              <failOnWarnings>true</failOnWarnings>
+              <includeDependencySources>true</includeDependencySources>
+              <dependencySourceIncludes>
+                <dependencySourceInclude>io.wcm.qa:*</dependencySourceInclude>
+              </dependencySourceIncludes>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>
