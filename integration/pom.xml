@@ -219,4 +219,17 @@
     </pluginManagement>
   </build>
 
+  <reporting>
+    <plugins>
+      <!-- Skip Javadoc, assuming testing projects with no reuse -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>
