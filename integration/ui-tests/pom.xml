@@ -36,7 +36,7 @@
 
   <properties>
     <integrationtests.skip>false</integrationtests.skip>
-    <site.url.module.prefix>integration</site.url.module.prefix>
+    <site.url.module.prefix>galenium</site.url.module.prefix>
   </properties>
 
   <dependencies>
