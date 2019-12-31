@@ -22,14 +22,15 @@ package io.wcm.qa.glnm.interaction;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility methods for switching IFrames.
+ *
+ * @since 1.0.0
  */
 public final class IFrame {
 
@@ -38,39 +39,45 @@ public final class IFrame {
   }
 
   /**
+   * <p>switchTo.</p>
+   *
    * @param selector identifies IFrame to switch to
+   * @since 1.0.0
    */
   public static void switchTo(Selector selector) {
-    getLogger().info("switching to IFrame: " + selector);
+    Allure.step("switch to IFrame: " + selector);
     switchTo(Element.findOrFailNow(selector));
   }
 
   /**
+   * <p>switchTo.</p>
+   *
    * @param iFrameElement element to switch to
+   * @since 1.0.0
    */
   public static void switchTo(WebElement iFrameElement) {
-    getLogger().info("switching to IFrame element: " + iFrameElement);
+    Allure.step("switch to IFrame element: " + iFrameElement);
     switchTo().frame(iFrameElement);
   }
 
   /**
    * Switch to default content.
+   *
+   * @since 1.0.0
    */
   public static void switchToDefault() {
-    getLogger().info("switching to default IFrame.");
+    Allure.step("switch to default IFrame.");
     switchTo().defaultContent();
   }
 
   /**
    * Switch to parent of current IFrame.
+   *
+   * @since 1.0.0
    */
   public static void switchToParent() {
-    getLogger().info("switching to parent IFrame.");
+    Allure.step("switch to parent IFrame.");
     switchTo().parentFrame();
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
   private static WebDriver getDriver() {

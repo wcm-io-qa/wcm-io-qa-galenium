@@ -45,15 +45,18 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.configuration.PropertiesUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
- * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link Properties}
- * file located at {@link GaleniumConfiguration#getTextComparisonFile()} in
- * {@link GaleniumConfiguration#getTextComparisonInputDirectory()}.
+ * Handles storing and retrieving text samples from persistence layer. Samples are retrieved from a {@link java.util.Properties}
+ * file located at  {@link io.wcm.qa.glnm.configuration.GaleniumConfiguration#getTextComparisonFile()} in
+ *  {@link io.wcm.qa.glnm.configuration.GaleniumConfiguration#getTextComparisonInputDirectory()}.
+ *
+ * @since 1.0.0
  */
 public final class TextSampleManager {
 
@@ -62,6 +65,7 @@ public final class TextSampleManager {
   private static final String FILE_NAME_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonFile();
   private static final String FILE_NAME_ROOT_DIR_EXPECTED_TEXTS = GaleniumConfiguration.getTextComparisonInputDirectory();
   private static final String FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS = GaleniumConfiguration.getTextComparisonOutputDirectory();
+  private static final Logger LOG = LoggerFactory.getLogger(TextSampleManager.class);
   private static final File OUTPUT_FILE = new File(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, FILE_NAME_EXPECTED_TEXTS);
   private static final String PATH_SEPARATOR = "/";
   private static final SortedProperties SAMPLED_TEXTS = new SortedProperties();
@@ -82,8 +86,10 @@ public final class TextSampleManager {
 
   /**
    * Writes text samples directly to file.
-   * @param key used to construct file name
-   * @param lines sample data to persist
+   *
+   * @since 3.0.0
+   * @param key to identify persistence location
+   * @param lines to persist
    */
   public static void addNewMultiLineSample(String key, List<String> lines) {
     String sampleFileName = FilenameUtils.concat(FILE_NAME_ROOT_DIR_SAVE_SAMPLED_TEXTS, key + ".txt");
@@ -98,25 +104,30 @@ public final class TextSampleManager {
       }
     }
     catch (IOException ex) {
-      getLogger().error("could not persist sample for key '" + key + "'", ex);
+      LOG.error("could not persist sample for key '" + key + "'", ex);
     }
   }
 
   /**
    * Adds a new text sample for optional persisting.
+   *
    * @param key this door is opened with the key to your imagination
    * @param value added
+   * @since 3.0.0
    */
   public static void addNewTextSample(String key, String value) {
     String escapeHtml = GaleniumReportUtil.escapeHtml(value);
 
-    getLogger().trace("adding new text sample: " + key + "->'" + StringUtils.abbreviateMiddle(escapeHtml, "...", 200) + "'");
+    LOG.trace("adding new text sample: " + key + "->'" + StringUtils.abbreviateMiddle(escapeHtml, "...", 200) + "'");
     SAMPLED_TEXTS.setProperty(key, value);
   }
 
   /**
+   * <p>getExpectedText.</p>
+   *
    * @param key to look up text
    * @return text expected for this key
+   * @since 3.0.0
    */
   public static List<String> getExpectedLines(String key) {
     try {
@@ -130,26 +141,38 @@ public final class TextSampleManager {
       return decodedLines;
     }
     catch (IOException ex) {
-      getLogger().info("could not read sample for key '" + key + "'", ex);
+      LOG.info("could not read sample for key '" + key + "'", ex);
     }
     return Collections.emptyList();
   }
 
   /**
+   * <p>getExpectedText.</p>
+   *
    * @param key to look up text
    * @return text expected for this key
+   * @since 3.0.0
    */
   public static String getExpectedText(String key) {
     return EXPECTED_TEXTS.getProperty(key);
   }
 
+  /**
+   * <p>getExpectedTexts.</p>
+   *
+   * @return a {@link java.util.Properties} object.
+   * @since 3.0.0
+   */
   public static Properties getExpectedTexts() {
     return EXPECTED_TEXTS;
   }
 
   /**
+   * <p>getExpectedTextsForPrefix.</p>
+   *
    * @param prefix used to filter properties
    * @return new Properties containing only entries starting with the prefix
+   * @since 3.0.0
    */
   public static Properties getExpectedTextsForPrefix(String prefix) {
     return PropertiesUtil.getAllPropertiesWithPrefix(EXPECTED_TEXTS, prefix);
@@ -157,19 +180,17 @@ public final class TextSampleManager {
 
   /**
    * Write all stored new text samples to disk for easy replacement of existing expected values.
+   *
+   * @since 3.0.0
    */
   public static void persistNewTextSamples() {
     if (SAMPLED_TEXTS.isEmpty()) {
-      getLogger().debug("no text samples to persist.");
+      LOG.debug("no text samples to persist.");
     }
     else {
       writeNewTextSamples();
       reencodeToUnixLineEndings();
     }
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
   private static WriterOutputStream getOutputStream() throws IOException {
@@ -181,6 +202,7 @@ public final class TextSampleManager {
   }
 
   /** to reduce changes in the file we force the lineendings to be in unix format */
+  @SuppressWarnings("deprecation")
   private static void reencodeToUnixLineEndings() {
 
     File temp = null;
@@ -204,11 +226,11 @@ public final class TextSampleManager {
 
       Files.delete(OUTPUT_FILE.toPath());
       Files.move(temp.toPath(), OUTPUT_FILE.toPath());
-      getLogger().debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
+      LOG.debug("successfully reencoded to unix lineendings: " + OUTPUT_FILE);
 
     }
     catch (IOException e) {
-      getLogger().warn("could not reencode: '" + OUTPUT_FILE + "'", e);
+      LOG.warn("could not reencode: '" + OUTPUT_FILE + "'", e);
     }
     finally {
       FileUtils.deleteQuietly(temp);
@@ -221,13 +243,13 @@ public final class TextSampleManager {
   private static void writeNewTextSamples() {
     WriterOutputStream writerOutputStream = null;
     try {
-      getLogger().debug("Persisting " + SAMPLED_TEXTS.size() + " text samples.");
+      LOG.debug("Persisting " + SAMPLED_TEXTS.size() + " text samples.");
       writerOutputStream = getOutputStream();
       EXPECTED_TEXTS.store(writerOutputStream, "Expected texts");
       SAMPLED_TEXTS.store(writerOutputStream, "Sampled texts");
     }
     catch (IOException ex) {
-      getLogger().error("Could not save sample texts to '" + OUTPUT_FILE + "'");
+      LOG.error("Could not save sample texts to '" + OUTPUT_FILE + "'");
     }
     finally {
       if (writerOutputStream != null) {
@@ -235,7 +257,7 @@ public final class TextSampleManager {
           writerOutputStream.close();
         }
         catch (IOException ex) {
-          getLogger().warn("error when closing file output stream: '" + OUTPUT_FILE + "'");
+          LOG.warn("error when closing file output stream: '" + OUTPUT_FILE + "'");
         }
       }
     }

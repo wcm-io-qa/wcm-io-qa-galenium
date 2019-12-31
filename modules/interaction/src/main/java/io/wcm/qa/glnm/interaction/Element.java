@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import java.util.List;
@@ -32,19 +30,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
  * Utility methods for interaction with web elements.
+ *
+ * @since 1.0.0
  */
 public final class Element {
 
-  private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
+  private static final Logger LOG = LoggerFactory.getLogger(Element.class);
 
   private Element() {
     // do not instantiate
@@ -52,7 +52,9 @@ public final class Element {
 
   /**
    * Click element.
+   *
    * @param selector identifies the element
+   * @since 1.0.0
    */
   public static void click(Selector selector) {
     WebElement element = findOrFail(selector);
@@ -61,23 +63,29 @@ public final class Element {
 
   /**
    * Click element with specific text.
+   *
    * @param selector identifies the elements to be checked for partial text
    * @param searchStr string to be found as part of text of element
+   * @return a boolean.
+   * @since 1.0.0
    */
   public static boolean clickByPartialText(Selector selector, String searchStr) {
-    getLogger().debug("looking for pattern: '" + searchStr + "'");
+    LOG.debug("looking for pattern: '" + searchStr + "'");
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
       clickNth(selector, 0, element, "(found by string '" + searchStr + "')");
       return true;
     }
-    getLogger().debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
+    LOG.debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
     return false;
   }
 
   /**
    * Click element.
+   *
    * @param selector identifies the element
+   * @param index a int.
+   * @since 1.0.0
    */
   public static void clickNth(Selector selector, int index) {
     WebElement element = findNthOrFail(selector, index);
@@ -85,24 +93,33 @@ public final class Element {
   }
 
   /**
+   * <p>find.</p>
+   *
    * @param selector used to find first matching element
    * @return matching element if it is visible or null
+   * @since 1.0.0
    */
   public static WebElement find(Selector selector) {
     return find(selector, TimeoutType.DEFAULT);
   }
 
   /**
+   * <p>findAll.</p>
+   *
    * @param selector used to find elements
    * @return list of elements matched by selector
+   * @since 1.0.0
    */
   public static List<WebElement> findAll(Selector selector) {
     return findAll(selector, TimeoutType.DEFAULT);
   }
 
   /**
+   * <p>findAllNow.</p>
+   *
    * @param selector used to find elements
    * @return list of elements matched by selector
+   * @since 1.0.0
    */
   public static List<WebElement> findAllNow(Selector selector) {
     return findAll(selector, TimeoutType.NOW);
@@ -110,9 +127,11 @@ public final class Element {
 
   /**
    * Find elements by partial text.
+   *
    * @param selector used to find elements
    * @param searchStr used to filter elements that contain this text
    * @return matching element if it is visible or null
+   * @since 1.0.0
    */
   public static WebElement findByPartialText(Selector selector, String searchStr) {
     List<WebElement> elements = findAll(selector);
@@ -127,70 +146,80 @@ public final class Element {
 
   /**
    * Will return immediately whether element is found or not.
+   *
    * @param selector used to find element
    * @return matching element if it is visible or null
+   * @since 1.0.0
    */
   public static WebElement findNow(Selector selector) {
     return find(selector, TimeoutType.NOW);
   }
 
-  private static WebElement find(Selector selector, TimeoutType timeout) {
-    return findNth(selector, 0, timeout);
-  }
-
   /**
+   * <p>findNth.</p>
+   *
    * @param selector used to find elements
    * @param index used to choose which element
    * @return matching element if it is visible or null
+   * @since 1.0.0
    */
   public static WebElement findNth(Selector selector, int index) {
     return findNth(selector, index, TimeoutType.DEFAULT);
   }
 
   /**
+   * <p>findNthNow.</p>
+   *
    * @param selector used to find elements
    * @param index used to choose which element
    * @return matching element if it is immediately visible or null
+   * @since 1.0.0
    */
   public static WebElement findNthNow(Selector selector, int index) {
     return findNth(selector, index, TimeoutType.NOW);
   }
 
   /**
-   * Return nth element or fail with {@link GaleniumException}.
+   * Return nth element or fail with  {@link io.wcm.qa.glnm.exceptions.GaleniumException}.
+   *
    * @param selector identifies elements
    * @param index identifies which element
    * @return matching element
-   * @throws GaleniumException when element cannot be found
+   * @since 1.0.0
    */
   public static WebElement findNthOrFail(Selector selector, int index) {
     return findNthOrFail(selector, index, TimeoutType.DEFAULT);
   }
 
   /**
-   * Return nth element immediately or fail with {@link GaleniumException}.
+   * Return nth element immediately or fail with  {@link io.wcm.qa.glnm.exceptions.GaleniumException}.
+   *
    * @param selector identifies elements
    * @param index identifies which element
    * @return matching element
-   * @throws GaleniumException when element cannot be found
+   * @since 1.0.0
    */
   public static WebElement findNthOrFailNow(Selector selector, int index) {
     return findNthOrFail(selector, index, TimeoutType.NOW);
   }
 
   /**
-   * Return element or fail with {@link GaleniumException}.
+   * Return element or fail with  {@link io.wcm.qa.glnm.exceptions.GaleniumException}.
+   *
    * @param selector identifies the element
    * @return element found
+   * @since 1.0.0
    */
   public static WebElement findOrFail(Selector selector) {
     return findNthOrFail(selector, 0);
   }
 
   /**
-   * Return element or fail with {@link GaleniumException} immediately.
+   * Return element or fail with  {@link io.wcm.qa.glnm.exceptions.GaleniumException} immediately.
+   *
    * @param selector identifies the element
    * @return element found
+   * @since 1.0.0
    */
   public static WebElement findOrFailNow(Selector selector) {
     int index = 0;
@@ -199,10 +228,12 @@ public final class Element {
 
   /**
    * Checks whether element attribute value equals string argument.
+   *
    * @param selector identifies element
    * @param name attribute to check
    * @param value value to compare against
    * @return whether element with attribute exists and attribute string representation is equal to value.
+   * @since 1.0.0
    */
   public static boolean hasAttribute(Selector selector, String name, String value) {
     WebElement element = find(selector);
@@ -214,9 +245,11 @@ public final class Element {
 
   /**
    * Checks for CSS class on element.
+   *
    * @param selector identifies element
    * @param cssClass CSS class to check for
    * @return whether element has a CSS class equal to the value passed
+   * @since 1.0.0
    */
   public static boolean hasCssClass(Selector selector, String cssClass) {
     WebElement element = find(selector);
@@ -229,8 +262,12 @@ public final class Element {
   }
 
   /**
+   * <p>isNthVisible.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found immediately and is displayed
+   * @param index a int.
+   * @since 1.0.0
    */
   public static boolean isNthVisible(Selector selector, int index) {
     WebElement element = findNth(selector, index);
@@ -238,8 +275,12 @@ public final class Element {
   }
 
   /**
+   * <p>isNthVisibleNow.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found immediately and is displayed
+   * @param index a int.
+   * @since 1.0.0
    */
   public static boolean isNthVisibleNow(Selector selector, int index) {
     WebElement element = findNthNow(selector, index);
@@ -247,16 +288,22 @@ public final class Element {
   }
 
   /**
+   * <p>isVisible.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found and is displayed
+   * @since 1.0.0
    */
   public static boolean isVisible(Selector selector) {
     return isNthVisible(selector, 0);
   }
 
   /**
+   * <p>isVisibleNow.</p>
+   *
    * @param selector identifies element
    * @return whether element can be found and is displayed
+   * @since 1.0.0
    */
   public static boolean isVisibleNow(Selector selector) {
     return isNthVisibleNow(selector, 0);
@@ -264,7 +311,9 @@ public final class Element {
 
   /**
    * Scroll element into view.
+   *
    * @param selector identifies element
+   * @since 1.0.0
    */
   public static void scrollTo(Selector selector) {
     int index = 0;
@@ -273,7 +322,9 @@ public final class Element {
 
   /**
    * Scroll element into view.
+   *
    * @param elementToScrollTo element to scroll to
+   * @since 1.0.0
    */
   public static void scrollTo(WebElement elementToScrollTo) {
     Actions actions = new Actions(getDriver());
@@ -283,11 +334,14 @@ public final class Element {
 
   /**
    * Scroll nth element into view.
+   *
    * @param selector identifies element
+   * @param index a int.
+   * @since 1.0.0
    */
   public static void scrollToNth(Selector selector, int index) {
     StringBuilder message = getSelectorMessageBuilder("Scrolling to element: ", selector, index);
-    getLogger().debug(MARKER_INFO, message.toString());
+    LOG.debug(message.toString());
     WebElement elementToScrollTo = findNth(selector, index);
     scrollTo(elementToScrollTo);
   }
@@ -304,10 +358,14 @@ public final class Element {
       StringBuilder message = getSelectorMessageBuilder("Stale element when attempting to click ", selector, index)
           .append(": '")
           .append(ex.getMessage());
-      getLogger().debug(message.toString());
+      LOG.debug(message.toString());
       findNthOrFailNow(selector, index).click();
     }
-    getLogger().info(MARKER_PASS, getClickLogMessage(selector, index, extraMessage));
+    Allure.step(getClickLogMessage(selector, index, extraMessage));
+  }
+
+  private static WebElement find(Selector selector, TimeoutType timeout) {
+    return findNth(selector, 0, timeout);
   }
 
   private static List<WebElement> findAll(Selector selector, TimeoutType type) {
@@ -324,10 +382,10 @@ public final class Element {
 
     List<WebElement> allElements = findAll(selector, type);
 
-    if (getLogger().isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
       StringBuilder message = getSelectorMessageBuilder("looking for ", selector, index);
       message.append(" and found ").append(allElements.size()).append(" element(s) total");
-      getLogger().trace(message.toString());
+      LOG.trace(message.toString());
     }
 
     if (allElements.size() > index) {
@@ -355,7 +413,7 @@ public final class Element {
 
     // success
     message.append(" and found ").append(allElements.size()).append(" element(s) total");
-    getLogger().trace(message.toString());
+    LOG.trace(message.toString());
     WebElement element = allElements.get(index);
     if (element != null) {
       return element;
@@ -371,10 +429,6 @@ public final class Element {
       message.append(extraMessage);
     }
     return message.toString();
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
   private static StringBuilder getSelectorMessageBuilder(String prefix, Selector selector, int index) {

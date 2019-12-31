@@ -30,58 +30,59 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
-import io.wcm.qa.glnm.sampling.UselessSampler;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 import io.wcm.qa.glnm.sampling.transform.JsonSampler;
 
 /**
  * Samples paths from JCQ query against AEM author.
+ *
+ * @since 3.0.0
  */
 public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
 
-  private static final String VALUE_LIKE = "like";
+  private static final Predicate<String> HIT_KEY_FILTER = new HitKeyFilter();
+
+  private static final Logger LOG = LoggerFactory.getLogger(JcrQuerySampler.class);
+
+  private static final String PARAM_HITS = "p.hits";
+  private static final String PARAM_LIMIT = "p.limit";
+  private static final String PARAM_ORDERBY = "orderby";
+  private static final String PARAM_PATH = "path";
+  private static final String PATH_TO_QUERYBUILDER_JSON = "/bin/querybuilder.json";
   private static final String POSTFIX_OPERATION = ".operation";
   private static final String POSTFIX_VALUE = ".value";
   private static final String PREFIX_PROPERTY = "_property";
-  private static final String VALUE_ORDERBYPATH = "path";
   private static final String VALUE_HITS_SELECTIVE = "selective";
-  private static final String PARAM_ORDERBY = "orderby";
-  private static final String PARAM_LIMIT = "p.limit";
-  private static final String PARAM_HITS = "p.hits";
-  private static final String PARAM_PATH = VALUE_ORDERBYPATH;
-  private static final String PATH_TO_QUERYBUILDER_JSON = "/bin/querybuilder.json";
-  private static final Predicate<String> HIT_KEY_FILTER = new Predicate<String>() {
-    @Override
-    public boolean apply(@Nullable String input) {
-      return StringUtils.startsWith(input, "hits[");
-    }
-  };
-  private Map<String, String> propertiesStrict = new HashMap<String, String>();
-  private Map<String, String> propertiesLike = new HashMap<String, String>();
-  private String path;
-  private String protocol = "http";
+  private static final String VALUE_LIKE = "like";
+  private static final String VALUE_ORDERBYPATH = "path";
   private String hostName = "localhost";
-  private String userName = "admin";
-  private String password = "admin";
   private boolean loginToAuthor = true;
-  private int port = 4502;
   private int maxNumberOfResults = 1000;
-
+  private String password = "admin";
+  private String path;
+  private int port = 4502;
+  private Map<String, String> propertiesLike = new HashMap<String, String>();
+  private Map<String, String> propertiesStrict = new HashMap<String, String>();
+  private String protocol = "http";
+  private String userName = "admin";
   /**
    * Constructor.
    */
-  @SuppressWarnings("unchecked")
   public JcrQuerySampler() {
-    super(new UselessSampler());
+    super();
   }
 
   /**
+   * <p>addLikeProperty.</p>
+   *
    * @param name of property to filter by
    * @param pattern jcr:like pattern to match value of property
    * @return this
@@ -92,6 +93,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   }
 
   /**
+   * <p>addStrictProperty.</p>
+   *
    * @param name of property to filter by
    * @param value exact value of property
    * @return this
@@ -101,6 +104,7 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     return this;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Map<String, String> freshSample() {
     String url = buildUrl();
@@ -110,119 +114,159 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     setInput(stringSampler);
     Map<String, String> freshSample = super.freshSample();
     Set<Entry<String, String>> entrySet = freshSample.entrySet();
-    if (getLogger().isTraceEnabled()) {
+    if (LOG.isTraceEnabled()) {
     for (Entry<String, String> entry : entrySet) {
       String key = entry.getKey();
       String value = entry.getValue();
-        getLogger().trace("JSON: " + key + " -> " + value);
+        LOG.trace("JSON: " + key + " -> " + value);
       }
     }
 
     return Maps.filterKeys(freshSample, HIT_KEY_FILTER);
   }
 
+  /**
+   * <p>Getter for the field <code>hostName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getHostName() {
     return hostName;
   }
 
+  /**
+   * <p>Getter for the field <code>maxNumberOfResults</code>.</p>
+   *
+   * @return a int.
+   */
   public int getMaxNumberOfResults() {
     return maxNumberOfResults;
   }
 
+  /**
+   * <p>Getter for the field <code>password</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPassword() {
     return password;
   }
 
+  /**
+   * <p>Getter for the field <code>path</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * <p>Getter for the field <code>port</code>.</p>
+   *
+   * @return a int.
+   */
   public int getPort() {
     return port;
   }
 
+  /**
+   * <p>Getter for the field <code>protocol</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getProtocol() {
     return protocol;
   }
 
+  /**
+   * <p>Getter for the field <code>userName</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getUserName() {
     return userName;
   }
 
+  /**
+   * <p>isLoginToAuthor.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isLoginToAuthor() {
     return loginToAuthor;
   }
 
   /**
+   * <p>Setter for the field <code>hostName</code>.</p>
+   *
    * @param host to use for login and query
-   * @return this
    */
-  public JcrQuerySampler setHostName(String host) {
+  public void setHostName(String host) {
     this.hostName = host;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>loginToAuthor</code>.</p>
+   *
    * @param login whether to login before querying
-   * @return this
    */
-  public JcrQuerySampler setLoginToAuthor(boolean login) {
+  public void setLoginToAuthor(boolean login) {
     this.loginToAuthor = login;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>maxNumberOfResults</code>.</p>
+   *
    * @param maxResults limit on number of returned results (default: 1000)
-   * @return this
    */
-  public JcrQuerySampler setMaxNumberOfResults(int maxResults) {
+  public void setMaxNumberOfResults(int maxResults) {
     this.maxNumberOfResults = maxResults;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>password</code>.</p>
+   *
    * @param pass to use for login
-   * @return this
    */
-  public JcrQuerySampler setPassword(String pass) {
+  public void setPassword(String pass) {
     this.password = pass;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>path</code>.</p>
+   *
    * @param rootPath to use as constraint
-   * @return this
    */
-  public JcrQuerySampler setPath(String rootPath) {
+  public void setPath(String rootPath) {
     this.path = rootPath;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>port</code>.</p>
+   *
    * @param portNumber to use for query and login
-   * @return this
    */
-  public JcrQuerySampler setPort(int portNumber) {
+  public void setPort(int portNumber) {
     this.port = portNumber;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>protocol</code>.</p>
+   *
    * @param scheme to use for query and login
-   * @return this
    */
-  public JcrQuerySampler setProtocol(String scheme) {
+  public void setProtocol(String scheme) {
     this.protocol = scheme;
-    return this;
   }
 
   /**
+   * <p>Setter for the field <code>userName</code>.</p>
+   *
    * @param user to use for login
-   * @return this
    */
-  public JcrQuerySampler setUserName(String user) {
+  public void setUserName(String user) {
     this.userName = user;
-    return this;
   }
 
   private String getQuery() {
@@ -287,6 +331,14 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
             .append("=")
             .append(value)
             .toString());
+  }
+
+  private static final class HitKeyFilter implements Predicate<String> {
+
+    @Override
+    public boolean apply(@Nullable String input) {
+      return StringUtils.startsWith(input, "hits[");
+    }
   }
 
 }

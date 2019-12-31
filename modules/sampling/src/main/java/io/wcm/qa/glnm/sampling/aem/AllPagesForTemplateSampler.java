@@ -31,6 +31,8 @@ import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
  * Fetches all pages for
+ *
+ * @since 3.0.0
  */
 public class AllPagesForTemplateSampler extends TransformationBasedSampler<Sampler<Map<String, String>>, Map<String, String>, Iterable> {
 
@@ -38,6 +40,8 @@ public class AllPagesForTemplateSampler extends TransformationBasedSampler<Sampl
   private static final String PROPERTY_NAME_CQ_TEMPLATE = "cq:template";
 
   /**
+   * <p>Constructor for AllPagesForTemplateSampler.</p>
+   *
    * @param namePattern used to constrain template names using jcr:like syntax
    * @param rootPath to constrain where to look for pages
    */
@@ -61,14 +65,20 @@ public class AllPagesForTemplateSampler extends TransformationBasedSampler<Sampl
     return StringUtils.removeEnd(path, PATH_FRAGMENT_JCR_CONTENT);
   }
 
+  /**
+   * <p>getQuerySampler.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.sampling.aem.JcrQuerySampler} object.
+   */
   public JcrQuerySampler getQuerySampler() {
     return (JcrQuerySampler)getInput();
   }
 
   private static JcrQuerySampler buildInputSampler(String templateNamePattern, String rootPath) {
-    return new JcrQuerySampler()
-        .addLikeProperty(PROPERTY_NAME_CQ_TEMPLATE, templateNamePattern)
-        .setPath(rootPath);
+    JcrQuerySampler jcrQuerySampler = new JcrQuerySampler();
+    jcrQuerySampler.addLikeProperty(PROPERTY_NAME_CQ_TEMPLATE, templateNamePattern);
+    jcrQuerySampler.setPath(rootPath);
+    return jcrQuerySampler;
   }
 
 }

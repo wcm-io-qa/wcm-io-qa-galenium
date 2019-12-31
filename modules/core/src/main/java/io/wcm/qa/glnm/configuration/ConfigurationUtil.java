@@ -19,17 +19,22 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Convenience methods to set system properties.
+ *
+ * @since 1.0.0
  */
 public final class ConfigurationUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ConfigurationUtil.class);
 
   private ConfigurationUtil() {
     // do not instantiate
@@ -37,22 +42,26 @@ public final class ConfigurationUtil {
 
   /**
    * Adds a system property.
+   *
    * @param name of property
    * @param value of property
+   * @since 3.0.0
    */
   public static void addProperty(Object name, Object value) {
     if (name == null || value == null) {
-      getLogger().info("skipping entry: " + name + "->" + value);
+      LOG.debug("skipping entry: " + name + "->" + value);
     }
     else {
-      getLogger().info("adding entry: " + name + "->" + value);
+      LOG.debug("adding entry: " + name + "->" + value);
       System.setProperty(name.toString(), value.toString());
     }
   }
 
   /**
    * Add properties from map to system properties.
+   *
    * @param newProperties to add
+   * @since 3.0.0
    */
   public static void addToSystemProperties(Map<String, String> newProperties) {
     Set<Entry<String, String>> entrySet = newProperties.entrySet();
@@ -63,14 +72,16 @@ public final class ConfigurationUtil {
         addProperty(name, value);
       }
       else {
-        getLogger().warn("entry for system property was null.");
+        LOG.warn("entry for system property was null.");
       }
     }
   }
 
   /**
    * Add system properties.
+   *
    * @param newProperties to add
+   * @since 3.0.0
    */
   public static void addToSystemProperties(Properties newProperties) {
     for (String name : newProperties.stringPropertyNames()) {

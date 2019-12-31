@@ -1,52 +1,8 @@
 <configuration>
 
-  <!-- Assertion logging -->
-  <turboFilter
-    class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.assertion</Marker>
-    <OnMatch>ACCEPT</OnMatch>
-  </turboFilter>
-
-  <!-- WebDriver logging -->
-  <turboFilter
-    class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.webdriver</Marker>
-    <OnMatch>DENY</OnMatch>
-  </turboFilter>
-
-  <!-- Element interaction logging -->
-  <turboFilter
-    class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.interaction.element</Marker>
-    <OnMatch>NEUTRAL</OnMatch>
-  </turboFilter>
-
-  <!-- Special handling of internal Galenium listener logging -->
-  <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.listeners</Marker>
-    <OnMatch>DENY</OnMatch>
-  </turboFilter>
-
-  <!-- Name sanitization logging -->
-  <turboFilter
-    class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.naming</Marker>
-    <OnMatch>DENY</OnMatch>
-  </turboFilter>
-
-  <!-- Internal GaleniumReportUtil logging -->
-  <turboFilter
-    class="ch.qos.logback.classic.turbo.MarkerFilter">
-    <Marker>galenium.reporting.internal</Marker>
-    <OnMatch>DENY</OnMatch>
-  </turboFilter>
-
-  <appender name="EXTENT"
-    class="io.wcm.qa.glnm.appender.logback.ExtentAppender" />
-
   <appender name="STDOUT"
     class="ch.qos.logback.core.ConsoleAppender">
-    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
       by default -->
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
@@ -54,31 +10,37 @@
     </encoder>
   </appender>
 
-  <if
-    condition="Boolean.getBoolean(&quot;galenium.report.sparse&quot;)">
-    <then>
-      <logger name="glnm.example" level="INFO">
-        <appender-ref ref="EXTENT" />
-      </logger>
-      <turboFilter
-        class="ch.qos.logback.classic.turbo.MarkerFilter">
-        <Marker>webdriver</Marker>
-        <OnMatch>DENY</OnMatch>
-      </turboFilter>
-    </then>
-    <else>
-      <logger name="glnm.example" level="TRACE">
-        <appender-ref ref="EXTENT" />
-      </logger>
-    </else>
-  </if>
+  <appender name="TestLogAppender" class="ch.qos.logback.classic.sift.SiftingAppender">
+      <discriminator>
+         <Key>glnm.testname</Key>
+         <DefaultValue>testrun</DefaultValue>
+      </discriminator>
+      <sift>
+         <appender name="FILE-${testname}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>${galenium.logging.testlogs}/${glnm.testname}.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+               <FileNamePattern>${galenium.logging.testlogs}/${glnm.testname}.%i.log</FileNamePattern>
+               <MinIndex>1</MinIndex>
+               <MaxIndex>100</MaxIndex>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+               <MaxFileSize>5MB</MaxFileSize>
+            </triggeringPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+               <Pattern>%d{ISO8601} %-5level %C{1}[%thread] - %msg%n</Pattern>
+            </layout>
+         </appender>
+      </sift>
+   </appender>
 
+  <logger name="io.qameta" level="TRACE" />
   <logger name="io.github.bonigarcia.wdm" level="WARN" />
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />
 
   <root level="TRACE">
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="TestLogAppender" />
   </root>
 
 </configuration>

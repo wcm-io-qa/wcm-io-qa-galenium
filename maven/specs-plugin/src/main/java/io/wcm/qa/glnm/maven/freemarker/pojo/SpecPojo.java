@@ -19,16 +19,16 @@
  */
 package io.wcm.qa.glnm.maven.freemarker.pojo;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.io.FilenameUtils;
 
-import com.galenframework.specs.page.PageSpec;
-
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
+import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
+import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
@@ -36,26 +36,36 @@ import io.wcm.qa.glnm.util.FileHandlingUtil;
 
 /**
  * Holds data from Galen spec to use in generation.
+ *
+ * @since 1.0.0
  */
 public class SpecPojo {
 
-  private PageSpec pageSpec;
   private Collection<SelectorPojo> selectors;
   private File specFile;
   private Collection<String> tags;
 
   /**
+   * <p>Constructor for SpecPojo.</p>
+   *
    * @param specFile to retrieve data from
    */
   public SpecPojo(File specFile) {
     setSpecFile(specFile);
   }
 
+  /**
+   * <p>getBaseName.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
   public String getBaseName() {
     return FilenameUtils.getBaseName(getFilename());
   }
 
   /**
+   * <p>getClassName.</p>
+   *
    * @return class name extracted from spec file
    */
   public String getClassName() {
@@ -64,6 +74,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getFilename.</p>
+   *
    * @return spec file name
    */
   public String getFilename() {
@@ -71,6 +83,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getPackageNamePart.</p>
+   *
    * @return package name from spec file path
    */
   public String getPackageNamePart() {
@@ -79,16 +93,8 @@ public class SpecPojo {
   }
 
   /**
-   * @return parsed Galen spec
-   */
-  public PageSpec getPageSpec() {
-    if (pageSpec == null) {
-      pageSpec = ParsingUtil.readSpec(getSpecFile());
-    }
-    return pageSpec;
-  }
-
-  /**
+   * <p>getRelativeFilePath.</p>
+   *
    * @return relative path to Galen spec file
    */
   public String getRelativeFilePath() {
@@ -97,6 +103,8 @@ public class SpecPojo {
   }
 
   /**
+   * <p>getRootSelectors.</p>
+   *
    * @return root objects from Galen spec
    */
   public Collection<SelectorPojo> getRootSelectors() {
@@ -110,23 +118,33 @@ public class SpecPojo {
   }
 
   /**
+   * <p>Getter for the field <code>selectors</code>.</p>
+   *
    * @return all selectors from spec
    */
   public Collection<SelectorPojo> getSelectors() {
     if (selectors == null) {
       selectors = new ArrayList<SelectorPojo>();
-      for (NestedSelector selector : GalenHelperUtil.getObjects(getPageSpec())) {
+      GalenSpec galenSpec = new FileBasedGalenSpec(getSpecFile());
+      for (NestedSelector selector : galenSpec.getObjects()) {
         selectors.add(new SelectorPojo(this, selector));
       }
     }
     return selectors;
   }
 
+  /**
+   * <p>Getter for the field <code>specFile</code>.</p>
+   *
+   * @return a {@link java.io.File} object.
+   */
   public File getSpecFile() {
     return specFile;
   }
 
   /**
+   * <p>Getter for the field <code>tags</code>.</p>
+   *
    * @return tags used in Galen spec
    */
   public Collection<String> getTags() {

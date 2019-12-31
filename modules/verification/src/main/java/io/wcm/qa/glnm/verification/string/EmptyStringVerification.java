@@ -20,19 +20,27 @@
 package io.wcm.qa.glnm.verification.string;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that string is empty.
+ *
+ * @since 1.0.0
  */
 public class EmptyStringVerification extends StringVerification {
 
+  private static final Logger LOG = LoggerFactory.getLogger(EmptyStringVerification.class);
+
   /**
    * Verify sampled input is empty.
+   *
    * @param verificationName name for this check
    * @param sampler provides input sample
+   * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, Sampler<String> sampler) {
     super(verificationName, sampler);
@@ -40,8 +48,10 @@ public class EmptyStringVerification extends StringVerification {
 
   /**
    * Verify fixed string is empty.
+   *
    * @param verificationName name for this check
    * @param sample fixed input sample
+   * @since 2.0.0
    */
   public EmptyStringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));
@@ -50,8 +60,8 @@ public class EmptyStringVerification extends StringVerification {
   @Override
   protected void afterVerification() {
     String cachedValue = getCachedValue();
-    getLogger().trace("found: '" + cachedValue + "'");
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("found: '" + cachedValue + "'");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

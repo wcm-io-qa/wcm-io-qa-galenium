@@ -28,3 +28,5 @@ npm-debug.log
 *.swp
 example-project/chromedriver.log
 *.log
+.allure
+bin/

@@ -26,9 +26,12 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
  * Samples Har from BrowserMob Proxy.
+ *
+ * @since 1.0.0
  */
 public class HarSampler extends CachingBasedSampler<Har> {
 
+  /** {@inheritDoc} */
   @Override
   public Har freshSample() {
     return getHar();

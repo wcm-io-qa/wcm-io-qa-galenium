@@ -24,28 +24,57 @@ import java.util.function.BiPredicate;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.algorithm.DiffException;
+import com.github.difflib.patch.Patch;
+
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.persistence.util.TextSampleManager;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.diff.base.SamplerBasedDiffVerification;
 
 /**
  * Diff based verification for String based samplers.
+ *
  * @param <S> sampler to use
+ * @since 3.0.0
  */
 public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<String>>> extends SamplerBasedDiffVerification<S, String, List<String>> {
 
   private boolean ignoreWhitespace;
 
-  protected SamplerBasedStringDiffVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected SamplerBasedStringDiffVerification(S sampler) {
+    super(sampler);
   }
 
+  /**
+   * <p>isIgnoreWhitespace.</p>
+   *
+   * @return a boolean.
+   */
   public boolean isIgnoreWhitespace() {
     return ignoreWhitespace;
   }
 
+  /**
+   * <p>Setter for the field <code>ignoreWhitespace</code>.</p>
+   *
+   * @param ignoreWhitespace a boolean.
+   */
   public void setIgnoreWhitespace(boolean ignoreWhitespace) {
     this.ignoreWhitespace = ignoreWhitespace;
+  }
+
+  @Override
+  protected void diff(List<String> expectedValue, List<String> actualValue) {
+    Patch<String> diff;
+    try {
+      diff = DiffUtils.diff(expectedValue, actualValue, getDiffEqualizer());
+      setDiffResult(diff);
+    }
+    catch (DiffException ex) {
+      throw new GaleniumException("Malfunctioning diff.", ex);
+    }
   }
 
   @Override
@@ -60,9 +89,9 @@ public abstract class SamplerBasedStringDiffVerification<S extends Sampler<List<
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asFilePath();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanName() + "/" + expectedKey;
+      return getCleanedClassName() + "/" + expectedKey;
     }
-    return getCleanName();
+    return getCleanedClassName();
   }
 
   @Override

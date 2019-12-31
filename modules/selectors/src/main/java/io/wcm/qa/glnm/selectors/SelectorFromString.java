@@ -20,14 +20,17 @@
 package io.wcm.qa.glnm.selectors;
 
 import io.wcm.qa.glnm.selectors.base.AbstractSelectorBase;
-import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Implementation of {@link Selector} interface.
+ * Implementation of  {@link io.wcm.qa.glnm.selectors.base.Selector} interface.
+ *
+ * @since 1.0.0
  */
 public class SelectorFromString extends AbstractSelectorBase {
 
   /**
+   * <p>Constructor for SelectorFromString.</p>
+   *
    * @param selectorString CSS selector
    */
   public SelectorFromString(String selectorString) {

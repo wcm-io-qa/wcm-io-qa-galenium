@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.wnameless.json.flattener.JsonFlattener;
 
 import io.wcm.qa.glnm.sampling.Sampler;
@@ -30,17 +33,33 @@ import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
  * Samples JSON formatted data into a flat map.
- * @param <S>
+ *
+ * @param <S> type of sampler supplying a JSON string
+ * @since 1.0.0
  */
 public class JsonSampler<S extends Sampler<String>> extends TransformationBasedSampler<S, String, Map<String, String>> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(JsonSampler.class);
 
   private static final String STRING_REPRESENTATION_NULL = "null";
 
   /**
+   * <p>Constructor for JsonSampler.</p>
+   *
    * @param inputSampler providing the JSON as String
+   * @since 3.0.0
    */
   public JsonSampler(S inputSampler) {
     super(inputSampler);
+  }
+
+  /**
+   * <p>
+   * Constructor for JsonSampler which requires using setter to provide input sampler.
+   * </p>
+   */
+  public JsonSampler() {
+    super();
   }
 
   private String asString(Entry<String, Object> entry) {
@@ -61,7 +80,7 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
 
   @Override
   protected Map<String, String> transform(String inputSample) {
-    getLogger().debug("JsonSampler: attempting to parse '" + inputSample + "'");
+    LOG.debug("JsonSampler: attempting to parse '" + inputSample + "'");
     return ensureOnlyStringValues(JsonFlattener.flattenAsMap(inputSample));
   }
 

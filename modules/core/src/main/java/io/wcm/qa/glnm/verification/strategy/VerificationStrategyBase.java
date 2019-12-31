@@ -22,10 +22,13 @@ package io.wcm.qa.glnm.verification.strategy;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
- * Convenience base class to implement a {@link VerificationStrategy}.
+ * Convenience base class to implement a  {@link io.wcm.qa.glnm.verification.strategy.VerificationStrategy}.
+ *
+ * @since 1.0.0
  */
 public abstract class VerificationStrategyBase implements VerificationStrategy {
 
+  /** {@inheritDoc} */
   @Override
   public void handle(Verification verification) {
     if (verification.verify()) {

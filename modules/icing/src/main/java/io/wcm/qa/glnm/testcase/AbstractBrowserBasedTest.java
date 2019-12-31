@@ -21,27 +21,37 @@ package io.wcm.qa.glnm.testcase;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
+import io.wcm.qa.glnm.device.TestDeviceUtil;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
  * Abstract base class encapsulating basic interaction with Selenium.
+ *
+ * @since 3.0.0
  */
 public abstract class AbstractBrowserBasedTest extends AbstractNamedTest implements HasDevice {
 
   private TestDevice device;
+
+
+  /**
+   * <p>Constructor for AbstractBrowserBasedTest.</p>
+   */
+  public AbstractBrowserBasedTest() {
+    this(TestDeviceUtil.getSingleTestDevice());
+  }
+
   /**
    * Constructor.
+   *
    * @param testDevice test device to use
    */
   public AbstractBrowserBasedTest(TestDevice testDevice) {
     super();
     setDevice(testDevice);
-    getNameDifferences().setTestDevice(testDevice);
   }
 
-  /**
-   * @return the test device used for this test run.
-   */
+  /** {@inheritDoc} */
   @Override
   public TestDevice getDevice() {
     return device;

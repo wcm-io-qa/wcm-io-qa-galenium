@@ -25,12 +25,16 @@ import com.galenframework.specs.page.Locator;
 
 /**
  * Convenience wrapper to add corrections without modifying original locator.
+ *
+ * @since 1.0.0
  */
 public class LocatorCorrectionsWrapper extends Locator {
 
   private CorrectionsRect additionalCorrections;
 
   /**
+   * <p>Constructor for LocatorCorrectionsWrapper.</p>
+   *
    * @param locator locator to delegate everything except additionalCorrections to
    * @param corrections additional corrections to use on this locator
    */
@@ -40,15 +44,26 @@ public class LocatorCorrectionsWrapper extends Locator {
     setAdditionalCorrections(corrections);
   }
 
+  /**
+   * <p>Getter for the field <code>additionalCorrections</code>.</p>
+   *
+   * @return a {@link com.galenframework.specs.page.CorrectionsRect} object.
+   */
   public CorrectionsRect getAdditionalCorrections() {
     return additionalCorrections;
   }
 
+  /** {@inheritDoc} */
   @Override
   public CorrectionsRect getCorrections() {
     return combinedCorrections(super.getCorrections(), getAdditionalCorrections());
   }
 
+  /**
+   * <p>Setter for the field <code>additionalCorrections</code>.</p>
+   *
+   * @param additionalCorrections a {@link com.galenframework.specs.page.CorrectionsRect} object.
+   */
   public void setAdditionalCorrections(CorrectionsRect additionalCorrections) {
     this.additionalCorrections = additionalCorrections;
   }

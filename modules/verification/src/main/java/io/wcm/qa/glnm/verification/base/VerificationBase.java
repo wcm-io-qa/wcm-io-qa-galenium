@@ -19,27 +19,28 @@
  */
 package io.wcm.qa.glnm.verification.base;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_ERROR;
-
 import java.util.Comparator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.format.NameUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
 
 /**
- * Common base for {@link Difference} aware Galenium {@link Verification}.
+ * Common base for  {@link io.wcm.qa.glnm.differences.base.Difference} aware Galenium  {@link io.wcm.qa.glnm.verification.base.Verification}.
+ *
  * @param <T> sample type
+ * @since 1.0.0
  */
 public abstract class VerificationBase<T> implements Verification, CanCache {
 
   private static final int DEFAULT_MAX_NAME_LENGTH_IN_KEY = 30;
+  private static final Logger LOG = LoggerFactory.getLogger(VerificationBase.class);
   private static final String STRING_TO_REMOVE_FROM_CLASS_NAME = "verification";
 
   private T actualValue;
@@ -49,22 +50,25 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   private T expectedValue;
   private int keyMaxLength = DEFAULT_MAX_NAME_LENGTH_IN_KEY;
   private Verification preVerification;
-  private String verificationName;
   private Boolean verified;
 
-
-  protected VerificationBase(String verificationName) {
-    setVerificationName(verificationName);
+  protected VerificationBase() {
     setCaching(true);
   }
 
-  protected VerificationBase(String verificationName, T expectedValue) {
-    this(verificationName);
+  protected VerificationBase(T expectedValue) {
+    this();
     setExpectedValue(expectedValue);
+  }
+
+
+  protected String getVerificationName() {
+    return toString();
   }
 
   /**
    * Add a difference to this verification.
+   *
    * @param difference to add
    * @return this
    */
@@ -74,25 +78,30 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
+   * <p>getComparator.</p>
+   *
    * @return comparator used to sort differences
    */
   public Comparator<Difference> getComparator() {
     return getDifferences().getComparator();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Throwable getException() {
     return exception;
   }
 
+  /**
+   * <p>Getter for the field <code>keyMaxLength</code>.</p>
+   *
+   * @return a int.
+   */
   public int getKeyMaxLength() {
     return keyMaxLength;
   }
 
-  /**
-   * @see Verification#getMessage()
-   * @return aggregated success or failure message for this verification
-   */
+  /** {@inheritDoc} */
   @Override
   public String getMessage() {
     if (isVerified() == null) {
@@ -110,31 +119,29 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   /**
    * Pre verification is run before this verification to test whether it makes sense to attempt verification. Verifying
    * an attribute value is futile if the element does not exist, for example.
+   *
    * @return pre verification
    */
   public Verification getPreVerification() {
     return preVerification;
   }
 
-  /**
-   * @return name of this verification
-   */
-  public String getVerificationName() {
-    return verificationName;
-  }
-
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     return caching;
   }
 
   /**
+   * <p>isVerified.</p>
+   *
    * @return whether verification was successful or null, if verification did not run yet.
    */
   public Boolean isVerified() {
     return verified;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean caching) {
     this.caching = caching;
@@ -142,21 +149,35 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   /**
+   * <p>setComparator.</p>
+   *
    * @param comparator to use for sorting associated differences
    */
   public void setComparator(Comparator<Difference> comparator) {
     getDifferences().setComparator(comparator);
   }
 
+  /**
+   * <p>Setter for the field <code>exception</code>.</p>
+   *
+   * @param exception a {@link java.lang.Throwable} object.
+   */
   public void setException(Throwable exception) {
     this.exception = exception;
   }
 
+  /**
+   * <p>Setter for the field <code>keyMaxLength</code>.</p>
+   *
+   * @param keyMaxLength a int.
+   */
   public void setKeyMaxLength(int keyMaxLength) {
     this.keyMaxLength = keyMaxLength;
   }
 
   /**
+   * <p>Setter for the field <code>preVerification</code>.</p>
+   *
    * @param preVerification to verify before attempting main verification
    */
   public void setPreVerification(Verification preVerification) {
@@ -164,42 +185,50 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     setCachingInPreVerification(caching);
   }
 
+  /**
+   * <p>Setter for the field <code>verified</code>.</p>
+   *
+   * @param verified a {@link java.lang.Boolean} object.
+   */
   public void setVerified(Boolean verified) {
     this.verified = verified;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    String simpleClassName = getClass().getSimpleName();
-    if (isStripVerificationFromClassName()) {
-      stringBuilder.append(StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME));
-    }
-    else {
-      stringBuilder.append(simpleClassName);
-    }
-    stringBuilder.append("(");
-    stringBuilder.append(getVerificationName());
+    StringBuilder sb = new StringBuilder();
+
+    // class name
+    sb.append(getCleanedClassName());
+    sb.append("(");
+
+    // differences
     if (StringUtils.isNotBlank(getDifferences().asPropertyKey())) {
-      stringBuilder.append("|");
-      stringBuilder.append(getDifferences());
+      sb.append(getDifferences());
     }
-    if (StringUtils.isNotBlank(getAdditionalToStringInfo())) {
-      stringBuilder.append(", ");
-      stringBuilder.append(getAdditionalToStringInfo());
+
+    // optional additional info
+    String additionalToStringInfo = getAdditionalToStringInfo();
+    if (StringUtils.isNotBlank(additionalToStringInfo)) {
+      sb.append(", ");
+      sb.append(additionalToStringInfo);
     }
-    stringBuilder.append(")");
-    return stringBuilder.toString();
+    sb.append(")");
+
+    return sb.toString();
   }
 
   /**
+   * {@inheritDoc}
+   *
    * Runs pre verification and this verification using built-in text sampling.
    */
   @Override
   public boolean verify() {
-    getLogger().trace("verifying (" + toString() + ")");
+    LOG.trace("verifying (" + toString() + ")");
     if (hasPreVerification()) {
-      getLogger().trace("preverifying (" + getPreVerification().toString() + ")");
+      LOG.trace("preverifying (" + getPreVerification().toString() + ")");
       if (!getPreVerification().verify()) {
         return false;
       }
@@ -208,12 +237,21 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
       setVerified(doVerification());
     }
     catch (GaleniumException ex) {
-      getLogger().debug(MARKER_ERROR, toString() + ": error occured during verification", ex);
+      LOG.debug(toString() + ": error occured during verification", ex);
       setException(ex);
       setVerified(false);
     }
     afterVerification();
     return isVerified();
+  }
+
+  protected String getCleanedClassName() {
+    String simpleClassName = getClass().getSimpleName();
+    String strippedClassName = simpleClassName;
+    if (isStripVerificationFromClassName()) {
+      strippedClassName = StringUtils.removeEndIgnoreCase(simpleClassName, STRING_TO_REMOVE_FROM_CLASS_NAME);
+    }
+    return strippedClassName;
   }
 
   private void setCachingInPreVerification(boolean cachingForPreverification) {
@@ -224,14 +262,14 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   }
 
   protected void afterVerification() {
-    getLogger().trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
+    LOG.trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
     T cachedValue = getCachedValue();
-    getLogger().trace("found: '" + getValueForLogging(cachedValue) + "'");
+    LOG.trace("found: '" + getValueForLogging(cachedValue) + "'");
     if (!isVerified() && cachedValue != null) {
       String expectedKey = getExpectedKey();
       persistSample(expectedKey, cachedValue);
     }
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   /**
@@ -245,7 +283,7 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected T getActualValue() {
     if (!isCaching()) {
-      getLogger().trace("invalidating cache for: '" + toString() + "'");
+      LOG.trace("invalidating cache for: '" + toString() + "'");
       actualValue = null;
     }
     if (actualValue == null) {
@@ -266,10 +304,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     return actualValue;
   }
 
-  protected String getCleanName() {
-    return NameUtil.getSanitized(getVerificationName().toLowerCase(), getKeyMaxLength());
-  }
-
   protected SortedDifferences getDifferences() {
     if (differences == null) {
       differences = new SortedDifferences();
@@ -283,9 +317,9 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
   protected String getExpectedKey() {
     String expectedKey = getDifferences().asPropertyKey();
     if (StringUtils.isNotBlank(expectedKey)) {
-      return getCleanName() + "." + expectedKey;
+      return getCleanedClassName() + "." + expectedKey;
     }
-    return getCleanName();
+    return getCleanedClassName();
   }
 
   /**
@@ -303,8 +337,8 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected abstract String getFailureMessage();
 
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+  protected int getMaximumStringLengthForLogging() {
+    return 800;
   }
 
   /**
@@ -326,10 +360,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
     String escaped = GaleniumReportUtil.escapeHtml(value.toString());
     String abbreviated = StringUtils.abbreviateMiddle(escaped, "...", getMaximumStringLengthForLogging());
     return abbreviated;
-  }
-
-  protected int getMaximumStringLengthForLogging() {
-    return 800;
   }
 
   /**
@@ -373,10 +403,6 @@ public abstract class VerificationBase<T> implements Verification, CanCache {
    */
   protected void setExpectedValue(T value) {
     this.expectedValue = value;
-  }
-
-  protected void setVerificationName(String verificationName) {
-    this.verificationName = verificationName;
   }
 
 }

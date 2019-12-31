@@ -29,13 +29,18 @@ import io.wcm.qa.glnm.sampling.jsoup.base.JsoupElementBasedSampler;
 
 /**
  * Strips the Jsoup boiler plate and returns just the raw text from the response. Useful for non-HTML samples.
+ *
+ * @since 3.0.0
  */
 public class JsoupRawStringSampler extends JsoupElementBasedSampler<JsoupDocumentSampler, Document, String> {
 
   private boolean bodyOnly;
 
   /**
+   * <p>Constructor for JsoupRawStringSampler.</p>
+   *
    * @param url to fetch document from
+   * @since 3.0.0
    */
   public JsoupRawStringSampler(String url) {
     super(new JsoupDocumentSampler(url));
@@ -64,21 +69,42 @@ public class JsoupRawStringSampler extends JsoupElementBasedSampler<JsoupDocumen
     return element.html();
   }
 
+  /**
+   * <p>getCookieSampler.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.sampling.Sampler} object.
+   * @since 3.0.0
+   */
   public Sampler<Map<String, String>> getCookieSampler() {
     return getInput().getCookieSampler();
   }
 
   /**
+   * <p>setCookieSampler.</p>
+   *
    * @param cookieSampler passed to document sampler
+   * @since 3.0.0
    */
   public void setCookieSampler(Sampler<Map<String, String>> cookieSampler) {
     getInput().setCookieSampler(cookieSampler);
   }
 
+  /**
+   * <p>isBodyOnly.</p>
+   *
+   * @return a boolean.
+   * @since 3.0.0
+   */
   public boolean isBodyOnly() {
     return bodyOnly;
   }
 
+  /**
+   * <p>Setter for the field <code>bodyOnly</code>.</p>
+   *
+   * @param bodyOnly a boolean.
+   * @since 3.0.0
+   */
   public void setBodyOnly(boolean bodyOnly) {
     this.bodyOnly = bodyOnly;
   }

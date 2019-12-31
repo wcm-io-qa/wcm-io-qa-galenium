@@ -28,15 +28,15 @@ import org.htmlcleaner.HtmlSerializer;
 import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.TagNodeVisitor;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.CssClassSorter;
-import io.wcm.qa.glnm.sampling.htmlcleaner.visitors.HtmlAttributeSorter;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 
 /**
- * Uses HTML cleaner to tidy up HTML samples fetched with {@link Jsoup}.
+ * Uses HTML cleaner to tidy up HTML samples fetched with {@link org.jsoup.Jsoup}.
+ *
+ * @since 3.0.0
  */
 public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
@@ -44,22 +44,26 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
   private HtmlSerializer htmlSerializer;
 
-  private boolean sortAttributes = true;
-
   private boolean sortCssClasses = true;
 
   private List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
 
   /**
+   * <p>Constructor for HtmlCleanerSampler.</p>
+   *
    * @param url to sample from
+   * @since 3.0.0
    */
   public HtmlCleanerSampler(String url) {
     this(url, new CleanerProperties());
   }
 
   /**
+   * <p>Constructor for HtmlCleanerSampler.</p>
+   *
    * @param url to sample from
-   * @param cleanerProperties properties to configure {@link HtmlCleaner}
+   * @param cleanerProperties properties to configure {@link org.htmlcleaner.HtmlCleaner}
+   * @since 3.0.0
    */
   public HtmlCleanerSampler(String url, CleanerProperties cleanerProperties) {
     super(url);
@@ -68,18 +72,30 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
   }
 
   /**
+   * <p>addVisitor.</p>
+   *
    * @param visitor to clean HTML
+   * @since 3.0.0
    */
   public void addVisitor(TagNodeVisitor visitor) {
     getVisitors().add(visitor);
   }
 
+  /**
+   * <p>Getter for the field <code>htmlCleanerProperties</code>.</p>
+   *
+   * @return a {@link org.htmlcleaner.CleanerProperties} object.
+   * @since 3.0.0
+   */
   public CleanerProperties getHtmlCleanerProperties() {
     return htmlCleanerProperties;
   }
 
   /**
+   * <p>Getter for the field <code>htmlSerializer</code>.</p>
+   *
    * @return serializer to use for HTML string serialization
+   * @since 3.0.0
    */
   public HtmlSerializer getHtmlSerializer() {
     if (htmlSerializer == null) {
@@ -88,26 +104,42 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     return htmlSerializer;
   }
 
-  public boolean isSortAttributes() {
-    return sortAttributes;
-  }
-
+  /**
+   * <p>isSortCssClasses.</p>
+   *
+   * @return a boolean.
+   * @since 3.0.0
+   */
   public boolean isSortCssClasses() {
     return sortCssClasses;
   }
 
+  /**
+   * <p>Setter for the field <code>htmlCleanerProperties</code>.</p>
+   *
+   * @param htmlCleanerProperties a {@link org.htmlcleaner.CleanerProperties} object.
+   * @since 3.0.0
+   */
   public void setHtmlCleanerProperties(CleanerProperties htmlCleanerProperties) {
     this.htmlCleanerProperties = htmlCleanerProperties;
   }
 
+  /**
+   * <p>Setter for the field <code>htmlSerializer</code>.</p>
+   *
+   * @param htmlSerializer a {@link org.htmlcleaner.HtmlSerializer} object.
+   * @since 3.0.0
+   */
   public void setHtmlSerializer(HtmlSerializer htmlSerializer) {
     this.htmlSerializer = htmlSerializer;
   }
 
-  public void setSortAttributes(boolean sortAttributes) {
-    this.sortAttributes = sortAttributes;
-  }
-
+  /**
+   * <p>Setter for the field <code>sortCssClasses</code>.</p>
+   *
+   * @param sortCssClasses a boolean.
+   * @since 3.0.0
+   */
   public void setSortCssClasses(boolean sortCssClasses) {
     this.sortCssClasses = sortCssClasses;
   }
@@ -124,9 +156,6 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
     TagNode cleanedHtml = htmlCleaner.clean(jsoupHtml);
     if (isSortCssClasses()) {
       cleanedHtml.traverse(new CssClassSorter());
-    }
-    if (isSortAttributes()) {
-      cleanedHtml.traverse(new HtmlAttributeSorter());
     }
     for (TagNodeVisitor visitor : getVisitors()) {
       cleanedHtml.traverse(visitor);

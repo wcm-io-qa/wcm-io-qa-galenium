@@ -22,35 +22,51 @@ package io.wcm.qa.glnm.sampling.transform.regex;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.base.RegexBasedSampler;
 
 /**
  * Samples first match of regular expression from input string.
- * @param <S>
+ *
+ * @param <S> type of input sampler
+ * @since 1.0.0
  */
 public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S, String> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(RegexSampler.class);
+
   /**
+   * <p>Constructor for RegexSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
   /**
+   * <p>Constructor for RegexSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
   }
 
   /**
+   * <p>Constructor for RegexSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param flags to regular expression
+   * @since 3.0.0
    */
   public RegexSampler(S inputSampler, String regex, int flags) {
     super(inputSampler, regex, flags);
@@ -60,10 +76,10 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
   @Override
   protected String extractValue(Matcher matcher) {
     if (matcher.find()) {
-      getLogger().trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
+      LOG.trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
       return matcher.group();
     }
-    getLogger().trace(getClass().getSimpleName() + ": no match found for '" + getPattern() + "'");
+    LOG.trace(getClass().getSimpleName() + ": no match found for '" + getPattern() + "'");
     return handleNoMatch();
   }
 

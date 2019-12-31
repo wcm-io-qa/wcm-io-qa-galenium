@@ -19,37 +19,40 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_PASS;
-
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-import io.wcm.qa.glnm.util.GaleniumContext;
+import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 
 /**
- * Uses {@link GaleniumContext#getAssertion()} to fail if {@link Verification} contains an exception.
+ * Fail if {@link io.wcm.qa.glnm.verification.base.Verification} contains an exception.
+ *
+ * @since 1.0.0
  */
 public class DefaultVerificationStrategy extends VerificationStrategyBase {
 
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
-  }
+  private static final Logger LOG = LoggerFactory.getLogger(DefaultVerificationStrategy.class);
 
   @Override
   protected void handleFailure(Verification verification) {
+    Allure.step(verification.getMessage(), Status.FAILED);
     if (verification.getException() != null) {
-      GaleniumContext.getAssertion().fail(verification.getMessage(), verification.getException());
+      Assert.fail(verification.getMessage(), verification.getException());
+      LOG.info(verification.getMessage(), verification.getException());
     }
     else {
-      GaleniumContext.getAssertion().fail(verification.getMessage());
+      Assert.fail(verification.getMessage());
+      LOG.info(verification.getMessage());
     }
   }
 
   @Override
   protected void handleSuccess(Verification verification) {
-    getLogger().info(MARKER_PASS, verification.getMessage());
+    Allure.step(verification.getMessage());
   }
 
 }

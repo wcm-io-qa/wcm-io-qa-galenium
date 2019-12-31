@@ -21,16 +21,21 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.SingleElementSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Samples text of web element.
+ *
+ * @since 1.0.0
  */
-public class TextSampler extends WebElementBasedSampler<String> {
+public class TextSampler extends SingleElementSampler<String> {
 
   /**
+   * <p>Constructor for TextSampler.</p>
+   *
    * @param selector identifies element.
+   * @since 3.0.0
    */
   public TextSampler(Selector selector) {
     super(selector);

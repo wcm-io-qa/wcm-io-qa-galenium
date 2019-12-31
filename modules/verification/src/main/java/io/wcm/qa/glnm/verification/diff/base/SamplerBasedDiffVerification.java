@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.difflib.DiffUtils;
 import com.github.difflib.algorithm.DiffException;
 import com.github.difflib.patch.AbstractDelta;
@@ -41,21 +44,27 @@ import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
+ * <p>Abstract SamplerBasedDiffVerification class.</p>
+ *
  * @param <S> type of sampler
  * @param <I> type of input sample
  * @param <O> type of input sample collection
+ * @since 3.0.0
  */
 public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O extends List<I>> extends SamplerBasedVerification<S, O> {
 
-  private Patch<I> diffResult;
-  private int maxLinesInFailureMessage = 20;
+  private static final Logger LOG = LoggerFactory.getLogger(SamplerBasedDiffVerification.class);
 
-  protected SamplerBasedDiffVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  private Patch<I> diffResult;
+  private int maxLinesInFailureMessage = 5;
+
+  protected SamplerBasedDiffVerification(S sampler) {
+    super(sampler);
   }
 
   /**
-   * Writes formatted diff to {@link StringBuilder}.
+   * Writes formatted diff to {@link java.lang.StringBuilder}.
+   *
    * @param builder to write to
    * @param maxLines to limit number of diff lines written
    */
@@ -95,14 +104,29 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
     }
   }
 
+  /**
+   * <p>Getter for the field <code>diffResult</code>.</p>
+   *
+   * @return a {@link com.github.difflib.patch.Patch} object.
+   */
   public Patch<I> getDiffResult() {
     return diffResult;
   }
 
+  /**
+   * <p>Getter for the field <code>maxLinesInFailureMessage</code>.</p>
+   *
+   * @return a int.
+   */
   public int getMaxLinesInFailureMessage() {
     return maxLinesInFailureMessage;
   }
 
+  /**
+   * <p>Setter for the field <code>maxLinesInFailureMessage</code>.</p>
+   *
+   * @param maxLinesInFailureMessage a int.
+   */
   public void setMaxLinesInFailureMessage(int maxLinesInFailureMessage) {
     this.maxLinesInFailureMessage = maxLinesInFailureMessage;
   }
@@ -149,16 +173,16 @@ public abstract class SamplerBasedDiffVerification<S extends Sampler<O>, I, O ex
 
   @Override
   protected void afterVerification() {
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
-      getLogger().trace("(" + getVerificationName() + ") found " + getDiffCount() + " differences.");
-      getLogger().trace("verified: " + isVerified());
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("looking for '" + getValueForLogging(getExpectedValue()) + "'");
+      LOG.trace("(" + getVerificationName() + ") found " + getDiffCount() + " differences.");
+      LOG.trace("verified: " + isVerified());
     }
     if (!isVerified()) {
       persistSample(getExpectedKey(), getCachedValue());
     }
-    if (getLogger().isTraceEnabled()) {
-      getLogger().trace("done verifying (" + toString() + ")");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("done verifying (" + toString() + ")");
     }
   }
 

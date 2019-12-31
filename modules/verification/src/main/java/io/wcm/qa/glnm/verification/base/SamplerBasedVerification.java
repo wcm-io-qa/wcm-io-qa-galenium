@@ -24,22 +24,30 @@ import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Verification of sampled values.
+ *
  * @param <S> type of sampler
  * @param <T> type of sample
+ * @since 1.0.0
  */
 public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends VerificationBase<T> {
 
   private S sampler;
 
-  protected SamplerBasedVerification(String verificationName, S sampler) {
-    super(verificationName);
-    this.setSampler(sampler);
+  protected SamplerBasedVerification(S sampler) {
+    super();
+    setSampler(sampler);
   }
 
+  /**
+   * <p>Getter for the field <code>sampler</code>.</p>
+   *
+   * @return a S object.
+   */
   public S getSampler() {
     return sampler;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean isCaching() {
     if (getSampler() instanceof CanCache) {
@@ -50,6 +58,7 @@ public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends 
     return true;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setCaching(boolean activateCaching) {
     super.setCaching(activateCaching);
@@ -58,6 +67,11 @@ public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends 
     }
   }
 
+  /**
+   * <p>Setter for the field <code>sampler</code>.</p>
+   *
+   * @param sampler a S object.
+   */
   public void setSampler(S sampler) {
     this.sampler = sampler;
   }

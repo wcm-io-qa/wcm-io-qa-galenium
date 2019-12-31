@@ -26,14 +26,16 @@ import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 
 /**
  * Abstract base class for implementations to verification on strings sampled from web elements.
+ *
  * @param <S> sampler taking strings from elements
+ * @since 1.0.0
  */
 public abstract class WebElementBasedStringVerification<S extends WebElementBasedSampler<String>> extends WebElementBasedVerification<S, String> {
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
 
-  protected WebElementBasedStringVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected WebElementBasedStringVerification(S sampler) {
+    super(sampler);
   }
 
   @Override

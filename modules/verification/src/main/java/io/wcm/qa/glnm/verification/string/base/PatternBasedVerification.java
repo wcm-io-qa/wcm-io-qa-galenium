@@ -22,32 +22,51 @@ package io.wcm.qa.glnm.verification.string.base;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Abstract base class to verify strings based on regular expression.
+ *
+ * @since 1.0.0
  */
 public abstract class PatternBasedVerification extends StringSamplerBasedVerification {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PatternBasedVerification.class);
 
   private Matcher matcher;
   private Pattern pattern;
 
-  protected PatternBasedVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
-    super(verificationName, sampler);
+  protected PatternBasedVerification(Pattern pattern, Sampler<String> sampler) {
+    super(sampler);
     setPattern(pattern);
   }
 
+  /**
+   * <p>Getter for the field <code>pattern</code>.</p>
+   *
+   * @return a {@link java.util.regex.Pattern} object.
+   * @since 2.0.0
+   */
   public Pattern getPattern() {
     return pattern;
   }
 
+  /**
+   * <p>Setter for the field <code>pattern</code>.</p>
+   *
+   * @param pattern a {@link java.util.regex.Pattern} object.
+   * @since 2.0.0
+   */
   public void setPattern(Pattern pattern) {
     this.pattern = pattern;
   }
 
   @Override
   protected void afterVerification() {
-    getLogger().debug("done checking '" + getVerificationName() + "'");
+    LOG.debug("done checking '" + getVerificationName() + "'");
   }
 
   protected Matcher getActualMatcher() {

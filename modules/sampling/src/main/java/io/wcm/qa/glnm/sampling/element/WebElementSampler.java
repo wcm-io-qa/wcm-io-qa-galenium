@@ -19,39 +19,50 @@
  */
 package io.wcm.qa.glnm.sampling.element;
 
+import java.util.List;
+
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Samples {@link WebElement} from browser.
+ * Samples {@link org.openqa.selenium.WebElement} from browser.
+ *
+ * @since 3.0.0
  */
-public class WebElementSampler extends SelectorBasedSampler<WebElement> {
+public class WebElementSampler extends SelectorBasedSampler<Iterable<WebElement>> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(WebElementSampler.class);
 
   /**
+   * <p>Constructor for WebElementSampler.</p>
+   *
    * @param selector to retrieve element
+   * @since 3.0.0
    */
   public WebElementSampler(Selector selector) {
     super(selector);
   }
 
-  @Override
-  protected WebElement freshSample() {
-    try {
-      return findElement();
-    }
-    catch (StaleElementReferenceException ex) {
-      getLogger().debug("caught StaleElementReferencesException: '" + getElementName() + "'");
-      return findElement();
-    }
+  private List<WebElement> findElements() {
+    List<WebElement> freshElements = Element.findAllNow(getSelector());
+    LOG.trace("element sampler (" + getElementName() + ") found: " + freshElements.size() + " elements");
+    return freshElements;
   }
 
-  private WebElement findElement() {
-    WebElement freshElement = Element.findNow(getSelector());
-    getLogger().trace("element sampler (" + getElementName() + ") found: " + freshElement);
-    return freshElement;
+  @Override
+  protected Iterable<WebElement> freshSample() {
+    try {
+      return findElements();
+    }
+    catch (StaleElementReferenceException ex) {
+      LOG.debug("caught StaleElementReferencesException: '" + getElementName() + "'");
+      return findElements();
+    }
   }
 }

@@ -25,9 +25,12 @@ import io.wcm.qa.glnm.differences.base.Difference;
 
 /**
  * Sort differences by their name.
+ *
+ * @since 1.0.0
  */
 public class DifferenceNameComparator implements Comparator<Difference> {
 
+  /** {@inheritDoc} */
   @Override
   public int compare(Difference arg0, Difference arg1) {
 

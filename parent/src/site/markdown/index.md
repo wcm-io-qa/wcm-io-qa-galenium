@@ -2,7 +2,7 @@
 
 Selenium Galen Integration
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration.ui-tests/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.qa/io.wcm.qa.galenium.integration.ui-tests)
 
 ## Galenium Documentation
 
@@ -31,4 +31,3 @@ To understand Galenium and its parts better, the [concept pages](concepts.html) 
 * It provides a single point of object definition for Selenium and Galen. Double definition effort is eliminated. The object definition created in Galenium can be used without alteration in standalone Galen. In this case Galen is used without Java and Selenium. This allows to use Galenium object definitions for automated Frontend sanity checks, e.g. for the transition from development test systems to production system.
 * It includes its own HTTP proxy server which allows to manipulate access data and credentials, e.g. in test cases that require user logins.
 * Test cases in Galenium have a one-to-one relationship with a test case in ExtentReports. ExtentReports is very test case centric. A clear relationship between test cases in the Maven/TestNG world and in the main report simplifies identifying issues and reacting to them.
-

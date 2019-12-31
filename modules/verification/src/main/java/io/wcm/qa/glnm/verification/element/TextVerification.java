@@ -27,20 +27,28 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerificatio
 
 /**
  * Verifies text of element.
+ *
+ * @since 1.0.0
  */
 public class TextVerification extends WebElementBasedStringVerification<TextSampler> {
 
   /**
+   * <p>Constructor for TextVerification.</p>
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public TextVerification(Selector selector) {
-    super(selector.elementName(), new TextSampler(selector));
+    super(new TextSampler(selector));
     setPreVerification(new VisibilityVerification(selector));
   }
 
   /**
+   * <p>Constructor for TextVerification.</p>
+   *
    * @param selector to identify element
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public TextVerification(Selector selector, String expectedValue) {
     this(selector);

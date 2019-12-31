@@ -21,19 +21,26 @@ package io.wcm.qa.glnm.maven.freemarker.methods;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DeepUnwrap;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Abstract base class for implentations of template methods.
- * @param <S>
+ *
+ * @param <S> return type of method
+ * @since 1.0.0
  */
 public abstract class AbstractTemplateMethod<S> implements TemplateMethodModelEx {
 
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractTemplateMethod.class);
+
+  /** {@inheritDoc} */
   @Override
   public Object exec(List arguments) throws TemplateModelException {
     if (arguments == null || arguments.isEmpty()) {
@@ -48,7 +55,7 @@ public abstract class AbstractTemplateMethod<S> implements TemplateMethodModelEx
       return attemptExec(unwrapped);
     }
     catch (ClassCastException ex) {
-      GaleniumReportUtil.getLogger().warn("found class: " + unwrapped.getClass());
+      LOG.warn("found class: " + unwrapped.getClass());
       throw new GaleniumException("argument could not be unwrapped.", ex);
     }
   }

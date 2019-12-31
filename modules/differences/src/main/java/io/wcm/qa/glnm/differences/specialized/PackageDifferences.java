@@ -31,6 +31,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Package name as differences. Allows relative package names by setting root package name.
+ *
+ * @since 1.0.0
  */
 public class PackageDifferences implements Differences {
 
@@ -40,7 +42,10 @@ public class PackageDifferences implements Differences {
   private String rootPackage;
 
   /**
+   * <p>Constructor for PackageDifferences.</p>
+   *
    * @param p to base name on
+   * @since 2.0.0
    */
   public PackageDifferences(Package p) {
     if (p == null) {
@@ -50,34 +55,52 @@ public class PackageDifferences implements Differences {
   }
 
   /**
+   * <p>Constructor for PackageDifferences.</p>
+   *
    * @param p to base name on
    * @param root to remove from beginning of package name
+   * @since 2.0.0
    */
   public PackageDifferences(Package p, String root) {
     this(p);
     setRootPackage(root);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     initialize();
     return getDifferences().asFilePath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     initialize();
     return getDifferences().asPropertyKey();
   }
 
+  /**
+   * <p>Getter for the field <code>mainPackage</code>.</p>
+   *
+   * @return a {@link java.lang.Package} object.
+   * @since 2.0.0
+   */
   public Package getMainPackage() {
     return mainPackage;
   }
 
+  /**
+   * <p>Getter for the field <code>rootPackage</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getRootPackage() {
     return rootPackage;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     initialize();
@@ -85,7 +108,10 @@ public class PackageDifferences implements Differences {
   }
 
   /**
+   * <p>setPackage.</p>
+   *
    * @param p to base name on
+   * @since 2.0.0
    */
   public void setPackage(Package p) {
     setMainPackage(p);
@@ -93,13 +119,17 @@ public class PackageDifferences implements Differences {
   }
 
   /**
+   * <p>Setter for the field <code>rootPackage</code>.</p>
+   *
    * @param rootPackage to remove from beginning of package name
+   * @since 2.0.0
    */
   public void setRootPackage(String rootPackage) {
     this.rootPackage = rootPackage;
     setDirty();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     initialize();

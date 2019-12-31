@@ -26,21 +26,29 @@ import io.wcm.qa.glnm.verification.string.base.StringSamplerBasedVerification;
 
 /**
  * Make sure current URL is a certain value.
+ *
+ * @since 1.0.0
  */
 public class CurrentUrlVerification extends StringSamplerBasedVerification {
 
   private static final String KEY_PART_URL = "url";
 
   /**
+   * <p>Constructor for CurrentUrlVerification.</p>
+   *
    * @param verificationName for use in reporting
+   * @since 3.0.0
    */
   public CurrentUrlVerification(String verificationName) {
-    super(verificationName, new CurrentUrlSampler());
+    super(new CurrentUrlSampler());
   }
 
   /**
+   * <p>Constructor for CurrentUrlVerification.</p>
+   *
    * @param verificationName for use in reporting
    * @param expectedUrl to match against
+   * @since 3.0.0
    */
   public CurrentUrlVerification(String verificationName, String expectedUrl) {
     this(verificationName);

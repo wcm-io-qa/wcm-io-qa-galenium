@@ -28,12 +28,16 @@ import io.wcm.qa.glnm.verification.base.Verifiable;
 
 /**
  * Verifies stable text of element. Useful when waiting for animated text changes of elements to finish.
+ *
+ * @since 1.0.0
  */
 public class StableText extends Stability<String> implements Verifiable {
 
   /**
    * Constructor.
+   *
    * @param selector to check text of
+   * @since 2.0.0
    */
   public StableText(Selector selector) {
     super(new TextSampler(selector));

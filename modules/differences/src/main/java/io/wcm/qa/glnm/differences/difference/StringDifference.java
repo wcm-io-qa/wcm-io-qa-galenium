@@ -19,23 +19,28 @@
  */
 package io.wcm.qa.glnm.differences.difference;
 
-import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.DifferenceBase;
 
 /**
- * Simple {@link Difference} using the string assigned in constructor.
+ * Simple  {@link io.wcm.qa.glnm.differences.base.Difference} using the string assigned in constructor.
+ *
+ * @since 1.0.0
  */
 public class StringDifference extends DifferenceBase {
 
   private String tag;
 
   /**
+   * <p>Constructor for StringDifference.</p>
+   *
    * @param tag to use
+   * @since 2.0.0
    */
   public StringDifference(String tag) {
     setTag(tag);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getName() {
     return super.getName() + "." + getTag();

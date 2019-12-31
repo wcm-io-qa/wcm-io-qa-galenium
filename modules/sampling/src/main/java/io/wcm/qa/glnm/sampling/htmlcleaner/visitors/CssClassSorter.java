@@ -31,23 +31,26 @@ import org.htmlcleaner.TagNodeVisitor;
 
 /**
  * Sorts strings in class attributes.
+ *
+ * @since 3.0.0
  */
 public final class CssClassSorter implements TagNodeVisitor {
 
   private static final String CSS_CLASS = "class";
 
+  /** {@inheritDoc} */
   @Override
   public boolean visit(TagNode parentNode, HtmlNode htmlNode) {
-    if (!(htmlNode instanceof TagNode)) {
-      // not a tag node, so no attributes
+
+    if (parentNode == null) {
+      // no node
       return true;
     }
-    TagNode node = (TagNode)htmlNode;
-    if (!node.hasAttribute(CSS_CLASS)) {
+    if (!parentNode.hasAttribute(CSS_CLASS)) {
       // no class attribute to sort
       return true;
     }
-    String cssClasses = node.getAttributeByName(CSS_CLASS);
+    String cssClasses = parentNode.getAttributeByName(CSS_CLASS);
     if (StringUtils.isBlank(cssClasses)) {
       // no classes in attribute
       return true;
@@ -63,8 +66,8 @@ public final class CssClassSorter implements TagNodeVisitor {
     // sort
     Collections.sort(cssClassesList);
     // replace
-    node.removeAttribute(CSS_CLASS);
-    node.addAttribute(CSS_CLASS, StringUtils.join(cssClassesList, ' '));
+    parentNode.removeAttribute(CSS_CLASS);
+    parentNode.addAttribute(CSS_CLASS, StringUtils.join(cssClassesList, ' '));
     return true;
   }
 }

@@ -19,10 +19,17 @@
  */
 package io.wcm.qa.glnm.example.provider;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 
 import io.wcm.qa.glnm.providers.TestNgProviderUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AllPagesForTemplateSampler;
 
@@ -34,9 +41,13 @@ public final class ContentPathProvider {
   /**
    * All pages created with the example application.
    */
+  public static final String ALL_PAGES = "AllPages";
   public static final String ALL_PAGES_FOR_EXAMPLE_TEMPLATES = "AllPagesForTemplates";
+
+  private static final Logger LOG = LoggerFactory.getLogger(ContentPathProvider.class);
   private static final String ROOT_PATH = "/content/wcm-io-samples";
   private static final String TEMPLATE_NAME_PATTERN = "/apps/wcm-io-samples/core/templates/%";
+  private static final String WEBAPP_CONTENT_PATH = "src/main/webapp";
 
   private ContentPathProvider() {
     // do not instantiate
@@ -46,9 +57,30 @@ public final class ContentPathProvider {
    * @return all pages created with the example application
    */
   @DataProvider(name = ALL_PAGES_FOR_EXAMPLE_TEMPLATES)
-  public static Object[][] allPages() {
-    GaleniumReportUtil.getLogger().debug("Data providing: " + ALL_PAGES_FOR_EXAMPLE_TEMPLATES);
+  public static Object[][] allPagesForTemplates() {
+    LOG.debug("Data providing: " + ALL_PAGES_FOR_EXAMPLE_TEMPLATES);
     Sampler<Iterable> sampler = new AllPagesForTemplateSampler(TEMPLATE_NAME_PATTERN, ROOT_PATH);
     return TestNgProviderUtil.fromSampler(sampler);
+  }
+
+  /**
+   * @return all pages created with the example application
+   */
+  @DataProvider(name = ALL_PAGES)
+  public static Object[][] allPages() {
+    LOG.debug("Data providing: " + ALL_PAGES);
+    File directory = new File(WEBAPP_CONTENT_PATH);
+    if (!directory.isDirectory()) {
+      LOG.warn("not a directory: " + directory);
+    }
+    String[] extensions = ArrayUtils.toArray("html");
+    boolean recursive = true;
+    Collection<File> htmlFiles = FileUtils.listFiles(directory, extensions, recursive);
+    Collection<String> htmlFilePaths = new ArrayList<String>();
+    for (File file : htmlFiles) {
+      LOG.debug("found: " + file);
+      htmlFilePaths.add(file.getPath());
+    }
+    return TestNgProviderUtil.combine(htmlFilePaths);
   }
 }

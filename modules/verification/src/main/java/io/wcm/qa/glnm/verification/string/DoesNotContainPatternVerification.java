@@ -26,14 +26,18 @@ import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 
 /**
  * Verifies that regular expression does not match any part of the sample.
+ *
+ * @since 1.0.0
  */
 public class DoesNotContainPatternVerification extends ContainsPatternVerification {
 
   /**
    * Pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sample fixed sample to verify against
+   * @since 2.0.0
    */
   public DoesNotContainPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
@@ -41,9 +45,11 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sampler sampler to provide input sample
+   * @since 2.0.0
    */
   public DoesNotContainPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
     super(verificationName, pattern, sampler);
@@ -51,9 +57,11 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
 
   /**
    * String pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sample fixed sample to verify against
+   * @since 2.0.0
    */
   public DoesNotContainPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
@@ -61,9 +69,11 @@ public class DoesNotContainPatternVerification extends ContainsPatternVerificati
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to not find in input
    * @param sampler sampler to provide input sample
+   * @since 2.0.0
    */
   public DoesNotContainPatternVerification(String verificationName, String pattern, Sampler<String> sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);

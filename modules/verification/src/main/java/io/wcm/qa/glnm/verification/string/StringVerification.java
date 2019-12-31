@@ -25,22 +25,28 @@ import io.wcm.qa.glnm.verification.string.base.StringSamplerBasedVerification;
 
 /**
  * Generic sampler based string equality verification.
+ *
+ * @since 1.0.0
  */
 public class StringVerification extends StringSamplerBasedVerification {
 
   /**
    * Verify against sampled input.
+   *
    * @param verificationName name for this check
    * @param sampler to provide input
+   * @since 2.0.0
    */
   public StringVerification(String verificationName, Sampler<String> sampler) {
-    super(verificationName, sampler);
+    super(sampler);
   }
 
   /**
    * Verify against fixed sample.
+   *
    * @param verificationName name for this check
    * @param sample to verify
+   * @since 2.0.0
    */
   public StringVerification(String verificationName, String sample) {
     this(verificationName, new FixedStringSampler(sample));

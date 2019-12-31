@@ -19,17 +19,21 @@
  */
 package io.wcm.qa.glnm.verification.element.base;
 
+import io.wcm.qa.glnm.differences.difference.sut.SelectorDifference;
 import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Base class encapsulating common functionality to verify aspects of elements.
+ *
+ * @since 1.0.0
  */
 public abstract class WebElementBasedVerification<S extends WebElementBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 
-  protected WebElementBasedVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected WebElementBasedVerification(S sampler) {
+    super(sampler);
+    addDifference(new SelectorDifference(getSelector()));
   }
 
   protected String getElementName() {

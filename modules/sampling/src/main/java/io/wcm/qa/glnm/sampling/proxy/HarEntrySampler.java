@@ -22,6 +22,8 @@ package io.wcm.qa.glnm.sampling.proxy;
 import java.util.List;
 
 import org.apache.commons.collections4.ListUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.browserup.harreader.model.Har;
 import com.browserup.harreader.model.HarEntry;
@@ -30,12 +32,18 @@ import com.browserup.harreader.model.HarLog;
 import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
- * Samples {@link HarEntry} instances from a {@link HarSampler}.
+ * Samples {@link com.browserup.harreader.model.HarEntry} instances from a {@link io.wcm.qa.glnm.sampling.proxy.HarSampler}.
+ *
+ * @since 1.0.0
  */
 public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har, List<HarEntry>> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(HarEntrySampler.class);
+
   /**
    * Constructor.
+   *
+   * @since 3.0.0
    */
   public HarEntrySampler() {
     super(new HarSampler());
@@ -48,12 +56,12 @@ public class HarEntrySampler extends TransformationBasedSampler<HarSampler, Har,
   @Override
   protected List<HarEntry> transform(Har inputSample) {
     if (inputSample == null) {
-      getLogger().debug("Har was null. (means BrowserUp Proxy is not recording)");
+      LOG.debug("Har was null. (means BrowserUp Proxy is not recording)");
       return handleEmptySample();
     }
     HarLog log = inputSample.getLog();
     if (log == null) {
-      getLogger().debug("Har.log was null.");
+      LOG.debug("Har.log was null.");
       return handleEmptySample();
     }
     return log.getEntries();

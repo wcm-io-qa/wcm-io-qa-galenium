@@ -22,41 +22,51 @@ package io.wcm.qa.glnm.selectors.base;
 import java.util.Collection;
 
 /**
- * A nested {@link Selector} can have a parent and children. If it has a parent, its standard representation will have
+ * A nested  {@link io.wcm.qa.glnm.selectors.base.Selector} can have a parent and children. If it has a parent, its standard representation will have
  * CSS relative to parent.
+ *
+ * @since 1.0.0
  */
 public interface NestedSelector extends Selector {
 
   /**
    * Cloned selector with CSS not relative to potential parent, but as absolute in page.
+   *
    * @return a clone relative to parent
    */
   Selector asAbsolute();
 
   /**
    * Cloned selector with CSS not relative to potential parent, but as absolute in page.
+   *
    * @return a clone relative to parent
    */
   Selector asRelative();
 
   /**
+   * <p>getChildren.</p>
+   *
    * @return a list containing this selector's child selectors, empty list if no children
    */
   Collection<NestedSelector> getChildren();
 
   /**
+   * <p>getParent.</p>
+   *
    * @return this selector's parent or null
    */
   NestedSelector getParent();
 
   /**
    * Children are optional. A leaf selector has no children.
+   *
    * @return whether this selector has child selectors
    */
   boolean hasChildren();
 
   /**
    * Parents are optional. A root selector has no parents.
+   *
    * @return whether this selector has a parent
    */
   boolean hasParent();

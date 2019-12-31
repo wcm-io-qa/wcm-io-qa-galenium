@@ -28,19 +28,27 @@ import io.wcm.qa.glnm.verification.element.base.SelectorBasedVerification;
 
 /**
  * Make sure a certain number of elements are present.
+ *
+ * @since 1.0.0
  */
 public class ElementCountVerification extends SelectorBasedVerification<ElementCountSampler, Integer> {
 
   /**
+   * <p>Constructor for ElementCountVerification.</p>
+   *
    * @param selector identifies elements to count
+   * @since 2.0.0
    */
   public ElementCountVerification(Selector selector) {
-    super("count(" + selector.elementName() + ")", new ElementCountSampler(selector));
+    super(new ElementCountSampler(selector));
   }
 
   /**
+   * <p>Constructor for ElementCountVerification.</p>
+   *
    * @param selector to identify element
    * @param expectedCount to verify against
+   * @since 2.0.0
    */
   public ElementCountVerification(Selector selector, int expectedCount) {
     this(selector);

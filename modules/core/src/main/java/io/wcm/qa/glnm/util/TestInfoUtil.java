@@ -19,11 +19,6 @@
  */
 package io.wcm.qa.glnm.util;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_FAIL;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_WARN;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.assignCategory;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +28,8 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Marker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 
 import com.galenframework.reports.GalenTestInfo;
@@ -41,57 +37,42 @@ import com.galenframework.reports.TestReport;
 import com.galenframework.reports.TestStatistic;
 import com.galenframework.reports.nodes.ReportExtra;
 import com.galenframework.reports.nodes.TestReportNode;
-import com.relevantcodes.extentreports.ExtentTest;
 
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
+ *
+ * @since 1.0.0
  */
 public final class TestInfoUtil {
 
   private static final String BROWSER_UNKNOWN = "UNKNOWN";
-  private static final String EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES = System.getProperty("galenium.mediaquery.extentCategory", "");
-  private static final String EXTENT_CATEGORY_PREFIX_BROWSER = System.getProperty("galenium.extent.category.browser", "BROWSER-");
-  private static final String EXTENT_CATEGORY_PREFIX_TEST_NG = System.getProperty("galenium.extent.category.testNG", "testNG-");
-  private static final String EXTENT_CATEGORY_PREFIX_EMULATOR = System.getProperty("galenium.extent.category.emulator", "DEVICE-");
+  private static final Logger LOG = LoggerFactory.getLogger(TestInfoUtil.class);
 
   private TestInfoUtil() {
     // do not instantiate
   }
 
   /**
-   * @param test to add categories to
-   * @param result source for TestNG groups, browser, and breakpoints
+   * Replaces all non-alphanumeric characters with underscore.
+   *
+   * @param result to extract test name from
+   * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
+   * @since 3.0.0
    */
-  public static void assignCategories(ExtentTest test, ITestResult result) {
-
-    for (String group : result.getMethod().getGroups()) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_TEST_NG + group);
-    }
-
-    String browser = getBrowser(result);
-    if (browser != null) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_BROWSER + browser);
-    }
-
-    TestDevice device = getTestDevice(result);
-    if (device != null && StringUtils.isNotBlank(device.getChromeEmulator())) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_EMULATOR + device.getChromeEmulator());
-    }
-
-    List<String> breakPoints = getBreakPoint(result);
-    for (String breakPoint : breakPoints) {
-      assignCategory(test, EXTENT_CATEGORY_PREFIX_MEDIA_QUERIES + breakPoint);
-    }
+  public static String getAlphanumericTestName(ITestResult result) {
+    String name = result.getName();
+    return name.replaceAll("[^-A-Za-z0-9]", "_");
   }
 
   /**
-   * Gets test device if test case in this result implements {@link HasDevice}.
+   * Gets test device if test case in this result implements  {@link io.wcm.qa.glnm.webdriver.HasDevice}.
+   *
    * @param result test result to retrieve test case from
    * @return device if one was found
+   * @since 3.0.0
    */
   public static TestDevice getTestDevice(ITestResult result) {
     Object testClass = result.getInstance();
@@ -102,18 +83,21 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>hasWarnings.</p>
+   *
    * @param testInfo to check
    * @return whether there are warnings in the results
+   * @since 3.0.0
    */
   public static boolean hasWarnings(GalenTestInfo testInfo) {
     TestReport report = testInfo.getReport();
     if (report == null) {
-      getLogger().trace("report was null: " + testInfo);
+      LOG.trace("report was null: " + testInfo);
       return false;
     }
     TestStatistic statistics = report.fetchStatistic();
     if (statistics == null) {
-      getLogger().trace("statistics were null: " + testInfo + "->" + report);
+      LOG.trace("statistics were null: " + testInfo + "->" + report);
       return false;
     }
 
@@ -121,27 +105,33 @@ public final class TestInfoUtil {
   }
 
   /**
+   * <p>isFailed.</p>
+   *
    * @param testInfo to check
    * @return whether test failed
+   * @since 3.0.0
    */
   public static boolean isFailed(GalenTestInfo testInfo) {
     return testInfo.isFailed();
   }
 
   /**
+   * <p>logGalenTestInfo.</p>
+   *
    * @param testInfo to log
+   * @since 3.0.0
    */
   public static void logGalenTestInfo(GalenTestInfo testInfo) {
     if (isFailed(testInfo)) {
-      getLogger().info(MARKER_FAIL, "failed: " + testInfo.getName());
+      LOG.info("failed: " + testInfo.getName());
     }
     else if (hasWarnings(testInfo)) {
-      getLogger().info(MARKER_WARN, "warnings: " + testInfo.getName());
+      LOG.info("warnings: " + testInfo.getName());
     }
     else {
-      getLogger().info(GaleniumReportUtil.MARKER_PASS, "passed: " + testInfo.getName());
+      LOG.info("passed: " + testInfo.getName());
     }
-    if (getLogger().isDebugEnabled()) {
+    if (LOG.isDebugEnabled()) {
       List<TestReportNode> nodes = testInfo.getReport().getNodes();
       int nodeCounter = 0;
       for (TestReportNode testReportNode : nodes) {
@@ -150,46 +140,47 @@ public final class TestInfoUtil {
     }
   }
 
+
   private static void logTestReportNode(TestReportNode node, String prefix) {
-    Marker marker;
+    String marker;
     switch (node.getStatus()) {
       case WARN:
-        marker = GaleniumReportUtil.MARKER_WARN;
+        marker = "WARN";
         break;
       case ERROR:
-        marker = GaleniumReportUtil.MARKER_FAIL;
+        marker = "FAIL";
         break;
       case INFO:
       default:
-        marker = GaleniumReportUtil.MARKER_PASS;
+        marker = "INFO";
         break;
     }
     String type = node.getType();
     if (StringUtils.equals("layout", type)) {
-      getLogger().info(marker, prefix + ".name: " + node.getName());
+      LOG.info("[" + marker + "]" + prefix + ".name: " + node.getName());
     }
     else {
-      getLogger().debug(marker, prefix + ".name: " + node.getName());
+      LOG.debug("[" + marker + "]" + prefix + ".name: " + node.getName());
     }
-    getLogger().trace(marker, prefix + ".type: " + type);
+    LOG.trace("[" + marker + "]" + prefix + ".type: " + type);
     List<String> attachments = node.getAttachments();
     if (attachments != null) {
       for (String attachment : attachments) {
-        getLogger().debug(marker, prefix + ".attachment: " + attachment);
+        LOG.debug("[" + marker + "]" + prefix + ".attachment: " + attachment);
       }
     }
     else {
-      getLogger().trace(marker, prefix + ".attachments: none");
+      LOG.trace("[" + marker + "]" + prefix + ".attachments: none");
     }
     Map<String, ReportExtra> reportExtras = node.getExtras();
     if (reportExtras != null) {
       Set<Entry<String, ReportExtra>> extras = reportExtras.entrySet();
       for (Entry<String, ReportExtra> entry : extras) {
-        getLogger().debug(marker, prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
+        LOG.debug("[" + marker + "]" + prefix + ".extra: " + entry.getKey() + "=" + entry.getValue());
       }
     }
     else {
-      getLogger().trace(marker, prefix + ".extras: none");
+      LOG.trace("[" + marker + "]" + prefix + ".extras: none");
     }
     List<TestReportNode> nodes = node.getNodes();
     if (nodes != null) {
@@ -199,19 +190,8 @@ public final class TestInfoUtil {
       }
     }
     else {
-      getLogger().trace(marker, prefix + ".children: none");
+      LOG.trace("[" + marker + "]" + prefix + ".children: none");
     }
-  }
-
-
-  /**
-   * Replaces all non-alphanumeric characters with underscore.
-   * @param result to extract test name from
-   * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
-   */
-  public static String getAlphanumericTestName(ITestResult result) {
-    String name = result.getName();
-    return name.replaceAll("[^-A-Za-z0-9]", "_");
   }
 
   static List<String> getBreakPoint(ITestResult result) {

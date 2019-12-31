@@ -30,16 +30,20 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.testng.annotations.DataProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
- * Utility class to help with writing {@link DataProvider} code.
+ * Utility class to help with writing {@link org.testng.annotations.DataProvider} code.
+ *
+ * @since 1.0.0
  */
 public final class TestNgProviderUtil {
+
+  private static final Logger LOG = LoggerFactory.getLogger(TestNgProviderUtil.class);
 
   private TestNgProviderUtil() {
     // do not instantiate
@@ -47,8 +51,10 @@ public final class TestNgProviderUtil {
 
   /**
    * Read string parameters from UTF-8 input file. Each line becomes one parameter.
+   *
    * @param input UTF-8 encoded text file to read from
-   * @return array ready to use in {@link DataProvider}
+   * @return array ready to use in {@link org.testng.annotations.DataProvider}
+   * @since 3.0.0
    */
   public static Object[][] fromFile(File input) {
     return fromFile(input, StandardCharsets.UTF_8);
@@ -56,13 +62,15 @@ public final class TestNgProviderUtil {
 
   /**
    * Read string parameters from input file. Each line becomes one parameter.
+   *
    * @param input text file to read from
    * @param charset encoding of file
-   * @return array ready to use in {@link DataProvider}
+   * @return array ready to use in {@link org.testng.annotations.DataProvider}
+   * @since 3.0.0
    */
   public static Object[][] fromFile(File input, Charset charset) {
 
-    GaleniumReportUtil.getLogger().debug("data providing from: " + input);
+    LOG.debug("data providing from: " + input);
 
     // null check
     if (input == null) {
@@ -84,8 +92,11 @@ public final class TestNgProviderUtil {
   }
 
   /**
+   * <p>fromSampler.</p>
+   *
    * @param sampler to generate arguments
    * @return arguments based on sampler result
+   * @since 3.0.0
    */
   public static Object[][] fromSampler(Sampler<Iterable> sampler) {
     return combine(sampler.sampleValue());
@@ -95,8 +106,10 @@ public final class TestNgProviderUtil {
   /**
    * Transforms argument list into Object array. For use with DataProviders for single argument methods and
    * constructors.
+   *
    * @param argumentList iterable to turn into object array
    * @return a two dimensional object array containing the arguments
+   * @since 3.0.0
    */
   public static Object[][] combine(Iterable argumentList) {
     Collection<Object[]> combinedArguments = new ArrayList<>();
@@ -114,10 +127,12 @@ public final class TestNgProviderUtil {
   }
 
   /**
-   * Combines argument lists into Object array. Each {@link Iterable} will be used to provide the argument corresponding
+   * Combines argument lists into Object array. Each {@link java.lang.Iterable} will be used to provide the argument corresponding
    * to its position.
+   *
    * @param argumentLists iterables to combine
    * @return a two dimensional object array containing the Cartesian product of the iterable arguments
+   * @since 3.0.0
    */
   public static Object[][] combine(Iterable... argumentLists) {
     trace("combining " + argumentLists.length + " Iterables");
@@ -165,7 +180,7 @@ public final class TestNgProviderUtil {
   }
 
   private static void trace(String msg) {
-    GaleniumReportUtil.getLogger().trace(msg);
+    LOG.trace(msg);
   }
 
 }

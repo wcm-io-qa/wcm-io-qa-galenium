@@ -28,6 +28,8 @@ import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 /**
  * Class and package name differences constructed from class object.
+ *
+ * @since 1.0.0
  */
 public class ClassDifferences implements Differences {
 
@@ -35,33 +37,48 @@ public class ClassDifferences implements Differences {
   private PackageDifferences packageDifferences;
 
   /**
+   * <p>Constructor for ClassDifferences.</p>
+   *
    * @param clazz to extract class and package name from
+   * @since 2.0.0
    */
   public ClassDifferences(Class clazz) {
     setClass(clazz);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     return getDifferences().asFilePath();
   }
 
+  /** {@inheritDoc} */
   @Override
   public String asPropertyKey() {
     return getDifferences().asPropertyKey();
   }
 
+  /**
+   * <p>getRootPackage.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getRootPackage() {
     return getPackageDifferences().getRootPackage();
   }
 
+  /** {@inheritDoc} */
   @Override
   public Iterator<Difference> iterator() {
     return getDifferences().iterator();
   }
 
   /**
+   * <p>setClass.</p>
+   *
    * @param clazz to extract class and package name from
+   * @since 2.0.0
    */
   public void setClass(Class clazz) {
     setClassDifference(new ClassNameDifference(clazz));
@@ -70,26 +87,35 @@ public class ClassDifferences implements Differences {
 
   /**
    * Set maximum length of class name in rendered keys.
+   *
    * @param maxLength when to start shortening class name differnce key
+   * @since 2.0.0
    */
   public void setClassNameMaxLength(int maxLength) {
     getClassDifference().setMaxTagLength(maxLength);
   }
 
   /**
+   * <p>setPackage.</p>
+   *
    * @param p to extract package name from
+   * @since 2.0.0
    */
   public void setPackage(Package p) {
     setPackageDifferences(new PackageDifferences(p));
   }
 
   /**
+   * <p>setRootPackage.</p>
+   *
    * @param rootPackage will be removed from beginning of package name
+   * @since 2.0.0
    */
   public void setRootPackage(String rootPackage) {
     getPackageDifferences().setRootPackage(rootPackage);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();

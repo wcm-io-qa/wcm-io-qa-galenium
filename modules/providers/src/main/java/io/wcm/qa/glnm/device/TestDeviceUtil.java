@@ -25,57 +25,71 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.openqa.selenium.Dimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.CsvUtil;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.mediaquery.MediaQuery;
 import io.wcm.qa.glnm.mediaquery.MediaQueryUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Convenience methods around test devices.
+ *
+ * @since 1.0.0
  */
 public final class TestDeviceUtil {
 
   private static final File CSV_FILE_DEVICES = new File(GaleniumConfiguration.getDeviceCsvFilePath());
+  private static final Logger LOG = LoggerFactory.getLogger(TestDeviceUtil.class);
   private static final Integer MEDIA_QUERY_HEIGHT = GaleniumConfiguration.getMediaQueryHeight();
 
   private TestDeviceUtil() {
     // do not instantiate
   }
 
-  static List<String> getIncludeTags(DeviceProfile profile) {
-    return Collections.singletonList(profile.getBrowser());
-  }
-
-  static Dimension getDimensionFromProfile(DeviceProfile profile) {
-    return new Dimension(profile.getWidth(), profile.getHeight());
-  }
-
   /**
-   * @return first of the configured test devices
+   * <p>
+   * getSingleTestDevice.
+   * </p>
+   *
+   * @return one of the configured test devices as a singleton list
+   * @since 3.0.0
    */
-  public static List<Object> getSingleTestDevice() {
-    Collection<TestDevice> testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
-    if (testDevices == null || testDevices.isEmpty()) {
-      throw new GaleniumException("no configured devices found, when trying to get single test device.");
-    }
-    int middle = testDevices.size() / 2;
-    // CollectionUtils#get() is deprecated for everything except Object
-    Object deviceCollectionAsObject = testDevices;
-    Object singleDevice = CollectionUtils.get(deviceCollectionAsObject, middle);
+  public static List<Object> getSingleTestDeviceAsList() {
+    Object singleDevice = getSingleTestDevice();
     List<Object> singleDeviceList = Collections.singletonList(singleDevice);
     return singleDeviceList;
   }
 
   /**
+   * <p>
+   * getSingleTestDevice.
+   * </p>
+   *
+   * @return one of the configured test devices
+   * @since 4.0.0
+   */
+  public static TestDevice getSingleTestDevice() {
+    Collection<TestDevice> testDevices = TestDeviceUtil.getTestDevicesForBrowsersAndMqs();
+    if (testDevices == null || testDevices.isEmpty()) {
+      throw new GaleniumException("no configured devices found, when trying to get single test device.");
+    }
+    int middle = testDevices.size() / 2;
+    TestDevice singleDevice = IterableUtils.get(testDevices, middle);
+    return singleDevice;
+  }
+
+  /**
    * Test device for upper bound of media query.
+   *
    * @param browserType browser to use
    * @param mediaQuery media query to get upper bound from
    * @return test device
+   * @since 3.0.0
    */
   public static TestDevice getTestDeviceForUpperBound(BrowserType browserType, MediaQuery mediaQuery) {
     int upperBound = mediaQuery.getUpperBound();
@@ -85,7 +99,9 @@ public final class TestDeviceUtil {
 
   /**
    * Test devices using the configured Browsers and upper bounds of the configured media queries.
+   *
    * @return configured test devices
+   * @since 3.0.0
    */
   public static Collection<TestDevice> getTestDevicesForBrowsersAndMqs() {
     Collection<TestDevice> testDevices = new ArrayList<>();
@@ -102,18 +118,21 @@ public final class TestDeviceUtil {
   }
 
   /**
+   * <p>getTestDevicesFromDevicesCsv.</p>
+   *
    * @return all test devices defined in CSV
+   * @since 3.0.0
    */
   public static Collection<TestDevice> getTestDevicesFromDevicesCsv() {
     Collection<TestDevice> testDevices = new ArrayList<>();
     Collection<DeviceProfile> profiles = CsvUtil.<DeviceProfile>parseToBeans(CSV_FILE_DEVICES, DeviceProfile.class);
     for (DeviceProfile deviceProfile : profiles) {
       if (isProfileMatchesBrowsers(deviceProfile)) {
-        GaleniumReportUtil.getLogger().debug("adding device: " + deviceProfile);
+        LOG.debug("adding device: " + deviceProfile);
         testDevices.add(getTestDevice(deviceProfile));
       }
       else {
-        GaleniumReportUtil.getLogger().debug("skipping device: " + deviceProfile);
+        LOG.debug("skipping device: " + deviceProfile);
       }
     }
     return testDevices;
@@ -142,10 +161,6 @@ public final class TestDeviceUtil {
     return testDevice;
   }
 
-  private static void setIncludeTags(TestDeviceImpl testDevice, BrowserType browserType, String mediaQueryName) {
-    testDevice.setTags(getIncludeTags(browserType, mediaQueryName));
-  }
-
   private static TestDevice getTestDevice(DeviceProfile deviceProfile) {
     TestDeviceImpl testDevice = new TestDeviceImpl(deviceProfile);
     MediaQuery mediaQuery = MediaQueryUtil.getMatchingMediaQuery(testDevice);
@@ -157,6 +172,18 @@ public final class TestDeviceUtil {
   private static boolean isProfileMatchesBrowsers(DeviceProfile deviceProfile) {
     List<BrowserType> browserTypes = GaleniumConfiguration.getBrowserTypes();
     return browserTypes.contains(deviceProfile.getBrowserType());
+  }
+
+  private static void setIncludeTags(TestDeviceImpl testDevice, BrowserType browserType, String mediaQueryName) {
+    testDevice.setTags(getIncludeTags(browserType, mediaQueryName));
+  }
+
+  static Dimension getDimensionFromProfile(DeviceProfile profile) {
+    return new Dimension(profile.getWidth(), profile.getHeight());
+  }
+
+  static List<String> getIncludeTags(DeviceProfile profile) {
+    return Collections.singletonList(profile.getBrowser());
   }
 
 }

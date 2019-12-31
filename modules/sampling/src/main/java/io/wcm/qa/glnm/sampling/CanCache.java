@@ -21,16 +21,24 @@ package io.wcm.qa.glnm.sampling;
 
 /**
  * Configurable caching.
+ *
+ * @since 1.0.0
  */
 public interface CanCache {
 
   /**
+   * <p>isCaching.</p>
+   *
    * @return whether sampler is currently caching
+   * @since 3.0.0
    */
   boolean isCaching();
 
   /**
+   * <p>setCaching.</p>
+   *
    * @param activateCache whether to activate or deactivate caching
+   * @since 3.0.0
    */
   void setCaching(boolean activateCache);
 }

@@ -20,6 +20,8 @@
 package io.wcm.qa.glnm.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.sampling.element.CssValueSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -27,22 +29,32 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerificatio
 
 /**
  * Make sure an attribute is set on an element.
+ *
+ * @since 1.0.0
  */
 public class CssValueVerification extends WebElementBasedStringVerification<CssValueSampler> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(CssValueVerification.class);
+
   /**
+   * <p>Constructor for CssValueVerification.</p>
+   *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
+   * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName) {
-    super(selector.elementName(), new CssValueSampler(selector, cssValueName));
+    super(new CssValueSampler(selector, cssValueName));
     setPreVerification(new VisibilityVerification(selector));
   }
 
   /**
+   * <p>Constructor for CssValueVerification.</p>
+   *
    * @param selector to identify element
    * @param cssValueName name of attribute to check
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public CssValueVerification(Selector selector, String cssValueName, String expectedValue) {
     this(selector, cssValueName);
@@ -51,14 +63,14 @@ public class CssValueVerification extends WebElementBasedStringVerification<CssV
 
   @Override
   protected void afterVerification() {
-    getLogger().trace("looking for '" + getExpectedValue() + "'");
+    LOG.trace("looking for '" + getExpectedValue() + "'");
     String cachedValue = getCachedValue();
-    getLogger().trace("found: '" + cachedValue + "'");
+    LOG.trace("found: '" + cachedValue + "'");
     if (!isVerified() && cachedValue != null) {
       String expectedKey = getExpectedKey();
       persistSample(expectedKey, cachedValue);
     }
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

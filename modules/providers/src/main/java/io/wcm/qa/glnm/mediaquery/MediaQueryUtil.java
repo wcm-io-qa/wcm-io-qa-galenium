@@ -34,22 +34,26 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.configuration.PropertiesUtil;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * Some convenience methods around {@link MediaQuery}.
+ * Some convenience methods around  {@link io.wcm.qa.glnm.mediaquery.MediaQuery}.
+ *
+ * @since 1.0.0
  */
 public final class MediaQueryUtil {
 
   private static final int CONFIGURED_MAX_WIDTH = GaleniumConfiguration.getMediaQueryMaximalWidth();
   private static final int CONFIGURED_MIN_WIDTH = GaleniumConfiguration.getMediaQueryMinimalWidth();
   private static final MediaQuery DEFAULT_MEDIA_QUERY = getNewMediaQuery("DEFAULT_MQ", CONFIGURED_MIN_WIDTH, CONFIGURED_MAX_WIDTH);
+
+  private static final Logger LOG = LoggerFactory.getLogger(MediaQueryUtil.class);
 
   private static final Map<String, Collection<MediaQuery>> MAP_MEDIA_QUERIES_FILENAMES = new HashMap<>();
   private static final Map<Properties, Collection<MediaQuery>> MAP_MEDIA_QUERIES_PROPERTIES = new HashMap<>();
@@ -59,7 +63,10 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getCurrentMediaQuery.</p>
+   *
    * @return the media query used in current test device
+   * @since 3.0.0
    */
   public static MediaQuery getCurrentMediaQuery() {
     WebDriver driver = GaleniumContext.getDriver();
@@ -71,8 +78,10 @@ public final class MediaQueryUtil {
 
   /**
    * Returns matching media query from configuration.
+   *
    * @param testDevice to match
    * @return media query
+   * @since 3.0.0
    */
   public static MediaQuery getMatchingMediaQuery(TestDevice testDevice) {
     Collection<MediaQuery> mediaQueries = getMediaQueries();
@@ -85,7 +94,10 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @return get all defined media queries
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries() {
     String propertiesFilePath = GaleniumConfiguration.getMediaQueryPropertiesPath();
@@ -97,8 +109,11 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param mediaQueryPropertyFile to get media query definitions from
    * @return all media queries configured in properties file
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries(File mediaQueryPropertyFile) {
     if (mediaQueryPropertyFile == null) {
@@ -110,10 +125,12 @@ public final class MediaQueryUtil {
     return getMediaQueries(mediaQueryPropertyFile.getPath());
   }
 
-
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param mediaQueryProperties to get media query definitions from
    * @return all media queries configured in properties
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries(Properties mediaQueryProperties) {
     if (MAP_MEDIA_QUERIES_PROPERTIES.containsKey(mediaQueryProperties)) {
@@ -129,19 +146,23 @@ public final class MediaQueryUtil {
       mediaQueries.add(getNewMediaQuery(mediaQueryName, lowerBound, upperBound));
       lowerBound = upperBound + 1;
     }
-    if (getLogger().isDebugEnabled()) {
-      getLogger().debug("generated " + mediaQueries.size() + " media queries");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("generated " + mediaQueries.size() + " media queries");
       for (MediaQuery mediaQuery : mediaQueries) {
-        getLogger().debug("  " + mediaQuery);
+        LOG.debug("  " + mediaQuery);
       }
     }
     MAP_MEDIA_QUERIES_PROPERTIES.put(mediaQueryProperties, mediaQueries);
     return mediaQueries;
   }
 
+
   /**
+   * <p>getMediaQueries.</p>
+   *
    * @param propertiesFilePath to get properties file with media query definitions from
    * @return all media queries configured in properties file
+   * @since 3.0.0
    */
   public static Collection<MediaQuery> getMediaQueries(String propertiesFilePath) {
     if (MAP_MEDIA_QUERIES_FILENAMES.containsKey(propertiesFilePath)) {
@@ -154,8 +175,11 @@ public final class MediaQueryUtil {
   }
 
   /**
+   * <p>getMediaQueryByName.</p>
+   *
    * @param name of media query to retrieve
    * @return media query matching name
+   * @since 3.0.0
    */
   public static MediaQuery getMediaQueryByName(String name) {
     Collection<MediaQuery> mediaQueries = getMediaQueries();
@@ -168,11 +192,13 @@ public final class MediaQueryUtil {
   }
 
   /**
-   * Factory method to create {@link MediaQuery}
+   * Factory method to create  {@link io.wcm.qa.glnm.mediaquery.MediaQuery}
+   *
    * @param mediaQueryName name to use for media query
    * @param lowerBound to use as lower bound in media query
    * @param upperBound to use as upper bound in media query
    * @return a new media query instance
+   * @since 3.0.0
    */
   public static MediaQuery getNewMediaQuery(String mediaQueryName, int lowerBound, int upperBound) {
     if (lowerBound < CONFIGURED_MIN_WIDTH) {
@@ -190,6 +216,18 @@ public final class MediaQueryUtil {
     return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
   }
 
+  /**
+   * <p>
+   * Whether current media query equals by name.
+   * </p>
+   *
+   * @param mq to compare current media query to
+   * @return whether the current media query has the same name
+   */
+  public static boolean isCurrentMediaQuery(MediaQuery mq) {
+    return StringUtils.equals(getCurrentMediaQuery().getName(), mq.getName());
+  }
+
   private static Integer getIntegerValue(Entry<Object, Object> entry) {
     Object value = entry.getValue();
     if (value == null) {
@@ -201,10 +239,6 @@ public final class MediaQueryUtil {
     catch (NumberFormatException ex) {
       throw new GaleniumException("could not parse to integer: '" + value, ex);
     }
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
   }
 
   private static SortedMap<Integer, String> getSortedMediaQueryMap(Properties mediaQueryProperties) {

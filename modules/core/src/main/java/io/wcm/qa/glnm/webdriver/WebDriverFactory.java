@@ -41,6 +41,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -54,8 +55,14 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 final class WebDriverFactory {
 
+  private static final Logger LOG = LoggerFactory.getLogger(WebDriverFactory.class);
+
   private WebDriverFactory() {
     // do not instantiate
+  }
+
+  private static ChromeDriver getChromeDriver(OptionsProvider capabilitiesProvider) {
+    return new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
   }
 
   private static OptionsProvider getDesiredCapabilitiesProvider(TestDevice device) {
@@ -67,9 +74,9 @@ final class WebDriverFactory {
         ChromeEmulatorOptionsProvider emulatorProvider = new ChromeEmulatorOptionsProvider(chromeEmulator);
         if (isHeadless()) {
           HeadlessChromeCapabilityProvider headlessProvider = new HeadlessChromeCapabilityProvider(device);
-          getLogger().trace("chrome headless: " + ReflectionToStringBuilder.toString(headlessProvider, ToStringStyle.MULTI_LINE_STYLE));
+          LOG.trace("chrome headless: " + ReflectionToStringBuilder.toString(headlessProvider, ToStringStyle.MULTI_LINE_STYLE));
           if (withEmulator) {
-            getLogger().trace("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
+            LOG.trace("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
             chromeOptionProvider = new CombinedOptionsProvider(headlessProvider, emulatorProvider);
           }
           else {
@@ -77,13 +84,13 @@ final class WebDriverFactory {
           }
         }
         else if (withEmulator) {
-          getLogger().trace("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
+          LOG.trace("with emulator: " + ReflectionToStringBuilder.toString(emulatorProvider, ToStringStyle.MULTI_LINE_STYLE));
           chromeOptionProvider = emulatorProvider;
         }
         else {
           chromeOptionProvider = new ChromeOptionsProvider();
         }
-        getLogger().debug("chrome provider: " + ReflectionToStringBuilder.toString(chromeOptionProvider, ToStringStyle.MULTI_LINE_STYLE));
+        LOG.debug("chrome provider: " + ReflectionToStringBuilder.toString(chromeOptionProvider, ToStringStyle.MULTI_LINE_STYLE));
         return chromeOptionProvider;
       case FIREFOX:
         return new FirefoxOptionsProvider();
@@ -99,18 +106,6 @@ final class WebDriverFactory {
     return GaleniumContext.getDriver();
   }
 
-  private static Logger getLogger() {
-    return WebDriverManagement.getLogger();
-  }
-
-  private static ChromeDriver getChromeDriver(OptionsProvider capabilitiesProvider) {
-    return new ChromeDriver((ChromeOptions)capabilitiesProvider.getOptions());
-  }
-
-  private static void setDriver(WebDriver driver) {
-    GaleniumContext.getContext().setDriver(driver);
-  }
-
   private static FirefoxDriver getFirefoxDriver(OptionsProvider capabilitiesProvider) {
     return new FirefoxDriver((FirefoxOptions)capabilitiesProvider.getOptions());
   }
@@ -120,7 +115,7 @@ final class WebDriverFactory {
   }
 
   private static WebDriver getNewDriver(TestDevice newTestDevice, RunMode runMode) {
-    getLogger().info("Getting driver for runmode '" + runMode + "'");
+    LOG.info("Getting driver for runmode '" + runMode + "'");
     OptionsProvider capabilitiesProvider = getDesiredCapabilitiesProvider(newTestDevice);
     switch (runMode) {
       case REMOTE:
@@ -146,7 +141,7 @@ final class WebDriverFactory {
   private static WebDriver getRemoteDriver(OptionsProvider capabilitiesProvider) {
     String gridHost = getGridHost();
     int gridPort = getGridPort();
-    getLogger().info("Connecting to grid at " + gridHost + ":" + gridPort + "...");
+    LOG.info("Connecting to grid at " + gridHost + ":" + gridPort + "...");
     try {
       String protocol = "http";
       if (StringUtils.startsWith(gridHost, "https://")) {
@@ -163,6 +158,10 @@ final class WebDriverFactory {
     }
   }
 
+  private static void setDriver(WebDriver driver) {
+    GaleniumContext.getContext().setDriver(driver);
+  }
+
   /**
    * Create webdriver based on test device
    * @param newTestDevice info on browser and size
@@ -171,8 +170,8 @@ final class WebDriverFactory {
   static WebDriver newDriver(TestDevice newTestDevice) {
 
     RunMode runMode = GaleniumConfiguration.getRunMode();
-    getLogger()
-        .info(format("Creating new {0} {1} WebDriver for thread {2}",
+    LOG.info(
+        format("Creating new {0} {1} WebDriver for thread {2}",
             runMode,
             newTestDevice.getBrowserType(),
             Thread.currentThread().getName()));

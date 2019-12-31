@@ -22,25 +22,32 @@ package io.wcm.qa.glnm.differences.generic;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.util.DifferenceUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Differences are sorted and a cut off value determines which part goes into the folder name and which part into the
  * filename.
+ *
+ * @since 1.0.0
  */
 public class DifferentiatedDifferences extends SortedDifferences {
 
+  private static final Logger LOG = LoggerFactory.getLogger(DifferentiatedDifferences.class);
+
   private int cutoff = 2;
 
+  /** {@inheritDoc} */
   @Override
   public String asFilePath() {
     Collection<Difference> differences = getDifferences();
     int differencesTotalCount = differences.size();
     int pivotIndex = differencesTotalCount - getCutoff();
     if (pivotIndex < 0 || pivotIndex > differencesTotalCount) {
-      GaleniumReportUtil.getLogger().debug("could not differentiate because of illegal cutoff: " + this);
+      LOG.debug("could not differentiate because of illegal cutoff: " + this);
       return super.asFilePath();
     }
 
@@ -53,14 +60,27 @@ public class DifferentiatedDifferences extends SortedDifferences {
     return folderPart + "/" + filePart;
   }
 
+  /**
+   * <p>Getter for the field <code>cutoff</code>.</p>
+   *
+   * @return a int.
+   * @since 2.0.0
+   */
   public int getCutoff() {
     return cutoff;
   }
 
+  /**
+   * <p>Setter for the field <code>cutoff</code>.</p>
+   *
+   * @param cutoff a int.
+   * @since 2.0.0
+   */
   public void setCutoff(int cutoff) {
     this.cutoff = cutoff;
   }
 
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     return super.toString() + " cutoff: " + getCutoff();

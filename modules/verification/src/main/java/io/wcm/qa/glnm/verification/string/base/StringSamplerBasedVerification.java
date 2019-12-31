@@ -27,13 +27,15 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Most sampling is String based.
+ *
+ * @since 1.0.0
  */
 public abstract class StringSamplerBasedVerification extends SamplerBasedVerification<Sampler<String>, String> {
 
   private static final String NO_EXPECTED_VALUE_SET = "NO_EXPECTED_VALUE_SET";
 
-  protected StringSamplerBasedVerification(String verificationName, Sampler<String> sampler) {
-    super(verificationName, sampler);
+  protected StringSamplerBasedVerification(Sampler<String> sampler) {
+    super(sampler);
   }
 
   @Override

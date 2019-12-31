@@ -24,13 +24,15 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Abstract base class for implementations verifying samples from web elements.
+ *
  * @param <S> type of sampler
  * @param <T> type of sample
+ * @since 1.0.0
  */
 public abstract class SelectorBasedVerification<S extends SelectorBasedSampler<T>, T> extends SamplerBasedVerification<S, T> {
 
-  protected SelectorBasedVerification(String verificationName, S sampler) {
-    super(verificationName, sampler);
+  protected SelectorBasedVerification(S sampler) {
+    super(sampler);
   }
 
 }

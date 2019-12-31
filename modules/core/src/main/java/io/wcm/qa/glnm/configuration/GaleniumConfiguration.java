@@ -19,27 +19,29 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.device.BrowserType;
 import io.wcm.qa.glnm.selenium.RunMode;
 
 /**
  * Central place to integrate test run and environment configuration from Maven et al.
+ *
+ * @since 1.0.0
  */
 public final class GaleniumConfiguration {
 
   private static final String DEFAULT_AUTHOR_PASS = "admin";
+
   private static final String DEFAULT_AUTHOR_USER = "admin";
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
   private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
@@ -50,6 +52,8 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
+
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumConfiguration.class);
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
@@ -69,6 +73,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST = "galenium.webdriver.https.proxyHost";
   private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT = "galenium.webdriver.https.proxyPort";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
+  private static final String SYSTEM_PROPERTY_NAME_LOG_DIR = "galenium.logging.testlogs";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
@@ -122,7 +127,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return path to root folder
+   * @since 3.0.0
    */
   public static String getActualImagesDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
@@ -148,7 +155,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return amount of pixel to add to width
+   * @since 3.0.0
    */
   public static int getAdditionalChromeHeadlessWidth() {
     return asInteger(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
@@ -173,7 +182,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return password to author instance
+   * @since 3.0.0
    */
   public static String getAuthorPass() {
     return asString(SYSTEM_PROPERTY_NAME_AUTHOR_PASS, DEFAULT_AUTHOR_PASS);
@@ -198,7 +209,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return username for author instance
+   * @since 3.0.0
    */
   public static String getAuthorUser() {
     return asString(SYSTEM_PROPERTY_NAME_AUTHOR_USER, DEFAULT_AUTHOR_USER);
@@ -224,7 +237,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return base URL with HTTP basic auth, if configured
+   * @since 3.0.0
    */
   public static String getBaseUrl() {
     return asString(SYSTEM_PROPERTY_NAME_BASE_URL, DEFAULT_BASE_URL);
@@ -244,25 +259,30 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * {@link Level#INFO}
+   * {@link java.util.logging.Level#INFO}
    * </pre>
    *
    * </li>
    * </ul>
+   *
    * @return level to use for logs from browser
+   * @since 3.0.0
    */
   public static Level getBrowserLogLevel() {
     try {
       return Level.parse(asString(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, DEFAULT_BROWSER_LOG_LEVEL));
     }
     catch (IllegalArgumentException ex) {
-      getLogger().info("could not parse browser log level, using INFO level.", ex);
+      LOG.info("could not parse browser log level, using INFO level.", ex);
       return Level.INFO;
     }
   }
 
   /**
+   * <p>getBrowserTypes.</p>
+   *
    * @return browsers configured via 'selenium.browser' system property.
+   * @since 3.0.0
    */
   public static List<BrowserType> getBrowserTypes() {
     ArrayList<BrowserType> list = new ArrayList<BrowserType>();
@@ -280,7 +300,7 @@ public final class GaleniumConfiguration {
       return Collections.unmodifiableList(list);
     }
 
-    getLogger().warn("No browser configured: using Chrome");
+    LOG.warn("No browser configured: using Chrome");
     return Arrays.asList(BrowserType.CHROME);
   }
 
@@ -303,7 +323,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return path to chrome binary or null
+   * @since 3.0.0
    */
   public static String getChromeBinaryPath() {
     return asString(SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH);
@@ -328,7 +350,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return default timeout used by Galenium
+   * @since 3.0.0
    */
   public static int getDefaultWebdriverTimeout() {
     return asInteger(SYSTEM_PROPERTY_NAME_WEB_DRIVER_TIMEOUT, DEFAULT_WEBDRIVER_TIMEOUT);
@@ -353,7 +377,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   * @return path to {@link Properties} file containing media query definitions
+   *
+   * @return path to {@link java.util.Properties} file containing media query definitions
+   * @since 3.0.0
    */
   public static String getDeviceCsvFilePath() {
     return asString(SYSTEM_PROPERTY_NAME_DEVICE_CSV, DEFAULT_DEVICE_CSV);
@@ -378,7 +404,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return path to root folder of expected image samples
+   * @since 3.0.0
    */
   public static String getExpectedImagesDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED, DEFAULT_SPEC_PATH);
@@ -403,7 +431,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return path to root folder of Galen JS tests
+   * @since 3.0.0
    */
   public static String getGalenJsTestPath() {
     return asString(SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH, getGalenSpecPath());
@@ -428,7 +458,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return path to root folder of Galen specs
+   * @since 3.0.0
    */
   public static String getGalenSpecPath() {
     return asString(SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH, DEFAULT_SPEC_PATH);
@@ -453,7 +485,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return Selenium Grid host
+   * @since 3.0.0
    */
   public static String getGridHost() {
     return asString(SYSTEM_PROPERTY_NAME_SELENIUM_HOST);
@@ -478,7 +512,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return Selenium Grid port number
+   * @since 3.0.0
    */
   public static int getGridPort() {
     return asInteger(SYSTEM_PROPERTY_NAME_SELENIUM_PORT, DEFAULT_GRID_PORT);
@@ -503,7 +539,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return HTTP password
+   * @since 3.0.0
    */
   public static String getHttpPass() {
     return asString(SYSTEM_PROPERTY_NAME_HTTP_PASS);
@@ -528,7 +566,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return null or https proxy host
+   * @since 3.0.0
    */
   public static String getHttpsProxyHost() {
     return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST, null);
@@ -553,7 +593,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return null or https proxy port
+   * @since 3.0.0
    */
   public static String getHttpsProxyPort() {
     return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT, null);
@@ -578,7 +620,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return HTTP username
+   * @since 3.0.0
    */
   public static String getHttpUser() {
     return asString(SYSTEM_PROPERTY_NAME_HTTP_USER);
@@ -603,7 +647,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return height for use with device creation
+   * @since 3.0.0
    */
   public static Integer getMediaQueryHeight() {
     return asInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT, 800);
@@ -628,7 +674,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return minimal width to use with media query instantiation
+   * @since 3.0.0
    */
   public static Integer getMediaQueryMaximalWidth() {
     return asInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX, 2000);
@@ -653,7 +701,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return minimal width to use with media query instantiation
+   * @since 3.0.0
    */
   public static Integer getMediaQueryMinimalWidth() {
     return asInteger(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN, 320);
@@ -678,7 +728,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   * @return path to {@link Properties} file containing media query definitions
+   *
+   * @return path to {@link java.util.Properties} file containing media query definitions
+   * @since 3.0.0
    */
   public static String getMediaQueryPropertiesPath() {
     return asString(SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES, DEFAULT_MEDIA_QUERY_PATH);
@@ -703,7 +755,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return HTTP username
+   * @since 3.0.0
    */
   public static int getNumberOfBrowserInstantiationRetries() {
     return asInteger(SYSTEM_PROPERTY_NAME_RETRY_BROWSER_INSTANTIATION_MAX, 0);
@@ -728,14 +782,19 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return maximum number of retries
+   * @since 3.0.0
    */
   public static int getNumberOfRetries() {
     return asInteger(SYSTEM_PROPERTY_NAME_RETRY_MAX, 2);
   }
 
   /**
+   * <p>getReportConfig.</p>
+   *
    * @return config file for ExtentReports
+   * @since 3.0.0
    */
   public static File getReportConfig() {
     return asFile(SYSTEM_PROPERTY_NAME_REPORT_CONFIG);
@@ -760,10 +819,38 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return root folder for storing report artefacts
+   * @since 3.0.0
    */
   public static String getReportDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY, DEFAULT_REPORT_DIR);
+  }
+
+  /**
+   * Test log root folder.
+   * <ul>
+   * <li>Key:
+   *
+   * <pre>
+   * galenium.logging.testlogs
+   * </pre>
+   *
+   * </li>
+   * <li>
+   * Default:
+   *
+   * <pre>
+   * "./target/testlogs"
+   * </pre>
+   *
+   * </li>
+   * </ul>
+   *
+   * @return root folder for storing test logs
+   */
+  public static String getTestLogDirectory() {
+    return asString(SYSTEM_PROPERTY_NAME_LOG_DIR, "target/testlogs");
   }
 
   /**
@@ -780,12 +867,14 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * throw {@link NullPointerException}
+   * throw {@link java.lang.NullPointerException}
    * </pre>
    *
    * </li>
    * </ul>
-   * @return {@link RunMode} used
+   *
+   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @since 3.0.0
    */
   public static RunMode getRunMode() {
     return RunMode.valueOf(asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE).toUpperCase());
@@ -810,7 +899,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return path to expected texts file
+   * @since 3.0.0
    */
   public static String getTextComparisonFile() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
@@ -835,7 +926,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   * @return {@link RunMode} used
+   *
+   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @since 3.0.0
    */
   public static String getTextComparisonInputDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY, DEFAULT_SPEC_PATH);
@@ -860,7 +953,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   * @return {@link RunMode} used
+   *
+   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @since 3.0.0
    */
   public static String getTextComparisonOutputDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, DEFAULT_REPORT_DIR);
@@ -885,7 +980,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether headless Chrome should be position off screen on Windows machines
+   * @since 3.0.0
    */
   public static boolean isChromeHeadlessWindowsWorkaround() {
     return asBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
@@ -911,7 +1008,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to use workaround to fix Chrome's image comparison behavior
+   * @since 3.0.0
    */
   public static boolean isFixChromeImageComparison() {
     if (asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX) == null) {
@@ -940,7 +1039,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether browser is running in headless mode
+   * @since 3.0.0
    */
   public static boolean isHeadless() {
     return asBoolean(SYSTEM_PROPERTY_NAME_HEADLESS);
@@ -966,7 +1067,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to use lazy web driver initialization
+   * @since 3.0.0
    */
   public static boolean isLazyWebDriverInitialization() {
     return asBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
@@ -991,7 +1094,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether TestNG is used
+   * @since 3.0.0
    */
   public static boolean isNoTestNg() {
     return asBoolean(SYSTEM_PROPERTY_NAME_NO_TESTNG);
@@ -1017,7 +1122,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to skip reporting of successful tests
+   * @since 3.0.0
    */
   public static boolean isOnlyReportGalenErrors() {
     return asBoolean(SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY);
@@ -1042,7 +1149,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to ignore errors when validating samples
+   * @since 3.0.0
    */
   public static boolean isSamplingVerificationIgnore() {
     return asBoolean(SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS);
@@ -1067,7 +1176,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether TestNG is used
+   * @since 3.0.0
    */
   public static boolean isSkipExtentReports() {
     return asBoolean(SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT);
@@ -1094,7 +1205,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to use sparse reporting on this run
+   * @since 3.0.0
    */
   public static boolean isSparseReporting() {
     return asBoolean(SYSTEM_PROPERTY_NAME_SPARSE_REPORTING);
@@ -1120,7 +1233,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to skip automatic adjusting of browser size
+   * @since 3.0.0
    */
   public static boolean isSuppressAutoAdjustBrowserSize() {
     return asBoolean(SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE);
@@ -1145,7 +1260,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to take and store screenshots of skipped tests for reporting
+   * @since 3.0.0
    */
   public static boolean isTakeScreenshotOnSkippedTest() {
     return asBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED);
@@ -1170,7 +1287,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to take and store screenshots of successful tests for reporting
+   * @since 3.0.0
    */
   public static boolean isTakeScreenshotOnSuccessfulTest() {
     return asBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
@@ -1195,7 +1314,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to use BrowserMob Proxy for drivers
+   * @since 3.0.0
    */
   public static boolean isUseBrowserProxy() {
     return asBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
@@ -1220,7 +1341,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether browser accepts secure SSL certificates only
+   * @since 3.0.0
    */
   public static boolean isWebDriverAcceptTrustedSslCertificatesOnly() {
     return asBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_TRUSTED_ONLY);
@@ -1245,7 +1368,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether to always instantiate a new webdriver for each test
+   * @since 3.0.0
    */
   public static boolean isWebDriverAlwaysNew() {
     return asBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW);
@@ -1270,7 +1395,9 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return whether browser refuses SSL certificates
+   * @since 3.0.0
    */
   public static boolean isWebDriverRefuseSslCertificates() {
     return asBoolean(SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE);

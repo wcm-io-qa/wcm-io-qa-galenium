@@ -27,14 +27,18 @@ import io.wcm.qa.glnm.verification.string.base.PatternBasedVerification;
 
 /**
  * Verifies pattern does not match whole input sample.
+ *
+ * @since 1.0.0
  */
 public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * Pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sample fixed sample to verify against
+   * @since 2.0.0
    */
   public MatchesPatternVerification(String verificationName, Pattern pattern, String sample) {
     this(verificationName, pattern, new FixedStringSampler(sample));
@@ -42,19 +46,23 @@ public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sampler sampler to provide input sample
+   * @since 2.0.0
    */
   public MatchesPatternVerification(String verificationName, Pattern pattern, Sampler<String> sampler) {
-    super(verificationName, pattern, sampler);
+    super(pattern, sampler);
   }
 
   /**
    * String pattern against fixed sample.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sample fixed sample to verify against
+   * @since 2.0.0
    */
   public MatchesPatternVerification(String verificationName, String pattern, String sample) {
     this(verificationName, Pattern.compile(pattern), new FixedStringSampler(sample));
@@ -62,9 +70,11 @@ public class MatchesPatternVerification extends PatternBasedVerification {
 
   /**
    * Pattern against input provided by sampler.
+   *
    * @param verificationName name for this check
    * @param pattern to find in input
    * @param sampler sampler to provide input sample
+   * @since 2.0.0
    */
   public MatchesPatternVerification(String verificationName, String pattern, Sampler<String> sampler) {
     this(verificationName, Pattern.compile(pattern), sampler);

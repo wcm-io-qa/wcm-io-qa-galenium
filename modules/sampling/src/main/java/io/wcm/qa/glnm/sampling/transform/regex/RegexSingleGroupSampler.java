@@ -27,7 +27,9 @@ import io.wcm.qa.glnm.sampling.transform.base.RegexBasedSampler;
 
 /**
  * Samples a specific group from first match of regular expression.
- * @param <S>
+ *
+ * @param <S> type of input sampler
+ * @since 1.0.0
  */
 public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBasedSampler<S, String> {
 
@@ -35,17 +37,23 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
   private int groupIndex;
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, Pattern pattern) {
     super(inputSampler, pattern);
   }
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
    * @param pattern used to transform
    * @param groupIndex index of group to sample
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, Pattern pattern, int groupIndex) {
     this(inputSampler, pattern);
@@ -54,17 +62,23 @@ public class RegexSingleGroupSampler<S extends Sampler<String>> extends RegexBas
 
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, String regex) {
     super(inputSampler, regex);
   }
 
   /**
+   * <p>Constructor for RegexSingleGroupSampler.</p>
+   *
    * @param inputSampler providing the input string
-   * @param regex to build transformation {@link Pattern} from
+   * @param regex to build transformation {@link java.util.regex.Pattern} from
    * @param groupIndex index of group to sample
+   * @since 3.0.0
    */
   public RegexSingleGroupSampler(S inputSampler, String regex, int groupIndex) {
     this(inputSampler, regex);

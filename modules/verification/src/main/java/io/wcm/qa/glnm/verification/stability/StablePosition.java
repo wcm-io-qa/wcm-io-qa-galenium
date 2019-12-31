@@ -20,18 +20,26 @@
 package io.wcm.qa.glnm.verification.stability;
 
 import org.openqa.selenium.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.element.LocationSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Verifies stable position of element. Useful when waiting for animated moving of elements to finish.
+ *
+ * @since 1.0.0
  */
 public class StablePosition extends Stability<Point> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(StablePosition.class);
+
   /**
+   * <p>Constructor for StablePosition.</p>
+   *
    * @param selector identifies element
+   * @since 2.0.0
    */
   public StablePosition(Selector selector) {
     super(new LocationSampler(selector));
@@ -39,7 +47,7 @@ public class StablePosition extends Stability<Point> {
 
   @Override
   protected boolean checkForEquality(Point value1, Point value2) {
-    GaleniumReportUtil.getLogger().trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
+    LOG.trace("comparing locations: '" + value1 + "' <> '" + value2 + "'");
     return value1.equals(value2);
   }
 

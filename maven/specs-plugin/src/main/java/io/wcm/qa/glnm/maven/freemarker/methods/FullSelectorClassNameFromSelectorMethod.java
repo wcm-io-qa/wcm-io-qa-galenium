@@ -24,6 +24,8 @@ import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 
 /**
  * Extracts Java class name from selector.
+ *
+ * @since 1.0.0
  */
 public class FullSelectorClassNameFromSelectorMethod extends AbstractTemplateMethod<SelectorPojo> {
 

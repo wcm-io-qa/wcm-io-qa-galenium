@@ -21,54 +21,44 @@ package io.wcm.qa.glnm.testcase;
 
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.ITest;
 import org.testng.SkipException;
 
-import io.wcm.qa.glnm.differences.specialized.TestNameDifferences;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
-
 /**
- * Base class using {@link TestNameDifferences} to generate test name for TestNG's {@link ITest} interface.
+ * Base class with test name for TestNG's {@link org.testng.ITest} interface.
+ *
+ * @since 3.0.0
  */
 public class AbstractNamedTest implements ITest {
 
-  private TestNameDifferences nameDifferences = new TestNameDifferences();
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractNamedTest.class);
 
   protected AbstractNamedTest() {
     super();
-    getNameDifferences().setClass(getClass());
-    getNameDifferences().setClassNameMaxLength(30);
   }
 
+  /** {@inheritDoc} */
   @Override
   public String getTestName() {
-    return getNameDifferences().asPropertyKey();
-  }
-
-  protected TestNameDifferences getNameDifferences() {
-    return nameDifferences;
-  }
-
-  protected void setNameDifferences(TestNameDifferences nameDifferences) {
-    this.nameDifferences = nameDifferences;
-  }
-
-  protected void skipTest(String skipMessage) {
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + skipMessage);
-    throw new SkipException(skipMessage);
-  }
-
-  protected void skipTest(String skipMessage, Throwable ex) {
-    getLogger().info(GaleniumReportUtil.MARKER_SKIP, "Skipping: " + getTestName(), ex);
-    throw new SkipException(skipMessage, ex);
+    return getClass().getName();
   }
 
   /**
-   * Convenience method delegating to {@link GaleniumReportUtil#getLogger()}.
-   * @return current logger
+   * @param skipMessage will be logged and added to {@link SkipException}
    */
-  public Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
+  protected void skipTest(String skipMessage) {
+    LOG.info("Skipping: " + skipMessage);
+    throw new SkipException(skipMessage);
+  }
+
+  /**
+   * @param skipMessage will be logged and added to {@link SkipException} as message
+   * @param ex will be logged and added to {@link SkipException} as cause
+   */
+  protected void skipTest(String skipMessage, Throwable ex) {
+    LOG.info("Skipping: " + skipMessage, ex);
+    throw new SkipException(skipMessage, ex);
   }
 
 }

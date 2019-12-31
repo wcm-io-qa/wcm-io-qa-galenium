@@ -23,21 +23,29 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Make sure a link has a certain href value.
+ *
+ * @since 1.0.0
  */
 public class LinkTargetVerification extends AttributeVerification {
 
   private static final String ATTRIBUTE_NAME_HREF = "href";
 
   /**
+   * <p>Constructor for LinkTargetVerification.</p>
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public LinkTargetVerification(Selector selector) {
     super(selector, ATTRIBUTE_NAME_HREF);
   }
 
   /**
+   * <p>Constructor for LinkTargetVerification.</p>
+   *
    * @param selector to identify element
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public LinkTargetVerification(Selector selector, String expectedValue) {
     super(selector, ATTRIBUTE_NAME_HREF, expectedValue);

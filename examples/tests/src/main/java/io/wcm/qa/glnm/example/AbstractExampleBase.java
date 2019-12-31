@@ -19,13 +19,17 @@
  */
 package io.wcm.qa.glnm.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.example.selectors.common.Page;
 import io.wcm.qa.glnm.example.selectors.common.Page.Navigation;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.interaction.Aem;
+import io.wcm.qa.glnm.interaction.Browser;
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.interaction.Wait;
+import io.wcm.qa.glnm.interaction.aem.author.AuthorLogin;
 import io.wcm.qa.glnm.testcase.AbstractBrowserBasedTest;
 
 /**
@@ -33,25 +37,26 @@ import io.wcm.qa.glnm.testcase.AbstractBrowserBasedTest;
  */
 public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
 
-  private static final String ROOT_PACKAGE_FOR_TESTS = "io.wcm.qa";
+  private static final boolean IS_AUTHOR_SUT = Boolean.getBoolean("galenium.example.sut.author");
   private static final int CUTOFF_MOBILE_WIDTH = 601;
   protected static final String PATH_TO_CONFERENCE_PAGE = "/en/conference.html";
   protected static final String PATH_TO_HOMEPAGE = "/en.html";
+  private static final boolean SKIP_AUTHOR_LOGIN = !IS_AUTHOR_SUT;
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractExampleBase.class);
 
   /**
    * @param testDevice test device to use for test
    */
   public AbstractExampleBase(TestDevice testDevice) {
     super(testDevice);
-    getNameDifferences().setRootPackage(ROOT_PACKAGE_FOR_TESTS);
+  }
+
+  public AbstractExampleBase() {
+    super();
   }
 
   private void navShouldBeVisible() {
     Element.findOrFail(Page.NAVIGATION);
-  }
-
-  protected void clickConferenceNavLink() {
-    Navigation.LINK_TO_CONFERENCE.click();
   }
 
   protected abstract String getRelativePath();
@@ -64,9 +69,18 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
     return getDevice().getScreenSize().getWidth() < CUTOFF_MOBILE_WIDTH;
   }
 
+  protected boolean isAuthor() {
+    return IS_AUTHOR_SUT;
+  }
+
   protected void loadStartUrl() {
-    if (Aem.loginToAuthor(getStartUrl())) {
-      getLogger().debug("loaded start URL: " + getStartUrl());
+    if (SKIP_AUTHOR_LOGIN) {
+      Browser.load(getStartUrl());
+      LOG.debug("loaded start URL: " + getStartUrl());
+      return;
+    }
+    if (AuthorLogin.loginToAuthor(getStartUrl())) {
+      LOG.debug("logged in to start URL: " + getStartUrl());
       return;
     }
     throw new GaleniumException("could not login to author when loading start URL.");
@@ -76,7 +90,7 @@ public abstract class AbstractExampleBase extends AbstractBrowserBasedTest {
     navShouldBeVisible();
     if (isMobile()) {
       Navigation.MENU_OPENER.click();
-      Wait.forVisibility(Navigation.LINK_TO_CONFERENCE);
+      Wait.forVisibility(Navigation.LINK_TO_HOMEPAGE);
     }
   }
 

@@ -29,6 +29,8 @@ import io.wcm.qa.glnm.maven.freemarker.util.ReflectionUtil;
 
 /**
  * Pojo to generate interaction methods.
+ *
+ * @since 1.0.0
  */
 public class InteractionMethodPojo {
 
@@ -38,6 +40,8 @@ public class InteractionMethodPojo {
   private Method method;
 
   /**
+   * <p>Constructor for InteractionMethodPojo.</p>
+   *
    * @param method method to generate delegate for
    */
   public InteractionMethodPojo(Method method) {
@@ -45,6 +49,8 @@ public class InteractionMethodPojo {
   }
 
   /**
+   * <p>getBody.</p>
+   *
    * @return method body for generated class
    */
   public String getBody() {
@@ -70,6 +76,8 @@ public class InteractionMethodPojo {
   }
 
   /**
+   * <p>getHead.</p>
+   *
    * @return method head for generated class
    */
   public String getHead() {
@@ -80,6 +88,8 @@ public class InteractionMethodPojo {
   }
 
   /**
+   * <p>getHeadForInterface.</p>
+   *
    * @return method head for generated interface
    */
   public String getHeadForInterface() {
@@ -97,10 +107,20 @@ public class InteractionMethodPojo {
     return method.getGenericReturnType().getTypeName();
   }
 
+  /**
+   * <p>Getter for the field <code>method</code>.</p>
+   *
+   * @return a {@link java.lang.reflect.Method} object.
+   */
   public Method getMethod() {
     return method;
   }
 
+  /**
+   * <p>Setter for the field <code>method</code>.</p>
+   *
+   * @param method2 a {@link java.lang.reflect.Method} object.
+   */
   public void setMethod(Method method2) {
     this.method = method2;
   }

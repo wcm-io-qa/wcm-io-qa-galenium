@@ -27,20 +27,25 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.proxy.BrowserProxyUtil;
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 abstract class OptionsProvider<O extends MutableCapabilities> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(OptionsProvider.class);
+
   /**
+   * <p>getOptions.</p>
+   *
    * @return capabilities for browser
+   * @since 1.0.0
    */
   public O getOptions() {
     O options = getBrowserSpecificOptions();
     options = mergeCommonOptions(options);
-    GaleniumReportUtil.getLogger().info("Done generating capabilities");
+    LOG.info("Done generating capabilities");
     log(options);
     return options;
   }
@@ -64,6 +69,15 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
     return options;
   }
 
+  protected abstract void log(O options);
+
+  @SuppressWarnings("unchecked")
+  protected O mergeCommonOptions(O options) {
+    return (O)options.merge(getCommonOptions());
+  }
+
+  protected abstract O newOptions();
+
   private static Proxy getProxyToUse() {
     Proxy proxy = null;
     if (GaleniumConfiguration.isUseBrowserProxy()) {
@@ -74,7 +88,7 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
       String proxyHost = GaleniumConfiguration.getHttpsProxyHost();
       String proxyPort = GaleniumConfiguration.getHttpsProxyPort();
       proxy.setSslProxy(proxyHost + ":" + proxyPort);
-      WebDriverManagement.getLogger().debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
+      LOG.debug("Using Proxy Configuration for webdriver with host: " + proxyHost + " and Port: " + proxyPort);
     }
     return proxy;
   }
@@ -82,17 +96,4 @@ abstract class OptionsProvider<O extends MutableCapabilities> {
   private static boolean isHttpsProxyConfigured() {
     return StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyHost()) && StringUtils.isNotEmpty(GaleniumConfiguration.getHttpsProxyPort());
   }
-
-  protected Logger getLogger() {
-    return WebDriverManagement.getLogger();
-  }
-
-  protected abstract void log(O options);
-
-  @SuppressWarnings("unchecked")
-  protected O mergeCommonOptions(O options) {
-    return (O)options.merge(getCommonOptions());
-  }
-
-  protected abstract O newOptions();
 }

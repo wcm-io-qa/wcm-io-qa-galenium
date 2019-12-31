@@ -16,14 +16,13 @@
   limitations under the License.
   #L%
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -37,7 +36,38 @@
     <!-- Galenium internal dependencies -->
     <dependency>
       <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.core</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.galen</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.selectors</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.wcm.qa</groupId>
+      <artifactId>io.wcm.qa.galenium.interaction</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-api</artifactId>
     </dependency>
 
   </dependencies>
@@ -45,11 +75,22 @@
   <dependencyManagement>
     <dependencies>
 
-      <!-- Galenium internal dependencies -->
       <dependency>
-        <groupId>io.wcm.qa</groupId>
-        <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <groupId>com.galenframework</groupId>
+        <artifactId>galen-java-support</artifactId>
+        <version>2.4.4</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-api</artifactId>
+        <version>4.0.0-alpha-3</version>
       </dependency>
 
     </dependencies>
@@ -151,8 +192,30 @@
           </executions>
         </plugin>
 
+        <!-- Skip Javadoc as code is generated anyway -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
+
+  <reporting>
+    <plugins>
+      <!-- Skip Javadoc as code is generated anyway -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>

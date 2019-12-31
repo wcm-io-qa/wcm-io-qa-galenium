@@ -19,18 +19,21 @@
  */
 package io.wcm.qa.glnm.sampling.driver;
 
+import io.wcm.qa.glnm.interaction.Browser;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Samples the page source of current page.
+ *
+ * @since 1.0.0
  */
 public class PageSourceSampler extends CachingBasedSampler<String> implements Sampler<String> {
 
+  /** {@inheritDoc} */
   @Override
   public String freshSample() {
-    return GaleniumContext.getDriver().getPageSource();
+    return Browser.getPageSource();
   }
 
 }

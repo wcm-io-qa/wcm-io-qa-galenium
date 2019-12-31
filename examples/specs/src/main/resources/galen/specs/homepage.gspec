@@ -17,8 +17,6 @@
         @on mobile
             page.navigation.link-*:
                 absent
-            page.navigation.link-to-conference:
-                absent
             page.navigation.link-to-homepage:
                 absent
 
@@ -36,7 +34,7 @@
             below page.navigation
             below page.site-header
         article:
-            above page.footer 
+            above page.footer
         teaserbar:
             above page.footer ~ 0px
     = Containment =

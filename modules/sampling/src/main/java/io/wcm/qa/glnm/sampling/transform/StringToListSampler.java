@@ -28,22 +28,31 @@ import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.base.SplittingSampler;
 
 /**
+ * <p>StringToListSampler class.</p>
+ *
  * @param <S> type of String sampler used
+ * @since 3.0.0
  */
 public class StringToListSampler<S extends Sampler<String>> extends SplittingSampler<S, String, List<String>> {
 
   private String delimiter;
 
   /**
+   * <p>Constructor for StringToListSampler.</p>
+   *
    * @param inputSampler to supply string
+   * @since 3.0.0
    */
   public StringToListSampler(S inputSampler) {
     this(inputSampler, null);
   }
 
   /**
+   * <p>Constructor for StringToListSampler.</p>
+   *
    * @param inputSampler to supply string
    * @param delimiter to use when splitting
+   * @since 3.0.0
    */
   public StringToListSampler(S inputSampler, String delimiter) {
     super(inputSampler);
@@ -62,10 +71,22 @@ public class StringToListSampler<S extends Sampler<String>> extends SplittingSam
     return Arrays.asList(split);
   }
 
+  /**
+   * <p>Getter for the field <code>delimiter</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 3.0.0
+   */
   public String getDelimiter() {
     return delimiter;
   }
 
+  /**
+   * <p>Setter for the field <code>delimiter</code>.</p>
+   *
+   * @param delimiter a {@link java.lang.String} object.
+   * @since 3.0.0
+   */
   public void setDelimiter(String delimiter) {
     this.delimiter = delimiter;
   }

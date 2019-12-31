@@ -27,15 +27,20 @@ import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
- * Base class to help implementing extracting an {@link Element} from a {@link Document}.
- * @param <JDS> {@link Document} sampler
- * @param <D> Jsoup {@link Document}
+ * Base class to help implementing extracting an {@link org.jsoup.nodes.Element} from a {@link org.jsoup.nodes.Document}.
+ *
+ * @param <JDS> {@link org.jsoup.nodes.Document} sampler
+ * @param <D> Jsoup {@link org.jsoup.nodes.Document}
+ * @since 3.0.0
  */
 public abstract class JsoupElementBasedSampler<JDS extends Sampler<D>, D extends Document, O>
     extends TransformationBasedSampler<JDS, D, O> {
 
   /**
-   * @param inputSampler {@link Document} sampler
+   * <p>Constructor for JsoupElementBasedSampler.</p>
+   *
+   * @param inputSampler {@link org.jsoup.nodes.Document} sampler
+   * @since 3.0.0
    */
   public JsoupElementBasedSampler(JDS inputSampler) {
     super(inputSampler);

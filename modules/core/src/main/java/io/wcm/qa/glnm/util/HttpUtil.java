@@ -40,6 +40,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Convenience methods to handle straight HTTP connections without going through Selenium.
+ *
+ * @since 1.0.0
  */
 public final class HttpUtil {
 
@@ -48,7 +50,10 @@ public final class HttpUtil {
   }
 
   /**
+   * <p>getNewClient.</p>
+   *
    * @return fresh closable HTTP client
+   * @since 3.0.0
    */
   public static CloseableHttpClient getNewClient() {
     CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -56,19 +61,28 @@ public final class HttpUtil {
   }
 
   /**
+   * <p>getResponseReader.</p>
+   *
    * @param resp to read from
    * @return stream reader for response contents
-   * @throws IOException
+   * @since 3.0.0
    */
-  public static InputStreamReader getResponseReader(HttpResponse resp) throws IOException {
-    return new InputStreamReader(resp.getEntity().getContent());
+  public static InputStreamReader getResponseReader(HttpResponse resp) {
+    try {
+      return new InputStreamReader(resp.getEntity().getContent());
+    }
+    catch (UnsupportedOperationException | IOException ex) {
+      throw new GaleniumException("when aquiring reader for response content.", ex);
+    }
   }
 
   /**
    * Posts parameters as form entity to URL.
+   *
    * @param url to post to
    * @param paramMap to send with request
    * @return response to POST
+   * @since 3.0.0
    */
   public static HttpResponse postForm(URL url, Map<String, String> paramMap) {
     ArrayList<NameValuePair> parameters = new ArrayList<NameValuePair>();
@@ -87,7 +101,7 @@ public final class HttpUtil {
       return client.execute(httpPost);
     }
     catch (URISyntaxException | IOException ex) {
-      throw new GaleniumException("could not encode form post data.");
+      throw new GaleniumException("could not encode form post data.", ex);
     }
     finally {
       HttpClientUtils.closeQuietly(client);

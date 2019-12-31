@@ -24,6 +24,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
@@ -33,25 +35,40 @@ import io.wcm.qa.glnm.verification.base.SamplerBasedVerification;
 
 /**
  * Abstract base class for implementations verifying JSON formatted inputs.
+ *
  * @param <S> sampler supplying raw JSON string
+ * @since 1.0.0
  */
 public abstract class JsonVerification<S extends Sampler<String>> extends SamplerBasedVerification<JsonSampler<S>, Map<String, String>> {
 
   private static final Map<String, String> EMPTY_EXPECTED_VALUE = MapUtils.emptyIfNull(null);
   private static final String EXPECTED_KEY_PREFIX_JSON_VERIFICATION = "json";
+  private static final Logger LOG = LoggerFactory.getLogger(JsonVerification.class);
   private CombinedVerification combinedVerification = new CombinedVerification();
 
   private String keyPrefix = EXPECTED_KEY_PREFIX_JSON_VERIFICATION;
 
-  protected JsonVerification(String verificationName, S sampler) {
-    super(verificationName, new JsonSampler<S>(sampler));
+  protected JsonVerification(S sampler) {
+    super(new JsonSampler<S>(sampler));
     setExpectedValue(EMPTY_EXPECTED_VALUE);
   }
 
+  /**
+   * <p>Getter for the field <code>keyPrefix</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getKeyPrefix() {
     return keyPrefix;
   }
 
+  /**
+   * <p>Setter for the field <code>keyPrefix</code>.</p>
+   *
+   * @param keyPrefix a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public void setKeyPrefix(String keyPrefix) {
     this.keyPrefix = keyPrefix;
   }
@@ -74,7 +91,7 @@ public abstract class JsonVerification<S extends Sampler<String>> extends Sample
 
   @Override
   protected void afterVerification() {
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

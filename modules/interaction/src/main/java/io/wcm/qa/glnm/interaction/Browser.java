@@ -19,23 +19,29 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 
+import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Alert related convenience methods.
+ *
+ * @since 1.0.0
  */
 public final class Browser {
 
   private static final String ABOUT_BLANK = "about:blank";
+  private static final Logger LOG = LoggerFactory.getLogger(Browser.class);
 
   private Browser() {
     // do not instantiate
@@ -45,12 +51,13 @@ public final class Browser {
    * Navigate back.
    */
   public static void back() {
-    getLogger().info("navigating back");
+    Allure.step("navigating back");
     getDriver().navigate().back();
   }
 
   /**
    * Executes Javascript in current browser.
+   *
    * @param jsCode code to execute
    * @param parameters parameters to Javascript code
    * @return return value of Javascript execution
@@ -67,29 +74,69 @@ public final class Browser {
    * Navigate forward.
    */
   public static void forward() {
-    getLogger().info("navigating forward");
+    Allure.step("navigating forward");
     getDriver().navigate().forward();
   }
 
   /**
-   * @param url to check against
-   * @return whether browser is currently pointing at URL
+   * <p>getCurrentUrl.</p>
+   *
+   * @return a {@link java.lang.String} object.
    */
-  public static boolean isCurrentUrl(String url) {
-    getLogger().debug("checking current URL");
-    return StringUtils.equals(url, getCurrentUrl());
-  }
-
   public static String getCurrentUrl() {
     return getDriver().getCurrentUrl();
   }
 
   /**
+   * <p>getLog.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.interaction.BrowserLog} object.
+   */
+  public static BrowserLog getLog() {
+    return new BrowserLog();
+  }
+
+  /**
+   * <p>getPageSource.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public static String getPageSource() {
+    return GaleniumContext.getDriver().getPageSource();
+  }
+
+
+  /**
+   * <p>getPageTitle.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public static String getPageTitle() {
+    return getDriver().getTitle();
+  }
+
+  /**
+   * <p>isCurrentUrl.</p>
+   *
+   * @param url to check against
+   * @return whether browser is currently pointing at URL
+   */
+  public static boolean isCurrentUrl(String url) {
+    String currentUrl = getCurrentUrl();
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("checking current URL: " + currentUrl);
+    }
+    return StringUtils.equals(url, currentUrl);
+  }
+
+  /**
    * Load URL in browser.
+   *
    * @param url to load
    */
   public static void load(String url) {
-    getLogger().info("loading URL: '" + url + "'");
+    Allure.step("loading URL: '" + url + "'");
+    Allure.link(url, url);
     getDriver().get(url);
   }
 
@@ -102,28 +149,31 @@ public final class Browser {
 
   /**
    * Load URL in browser and fail test if URL does not match.
+   *
    * @param url to load
    */
   public static void loadExactly(String url) {
     load(url);
-    GaleniumContext.getAssertion().assertEquals(url, getCurrentUrl(), "Current URL should match.");
+    Assert.assertEquals(url, getCurrentUrl(), "Current URL should match.");
   }
 
   /**
    * Navigate to URL.
+   *
    * @param url URL to navigate to
    */
   public static void navigateTo(String url) {
-    getLogger().info("navigating to URL: '" + url + "'");
+    LOG.info("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
   }
 
   /**
    * Navigate to URL.
+   *
    * @param url to navigate to
    */
   public static void navigateTo(URL url) {
-    getLogger().info("navigating to URL: '" + url + "'");
+    LOG.info("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
   }
 
@@ -131,7 +181,7 @@ public final class Browser {
    * Refresh browser.
    */
   public static void refresh() {
-    getLogger().info("refreshing browser");
+    LOG.info("refreshing browser");
     getDriver().navigate().refresh();
   }
 }

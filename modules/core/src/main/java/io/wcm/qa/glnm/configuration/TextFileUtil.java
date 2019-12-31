@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
@@ -29,6 +30,8 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
  * Utility methods for extracting string values from text files with one value per line.
+ *
+ * @since 1.0.0
  */
 public final class TextFileUtil {
 
@@ -38,22 +41,26 @@ public final class TextFileUtil {
 
   /**
    * Read lines from file to String collection.
+   *
    * @param file to read from
    * @return list of strings with one string per line
+   * @since 3.0.0
    */
   public static Collection<String> parse(File file) {
     try {
-      return FileUtils.readLines(file);
+      return FileUtils.readLines(file, StandardCharsets.UTF_8);
     }
     catch (IOException ex) {
-      throw new GaleniumException("when trying to parse text file: " + ex);
+      throw new GaleniumException("when trying to parse text file: ", ex);
     }
   }
 
   /**
    * Read lines from file to String collection.
+   *
    * @param filePath to read from
    * @return list of strings with one string per line
+   * @since 3.0.0
    */
   public static Collection<String> parse(final String filePath) {
     return parse(new File(filePath));

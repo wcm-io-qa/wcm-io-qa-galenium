@@ -19,34 +19,26 @@
  */
 package io.wcm.qa.glnm.maven.freemarker.util;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.galenframework.page.Page;
-import com.galenframework.speclang2.pagespec.SectionFilter;
-import com.galenframework.specs.page.Locator;
-import com.galenframework.specs.page.PageSpec;
-
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
-import io.wcm.qa.glnm.maven.mock.MockPage;
+import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
+import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
  * Utility methods for parsing Galen specs.
+ *
+ * @since 1.0.0
  */
 public final class ParsingUtil {
 
@@ -58,15 +50,18 @@ public final class ParsingUtil {
 
   /**
    * Extracts all selectors defined in spec.
+   *
    * @param specFile to parse
    * @return all defined objects as selectors
    */
   public static Collection<NestedSelector> getSelectorsFromSpec(File specFile) {
-    PageSpec galenSpec = readSpec(specFile);
-    return GalenHelperUtil.getObjects(galenSpec);
+    GalenSpec galenSpec = new FileBasedGalenSpec(specFile);
+    return galenSpec.getObjects();
   }
 
   /**
+   * <p>getTags.</p>
+   *
    * @param specFile to parse
    * @return all tags used in spec
    */
@@ -94,24 +89,6 @@ public final class ParsingUtil {
     catch (IOException ex) {
       throw new GaleniumException("when parsing '" + specFile + "'");
     }
-  }
-
-  /**
-   * Parse spec.
-   * @param specFile to parse
-   * @return Java object representing the parsed Galen spec file
-   */
-  public static PageSpec readSpec(File specFile) {
-    if (specFile == null) {
-      throw new GaleniumException("cannot read spec from null file.");
-    }
-    String specPath = specFile.getPath();
-    SectionFilter tags = new SectionFilter(emptyList(), emptyList());
-    Page page = new MockPage();
-    Properties properties = new Properties();
-    Map<String, Object> jsVars = emptyMap();
-    Map<String, Locator> objects = null;
-    return GalenHelperUtil.readSpec(specPath, tags, page, properties, jsVars, objects);
   }
 
 }

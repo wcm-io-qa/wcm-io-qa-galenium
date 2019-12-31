@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.glnm.verification.element;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.element.VisibilitySampler;
@@ -27,15 +30,21 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedVerification;
 
 /**
  * Verifies that an element is visible on page.
+ *
+ * @since 1.0.0
  */
 public class VisibilityVerification extends WebElementBasedVerification<VisibilitySampler, Boolean> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(VisibilityVerification.class);
+
   /**
    * Constructor.
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public VisibilityVerification(Selector selector) {
-    super(selector.elementName(), new VisibilitySampler(selector));
+    super(new VisibilitySampler(selector));
   }
 
   private String getVerboseSelectorInfo() {
@@ -45,10 +54,10 @@ public class VisibilityVerification extends WebElementBasedVerification<Visibili
   @Override
   protected void afterVerification() {
     if (isVerified()) {
-      getLogger().trace("successfully confirmed visibility of '" + getElementName() + "'");
+      LOG.trace("successfully confirmed visibility of '" + getElementName() + "'");
     }
     else {
-      getLogger().trace("could not confirm visibility of '" + getElementName() + "'");
+      LOG.trace("could not confirm visibility of '" + getElementName() + "'");
     }
   }
 

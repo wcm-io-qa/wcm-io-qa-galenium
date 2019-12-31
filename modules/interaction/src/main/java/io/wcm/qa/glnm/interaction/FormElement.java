@@ -22,17 +22,18 @@ package io.wcm.qa.glnm.interaction;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Utility methods for interaction with web form elements.
+ *
+ * @since 1.0.0
  */
 public final class FormElement {
 
-  private static final Marker MARKER = GaleniumReportUtil.getMarker("galenium.interaction.element");
+  private static final Logger LOG = LoggerFactory.getLogger(FormElement.class);
 
   private FormElement() {
     // do not instantiate
@@ -40,8 +41,10 @@ public final class FormElement {
 
   /**
    * Enters text into element which replaces any text that might already be in element.
+   *
    * @param selector identifies the element
    * @param text value to enter
+   * @since 1.0.0
    */
   public static void clearAndEnterText(Selector selector, String text) {
     WebElement input = Element.findOrFail(selector);
@@ -49,13 +52,9 @@ public final class FormElement {
       input.clear();
     }
     catch (InvalidElementStateException ex) {
-      getLogger().debug(GaleniumReportUtil.MARKER_WARN, "could not clear element: '" + selector + "'");
+      LOG.debug("could not clear element: '" + selector + "'");
     }
     input.sendKeys(text);
-  }
-
-  private static Logger getLogger() {
-    return GaleniumReportUtil.getMarkedLogger(MARKER);
   }
 
 }

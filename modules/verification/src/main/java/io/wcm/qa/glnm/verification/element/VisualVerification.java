@@ -19,45 +19,47 @@
  */
 package io.wcm.qa.glnm.verification.element;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import java.util.Comparator;
 import java.util.List;
 
-import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.speclang2.pagespec.SectionFilter;
-import com.galenframework.specs.page.CorrectionsRect;
-import com.galenframework.specs.page.PageSpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
-import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.GalenHelperUtil;
-import io.wcm.qa.glnm.galen.GalenLayoutChecker;
-import io.wcm.qa.glnm.imagecomparison.IcValidationListener;
-import io.wcm.qa.glnm.imagecomparison.IcsFactory;
-import io.wcm.qa.glnm.imagecomparison.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition;
+import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
+import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.verification.base.VerificationBase;
 
 /**
  * Make sure an element looks like a sample image.
+ *
+ * @since 1.0.0
  */
 public class VisualVerification extends VerificationBase<Object> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(VisualVerification.class);
 
   private ImageComparisonSpecDefinition specDefinition;
 
   /**
+   * <p>Constructor for VisualVerification.</p>
+   *
    * @param selector to identify element
+   * @since 2.0.0
    */
   public VisualVerification(Selector selector) {
-    super("Visual(" + selector.elementName() + ")");
+    super();
     setPreVerification(new VisibilityVerification(selector));
     setSpecDefinition(new ImageComparisonSpecDefinition(selector));
   }
 
+  /** {@inheritDoc} */
   @Override
   public VisualVerification addDifference(Difference difference) {
     // handle factory
@@ -70,7 +72,9 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Add an object to ignore during image comparison.
+   *
    * @param selectorToIgnore identify element to ignore
+   * @since 2.0.0
    */
   public void addObjectToIgnore(Selector selectorToIgnore) {
     getSpecDefinition().addObjectToIgnore(selectorToIgnore);
@@ -78,47 +82,101 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * If set the scroll position will be taken into account when needed.
+   *
    * @param yCorrection vertical scroll position value
+   * @since 2.0.0
    */
   public void correctForSrollPosition(int yCorrection) {
     getSpecDefinition().correctForSrollPosition(yCorrection);
   }
 
+  /**
+   * <p>getAllowedError.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getAllowedError() {
     return getSpecDefinition().getAllowedError();
   }
 
+  /**
+   * <p>getAllowedOffset.</p>
+   *
+   * @return a int.
+   * @since 2.0.0
+   */
   public int getAllowedOffset() {
     return getSpecDefinition().getAllowedOffset();
   }
 
+  /**
+   * <p>getFilename.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getFilename() {
     return getSpecDefinition().getFilename();
   }
 
+  /**
+   * <p>getFoldername.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getFoldername() {
     return getSpecDefinition().getFoldername();
   }
 
+  /**
+   * <p>getObjectsToIgnore.</p>
+   *
+   * @return a {@link java.util.List} object.
+   * @since 2.0.0
+   */
   public List<Selector> getObjectsToIgnore() {
     return getSpecDefinition().getObjectsToIgnore();
   }
 
+  /**
+   * <p>getSectionName.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 2.0.0
+   */
   public String getSectionName() {
     return getSpecDefinition().getSectionName();
   }
 
+  /**
+   * <p>
+   * Getter for the field <code>specDefinition</code>.
+   * </p>
+   *
+   * @return a {@link io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @since 3.0.0
+   */
   public ImageComparisonSpecDefinition getSpecDefinition() {
     return specDefinition;
   }
 
+  /**
+   * <p>isZeroToleranceWarning.</p>
+   *
+   * @return a boolean.
+   * @since 2.0.0
+   */
   public boolean isZeroToleranceWarning() {
     return getSpecDefinition().isZeroToleranceWarning();
   }
 
   /**
    * Percentage of pixels which can have different values without failing verification. Overrides allowed error pixel.
+   *
    * @param allowedErrorPercentage tolerance in percent
+   * @since 2.0.0
    */
   public void setAllowedErrorPercent(Double allowedErrorPercentage) {
     getSpecDefinition().setAllowedErrorPercent(allowedErrorPercentage);
@@ -127,7 +185,9 @@ public class VisualVerification extends VerificationBase<Object> {
   /**
    * Total number of pixels which can have different values without failing verification. Overrides allowed error
    * percentage.
+   *
    * @param allowedErrorPixels tolerance in total number of pixels
+   * @since 2.0.0
    */
   public void setAllowedErrorPixel(Integer allowedErrorPixels) {
     getSpecDefinition().setAllowedErrorPixel(allowedErrorPixels);
@@ -135,28 +195,35 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Allow image to be displaced by a few pixels.
+   *
    * @param allowedOffset maximum offset to take into account
+   * @since 2.0.0
    */
   public void setAllowedOffset(int allowedOffset) {
     getSpecDefinition().setAllowedOffset(allowedOffset);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void setComparator(Comparator<Difference> comparator) {
     this.specDefinition.setComparator(comparator);
   }
 
   /**
-   * Apply positional corrections in form of a {@link CorrectionsRect}.
+   * Apply positional corrections in form of a {@link io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect}.
+   *
    * @param corrections to apply when comparing
+   * @since 2.0.0
    */
-  public void setCorrections(CorrectionsRect corrections) {
+  public void setCorrections(GalenCorrectionRect corrections) {
     getSpecDefinition().setCorrections(corrections);
   }
 
   /**
    * Filename of sample.
+   *
    * @param filename new file name
+   * @since 2.0.0
    */
   public void setFilename(String filename) {
     getSpecDefinition().setFilename(filename);
@@ -164,7 +231,9 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Foldername of sample.
+   *
    * @param foldername new folder name
+   * @since 2.0.0
    */
   public void setFoldername(String foldername) {
     getSpecDefinition().setFoldername(foldername);
@@ -172,19 +241,32 @@ public class VisualVerification extends VerificationBase<Object> {
 
   /**
    * Ignore a list of objects when doing image comparison.
+   *
    * @param objectsToIgnore list to ignore
+   * @since 2.0.0
    */
   public void setObjectsToIgnore(List<Selector> objectsToIgnore) {
     getSpecDefinition().setObjectsToIgnore(objectsToIgnore);
   }
 
   /**
+   * <p>setSectionName.</p>
+   *
    * @param sectionName used in reporting
+   * @since 2.0.0
    */
   public void setSectionName(String sectionName) {
     getSpecDefinition().setSectionName(sectionName);
   }
 
+  /**
+   * <p>
+   * Setter for the field <code>specDefinition</code>.
+   * </p>
+   *
+   * @param def a {@link io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition} object.
+   * @since 3.0.0
+   */
   public void setSpecDefinition(ImageComparisonSpecDefinition def) {
     this.specDefinition = def;
   }
@@ -193,7 +275,9 @@ public class VisualVerification extends VerificationBase<Object> {
    * Compare images with no tolerances, but only warn. Allowed pixel percentage and count are ignored along with allowed
    * offset. If this results in a failed verification a warning will be reported and a new sample stored, but the test
    * run will continue.
+   *
    * @param zeroToleranceWarning whether to use zero tolerance approach
+   * @since 2.0.0
    */
   public void setZeroToleranceWarning(boolean zeroToleranceWarning) {
     getSpecDefinition().setZeroToleranceWarning(zeroToleranceWarning);
@@ -201,25 +285,13 @@ public class VisualVerification extends VerificationBase<Object> {
 
   @Override
   protected void afterVerification() {
-    getLogger().debug("done verifying: " + getVerificationName());
+    LOG.debug("done verifying: " + getVerificationName());
   }
 
   @Override
   protected boolean doVerification() {
-    LayoutReport layoutReport;
-
-    PageSpec spec = IcsFactory.getPageSpec(getSpecDefinition());
-    TestDevice testDevice = getTestDevice();
-    SectionFilter tags = GalenHelperUtil.getSectionFilter(testDevice);
-    layoutReport = GalenLayoutChecker.checkLayout(getSpecDefinition().getSectionName(), spec, testDevice, tags, new IcValidationListener());
-    try {
-      GalenLayoutChecker.handleLayoutReport(layoutReport, getFailureMessage(), getSuccessMessage());
-    }
-    catch (GalenLayoutException ex) {
-      getLogger().debug("image comparison layout", ex);
-      return false;
-    }
-    return true;
+    GalenSpecRun imageComparison = GalenValidation.imageComparison(getSpecDefinition());
+    return !imageComparison.isFailed();
   }
 
   @Override

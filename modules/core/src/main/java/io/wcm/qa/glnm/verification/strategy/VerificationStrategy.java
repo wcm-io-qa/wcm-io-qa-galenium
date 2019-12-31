@@ -19,18 +19,20 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import org.testng.asserts.Assertion;
-
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
  * Handles verifications.
+ *
+ * @since 1.0.0
  */
 public interface VerificationStrategy {
 
   /**
-   * To fail test run, raise an exception or fail with {@link Assertion#fail()}.
+   * To fail test run, raise an exception or fail with {@link org.testng.asserts.Assertion#fail()}.
+   *
    * @param verification to handle
+   * @since 3.0.0
    */
   void handle(Verification verification);
 

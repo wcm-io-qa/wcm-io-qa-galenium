@@ -20,6 +20,8 @@
 package io.wcm.qa.glnm.verification.element;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.sampling.element.AttributeSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -27,22 +29,32 @@ import io.wcm.qa.glnm.verification.element.base.WebElementBasedStringVerificatio
 
 /**
  * Make sure an attribute is set on an element.
+ *
+ * @since 1.0.0
  */
 public class AttributeVerification extends WebElementBasedStringVerification<AttributeSampler> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(AttributeVerification.class);
+
   /**
+   * <p>Constructor for AttributeVerification.</p>
+   *
    * @param selector to identify element
    * @param attributeName name of attribute to check
+   * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName) {
-    super(selector.elementName(), new AttributeSampler(selector, attributeName));
+    super(new AttributeSampler(selector, attributeName));
     setPreVerification(new VisibilityVerification(selector));
   }
 
   /**
+   * <p>Constructor for AttributeVerification.</p>
+   *
    * @param selector to identify element
    * @param attributeName name of attribute to check
    * @param expectedValue to verify against
+   * @since 2.0.0
    */
   public AttributeVerification(Selector selector, String attributeName, String expectedValue) {
     this(selector, attributeName);
@@ -51,14 +63,14 @@ public class AttributeVerification extends WebElementBasedStringVerification<Att
 
   @Override
   protected void afterVerification() {
-    getLogger().trace("looking for '" + getExpectedValue() + "'");
+    LOG.trace("looking for '" + getExpectedValue() + "'");
     String cachedValue = getCachedValue();
-    getLogger().trace("found: '" + cachedValue + "'");
+    LOG.trace("found: '" + cachedValue + "'");
     if (!isVerified() && cachedValue != null) {
       String expectedKey = getExpectedKey();
       persistSample(expectedKey, cachedValue);
     }
-    getLogger().trace("done verifying (" + toString() + ")");
+    LOG.trace("done verifying (" + toString() + ")");
   }
 
   @Override

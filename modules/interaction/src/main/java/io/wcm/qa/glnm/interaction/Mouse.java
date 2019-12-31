@@ -19,21 +19,23 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.MARKER_INFO;
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import com.galenframework.browser.SeleniumBrowser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Mouse interaction methods.
+ *
+ * @since 1.0.0
  */
 public final class Mouse {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Mouse.class);
 
   private Mouse() {
     // do not instantiate
@@ -41,15 +43,19 @@ public final class Mouse {
 
   /**
    * Click at current position.
+   *
+   * @since 1.0.0
    */
   public static void click() {
-    getLogger().debug("Clicking at current position.");
+    LOG.debug("Clicking at current position.");
     getActions().click().perform();
   }
 
   /**
    * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
+   *
    * @param selector identifies element
+   * @since 1.0.0
    */
   public static void clickLocation(Selector selector) {
     clickLocation(selector, 0);
@@ -58,8 +64,10 @@ public final class Mouse {
   /**
    * Click at location of nth element defined by selector. Useful when encountering 'other element would receive click'
    * exceptions.
+   *
    * @param selector identifies elements
    * @param index which of the elements
+   * @since 1.0.0
    */
   public static void clickLocation(Selector selector, int index) {
     moveTo(selector, index);
@@ -68,7 +76,9 @@ public final class Mouse {
 
   /**
    * Click at location of element. Useful when encountering 'other element would receive click' exceptions.
+   *
    * @param element to click at location of
+   * @since 1.0.0
    */
   public static void clickLocation(WebElement element) {
     moveTo(element);
@@ -76,10 +86,12 @@ public final class Mouse {
   }
 
   /**
+   * <p>getVerticalScrollPosition.</p>
+   *
    * @return current vertical scroll position of browser with 0 being the very top
+   * @since 1.0.0
    */
   public static Long getVerticalScrollPosition() {
-    SeleniumBrowser seleniumBrowser = new SeleniumBrowser(getDriver());
     StringBuilder builder = new StringBuilder();
     builder.append("if (window.pageYOffset) ");
     builder.append("return window.pageYOffset;");
@@ -87,14 +99,16 @@ public final class Mouse {
     builder.append("return window.document.documentElement.scrollTop;");
     builder.append("else ");
     builder.append("return window.document.body.scrollTop;");
-    Long scrollYPosition = (Long)seleniumBrowser.executeJavascript(builder.toString());
+    Long scrollYPosition = (Long)Browser.executeJs(builder.toString());
     return scrollYPosition;
   }
 
   /**
    * Move horizontally.
-   * @param horizontalOffset
-   * @param verticalOffset
+   *
+   * @param horizontalOffset a int.
+   * @param verticalOffset a int.
+   * @since 1.0.0
    */
   public static void moveByOffset(int horizontalOffset, int verticalOffset) {
     getActions().moveByOffset(horizontalOffset, verticalOffset).perform();
@@ -102,14 +116,16 @@ public final class Mouse {
 
   /**
    * Move mouse horizontally over page and scroll if necessary to keep it in viewport.
+   *
    * @param horizontalOffset to move mouse horizontally by (negative values move to the left.
+   * @since 1.0.0
    */
   public static void moveHorizontally(int horizontalOffset) {
     if (horizontalOffset > 0) {
-      getLogger().debug(MARKER_INFO, "move mouse right by " + horizontalOffset);
+      LOG.debug("move mouse right by " + horizontalOffset);
     }
     else if (horizontalOffset < 0) {
-      getLogger().debug(MARKER_INFO, "move mouse left by " + -horizontalOffset);
+      LOG.debug("move mouse left by " + -horizontalOffset);
     }
     int verticalOffset = 0;
     moveByOffset(horizontalOffset, verticalOffset);
@@ -117,7 +133,9 @@ public final class Mouse {
 
   /**
    * Move mouse pointer to element.
+   *
    * @param selector identifies element
+   * @since 1.0.0
    */
   public static void moveTo(Selector selector) {
     moveTo(selector, 0);
@@ -125,8 +143,10 @@ public final class Mouse {
 
   /**
    * Move mouse pointer to element.
+   *
    * @param selector identifies element
    * @param index which of the elements
+   * @since 1.0.0
    */
   public static void moveTo(Selector selector, int index) {
     WebElement element = Element.findNthOrFail(selector, index);
@@ -135,10 +155,12 @@ public final class Mouse {
 
   /**
    * Move mouse pointer to element.
+   *
    * @param element to move to
+   * @since 1.0.0
    */
   public static void moveTo(WebElement element) {
-    getLogger().debug("Moving to element: " + element);
+    LOG.debug("Moving to element: " + element);
     getActions().moveToElement(element).perform();
   }
 

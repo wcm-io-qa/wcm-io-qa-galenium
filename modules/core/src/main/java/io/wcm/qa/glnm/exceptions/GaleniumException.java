@@ -21,21 +21,29 @@ package io.wcm.qa.glnm.exceptions;
 
 /**
  * Runtime exception for Galenium.
+ *
+ * @since 1.0.0
  */
 public class GaleniumException extends RuntimeException {
 
   private static final long serialVersionUID = 7561233675534113771L;
 
   /**
+   * <p>Constructor for GaleniumException.</p>
+   *
    * @param msg message for exception
+   * @since 3.0.0
    */
   public GaleniumException(String msg) {
     super(msg);
   }
 
   /**
+   * <p>Constructor for GaleniumException.</p>
+   *
    * @param msg message for exception
    * @param ex optional exception
+   * @since 3.0.0
    */
   public GaleniumException(String msg, Throwable ex) {
     super(msg, ex);

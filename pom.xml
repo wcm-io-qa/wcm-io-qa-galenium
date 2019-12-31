@@ -15,21 +15,21 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   #L%
-  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
     <relativePath>parent/pom.xml</relativePath>
   </parent>
 
-  <artifactId>io.wcm.qa.galenium.root</artifactId>
-  <packaging>pom</packaging>
-
   <name>Galenium Root</name>
   <description>Root POM for wcm.io Galenium Maven Hierarchy.</description>
+  <artifactId>io.wcm.qa.galenium.root</artifactId>
+  <packaging>pom</packaging>
   <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
@@ -38,12 +38,10 @@
     <url>https://github.com/wcm-io-qa/wcm-io-qa-galenium</url>
     <tag>HEAD</tag>
   </scm>
-  
+
   <modules>
     <module>parent</module>
-    <module>examples</module>
     <module>integration</module>
-    <module>logging</module>
     <module>maven/archetype</module>
     <module>maven/specs-plugin</module>
     <module>modules</module>
@@ -58,15 +56,6 @@
         <artifactId>maven-deploy-plugin</artifactId>
         <configuration>
           <skip>true</skip>
-        </configuration>
-      </plugin>
-
-      <!-- do not generate site for this project -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>true</skipDeploy>
         </configuration>
       </plugin>
 

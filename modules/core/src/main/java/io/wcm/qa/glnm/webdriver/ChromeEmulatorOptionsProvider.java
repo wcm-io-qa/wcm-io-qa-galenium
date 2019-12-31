@@ -23,26 +23,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class ChromeEmulatorOptionsProvider extends ChromeOptionsProvider {
 
+  private static final Logger LOG = LoggerFactory.getLogger(ChromeEmulatorOptionsProvider.class);
   private String chromeEmulator;
 
   ChromeEmulatorOptionsProvider(String emulatorString) {
     setChromeEmulator(emulatorString);
   }
 
+  /**
+   * <p>Getter for the field <code>chromeEmulator</code>.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   * @since 3.0.0
+   */
   public String getChromeEmulator() {
     return chromeEmulator;
   }
 
+  /**
+   * <p>Setter for the field <code>chromeEmulator</code>.</p>
+   *
+   * @param chromeEmulator a {@link java.lang.String} object.
+   * @since 3.0.0
+   */
   public void setChromeEmulator(String chromeEmulator) {
     this.chromeEmulator = chromeEmulator;
   }
 
   @Override
   protected ChromeOptions getBrowserSpecificOptions() {
-    getLogger().debug("setting up chrome emulator: " + getChromeEmulator());
+    LOG.debug("setting up chrome emulator: " + getChromeEmulator());
     Map<String, String> mobileEmulation = new HashMap<String, String>();
     mobileEmulation.put("deviceName", getChromeEmulator());
     ChromeOptions browserSpecificOptions = super.getBrowserSpecificOptions();

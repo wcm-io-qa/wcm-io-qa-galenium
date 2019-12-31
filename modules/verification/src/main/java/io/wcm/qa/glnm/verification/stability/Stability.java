@@ -20,8 +20,8 @@
 package io.wcm.qa.glnm.verification.stability;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.CanCache;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.verification.base.Verifiable;
@@ -29,9 +29,13 @@ import io.wcm.qa.glnm.verification.base.Verifiable;
 /**
  * Abstract base class for implementations verifying the stability of samples. The mechanism is that two consecutive
  * samples have to be equal.
+ *
  * @param <T> type of sample
+ * @since 1.0.0
  */
 public abstract class Stability<T> implements Verifiable {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Stability.class);
 
   private boolean firstRun = true;
 
@@ -40,18 +44,30 @@ public abstract class Stability<T> implements Verifiable {
   private Sampler<T> sampler;
 
   /**
+   * <p>Constructor for Stability.</p>
+   *
    * @param sampler to use in verification
+   * @since 2.0.0
    */
   public Stability(Sampler<T> sampler) {
     setSampler(sampler);
   }
 
+  /**
+   * <p>Getter for the field <code>sampler</code>.</p>
+   *
+   * @return a  {@link io.wcm.qa.glnm.sampling.Sampler} object.
+   * @since 2.0.0
+   */
   public Sampler<T> getSampler() {
     return sampler;
   }
 
   /**
+   * <p>Setter for the field <code>sampler</code>.</p>
+   *
    * @param sampler to use in verification
+   * @since 2.0.0
    */
   public void setSampler(Sampler<T> sampler) {
     if (sampler instanceof CanCache) {
@@ -60,9 +76,10 @@ public abstract class Stability<T> implements Verifiable {
     this.sampler = sampler;
   }
 
+  /** {@inheritDoc} */
   @Override
   public boolean verify() {
-    getLogger().debug(getClass().getSimpleName() + ": checking for stability");
+    LOG.debug(getClass().getSimpleName() + ": checking for stability");
     T currentSampleValue = getSampler().sampleValue();
     if (firstRun) {
       setOldSampleValue(currentSampleValue);
@@ -86,7 +103,7 @@ public abstract class Stability<T> implements Verifiable {
     else if (currentSampleValue == null) {
       return false;
     }
-    getLogger().trace(getClass().getSimpleName() + ": both samples are non-null, now checking for equality.");
+    LOG.trace(getClass().getSimpleName() + ": both samples are non-null, now checking for equality.");
     return checkForEquality(getOldSampleValue(), currentSampleValue);
   }
 
@@ -97,10 +114,6 @@ public abstract class Stability<T> implements Verifiable {
    * @return whether the two values are equal
    */
   protected abstract boolean checkForEquality(T oldValue, T newValue);
-
-  protected Logger getLogger() {
-    return GaleniumReportUtil.getLogger();
-  }
 
   protected T getOldSampleValue() {
     return oldSampleValue;

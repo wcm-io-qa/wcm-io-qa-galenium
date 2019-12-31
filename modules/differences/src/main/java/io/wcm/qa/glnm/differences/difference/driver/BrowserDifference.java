@@ -19,14 +19,13 @@
  */
 package io.wcm.qa.glnm.differences.difference.driver;
 
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.DifferenceBase;
 import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
- * {@link TestDevice} based {@link Difference} using {@link BrowserType}.
+ *  {@link io.wcm.qa.glnm.device.TestDevice} based  {@link io.wcm.qa.glnm.differences.base.Difference} using  {@link io.wcm.qa.glnm.device.BrowserType}.
+ *
+ * @since 1.0.0
  */
 public class BrowserDifference extends DifferenceBase {
 

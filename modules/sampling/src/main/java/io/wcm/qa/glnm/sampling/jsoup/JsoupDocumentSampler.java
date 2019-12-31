@@ -23,24 +23,33 @@ import java.io.IOException;
 
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 
 /**
- * Uses {@link Jsoup} to fetch HTML from a URL.
+ * Uses {@link org.jsoup.Jsoup} to fetch HTML from a URL.
+ *
+ * @since 3.0.0
  */
 public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(JsoupDocumentSampler.class);
+
   /**
+   * <p>Constructor for JsoupDocumentSampler.</p>
+   *
    * @param url to fetch HTML from
+   * @since 3.0.0
    */
   public JsoupDocumentSampler(String url) {
     super(url);
   }
 
+  /** {@inheritDoc} */
   @Override
   public Document freshSample() {
     return getDocument();
@@ -55,15 +64,15 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
       if (connection == null) {
         throw new GaleniumException("cannot get document from null connection.");
       }
-      getLogger().info("fetching document from '" + connection.request().url() + "'");
+      LOG.info("fetching document from '" + connection.request().url() + "'");
       Document document = connection.get();
       return document;
     }
     catch (IOException ex) {
       if (ex instanceof HttpStatusException) {
-        getLogger().warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
+        LOG.warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
       }
-      getLogger().debug("Could not fetch Document: " + getUrl(), ex);
+      LOG.debug("Could not fetch Document: " + getUrl(), ex);
       throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'", ex);
     }
   }

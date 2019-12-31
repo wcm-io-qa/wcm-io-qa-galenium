@@ -22,7 +22,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.parent</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -75,20 +75,6 @@
         </configuration>
       </plugin>
 
-      <!-- Set property ${releasedVersion.version} for current project - to be used in maven site -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>released-version</id>
-            <goals>
-              <goal>released-version</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
 
     <pluginManagement>
@@ -114,7 +100,8 @@
           <groupId>external.atlassian.jgitflow</groupId>
           <artifactId>jgitflow-maven-plugin</artifactId>
           <configuration>
-            <!-- Do not prefix release numbers with artifactId - GIT contains only one released artifact -->
+            <!-- Do not prefix release numbers with artifactId - GIT contains
+              only one released artifact -->
             <flowInitContext>
               <releaseBranchPrefix>release/</releaseBranchPrefix>
               <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>

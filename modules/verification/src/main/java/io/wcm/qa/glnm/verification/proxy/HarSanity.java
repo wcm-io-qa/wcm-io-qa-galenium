@@ -21,14 +21,21 @@ package io.wcm.qa.glnm.verification.proxy;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.browserup.harreader.model.HarEntry;
 import com.browserup.harreader.model.HarRequest;
 import com.browserup.harreader.model.HarResponse;
 
 /**
  * Verifies stability and then checks for unfinished requests.
+ *
+ * @since 1.0.0
  */
 public class HarSanity extends HarStability {
+
+  private static final Logger LOG = LoggerFactory.getLogger(HarSanity.class);
 
   private boolean checkSanity(List<HarEntry> newList) {
     if (newList.isEmpty()) {
@@ -41,10 +48,10 @@ public class HarSanity extends HarStability {
         // zero status means request not finished
         HarRequest request = harEntry.getRequest();
         if (request == null) {
-          getLogger().debug("found entry with response status 0 and NULL request.");
+          LOG.debug("found entry with response status 0 and NULL request.");
         }
         else {
-          getLogger().debug("found entry with response status 0: " + request.getMethod() + "('" + request.getUrl() + "')");
+          LOG.debug("found entry with response status 0: " + request.getMethod() + "('" + request.getUrl() + "')");
         return false;
         }
       }
@@ -55,7 +62,7 @@ public class HarSanity extends HarStability {
   @Override
   protected boolean checkForEquality(List<HarEntry> oldList, List<HarEntry> newList) {
     if (super.checkForEquality(oldList, newList)) {
-      getLogger().debug("Har is stable. Now checking sanity.");
+      LOG.debug("Har is stable. Now checking sanity.");
       return checkSanity(newList);
     }
     return false;

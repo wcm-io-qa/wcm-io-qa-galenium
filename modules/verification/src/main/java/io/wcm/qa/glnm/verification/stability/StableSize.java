@@ -20,18 +20,26 @@
 package io.wcm.qa.glnm.verification.stability;
 
 import org.openqa.selenium.Dimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.sampling.element.SizeSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
  * Verifies stable size of element. Useful when waiting for animated size changes of elements to finish.
+ *
+ * @since 1.0.0
  */
 public class StableSize extends Stability<Dimension> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(StableSize.class);
+
   /**
+   * <p>Constructor for StableSize.</p>
+   *
    * @param selector identifies the element
+   * @since 2.0.0
    */
   public StableSize(Selector selector) {
     super(new SizeSampler(selector));
@@ -39,7 +47,7 @@ public class StableSize extends Stability<Dimension> {
 
   @Override
   protected boolean checkForEquality(Dimension value1, Dimension value2) {
-    GaleniumReportUtil.getLogger().trace("comparing sizes: '" + value1 + "' <> '" + value2 + "'");
+    LOG.trace("comparing sizes: '" + value1 + "' <> '" + value2 + "'");
     return value1.equals(value2);
   }
 

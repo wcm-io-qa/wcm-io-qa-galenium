@@ -17,11 +17,11 @@ There are a few concepts in Galenium that are important to know. Some should be 
 ## How Galenium Works
 
 ### Thread-Safe Contexts
- TestNG uses multiple threads to handle test cases concurrently. 
- A thread-safe context is created that makes configuration and data available to only one test case instance whereas it is not visible to all other test case instances. 
- Galenium uses the Java class java.lang.ThreadLocal to store the context separate for each thread. 
+ TestNG uses multiple threads to handle test cases concurrently.
+ A thread-safe context is created that makes configuration and data available to only one test case instance whereas it is not visible to all other test case instances.
+ Galenium uses the Java class java.lang.ThreadLocal to store the context separate for each thread.
  Synchronization is not required because the object is not shared which improves scalability and performance.
- Access is done via static methods to allow integration without having to worry about inheritance. 
+ Access is done via static methods to allow integration without having to worry about inheritance.
  There is always only one value per thread.
 
 ### Drivers
@@ -34,14 +34,14 @@ There are a few concepts in Galenium that are important to know. Some should be 
  In Galenium the test name is central. The test name is used to aggregate log statements and results for reporting purposes in Extent Report. Different names for test cases must be used to get separate test cases in the Extent Report.
 
 ### Test Descriptions
- A more detailed description can be added to the test case and logged in the report. Descriptions can be used for important information that would overload the test name. 
+ A more detailed description can be added to the test case and logged in the report. Descriptions can be used for important information that would overload the test name.
  Descriptions are optional and not used by default in Galenium.
 
 ### Reports
  This is used to keep multiple runs of the same test case logging to the same Extent Report test case.
- Log management is done transparently by Galenium. 
- The GaleniumReportUtil.getLogger() method is used to retrieve a logger. 
- Simple Logging Facade for Java (SLF4J) logging calls are used to write to the test case report. 
+ Log management is done transparently by Galenium.
+ The GaleniumReportUtil.getLogger() method is used to retrieve a logger.
+ Simple Logging Facade for Java (SLF4J) logging calls are used to write to the test case report.
  The GaleniumReportUtil.getMarkedLogger(Marker) method is used to create marked log entries which can be filtered using a SLF4J configuration.
 
 ### Thread-Safe Context
@@ -56,7 +56,7 @@ The _java.lang.ThreadLocal_ is used to store the context separate for each threa
 
 ##### Driver
 
-The Selenium WebDriver is needed for interaction with the browser. Every test case needs its own dedicated browser instance. The driver represents and enables the connection to the browser. 
+The Selenium WebDriver is needed for interaction with the browser. Every test case needs its own dedicated browser instance. The driver represents and enables the connection to the browser.
 
 ##### TestDevice
 
@@ -74,7 +74,7 @@ A more detailed description of the test than just the name. This is optional and
 
 Test cases in Galenium have a one-to-one relationship with a test case in _ExtentReports_. This is used to keep multiple runs of the same   test case logging to the same _ExtentReport_ test case.
 
-The management is done transparently by Galenium. All you need to do is use the _GaleniumReportUtil.getLogger()_ method to retrieve a logger and then use _SLF4J_ logging calls to write to the test case report. Combined with the _GaleniumReportUtil.getMarkedLogger(Marker)_ method you can easily create marked log entries that can be filtered using _SLF4J_ configuration. 
+The management is done transparently by Galenium. All you need to do is use the _GaleniumReportUtil.getLogger()_ method to retrieve a logger and then use _SLF4J_ logging calls to write to the test case report. Combined with the _GaleniumReportUtil.getMarkedLogger(Marker)_ method you can easily create marked log entries that can be filtered using _SLF4J_ configuration.
 
 ### Configuration
 
@@ -98,11 +98,11 @@ If you want more control over when drivers are instantiated, you can configure G
 
 When inspecting pages we are looking for unexpected differences. Galenium allows you to explicitly declare expected differences.
 
-Differences can be expected for different components, URLs, browsers, view port sizes, element counts, or countless other dimensions. By explicitly introducing these expected differences it is possible to use a single verification across all those dimensions without duplicating any code. 
+Differences can be expected for different components, URLs, browsers, view port sizes, element counts, or countless other dimensions. By explicitly introducing these expected differences it is possible to use a single verification across all those dimensions without duplicating any code.
 
 ### Sampling
 
-As we expect many test cases it would be cumbersome to manually create and manage all the test data. When using Galenium's verifications it is easy to sample the data in one run and use it as expected data in the next run. 
+As we expect many test cases it would be cumbersome to manually create and manage all the test data. When using Galenium's verifications it is easy to sample the data in one run and use it as expected data in the next run.
 
 The two basic sampling methods are image based and text based. Images are saved as files in a folder structure based on expected differences, while text based samples are stored in a Java Properties file. The image file paths and property keys are generated from expected differences.
 
@@ -120,13 +120,13 @@ With Logback integration Galenium can log to standard out, files and to _ExtentR
 
 ExtentReports is a specialized reporting tool for test results. Test reports are separated on a per test case basis. Each report is made up of steps with each step being one log event.
 
-Tagging test cases provide a very helpful overview of general health and specific problem patterns. 
+Tagging test cases provide a very helpful overview of general health and specific problem patterns.
 
 #### Galen
 
 Galen is best at reporting on its own results. It is hard to integrate with other reports. Galen generates the file names internally without providing an easy way to fetch them programmatically to link to them from other reports.
 
-To save disk space it is possible to tell Galenium to only write Galen reports for failed tests. 
+To save disk space it is possible to tell Galenium to only write Galen reports for failed tests.
 
 #### TestNG
 

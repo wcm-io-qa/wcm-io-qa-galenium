@@ -30,6 +30,8 @@ import io.wcm.qa.glnm.differences.base.Difference;
 
 /**
  * Differences are stored in a sorted way to get a consistent hierarchy.
+ *
+ * @since 1.0.0
  */
 public class SortedDifferences extends MutableDifferences {
 
@@ -39,6 +41,8 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Use default comparator.
+   *
+   * @since 2.0.0
    */
   public SortedDifferences() {
     this(DEFAULT_DIFFERENCE_COMPARATOR);
@@ -46,6 +50,8 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Use default comparator.
+   *
+   * @since 2.0.0
    * @param comparator to use when sorting
    */
   public SortedDifferences(Comparator<Difference> comparator) {
@@ -54,7 +60,10 @@ public class SortedDifferences extends MutableDifferences {
   }
 
   /**
-   * @return the configured comparator or {@link DifferenceNameComparator} if none is set
+   * <p>Getter for the field <code>comparator</code>.</p>
+   *
+   * @return the configured comparator or  {@link io.wcm.qa.glnm.differences.generic.DifferenceNameComparator} if none is set
+   * @since 2.0.0
    */
   public Comparator<Difference> getComparator() {
     if (comparator == null) {
@@ -63,6 +72,7 @@ public class SortedDifferences extends MutableDifferences {
     return comparator;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Collection<Difference> getDifferences() {
     return differences;
@@ -70,7 +80,9 @@ public class SortedDifferences extends MutableDifferences {
 
   /**
    * Set a new comparator and reorder already existing differences.
+   *
    * @param comparator to use from now on
+   * @since 2.0.0
    */
   public void setComparator(Comparator<Difference> comparator) {
     this.comparator = comparator;

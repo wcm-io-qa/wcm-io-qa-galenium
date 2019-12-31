@@ -19,13 +19,14 @@
  */
 package io.wcm.qa.glnm.maven.freemarker.util;
 
-import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.getLogger;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -50,16 +51,22 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
  * Utility methods to build data models for use in freemarker code generation.
+ *
+ * @since 1.0.0
  */
 public final class FreemarkerUtil {
 
   private static final Configuration CONFIGURATION = generateConfiguration();
+
+  private static final Logger LOG = LoggerFactory.getLogger(FreemarkerUtil.class);
 
   private FreemarkerUtil() {
     // do not instantiate
   }
 
   /**
+   * <p>getDataModelForInteractiveSelector.</p>
+   *
    * @param packageRoot package for interactive selector interface
    * @param interfaceName name of interactive selector interface to implement
    * @param className of interactive selector class
@@ -77,6 +84,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForSelector.</p>
+   *
    * @param selector selector to build data model for
    * @param spec selector is taken from
    * @param packageName package of interactive selector interface
@@ -99,6 +108,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForSpec.</p>
+   *
    * @param spec to generate Java class for
    * @param packagePrefixSpecs root package
    * @return data model for generating spec class
@@ -113,6 +124,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getDataModelForWebElement.</p>
+   *
    * @param selector selector to build data model for
    * @param spec selector is taken from
    * @param packageName package of interactive selector interface
@@ -133,6 +146,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getOutputFile.</p>
+   *
    * @param outputDir directory
    * @param outputPackage package
    * @param outputClassName class name
@@ -146,6 +161,8 @@ public final class FreemarkerUtil {
   }
 
   /**
+   * <p>getTemplate.</p>
+   *
    * @param directory template root folder
    * @param name name of template
    * @return freemarker template
@@ -163,6 +180,7 @@ public final class FreemarkerUtil {
 
   /**
    * Actually process template to generate code.
+   *
    * @param template to process
    * @param dataModel to use
    * @param outputFile to write to
@@ -171,9 +189,9 @@ public final class FreemarkerUtil {
     FileWriter out = null;
     try {
       out = new FileWriter(outputFile);
-      getLogger().debug("generating '" + outputFile.getPath() + "'");
+      LOG.debug("generating '" + outputFile.getPath() + "'");
       template.process(dataModel, out);
-      getLogger().info("generated '" + outputFile.getPath() + "'");
+      LOG.info("generated '" + outputFile.getPath() + "'");
     }
     catch (IOException | TemplateException ex) {
       throw new GaleniumException("template exception", ex);
@@ -191,7 +209,7 @@ public final class FreemarkerUtil {
   }
 
   private static Configuration generateConfiguration() {
-    Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
+    Configuration cfg = new Configuration();
     cfg.setDefaultEncoding("UTF-8");
     cfg.setTemplateExceptionHandler(getExceptionHandler());
     return cfg;
