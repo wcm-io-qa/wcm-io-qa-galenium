@@ -19,20 +19,26 @@
  */
 package io.wcm.qa.glnm.example.generic;
 
+import java.util.logging.Level;
+
 import org.testng.annotations.Test;
 
 import io.wcm.qa.glnm.example.AbstractExampleBase;
+import io.wcm.qa.glnm.interaction.Browser;
+import io.wcm.qa.glnm.verification.browser.BrowserLogVerification;
+import io.wcm.qa.glnm.verification.util.Check;
 
 public class JavaScriptConsoleIT extends AbstractExampleBase {
 
   @Test
   public void checkConsole() {
-
+    Browser.load(getStartUrl());
+    Check.verify(new BrowserLogVerification(Level.WARNING));
   }
 
   @Override
   protected String getRelativePath() {
-    return "en.html";
+    return "/en.html";
   }
 
 }

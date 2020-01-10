@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
+import org.jsoup.Connection.Request;
 import org.jsoup.Connection.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,20 +110,41 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
   private void openXhrConnection(Connection jsoupConnection) {
     try {
       if (LOG.isDebugEnabled()) {
-        LOG.debug("opening XHR connection via GET");
+        LOG.debug("opening XHR connection via GET: " + jsoupConnection.request().url());
       }
       jsoupConnection.header("X-Requested-With", "XMLHttpRequest");
       jsoupConnection.get();
       if (LOG.isTraceEnabled()) {
-        Response response = jsoupConnection.response();
-        int code = response.statusCode();
-        String message = response.statusMessage();
-        LOG.debug("done opening XHR connection via GET: " + code + " - " + message);
+        LOG.trace("done opening XHR connection via GET " + toString(jsoupConnection.response()));
       }
     }
     catch (IOException ex) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("request failed: " + toString(jsoupConnection.request()));
+        LOG.debug("response of failed request: " + toString(jsoupConnection.response()));
+      }
       throw new GaleniumException("When attempting to initialize XHR.", ex);
     }
+  }
+
+  private static String toString(Request request) {
+    StringBuilder toString = new StringBuilder()
+        .append(request.method())
+        .append(" ")
+        .append(request.url());
+    return toString.toString();
+  }
+
+  private static String toString(Response response) {
+    StringBuilder toString = new StringBuilder()
+        .append(response.method())
+        .append(" ")
+        .append(response.url())
+        .append(": ")
+        .append(response.statusCode())
+        .append(" - ")
+        .append(response.statusMessage());
+    return toString.toString();
   }
 
   @Override

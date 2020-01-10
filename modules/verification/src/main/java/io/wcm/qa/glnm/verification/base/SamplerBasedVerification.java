@@ -35,7 +35,7 @@ public abstract class SamplerBasedVerification<S extends Sampler<T>, T> extends 
 
   protected SamplerBasedVerification(S sampler) {
     super();
-    this.setSampler(sampler);
+    setSampler(sampler);
   }
 
   /**

@@ -23,15 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.verification.strategy.DefaultVerificationStrategy;
 import io.wcm.qa.glnm.verification.strategy.IgnoreFailuresStrategy;
 import io.wcm.qa.glnm.verification.strategy.VerificationStrategy;
-import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
  * Keeps important data for each thread. Simplifies integration without need for rigid inheritance hierarchies. Takes a
@@ -40,8 +37,6 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  * @since 1.0.0
  */
 public class GaleniumContext {
-
-  private static final Logger LOG = LoggerFactory.getLogger(GaleniumContext.class);
 
   private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
     @Override
@@ -110,19 +105,6 @@ public class GaleniumContext {
    */
   public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
     this.verificationStrategy = verificationStrategy;
-  }
-
-  @Override
-  protected void finalize() throws Throwable {
-    try {
-      LOG.debug("finalize Galenium context.");
-      if (getDriver() != null) {
-        WebDriverManagement.closeDriver();
-      }
-    }
-    finally {
-      super.finalize();
-    }
   }
 
   /**

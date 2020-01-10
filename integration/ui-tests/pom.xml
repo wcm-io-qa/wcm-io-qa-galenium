@@ -16,15 +16,13 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -32,6 +30,12 @@
   <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
   <packaging>pom</packaging>
   <description>Test automation integration parent for the actual UI tests.</description>
+  <url>https://qa.wcm.io/galenium/</url>
+
+  <properties>
+    <integrationtests.skip>false</integrationtests.skip>
+    <site.url.module.prefix>galenium</site.url.module.prefix>
+  </properties>
 
   <dependencies>
 
@@ -39,58 +43,58 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.core</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.differences</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.galen</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.icing</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.interaction</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.listeners</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.providers</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.sampling</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.selectors</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.verification</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>4.0.1-SNAPSHOT</version>
     </dependency>
 
      <dependency>
@@ -106,9 +110,23 @@
     </dependency>
 
     <dependency>
+      <groupId>com.browserup</groupId>
+      <artifactId>browserup-proxy-core</artifactId>
+      <version>2.0.1</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+      <version>2.4.4</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
-      <version>0.8.0</version>
+      <version>0.8.1</version>
     </dependency>
 
     <dependency>
@@ -127,7 +145,7 @@
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-testng</artifactId>
-      <version>2.13.0</version>
+      <version>2.13.1</version>
     </dependency>
 
     <dependency>
@@ -146,6 +164,12 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
       <version>1.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.12.1</version>
     </dependency>
 
     <dependency>
@@ -368,4 +392,32 @@
     </profile>
 
   </profiles>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <id>integrated-javadocs</id>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+            <inherited>false</inherited>
+            <configuration>
+              <skip>false</skip>
+              <source>8</source>
+              <failOnWarnings>true</failOnWarnings>
+              <includeDependencySources>true</includeDependencySources>
+              <dependencySourceIncludes>
+                <dependencySourceInclude>io.wcm.qa:*</dependencySourceInclude>
+              </dependencySourceIncludes>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>

@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.sampling.transform.base;
 
 import io.wcm.qa.glnm.sampling.CanCache;
 import io.wcm.qa.glnm.sampling.Sampler;
+import io.wcm.qa.glnm.sampling.TransformingSampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
 /**
@@ -31,9 +32,17 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
  * @param <O> type of transformed output
  * @since 1.0.0
  */
-public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> {
+public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> extends CachingBasedSampler<O> implements TransformingSampler<S, I, O> {
 
   private S input;
+
+  /**
+   * Transformation based samplers need an input sampler to operate. Using this
+   * constructor requires input to be configured via setter before sampling.
+   */
+  public TransformationBasedSampler() {
+    super();
+  }
 
   /**
    * <p>Constructor for TransformationBasedSampler.</p>
@@ -42,6 +51,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
    * @since 3.0.0
    */
   public TransformationBasedSampler(S inputSampler) {
+    this();
     setInput(inputSampler);
   }
 
@@ -51,6 +61,12 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     I inputSample = getInput().sampleValue();
     O outputSample = transform(inputSample);
     return outputSample;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S getInput() {
+    return input;
   }
 
   /** {@inheritDoc} */
@@ -71,16 +87,17 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
     }
   }
 
-  protected S getInput() {
-    return input;
+  /**
+   * <p>Setter for the input sampler.</p>
+   *
+   * @param input a sampler implementation to provide the input sample.
+   */
+  public void setInput(S input) {
+    this.input = input;
   }
 
   protected boolean isCachingInput() {
     return getInput() instanceof CanCache;
-  }
-
-  protected void setInput(S input) {
-    this.input = input;
   }
 
   protected abstract O transform(I inputSample);

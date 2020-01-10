@@ -23,10 +23,13 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.galenframework.parser.SyntaxException;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.PageSpec;
+import com.google.common.collect.Lists;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.mock.MockPage;
@@ -49,12 +52,17 @@ public final class GalenParsing {
    * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
    * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
    * @param specPath path to spec file
+   * @param tags
    * @return Galen page spec object
    * @since 4.0.0
    */
-  static PageSpec fromPath(String specPath) {
+  static PageSpec fromPath(String specPath, String... tags) {
     try {
-      return new PageSpecReader().read(specPath, new MockPage(), GalenSpecUtil.getDefaultIncludeTags(), EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+      SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
+      if (ArrayUtils.isNotEmpty(tags)) {
+        filter.getIncludedTags().addAll(Lists.newArrayList(tags));
+      }
+      return new PageSpecReader().read(specPath, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
     }
     catch (IOException | SyntaxException ex) {
       throw new GaleniumException("Exception when parsing spec: '" + specPath + "'", ex);

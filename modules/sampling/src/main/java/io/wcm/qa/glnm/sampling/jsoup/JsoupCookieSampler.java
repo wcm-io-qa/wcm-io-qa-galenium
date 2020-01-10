@@ -39,10 +39,9 @@ import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 /**
  * Samples cookies from a Jsoup network response.
  *
- * @param <T> type of sample returned by sampler
  * @since 3.0.0
  */
-public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBasedSampler<T> {
+public class JsoupCookieSampler extends JsoupBasedSampler<Map<String, String>> {
 
   private static final Logger LOG = LoggerFactory.getLogger(JsoupCookieSampler.class);
 
@@ -59,10 +58,9 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
   private Method method = Method.POST;
 
   /** {@inheritDoc} */
-  @SuppressWarnings("unchecked")
   @Override
-  public T freshSample() {
-    return (T)fetchCookies();
+  public Map<String, String> freshSample() {
+    return fetchCookies();
   }
 
   /**
@@ -90,7 +88,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
 
       Response response = connection.response();
       if (LOG.isDebugEnabled()) {
-        LOG.debug("response: " + response.statusCode() + " - " + response.statusMessage());
+        LOG.debug("response(" + response.url() + "): " + response.statusCode() + " - " + response.statusMessage());
       }
       logResponse(response);
 

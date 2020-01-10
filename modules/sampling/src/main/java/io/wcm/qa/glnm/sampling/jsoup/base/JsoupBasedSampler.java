@@ -19,12 +19,20 @@
  */
 package io.wcm.qa.glnm.sampling.jsoup.base;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
 
@@ -36,9 +44,11 @@ import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
  */
 public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
 
-  private String url;
-  private Map<String, String> requestCookies = new HashMap<String, String>();
+  private static final Logger LOG = LoggerFactory.getLogger(JsoupBasedSampler.class);
+  private JsoupConnectionProvider connectionProvider;
   private Sampler<Map<String, String>> cookieSampler;
+  private Map<String, String> requestCookies = new HashMap<String, String>();
+  private String url;
 
   /**
    * <p>Constructor for JsoupBasedSampler.</p>
@@ -80,6 +90,10 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
     return url;
   }
 
+  protected void setConnectionProvider(JsoupConnectionProvider connectionProvider) {
+    this.connectionProvider = connectionProvider;
+  }
+
   /**
    * <p>Setter for the field <code>cookieSampler</code>.</p>
    *
@@ -104,12 +118,17 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
    * @return {@link JsoupConnectionProvider} to use for connection
    */
   protected JsoupConnectionProvider getConnectionProvider() {
-    return new JsoupConnectionProvider() {
-      @Override
-      public Connection getConnection() {
-        return Jsoup.connect(getUrl());
-      }
-    };
+    if (connectionProvider == null) {
+      connectionProvider = new JsoupConnectionProvider() {
+
+        @Override
+        public Connection getConnection() {
+          return Jsoup.connect(getUrl());
+        }
+
+      };
+    }
+    return connectionProvider;
   }
 
   /**
@@ -124,6 +143,15 @@ public abstract class JsoupBasedSampler<T> extends CachingBasedSampler<T> {
       connection.cookies(getCookieSampler().sampleValue());
     }
     connection.ignoreContentType(true);
+    try {
+      SSLContext context = SSLContext.getInstance("TLS");
+      context.init(null, InsecureTrustManagerFactory.INSTANCE.getTrustManagers(), null);
+      SSLSocketFactory socketFactory = context.getSocketFactory();
+      connection.sslSocketFactory(socketFactory);
+    }
+    catch (NoSuchAlgorithmException | KeyManagementException ex) {
+      LOG.warn("Could not initialize SSL context.", ex);
+    }
     return connection;
   }
 
