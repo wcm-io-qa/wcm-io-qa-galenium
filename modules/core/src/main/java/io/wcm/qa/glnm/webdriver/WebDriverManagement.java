@@ -31,9 +31,9 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.opentest4j.TestSkippedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.SkipException;
 
 import com.galenframework.utils.GalenUtils;
 
@@ -76,7 +76,7 @@ public final class WebDriverManagement {
         }
         else {
           LOG.error("Exception when closing driver.", ex);
-          throw new SkipException("Skipping test because of driver problems. ", ex);
+          throw new TestSkippedException("Skipping test because of driver problems. ", ex);
         }
       }
       finally {

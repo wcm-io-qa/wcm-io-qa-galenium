@@ -19,9 +19,10 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
@@ -41,11 +42,11 @@ public class DefaultVerificationStrategy extends VerificationStrategyBase {
   protected void handleFailure(Verification verification) {
     Allure.step(verification.getMessage(), Status.FAILED);
     if (verification.getException() != null) {
-      Assert.fail(verification.getMessage(), verification.getException());
+      fail(verification.getMessage(), verification.getException());
       LOG.info(verification.getMessage(), verification.getException());
     }
     else {
-      Assert.fail(verification.getMessage());
+      fail(verification.getMessage());
       LOG.info(verification.getMessage());
     }
   }

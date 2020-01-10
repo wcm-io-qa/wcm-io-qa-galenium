@@ -11,6 +11,9 @@ addDef "galenium.example.sut=jetty"
 # Never download dependencies
 # addArg "-o";
 
+# Maven debug output
+# addArg "-X";
+
 # verbose reporting
 addDef "galenium.report.sparse=false"
 

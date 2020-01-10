@@ -78,8 +78,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN = "galenium.mediaquery.width.min";
-  private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
-  private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT = "galenium.report.extent.skip";
@@ -791,16 +789,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * <p>getReportConfig.</p>
-   *
-   * @return config file for ExtentReports
-   * @since 3.0.0
-   */
-  public static File getReportConfig() {
-    return asFile(SYSTEM_PROPERTY_NAME_REPORT_CONFIG);
-  }
-
-  /**
    * Report root folder.
    * <ul>
    * <li>Key:
@@ -1073,33 +1061,6 @@ public final class GaleniumConfiguration {
    */
   public static boolean isLazyWebDriverInitialization() {
     return asBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
-  }
-
-  /**
-   * Usually Galenium is used for testing with TestNG. If not this property should reflect that.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.noTestNG
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether TestNG is used
-   * @since 3.0.0
-   */
-  public static boolean isNoTestNg() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_NO_TESTNG);
   }
 
   /**

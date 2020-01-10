@@ -17,25 +17,32 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners.testng;
+package io.wcm.qa.glnm.listeners.junit;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.TestListenerAdapter;
 
 /**
  * Logs memory usage.
  *
  * @since 1.0.0
  */
-public class DiskUsageListener extends TestListenerAdapter {
+public class DiskUsageExtension
+    implements
+    AfterAllCallback,
+    AfterTestExecutionCallback,
+    BeforeAllCallback,
+    BeforeTestExecutionCallback {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DiskUsageListener.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DiskUsageExtension.class);
   private static final String[] PATHS_TO_LOG_DISK_USAGE_FOR = new String[] {
       ".",
       "/dev/shm"
@@ -43,49 +50,30 @@ public class DiskUsageListener extends TestListenerAdapter {
 
   /** {@inheritDoc} */
   @Override
-  public void onFinish(ITestContext testContext) {
+  public void afterAll(ExtensionContext testContext) {
     logDiskUsage();
   }
 
 
   /** {@inheritDoc} */
   @Override
-  public void onStart(ITestContext testContext) {
-    logDiskUsage();
-    super.onStart(testContext);
-  }
-
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestFailure(ITestResult tr) {
-    logDiskUsage();
-    super.onTestFailure(tr);
-  }
-
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestSkipped(ITestResult tr) {
-    logDiskUsage();
-    super.onTestSkipped(tr);
-  }
-
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestStart(ITestResult result) {
+  public void afterTestExecution(ExtensionContext tr) {
     logDiskUsage();
   }
 
 
   /** {@inheritDoc} */
   @Override
-  public void onTestSuccess(ITestResult tr) {
+  public void beforeAll(ExtensionContext testContext) {
     logDiskUsage();
-    super.onTestSuccess(tr);
   }
 
+
+  /** {@inheritDoc} */
+  @Override
+  public void beforeTestExecution(ExtensionContext tr) {
+    logDiskUsage();
+  }
 
   private static String getDiskUsageMessage(String path) {
     File file = new File(path);
@@ -105,7 +93,6 @@ public class DiskUsageListener extends TestListenerAdapter {
       return "no space info for '" + path + "': \"" + ex.getMessage() + "\"";
     }
   }
-
 
   private static String getDiskUsageMessages() {
     StringBuilder messages = new StringBuilder();

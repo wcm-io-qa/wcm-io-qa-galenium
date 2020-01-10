@@ -39,7 +39,7 @@ import io.wcm.qa.glnm.galen.mock.MockPage;
  *
  * @since 4.0.0
  */
-public final class GalenParsing {
+final class GalenParsing {
 
   private static final Map<String, Object> EMPTY_JS_VARS = null;
   private static final Properties EMPTY_PROPERTIES = new Properties();

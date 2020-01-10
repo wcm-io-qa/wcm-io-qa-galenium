@@ -23,7 +23,6 @@ import java.util.Iterator;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
-import io.wcm.qa.glnm.differences.difference.testcase.ClassNameDifference;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 /**

@@ -19,10 +19,12 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -135,8 +137,16 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   }
 
   private SectionFilter getSectionFilter(String... tags) {
+    if (ArrayUtils.isEmpty(tags)) {
+      return GalenSpecUtil.getDefaultIncludeTags();
+    }
     SectionFilter sectionFilter = GalenSpecUtil.getDefaultIncludeTags();
-    CollectionUtils.addAll(sectionFilter.getIncludedTags(), tags);
+    List<String> includedTags = sectionFilter.getIncludedTags();
+    if (CollectionUtils.isEmpty(includedTags)) {
+      sectionFilter.setIncludedTags(Arrays.asList(tags));
+    } else {
+      CollectionUtils.addAll(includedTags, tags);
+    }
     return sectionFilter;
   }
 

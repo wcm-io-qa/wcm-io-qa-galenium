@@ -17,68 +17,53 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners.testng;
+package io.wcm.qa.glnm.listeners.junit;
 
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.TestListenerAdapter;
 
 /**
  * Logs memory usage.
  *
  * @since 1.0.0
  */
-public class MemoryUsageListener extends TestListenerAdapter {
+public class MemoryUsageExtension
+    implements
+    AfterAllCallback,
+    AfterTestExecutionCallback,
+    BeforeAllCallback,
+    BeforeTestExecutionCallback {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MemoryUsageListener.class);
-
-  /** {@inheritDoc} */
-  @Override
-  public void onFinish(ITestContext testContext) {
-    logMemory();
-  }
-
+  private static final Logger LOG = LoggerFactory.getLogger(MemoryUsageExtension.class);
 
   /** {@inheritDoc} */
   @Override
-  public void onStart(ITestContext testContext) {
+  public void afterAll(ExtensionContext testContext) {
     logMemory();
-    super.onStart(testContext);
   }
-
 
   /** {@inheritDoc} */
   @Override
-  public void onTestFailure(ITestResult tr) {
+  public void afterTestExecution(ExtensionContext tr) {
     logMemory();
-    super.onTestFailure(tr);
   }
-
 
   /** {@inheritDoc} */
   @Override
-  public void onTestSkipped(ITestResult tr) {
+  public void beforeAll(ExtensionContext testContext) {
     logMemory();
-    super.onTestSkipped(tr);
   }
-
 
   /** {@inheritDoc} */
   @Override
-  public void onTestStart(ITestResult result) {
+  public void beforeTestExecution(ExtensionContext tr) {
     logMemory();
   }
-
-
-  /** {@inheritDoc} */
-  @Override
-  public void onTestSuccess(ITestResult tr) {
-    logMemory();
-    super.onTestSuccess(tr);
-  }
-
 
   private String getMemoryMessage() {
     Runtime runtime = Runtime.getRuntime();
