@@ -20,8 +20,6 @@
 /* Copyright (c) wcm.io. All rights reserved. */
 package io.wcm.qa.glnm.reporting;
 
-import static io.wcm.qa.glnm.util.TestInfoUtil.getAlphanumericTestName;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,17 +34,14 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestResult;
 
 import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
-import com.galenframework.reports.TestNgReportBuilder;
 import com.galenframework.utils.GalenUtils;
 import com.google.common.html.HtmlEscapers;
 
-import freemarker.template.TemplateException;
 import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
@@ -64,7 +59,6 @@ public final class GaleniumReportUtil {
   private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
   private static final String PATH_GALEN_REPORT = GaleniumConfiguration.getReportDirectory() + "/galen";
   private static final String PATH_SCREENSHOTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/screenshots";
-  private static final String PATH_TESTNG_REPORT_XML = GaleniumConfiguration.getReportDirectory() + "/testng.xml";
 
   private GaleniumReportUtil() {
     // do not instantiate
@@ -104,22 +98,6 @@ public final class GaleniumReportUtil {
    */
   public static void createGalenReports() {
     createGalenHtmlReport(GLOBAL_GALEN_RESULTS);
-    createGalenTestNgReport(GLOBAL_GALEN_RESULTS);
-  }
-
-  /**
-   * Write all test results to TestNG report.
-   *
-   * @param testInfos list to persist test information
-   * @since 3.0.0
-   */
-  public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) {
-    try {
-      new TestNgReportBuilder().build(testInfos, PATH_TESTNG_REPORT_XML);
-    }
-    catch (IOException | TemplateException ex) {
-      LOG.error("could not generate TestNG report.", ex);
-    }
   }
 
   /**
@@ -173,18 +151,6 @@ public final class GaleniumReportUtil {
   public static void takeScreenshot() {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
     takeScreenshot(randomAlphanumeric, getTakesScreenshot());
-  }
-
-  /**
-   * Take screenshot of current browser window and add to reports.
-   *
-   * @param result to generate filename from
-   * @param driver to take screenshot from
-   * @since 4.0.0
-   */
-  public static void takeScreenshot(ITestResult result, WebDriver driver) {
-    String resultName = getAlphanumericTestName(result);
-    takeScreenshot(resultName, getTakesScreenshot(driver));
   }
 
   /**

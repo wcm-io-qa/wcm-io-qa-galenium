@@ -19,33 +19,39 @@
  */
 package io.wcm.qa.glnm.example.galen;
 
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
+import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getBaseUrl;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import io.qameta.allure.Description;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.example.AbstractExampleBase;
+import io.wcm.qa.glnm.device.TestDeviceUtil;
 import io.wcm.qa.glnm.example.specs.Homepage;
-import io.wcm.qa.glnm.providers.TestDeviceProvider;
+import io.wcm.qa.glnm.interaction.Browser;
+import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
-public class GalenSpecTestIT extends AbstractExampleBase {
+class GalenSpecTestIT {
 
-  @Factory(dataProviderClass = TestDeviceProvider.class, dataProvider = TestDeviceProvider.GALENIUM_TEST_DEVICES_ALL)
-  public GalenSpecTestIT(TestDevice testDevice) {
-    super(testDevice);
+  private static final String PATH_TO_HOMEPAGE = "/en.html";
+
+  @BeforeEach
+  void initDriver() {
+    TestDevice testDevice = TestDeviceUtil.getSingleTestDevice();
+    WebDriverManagement.getDriver(testDevice);
   }
 
   @Test
   @Description("Testing Homepage")
-  public void checkHomepageWithGalenSpec() {
-    loadStartUrl();
+  void checkHomepageWithGalenSpec() {
+    Browser.load(getBaseUrl() + getRelativePath());
+
     Homepage.check();
   }
 
-  @Override
   protected String getRelativePath() {
     return PATH_TO_HOMEPAGE;
   }

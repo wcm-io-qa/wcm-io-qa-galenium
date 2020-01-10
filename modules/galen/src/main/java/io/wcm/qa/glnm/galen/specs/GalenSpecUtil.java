@@ -52,11 +52,10 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  */
 final class GalenSpecUtil {
 
-  static final Map<String, Object> EMPTY_JS_VARS = null;
-
-  static final Properties EMPTY_PROPERTIES = new Properties();
-  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
   private static final Logger LOG = LoggerFactory.getLogger(GalenSpecUtil.class);
+
+  static final Map<String, Object> EMPTY_JS_VARS = null;
+  static final Properties EMPTY_PROPERTIES = new Properties();
 
   private GalenSpecUtil() {
     // do not instantiate
@@ -77,6 +76,14 @@ final class GalenSpecUtil {
     String cleanName = StringUtils.join(namePartList, ".");
     LOG.debug("clean name for muliple object locator '" + cleanName + "'");
     return cleanName;
+  }
+
+  private static List<String> emptyList() {
+    return Collections.emptyList();
+  }
+
+  private static SectionFilter emptySectionFilter() {
+    return new SectionFilter(emptyList(), emptyList());
   }
 
   private static Collection<NestedSelector> extractCollectionFromMapping(Map<String, SelectorFromLocator> objectMapping) {
@@ -139,7 +146,7 @@ final class GalenSpecUtil {
       return emptySectionFilter();
     }
     tagList.addAll(tagsForThisRun);
-    return new SectionFilter(tagList, EMPTY_TAG_LIST);
+    return new SectionFilter(tagList, emptyList());
   }
 
   /**
@@ -150,7 +157,7 @@ final class GalenSpecUtil {
    * @since 4.0.0
    */
   static SectionFilter asSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
+    return asSectionFilter(device.getTags());
   }
 
   /**
@@ -165,10 +172,6 @@ final class GalenSpecUtil {
       return asSectionFilter(getTestDevice());
     }
     return emptySectionFilter();
-  }
-
-  private static SectionFilter emptySectionFilter() {
-    return new SectionFilter();
   }
 
   /**

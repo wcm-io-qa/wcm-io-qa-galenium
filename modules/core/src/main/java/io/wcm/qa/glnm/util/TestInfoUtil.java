@@ -19,27 +19,20 @@
  */
 package io.wcm.qa.glnm.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestResult;
 
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.TestReport;
 import com.galenframework.reports.TestStatistic;
 import com.galenframework.reports.nodes.ReportExtra;
 import com.galenframework.reports.nodes.TestReportNode;
-
-import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.webdriver.HasDevice;
 
 /**
  * Utility class to assist with extracting information about test parameters to be used in reporting.
@@ -48,7 +41,6 @@ import io.wcm.qa.glnm.webdriver.HasDevice;
  */
 public final class TestInfoUtil {
 
-  private static final String BROWSER_UNKNOWN = "UNKNOWN";
   private static final Logger LOG = LoggerFactory.getLogger(TestInfoUtil.class);
 
   private TestInfoUtil() {
@@ -58,28 +50,12 @@ public final class TestInfoUtil {
   /**
    * Replaces all non-alphanumeric characters with underscore.
    *
-   * @param result to extract test name from
+   * @param resultName to clean
    * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
-   * @since 3.0.0
+   * @since 4.0.0
    */
-  public static String getAlphanumericTestName(ITestResult result) {
-    String name = result.getName();
-    return name.replaceAll("[^-A-Za-z0-9]", "_");
-  }
-
-  /**
-   * Gets test device if test case in this result implements  {@link io.wcm.qa.glnm.webdriver.HasDevice}.
-   *
-   * @param result test result to retrieve test case from
-   * @return device if one was found
-   * @since 3.0.0
-   */
-  public static TestDevice getTestDevice(ITestResult result) {
-    Object testClass = result.getInstance();
-    if (testClass instanceof HasDevice) {
-      return ((HasDevice)testClass).getDevice();
-    }
-    return null;
+  public static String getAlphanumericTestName(String resultName) {
+    return resultName.replaceAll("[^-A-Za-z0-9]", "_");
   }
 
   /**
@@ -192,32 +168,6 @@ public final class TestInfoUtil {
     else {
       LOG.trace("[" + marker + "]" + prefix + ".children: none");
     }
-  }
-
-  static List<String> getBreakPoint(ITestResult result) {
-    TestDevice testDevice = getTestDevice(result);
-    if (testDevice != null) {
-      ArrayList<String> mediaQueries = new ArrayList<String>();
-      CollectionUtils.addAll(mediaQueries, testDevice.getTags());
-      mediaQueries.remove(testDevice.getBrowserType().name());
-      return mediaQueries;
-    }
-    return Collections.emptyList();
-  }
-
-  static String getBrowser(ITestResult result) {
-    TestDevice testDevice = getTestDevice(result);
-    if (testDevice != null) {
-      return testDevice.getBrowserType().getBrowser();
-    }
-
-    String name = result.getName();
-    if (StringUtils.contains(name, "using ")) {
-      String browser = name.replaceFirst(".*using ", "");
-      browser = browser.replaceFirst(" \\(.*", "");
-      return browser;
-    }
-    return BROWSER_UNKNOWN;
   }
 
 }

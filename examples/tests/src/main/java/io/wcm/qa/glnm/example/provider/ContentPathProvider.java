@@ -27,14 +27,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.DataProvider;
 
 import io.wcm.qa.glnm.providers.TestNgProviderUtil;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AllPagesForTemplateSampler;
 
 /**
- * {@link DataProvider} for AEM content paths using JCR query on author.
+ * DataProvider for AEM content paths using JCR query on author.
  */
 public final class ContentPathProvider {
 
@@ -56,7 +55,6 @@ public final class ContentPathProvider {
   /**
    * @return all pages created with the example application
    */
-  @DataProvider(name = ALL_PAGES_FOR_EXAMPLE_TEMPLATES)
   public static Object[][] allPagesForTemplates() {
     LOG.debug("Data providing: " + ALL_PAGES_FOR_EXAMPLE_TEMPLATES);
     Sampler<Iterable> sampler = new AllPagesForTemplateSampler(TEMPLATE_NAME_PATTERN, ROOT_PATH);
@@ -66,7 +64,6 @@ public final class ContentPathProvider {
   /**
    * @return all pages created with the example application
    */
-  @DataProvider(name = ALL_PAGES)
   public static Object[][] allPages() {
     LOG.debug("Data providing: " + ALL_PAGES);
     File directory = new File(WEBAPP_CONTENT_PATH);

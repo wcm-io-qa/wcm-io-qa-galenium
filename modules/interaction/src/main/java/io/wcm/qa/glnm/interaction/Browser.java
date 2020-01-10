@@ -20,6 +20,8 @@
 package io.wcm.qa.glnm.interaction;
 
 import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.net.URL;
 
@@ -27,7 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
@@ -154,7 +155,7 @@ public final class Browser {
    */
   public static void loadExactly(String url) {
     load(url);
-    Assert.assertEquals(url, getCurrentUrl(), "Current URL should match.");
+    assertThat(getCurrentUrl(), is(url));
   }
 
   /**

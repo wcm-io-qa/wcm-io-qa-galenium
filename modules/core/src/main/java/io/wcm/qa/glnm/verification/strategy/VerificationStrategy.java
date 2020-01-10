@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
+import org.junit.jupiter.api.Assertions;
+
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
@@ -29,7 +31,7 @@ import io.wcm.qa.glnm.verification.base.Verification;
 public interface VerificationStrategy {
 
   /**
-   * To fail test run, raise an exception or fail with {@link org.testng.asserts.Assertion#fail()}.
+   * To fail test run, raise an exception or fail with {@link org.junit.jupiter.api.Assertions#fail()}.
    *
    * @param verification to handle
    * @since 3.0.0

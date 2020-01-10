@@ -24,7 +24,7 @@
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration.ui-tests</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../integration/ui-tests</relativePath>
   </parent>
 
@@ -49,13 +49,13 @@
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.specs</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>5.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>io.wcm.qa</groupId>
       <artifactId>io.wcm.qa.galenium.examples.baseline</artifactId>
-      <version>4.0.0-SNAPSHOT</version>
+      <version>5.0.0-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
 
@@ -66,7 +66,7 @@
       <dependency>
         <groupId>io.wcm.qa</groupId>
         <artifactId>io.wcm.qa.galenium.examples.baseline</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>5.0.0-SNAPSHOT</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -181,6 +181,7 @@
       <properties>
         <galenium.example.run-ui-tests>true</galenium.example.run-ui-tests>
         <integrationtests.skip>false</integrationtests.skip>
+        <skipITs>false</skipITs>
       </properties>
       <build>
         <plugins>
@@ -217,6 +218,13 @@
           <artifactId>maven-failsafe-plugin</artifactId>
           <configuration>
             <skip>false</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
           </configuration>
         </plugin>
 

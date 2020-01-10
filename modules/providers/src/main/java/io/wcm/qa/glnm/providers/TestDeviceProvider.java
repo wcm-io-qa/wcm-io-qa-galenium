@@ -21,8 +21,6 @@ package io.wcm.qa.glnm.providers;
 
 import java.util.List;
 
-import org.testng.annotations.DataProvider;
-
 import io.wcm.qa.glnm.device.TestDeviceUtil;
 
 /**
@@ -49,7 +47,7 @@ public final class TestDeviceProvider {
    * @return single test device
    * @since 3.0.0
    */
-  @DataProvider(name = GALENIUM_SINGLE_TEST_DEVICE)
+  @Deprecated
   public static Object[][] provideSingleTestDevice() {
     List<Object> singleDeviceList = TestDeviceUtil.getSingleTestDeviceAsList();
     return TestNgProviderUtil.combine(singleDeviceList);
@@ -61,7 +59,7 @@ public final class TestDeviceProvider {
    * @return all test devices
    * @since 3.0.0
    */
-  @DataProvider(name = GALENIUM_TEST_DEVICES_ALL)
+  @Deprecated
   public static Object[][] provideTestDevices() {
     return TestNgProviderUtil.combine(TestDeviceUtil.getTestDevicesForBrowsersAndMqs());
   }
@@ -72,7 +70,7 @@ public final class TestDeviceProvider {
    * @return all test devices from device config
    * @since 3.0.0
    */
-  @DataProvider(name = GALENIUM_TEST_DEVICES_FROM_DEVICE_CONFIG)
+  @Deprecated
   public static Object[][] provideTestDevicesFromDeviceCsv() {
     return TestNgProviderUtil.combine(TestDeviceUtil.getTestDevicesFromDevicesCsv());
   }

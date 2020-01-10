@@ -37,7 +37,7 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
- * Utility class to help with writing {@link org.testng.annotations.DataProvider} code.
+ * Utility class to help with writing DataProvider code.
  *
  * @since 1.0.0
  */
@@ -53,7 +53,7 @@ public final class TestNgProviderUtil {
    * Read string parameters from UTF-8 input file. Each line becomes one parameter.
    *
    * @param input UTF-8 encoded text file to read from
-   * @return array ready to use in {@link org.testng.annotations.DataProvider}
+   * @return array ready to use in DataProvider
    * @since 3.0.0
    */
   public static Object[][] fromFile(File input) {
@@ -65,7 +65,7 @@ public final class TestNgProviderUtil {
    *
    * @param input text file to read from
    * @param charset encoding of file
-   * @return array ready to use in {@link org.testng.annotations.DataProvider}
+   * @return array ready to use in DataProvider
    * @since 3.0.0
    */
   public static Object[][] fromFile(File input, Charset charset) {
@@ -107,7 +107,7 @@ public final class TestNgProviderUtil {
    * Transforms argument list into Object array. For use with DataProviders for single argument methods and
    * constructors.
    *
-   * @param argumentList iterable to turn into object array
+   * @param argumentList Iterable to turn into object array
    * @return a two dimensional object array containing the arguments
    * @since 3.0.0
    */

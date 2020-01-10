@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2017 wcm.io
+ * Copyright (C) 2018 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,25 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.listeners.testng;
+package io.wcm.qa.glnm.differences.specialized;
 
-import org.testng.ITestContext;
-import org.testng.TestListenerAdapter;
-
-import io.wcm.qa.glnm.persistence.util.TextSampleManager;
+import io.wcm.qa.glnm.differences.difference.StringDifference;
 
 /**
- * Handles persisting text samples at the end of test run.
+ * Uses simple name of class (without package) as difference.
  *
  * @since 1.0.0
  */
-public class TextSamplePersistenceListener extends TestListenerAdapter {
+public class ClassNameDifference extends StringDifference {
 
-  /** {@inheritDoc} */
-  @Override
-  public void onFinish(ITestContext testContext) {
-    TextSampleManager.persistNewTextSamples();
+  /**
+   * <p>Constructor for ClassNameDifference.</p>
+   *
+   * @param clazz to get name from
+   * @since 2.0.0
+   */
+  public ClassNameDifference(Class clazz) {
+    super(clazz.getSimpleName());
   }
 
 }

@@ -40,9 +40,9 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.opentest4j.TestSkippedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.SkipException;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
@@ -180,7 +180,7 @@ final class WebDriverFactory {
       setDriver(getNewDriver(newTestDevice, runMode));
     }
     catch (WebDriverException ex) {
-      throw new SkipException("Could not connect to browser.", ex);
+      throw new TestSkippedException("Could not connect to browser.", ex);
     }
 
     int timeout = GaleniumConfiguration.getDefaultWebdriverTimeout();
