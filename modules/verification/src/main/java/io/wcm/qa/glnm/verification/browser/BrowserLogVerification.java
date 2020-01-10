@@ -103,11 +103,6 @@ public class BrowserLogVerification extends SamplerBasedVerification<CountingSam
     return 0;
   }
 
-  @Override
-  protected void persistSample(String key, Integer newValue) {
-    // no sample to persist
-  }
-
   /**
    * <p>Setter for the field <code>logSampler</code>.</p>
    *
