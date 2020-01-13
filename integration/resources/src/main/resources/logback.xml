@@ -34,9 +34,11 @@
    </appender>
 
   <logger name="io.qameta" level="TRACE" />
+  <logger name="io.netty" level="INFO" />
   <logger name="io.github.bonigarcia.wdm" level="WARN" />
   <logger name="org.apache.commons" level="WARN" />
   <logger name="org.apache.http.wire" level="WARN" />
+  <logger name="org.asynchttpclient" level="WARN" />
 
   <root level="TRACE">
     <appender-ref ref="STDOUT" />
