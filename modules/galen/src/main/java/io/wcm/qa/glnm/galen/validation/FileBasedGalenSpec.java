@@ -17,19 +17,27 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.galen.specs;
+package io.wcm.qa.glnm.galen.validation;
 
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.galenframework.validation.ValidationListener;
+
+import io.wcm.qa.glnm.galen.specs.AbstractGalenSpec;
+import io.wcm.qa.glnm.galen.specs.GalenSpecParsingProvider;
 
 /**
  * <p>FileBasedGalenSpec class.</p>
  *
  * @since 4.0.0
  */
-public class FileBasedGalenSpec extends AbstractGalenSpec {
+class FileBasedGalenSpec extends AbstractGalenSpec {
 
+  private static final Logger LOG = LoggerFactory.getLogger(FileBasedGalenSpec.class);
   /**
    * <p>
    * Constructor for FileBasedGalenSpec.
@@ -38,7 +46,7 @@ public class FileBasedGalenSpec extends AbstractGalenSpec {
    * @param specFile a {@link java.io.File} object.
    * @param tags include tags
    */
-  public FileBasedGalenSpec(File specFile, String... tags) {
+  FileBasedGalenSpec(File specFile, String... tags) {
     this(specFile.getPath(), tags);
   }
 
@@ -50,9 +58,17 @@ public class FileBasedGalenSpec extends AbstractGalenSpec {
    * @param specPath a {@link java.lang.String} object.
    * @param tags include tags
    */
-  public FileBasedGalenSpec(String specPath, String... tags) {
+  FileBasedGalenSpec(String specPath, String... tags) {
     super(new GalenSpecParsingProvider(specPath, tags));
     setName(FilenameUtils.getBaseName(specPath));
+  }
+
+  @Override
+  protected ValidationListener getValidationListener() {
+    if (LOG.isTraceEnabled()) {
+      return new TracingValidationListener(getUuid());
+    }
+    return new AllureValidationListener(getUuid());
   }
 
 }

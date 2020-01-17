@@ -32,8 +32,8 @@ import com.browserup.bup.client.ClientUtil;
 import com.browserup.bup.proxy.auth.AuthType;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Configuring the BrowserMob Proxy.

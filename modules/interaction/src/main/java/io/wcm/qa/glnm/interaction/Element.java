@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import java.util.List;
 
@@ -32,8 +32,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
@@ -361,7 +361,7 @@ public final class Element {
       LOG.debug(message.toString());
       findNthOrFailNow(selector, index).click();
     }
-    Allure.step(getClickLogMessage(selector, index, extraMessage));
+    GaleniumReportUtil.step(getClickLogMessage(selector, index, extraMessage));
   }
 
   private static WebElement find(Selector selector, TimeoutType timeout) {

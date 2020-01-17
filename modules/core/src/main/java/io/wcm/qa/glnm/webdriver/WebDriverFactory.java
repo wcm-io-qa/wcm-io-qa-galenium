@@ -46,9 +46,9 @@ import org.slf4j.LoggerFactory;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.selenium.RunMode;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Static factory methods for use by {@link WebDriverManager}.

@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -31,8 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.qameta.allure.Allure;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Alert related convenience methods.
@@ -52,8 +53,9 @@ public final class Browser {
    * Navigate back.
    */
   public static void back() {
-    Allure.step("navigating back");
+    GaleniumReportUtil.startStep("navigating back");
     getDriver().navigate().back();
+    stopStep();
   }
 
   /**
@@ -64,10 +66,16 @@ public final class Browser {
    * @return return value of Javascript execution
    */
   public static Object executeJs(String jsCode, Object... parameters) {
+    String step = GaleniumReportUtil.startStep("executing JavaScript");
     if (getDriver() instanceof JavascriptExecutor) {
       JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-      return executor.executeScript(jsCode, parameters);
+      Object executedScriptResult = executor.executeScript(jsCode, parameters);
+      GaleniumReportUtil.passStep(step);
+      stopStep();
+      return executedScriptResult;
     }
+    GaleniumReportUtil.failStep(step);
+    stopStep();
     throw new GaleniumException("driver cannot execute Javascript.");
   }
 
@@ -75,8 +83,10 @@ public final class Browser {
    * Navigate forward.
    */
   public static void forward() {
-    Allure.step("navigating forward");
+    String step = GaleniumReportUtil.startStep("navigating forward");
     getDriver().navigate().forward();
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
@@ -136,9 +146,11 @@ public final class Browser {
    * @param url to load
    */
   public static void load(String url) {
-    Allure.step("loading URL: '" + url + "'");
+    String step = GaleniumReportUtil.startStep("loading URL: '" + url + "'");
     Allure.link(url, url);
     getDriver().get(url);
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
@@ -164,8 +176,10 @@ public final class Browser {
    * @param url URL to navigate to
    */
   public static void navigateTo(String url) {
-    LOG.info("navigating to URL: '" + url + "'");
+    String step = GaleniumReportUtil.startStep("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
@@ -174,15 +188,23 @@ public final class Browser {
    * @param url to navigate to
    */
   public static void navigateTo(URL url) {
-    LOG.info("navigating to URL: '" + url + "'");
+    String step = GaleniumReportUtil.startStep("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
    * Refresh browser.
    */
   public static void refresh() {
-    LOG.info("refreshing browser");
+    String step = GaleniumReportUtil.startStep("refreshing browser");
     getDriver().navigate().refresh();
+    GaleniumReportUtil.passStep(step);
+    stopStep();
+  }
+
+  private static void stopStep() {
+    GaleniumReportUtil.stopStep();
   }
 }

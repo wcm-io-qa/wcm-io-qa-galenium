@@ -25,7 +25,6 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
@@ -48,7 +47,7 @@ public final class Screenshot {
    */
   public static void takeFullScreenshot() {
     GaleniumReportUtil.takeFullScreenshot();
-    Allure.step("Full page screenshot: " + Browser.getPageTitle());
+    GaleniumReportUtil.step("Full page screenshot: " + Browser.getPageTitle());
   }
 
   /**
@@ -61,7 +60,7 @@ public final class Screenshot {
     WebElement element = Element.findOrFail(selector);
     Element.scrollTo(element);
     GaleniumReportUtil.takeScreenshot(element);
-    Allure.step("Screenshot of element: " + selector);
+    GaleniumReportUtil.step("Screenshot of element: " + selector);
   }
 
   /**
@@ -88,7 +87,7 @@ public final class Screenshot {
     WebElement element = allElements.get(index);
     Element.scrollTo(element);
     GaleniumReportUtil.takeScreenshot(element);
-    Allure.step("Screenshot of element: " + selector);
+    GaleniumReportUtil.step("Screenshot of element: " + selector);
   }
 
 }

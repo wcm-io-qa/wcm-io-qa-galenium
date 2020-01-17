@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import org.openqa.selenium.NoAlertPresentException;
 

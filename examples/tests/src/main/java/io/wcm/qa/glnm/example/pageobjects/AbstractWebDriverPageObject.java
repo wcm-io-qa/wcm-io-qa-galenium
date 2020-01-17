@@ -21,7 +21,7 @@ package io.wcm.qa.glnm.example.pageobjects;
 
 import org.openqa.selenium.WebDriver;
 
-import io.wcm.qa.glnm.util.GaleniumContext;
+import io.wcm.qa.glnm.context.GaleniumContext;
 
 
 class AbstractWebDriverPageObject {

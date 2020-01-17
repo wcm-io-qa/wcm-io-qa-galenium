@@ -17,11 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.util;
+package io.wcm.qa.glnm.context;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
@@ -47,12 +49,12 @@ public class GaleniumContext {
 
   private Map<String, Object> additionalMappings = new HashMap<String, Object>();
   private WebDriver driver;
-  private String testDescription;
   private TestDevice testDevice;
-  private String testName;
   private VerificationStrategy verificationStrategy = GaleniumConfiguration.isSamplingVerificationIgnore()
       ? new IgnoreFailuresStrategy()
       : new DefaultVerificationStrategy();
+
+  private ExtensionContext junitContext;
 
   /**
    * WebDriver to use for all things Galenium. This includes interaction with Galen and Selenium. Usually the WebDriver
@@ -67,16 +69,6 @@ public class GaleniumContext {
   }
 
   /**
-   * A short description of current test.
-   *
-   * @param testDescription short description of test
-   * @since 3.0.0
-   */
-  public void setTestDescription(String testDescription) {
-    this.testDescription = testDescription;
-  }
-
-  /**
    * The test device is central to Galenium's WebDriver handling.
    *
    * @param testDevice device to use
@@ -84,16 +76,6 @@ public class GaleniumContext {
    */
   public void setTestDevice(TestDevice testDevice) {
     this.testDevice = testDevice;
-  }
-
-  /**
-   * Name to use in reporting.
-   *
-   * @param testName new test name
-   * @since 3.0.0
-   */
-  public void setTestName(String testName) {
-    this.testName = testName;
   }
 
   /**
@@ -120,13 +102,19 @@ public class GaleniumContext {
   }
 
   /**
-   * <p>getContext.</p>
+   * <p>
+   * getContext.
+   * </p>
    *
-   * @return {@link io.wcm.qa.glnm.util.GaleniumContext} object for this thread
+   * @return {@link io.wcm.qa.glnm.context.GaleniumContext} object for this thread
    * @since 4.0.0
    */
   public static GaleniumContext getContext() {
     return THREAD_LOCAL_CONTEXT.get();
+  }
+
+  private ExtensionContext getJunitContext() {
+    return junitContext;
   }
 
   /**
@@ -140,16 +128,6 @@ public class GaleniumContext {
   }
 
   /**
-   * <p>Getter for the field <code>testDescription</code>.</p>
-   *
-   * @return short description of the current test
-   * @since 3.0.0
-   */
-  public static String getTestDescription() {
-    return THREAD_LOCAL_CONTEXT.get().testDescription;
-  }
-
-  /**
    * <p>Getter for the field <code>testDevice</code>.</p>
    *
    * @return current test device for this thread
@@ -157,16 +135,6 @@ public class GaleniumContext {
    */
   public static TestDevice getTestDevice() {
     return THREAD_LOCAL_CONTEXT.get().testDevice;
-  }
-
-  /**
-   * <p>Getter for the field <code>testName</code>.</p>
-   *
-   * @return name of the current test used for reporting
-   * @since 3.0.0
-   */
-  public static String getTestName() {
-    return THREAD_LOCAL_CONTEXT.get().testName;
   }
 
   /**
@@ -189,6 +157,19 @@ public class GaleniumContext {
    */
   public static Object put(String key, Object customObject) {
     return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(key, customObject);
+  }
+
+  private void setJunitContext(ExtensionContext junitContext) {
+    this.junitContext = junitContext;
+  }
+
+  public static class ExtensionListener implements BeforeEachCallback {
+
+    @Override
+    public void beforeEach(ExtensionContext context) throws Exception {
+      THREAD_LOCAL_CONTEXT.get().setJunitContext(context);
+    }
+
   }
 
 }

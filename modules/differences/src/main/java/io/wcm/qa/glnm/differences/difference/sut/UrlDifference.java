@@ -22,9 +22,9 @@ package io.wcm.qa.glnm.differences.difference.sut;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.differences.base.DifferenceBase;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Uses current URL as difference.

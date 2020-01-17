@@ -25,6 +25,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -43,9 +45,11 @@ import com.galenframework.utils.GalenUtils;
 import com.google.common.html.HtmlEscapers;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
+import io.qameta.allure.model.StepResult;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility class containing methods handling reporting.
@@ -113,10 +117,83 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * <p>failStep.</p>
+   *
+   * @param step a {@link java.lang.String} object.
+   */
+  public static void failStep(String step) {
+    Allure.getLifecycle().updateStep(step, new FailStep());
+  }
+
+  /**
+   * <p>passStep.</p>
+   *
+   * @param step a {@link java.lang.String} object.
+   */
+  public static void passStep(String step) {
+    Allure.getLifecycle().updateStep(step, new PassStep());
+  }
+
+  /**
+   * <p>startStep.</p>
+   *
+   * @param name a {@link java.lang.String} object.
+   * @return a {@link java.lang.String} object.
+   */
+  public static String startStep(String name) {
+    String uuid = UUID.randomUUID().toString();
+    StepResult result = new StepResult().setName(name);
+    Allure.getLifecycle().startStep(uuid, result);
+    return uuid;
+  }
+
+  /**
+   * <p>startStep.</p>
+   *
+   * @param parentStep a {@link java.lang.String} object.
+   * @param stepName a {@link java.lang.String} object.
+   * @return a {@link java.lang.String} object.
+   */
+  public static String startStep(String parentStep, String stepName) {
+    String uuid = UUID.randomUUID().toString();
+    StepResult result = new StepResult().setName(stepName);
+    Allure.getLifecycle().startStep(parentStep, uuid, result);
+    return uuid;
+  }
+
+  /**
+   * <p>stopStep.</p>
+   */
+  public static void stopStep() {
+    Allure.getLifecycle().stopStep();
+  }
+
+  /**
+   * Adds a step for current test case to the report.
+   *
+   * @param stepName to use in report
+   */
+  public static void step(String stepName) {
+    LOG.info("STEP(" + stepName + ")");
+    Allure.step(stepName);
+  }
+
+  /**
+   * Adds a failed step for current test case to the report.
+   *
+   * @param stepName to use in report
+   */
+  public static void stepFailed(String stepName) {
+    LOG.info("FAILED_STEP(" + stepName + ")");
+    Allure.step(stepName, Status.FAILED);
+  }
+
+  /**
    * uses Galen functionality to get a full page screenshot by scrolling and
    * stitching.
    */
   public static void takeFullScreenshot() {
+    String step = startStep("taking full page screenshot");
     GalenConfig galenConfig = GalenConfig.getConfig();
     boolean fullPageScreenshotActivatedInGalen = galenConfig.getBooleanProperty(GalenProperty.SCREENSHOT_FULLPAGE);
     if (!fullPageScreenshotActivatedInGalen) {
@@ -128,6 +205,7 @@ public final class GaleniumReportUtil {
     try {
       File screenshotFile = GalenUtils.makeFullScreenshot(GaleniumContext.getDriver());
       handleScreenshotFile(screenshotFile);
+      passStep(step);
     }
     catch (IOException | InterruptedException ex) {
       LOG.error("Could not take full screenshot.", ex);
@@ -139,7 +217,7 @@ public final class GaleniumReportUtil {
         }
         galenConfig.setProperty(GalenProperty.SCREENSHOT_FULLPAGE, "false");
       }
-
+      stopStep();
     }
   }
 
@@ -161,9 +239,11 @@ public final class GaleniumReportUtil {
    * @since 4.0.0
    */
   public static void takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
-    LOG.debug("taking screenshot: " + takesScreenshot);
+    String step = startStep("taking screenshot: " + takesScreenshot);
     File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
     handleScreenshotFile(resultName, screenshotFile);
+    passStep(step);
+    stopStep();
   }
 
   /**
@@ -175,6 +255,16 @@ public final class GaleniumReportUtil {
   public static void takeScreenshot(TakesScreenshot takesScreenshot) {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
     takeScreenshot(randomAlphanumeric, takesScreenshot);
+  }
+
+  /**
+   * <p>updateStep.</p>
+   *
+   * @param step a {@link java.lang.String} object.
+   * @param update a {@link java.util.function.Consumer} object.
+   */
+  public static void updateStep(String step, Consumer<StepResult> update) {
+    Allure.getLifecycle().updateStep(step, update);
   }
 
   private static TakesScreenshot getTakesScreenshot() {
@@ -233,5 +323,24 @@ public final class GaleniumReportUtil {
       }
     }
     return true;
+  }
+
+  private static final class FailStep implements Consumer<StepResult> {
+
+    @Override
+    public void accept(StepResult t) {
+      t.setStatus(Status.FAILED);
+    }
+  }
+
+  private static final class PassStep implements Consumer<StepResult> {
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void accept(StepResult t) {
+      if (t.getStatus() == null) {
+        t.setStatus(Status.PASSED);
+      }
+    }
   }
 }

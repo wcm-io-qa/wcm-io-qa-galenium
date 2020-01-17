@@ -77,8 +77,8 @@
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-junit5</artifactId>
-      <!-- Should be hidden behind Galenium reporting API, transient dependency for now -->
-      <optional>false</optional>
+      <optional>true</optional>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>

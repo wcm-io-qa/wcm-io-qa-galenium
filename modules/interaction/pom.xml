@@ -48,6 +48,13 @@
     </dependency>
 
     <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit5</artifactId>
+      <optional>true</optional>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <optional>true</optional>

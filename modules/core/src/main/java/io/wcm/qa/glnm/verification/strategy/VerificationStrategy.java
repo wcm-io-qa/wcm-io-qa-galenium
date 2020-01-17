@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.verification.strategy;
 
-import org.junit.jupiter.api.Assertions;
-
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
