@@ -19,8 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.driver;
 
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.sampling.base.CachingBasedSampler;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Samples current URL from Webdriver.

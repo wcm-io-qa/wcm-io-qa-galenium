@@ -23,13 +23,13 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
 import io.wcm.qa.glnm.differences.difference.IntegerDifference;
 import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Browser and horizontal viewport size as differences.

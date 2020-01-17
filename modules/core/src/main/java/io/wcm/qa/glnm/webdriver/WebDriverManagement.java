@@ -21,7 +21,7 @@ package io.wcm.qa.glnm.webdriver;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isHeadless;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.isSuppressAutoAdjustBrowserSize;
-import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
+import static io.wcm.qa.glnm.context.GaleniumContext.getTestDevice;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -38,10 +38,10 @@ import org.slf4j.LoggerFactory;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.device.BrowserType;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility class to manage thread safe WebDriver instances.

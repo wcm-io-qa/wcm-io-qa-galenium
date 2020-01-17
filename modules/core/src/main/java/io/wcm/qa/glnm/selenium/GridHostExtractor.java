@@ -20,7 +20,7 @@
 package io.wcm.qa.glnm.selenium;
 
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

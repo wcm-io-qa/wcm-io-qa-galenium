@@ -29,8 +29,8 @@ import com.galenframework.config.GalenConfig;
 import com.galenframework.config.GalenProperty;
 import com.galenframework.utils.GalenUtils;
 
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Helper methods for dealing with Galen.

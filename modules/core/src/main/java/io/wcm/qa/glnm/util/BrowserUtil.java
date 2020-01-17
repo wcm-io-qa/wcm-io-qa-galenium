@@ -23,6 +23,7 @@ import static io.wcm.qa.glnm.device.BrowserType.CHROME;
 import static io.wcm.qa.glnm.device.BrowserType.FIREFOX;
 import static io.wcm.qa.glnm.device.BrowserType.IE;
 
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.device.BrowserType;
 import io.wcm.qa.glnm.device.TestDevice;
 

@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 
@@ -53,7 +54,7 @@ public class DefaultVerificationStrategy extends VerificationStrategyBase {
 
   @Override
   protected void handleSuccess(Verification verification) {
-    Allure.step(verification.getMessage());
+    GaleniumReportUtil.step(verification.getMessage());
   }
 
 }

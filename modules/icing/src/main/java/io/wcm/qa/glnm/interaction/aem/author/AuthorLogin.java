@@ -21,7 +21,7 @@ package io.wcm.qa.glnm.interaction.aem.author;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorUser;
-import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;

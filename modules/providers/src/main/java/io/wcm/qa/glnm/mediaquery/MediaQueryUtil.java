@@ -38,9 +38,9 @@ import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.configuration.PropertiesUtil;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Some convenience methods around  {@link io.wcm.qa.glnm.mediaquery.MediaQuery}.

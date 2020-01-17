@@ -19,8 +19,7 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Stack;
 
 import com.galenframework.specs.Spec;
 import com.galenframework.specs.page.PageSection;
@@ -28,120 +27,153 @@ import com.galenframework.suite.GalenPageAction;
 import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationResult;
 
-final class TracingValidationListener extends AllureValidationListener {
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
-  private static final Logger LOG = LoggerFactory.getLogger(TracingValidationListener.class);
+class AllureValidationListener extends NoOpValidationListener {
+
+  private Stack<String> stepStack = new Stack<String>();
+  private String parentStep;
 
   /**
-   * <p>Constructor for TracingValidationListener.</p>
+   * <p>Constructor for AllureValidationListener.</p>
    *
    * @param uuid a {@link java.lang.String} object.
    */
-  public TracingValidationListener(String uuid) {
-    super(uuid);
+  public AllureValidationListener(String uuid) {
+    parentStep = uuid;
   }
 
   /** {@inheritDoc} */
   @Override
   public void onAfterObject(PageValidation pageValidation, String objectName) {
-    super.onAfterObject(pageValidation, objectName);
-    LOG.trace("AfterObject(object:" + objectName + ")");
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onAfterPageAction(GalenPageAction action) {
-    super.onAfterPageAction(action);
-    LOG.trace("AfterPageAction(GalenPageAction action)");
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onAfterSection(PageValidation pageValidation, PageSection pageSection) {
-    super.onAfterSection(pageValidation, pageSection);
-    LOG.trace("AfterSection(pageSection:" + pageSection.getName() + ")");
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onAfterSpecGroup(PageValidation pageValidation, String specGroupName) {
-    LOG.trace("AfterSpecGroup(specGroup:" + specGroupName + ")");
-    super.onAfterSpecGroup(pageValidation, specGroupName);
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onAfterSubLayout(PageValidation pageValidation, String objectName) {
-    LOG.trace("AfterSubLayout(object:" + objectName + ")");
-    super.onAfterSubLayout(pageValidation, objectName);
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onBeforePageAction(GalenPageAction action) {
-    LOG.trace("BeforePageAction(GalenPageAction action)");
-    super.onBeforePageAction(action);
+    nestedStep(action.getOriginalCommand());
   }
 
   /** {@inheritDoc} */
   @Override
   public void onBeforeSection(PageValidation pageValidation, PageSection pageSection) {
-    LOG.trace("BeforeSection(pageSection:" + pageSection.getName() + ")");
-    super.onBeforeSection(pageValidation, pageSection);
+    if (stepStack.isEmpty()) {
+      rootStep(pageSection.getName());
+      return;
+    }
+    nestedStep(pageSection.getName());
   }
 
   /** {@inheritDoc} */
   @Override
   public void onBeforeSpec(PageValidation pageValidation, String objectName, Spec spec) {
-    LOG.trace("BeforeSpec(object:" + objectName + ", Spec spec)");
-    super.onBeforeSpec(pageValidation, objectName, spec);
+    nestedStep(generateStepName(objectName, spec));
   }
 
   /** {@inheritDoc} */
   @Override
   public void onGlobalError(Exception e) {
-    LOG.trace("GlobalError(" + e.getMessage() + ")");
-    super.onGlobalError(e);
+    // not sure how to handle, so doing nothing
   }
 
   /** {@inheritDoc} */
   @Override
   public void onObject(PageValidation pageValidation, String objectName) {
-    LOG.trace("Object(object:" + objectName + ")");
-    super.onObject(pageValidation, objectName);
+    nestedStep(objectName);
   }
 
   /** {@inheritDoc} */
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
-    LOG.trace("SpecError(object:" + objectName + ", Spec spec, ValidationResult validationResult)");
-    super.onSpecError(pageValidation, objectName, spec, validationResult);
+    for (String step : stepStack) {
+      GaleniumReportUtil.failStep(step);
+    }
+    GaleniumReportUtil.failStep(parentStep);
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onSpecGroup(PageValidation pageValidation, String specGroupName) {
-    LOG.trace("SpecGroup(specGroup:" + "specGroupName" + ")");
-    super.onSpecGroup(pageValidation, specGroupName);
+    nestedStep(specGroupName);
   }
 
   /** {@inheritDoc} */
   @Override
   public void onSpecSuccess(PageValidation pageValidation, String objectName, Spec spec, ValidationResult validationResult) {
-    LOG.trace("SpecSuccess(object:" + objectName + ", Spec spec, ValidationResult validationResult)");
-    super.onSpecSuccess(pageValidation, objectName, spec, validationResult);
+    for (String step : stepStack) {
+      GaleniumReportUtil.passStep(step);
+    }
+    GaleniumReportUtil.passStep(parentStep);
+    stopStep();
   }
 
   /** {@inheritDoc} */
   @Override
   public void onSubLayout(PageValidation pageValidation, String objectName) {
-    LOG.trace("SubLayout(object:" + objectName + ")");
-    super.onSubLayout(pageValidation, objectName);
+    nestedStep(objectName);
   }
 
   /** {@inheritDoc} */
   @Override
   public String toString() {
-    return "Tracing Validation Listener";
+    return "Allure Validation Listener";
   }
+
+  private String currentStep() {
+    return stepStack.peek();
+  }
+
+  private String generateStepName(String objectName, Spec spec) {
+    return objectName + " " + spec.toText();
+  }
+
+  private void nestedStep(String stepName) {
+    String uuid = GaleniumReportUtil.startStep(currentStep(), stepName);
+    pushStep(uuid);
+  }
+
+  private String popStep() {
+    return stepStack.pop();
+  }
+
+  private void pushStep(String uuid) {
+    stepStack.push(uuid);
+  }
+
+  private void rootStep(String stepName) {
+    String uuid = GaleniumReportUtil.startStep(parentStep, stepName);
+    pushStep(uuid);
+  }
+
+  private void stopStep() {
+    GaleniumReportUtil.stopStep();
+    popStep();
+  }
+
 }

@@ -19,10 +19,11 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import static io.wcm.qa.glnm.context.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
-import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,11 +32,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
@@ -59,6 +63,24 @@ final class GalenSpecUtil {
 
   private GalenSpecUtil() {
     // do not instantiate
+  }
+
+  static SectionFilter getSectionFilter(String... tags) {
+    if (ArrayUtils.isEmpty(tags)) {
+      return getDefaultIncludeTags();
+    }
+    SectionFilter sectionFilter = getDefaultIncludeTags();
+    List<String> includedTags = sectionFilter.getIncludedTags();
+    if (CollectionUtils.isEmpty(includedTags)) {
+      sectionFilter.setIncludedTags(Arrays.asList(tags));
+    } else {
+      CollectionUtils.addAll(includedTags, tags);
+    }
+    return sectionFilter;
+  }
+
+  static GalenSpecRun createRun(GalenSpec spec, LayoutReport report) {
+    return new GalenSpecRun(spec, report);
   }
 
   private static String cleanName(String name) {

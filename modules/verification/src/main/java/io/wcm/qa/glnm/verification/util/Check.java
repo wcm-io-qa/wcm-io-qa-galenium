@@ -19,12 +19,13 @@
  */
 package io.wcm.qa.glnm.verification.util;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getVerificationStrategy;
+import static io.wcm.qa.glnm.context.GaleniumContext.getVerificationStrategy;
 
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
- * Handles verification using the strategy from  {@link io.wcm.qa.glnm.util.GaleniumContext#getVerificationStrategy()}.
+ * Handles verification using the strategy from
+ * {@link io.wcm.qa.glnm.context.GaleniumContext#getVerificationStrategy()}.
  *
  * @since 1.0.0
  */
@@ -35,7 +36,8 @@ public final class Check {
   }
 
   /**
-   * Uses  {@link io.wcm.qa.glnm.verification.strategy.VerificationStrategy} from  {@link io.wcm.qa.glnm.util.GaleniumContext} to handle a list of verifications.
+   * Uses {@link io.wcm.qa.glnm.verification.strategy.VerificationStrategy} from
+   * {@link io.wcm.qa.glnm.context.GaleniumContext} to handle a list of verifications.
    *
    * @param verifications to verify
    * @since 2.0.0

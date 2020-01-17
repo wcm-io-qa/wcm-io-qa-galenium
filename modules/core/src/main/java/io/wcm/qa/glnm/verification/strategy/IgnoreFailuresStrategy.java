@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.verification.strategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.qameta.allure.Allure;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.verification.base.Verification;
 
 /**
@@ -36,7 +36,7 @@ public class IgnoreFailuresStrategy extends DefaultVerificationStrategy {
 
   @Override
   protected void handleFailure(Verification verification) {
-    Allure.step(verification.getMessage());
+    GaleniumReportUtil.step(verification.getMessage());
     if (verification.getException() != null) {
       LOG.info(verification.getMessage(), verification.getException());
     }

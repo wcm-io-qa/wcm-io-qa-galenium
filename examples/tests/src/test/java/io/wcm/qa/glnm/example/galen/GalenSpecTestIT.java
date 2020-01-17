@@ -22,12 +22,16 @@ package io.wcm.qa.glnm.example.galen;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getBaseUrl;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import io.qameta.allure.Description;
+import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.device.TestDeviceUtil;
 import io.wcm.qa.glnm.example.specs.Homepage;
+import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.interaction.Browser;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
@@ -45,15 +49,23 @@ class GalenSpecTestIT {
   }
 
   @Test
-  @Description("Testing Homepage")
+  @DisplayName("Testing Homepage")
   void checkHomepageWithGalenSpec() {
-    Browser.load(getBaseUrl() + getRelativePath());
+    Browser.load(getBaseUrl() + PATH_TO_HOMEPAGE);
 
     Homepage.check();
   }
 
-  protected String getRelativePath() {
-    return PATH_TO_HOMEPAGE;
+  @ParameterizedTest(name = "Testing {0} with {1}")
+  @CsvSource(value = {
+      "/en.html,/homepage.gspec",
+      "/en/conference.html,/conference.gspec",
+      "/en/conference.html,/homepage.gspec"
+  })
+  void checkPageWithGalenSpec(String url, String specPath) {
+    Browser.load(getBaseUrl() + url);
+
+    GalenValidation.check(GaleniumConfiguration.getGalenSpecPath() + specPath);
   }
 
 }
