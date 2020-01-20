@@ -39,7 +39,7 @@ class AllureValidationListener extends NoOpValidationListener {
    *
    * @param uuid a {@link java.lang.String} object.
    */
-  public AllureValidationListener(String uuid) {
+  AllureValidationListener(String uuid) {
     parentStep = uuid;
   }
 

@@ -23,9 +23,6 @@ public class ${classNameForSpec} {
 
   private static final String RELATIVE_PATH = "${spec.relativeFilePath}";
 
-<#if spec.tags??>
-  private Collection<String> tags = new ArrayList<>();</#if>
-
   private void checkSpec() {
     checkSpec((String[])null);
   }

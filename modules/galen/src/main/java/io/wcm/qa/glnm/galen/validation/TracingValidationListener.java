@@ -37,7 +37,7 @@ final class TracingValidationListener extends AllureValidationListener {
    *
    * @param uuid a {@link java.lang.String} object.
    */
-  public TracingValidationListener(String uuid) {
+  TracingValidationListener(String uuid) {
     super(uuid);
   }
 
