@@ -84,6 +84,10 @@
     <!-- Galen -->
     <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
 
+    <!-- Maven plugins -->
+    <maven-failsafe-plugin.version>3.0.0-M4</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+
   </properties>
 
   <build>
