@@ -64,8 +64,7 @@ public final class ContentPathProvider {
   /**
    * @return all pages created with the example application
    */
-  public static Object[][] allPages() {
-    LOG.debug("Data providing: " + ALL_PAGES);
+  public static Collection<String> collectHtmlPaths() {
     File directory = new File(WEBAPP_CONTENT_PATH);
     if (!directory.isDirectory()) {
       LOG.warn("not a directory: " + directory);
@@ -78,6 +77,6 @@ public final class ContentPathProvider {
       LOG.debug("found: " + file);
       htmlFilePaths.add(file.getPath());
     }
-    return TestNgProviderUtil.combine(htmlFilePaths);
+    return htmlFilePaths;
   }
 }

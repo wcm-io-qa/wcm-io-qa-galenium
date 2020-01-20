@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.example.galen;
 
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getBaseUrl;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.device.TestDeviceUtil;
 import io.wcm.qa.glnm.example.specs.Homepage;
+import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.interaction.Browser;
 import io.wcm.qa.glnm.webdriver.WebDriverManagement;
@@ -40,7 +42,7 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
  */
 class GalenSpecTestIT {
 
-  private static final String PATH_TO_HOMEPAGE = "/en.html";
+  private static final String PATH_TO_HOMEPAGE = io.wcm.qa.glnm.example.pageobjects.Homepage.PATH_TO_HOMEPAGE;
 
   @BeforeEach
   void initDriver() {
@@ -65,7 +67,8 @@ class GalenSpecTestIT {
   void checkPageWithGalenSpec(String url, String specPath) {
     Browser.load(getBaseUrl() + url);
 
-    GalenValidation.check(GaleniumConfiguration.getGalenSpecPath() + specPath);
+    GalenSpecRun check = GalenValidation.check(GaleniumConfiguration.getGalenSpecPath() + specPath);
+    MatcherAssert.assertThat(specPath + " is clean", check.isClean());
   }
 
 }
