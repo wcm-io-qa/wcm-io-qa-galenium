@@ -62,15 +62,6 @@ public class LoggingExtension
     screenshot();
   }
 
-  private static void screenshot() {
-    try {
-      GaleniumReportUtil.takeScreenshot();
-    }
-    catch (GaleniumException ex) {
-      LOG.info("Cannot take Screenshot: " + ex.getMessage());
-    }
-  }
-
   /** {@inheritDoc} */
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
@@ -86,6 +77,15 @@ public class LoggingExtension
     String displayName = context.getDisplayName();
     String sanitized = NameUtil.getSanitized(displayName, 120);
     LOG.debug(sanitized + ": Start in thread " + Thread.currentThread().getName());
+  }
+
+  private static void screenshot() {
+    try {
+      GaleniumReportUtil.takeScreenshot();
+    }
+    catch (GaleniumException ex) {
+      LOG.info("Cannot take Screenshot: " + ex.getMessage());
+    }
   }
 
 }
