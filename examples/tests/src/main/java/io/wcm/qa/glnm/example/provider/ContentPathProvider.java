@@ -28,7 +28,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.providers.TestNgProviderUtil;
 import io.wcm.qa.glnm.sampling.Sampler;
 import io.wcm.qa.glnm.sampling.aem.AllPagesForTemplateSampler;
 
@@ -55,10 +54,10 @@ public final class ContentPathProvider {
   /**
    * @return all pages created with the example application
    */
-  public static Object[][] allPagesForTemplates() {
+  public static Iterable<String> allPagesForTemplates() {
     LOG.debug("Data providing: " + ALL_PAGES_FOR_EXAMPLE_TEMPLATES);
-    Sampler<Iterable> sampler = new AllPagesForTemplateSampler(TEMPLATE_NAME_PATTERN, ROOT_PATH);
-    return TestNgProviderUtil.fromSampler(sampler);
+    Sampler<Iterable<String>> sampler = new AllPagesForTemplateSampler(TEMPLATE_NAME_PATTERN, ROOT_PATH);
+    return sampler.sampleValue();
   }
 
   /**
