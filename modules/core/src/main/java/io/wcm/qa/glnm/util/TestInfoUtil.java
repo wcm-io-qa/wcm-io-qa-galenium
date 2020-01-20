@@ -52,7 +52,7 @@ public final class TestInfoUtil {
    *
    * @param resultName to clean
    * @return testname containing only characters matched by <i>[-_A-Za-z0-9]</i>
-   * @since 4.0.0
+   * @since 5.0.0
    */
   public static String getAlphanumericTestName(String resultName) {
     return resultName.replaceAll("[^-A-Za-z0-9]", "_");
