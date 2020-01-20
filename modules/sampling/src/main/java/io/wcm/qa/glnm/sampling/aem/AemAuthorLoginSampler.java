@@ -148,7 +148,7 @@ public class AemAuthorLoginSampler extends JsoupCookieSampler {
   }
 
   @Override
-  protected Map fetchCookies() {
+  protected Map<String, String> fetchCookies() {
     Connection jsoupConnection = getJsoupConnection();
     if (needsXhr()) {
       openXhrConnection(jsoupConnection);

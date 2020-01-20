@@ -73,6 +73,7 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   private Map<String, String> propertiesStrict = new HashMap<String, String>();
   private String protocol = "http";
   private String userName = "admin";
+
   /**
    * Constructor.
    */
@@ -315,7 +316,6 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     }
   }
 
-  @SuppressWarnings("unchecked")
   protected Sampler<Map<String, String>> getCookieSampler() {
     String url = getProtocol() + "://" + getHostName();
     AemAuthorLoginSampler loginSampler = new AemAuthorLoginSampler(url, getPort());
