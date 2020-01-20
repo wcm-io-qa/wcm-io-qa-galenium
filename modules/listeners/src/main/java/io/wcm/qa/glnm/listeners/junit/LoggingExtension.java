@@ -28,6 +28,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.format.NameUtil;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
@@ -58,7 +59,16 @@ public class LoggingExtension
   /** {@inheritDoc} */
   @Override
   public void afterTestExecution(ExtensionContext context) {
-    GaleniumReportUtil.takeScreenshot();
+    screenshot();
+  }
+
+  private static void screenshot() {
+    try {
+      GaleniumReportUtil.takeScreenshot();
+    }
+    catch (GaleniumException ex) {
+      LOG.info("Cannot take Screenshot: " + ex.getMessage());
+    }
   }
 
   /** {@inheritDoc} */
