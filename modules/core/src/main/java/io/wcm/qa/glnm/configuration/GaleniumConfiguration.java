@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -855,17 +854,21 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * throw {@link java.lang.NullPointerException}
+   * {@link io.wcm.qa.glnm.selenium.RunMode#LOCAL}
    * </pre>
    *
    * </li>
    * </ul>
    *
-   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @return {@link io.wcm.qa.glnm.selenium.RunMode} used
    * @since 3.0.0
    */
   public static RunMode getRunMode() {
-    return RunMode.valueOf(asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE).toUpperCase());
+    String runModeAsString = asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE);
+    if (StringUtils.isBlank(runModeAsString)) {
+      return RunMode.LOCAL;
+    }
+    return RunMode.valueOf(runModeAsString.toUpperCase());
   }
 
   /**
@@ -1366,17 +1369,6 @@ public final class GaleniumConfiguration {
 
   private static boolean asBoolean(String systemPropertyName) {
     return Boolean.getBoolean(systemPropertyName);
-  }
-
-  private static File asFile(String systemPropertyName) {
-    String filePath = asString(systemPropertyName);
-    if (StringUtils.isNotBlank(filePath)) {
-      File file = new File(filePath);
-      if (file.isFile()) {
-        return file;
-      }
-    }
-    return null;
   }
 
   private static Integer asInteger(String systemPropertyName, int defaultValue) {
