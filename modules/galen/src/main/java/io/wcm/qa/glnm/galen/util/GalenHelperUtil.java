@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.galen.util;
 
-import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getDriver;
-
 import org.openqa.selenium.Dimension;
 
 import com.galenframework.browser.Browser;
@@ -30,7 +28,6 @@ import com.galenframework.config.GalenProperty;
 import com.galenframework.utils.GalenUtils;
 
 import io.wcm.qa.glnm.context.GaleniumContext;
-import io.wcm.qa.glnm.device.TestDevice;
 
 /**
  * Helper methods for dealing with Galen.
@@ -51,17 +48,6 @@ public final class GalenHelperUtil {
    */
   public static Browser getBrowser() {
     return new SeleniumBrowser(GaleniumContext.getDriver());
-  }
-
-  /**
-   * Turns test device into {@link com.galenframework.browser.SeleniumBrowser} as expected by Galen.
-   *
-   * @param device to turn into browser
-   * @return browser object for use with Galen
-   * @since 4.0.0
-   */
-  public static Browser getBrowser(TestDevice device) {
-    return new SeleniumBrowser(getDriver(device));
   }
 
   /**

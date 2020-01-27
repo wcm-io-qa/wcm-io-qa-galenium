@@ -110,8 +110,9 @@
 
       <dependency>
         <groupId>io.github.bonigarcia</groupId>
-        <artifactId>webdrivermanager</artifactId>
-        <version>3.7.1</version>
+        <artifactId>selenium-jupiter</artifactId>
+        <version>3.3.4</version>
+        <scope>test</scope>
       </dependency>
 
       <dependency>
