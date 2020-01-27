@@ -26,11 +26,7 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;
 
-import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.verification.strategy.DefaultVerificationStrategy;
-import io.wcm.qa.glnm.verification.strategy.IgnoreFailuresStrategy;
-import io.wcm.qa.glnm.verification.strategy.VerificationStrategy;
 
 /**
  * Keeps important data for each thread. Simplifies integration without need for rigid inheritance hierarchies. Takes a
@@ -50,9 +46,6 @@ public class GaleniumContext {
   private Map<String, Object> additionalMappings = new HashMap<String, Object>();
   private WebDriver driver;
   private TestDevice testDevice;
-  private VerificationStrategy verificationStrategy = GaleniumConfiguration.isSamplingVerificationIgnore()
-      ? new IgnoreFailuresStrategy()
-      : new DefaultVerificationStrategy();
 
   private ExtensionContext junitContext;
 
@@ -76,17 +69,6 @@ public class GaleniumContext {
    */
   public void setTestDevice(TestDevice testDevice) {
     this.testDevice = testDevice;
-  }
-
-  /**
-   * Different kinds of  {@link io.wcm.qa.glnm.verification.base.Verification} can all use the same strategy. This allows to ignore failures when
-   * collecting samples to compare against in future runs.
-   *
-   * @param verificationStrategy strategy to use
-   * @since 3.0.0
-   */
-  public void setVerificationStrategy(VerificationStrategy verificationStrategy) {
-    this.verificationStrategy = verificationStrategy;
   }
 
   /**
@@ -135,16 +117,6 @@ public class GaleniumContext {
    */
   public static TestDevice getTestDevice() {
     return THREAD_LOCAL_CONTEXT.get().testDevice;
-  }
-
-  /**
-   * <p>Getter for the field <code>verificationStrategy</code>.</p>
-   *
-   * @return verification strategy to use
-   * @since 3.0.0
-   */
-  public static VerificationStrategy getVerificationStrategy() {
-    return THREAD_LOCAL_CONTEXT.get().verificationStrategy;
   }
 
   /**
