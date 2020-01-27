@@ -86,13 +86,7 @@ public class MutableDifferences implements Differences {
 
   /** {@inheritDoc} */
   @Override
-  public String asFilePath() {
-    return joinTagsWith("/");
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String asPropertyKey() {
+  public String getKey() {
     return joinTagsWith(".");
   }
 
@@ -138,10 +132,8 @@ public class MutableDifferences implements Differences {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("differences: [");
     stringBuilder.append(joinNamesWith("]|["));
-    stringBuilder.append("], asPropertyKey: '");
-    stringBuilder.append(asPropertyKey());
-    stringBuilder.append("', asFilePath: '");
-    stringBuilder.append(asFilePath());
+    stringBuilder.append("], key: '");
+    stringBuilder.append(getKey());
     stringBuilder.append("'");
     return stringBuilder.toString();
   }

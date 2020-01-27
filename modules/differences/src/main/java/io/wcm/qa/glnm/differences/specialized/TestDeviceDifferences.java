@@ -63,14 +63,8 @@ public class TestDeviceDifferences implements Differences {
 
   /** {@inheritDoc} */
   @Override
-  public String asFilePath() {
-    return getDifferences().asFilePath();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String asPropertyKey() {
-    return getDifferences().asPropertyKey();
+  public String getKey() {
+    return getDifferences().getKey();
   }
 
   /** {@inheritDoc} */
