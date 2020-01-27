@@ -68,16 +68,9 @@ public class PackageDifferences implements Differences {
 
   /** {@inheritDoc} */
   @Override
-  public String asFilePath() {
+  public String getKey() {
     initialize();
-    return getDifferences().asFilePath();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String asPropertyKey() {
-    initialize();
-    return getDifferences().asPropertyKey();
+    return getDifferences().getKey();
   }
 
   /**
