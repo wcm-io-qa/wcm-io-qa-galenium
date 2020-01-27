@@ -24,22 +24,11 @@ import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getWait;
 import java.util.function.Function;
 
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.sampling.CanCache;
-import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.verification.base.Verifiable;
-import io.wcm.qa.glnm.verification.base.Verification;
-import io.wcm.qa.glnm.verification.base.VerificationBase;
-import io.wcm.qa.glnm.verification.element.InvisibilityVerification;
-import io.wcm.qa.glnm.verification.element.TextVerification;
-import io.wcm.qa.glnm.verification.element.VisibilityVerification;
 
 /**
  * Wraps WebDriverWait functionalities.
@@ -54,42 +43,6 @@ public final class Wait {
 
   private Wait() {
     // do not instantiate
-  }
-
-  /**
-   * Waits for {@link io.wcm.qa.glnm.verification.base.Verifiable} or
-   * {@link io.wcm.qa.glnm.verification.base.Verification}.
-   *
-   * @param condition to wait for
-   * @since 1.0.0
-   */
-  public static void forCondition(Verifiable condition) {
-    forCondition(condition, DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * Waits for {@link io.wcm.qa.glnm.verification.base.Verifiable} or
-   * {@link io.wcm.qa.glnm.verification.base.Verification}.
-   *
-   * @param condition to wait for
-   * @param timeout how many seconds to wait
-   * @since 1.0.0
-   */
-  public static void forCondition(Verifiable condition, int timeout) {
-    forCondition(condition, getWait(timeout));
-  }
-
-  /**
-   * Waits for {@link io.wcm.qa.glnm.verification.base.Verifiable} or
-   * {@link io.wcm.qa.glnm.verification.base.Verification}.
-   *
-   * @param condition to wait for
-   * @param timeOut how many seconds to wait
-   * @param pollingInterval how many milliseconds between attempts
-   * @since 1.0.0
-   */
-  public static void forCondition(Verifiable condition, int timeOut, int pollingInterval) {
-    forCondition(condition, getWait(timeOut, pollingInterval));
   }
 
   /**
@@ -110,71 +63,6 @@ public final class Wait {
   public static void forDomReady(int timeOutInSeconds) {
     WebDriverWait wait = getWait(timeOutInSeconds);
     wait.until(driver -> ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete"));
-  }
-
-  /**
-   * Wait for element to be invisible or not in page.
-   *
-   * @param selector identifies element
-   * @since 1.0.0
-   */
-  public static void forInvisibility(Selector selector) {
-    forCondition(new InvisibilityVerification(selector), DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * Wait for element to be invisible or not in page.
-   *
-   * @param selector identifies element
-   * @param timeout how many seconds to wait
-   * @since 1.0.0
-   */
-  public static void forInvisibility(Selector selector, int timeout) {
-    forCondition(new InvisibilityVerification(selector), timeout);
-  }
-
-  /**
-   * Wait for element to display text from expected properties.
-   *
-   * @param selector identifies element
-   * @since 1.0.0
-   */
-  public static void forText(Selector selector) {
-    forText(selector, null, DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * Wait for element to display text from expected properties.
-   *
-   * @param selector identifies element
-   * @param timeout how many seconds to wait
-   * @since 1.0.0
-   */
-  public static void forText(Selector selector, int timeout) {
-    forText(selector, null, timeout);
-  }
-
-  /**
-   * Wait for element to display text.
-   *
-   * @param selector identifies element
-   * @param text to match
-   * @since 1.0.0
-   */
-  public static void forText(Selector selector, String text) {
-    forText(selector, text, DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * Wait for element to display text.
-   *
-   * @param selector identifies element
-   * @param text to match
-   * @param timeout how many seconds to wait
-   * @since 1.0.0
-   */
-  public static void forText(Selector selector, String text, int timeout) {
-    forCondition(new TextVerification(selector, text), timeout);
   }
 
   /**
@@ -199,84 +87,6 @@ public final class Wait {
     WebDriverWait wait = getWait(timeOutInSeconds);
     wait.until((Function<? super WebDriver, Boolean>)ExpectedConditions.urlToBe(url));
     LOG.trace("found URL: '" + url + "'");
-  }
-
-  /**
-   * Wait for element to be visible.
-   *
-   * @param selector identifies element
-   * @since 1.0.0
-   */
-  public static void forVisibility(Selector selector) {
-    forCondition(new VisibilityVerification(selector), DEFAULT_TIMEOUT);
-  }
-
-  /**
-   * Wait for element to be visible.
-   *
-   * @param selector identifies element
-   * @param timeout how many seconds to wait
-   * @since 1.0.0
-   */
-  public static void forVisibility(Selector selector, int timeout) {
-    forCondition(new VisibilityVerification(selector), timeout);
-  }
-
-  private static void forCondition(Verifiable condition, WebDriverWait wait) {
-    VerifiableExpectedCondition verifiableCondition = new VerifiableExpectedCondition(condition);
-    try {
-      wait.until(verifiableCondition);
-    }
-    catch (TimeoutException ex) {
-      if (verifiableCondition.isVerification()) {
-        Verification verification = (Verification)verifiableCondition.getVerifiable();
-        if (verification instanceof VerificationBase) {
-          if (((VerificationBase)verification).isVerified()) {
-            if (LOG.isDebugEnabled()) {
-              LOG.debug("Time out, but verification not failing: " + verification.getMessage());
-            }
-            return;
-          }
-        }
-        throw new GaleniumException(verification.getMessage(), ex);
-      }
-      throw ex;
-    }
-  }
-
-  private static final class VerifiableExpectedCondition implements Function<WebDriver, Boolean> {
-
-    private final Verifiable condition;
-
-    private VerifiableExpectedCondition(Verifiable condition) {
-      this.condition = condition;
-      if (condition instanceof CanCache) {
-        CanCache verification = (CanCache)condition;
-        LOG.debug("disable caching for '" + verification + "' verification");
-        verification.setCaching(false);
-        if (verification.isCaching()) {
-          LOG.warn("waiting for a caching verification is not a sensible thing to do. Offending verification: '" + verification + "'");
-        }
-      }
-    }
-
-    @Override
-    public Boolean apply(WebDriver arg0) {
-      return this.condition.verify();
-    }
-
-    public Verifiable getVerifiable() {
-      return condition;
-    }
-
-    public boolean isVerification() {
-      return getVerifiable() instanceof Verification;
-    }
-
-    @Override
-    public String toString() {
-      return super.toString() + ": '" + condition + "'";
-    }
   }
 
 }

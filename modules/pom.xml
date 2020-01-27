@@ -40,7 +40,6 @@
     <module>providers</module>
     <module>sampling</module>
     <module>selectors</module>
-    <module>verification</module>
   </modules>
 
   <build>
