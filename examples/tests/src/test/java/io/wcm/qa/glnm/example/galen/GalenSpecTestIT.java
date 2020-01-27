@@ -22,20 +22,18 @@ package io.wcm.qa.glnm.example.galen;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getBaseUrl;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
-import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.device.TestDeviceUtil;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.example.specs.Homepage;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 import io.wcm.qa.glnm.galen.validation.GalenValidation;
 import io.wcm.qa.glnm.interaction.Browser;
-import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
@@ -43,12 +41,6 @@ import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 class GalenSpecTestIT {
 
   private static final String PATH_TO_HOMEPAGE = io.wcm.qa.glnm.example.pageobjects.Homepage.PATH_TO_HOMEPAGE;
-
-  @BeforeEach
-  void initDriver() {
-    TestDevice testDevice = TestDeviceUtil.getSingleTestDevice();
-    WebDriverManagement.getDriver(testDevice);
-  }
 
   @Test
   @DisplayName("Testing Homepage")
@@ -64,7 +56,8 @@ class GalenSpecTestIT {
       "/en/conference.html,/conference.gspec",
       "/en/conference.html,/homepage.gspec"
   })
-  void checkPageWithGalenSpec(String url, String specPath) {
+  void checkPageWithGalenSpec(String url, String specPath, ChromeDriver driver) {
+    GaleniumContext.getContext().setDriver(driver);
     Browser.load(getBaseUrl() + url);
 
     GalenSpecRun check = GalenValidation.check(GaleniumConfiguration.getGalenSpecPath() + specPath);
