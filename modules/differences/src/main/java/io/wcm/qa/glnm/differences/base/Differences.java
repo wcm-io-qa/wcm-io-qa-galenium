@@ -28,17 +28,12 @@ package io.wcm.qa.glnm.differences.base;
 public interface Differences extends Iterable<Difference> {
 
   /**
-   * <p>asFilePath.</p>
-   *
-   * @return differences' tags concatenated with '/' and/or '-'
-   */
-  String asFilePath();
-
-  /**
-   * <p>asPropertyKey.</p>
+   * <p>
+   * Key as defined by these differences.
+   * </p>
    *
    * @return differences' tags concatenated with '.'
    */
-  String asPropertyKey();
+  String getKey();
 
 }

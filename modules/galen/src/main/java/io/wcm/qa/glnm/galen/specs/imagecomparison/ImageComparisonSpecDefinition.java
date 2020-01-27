@@ -219,7 +219,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
     stringBuilder.append("/");
-    stringBuilder.append(getDifferences().asFilePath());
+    stringBuilder.append(getDifferences().getKey().replace('.', '/'));
     return stringBuilder.toString();
   }
 
