@@ -201,6 +201,12 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <inherited>false</inherited>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
