@@ -37,7 +37,6 @@
     <module>icing</module>
     <module>interaction</module>
     <module>listeners</module>
-    <module>providers</module>
     <module>sampling</module>
     <module>selectors</module>
   </modules>
