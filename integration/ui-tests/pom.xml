@@ -384,6 +384,13 @@
               <dependencySourceIncludes>
                 <dependencySourceInclude>io.wcm.qa:*</dependencySourceInclude>
               </dependencySourceIncludes>
+              <additionalDependencies>
+                <additionalDependency>
+                  <groupId>com.galenframework</groupId>
+                  <artifactId>galen-java-support</artifactId>
+                  <version>2.4.4</version>
+                </additionalDependency>
+              </additionalDependencies>
             </configuration>
           </reportSet>
         </reportSets>
