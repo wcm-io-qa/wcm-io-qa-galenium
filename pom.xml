@@ -40,7 +40,6 @@
   </scm>
 
   <modules>
-    <module>examples</module>
     <module>integration</module>
     <module>maven/archetype</module>
     <module>maven/specs-plugin</module>
