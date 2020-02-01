@@ -38,7 +38,7 @@ import io.wcm.qa.glnm.interaction.Browser;
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
-class GalenSpecTestIT {
+class GalenSpecTest {
 
   private static final String PATH_TO_HOMEPAGE = io.wcm.qa.glnm.example.pageobjects.Homepage.PATH_TO_HOMEPAGE;
 
