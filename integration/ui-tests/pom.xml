@@ -175,6 +175,18 @@
       <version>4.0.0-alpha-4</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version> 2.0.0-alpha1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version> 2.0.0-alpha1</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -206,7 +218,7 @@
         <!-- Run UI tests -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
+          <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
 
             <systemPropertyVariables>
@@ -313,56 +325,6 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <profiles>
-
-    <!-- If Chrome binary path is set, it needs to be set in Failsafe. -->
-    <profile>
-      <id>chrome-binary-path</id>
-      <activation>
-        <property>
-          <name>webdriver.chrome.binary</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <systemPropertyVariables>
-                <webdriver.chrome.binary>${webdriver.chrome.binary}</webdriver.chrome.binary>
-              </systemPropertyVariables>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!-- If Firefox binary path is set, it needs to be set in Failsafe. -->
-    <profile>
-      <id>firefox-binary-path</id>
-      <activation>
-        <property>
-          <name>webdriver.firefox.bin</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <systemPropertyVariables>
-                <webdriver.firefox.bin>${webdriver.firefox.bin}</webdriver.firefox.bin>
-              </systemPropertyVariables>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-  </profiles>
 
   <reporting>
     <plugins>
