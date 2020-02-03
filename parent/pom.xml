@@ -211,7 +211,7 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
-        <version>5.6.0</version>
+        <version>5.5.2</version>
         <scope>test</scope>
       </dependency>
 
@@ -236,7 +236,7 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-api</artifactId>
-        <version>4.0.0-alpha-4</version>
+        <version>3.141.59</version>
         <exclusions>
           <exclusion>
             <groupId>org.apache.commons</groupId>
@@ -248,7 +248,7 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-chrome-driver</artifactId>
-        <version>4.0.0-alpha-4</version>
+        <version>3.141.59</version>
         <exclusions>
           <exclusion>
             <groupId>org.apache.commons</groupId>
@@ -260,19 +260,19 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-firefox-driver</artifactId>
-        <version>4.0.0-alpha-4</version>
+        <version>3.141.59</version>
       </dependency>
 
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-ie-driver</artifactId>
-        <version>4.0.0-alpha-4</version>
+        <version>3.141.59</version>
       </dependency>
 
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        <version>4.0.0-alpha-4</version>
+        <version>3.141.59</version>
         <exclusions>
           <exclusion>
             <groupId>org.apache.commons</groupId>
@@ -284,7 +284,7 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-support</artifactId>
-        <version>4.0.0-alpha-4</version>
+        <version>3.141.59</version>
       </dependency>
 
     </dependencies>

@@ -83,10 +83,10 @@ public final class WebDriverManagement {
    * @since 4.0.0
    */
   public static WebDriverWait getWait(int timeOutInSeconds, int pollingInterval) {
-    Duration polling = Duration.ofMillis(pollingInterval);
-    Duration timeout = Duration.ofSeconds(timeOutInSeconds);
+//    Duration polling = Duration.ofMillis(pollingInterval);
+//    Duration timeout = Duration.ofSeconds(timeOutInSeconds);
     WebDriver driver = GaleniumContext.getDriver();
-    return new WebDriverWait(driver, timeout, polling);
+    return new WebDriverWait(driver, timeOutInSeconds, pollingInterval);
   }
 
   /**
