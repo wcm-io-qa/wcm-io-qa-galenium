@@ -109,6 +109,13 @@
     </dependency>
 
     <dependency>
+      <groupId>com.galenframework</groupId>
+      <artifactId>galen-java-support</artifactId>
+      <version>2.4.4</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
       <version>0.8.1</version>
@@ -303,6 +310,7 @@
 
   <reporting>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -314,6 +322,7 @@
             </reports>
             <inherited>false</inherited>
             <configuration>
+              <level>public</level>
               <skip>false</skip>
               <source>8</source>
               <failOnWarnings>true</failOnWarnings>
@@ -321,13 +330,6 @@
               <dependencySourceIncludes>
                 <dependencySourceInclude>io.wcm.qa:*</dependencySourceInclude>
               </dependencySourceIncludes>
-              <additionalDependencies>
-                <additionalDependency>
-                  <groupId>com.galenframework</groupId>
-                  <artifactId>galen-java-support</artifactId>
-                  <version>2.4.4</version>
-                </additionalDependency>
-              </additionalDependencies>
             </configuration>
           </reportSet>
         </reportSets>
