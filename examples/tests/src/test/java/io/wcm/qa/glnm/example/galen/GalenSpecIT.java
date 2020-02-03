@@ -39,12 +39,12 @@ import io.wcm.qa.glnm.interaction.Browser;
 /**
  * Example of how to easily integrate Galen specs into Selenium based test.
  */
-class GalenSpecTest implements UsesChrome {
-
-  private static final String PATH_TO_HOMEPAGE = io.wcm.qa.glnm.example.pageobjects.Homepage.PATH_TO_HOMEPAGE;
+class GalenSpecIT implements UsesChrome {
 
   @Options
   ChromeOptions options = chromeOptions();
+
+  private static final String PATH_TO_HOMEPAGE = io.wcm.qa.glnm.example.pageobjects.Homepage.PATH_TO_HOMEPAGE;
 
   @Test
   @DisplayName("Testing Homepage")
