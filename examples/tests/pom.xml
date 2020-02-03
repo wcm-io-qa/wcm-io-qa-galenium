@@ -40,6 +40,8 @@
     <galenium.example.sut.author>false</galenium.example.sut.author>
     <galenium.generated.artifactIds>io.wcm.qa.galenium.examples.specs</galenium.generated.artifactIds>
     <galenium.sampling.artifactIds>io.wcm.qa.galenium.examples.sampling</galenium.sampling.artifactIds>
+
+    <maven.test.failure.ignore>true</maven.test.failure.ignore>
     <site.url.module.prefix>galenium/examples</site.url.module.prefix>
     <aspectj.version>1.8.10</aspectj.version>
   </properties>
