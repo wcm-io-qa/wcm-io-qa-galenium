@@ -49,7 +49,7 @@ public final class GaleniumConfiguration {
   private static final int DEFAULT_GRID_PORT = 4444;
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
-  private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
+  private static final String DEFAULT_SPEC_PATH = "./target/classes/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
 
   private static final Logger LOG = LoggerFactory.getLogger(GaleniumConfiguration.class);
