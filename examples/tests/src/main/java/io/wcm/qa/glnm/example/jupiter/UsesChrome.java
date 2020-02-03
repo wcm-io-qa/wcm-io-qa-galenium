@@ -35,9 +35,6 @@ public interface UsesChrome {
     ChromeOptions headlessOptions = new ChromeOptions();
     headlessOptions.setHeadless(true);
     return headlessOptions;
-    //    ChromeOptions chromeOptions = new ChromeOptions();
-    //    ChromeOptions mergedOptions = chromeOptions.merge(headlessOptions);
-    //    return mergedOptions;
   }
 
   @BeforeEach
