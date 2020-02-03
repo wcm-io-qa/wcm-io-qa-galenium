@@ -117,7 +117,13 @@
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>selenium-jupiter</artifactId>
       <version>3.3.4</version>
-      <scope>test</scope>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-java</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
