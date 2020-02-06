@@ -22,14 +22,16 @@ package io.wcm.qa.glnm.interaction;
 import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import java.net.URL;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.qameta.allure.Allure;
-import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
@@ -99,10 +101,11 @@ public final class Browser {
   /**
    * <p>getLog.</p>
    *
-   * @return a {@link io.wcm.qa.glnm.interaction.BrowserLog} object.
+   * @return browser log
    */
-  public static BrowserLog getLog() {
-    return new BrowserLog();
+  public static List<LogEntry> getLog() {
+    String type = LogType.BROWSER;
+    return getLog(type);
   }
 
   /**
@@ -111,7 +114,7 @@ public final class Browser {
    * @return a {@link java.lang.String} object.
    */
   public static String getPageSource() {
-    return GaleniumContext.getDriver().getPageSource();
+    return getDriver().getPageSource();
   }
 
 
@@ -123,6 +126,16 @@ public final class Browser {
   public static String getPageTitle() {
     return getDriver().getTitle();
   }
+
+  /**
+   * <p>getPerformanceLog.</p>
+   *
+   * @return a {@link java.util.List} object.
+   */
+  public static List<LogEntry> getPerformanceLog() {
+    return getLog(LogType.PERFORMANCE);
+  }
+
 
   /**
    * <p>isCurrentUrl.</p>
@@ -190,6 +203,10 @@ public final class Browser {
     getDriver().navigate().refresh();
     GaleniumReportUtil.passStep(step);
     stopStep();
+  }
+
+  private static List<LogEntry> getLog(String type) {
+    return getDriver().manage().logs().get(type).getAll();
   }
 
   private static void stopStep() {
