@@ -44,6 +44,8 @@ public final class Screenshot {
   /**
    * Takes a screenshot of the whole page by scrolling and stitching,
    * attaches it to Allure report and adds a step to report.
+   *
+   * @since 5.0.0
    */
   public static void takeFullScreenshot() {
     GaleniumReportUtil.takeFullScreenshot();
