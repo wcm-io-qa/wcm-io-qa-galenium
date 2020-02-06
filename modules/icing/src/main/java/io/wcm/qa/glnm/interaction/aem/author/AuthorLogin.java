@@ -76,6 +76,7 @@ public final class AuthorLogin {
    * <p>isAuthorLogin.</p>
    *
    * @return whether current page is AEM author login page
+   * @since 5.0.0
    */
   public static boolean isAuthorLogin() {
     return Element.isVisible(DIV_LOGIN_BOX);
@@ -85,6 +86,7 @@ public final class AuthorLogin {
    * Login to author if on AEM author login page.
    *
    * @return successful login
+   * @since 5.0.0
    */
   public static boolean loginToAuthor() {
     LOG.debug("using credentials from configuration.");
@@ -96,6 +98,7 @@ public final class AuthorLogin {
    *
    * @param targetUrl URL to load
    * @return successful login
+   * @since 5.0.0
    */
   public static boolean loginToAuthor(String targetUrl) {
     LOG.debug("using credentials from configuration.");
@@ -109,6 +112,7 @@ public final class AuthorLogin {
    * @param authorUser user for author instance
    * @param authorPass password for author instance
    * @return whether login was necessary and successful
+   * @since 5.0.0
    */
   public static boolean loginToAuthor(String targetUrl, String authorUser, String authorPass) {
     return loginToAuthor(targetUrl, targetUrl, authorUser, authorPass);
@@ -122,6 +126,7 @@ public final class AuthorLogin {
    * @param authorUser user for author instance
    * @param authorPass password for author instance
    * @return whether login was necessary and successful
+   * @since 5.0.0
    */
   public static boolean loginToAuthor(String initialUrl, String finalUrl, String authorUser, String authorPass) {
     Browser.load(initialUrl);
@@ -157,6 +162,7 @@ public final class AuthorLogin {
    * @param authorUser a {@link java.lang.String} object.
    * @param authorPass a {@link java.lang.String} object.
    * @return whether POST response had status code 200
+   * @since 5.0.0
    */
   public static boolean loginToAuthorViaHttp(String authorBaseUrl, String authorUser, String authorPass) {
     URL url;
