@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.github.wnameless.json.flattener.JsonFlattener;
 
 import io.wcm.qa.glnm.sampling.Sampler;
+import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
 
 /**
@@ -80,8 +81,21 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
 
   @Override
   protected Map<String, String> transform(String inputSample) {
-    LOG.debug("JsonSampler: attempting to parse '" + inputSample + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("JsonSampler: attempting to parse '" + inputSample + "'");
+    }
     return ensureOnlyStringValues(JsonFlattener.flattenAsMap(inputSample));
   }
 
+  /**
+   * Factory method to avoid boiler plate when just wanting to flatten already retrieved JSON.
+   *
+   * @param json JSON as string
+   * @return JSON as a flat String to String map
+   */
+  public static Map<String, String> flatten(String json) {
+    FixedStringSampler inputSampler = new FixedStringSampler(json);
+    JsonSampler<FixedStringSampler> jsonSampler = new JsonSampler<FixedStringSampler>(inputSampler);
+    return jsonSampler.sampleValue();
+  }
 }
