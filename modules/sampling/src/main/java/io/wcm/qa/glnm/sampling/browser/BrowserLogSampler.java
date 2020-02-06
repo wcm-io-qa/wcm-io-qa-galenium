@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.browser;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Collection;
 import java.util.logging.Level;
 
@@ -54,7 +56,11 @@ public class BrowserLogSampler extends CachingBasedSampler<Iterable<String>> {
 
   @Override
   protected Collection<String> freshSample() {
-    return Browser.getLog().getMessages(getLevel());
+    return Browser.getLog()
+        .stream()
+        .filter(entry -> entry.getLevel().intValue() > getLevel().intValue())
+        .map(entry -> entry.getMessage())
+        .collect(toList());
   }
 
   /**
