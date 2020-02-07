@@ -30,22 +30,39 @@ import org.openqa.selenium.logging.LoggingPreferences;
  *
  * @since 5.0.0
  */
-public interface ChromePerformanceLog {
+public final class ChromeOptionsUtil {
+
+  private ChromeOptionsUtil() {
+    // do not instantiate
+  }
 
   /**
-   * <p>chromeOptionsWithPerformanceLog.</p>
+   * <p>
+   * chromeOptionsWithPerformanceLog.
+   * </p>
    *
-   * @return chrome options with performance logging enabled
+   * @return Chrome options with performance logging enabled
    * @since 5.0.0
    */
-  static ChromeOptions chromeOptionsWithPerformanceLog() {
-    ChromeOptions options = new ChromeOptions();
+  public static ChromeOptions withPerformanceLog() {
+    // headless by default
+    ChromeOptions options = headless();
+
+    // enable performance log
     LoggingPreferences preferences = new LoggingPreferences();
     preferences.enable(LogType.PERFORMANCE, Level.ALL);
-
     options.setCapability("goog:loggingPrefs", preferences);
 
     return options;
+  }
+
+  /**
+   * <p>headless.</p>
+   *
+   * @return default options for headless Chrome
+   */
+  public static ChromeOptions headless() {
+    return new ChromeOptions().setHeadless(true);
   }
 
 }
