@@ -19,17 +19,11 @@
  */
 package io.wcm.qa.glnm.example.generic;
 
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.seljup.Options;
-import io.wcm.qa.glnm.hamcrest.GaleniumAssert;
-import io.wcm.qa.glnm.hamcrest.LogEntryMatchers;
-import io.wcm.qa.glnm.interaction.Browser;
-import io.wcm.qa.glnm.interaction.Wait;
 import io.wcm.qa.glnm.junit.CheckResponseCodes;
-import io.wcm.qa.glnm.junit.ChromePerformanceLog;
+import io.wcm.qa.glnm.junit.ChromeOptionsUtil;
 
 public class ResponseStatusIT implements CheckResponseCodes {
 
@@ -37,13 +31,6 @@ public class ResponseStatusIT implements CheckResponseCodes {
    * Chrome options with performance logging will be used when initializing chrome driver.
    */
   @Options
-  ChromeOptions chromeOptions = ChromePerformanceLog.chromeOptionsWithPerformanceLog().setHeadless(true);
+  ChromeOptions chromeOptions = ChromeOptionsUtil.withPerformanceLog();
 
-
-  @Test
-  void checkResponses() {
-    Browser.load("https://pro-vision.de");
-    Wait.forDomReady(5);
-    GaleniumAssert.assertResponses(Matchers.everyItem(LogEntryMatchers.hasStatus(200)));
-  }
 }
