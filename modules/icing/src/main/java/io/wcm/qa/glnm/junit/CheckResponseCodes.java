@@ -34,7 +34,7 @@ import io.wcm.qa.glnm.interaction.Wait;
  *
  * @since 5.0.0
  */
-public interface CheckResponseCodes extends UsesHeadlessChrome, ChromePerformanceLog {
+public interface CheckResponseCodes extends UsesChrome {
 
   /**
    * <p>

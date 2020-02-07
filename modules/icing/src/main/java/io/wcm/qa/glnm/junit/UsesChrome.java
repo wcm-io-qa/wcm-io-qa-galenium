@@ -34,7 +34,7 @@ import io.wcm.qa.glnm.context.GaleniumContext;
  * @since 5.0.0
  */
 @ExtendWith(SeleniumExtension.class)
-public interface UsesHeadlessChrome {
+public interface UsesChrome {
 
   /**
    * Initializes headless driver.
