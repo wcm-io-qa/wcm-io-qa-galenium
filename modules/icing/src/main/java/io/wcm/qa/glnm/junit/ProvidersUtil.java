@@ -40,12 +40,23 @@ import org.junit.platform.commons.util.ReflectionUtils;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
+/**
+ * <p>ProvidersUtil class.</p>
+ *
+ * @since 5.0.0
+ */
 public class ProvidersUtil {
 
   private ProvidersUtil() {
     // do not instantiate
   }
 
+  /**
+   * <p>extractArgumentProviders.</p>
+   *
+   * @param extensionContext a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
+   * @return a {@link java.util.Collection} object.
+   */
   public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext extensionContext) {
     Method testMethod = extensionContext.getRequiredTestMethod();
     Annotation[] declaredAnnotations = getDeclaredAnnotations(testMethod);
