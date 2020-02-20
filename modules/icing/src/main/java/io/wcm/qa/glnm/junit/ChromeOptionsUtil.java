@@ -60,6 +60,7 @@ public final class ChromeOptionsUtil {
    * <p>headless.</p>
    *
    * @return default options for headless Chrome
+   * @since 5.0.0
    */
   public static ChromeOptions headless() {
     return new ChromeOptions().setHeadless(true);
