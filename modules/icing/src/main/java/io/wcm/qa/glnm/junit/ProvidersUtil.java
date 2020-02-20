@@ -45,7 +45,7 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
  *
  * @since 5.0.0
  */
-public class ProvidersUtil {
+public final class ProvidersUtil {
 
   private ProvidersUtil() {
     // do not instantiate
