@@ -47,6 +47,7 @@ public @interface CartesianProduct {
 
   /**
    * @see ParameterizedTest#name()
+   * @return name to use in reporting
    */
   String name() default DEFAULT_DISPLAY_NAME;
 }
