@@ -58,7 +58,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
-  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browser.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
@@ -69,8 +68,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HEADLESS = "galenium.headless";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
-  private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST = "galenium.webdriver.https.proxyHost";
-  private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT = "galenium.webdriver.https.proxyPort";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_LOG_DIR = "galenium.logging.testlogs";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
@@ -542,60 +539,6 @@ public final class GaleniumConfiguration {
    */
   public static String getHttpPass() {
     return asString(SYSTEM_PROPERTY_NAME_HTTP_PASS);
-  }
-
-  /**
-   * Https Proxy Host Configuration for Webdriver or BrowserMobProxy
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.https.proxyHost
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return null or https proxy host
-   * @since 3.0.0
-   */
-  public static String getHttpsProxyHost() {
-    return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST, null);
-  }
-
-  /**
-   * Https Proxy Port Configuration for Webdriver or BrowserMobProxy
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.https.proxyPort
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return null or https proxy port
-   * @since 3.0.0
-   */
-  public static String getHttpsProxyPort() {
-    return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT, null);
   }
 
   /**
@@ -1257,33 +1200,6 @@ public final class GaleniumConfiguration {
    */
   public static boolean isTakeScreenshotOnSuccessfulTest() {
     return asBoolean(SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SUCCESS);
-  }
-
-  /**
-   * BrowserMob Proxy flag.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.browser.proxy
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether to use BrowserMob Proxy for drivers
-   * @since 3.0.0
-   */
-  public static boolean isUseBrowserProxy() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
   }
 
   /**

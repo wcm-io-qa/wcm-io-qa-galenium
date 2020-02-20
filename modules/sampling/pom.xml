@@ -53,12 +53,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.browserup</groupId>
-      <artifactId>browserup-proxy-core</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
       <groupId>com.github.wnameless.json</groupId>
       <artifactId>json-flattener</artifactId>
       <optional>true</optional>
