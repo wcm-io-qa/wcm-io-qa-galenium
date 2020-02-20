@@ -23,10 +23,17 @@
   xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="5.0.0" date="not released yet">
+      <action type="remove" dev="apegam">
+        Remove BrowserUpProxy with no replacement.
+      </action>
+    </release>
+
     <release version="4.0.0" date="2019-12-30">
       <action type="add" dev="apegam">
         Added factory methods for WebDriverWait in WebDriverManagement.
       </action>
     </release>
+
   </body>
 </document>
