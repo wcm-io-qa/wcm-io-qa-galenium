@@ -31,24 +31,20 @@ There are a few concepts in Galenium that are important to know. Some should be 
  The test device is a Galenium specific concept. It encapsulates the browser type (e.g. Chrome) and the viewport size (e.g. 1024x800). With this information Galenium can instantiate browsers using Selenium.
 
 ### Test Names
- In Galenium the test name is central. The test name is used to aggregate log statements and results for reporting purposes in Extent Report. Different names for test cases must be used to get separate test cases in the Extent Report.
+ In Galenium the test name is central. The test name is used in reporting.
 
 ### Test Descriptions
  A more detailed description can be added to the test case and logged in the report. Descriptions can be used for important information that would overload the test name.
  Descriptions are optional and not used by default in Galenium.
 
 ### Reports
- This is used to keep multiple runs of the same test case logging to the same Extent Report test case.
- Log management is done transparently by Galenium.
- The GaleniumReportUtil.getLogger() method is used to retrieve a logger.
- Simple Logging Facade for Java (SLF4J) logging calls are used to write to the test case report.
- The GaleniumReportUtil.getMarkedLogger(Marker) method is used to create marked log entries which can be filtered using a SLF4J configuration.
+Allure reports integrates transparently with JUnit. Logs will be attached to the reports.
 
 ### Thread-Safe Context
 
 Parallel execution is very important in UI tests. Setup using real browsers takes time. With responsive layouts we end up with a lot test cases quickly.
 
-Galenium uses TestNG's parallelization features which allows multiple threads to handle the test cases concurrently. Configuration and data has to be available to one test case instance, but must not be visible to all other test case instances. A thread-safe context achieves this.
+Galenium uses JUnit's parallelization features which allows multiple threads to handle the test cases concurrently. Configuration and data has to be available to one test case instance, but must not be visible to all other test case instances. A thread-safe context achieves this.
 
 #### GaleniumContext
 
@@ -62,20 +58,6 @@ The Selenium WebDriver is needed for interaction with the browser. Every test ca
 
 The test device is a Galenium concept. It encapsulates the browser type (e.g. Chrome) and the viewport size (e.g. 1024x800). This is all the information Galenium needs to instantiate browsers using Selenium.
 
-##### Test Name
-
-The test name is very important in most frameworks. In Galenium it is more central than usual. For reporting purposes the test name is used to aggregate log statements and results in the _ExtentReport_. You need to use different test names for your cases to get separate test cases in the _ExtentReport_.
-
-##### Test Description
-
-A more detailed description of the test than just the name. This is optional and not used by default in Galenium. When you have important information that would overload the test name, put it in the description and log it to the report.
-
-##### Report
-
-Test cases in Galenium have a one-to-one relationship with a test case in _ExtentReports_. This is used to keep multiple runs of the same   test case logging to the same _ExtentReport_ test case.
-
-The management is done transparently by Galenium. All you need to do is use the _GaleniumReportUtil.getLogger()_ method to retrieve a logger and then use _SLF4J_ logging calls to write to the test case report. Combined with the _GaleniumReportUtil.getMarkedLogger(Marker)_ method you can easily create marked log entries that can be filtered using _SLF4J_ configuration.
-
 ### Configuration
 
 All standard Galenium configuration can be accessed using the static methods in _GaleniumConfiguration_.
@@ -83,16 +65,6 @@ All standard Galenium configuration can be accessed using the static methods in 
 ### WebDriver Handling
 
 A standard problem in parallelizing Selenium tests is the handling of drivers and browsers. Galenium can handle this for you.
-
-#### Listener Based Handling
-
-By default Galenium will use the _WebDriverListener_ to initialize and clean up drivers to be used in tests. This means that even if you do not use a driver in your test, it will still be instantiated.
-
-#### Lazy Handling
-
-If you want more control over when drivers are instantiated, you can configure Galenium to use lazy driver initialization. Drivers will only be initialized when you explicitely request a driver.
-
-### Verifications
 
 ### Differences
 
@@ -114,11 +86,12 @@ Reporting is important in automated testing. Galenium uses a combination of seve
 
 A standard logging framework should flatten the learning curve while providing powerful features and configuration.
 
-With Logback integration Galenium can log to standard out, files and to _ExtentReports_.
+With Logback integration Galenium can log to standard out, files and attach these logs to
+the Allure report.
 
-#### ExtentReports
+#### Allure
 
-ExtentReports is a specialized reporting tool for test results. Test reports are separated on a per test case basis. Each report is made up of steps with each step being one log event.
+Allure is a specialized reporting tool for test results. Test reports are separated on a per test case basis. Each report is made up of steps with each step being one log event.
 
 Tagging test cases provide a very helpful overview of general health and specific problem patterns.
 
@@ -127,7 +100,3 @@ Tagging test cases provide a very helpful overview of general health and specifi
 Galen is best at reporting on its own results. It is hard to integrate with other reports. Galen generates the file names internally without providing an easy way to fetch them programmatically to link to them from other reports.
 
 To save disk space it is possible to tell Galenium to only write Galen reports for failed tests.
-
-#### TestNG
-
-TestNG generates its own reports. The TestNG HTML report is basically useless when using _DataProviders_, but the XML results are the way Galenium integrates results with Maven and Jenkins.
