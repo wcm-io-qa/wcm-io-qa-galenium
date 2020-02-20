@@ -19,13 +19,10 @@
  */
 package io.wcm.qa.glnm.webdriver;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.context.GaleniumContext;
@@ -40,8 +37,6 @@ import io.wcm.qa.glnm.device.TestDevice;
 public final class WebDriverManagement {
 
   private static final int DEFAULT_NUMBER_OF_POLLS_PER_CALL = 5;
-
-  private static final Logger LOG = LoggerFactory.getLogger(WebDriverManagement.class);
 
   private WebDriverManagement() {
     // do not instantiate
