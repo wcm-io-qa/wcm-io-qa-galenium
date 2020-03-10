@@ -24,8 +24,6 @@ import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import io.wcm.qa.glnm.differences.base.Difference;
 
 /**
@@ -88,7 +86,7 @@ public class SortedDifferences extends MutableDifferences {
     this.comparator = comparator;
     TreeSet<Difference> newDifferences = new TreeSet<Difference>(comparator);
     Collection<Difference> oldDifferences = getDifferences();
-    if (CollectionUtils.isNotEmpty(oldDifferences)) {
+    if (oldDifferences != null && !oldDifferences.isEmpty()) {
       newDifferences.addAll(oldDifferences);
     }
     setDifferences(newDifferences);

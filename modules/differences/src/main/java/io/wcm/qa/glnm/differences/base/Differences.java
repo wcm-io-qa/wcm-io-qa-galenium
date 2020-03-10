@@ -21,7 +21,8 @@ package io.wcm.qa.glnm.differences.base;
 
 
 /**
- * Provides Difference based keys for persisting samples and naming tests.
+ * Provides Difference based keys for persisting samples
+ * .
  *
  * @since 1.0.0
  */
