@@ -24,7 +24,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
 /**
  * <p>IntegerPersistence class.</p>
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 class IntegerPersistence implements SamplePersistence<Integer> {
 

@@ -24,7 +24,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
 /**
  * <p>SampleWriter interface.</p>
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 public interface SampleWriter<T> {
 
@@ -33,7 +33,7 @@ public interface SampleWriter<T> {
    *
    * @param differences a {@link io.wcm.qa.glnm.differences.base.Differences} object.
    * @param sample a T object.
-   * @since 4.0.0
+   * @since 5.0.0
    */
   void writeSample(Differences differences, T sample);
 }

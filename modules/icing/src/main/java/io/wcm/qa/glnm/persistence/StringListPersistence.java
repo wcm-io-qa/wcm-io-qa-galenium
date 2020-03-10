@@ -26,7 +26,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
 /**
  * <p>StringListPersistence class.</p>
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 class StringListPersistence implements SamplePersistence<List<String>> {
 

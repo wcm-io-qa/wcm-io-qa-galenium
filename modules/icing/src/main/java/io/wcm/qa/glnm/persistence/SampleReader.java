@@ -24,7 +24,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
 /**
  * <p>SampleReader interface.</p>
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 public interface SampleReader<T> {
 
@@ -33,7 +33,7 @@ public interface SampleReader<T> {
    *
    * @param differences a {@link io.wcm.qa.glnm.differences.base.Differences} object.
    * @return a T object.
-   * @since 4.0.0
+   * @since 5.0.0
    */
   T readSample(Differences differences);
 }
