@@ -19,11 +19,14 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import java.util.Iterator;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
 import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.persistence.Persistence;
@@ -51,14 +54,28 @@ public final class Matchers {
     return MatcherUtil.differentiate(matcher, differences);
   }
 
-  private static final class BaselineStringMatcher extends TypeSafeMatcher<String> {
+  /**
+   * <p>dependingOn.</p>
+   *
+   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   */
+  public static DifferentiatingMatcher<String> dependingOn(Difference difference, Matcher<String> matcher) {
+    SortedDifferences differences = new SortedDifferences();
+    differences.add(difference);
+    return MatcherUtil.differentiate(matcher, differences);
+  }
 
-    private final Differences differences;
+  private static final class BaselineStringMatcher extends TypeSafeMatcher<String>
+      implements DifferentiatingMatcher<String> {
+
+    private final SortedDifferences differences = new SortedDifferences();
     private final SamplePersistence<String> persistence;
 
     BaselineStringMatcher(Differences differences) {
       persistence = Persistence.forString(getClass());
-      this.differences = differences;
+      this.differences.addAll(differences);
     }
 
     @Override
@@ -69,7 +86,7 @@ public final class Matchers {
       description.appendText(baseline());
     }
 
-    private Differences getDifferences() {
+    private SortedDifferences getDifferences() {
       return differences;
     }
 
@@ -96,6 +113,21 @@ public final class Matchers {
       }
       persist(item);
       return false;
+    }
+
+    @Override
+    public String getKey() {
+      return getDifferences().getKey();
+    }
+
+    @Override
+    public Iterator<Difference> iterator() {
+      return getDifferences().iterator();
+    }
+
+    @Override
+    public void add(Difference difference) {
+      getDifferences().add(difference);
     }
   }
 

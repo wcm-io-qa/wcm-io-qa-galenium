@@ -29,6 +29,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @CsvSource({ "A, B, X", "C, D, X" })
-@interface CsvSourceAbxCdx {
+public @interface CsvSourceAbxCdx {
   // integration via meta annotation
 }
