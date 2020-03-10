@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import java.util.List;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.WebDriver;
@@ -26,6 +28,8 @@ import org.openqa.selenium.WebDriver;
 import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.interaction.logs.LogEntryUtil;
 import io.wcm.qa.glnm.interaction.logs.ResponseEntry;
+import io.wcm.qa.glnm.persistence.Persistence;
+import io.wcm.qa.glnm.sampling.Sampler;
 
 /**
  * Galenium's equivalent to Hamcrest's MatcherAssert.
@@ -42,15 +46,91 @@ public final class GaleniumAssert {
    * Assert WebDriver matcher matches.
    *
    * @param driverMatcher a webdriver matcher
+   * @since 5.0.0
    */
   public static void assertThat(Matcher<? super WebDriver> driverMatcher) {
     MatcherAssert.assertThat(GaleniumContext.getDriver(), driverMatcher);
   }
 
   /**
-   * <p>assertResponses.</p>
+   * Assert matcher and persist boolean sample on failure.
+   *
+   * @param sampler to obtain sample
+   * @param matcher matching and differentiating
+   * @since 5.0.0
+   */
+  public static void assertBoolean(Sampler<Boolean> sampler, DifferentiatingMatcher<Boolean> matcher) {
+    Boolean sampleValue = sampler.sampleValue();
+    try {
+      MatcherAssert.assertThat(sampleValue, matcher);
+    }
+    catch (AssertionError e) {
+      Persistence.forBoolean(matcher.getClass()).writer().writeSample(matcher, sampleValue);
+      throw e;
+    }
+  }
+
+  /**
+   * Assert matcher and persist integer sample on failure.
+   *
+   * @param sampler to obtain sample
+   * @param matcher matching and differentiating
+   * @since 5.0.0
+   */
+  public static void assertInteger(Sampler<Integer> sampler, DifferentiatingMatcher<Integer> matcher) {
+    Integer sampleValue = sampler.sampleValue();
+    try {
+      MatcherAssert.assertThat(sampleValue, matcher);
+    }
+    catch (AssertionError e) {
+      Persistence.forInteger(matcher.getClass()).writer().writeSample(matcher, sampleValue);
+      throw e;
+    }
+  }
+
+  /**
+   * Assert matcher and persist string sample on failure.
+   *
+   * @param sampler to obtain sample
+   * @param matcher matching and differentiating
+   * @since 5.0.0
+   */
+  public static void assertString(Sampler<String> sampler, DifferentiatingMatcher<String> matcher) {
+    String sampleValue = sampler.sampleValue();
+    try {
+      MatcherAssert.assertThat(sampleValue, matcher);
+    }
+    catch (AssertionError e) {
+      Persistence.forString(matcher.getClass()).writer().writeSample(matcher, sampleValue);
+      throw e;
+    }
+  }
+
+  /**
+   * Assert matcher and persist string list sample on failure.
+   *
+   * @param sampler to obtain sample
+   * @param matcher matching and differentiating
+   * @since 5.0.0
+   */
+  public static void assertStringList(Sampler<List<String>> sampler, DifferentiatingMatcher<List<String>> matcher) {
+    List<String> sampleValue = sampler.sampleValue();
+    try {
+      MatcherAssert.assertThat(sampleValue, matcher);
+    }
+    catch (AssertionError e) {
+      Persistence.forStringList(matcher.getClass()).writer().writeSample(matcher, sampleValue);
+      throw e;
+    }
+  }
+
+  /**
+   * <p>
+   * assertResponses.
+   * </p>
    *
    * @param responseMatcher will be matching response entries from performance log
+   * @since 5.0.0
    */
   public static void assertResponses(Matcher<? super Iterable<ResponseEntry>> responseMatcher) {
     MatcherAssert.assertThat(LogEntryUtil.getResponseEntries(), responseMatcher);
