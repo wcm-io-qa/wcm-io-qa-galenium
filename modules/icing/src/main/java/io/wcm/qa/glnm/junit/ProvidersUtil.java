@@ -56,6 +56,7 @@ public final class ProvidersUtil {
    *
    * @param extensionContext a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
    * @return a {@link java.util.Collection} object.
+   * @since 5.0.0
    */
   public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext extensionContext) {
     Method testMethod = extensionContext.getRequiredTestMethod();
