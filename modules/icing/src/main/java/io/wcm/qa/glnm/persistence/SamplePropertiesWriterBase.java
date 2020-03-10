@@ -54,8 +54,7 @@ abstract class SamplePropertiesWriterBase<T> extends SamplesForClass implements 
    * @since 4.0.0
    */
   protected void persistSamples() {
-    PersistenceUtil.writePropertiesFor(getProperties(), getSamplingClass(), propertiesWritten);
-    propertiesWritten = true;
+    PersistenceUtil.writePropertiesFor(getProperties(), getSamplingClass(), true);
   }
 
   private Properties getProperties() {
