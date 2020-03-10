@@ -41,6 +41,7 @@ public final class LogEntryMatchers {
    *
    * @param status a int.
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<ResponseEntry> hasStatus(int status) {
     return new TypeSafeMatcher<ResponseEntry>() {

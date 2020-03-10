@@ -58,7 +58,6 @@ final class ReAnnotationUtils {
    * @param annotationType type to look for
    * @return annotations found on this annotation including meta
    * @since 5.0.0
-   * @param <A> a A object.
    */
   public static <A extends Annotation> List<A> findRepeatableAnnotations(
       Annotation candidate,
