@@ -23,7 +23,7 @@ package io.wcm.qa.glnm.persistence;
 /**
  * <p>SamplePersistence interface.</p>
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 public interface SamplePersistence<T> {
 
@@ -33,7 +33,7 @@ public interface SamplePersistence<T> {
    * </p>
    *
    * @return a {@link io.wcm.qa.glnm.persistence.SampleReader} object.
-   * @since 4.0.0
+   * @since 5.0.0
    */
   SampleReader<T> reader();
 
@@ -43,7 +43,7 @@ public interface SamplePersistence<T> {
    * </p>
    *
    * @return a {@link io.wcm.qa.glnm.persistence.SampleWriter} object.
-   * @since 4.0.0
+   * @since 5.0.0
    */
   SampleWriter<T> writer();
 

@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Factory methods for persistence implementations.
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 public final class Persistence {
 
@@ -40,7 +40,7 @@ public final class Persistence {
    *
    * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for boolean samples
-   * @since 4.0.0
+   * @since 5.0.0
    */
   public static SamplePersistence<Boolean> forBoolean(Class clazz) {
     return new BooleanPersistence(clazz);
@@ -53,7 +53,7 @@ public final class Persistence {
    *
    * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for integer samples
-   * @since 4.0.0
+   * @since 5.0.0
    */
   public static SamplePersistence<Integer> forInteger(Class clazz) {
     return new IntegerPersistence(clazz);
@@ -64,7 +64,7 @@ public final class Persistence {
    *
    * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} object.
-   * @since 4.0.0
+   * @since 5.0.0
    */
   public static SamplePersistence<String> forString(Class clazz) {
     return new StringPersistence(clazz);
@@ -77,7 +77,7 @@ public final class Persistence {
    *
    * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for sampled lists of strings
-   * @since 4.0.0
+   * @since 5.0.0
    */
   public static SamplePersistence<List<String>> forStringList(Class clazz) {
     return new StringListPersistence(clazz);

@@ -30,7 +30,7 @@ import io.wcm.qa.glnm.differences.base.Differences;
 /**
  * <p>SamplePropertiesWriter class.</p>
  *
- * @since 4.0.0
+ * @since 5.0.0
  */
 abstract class SamplePropertiesWriterBase<T> extends SamplesForClass implements SampleWriter<T> {
 
@@ -51,7 +51,7 @@ abstract class SamplePropertiesWriterBase<T> extends SamplesForClass implements 
   /**
    * <p>persistSamples.</p>
    *
-   * @since 4.0.0
+   * @since 5.0.0
    */
   protected void persistSamples() {
     PersistenceUtil.writePropertiesFor(getProperties(), getSamplingClass(), true);
