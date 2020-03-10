@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.hamcrest;
 
 import org.hamcrest.Matcher;
 
+import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
 
 /**
@@ -31,4 +32,10 @@ import io.wcm.qa.glnm.differences.base.Differences;
  */
 public interface DifferentiatingMatcher<T> extends Matcher<T>, Differences {
 
+  /**
+   * <p>add.</p>
+   *
+   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   */
+  void add(Difference difference);
 }

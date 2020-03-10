@@ -28,6 +28,7 @@ import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 
 final class MatcherUtil {
 
@@ -37,24 +38,36 @@ final class MatcherUtil {
   }
 
   static <T> DifferentiatingMatcher<T> differentiate(Matcher<T> matcher, Differences differences) {
+    if (matcher instanceof DifferentiatingMatcher) {
+      DifferentiatingMatcher<T> differentiatingMatcher = (DifferentiatingMatcher<T>)matcher;
+      for (Difference difference : differences) {
+        differentiatingMatcher.add(difference);
+      }
+      return differentiatingMatcher;
+    }
     return new DelegatingMatcher<T>(matcher, differences);
   }
 
   private static class DelegatingMatcher<T> implements DifferentiatingMatcher<T> {
 
-    private final Differences differences;
+    private final SortedDifferences differences = new SortedDifferences();
 
     private final Matcher<T> matcher;
 
     DelegatingMatcher(Matcher<T> matcher, Differences differences) {
       this.matcher = matcher;
-      this.differences = differences;
+      this.differences.addAll(differences);
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void _dont_implement_Matcher___instead_extend_BaseMatcher_() {
       matcher._dont_implement_Matcher___instead_extend_BaseMatcher_();
+    }
+
+    @Override
+    public void add(Difference difference) {
+      differences.add(difference);
     }
 
     @Override
@@ -91,6 +104,5 @@ final class MatcherUtil {
     public Spliterator<Difference> spliterator() {
       return differences.spliterator();
     }
-
   }
 }

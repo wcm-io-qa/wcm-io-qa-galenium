@@ -19,16 +19,28 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import org.junit.jupiter.api.Test;
+import static io.wcm.qa.glnm.hamcrest.Matchers.asExpected;
+import static io.wcm.qa.glnm.hamcrest.Matchers.dependingOn;
 
+import io.wcm.qa.glnm.differences.difference.StringDifference;
+import io.wcm.qa.glnm.junit.CartesianProduct;
+import io.wcm.qa.glnm.junit.CsvSourceAbxCdx;
+import io.wcm.qa.glnm.junit.CsvSourceXY;
 import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
 
 
 class MatchersTest {
 
-  @Test
-  void testPersistingMatcher() {
-    GaleniumAssert.assertString(new FixedStringSampler("test1"), Matchers.asExpected());
+  @CartesianProduct
+  @CsvSourceAbxCdx
+  @CsvSourceXY
+  void testPersistingStringMatcher(String a, String b, String c, String x) {
+    GaleniumAssert.assertString(new FixedStringSampler(x),
+        dependingOn(new StringDifference(a),
+            dependingOn(new StringDifference(b),
+                dependingOn(new StringDifference(c),
+                    dependingOn(new StringDifference(x),
+                        asExpected())))));
   }
 
 }
