@@ -48,7 +48,7 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_EXPECTED_TEXTS_FILE = "text/expectedTexts.properties";
   private static final int DEFAULT_GRID_PORT = 4444;
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
-  private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
+  private static final String DEFAULT_REPORT_DIR = "./target/glnm-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/classes/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
 
@@ -892,7 +892,7 @@ public final class GaleniumConfiguration {
    * @since 3.0.0
    */
   public static String getTextComparisonOutputDirectory() {
-    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, DEFAULT_REPORT_DIR);
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, "./target/sampled");
   }
 
   /**
