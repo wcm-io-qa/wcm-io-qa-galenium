@@ -34,7 +34,7 @@ import io.wcm.qa.glnm.differences.util.DifferenceUtil;
  */
 public class MutableDifferences implements Differences {
 
-  private Collection<Difference> differences = new ArrayList<Difference>();
+  private final Collection<Difference> differences = new ArrayList<Difference>();
 
   /**
    * See {@link java.util.ArrayList#add(Object)}
@@ -129,12 +129,12 @@ public class MutableDifferences implements Differences {
   /** {@inheritDoc} */
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("differences: [");
-    stringBuilder.append(joinNamesWith("]|["));
-    stringBuilder.append("], key: '");
-    stringBuilder.append(getKey());
-    stringBuilder.append("'");
+    StringBuilder stringBuilder = new StringBuilder()
+        .append("differences: [")
+        .append(joinNamesWith("]|["))
+        .append("], key: '")
+        .append(getKey())
+        .append("'");
     return stringBuilder.toString();
   }
 
