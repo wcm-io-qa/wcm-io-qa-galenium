@@ -51,22 +51,6 @@ final class ReAnnotationUtils {
     // do not instantiate
   }
 
-  /**
-   * <p>findRepeatableAnnotations.</p>
-   *
-   * @param candidate annotation to check
-   * @param annotationType type to look for
-   * @return annotations found on this annotation including meta
-   * @since 5.0.0
-   */
-  public static <A extends Annotation> List<A> findRepeatableAnnotations(
-      Annotation candidate,
-      Class<A> annotationType) {
-    Class<? extends Annotation> containerType = getContainerType(annotationType);
-    boolean inherited = isInherited(containerType);
-    return findRepeatableAnnotations(candidate, annotationType, containerType, inherited);
-  }
-
   private static <A extends Annotation> Optional<A> findAnnotation(AnnotatedElement element, Class<A> annotationType,
       boolean inherited, Set<Annotation> visited) {
 
@@ -237,10 +221,10 @@ final class ReAnnotationUtils {
     return containerType.isAnnotationPresent(Inherited.class);
   }
 
-
   private static boolean isInJavaLangAnnotationPackage(Class<? extends Annotation> annotationType) {
     return (annotationType != null && annotationType.getName().startsWith("java.lang.annotation"));
   }
+
 
   /**
    * Determine if the supplied annotation type is a container for a repeatable
@@ -258,6 +242,14 @@ final class ReAnnotationUtils {
 
       return repeatable != null && candidate.equals(repeatable.value());
     });
+  }
+
+  static <A extends Annotation> List<A> findRepeatableAnnotations(
+      Annotation candidate,
+      Class<A> annotationType) {
+    Class<? extends Annotation> containerType = getContainerType(annotationType);
+    boolean inherited = isInherited(containerType);
+    return findRepeatableAnnotations(candidate, annotationType, containerType, inherited);
   }
 
 }
