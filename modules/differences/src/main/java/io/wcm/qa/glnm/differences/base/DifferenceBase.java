@@ -31,7 +31,7 @@ import io.wcm.qa.glnm.format.NameUtil;
 public abstract class DifferenceBase implements Difference {
 
   private static final String CLASS_NAME_PART_DIFFERENCE = "difference";
-  private static final int DEFAULT_MAX_TAG_LENGTH = 20;
+  private static final int DEFAULT_MAX_TAG_LENGTH = 100;
   private int maxTagLength = DEFAULT_MAX_TAG_LENGTH;
   private String name;
 
