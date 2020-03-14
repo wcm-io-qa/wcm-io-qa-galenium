@@ -40,7 +40,9 @@ public class IcValidationListener extends CombinedValidationListener {
   @Override
   public void onSpecError(PageValidation pageValidation, String objectName, Spec spec, ValidationResult result) {
     super.onSpecError(pageValidation, objectName, spec, result);
-    LOG.trace("spec error triggered: " + objectName);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("spec error triggered: " + objectName);
+    }
     if (IcUtil.isImageComparisonSpec(spec)) {
       IcUtil.saveSample(objectName, spec, result);
     }

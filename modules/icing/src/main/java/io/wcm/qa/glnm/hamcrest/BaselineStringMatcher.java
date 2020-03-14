@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2019 wcm.io
+ * Copyright (C) 2020 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,30 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.persistence;
+package io.wcm.qa.glnm.hamcrest;
 
-import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.persistence.Persistence;
+import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-/**
- * <p>StringPersistence class.</p>
- *
- * @since 5.0.0
- */
-class StringPersistence extends SamplePersistenceBase<String> {
+class BaselineStringMatcher extends BaselineMatcher<String> {
 
-  /**
-   * <p>Constructor for StringPersistence.</p>
-   *
-   * @param clazz a {@link java.lang.Class} object.
-   */
-  StringPersistence(Class clazz) {
-    super(clazz);
-  }
-
-  /** {@inheritDoc} */
   @Override
-  public String loadFromBaseline(Differences key) {
-    return baseline().getString(key.getKey());
+  protected SamplePersistence<String> getPersistence() {
+    return Persistence.forString(getResourceClass());
   }
 
 }

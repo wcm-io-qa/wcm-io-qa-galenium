@@ -31,8 +31,8 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 class AllureValidationListener extends NoOpValidationListener {
 
-  private Stack<String> stepStack = new Stack<String>();
-  private String parentStep;
+  private final Stack<String> stepStack = new Stack<String>();
+  private final String parentStep;
 
   /**
    * <p>Constructor for AllureValidationListener.</p>

@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2019 wcm.io
+ * Copyright (C) 2020 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,35 +19,20 @@
  */
 package io.wcm.qa.glnm.persistence;
 
+import java.util.Arrays;
+import java.util.List;
+
 import io.wcm.qa.glnm.differences.base.Differences;
 
-/**
- * <p>
- * Generic sample persistence.
- * </p>
- *
- * @since 5.0.0
- */
-public interface SamplePersistence<T> {
+class StringListPersistence extends SamplePersistenceBase<List<String>> {
 
-  /**
-   * <p>
-   * Get sample from existing baseline.
-   * </p>
-   *
-   * @param key identifies sample
-   * @return a baseline sample
-   */
-  T loadFromBaseline(Differences key);
+  StringListPersistence(Class clazz) {
+    super(clazz);
+  }
 
-  /**
-   * <p>
-   * Store sample to potential new baseline.
-   * </p>
-   *
-   * @param key identifies sample
-   * @param sample a fresh sample from this test run
-   */
-  void storeToBaseline(Differences key, T sample);
-
+  /** {@inheritDoc} */
+  @Override
+  public List<String> loadFromBaseline(Differences key) {
+    return Arrays.asList(baseline().getStringArray(key.getKey()));
+  }
 }

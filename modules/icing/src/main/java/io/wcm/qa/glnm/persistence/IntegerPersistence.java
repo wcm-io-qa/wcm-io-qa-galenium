@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2019 wcm.io
+ * Copyright (C) 2020 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,60 +21,23 @@ package io.wcm.qa.glnm.persistence;
 
 import io.wcm.qa.glnm.differences.base.Differences;
 
-/**
- * <p>IntegerPersistence class.</p>
- *
- * @since 5.0.0
- */
-class IntegerPersistence implements SamplePersistence<Integer> {
 
-  private final SampleReader<Integer> reader;
+class IntegerPersistence extends SamplePersistenceBase<Integer> {
 
-  private final SampleWriter<Integer> writer;
-
-  /**
-   * <p>Constructor for IntegerPersistence.</p>
-   *
-   * @param clazz a {@link java.lang.Class} object.
-   */
   IntegerPersistence(Class clazz) {
-    reader = new IntegerReader(clazz);
-    writer = new IntegerWriter(clazz);
-  }
-  /** {@inheritDoc} */
-  @Override
-  public SampleReader<Integer> reader() {
-    return reader;
+    super(clazz);
   }
 
   /** {@inheritDoc} */
   @Override
-  public SampleWriter<Integer> writer() {
-    return writer;
+  public Integer loadFromBaseline(Differences key) {
+    return baseline().getInteger(key.getKey(), Integer.valueOf(0));
   }
 
-  private static final class IntegerReader extends SamplePropertiesReaderBase<Integer> {
-
-    private IntegerReader(Class clazz) {
-      super(clazz);
-    }
-
-    @Override
-    public Integer readSample(Differences differences) {
-      return Integer.parseInt(readSampleAsString(differences));
-    }
-  }
-
-  private static final class IntegerWriter extends SamplePropertiesWriterBase<Integer> {
-
-    private IntegerWriter(Class clazz) {
-      super(clazz);
-    }
-
-    @Override
-    public void writeSample(Differences differences, Integer sample) {
-      writeSampleAsString(differences, Integer.toString(sample));
-    }
+  /** {@inheritDoc} */
+  @Override
+  public void storeToBaseline(Differences key, Integer sample) {
+    super.storeToBaseline(key, sample);
   }
 
 }

@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2019 wcm.io
+ * Copyright (C) 2020 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,35 +19,27 @@
  */
 package io.wcm.qa.glnm.persistence;
 
-import io.wcm.qa.glnm.differences.base.Differences;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
 
 /**
  * <p>
- * Generic sample persistence.
+ * Will persist samples for new baseline based on current test run.
  * </p>
  *
  * @since 5.0.0
  */
-public interface SamplePersistence<T> {
+public class BaselinePersistenceExtension implements AfterAllCallback {
 
   /**
-   * <p>
-   * Get sample from existing baseline.
-   * </p>
+   * {@inheritDoc}
    *
-   * @param key identifies sample
-   * @return a baseline sample
+   * Persist all samples after all tests were run.
    */
-  T loadFromBaseline(Differences key);
-
-  /**
-   * <p>
-   * Store sample to potential new baseline.
-   * </p>
-   *
-   * @param key identifies sample
-   * @param sample a fresh sample from this test run
-   */
-  void storeToBaseline(Differences key, T sample);
+  @Override
+  public void afterAll(ExtensionContext context) throws Exception {
+    PersistingCacheUtil.persistNewBaseline();
+  }
 
 }

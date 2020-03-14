@@ -71,7 +71,9 @@ final class IcUtil {
 
   static void createDummyIfSampleDoesNotExist(String fullFilePath) {
     if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
-      LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
+      if (LOG.isInfoEnabled()) {
+        LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
+      }
 
       // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
       File targetFile = new File(fullFilePath);
@@ -81,18 +83,16 @@ final class IcUtil {
   }
 
   private static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
-    StringBuilder specText = new StringBuilder();
-
+    StringBuilder specText = new StringBuilder()
     // boiler plate
-    specText.append("image file ");
-
+        .append("image file ")
     // image file
-    specText.append(getImageOrDummySamplePath(folder, fileName));
+        .append(getImageOrDummySamplePath(folder, fileName));
 
     // tolerance
     if (StringUtils.isNotBlank(error)) {
-      specText.append(", error ");
-      specText.append(error);
+      specText.append(", error ")
+          .append(error);
     }
     if (offset > 0) {
       specText.append(", analyze-offset ");
@@ -169,15 +169,21 @@ final class IcUtil {
   private static File getSampleSourceFile(Spec spec, ValidationResult result) {
     String imagePath = getImagePathFrom(spec);
     if (StringUtils.isBlank(imagePath)) {
-      LOG.warn("could not extract image name from: " + spec.toText());
+      if (LOG.isWarnEnabled()) {
+        LOG.warn("could not extract image name from: " + spec.toText());
+      }
       return null;
     }
     File imageFile = getOriginalFilteredImage(result);
     if (imageFile != null) {
-      LOG.debug("sample source file: " + imageFile.getPath());
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("sample source file: " + imageFile.getPath());
+      }
       return imageFile;
     }
-    LOG.debug("sample source path: " + imagePath);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("sample source path: " + imagePath);
+    }
     return new File(imagePath);
   }
 
@@ -210,7 +216,7 @@ final class IcUtil {
           LOG.debug("done writing dummy image '" + targetFile);
         }
       }
-      else {
+      else if (LOG.isInfoEnabled()) {
         LOG.info("could not write dummy image '" + targetFile);
       }
       return targetFile;

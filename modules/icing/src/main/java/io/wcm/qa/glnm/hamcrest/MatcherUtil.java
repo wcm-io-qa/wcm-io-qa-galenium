@@ -28,13 +28,16 @@ import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
-import io.wcm.qa.glnm.differences.generic.SortedDifferences;
+import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 final class MatcherUtil {
 
-
   private MatcherUtil() {
     // do not instantiate
+  }
+
+  static <T> DifferentiatingMatcher<T> differentiate(Matcher<T> matcher) {
+    return differentiate(matcher, new MutableDifferences());
   }
 
   static <T> DifferentiatingMatcher<T> differentiate(Matcher<T> matcher, Differences differences) {
@@ -50,13 +53,13 @@ final class MatcherUtil {
 
   private static class DelegatingMatcher<T> implements DifferentiatingMatcher<T> {
 
-    private final SortedDifferences differences = new SortedDifferences();
+    private MutableDifferences differences = new MutableDifferences();
 
     private final Matcher<T> matcher;
 
     DelegatingMatcher(Matcher<T> matcher, Differences differences) {
       this.matcher = matcher;
-      this.differences.addAll(differences);
+      this.getDifferences().addAll(differences);
     }
 
     @SuppressWarnings("deprecation")
@@ -67,7 +70,7 @@ final class MatcherUtil {
 
     @Override
     public void add(Difference difference) {
-      differences.add(difference);
+      getDifferences().add(difference);
     }
 
     @Override
@@ -82,17 +85,17 @@ final class MatcherUtil {
 
     @Override
     public void forEach(Consumer<? super Difference> action) {
-      differences.forEach(action);
+      getDifferences().forEach(action);
     }
 
     @Override
     public String getKey() {
-      return differences.getKey();
+      return getDifferences().getKey();
     }
 
     @Override
     public Iterator<Difference> iterator() {
-      return differences.iterator();
+      return getDifferences().iterator();
     }
 
     @Override
@@ -102,7 +105,23 @@ final class MatcherUtil {
 
     @Override
     public Spliterator<Difference> spliterator() {
-      return differences.spliterator();
+      return getDifferences().spliterator();
+    }
+
+    @Override
+    public void prepend(Difference difference) {
+      MutableDifferences newDifferences = new MutableDifferences();
+      newDifferences.add(difference);
+      newDifferences.addAll(getDifferences());
+      setDifferences(newDifferences);
+    }
+
+    public MutableDifferences getDifferences() {
+      return differences;
+    }
+
+    private void setDifferences(MutableDifferences differences) {
+      this.differences = differences;
     }
   }
 }

@@ -20,29 +20,32 @@
 package io.wcm.qa.glnm.hamcrest;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 
-import io.wcm.qa.glnm.differences.base.Difference;
-import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.interaction.logs.LogEntryUtil;
+import io.wcm.qa.glnm.interaction.logs.ResponseEntry;
 
 /**
- * Combines {@link org.hamcrest.Matcher} with {@link io.wcm.qa.glnm.differences.base.Differences}.
+ * Galenium's equivalent to Hamcrest's MatcherAssert.
  *
- * @param <T> matcher type
  * @since 5.0.0
  */
-public interface DifferentiatingMatcher<T> extends Matcher<T>, Differences {
+public final class GaleniumAssert {
+
+  private GaleniumAssert() {
+    // do not instantiate
+  }
 
   /**
-   * <p>add.</p>
+   * <p>
+   * assertResponses.
+   * </p>
    *
-   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   * @param responseMatcher will be matching response entries from performance log
+   * @since 5.0.0
    */
-  void add(Difference difference);
+  public static void assertResponses(Matcher<? super Iterable<ResponseEntry>> responseMatcher) {
+    MatcherAssert.assertThat(LogEntryUtil.getResponseEntries(), responseMatcher);
+  }
 
-  /**
-   * <p>prepend.</p>
-   *
-   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
-   */
-  void prepend(Difference difference);
 }

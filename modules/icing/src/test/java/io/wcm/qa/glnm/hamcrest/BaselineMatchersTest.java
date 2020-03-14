@@ -19,28 +19,47 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import static io.wcm.qa.glnm.hamcrest.Matchers.asExpected;
-import static io.wcm.qa.glnm.hamcrest.Matchers.dependingOn;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalsString;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.on;
 
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import io.wcm.qa.glnm.differences.difference.IntegerDifference;
 import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.junit.CartesianProduct;
 import io.wcm.qa.glnm.junit.CsvSourceAbxCdx;
 import io.wcm.qa.glnm.junit.CsvSourceXY;
-import io.wcm.qa.glnm.sampling.string.FixedStringSampler;
+import io.wcm.qa.glnm.persistence.BaselinePersistenceExtension;
 
-
-class MatchersTest {
+@ExtendWith(BaselinePersistenceExtension.class)
+class BaselineMatchersTest {
 
   @CartesianProduct
   @CsvSourceAbxCdx
   @CsvSourceXY
   void testPersistingStringMatcher(String a, String b, String c, String x) {
-    GaleniumAssert.assertString(new FixedStringSampler(x),
-        dependingOn(new StringDifference(a),
-            dependingOn(new StringDifference(b),
-                dependingOn(new StringDifference(c),
-                    dependingOn(new StringDifference(x),
-                        asExpected())))));
+    MatcherAssert.assertThat(x,
+        on(new StringDifference(a),
+            on(new StringDifference(b),
+                on(new StringDifference(c),
+                    on(new StringDifference(x),
+                        equalsString())))));
+  }
+
+  @CartesianProduct
+  @CsvSourceAbxCdx
+  @CsvSourceXY
+  @ValueSource(ints = { 1, 2, Integer.MAX_VALUE, Integer.MIN_VALUE })
+  void testPersistingIntegerMatcher(String a, String b, String c, String x, Integer i) {
+    MatcherAssert.assertThat(i,
+        on(new StringDifference(a),
+            on(new StringDifference(b),
+                on(new StringDifference(c),
+                    on(new StringDifference(x),
+                        on(new IntegerDifference(i),
+                            BaselineMatchers.equalsInteger()))))));
   }
 
 }
