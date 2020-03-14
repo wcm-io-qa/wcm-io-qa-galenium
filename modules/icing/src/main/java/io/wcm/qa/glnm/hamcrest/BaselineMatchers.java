@@ -19,16 +19,10 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import java.util.Iterator;
-
-import org.apache.commons.lang3.StringUtils;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
-import io.wcm.qa.glnm.differences.generic.SortedDifferences;
 import io.wcm.qa.glnm.persistence.Persistence;
 import io.wcm.qa.glnm.persistence.SamplePersistence;
 
@@ -37,10 +31,25 @@ import io.wcm.qa.glnm.persistence.SamplePersistence;
  *
  * @since 5.0.0
  */
-public final class Matchers {
+public final class BaselineMatchers {
 
-  private Matchers() {
+  private BaselineMatchers() {
     // do not instantiate
+  }
+
+  /**
+   * Matcher using persistence.
+   *
+   * @return integer matcher working with baseline
+   */
+  public static Matcher<Integer> equalsInteger() {
+    return new BaselineMatcher<Integer>() {
+
+      @Override
+      protected SamplePersistence<Integer> getPersistence() {
+        return Persistence.forInteger(getResourceClass());
+      }
+    };
   }
 
   /**
@@ -48,87 +57,38 @@ public final class Matchers {
    *
    * @return string matcher working with baseline
    */
-  public static DifferentiatingMatcher<String> asExpected() {
-    SortedDifferences differences = new SortedDifferences();
-    Matcher<String> matcher = new BaselineStringMatcher(differences);
-    return MatcherUtil.differentiate(matcher, differences);
+  public static DifferentiatingMatcher<String> equalsString() {
+    return new BaselineStringMatcher();
   }
 
   /**
-   * <p>dependingOn.</p>
+   * <p>
+   * Adds a difference to following matchers.
+   * </p>
    *
+   * @param <T> type matcher can handle
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
    * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
    */
-  public static DifferentiatingMatcher<String> dependingOn(Difference difference, Matcher<String> matcher) {
-    SortedDifferences differences = new SortedDifferences();
-    differences.add(difference);
-    return MatcherUtil.differentiate(matcher, differences);
+  public static <T> DifferentiatingMatcher<T> on(Difference difference, Matcher<T> matcher) {
+    DifferentiatingMatcher<T> differentiatedMatcher = MatcherUtil.differentiate(matcher);
+    differentiatedMatcher.prepend(difference);
+    return differentiatedMatcher;
   }
 
-  private static final class BaselineStringMatcher extends TypeSafeMatcher<String>
-      implements DifferentiatingMatcher<String> {
-
-    private final SortedDifferences differences = new SortedDifferences();
-    private final SamplePersistence<String> persistence;
-
-    BaselineStringMatcher(Differences differences) {
-      persistence = Persistence.forString(getClass());
-      this.differences.addAll(differences);
-    }
-
-    @Override
-    public void describeTo(Description description) {
-      description.appendText("matches baseline with key '");
-      description.appendText(getDifferences().getKey());
-      description.appendText("': ");
-      description.appendText(baseline());
-    }
-
-    private SortedDifferences getDifferences() {
-      return differences;
-    }
-
-    private boolean match(String item) {
-      return StringUtils.equals(baseline(), item);
-    }
-
-    private String baseline() {
-      return getPersistence().reader().readSample(getDifferences());
-    }
-
-    private void persist(String item) {
-      getPersistence().writer().writeSample(getDifferences(), item);
-    }
-
-    private SamplePersistence<String> getPersistence() {
-      return persistence;
-    }
-
-    @Override
-    protected boolean matchesSafely(String item) {
-      if (match(item)) {
-        return true;
-      }
-      persist(item);
-      return false;
-    }
-
-    @Override
-    public String getKey() {
-      return getDifferences().getKey();
-    }
-
-    @Override
-    public Iterator<Difference> iterator() {
-      return getDifferences().iterator();
-    }
-
-    @Override
-    public void add(Difference difference) {
-      getDifferences().add(difference);
-    }
+  /**
+   * <p>
+   * Adds a difference to following matchers.
+   * </p>
+   *
+   * @param <T> type matcher can handle
+   * @param differences will be used to differentiate the matcher
+   * @param matcher a {@link org.hamcrest.Matcher} to be differentiated.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   */
+  public static <T> DifferentiatingMatcher<T> on(Differences differences, Matcher<T> matcher) {
+    return MatcherUtil.differentiate(matcher, differences);
   }
 
 }

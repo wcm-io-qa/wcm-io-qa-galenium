@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2019 wcm.io
+ * Copyright (C) 2020 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,61 +21,23 @@ package io.wcm.qa.glnm.persistence;
 
 import io.wcm.qa.glnm.differences.base.Differences;
 
-/**
- * <p>BooleanPersistence class.</p>
- *
- * @since 5.0.0
- */
-class BooleanPersistence implements SamplePersistence<Boolean> {
 
-  private final SampleReader<Boolean> reader;
+class BooleanPersistence extends SamplePersistenceBase<Boolean> {
 
-  private final SampleWriter<Boolean> writer;
-
-  /**
-   * <p>Constructor for BooleanPersistence.</p>
-   *
-   * @param clazz a {@link java.lang.Class} object.
-   */
   BooleanPersistence(Class clazz) {
-    reader = new BooleanReader(clazz);
-    writer = new BooleanWriter(clazz);
+    super(clazz);
   }
 
   /** {@inheritDoc} */
   @Override
-  public SampleReader<Boolean> reader() {
-    return reader;
+  public Boolean loadFromBaseline(Differences key) {
+    return baseline().getBoolean(key.getKey());
   }
 
   /** {@inheritDoc} */
   @Override
-  public SampleWriter<Boolean> writer() {
-    return writer;
-  }
-
-  private static final class BooleanReader extends SamplePropertiesReaderBase<Boolean> {
-
-    private BooleanReader(Class clazz) {
-      super(clazz);
-    }
-
-    @Override
-    public Boolean readSample(Differences differences) {
-      return Boolean.valueOf(readSampleAsString(differences));
-    }
-  }
-
-  private static final class BooleanWriter extends SamplePropertiesWriterBase<Boolean> {
-
-    private BooleanWriter(Class clazz) {
-      super(clazz);
-    }
-
-    @Override
-    public void writeSample(Differences differences, Boolean sample) {
-      writeSampleAsString(differences, Boolean.toString(sample));
-    }
+  public void storeToBaseline(Differences key, Boolean sample) {
+    super.storeToBaseline(key, sample);
   }
 
 }
