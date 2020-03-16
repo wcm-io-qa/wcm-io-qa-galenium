@@ -17,34 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.persistence;
+package io.wcm.qa.glnm.hamcrest;
 
-import java.util.NoSuchElementException;
+import io.wcm.qa.glnm.persistence.Persistence;
+import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-import io.wcm.qa.glnm.differences.base.Differences;
+final class BaselineBooleanMatcher extends BaselineMatcher<Boolean> {
 
-
-class IntegerPersistence extends SamplePersistenceBase<Integer> {
-
-  IntegerPersistence(Class clazz) {
-    super(clazz);
-  }
-
-  /** {@inheritDoc} */
   @Override
-  public Integer loadFromBaseline(Differences key) {
-    try {
-      return baseline().getInteger(key.getKey(), Integer.valueOf(0));
-    }
-    catch (NoSuchElementException ex) {
-      return null;
-    }
+  protected SamplePersistence<Boolean> getPersistence() {
+    return Persistence.forBoolean(getClass());
   }
-
-  /** {@inheritDoc} */
-  @Override
-  public void storeToBaseline(Differences key, Integer sample) {
-    super.storeToBaseline(key, sample);
-  }
-
 }

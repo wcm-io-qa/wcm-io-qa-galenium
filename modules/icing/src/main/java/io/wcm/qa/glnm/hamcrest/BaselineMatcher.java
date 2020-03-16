@@ -23,6 +23,8 @@ import java.util.Iterator;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
@@ -32,6 +34,7 @@ import io.wcm.qa.glnm.persistence.SamplePersistence;
 abstract class BaselineMatcher<T> extends TypeSafeMatcher<T>
     implements DifferentiatingMatcher<T> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(BaselineMatcher.class);
   private MutableDifferences differences = new MutableDifferences();
 
   BaselineMatcher() {
@@ -87,6 +90,9 @@ abstract class BaselineMatcher<T> extends TypeSafeMatcher<T>
   }
 
   private void persist(T item) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("persisting: " + item);
+    }
     getPersistence().storeToBaseline(getDifferences(), item);
   }
 

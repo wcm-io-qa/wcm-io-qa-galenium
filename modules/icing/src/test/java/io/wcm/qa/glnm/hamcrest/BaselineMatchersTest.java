@@ -22,6 +22,8 @@ package io.wcm.qa.glnm.hamcrest;
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalsString;
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.on;
 
+import java.util.Arrays;
+
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -60,6 +62,32 @@ class BaselineMatchersTest {
                     on(new StringDifference(x),
                         on(new IntegerDifference(i),
                             BaselineMatchers.equalsInteger()))))));
+  }
+
+  @CartesianProduct
+  @CsvSourceAbxCdx
+  @CsvSourceXY
+  @ValueSource(booleans = { true, false })
+  void testPersistingBooleanMatcher(String a, String b, String c, String x, Boolean bool) {
+    MatcherAssert.assertThat(bool,
+        on(new StringDifference(a),
+            on(new StringDifference(b),
+                on(new StringDifference(c),
+                    on(new StringDifference(x),
+                        on(new StringDifference(bool.toString()),
+                            BaselineMatchers.equalsBoolean()))))));
+  }
+
+  @CartesianProduct
+  @CsvSourceAbxCdx
+  @CsvSourceXY
+  void testPersistingStringListMatcher(String a, String b, String c, String x) {
+    MatcherAssert.assertThat(Arrays.asList(a, b, c, x),
+        on(new StringDifference(a),
+            on(new StringDifference(b),
+                on(new StringDifference(c),
+                    on(new StringDifference(x),
+                        BaselineMatchers.equalsStringList())))));
   }
 
 }

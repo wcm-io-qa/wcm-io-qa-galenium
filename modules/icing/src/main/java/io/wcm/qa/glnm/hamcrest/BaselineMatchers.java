@@ -19,12 +19,12 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import java.util.List;
+
 import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
-import io.wcm.qa.glnm.persistence.Persistence;
-import io.wcm.qa.glnm.persistence.SamplePersistence;
 
 /**
  * <p>Matchers class.</p>
@@ -40,16 +40,19 @@ public final class BaselineMatchers {
   /**
    * Matcher using persistence.
    *
+   * @return boolean matcher working with baseline
+   */
+  public static Matcher<Boolean> equalsBoolean() {
+    return new BaselineBooleanMatcher();
+  }
+
+  /**
+   * Matcher using persistence.
+   *
    * @return integer matcher working with baseline
    */
   public static Matcher<Integer> equalsInteger() {
-    return new BaselineMatcher<Integer>() {
-
-      @Override
-      protected SamplePersistence<Integer> getPersistence() {
-        return Persistence.forInteger(getResourceClass());
-      }
-    };
+    return new BaselineIntegerMatcher();
   }
 
   /**
@@ -59,6 +62,15 @@ public final class BaselineMatchers {
    */
   public static DifferentiatingMatcher<String> equalsString() {
     return new BaselineStringMatcher();
+  }
+
+  /**
+   * Matcher using persistence.
+   *
+   * @return string list matcher working with baseline
+   */
+  public static Matcher<List<String>> equalsStringList() {
+    return new BaselineStringListMatcher();
   }
 
   /**
