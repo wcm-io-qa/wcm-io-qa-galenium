@@ -19,10 +19,14 @@
  */
 package io.wcm.qa.glnm.persistence;
 
+import java.util.NoSuchElementException;
+
 import io.wcm.qa.glnm.differences.base.Differences;
 
 
 class BooleanPersistence extends SamplePersistenceBase<Boolean> {
+
+  private static final Boolean NOT_FOUND_VALUE = null;
 
   BooleanPersistence(Class clazz) {
     super(clazz);
@@ -31,7 +35,12 @@ class BooleanPersistence extends SamplePersistenceBase<Boolean> {
   /** {@inheritDoc} */
   @Override
   public Boolean loadFromBaseline(Differences key) {
-    return baseline().getBoolean(key.getKey());
+    try {
+      return baseline().getBoolean(key.getKey());
+    }
+    catch (NoSuchElementException ex) {
+      return NOT_FOUND_VALUE;
+    }
   }
 
   /** {@inheritDoc} */

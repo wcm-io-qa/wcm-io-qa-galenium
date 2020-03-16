@@ -67,8 +67,15 @@ final class PersistingCacheUtil {
   }
 
   static void persistNewBaseline() {
-    LOG.info("persisting baseline");
     Set<Entry<Class, PropertiesConfiguration>> allSamplesForAllClasses = CACHES_SAMPLES_PER_CLASS.asMap().entrySet();
+    if (allSamplesForAllClasses.isEmpty()) {
+      LOG.info("no new baseline to persist");
+      return;
+    }
+    LOG.info("persisting baseline");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("persisting baseline for " + allSamplesForAllClasses.size() + " classes");
+    }
     for (Entry<Class, PropertiesConfiguration> samplesForClass : allSamplesForAllClasses) {
       PropertiesConfiguration samples = samplesForClass.getValue();
       Class clazz = samplesForClass.getKey();
