@@ -22,7 +22,7 @@ package io.wcm.qa.glnm.hamcrest;
 import io.wcm.qa.glnm.persistence.Persistence;
 import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-final class BaselineIntegerMatcher extends BaselineMatcher<Integer> {
+final class BaselineIntegerMatcher extends BaselineDirectMatcher<Integer> {
 
   @Override
   protected SamplePersistence<Integer> getPersistence() {

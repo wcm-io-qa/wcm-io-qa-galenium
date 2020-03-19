@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalsString;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToString;
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.on;
 
 import java.util.Arrays;
@@ -47,7 +47,7 @@ class BaselineMatchersTest {
             on(new StringDifference(b),
                 on(new StringDifference(c),
                     on(new StringDifference(x),
-                        equalsString())))));
+                        equalToString())))));
   }
 
   @CartesianProduct
@@ -61,7 +61,7 @@ class BaselineMatchersTest {
                 on(new StringDifference(c),
                     on(new StringDifference(x),
                         on(new IntegerDifference(i),
-                            BaselineMatchers.equalsInteger()))))));
+                            BaselineMatchers.equalToInteger()))))));
   }
 
   @CartesianProduct
@@ -75,7 +75,7 @@ class BaselineMatchersTest {
                 on(new StringDifference(c),
                     on(new StringDifference(x),
                         on(new StringDifference(bool.toString()),
-                            BaselineMatchers.equalsBoolean()))))));
+                            BaselineMatchers.equalToBoolean()))))));
   }
 
   @CartesianProduct
@@ -87,7 +87,7 @@ class BaselineMatchersTest {
             on(new StringDifference(b),
                 on(new StringDifference(c),
                     on(new StringDifference(x),
-                        BaselineMatchers.equalsStringList())))));
+                        BaselineMatchers.equalToStringList())))));
   }
 
 }

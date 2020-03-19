@@ -48,16 +48,16 @@ final class MatcherUtil {
       }
       return differentiatingMatcher;
     }
-    return new DelegatingMatcher<T>(matcher, differences);
+    return new DifferentiatingMatcherWrapper<T>(matcher, differences);
   }
 
-  private static class DelegatingMatcher<T> implements DifferentiatingMatcher<T> {
+  private static class DifferentiatingMatcherWrapper<T> implements DifferentiatingMatcher<T> {
 
     private MutableDifferences differences = new MutableDifferences();
 
     private final Matcher<T> matcher;
 
-    DelegatingMatcher(Matcher<T> matcher, Differences differences) {
+    DifferentiatingMatcherWrapper(Matcher<T> matcher, Differences differences) {
       this.matcher = matcher;
       this.getDifferences().addAll(differences);
     }
@@ -88,6 +88,10 @@ final class MatcherUtil {
       getDifferences().forEach(action);
     }
 
+    public MutableDifferences getDifferences() {
+      return differences;
+    }
+
     @Override
     public String getKey() {
       return getDifferences().getKey();
@@ -104,11 +108,6 @@ final class MatcherUtil {
     }
 
     @Override
-    public Spliterator<Difference> spliterator() {
-      return getDifferences().spliterator();
-    }
-
-    @Override
     public void prepend(Difference difference) {
       MutableDifferences newDifferences = new MutableDifferences();
       newDifferences.add(difference);
@@ -116,8 +115,9 @@ final class MatcherUtil {
       setDifferences(newDifferences);
     }
 
-    public MutableDifferences getDifferences() {
-      return differences;
+    @Override
+    public Spliterator<Difference> spliterator() {
+      return getDifferences().spliterator();
     }
 
     private void setDifferences(MutableDifferences differences) {
