@@ -42,7 +42,7 @@ public final class BaselineMatchers {
    *
    * @return boolean matcher working with baseline
    */
-  public static Matcher<Boolean> equalsBoolean() {
+  public static Matcher<Boolean> equalToBoolean() {
     return new BaselineBooleanMatcher();
   }
 
@@ -51,7 +51,7 @@ public final class BaselineMatchers {
    *
    * @return integer matcher working with baseline
    */
-  public static Matcher<Integer> equalsInteger() {
+  public static Matcher<Integer> equalToInteger() {
     return new BaselineIntegerMatcher();
   }
 
@@ -60,7 +60,7 @@ public final class BaselineMatchers {
    *
    * @return string matcher working with baseline
    */
-  public static DifferentiatingMatcher<String> equalsString() {
+  public static DifferentiatingMatcher<String> equalToString() {
     return new BaselineStringMatcher();
   }
 
@@ -69,7 +69,7 @@ public final class BaselineMatchers {
    *
    * @return string list matcher working with baseline
    */
-  public static Matcher<List<String>> equalsStringList() {
+  public static Matcher<List<String>> equalToStringList() {
     return new BaselineStringListMatcher();
   }
 

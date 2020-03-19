@@ -31,8 +31,8 @@ import io.wcm.qa.glnm.differences.base.Differences;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-abstract class BaselineMatcher<T> extends TypeSafeMatcher<T>
-    implements DifferentiatingMatcher<T> {
+abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
+    implements DifferentiatingMatcher<M> {
 
   private static final Logger LOG = LoggerFactory.getLogger(BaselineMatcher.class);
   private MutableDifferences differences = new MutableDifferences();
@@ -81,7 +81,7 @@ abstract class BaselineMatcher<T> extends TypeSafeMatcher<T>
     setDifferences(newDifferences);
   }
 
-  private T baseline() {
+  private S baseline() {
     return getPersistence().loadFromBaseline(getDifferences());
   }
 
@@ -89,33 +89,35 @@ abstract class BaselineMatcher<T> extends TypeSafeMatcher<T>
     return differences;
   }
 
-  private void persist(T item) {
+  private void persist(S item) {
     if (LOG.isTraceEnabled()) {
       LOG.trace("persisting: " + item);
     }
     getPersistence().storeToBaseline(getDifferences(), item);
   }
 
-  protected abstract SamplePersistence<T> getPersistence();
+  protected abstract SamplePersistence<S> getPersistence();
 
   protected Class getResourceClass() {
     return getClass();
   }
 
-  protected boolean matchesBaseline(T item) {
-    return item.equals(getPersistence().loadFromBaseline(getDifferences()));
+  protected boolean matchesBaseline(S item) {
+    return item.equals(baseline());
   }
 
   @Override
-  protected boolean matchesSafely(T item) {
-    if (matchesBaseline(item)) {
+  protected boolean matchesSafely(M item) {
+    if (matchesBaseline(toBaselineType(item))) {
       return true;
     }
-    persist(item);
+    persist(toBaselineType(item));
     return false;
   }
 
   protected void setDifferences(MutableDifferences differences) {
     this.differences = differences;
   }
+
+  protected abstract S toBaselineType(M item);
 }
