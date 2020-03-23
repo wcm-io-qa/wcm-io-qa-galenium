@@ -23,14 +23,12 @@ import java.util.Map;
 
 import org.hamcrest.Matchers;
 
-final class BaseliningMapSizeMatcher extends BaselineIntegerMatcherBase<Map<? extends Object, ? extends Object>> {
+import io.wcm.qa.glnm.persistence.Persistence;
+
+final class BaseliningMapSizeMatcher extends BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer> {
 
   BaseliningMapSizeMatcher() {
-    super(Matchers::aMapWithSize);
+    super(Matchers::aMapWithSize, Persistence::forInteger, item -> item.size());
   }
 
-  @Override
-  protected Integer toBaselineType(Map<? extends Object, ? extends Object> item) {
-    return item.size();
-  }
 }

@@ -24,12 +24,18 @@ import java.util.function.Function;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import io.wcm.qa.glnm.persistence.SamplePersistence;
+
 abstract class BaseliningMatcher<M, S> extends BaselineMatcher<M, S> {
 
   private Matcher<M> internalMatcher;
   private Function<S, Matcher<M>> matcherProducer;
 
-  protected BaseliningMatcher(Function<S, Matcher<M>> matcherProducer) {
+  protected BaseliningMatcher(
+      Function<S, Matcher<M>> matcherProducer,
+      Function<Class, SamplePersistence<S>> persistenceProducer,
+      Function<M, S> baselineTransformer) {
+    super(persistenceProducer, baselineTransformer);
     setMatcherProducer(matcherProducer);
   }
 

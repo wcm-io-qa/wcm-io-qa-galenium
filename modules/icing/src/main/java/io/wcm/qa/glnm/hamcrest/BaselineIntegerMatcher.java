@@ -19,16 +19,11 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import org.hamcrest.Matchers;
+import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaselineIntegerMatcher extends BaselineIntegerMatcherBase<Integer> {
+final class BaselineIntegerMatcher extends BaselineDirectMatcher<Integer> {
 
-  protected BaselineIntegerMatcher() {
-    super(Matchers::equalTo);
-  }
-
-  @Override
-  protected Integer toBaselineType(Integer item) {
-    return item;
+  BaselineIntegerMatcher() {
+    super(Persistence::forInteger);
   }
 }

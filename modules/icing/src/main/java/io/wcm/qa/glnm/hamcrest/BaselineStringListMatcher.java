@@ -22,12 +22,11 @@ package io.wcm.qa.glnm.hamcrest;
 import java.util.List;
 
 import io.wcm.qa.glnm.persistence.Persistence;
-import io.wcm.qa.glnm.persistence.SamplePersistence;
 
 final class BaselineStringListMatcher extends BaselineDirectMatcher<List<String>> {
 
-  @Override
-  protected SamplePersistence<List<String>> getPersistence() {
-    return Persistence.forStringList(getClass());
+  BaselineStringListMatcher() {
+    super(Persistence::forStringList);
   }
+
 }

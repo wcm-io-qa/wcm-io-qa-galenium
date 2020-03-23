@@ -20,13 +20,11 @@
 package io.wcm.qa.glnm.hamcrest;
 
 import io.wcm.qa.glnm.persistence.Persistence;
-import io.wcm.qa.glnm.persistence.SamplePersistence;
 
 class BaselineStringMatcher extends BaselineDirectMatcher<String> {
 
-  @Override
-  protected SamplePersistence<String> getPersistence() {
-    return Persistence.forString(getResourceClass());
+  BaselineStringMatcher() {
+    super(Persistence::forString);
   }
 
 }
