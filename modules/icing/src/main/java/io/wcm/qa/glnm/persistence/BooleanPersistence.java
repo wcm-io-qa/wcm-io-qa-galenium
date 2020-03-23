@@ -28,8 +28,8 @@ class BooleanPersistence extends SamplePersistenceBase<Boolean> {
 
   private static final Boolean NOT_FOUND_VALUE = null;
 
-  BooleanPersistence(Class clazz) {
-    super(clazz);
+  BooleanPersistence() {
+    super();
   }
 
   /** {@inheritDoc} */

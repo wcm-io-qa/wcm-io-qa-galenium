@@ -19,16 +19,13 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import java.util.Map;
-
 import org.hamcrest.Matchers;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaseliningMapSizeMatcher extends BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer> {
+final class ArrayWithSize extends BaseliningMatcher<Object[], Integer> {
 
-  BaseliningMapSizeMatcher() {
-    super(Matchers::aMapWithSize, Persistence::forInteger, item -> item.size());
+  ArrayWithSize() {
+    super(Matchers::arrayWithSize, Persistence::forInteger, item -> item.length);
   }
-
 }

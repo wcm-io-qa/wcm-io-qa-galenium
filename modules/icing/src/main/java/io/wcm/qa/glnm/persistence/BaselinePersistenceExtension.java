@@ -42,11 +42,11 @@ import io.wcm.qa.glnm.differences.specialized.ClassDifferences;
 public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEachCallback {
 
   private static final String TEST_DIFFERENCES = "testDifferences";
+  private static final String TEST_CLASS = "testClass";
 
   /**
-   * {@inheritDoc}
-   *
    * Persist all samples after all tests were run.
+   * {@inheritDoc}
    */
   @Override
   public void afterAll(ExtensionContext context) throws Exception {
@@ -54,13 +54,13 @@ public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEac
   }
 
   /**
-   * {@inheritDoc}
-   *
    * Add context relative Differences.
+   * {@inheritDoc}
    */
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {
     Class<?> requiredTestClass = context.getRequiredTestClass();
+    GaleniumContext.put(TEST_CLASS, requiredTestClass);
     ClassDifferences classDifferences = new ClassDifferences(requiredTestClass);
     Method requiredTestMethod = context.getRequiredTestMethod();
     StringDifference methodDifference = new StringDifference(requiredTestMethod.getName());
@@ -77,5 +77,14 @@ public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEac
    */
   public static Differences getContextDifferences() {
     return (Differences)GaleniumContext.get(TEST_DIFFERENCES);
+  }
+
+  /**
+   * Context relative differences make the samples local to one test method.
+   *
+   * @return a {@link io.wcm.qa.glnm.differences.base.Differences} object.
+   */
+  public static Class getContextResourceClass() {
+    return (Class)GaleniumContext.get(TEST_CLASS);
   }
 }

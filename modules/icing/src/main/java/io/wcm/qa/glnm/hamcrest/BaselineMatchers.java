@@ -44,7 +44,16 @@ public final class BaselineMatchers {
    * @return baseline based version of {@link org.hamcrest.Matchers#aMapWithSize(int)}
    */
   public static Matcher<Map<? extends Object, ? extends Object>> aMapWithSize() {
-    return new BaseliningMapSizeMatcher();
+    return AMapWithSize.aMapWithSize();
+  }
+
+  /**
+   * Matches array with size.
+   *
+   * @return baseline based version of {@link org.hamcrest.Matchers#arrayWithSize(int)}
+   */
+  public static Matcher<Object[]> arrayWithSize() {
+    return new ArrayWithSize();
   }
 
   /**
