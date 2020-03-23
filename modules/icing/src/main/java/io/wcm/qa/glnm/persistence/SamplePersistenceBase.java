@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.persistence;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 
 import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
 
@@ -34,7 +35,7 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
   /** {@inheritDoc} */
   @Override
   public void storeToBaseline(Differences key, T sample) {
-    samples().setProperty(key.getKey(), sample);
+    samples().setProperty(keyWithContextDifferences(key), sample);
   }
 
   protected PropertiesConfiguration baseline() {
@@ -43,6 +44,16 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
 
   protected Class getResourceClass() {
     return resourceClass;
+  }
+
+  protected String keyWithContextDifferences(Differences key) {
+    MutableDifferences differences = new MutableDifferences();
+    Differences contextDifferences = BaselinePersistenceExtension.getContextDifferences();
+    if (contextDifferences != null) {
+      differences.addAll(contextDifferences);
+    }
+    differences.addAll(key);
+    return differences.getKey();
   }
 
   protected PropertiesConfiguration samples() {

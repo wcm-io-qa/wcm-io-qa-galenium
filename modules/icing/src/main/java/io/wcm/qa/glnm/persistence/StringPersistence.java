@@ -40,7 +40,7 @@ class StringPersistence extends SamplePersistenceBase<String> {
   /** {@inheritDoc} */
   @Override
   public String loadFromBaseline(Differences key) {
-    return baseline().getString(key.getKey());
+    return baseline().getString(keyWithContextDifferences(key));
   }
 
 }

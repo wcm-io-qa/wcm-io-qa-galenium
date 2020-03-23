@@ -34,7 +34,7 @@ class IntegerPersistence extends SamplePersistenceBase<Integer> {
   @Override
   public Integer loadFromBaseline(Differences key) {
     try {
-      return baseline().getInteger(key.getKey(), Integer.valueOf(0));
+      return baseline().getInteger(keyWithContextDifferences(key), Integer.valueOf(0));
     }
     catch (NoSuchElementException ex) {
       return null;
