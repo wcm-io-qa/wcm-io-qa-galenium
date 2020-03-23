@@ -19,16 +19,23 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import org.hamcrest.Matchers;
 
-final class BaselineIntegerMatcher extends BaselineIntegerMatcherBase<Integer> {
+import java.util.function.Function;
 
-  protected BaselineIntegerMatcher() {
-    super(Matchers::equalTo);
+import org.hamcrest.Matcher;
+
+import io.wcm.qa.glnm.persistence.Persistence;
+import io.wcm.qa.glnm.persistence.SamplePersistence;
+
+abstract class BaselineIntegerMatcherBase<M> extends BaseliningMatcher<M, Integer> {
+
+  protected BaselineIntegerMatcherBase(Function<Integer, Matcher<M>> matcherProducer) {
+    super(matcherProducer);
   }
 
   @Override
-  protected Integer toBaselineType(Integer item) {
-    return item;
+  protected SamplePersistence<Integer> getPersistence() {
+    return Persistence.forInteger(getResourceClass());
   }
+
 }

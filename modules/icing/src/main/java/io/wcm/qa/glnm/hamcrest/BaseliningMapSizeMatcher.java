@@ -19,16 +19,18 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import java.util.Map;
+
 import org.hamcrest.Matchers;
 
-final class BaselineIntegerMatcher extends BaselineIntegerMatcherBase<Integer> {
+final class BaseliningMapSizeMatcher extends BaselineIntegerMatcherBase<Map<? extends Object, ? extends Object>> {
 
-  protected BaselineIntegerMatcher() {
-    super(Matchers::equalTo);
+  BaseliningMapSizeMatcher() {
+    super(Matchers::aMapWithSize);
   }
 
   @Override
-  protected Integer toBaselineType(Integer item) {
-    return item;
+  protected Integer toBaselineType(Map<? extends Object, ? extends Object> item) {
+    return item.size();
   }
 }
