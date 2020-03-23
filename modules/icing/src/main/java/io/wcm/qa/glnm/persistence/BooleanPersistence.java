@@ -36,7 +36,7 @@ class BooleanPersistence extends SamplePersistenceBase<Boolean> {
   @Override
   public Boolean loadFromBaseline(Differences key) {
     try {
-      return baseline().getBoolean(key.getKey());
+      return baseline().getBoolean(keyWithContextDifferences(key));
     }
     catch (NoSuchElementException ex) {
       return NOT_FOUND_VALUE;

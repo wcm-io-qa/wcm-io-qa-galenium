@@ -33,6 +33,6 @@ class StringListPersistence extends SamplePersistenceBase<List<String>> {
   /** {@inheritDoc} */
   @Override
   public List<String> loadFromBaseline(Differences key) {
-    return Arrays.asList(baseline().getStringArray(key.getKey()));
+    return Arrays.asList(baseline().getStringArray(keyWithContextDifferences(key)));
   }
 }

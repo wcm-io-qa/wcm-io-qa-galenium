@@ -31,7 +31,7 @@ class ObjectPersistence extends SamplePersistenceBase<Object> {
   /** {@inheritDoc} */
   @Override
   public Object loadFromBaseline(Differences key) {
-    return baseline().getProperty(key.getKey());
+    return baseline().getProperty(keyWithContextDifferences(key));
   }
 
 }

@@ -81,7 +81,7 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
     setDifferences(newDifferences);
   }
 
-  private S baseline() {
+  protected S baseline() {
     return getPersistence().loadFromBaseline(getDifferences());
   }
 

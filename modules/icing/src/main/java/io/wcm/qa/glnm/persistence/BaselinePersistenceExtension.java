@@ -19,8 +19,17 @@
  */
 package io.wcm.qa.glnm.persistence;
 
+import java.lang.reflect.Method;
+
 import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+
+import io.wcm.qa.glnm.context.GaleniumContext;
+import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.differences.difference.StringDifference;
+import io.wcm.qa.glnm.differences.generic.MutableDifferences;
+import io.wcm.qa.glnm.differences.specialized.ClassDifferences;
 
 
 /**
@@ -30,7 +39,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  *
  * @since 5.0.0
  */
-public class BaselinePersistenceExtension implements AfterAllCallback {
+public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEachCallback {
+
+  private static final String TEST_DIFFERENCES = "testDifferences";
 
   /**
    * {@inheritDoc}
@@ -42,4 +53,29 @@ public class BaselinePersistenceExtension implements AfterAllCallback {
     PersistingCacheUtil.persistNewBaseline();
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * Add context relative Differences.
+   */
+  @Override
+  public void beforeEach(ExtensionContext context) throws Exception {
+    Class<?> requiredTestClass = context.getRequiredTestClass();
+    ClassDifferences classDifferences = new ClassDifferences(requiredTestClass);
+    Method requiredTestMethod = context.getRequiredTestMethod();
+    StringDifference methodDifference = new StringDifference(requiredTestMethod.getName());
+    MutableDifferences differences = new MutableDifferences();
+    differences.addAll(classDifferences);
+    differences.add(methodDifference);
+    GaleniumContext.put(TEST_DIFFERENCES, differences);
+  }
+
+  /**
+   * Context relative differences make the samples local to one test method.
+   *
+   * @return a {@link io.wcm.qa.glnm.differences.base.Differences} object.
+   */
+  public static Differences getContextDifferences() {
+    return (Differences)GaleniumContext.get(TEST_DIFFERENCES);
+  }
 }

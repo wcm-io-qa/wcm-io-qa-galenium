@@ -34,7 +34,7 @@ class StringArrayPersistence extends SamplePersistenceBase<String[]> {
   @Override
   public String[] loadFromBaseline(Differences key) {
     try {
-    return baseline().getStringArray(key.getKey());
+      return baseline().getStringArray(keyWithContextDifferences(key));
     }
     catch (NoSuchElementException ex) {
       return new String[0];
