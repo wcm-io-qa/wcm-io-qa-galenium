@@ -19,17 +19,19 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.Map;
 
 import org.hamcrest.Matchers;
 
-import io.wcm.qa.glnm.persistence.SamplePersistence;
+import io.wcm.qa.glnm.persistence.Persistence;
 
-class BaselineDirectMatcher<T> extends BaseliningMatcher<T, T> {
+final class AMapWithSize extends BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer> {
 
-  BaselineDirectMatcher(Supplier<SamplePersistence<T>> persistenceSupplier) {
-    super(Matchers::is, persistenceSupplier, Function.identity());
+  AMapWithSize() {
+    super(Matchers::aMapWithSize, Persistence::forInteger, item -> item.size());
   }
 
+  static AMapWithSize aMapWithSize() {
+    return new AMapWithSize();
+  }
 }

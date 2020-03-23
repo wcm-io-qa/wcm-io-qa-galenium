@@ -37,12 +37,11 @@ public final class Persistence {
    * Persistence implementation for Boolean samples.
    * </p>
    *
-   * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for boolean samples
    * @since 5.0.0
    */
-  public static SamplePersistence<Boolean> forBoolean(Class clazz) {
-    return new BooleanPersistence(clazz);
+  public static SamplePersistence<Boolean> forBoolean() {
+    return new BooleanPersistence();
   }
 
   /**
@@ -50,34 +49,31 @@ public final class Persistence {
    * Persistence implementation for Integer samples.
    * </p>
    *
-   * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for integer samples
    * @since 5.0.0
    */
-  public static SamplePersistence<Integer> forInteger(Class clazz) {
-    return new IntegerPersistence(clazz);
+  public static SamplePersistence<Integer> forInteger() {
+    return new IntegerPersistence();
   }
 
   /**
    * Persistence implementation for samples just using their toString method.
    *
-   * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} object.
    * @since 5.0.0
    */
-  public static SamplePersistence<Object> forObject(Class clazz) {
-    return new ObjectPersistence(clazz);
+  public static SamplePersistence<Object> forObject() {
+    return new ObjectPersistence();
   }
 
   /**
    * Persistence implementation for String samples.
    *
-   * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} object.
    * @since 5.0.0
    */
-  public static SamplePersistence<String> forString(Class clazz) {
-    return new StringPersistence(clazz);
+  public static SamplePersistence<String> forString() {
+    return new StringPersistence();
   }
 
   /**
@@ -85,12 +81,11 @@ public final class Persistence {
    * Persistence implementation for String array samples.
    * </p>
    *
-   * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for sampled arrays of strings
    * @since 5.0.0
    */
-  public static SamplePersistence<String[]> forStringArray(Class clazz) {
-    return new StringArrayPersistence(clazz);
+  public static SamplePersistence<String[]> forStringArray() {
+    return new StringArrayPersistence();
   }
 
   /**
@@ -98,12 +93,11 @@ public final class Persistence {
    * Persistence implementation for String list samples.
    * </p>
    *
-   * @param clazz to fetch and persist resource for
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for sampled lists of strings
    * @since 5.0.0
    */
-  public static SamplePersistence<List<String>> forStringList(Class clazz) {
-    return new StringListPersistence(clazz);
+  public static SamplePersistence<List<String>> forStringList() {
+    return new StringListPersistence();
   }
 
   /**
@@ -121,19 +115,19 @@ public final class Persistence {
   @SuppressWarnings("unchecked")
   public static <T> SamplePersistence<T> forType(Class resourceClass, Class<? extends T> sampleType) {
     if (String.class.isAssignableFrom(sampleType)) {
-      return (SamplePersistence<T>)forString(resourceClass);
+      return (SamplePersistence<T>)forString();
     }
     if (Boolean.class.isAssignableFrom(sampleType)) {
-      return (SamplePersistence<T>)forBoolean(resourceClass);
+      return (SamplePersistence<T>)forBoolean();
     }
     if (Integer.class.isAssignableFrom(sampleType)) {
-      return (SamplePersistence<T>)forInteger(resourceClass);
+      return (SamplePersistence<T>)forInteger();
     }
     if (String[].class.isAssignableFrom(sampleType)) {
-      return (SamplePersistence<T>)forStringArray(resourceClass);
+      return (SamplePersistence<T>)forStringArray();
     }
 
-    return (SamplePersistence<T>)forObject(sampleType);
+    return (SamplePersistence<T>)forObject();
   }
 
 }

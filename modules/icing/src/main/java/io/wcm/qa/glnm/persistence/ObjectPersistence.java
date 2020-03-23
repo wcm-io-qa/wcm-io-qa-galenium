@@ -24,10 +24,6 @@ import io.wcm.qa.glnm.differences.base.Differences;
 
 class ObjectPersistence extends SamplePersistenceBase<Object> {
 
-  ObjectPersistence(Class clazz) {
-    super(clazz);
-  }
-
   /** {@inheritDoc} */
   @Override
   public Object loadFromBaseline(Differences key) {

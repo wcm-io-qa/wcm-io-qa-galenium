@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.hamcrest;
 
 import java.util.Iterator;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -38,21 +39,21 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
   private static final Logger LOG = LoggerFactory.getLogger(BaselineMatcher.class);
   private Function<M, S> baselineTransformer;
   private MutableDifferences differences = new MutableDifferences();
-  private Function<Class, SamplePersistence<S>> persistenceProducer;
+  private Supplier<SamplePersistence<S>> persistenceSupplier;
 
   BaselineMatcher(
       Differences differences,
-      Function<Class, SamplePersistence<S>> persistenceProducer,
+      Supplier<SamplePersistence<S>> persistenceSupplier,
       Function<M, S> baselineTransformer) {
     getDifferences().addAll(differences);
-    setPersistenceProducer(persistenceProducer);
+    setPersistenceSupplier(persistenceSupplier);
     setBaselineTransformer(baselineTransformer);
   }
 
   BaselineMatcher(
-      Function<Class, SamplePersistence<S>> persistenceProducer,
+      Supplier<SamplePersistence<S>> persistenceSupplier,
       Function<M, S> transformer) {
-    this(new MutableDifferences(), persistenceProducer, transformer);
+    this(new MutableDifferences(), persistenceSupplier, transformer);
   }
 
   /** {@inheritDoc} */
@@ -91,10 +92,6 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
     setDifferences(newDifferences);
   }
 
-  private MutableDifferences getDifferences() {
-    return differences;
-  }
-
   private void persist(S item) {
     if (LOG.isTraceEnabled()) {
       LOG.trace("persisting: " + item);
@@ -110,25 +107,23 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
     return baselineTransformer;
   }
 
+  protected MutableDifferences getDifferences() {
+    return differences;
+  }
+
   protected SamplePersistence<S> getPersistence() {
-    return getPersistenceSupplier().apply(getResourceClass());
+    return getPersistenceSupplier().get();
   }
 
-  protected Function<Class, SamplePersistence<S>> getPersistenceSupplier() {
-    return persistenceProducer;
+  protected Supplier<SamplePersistence<S>> getPersistenceSupplier() {
+    return persistenceSupplier;
   }
 
-  protected Class getResourceClass() {
-    return getClass();
-  }
-
-  protected boolean matchesBaseline(S item) {
-    return item.equals(baseline());
-  }
+  protected abstract boolean matchesBaseline(M item);
 
   @Override
   protected boolean matchesSafely(M item) {
-    if (matchesBaseline(toBaselineType(item))) {
+    if (matchesBaseline(item)) {
       return true;
     }
     persist(toBaselineType(item));
@@ -143,8 +138,8 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
     this.differences = differences;
   }
 
-  protected void setPersistenceProducer(Function<Class, SamplePersistence<S>> persistenceProducer) {
-    this.persistenceProducer = persistenceProducer;
+  protected void setPersistenceSupplier(Supplier<SamplePersistence<S>> persistenceSupplier) {
+    this.persistenceSupplier = persistenceSupplier;
   }
 
   protected S toBaselineType(M item) {

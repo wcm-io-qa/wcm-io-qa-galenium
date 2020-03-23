@@ -28,15 +28,6 @@ import io.wcm.qa.glnm.differences.base.Differences;
  */
 class StringPersistence extends SamplePersistenceBase<String> {
 
-  /**
-   * <p>Constructor for StringPersistence.</p>
-   *
-   * @param clazz a {@link java.lang.Class} object.
-   */
-  StringPersistence(Class clazz) {
-    super(clazz);
-  }
-
   /** {@inheritDoc} */
   @Override
   public String loadFromBaseline(Differences key) {

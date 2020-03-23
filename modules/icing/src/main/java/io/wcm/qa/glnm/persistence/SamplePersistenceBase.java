@@ -28,14 +28,18 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
 
   private Class resourceClass;
 
-  SamplePersistenceBase(Class clazz) {
-    setResourceClass(clazz);
-  }
-
   /** {@inheritDoc} */
   @Override
   public void storeToBaseline(Differences key, T sample) {
     samples().setProperty(keyWithContextDifferences(key), sample);
+  }
+
+  private Class initResourceClass() {
+    Class contextResourceClass = BaselinePersistenceExtension.getContextResourceClass();
+    if (contextResourceClass != null) {
+      return contextResourceClass;
+    }
+    return getClass();
   }
 
   protected PropertiesConfiguration baseline() {
@@ -43,6 +47,9 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
   }
 
   protected Class getResourceClass() {
+    if (resourceClass == null) {
+      resourceClass = initResourceClass();
+    }
     return resourceClass;
   }
 

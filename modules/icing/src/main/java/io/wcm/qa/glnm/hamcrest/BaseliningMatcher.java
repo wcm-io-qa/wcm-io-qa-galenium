@@ -20,6 +20,7 @@
 package io.wcm.qa.glnm.hamcrest;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -33,20 +34,20 @@ abstract class BaseliningMatcher<M, S> extends BaselineMatcher<M, S> {
 
   protected BaseliningMatcher(
       Function<S, Matcher<M>> matcherProducer,
-      Function<Class, SamplePersistence<S>> persistenceProducer,
+      Supplier<SamplePersistence<S>> persistenceSupplier,
       Function<M, S> baselineTransformer) {
-    super(persistenceProducer, baselineTransformer);
+    super(persistenceSupplier, baselineTransformer);
     setMatcherProducer(matcherProducer);
-  }
-
-  private void setMatcherProducer(Function<S, Matcher<M>> matcherProducer) {
-    this.matcherProducer = matcherProducer;
   }
 
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
     getInternalMatcher().describeTo(description);
+  }
+
+  protected void setMatcherProducer(Function<S, Matcher<M>> matcherProducer) {
+    this.matcherProducer = matcherProducer;
   }
 
   @Override
@@ -63,6 +64,11 @@ abstract class BaseliningMatcher<M, S> extends BaselineMatcher<M, S> {
 
   protected Function<S, Matcher<M>> getMatcherProducer() {
     return matcherProducer;
+  }
+
+  @Override
+  protected boolean matchesBaseline(M item) {
+    return getMatcherProducer().apply(baseline()).matches(item);
   }
 
   protected Matcher<M> produceMatcher() {

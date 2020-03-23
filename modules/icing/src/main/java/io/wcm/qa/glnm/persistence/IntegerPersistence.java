@@ -26,10 +26,6 @@ import io.wcm.qa.glnm.differences.base.Differences;
 
 class IntegerPersistence extends SamplePersistenceBase<Integer> {
 
-  IntegerPersistence(Class clazz) {
-    super(clazz);
-  }
-
   /** {@inheritDoc} */
   @Override
   public Integer loadFromBaseline(Differences key) {

@@ -26,10 +26,6 @@ import io.wcm.qa.glnm.differences.base.Differences;
 
 class StringListPersistence extends SamplePersistenceBase<List<String>> {
 
-  StringListPersistence(Class clazz) {
-    super(clazz);
-  }
-
   /** {@inheritDoc} */
   @Override
   public List<String> loadFromBaseline(Differences key) {

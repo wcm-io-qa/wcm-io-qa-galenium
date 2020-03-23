@@ -26,10 +26,6 @@ import io.wcm.qa.glnm.differences.base.Differences;
 
 class StringArrayPersistence extends SamplePersistenceBase<String[]> {
 
-  StringArrayPersistence(Class clazz) {
-    super(clazz);
-  }
-
   /** {@inheritDoc} */
   @Override
   public String[] loadFromBaseline(Differences key) {
