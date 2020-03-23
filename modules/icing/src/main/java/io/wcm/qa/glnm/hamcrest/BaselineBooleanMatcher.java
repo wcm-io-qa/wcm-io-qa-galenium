@@ -20,12 +20,10 @@
 package io.wcm.qa.glnm.hamcrest;
 
 import io.wcm.qa.glnm.persistence.Persistence;
-import io.wcm.qa.glnm.persistence.SamplePersistence;
 
 final class BaselineBooleanMatcher extends BaselineDirectMatcher<Boolean> {
 
-  @Override
-  protected SamplePersistence<Boolean> getPersistence() {
-    return Persistence.forBoolean(getClass());
+  BaselineBooleanMatcher() {
+    super(Persistence::forBoolean);
   }
 }

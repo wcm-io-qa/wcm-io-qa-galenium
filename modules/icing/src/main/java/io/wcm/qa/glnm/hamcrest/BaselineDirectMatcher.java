@@ -19,11 +19,14 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-abstract class BaselineDirectMatcher<T> extends BaselineMatcher<T, T> {
+import java.util.function.Function;
 
-  @Override
-  protected T toBaselineType(T item) {
-    return item;
+import io.wcm.qa.glnm.persistence.SamplePersistence;
+
+class BaselineDirectMatcher<T> extends BaselineMatcher<T, T> {
+
+  BaselineDirectMatcher(Function<Class, SamplePersistence<T>> persistenceProducer) {
+    super(persistenceProducer, Function.identity());
   }
 
 }
