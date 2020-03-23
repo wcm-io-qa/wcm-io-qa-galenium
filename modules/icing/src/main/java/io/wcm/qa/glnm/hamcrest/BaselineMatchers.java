@@ -23,12 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
-import io.wcm.qa.glnm.persistence.Persistence;
-import io.wcm.qa.glnm.persistence.SamplePersistence;
 
 /**
  * <p>Matchers class.</p>
@@ -39,6 +36,15 @@ public final class BaselineMatchers {
 
   private BaselineMatchers() {
     // do not instantiate
+  }
+
+  /**
+   * Matches map size against baseline.
+   *
+   * @return baseline based version of {@link org.hamcrest.Matchers#aMapWithSize(int)}
+   */
+  public static Matcher<Map<? extends Object, ? extends Object>> aMapWithSize() {
+    return new BaseliningMapSizeMatcher();
   }
 
   /**
@@ -75,27 +81,6 @@ public final class BaselineMatchers {
    */
   public static Matcher<List<String>> equalToStringList() {
     return new BaselineStringListMatcher();
-  }
-
-  /**
-   * Matches map size against baseline.
-   *
-   * @return baseline based version of {@link org.hamcrest.Matchers#aMapWithSize(int)}
-   */
-  public static Matcher<Map<? extends Object, ? extends Object>> aMapWithSize() {
-    //    Matchers.
-    return new BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer>(Matchers::aMapWithSize) {
-
-      @Override
-      protected SamplePersistence<Integer> getPersistence() {
-        return Persistence.forInteger(BaselineMatchers.class);
-      }
-
-      @Override
-      protected Integer toBaselineType(Map<? extends Object, ? extends Object> item) {
-        return item.size();
-      }
-    };
   }
 
   /**
