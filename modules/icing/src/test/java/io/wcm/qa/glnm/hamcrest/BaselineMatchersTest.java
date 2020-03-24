@@ -19,10 +19,11 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToBoolean;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToInteger;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToString;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToStringList;
+
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineBoolean;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineInteger;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineString;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineStringList;
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.on;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -46,7 +47,7 @@ class BaselineMatchersTest {
   @CsvSourceXY
   void testPersistingStringMatcher(String a, String b, String c, String x) {
     MatcherAssert.assertThat(x,
-        on(a, on(b, on(c, on(x, equalToString())))));
+        on(a, on(b, on(c, on(x, baselineString())))));
   }
 
   @CartesianProduct
@@ -57,7 +58,7 @@ class BaselineMatchersTest {
     assertThat(i,
         on(a, on(b, on(c, on(x,
             on(new IntegerDifference(i),
-                equalToInteger()))))));
+                baselineInteger()))))));
   }
 
   @CartesianProduct
@@ -68,7 +69,7 @@ class BaselineMatchersTest {
     assertThat(bool,
         on(a, on(b, on(c, on(x,
             on(bool.toString(),
-                equalToBoolean()))))));
+                baselineBoolean()))))));
   }
 
   @CartesianProduct
@@ -77,7 +78,7 @@ class BaselineMatchersTest {
   void testPersistingStringListMatcher(String a, String b, String c, String x) {
     assertThat(
         Arrays.asList(a, b, c, x),
-        on(a, on(b, on(c, on(x, equalToStringList())))));
+        on(a, on(b, on(c, on(x, baselineStringList())))));
   }
 
 }

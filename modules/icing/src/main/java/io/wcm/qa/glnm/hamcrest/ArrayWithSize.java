@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 import io.wcm.qa.glnm.persistence.Persistence;
@@ -30,5 +31,14 @@ final class ArrayWithSize extends BaseliningMatcher<Object[], Integer> {
         Matchers::arrayWithSize,
         Persistence::forIntegerWithDefault,
         item -> item.length);
+  }
+
+  /**
+   * <p>arrayWithSize.</p>
+   *
+   * @return a {@link org.hamcrest.Matcher} object.
+   */
+  public static Matcher<Object[]> arrayWithSize() {
+    return new ArrayWithSize();
   }
 }

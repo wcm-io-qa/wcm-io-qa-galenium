@@ -19,12 +19,14 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import java.util.List;
+
 import io.wcm.qa.glnm.persistence.Persistence;
 
-class BaselineStringMatcher extends BaselineDirectMatcher<String> {
+final class BaselineStringList extends BaselineDirectMatcher<List<String>> {
 
-  BaselineStringMatcher() {
-    super(Persistence::forString);
+  BaselineStringList() {
+    super(Persistence::forStringList);
   }
 
 }

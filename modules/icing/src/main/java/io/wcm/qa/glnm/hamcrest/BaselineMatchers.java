@@ -54,7 +54,7 @@ public final class BaselineMatchers {
    * @return baseline based version of {@link org.hamcrest.Matchers#arrayWithSize(int)}
    */
   public static Matcher<Object[]> arrayWithSize() {
-    return new ArrayWithSize();
+    return ArrayWithSize.arrayWithSize();
   }
 
   /**
@@ -62,8 +62,8 @@ public final class BaselineMatchers {
    *
    * @return boolean matcher working with baseline
    */
-  public static Matcher<Boolean> equalToBoolean() {
-    return new BaselineBooleanMatcher();
+  public static Matcher<Boolean> baselineBoolean() {
+    return BaselineBoolean.baselineBoolean();
   }
 
   /**
@@ -71,8 +71,8 @@ public final class BaselineMatchers {
    *
    * @return integer matcher working with baseline
    */
-  public static Matcher<Integer> equalToInteger() {
-    return new BaselineIntegerMatcher();
+  public static Matcher<Integer> baselineInteger() {
+    return BaselineInteger.baselineInteger();
   }
 
   /**
@@ -80,8 +80,8 @@ public final class BaselineMatchers {
    *
    * @return string matcher working with baseline
    */
-  public static DifferentiatingMatcher<String> equalToString() {
-    return new BaselineStringMatcher();
+  public static DifferentiatingMatcher<String> baselineString() {
+    return BaselineString.baselineString();
   }
 
   /**
@@ -89,14 +89,15 @@ public final class BaselineMatchers {
    *
    * @return string list matcher working with baseline
    */
-  public static Matcher<List<String>> equalToStringList() {
-    return new BaselineStringListMatcher();
+  public static Matcher<List<String>> baselineStringList() {
+    return new BaselineStringList();
   }
 
   /**
    * <p>
    * Adds a difference to following matchers.
    * </p>
+   *
    * @param <T> type matcher can handle
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.

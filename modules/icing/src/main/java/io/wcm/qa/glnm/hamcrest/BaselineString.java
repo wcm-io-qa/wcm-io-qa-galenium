@@ -21,9 +21,19 @@ package io.wcm.qa.glnm.hamcrest;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaselineBooleanMatcher extends BaselineDirectMatcher<Boolean> {
+final class BaselineString extends BaselineDirectMatcher<String> {
 
-  BaselineBooleanMatcher() {
-    super(Persistence::forBoolean);
+  BaselineString() {
+    super(Persistence::forString);
   }
+
+  /**
+   * <p>baselineString.</p>
+   *
+   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   */
+  public static DifferentiatingMatcher<String> baselineString() {
+    return new BaselineString();
+  }
+
 }
