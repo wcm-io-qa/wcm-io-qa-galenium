@@ -19,14 +19,22 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import java.util.List;
+import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaselineStringListMatcher extends BaselineDirectMatcher<List<String>> {
+final class BaselineInteger extends BaselineDirectMatcher<Integer> {
 
-  BaselineStringListMatcher() {
-    super(Persistence::forStringList);
+  BaselineInteger() {
+    super(Persistence::forInteger);
   }
 
+  /**
+   * <p>baselineInteger.</p>
+   *
+   * @return a {@link org.hamcrest.Matcher} object.
+   */
+  public static Matcher<Integer> baselineInteger() {
+    return new BaselineInteger();
+  }
 }

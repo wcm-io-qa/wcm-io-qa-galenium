@@ -19,11 +19,22 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import org.hamcrest.Matcher;
+
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaselineIntegerMatcher extends BaselineDirectMatcher<Integer> {
+final class BaselineBoolean extends BaselineDirectMatcher<Boolean> {
 
-  BaselineIntegerMatcher() {
-    super(Persistence::forInteger);
+  BaselineBoolean() {
+    super(Persistence::forBoolean);
+  }
+
+  /**
+   * <p>baselineBoolean.</p>
+   *
+   * @return a {@link org.hamcrest.Matcher} object.
+   */
+  public static Matcher<Boolean> baselineBoolean() {
+    return new BaselineBoolean();
   }
 }

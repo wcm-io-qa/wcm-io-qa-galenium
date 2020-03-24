@@ -19,26 +19,21 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import java.util.Iterator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
-    implements DifferentiatingMatcher<M> {
+abstract class BaselineMatcher<M, S> extends DifferentiatingMatcherBase<M> {
 
   private static final Logger LOG = LoggerFactory.getLogger(BaselineMatcher.class);
   private Function<M, S> baselineTransformer;
-  private MutableDifferences differences = new MutableDifferences();
   private Supplier<SamplePersistence<S>> persistenceSupplier;
 
   BaselineMatcher(
@@ -58,38 +53,11 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
 
   /** {@inheritDoc} */
   @Override
-  public void add(Difference difference) {
-    getDifferences().add(difference);
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public void describeTo(Description description) {
     description.appendText("matches baseline with key '");
     description.appendText(getDifferences().getKey());
     description.appendText("': ");
     description.appendValue(baseline());
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String getKey() {
-    return getDifferences().getKey();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Iterator<Difference> iterator() {
-    return getDifferences().iterator();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void prepend(Difference difference) {
-    MutableDifferences newDifferences = new MutableDifferences();
-    newDifferences.add(difference);
-    newDifferences.addAll(getDifferences());
-    setDifferences(newDifferences);
   }
 
   private void persist(S item) {
@@ -107,10 +75,6 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
     return baselineTransformer;
   }
 
-  protected MutableDifferences getDifferences() {
-    return differences;
-  }
-
   protected SamplePersistence<S> getPersistence() {
     return getPersistenceSupplier().get();
   }
@@ -122,7 +86,7 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
   protected abstract boolean matchesBaseline(M item);
 
   @Override
-  protected boolean matchesSafely(M item) {
+  protected boolean matchesDifferentiated(M item) {
     if (matchesBaseline(item)) {
       return true;
     }
@@ -132,10 +96,6 @@ abstract class BaselineMatcher<M, S> extends TypeSafeMatcher<M>
 
   protected void setBaselineTransformer(Function<M, S> baselineTransformer) {
     this.baselineTransformer = baselineTransformer;
-  }
-
-  protected void setDifferences(MutableDifferences differences) {
-    this.differences = differences;
   }
 
   protected void setPersistenceSupplier(Supplier<SamplePersistence<S>> persistenceSupplier) {
