@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.persistence;
 
-import java.util.NoSuchElementException;
-
 import io.wcm.qa.glnm.differences.base.Differences;
 
 
@@ -28,19 +26,13 @@ class StringArrayPersistence extends SamplePersistenceBase<String[]> {
 
   /** {@inheritDoc} */
   @Override
-  public String[] loadFromBaseline(Differences key) {
-    try {
-      return baseline().getStringArray(keyWithContextDifferences(key));
-    }
-    catch (NoSuchElementException ex) {
-      return new String[0];
-    }
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public void storeToBaseline(Differences key, String[] sample) {
     super.storeToBaseline(key, sample);
+  }
+
+  @Override
+  protected String[] fetchBaseline(String key) {
+    return baseline().getStringArray(key);
   }
 
 }

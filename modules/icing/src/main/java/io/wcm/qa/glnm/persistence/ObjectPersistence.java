@@ -19,15 +19,12 @@
  */
 package io.wcm.qa.glnm.persistence;
 
-import io.wcm.qa.glnm.differences.base.Differences;
-
-
 class ObjectPersistence extends SamplePersistenceBase<Object> {
 
   /** {@inheritDoc} */
   @Override
-  public Object loadFromBaseline(Differences key) {
-    return baseline().getProperty(keyWithContextDifferences(key));
+  protected Object fetchBaseline(String key) {
+    return baseline().getProperty(key);
   }
 
 }

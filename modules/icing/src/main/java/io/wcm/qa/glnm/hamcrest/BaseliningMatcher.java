@@ -68,7 +68,7 @@ abstract class BaseliningMatcher<M, S> extends BaselineMatcher<M, S> {
 
   @Override
   protected boolean matchesBaseline(M item) {
-    return getMatcherProducer().apply(baseline()).matches(item);
+    return getInternalMatcher().matches(item);
   }
 
   protected Matcher<M> produceMatcher() {

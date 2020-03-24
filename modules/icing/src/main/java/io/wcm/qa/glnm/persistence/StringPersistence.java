@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.persistence;
 
-import io.wcm.qa.glnm.differences.base.Differences;
-
 /**
  * <p>StringPersistence class.</p>
  *
@@ -30,8 +28,8 @@ class StringPersistence extends SamplePersistenceBase<String> {
 
   /** {@inheritDoc} */
   @Override
-  public String loadFromBaseline(Differences key) {
-    return baseline().getString(keyWithContextDifferences(key));
+  protected String fetchBaseline(String key) {
+    return baseline().getString(key);
   }
 
 }

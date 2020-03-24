@@ -57,6 +57,24 @@ public final class Persistence {
   }
 
   /**
+   * <p>
+   * Persistence implementation for Integer samples.
+   * </p>
+   *
+   * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} for integer samples
+   * @since 5.0.0
+   */
+  public static SamplePersistence<Integer> forIntegerWithDefault() {
+    return new IntegerPersistence() {
+
+      @Override
+      protected Integer handleNotFound() {
+        return -1;
+      }
+    };
+  }
+
+  /**
    * Persistence implementation for samples just using their toString method.
    *
    * @return a {@link io.wcm.qa.glnm.persistence.SamplePersistence} object.

@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.persistence;
 
+import java.util.NoSuchElementException;
+
 import org.apache.commons.configuration2.PropertiesConfiguration;
 
 import io.wcm.qa.glnm.differences.base.Differences;
@@ -27,6 +29,17 @@ import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
 
   private Class resourceClass;
+
+  /** {@inheritDoc} */
+  @Override
+  public T loadFromBaseline(Differences key) {
+    try {
+      return fetchBaseline(keyWithContextDifferences(key));
+    }
+    catch (NoSuchElementException ex) {
+      return handleNotFound();
+    }
+  }
 
   /** {@inheritDoc} */
   @Override
@@ -53,6 +66,10 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
     return resourceClass;
   }
 
+  protected T handleNotFound() {
+    return null;
+  }
+
   protected String keyWithContextDifferences(Differences key) {
     MutableDifferences differences = new MutableDifferences();
     Differences contextDifferences = BaselinePersistenceExtension.getContextDifferences();
@@ -62,6 +79,8 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
     differences.addAll(key);
     return differences.getKey();
   }
+
+  protected abstract T fetchBaseline(String keyWithContextDifferences);
 
   protected PropertiesConfiguration samples() {
     return PersistingCacheUtil.cachedSamplesForProperties(getResourceClass());
