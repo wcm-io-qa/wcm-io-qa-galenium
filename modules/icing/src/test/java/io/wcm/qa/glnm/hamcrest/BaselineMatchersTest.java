@@ -19,8 +19,12 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToBoolean;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToInteger;
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToString;
+import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.equalToStringList;
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.on;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 
@@ -29,7 +33,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import io.wcm.qa.glnm.differences.difference.IntegerDifference;
-import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.junit.CartesianProduct;
 import io.wcm.qa.glnm.junit.CsvSourceAbxCdx;
 import io.wcm.qa.glnm.junit.CsvSourceXY;
@@ -43,11 +46,7 @@ class BaselineMatchersTest {
   @CsvSourceXY
   void testPersistingStringMatcher(String a, String b, String c, String x) {
     MatcherAssert.assertThat(x,
-        on(new StringDifference(a),
-            on(new StringDifference(b),
-                on(new StringDifference(c),
-                    on(new StringDifference(x),
-                        equalToString())))));
+        on(a, on(b, on(c, on(x, equalToString())))));
   }
 
   @CartesianProduct
@@ -55,13 +54,10 @@ class BaselineMatchersTest {
   @CsvSourceXY
   @ValueSource(ints = { 1, 2, Integer.MAX_VALUE, Integer.MIN_VALUE })
   void testPersistingIntegerMatcher(String a, String b, String c, String x, Integer i) {
-    MatcherAssert.assertThat(i,
-        on(new StringDifference(a),
-            on(new StringDifference(b),
-                on(new StringDifference(c),
-                    on(new StringDifference(x),
-                        on(new IntegerDifference(i),
-                            BaselineMatchers.equalToInteger()))))));
+    assertThat(i,
+        on(a, on(b, on(c, on(x,
+            on(new IntegerDifference(i),
+                equalToInteger()))))));
   }
 
   @CartesianProduct
@@ -69,25 +65,19 @@ class BaselineMatchersTest {
   @CsvSourceXY
   @ValueSource(booleans = { true, false })
   void testPersistingBooleanMatcher(String a, String b, String c, String x, Boolean bool) {
-    MatcherAssert.assertThat(bool,
-        on(new StringDifference(a),
-            on(new StringDifference(b),
-                on(new StringDifference(c),
-                    on(new StringDifference(x),
-                        on(new StringDifference(bool.toString()),
-                            BaselineMatchers.equalToBoolean()))))));
+    assertThat(bool,
+        on(a, on(b, on(c, on(x,
+            on(bool.toString(),
+                equalToBoolean()))))));
   }
 
   @CartesianProduct
   @CsvSourceAbxCdx
   @CsvSourceXY
   void testPersistingStringListMatcher(String a, String b, String c, String x) {
-    MatcherAssert.assertThat(Arrays.asList(a, b, c, x),
-        on(new StringDifference(a),
-            on(new StringDifference(b),
-                on(new StringDifference(c),
-                    on(new StringDifference(x),
-                        BaselineMatchers.equalToStringList())))));
+    assertThat(
+        Arrays.asList(a, b, c, x),
+        on(a, on(b, on(c, on(x, equalToStringList())))));
   }
 
 }
