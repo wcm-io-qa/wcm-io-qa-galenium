@@ -19,15 +19,16 @@
  */
 package io.wcm.qa.glnm.junit;
 
-import static io.wcm.qa.glnm.hamcrest.GaleniumAssert.assertResponses;
 import static io.wcm.qa.glnm.hamcrest.LogEntryMatchers.hasStatus;
 import static org.hamcrest.Matchers.everyItem;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import io.wcm.qa.glnm.interaction.Browser;
 import io.wcm.qa.glnm.interaction.Wait;
+import io.wcm.qa.glnm.interaction.logs.LogEntryUtil;
 
 /**
  * Test implementation checking the performance log.
@@ -49,7 +50,7 @@ public interface CheckResponseCodes extends UsesChrome {
   default void checkLogEntries(String url) {
     Browser.load(url);
     Wait.forDomReady(5);
-    assertResponses(everyItem(hasStatus(200)));
+    MatcherAssert.assertThat(LogEntryUtil.getResponseEntries(), everyItem(hasStatus(200)));
   }
 
 }
