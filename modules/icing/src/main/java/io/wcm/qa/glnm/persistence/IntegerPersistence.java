@@ -19,28 +19,11 @@
  */
 package io.wcm.qa.glnm.persistence;
 
-import java.util.NoSuchElementException;
-
-import io.wcm.qa.glnm.differences.base.Differences;
-
-
 class IntegerPersistence extends SamplePersistenceBase<Integer> {
 
-  /** {@inheritDoc} */
   @Override
-  public Integer loadFromBaseline(Differences key) {
-    try {
-      return baseline().getInteger(keyWithContextDifferences(key), Integer.valueOf(0));
-    }
-    catch (NoSuchElementException ex) {
-      return null;
-    }
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void storeToBaseline(Differences key, Integer sample) {
-    super.storeToBaseline(key, sample);
+  protected Integer fetchBaseline(String key) {
+    return baseline().getInt(key);
   }
 
 }

@@ -26,6 +26,9 @@ import io.wcm.qa.glnm.persistence.Persistence;
 final class ArrayWithSize extends BaseliningMatcher<Object[], Integer> {
 
   ArrayWithSize() {
-    super(Matchers::arrayWithSize, Persistence::forInteger, item -> item.length);
+    super(
+        Matchers::arrayWithSize,
+        Persistence::forIntegerWithDefault,
+        item -> item.length);
   }
 }

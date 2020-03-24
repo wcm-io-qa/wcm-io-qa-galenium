@@ -28,7 +28,10 @@ import io.wcm.qa.glnm.persistence.Persistence;
 final class AMapWithSize extends BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer> {
 
   AMapWithSize() {
-    super(Matchers::aMapWithSize, Persistence::forInteger, item -> item.size());
+    super(
+        Matchers::aMapWithSize,
+        Persistence::forIntegerWithDefault,
+        item -> item.size());
   }
 
   static AMapWithSize aMapWithSize() {

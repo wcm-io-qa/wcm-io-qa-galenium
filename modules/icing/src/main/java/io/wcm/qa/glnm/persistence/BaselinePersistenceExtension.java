@@ -41,8 +41,8 @@ import io.wcm.qa.glnm.differences.specialized.ClassDifferences;
  */
 public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEachCallback {
 
-  private static final String TEST_DIFFERENCES = "testDifferences";
   private static final String TEST_CLASS = "testClass";
+  private static final String TEST_DIFFERENCES = "testDifferences";
 
   /**
    * Persist all samples after all tests were run.

@@ -22,13 +22,11 @@ package io.wcm.qa.glnm.persistence;
 import java.util.Arrays;
 import java.util.List;
 
-import io.wcm.qa.glnm.differences.base.Differences;
-
 class StringListPersistence extends SamplePersistenceBase<List<String>> {
 
   /** {@inheritDoc} */
   @Override
-  public List<String> loadFromBaseline(Differences key) {
-    return Arrays.asList(baseline().getStringArray(keyWithContextDifferences(key)));
+  protected List<String> fetchBaseline(String key) {
+    return Arrays.asList(baseline().getStringArray(key));
   }
 }

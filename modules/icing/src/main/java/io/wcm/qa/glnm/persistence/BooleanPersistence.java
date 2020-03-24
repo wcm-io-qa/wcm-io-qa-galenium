@@ -19,34 +19,20 @@
  */
 package io.wcm.qa.glnm.persistence;
 
-import java.util.NoSuchElementException;
-
 import io.wcm.qa.glnm.differences.base.Differences;
 
 
 class BooleanPersistence extends SamplePersistenceBase<Boolean> {
 
-  private static final Boolean NOT_FOUND_VALUE = null;
-
-  BooleanPersistence() {
-    super();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Boolean loadFromBaseline(Differences key) {
-    try {
-      return baseline().getBoolean(keyWithContextDifferences(key));
-    }
-    catch (NoSuchElementException ex) {
-      return NOT_FOUND_VALUE;
-    }
-  }
-
   /** {@inheritDoc} */
   @Override
   public void storeToBaseline(Differences key, Boolean sample) {
     super.storeToBaseline(key, sample);
+  }
+
+  @Override
+  protected Boolean fetchBaseline(String key) {
+    return baseline().getBoolean(key);
   }
 
 }
