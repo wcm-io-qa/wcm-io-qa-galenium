@@ -26,6 +26,7 @@ import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.differences.difference.StringDifference;
 
 /**
  * <p>Matchers class.</p>
@@ -90,6 +91,19 @@ public final class BaselineMatchers {
    */
   public static Matcher<List<String>> equalToStringList() {
     return new BaselineStringListMatcher();
+  }
+
+  /**
+   * <p>
+   * Adds a difference to following matchers.
+   * </p>
+   * @param <T> type matcher can handle
+   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   */
+  public static <T> DifferentiatingMatcher<T> on(String difference, Matcher<T> matcher) {
+    return on(new StringDifference(difference), matcher);
   }
 
   /**
