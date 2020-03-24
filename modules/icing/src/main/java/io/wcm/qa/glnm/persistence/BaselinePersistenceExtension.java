@@ -74,6 +74,7 @@ public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEac
    * Context relative differences make the samples local to one test method.
    *
    * @return a {@link io.wcm.qa.glnm.differences.base.Differences} object.
+   * @since 5.0.0
    */
   public static Differences getContextDifferences() {
     return (Differences)GaleniumContext.get(TEST_DIFFERENCES);
@@ -83,6 +84,7 @@ public class BaselinePersistenceExtension implements AfterAllCallback, BeforeEac
    * Context relative differences make the samples local to one test method.
    *
    * @return a {@link io.wcm.qa.glnm.differences.base.Differences} object.
+   * @since 5.0.0
    */
   public static Class getContextResourceClass() {
     return (Class)GaleniumContext.get(TEST_CLASS);

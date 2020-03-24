@@ -235,6 +235,22 @@
 
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>lift</artifactId>
+        <version>3.141.59</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-api</artifactId>
         <version>3.141.59</version>
         <exclusions>

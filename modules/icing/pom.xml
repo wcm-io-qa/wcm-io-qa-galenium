@@ -116,6 +116,12 @@
       <optional>true</optional>
     </dependency>
 
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>lift</artifactId>
+      <optional>true</optional>
+    </dependency>
+
   </dependencies>
 
 </project>

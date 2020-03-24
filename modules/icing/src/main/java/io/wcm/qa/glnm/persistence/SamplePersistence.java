@@ -37,6 +37,7 @@ public interface SamplePersistence<T> {
    *
    * @param key identifies sample
    * @return a baseline sample
+   * @since 5.0.0
    */
   T loadFromBaseline(Differences key);
 
@@ -47,6 +48,7 @@ public interface SamplePersistence<T> {
    *
    * @param key identifies sample
    * @param sample a fresh sample from this test run
+   * @since 5.0.0
    */
   void storeToBaseline(Differences key, T sample);
 
