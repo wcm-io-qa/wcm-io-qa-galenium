@@ -19,15 +19,12 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineString;
-import static org.hamcrest.Matchers.is;
 
 import org.hamcrest.Matcher;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.lift.Matchers;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 import io.wcm.qa.glnm.sampling.element.TextSampler;
+import io.wcm.qa.glnm.sampling.element.VisibilitySampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -42,33 +39,14 @@ public final class SelectorMatchers {
   }
 
   /**
-   * Match Selenium WebElement attribute against baseline.
-   *
-   * @param name defines attribute to check
-   * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
-   */
-  public static Matcher<Selector> attribute(String name) {
-    return attribute(name, baselineString());
-  }
-
-  /**
-   * Match Selenium WebElement attribute with Hamcrest matcher.
-   *
-   * @param name defines attribute to check
-   * @param matcher to check against baseline
-   * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
-   */
-  public static Matcher<Selector> attribute(String name, Matcher<String> matcher) {
-    return element(Matchers.attribute(name, matcher));
-  }
-
-  /**
    * Match Selenium WebElement if it is displayed.
    *
    * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
    */
-  public static Matcher<Selector> displayed() {
-    return element(Matchers.displayed());
+  public static Matcher<Selector> visibility() {
+    return new SelectorSamplerBaselineMatcher<Boolean>(
+        Persistence::forBoolean,
+        VisibilitySampler.class);
   }
 
   /**
@@ -80,24 +58,6 @@ public final class SelectorMatchers {
     return new SelectorSamplerBaselineMatcher<String>(
         Persistence::forString,
         TextSampler.class);
-  }
-
-  /**
-   * Match Selenium WebElement text with Hamcrest matcher.
-   *
-   * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
-   * @param text a {@link java.lang.String} object.
-   */
-  public static Matcher<Selector> text(String text) {
-    return elementText(text);
-  }
-
-  private static Matcher<Selector> element(Matcher<WebElement> matcher) {
-    return new SelectorWebElementMatcher(matcher);
-  }
-
-  private static Matcher<Selector> elementText(String text) {
-    return element(Matchers.text(is(text)));
   }
 
 }
