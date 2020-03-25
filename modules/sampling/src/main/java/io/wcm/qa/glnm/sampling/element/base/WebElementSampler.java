@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.sampling.element;
+package io.wcm.qa.glnm.sampling.element.base;
 
 import java.util.List;
 
@@ -27,15 +27,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.interaction.Element;
-import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Samples {@link org.openqa.selenium.WebElement} from browser.
- *
- * @since 3.0.0
+ * Samples {@link org.openqa.selenium.WebElement}s from browser.
  */
-public class WebElementSampler extends SelectorBasedSampler<Iterable<WebElement>> {
+class WebElementSampler extends SelectorBasedSampler<Iterable<WebElement>> {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebElementSampler.class);
 
@@ -43,15 +40,16 @@ public class WebElementSampler extends SelectorBasedSampler<Iterable<WebElement>
    * <p>Constructor for WebElementSampler.</p>
    *
    * @param selector to retrieve element
-   * @since 3.0.0
    */
-  public WebElementSampler(Selector selector) {
+  WebElementSampler(Selector selector) {
     super(selector);
   }
 
   private List<WebElement> findElements() {
     List<WebElement> freshElements = Element.findAllNow(getSelector());
-    LOG.trace("element sampler (" + getElementName() + ") found: " + freshElements.size() + " elements");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("element sampler (" + getElementName() + ") found: " + freshElements.size() + " elements");
+    }
     return freshElements;
   }
 
@@ -61,7 +59,9 @@ public class WebElementSampler extends SelectorBasedSampler<Iterable<WebElement>
       return findElements();
     }
     catch (StaleElementReferenceException ex) {
-      LOG.debug("caught StaleElementReferencesException: '" + getElementName() + "'");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("caught StaleElementReferencesException: '" + getElementName() + "'");
+      }
       return findElements();
     }
   }
