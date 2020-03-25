@@ -32,10 +32,10 @@ import io.wcm.qa.glnm.interaction.logs.ResponseEntry;
  */
 public final class LogEntryMatchers {
 
-
   private LogEntryMatchers() {
     // do not instantiate
   }
+
   /**
    * <p>hasResponseStatus.</p>
    *
