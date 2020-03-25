@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -30,9 +30,9 @@ import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
-final class MatcherUtil {
+final class BaselineUtil {
 
-  private MatcherUtil() {
+  private BaselineUtil() {
     // do not instantiate
   }
 

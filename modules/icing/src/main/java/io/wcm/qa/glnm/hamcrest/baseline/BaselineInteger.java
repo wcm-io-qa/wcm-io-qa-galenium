@@ -17,19 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
+import org.hamcrest.Matcher;
 
-import org.hamcrest.Matchers;
+import io.wcm.qa.glnm.persistence.Persistence;
 
-import io.wcm.qa.glnm.persistence.SamplePersistence;
+final class BaselineInteger extends BaselineDirectMatcher<Integer> {
 
-class BaselineDirectMatcher<T> extends BaseliningMatcher<T, T> {
-
-  BaselineDirectMatcher(Supplier<SamplePersistence<T>> persistenceSupplier) {
-    super(Matchers::is, persistenceSupplier, Function.identity());
+  BaselineInteger() {
+    super(Persistence::forInteger);
   }
 
+  /**
+   * <p>baselineInteger.</p>
+   *
+   * @return a {@link org.hamcrest.Matcher} object.
+   */
+  public static Matcher<Integer> baselineInteger() {
+    return new BaselineInteger();
+  }
 }

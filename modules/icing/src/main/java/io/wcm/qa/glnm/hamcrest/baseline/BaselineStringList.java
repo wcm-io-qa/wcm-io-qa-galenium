@@ -17,24 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
-import java.util.Map;
-
-import org.hamcrest.Matchers;
+import java.util.List;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class AMapWithSize extends BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer> {
+final class BaselineStringList extends BaselineDirectMatcher<List<String>> {
 
-  AMapWithSize() {
-    super(
-        Matchers::aMapWithSize,
-        Persistence::forIntegerWithDefault,
-        item -> item.size());
+  BaselineStringList() {
+    super(Persistence::forStringList);
   }
 
-  static AMapWithSize aMapWithSize() {
-    return new AMapWithSize();
-  }
 }

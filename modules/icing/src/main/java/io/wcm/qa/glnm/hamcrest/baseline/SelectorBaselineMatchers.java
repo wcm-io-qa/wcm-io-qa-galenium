@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 
 import org.hamcrest.Matcher;
@@ -32,9 +32,9 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 5.0.0
  */
-public final class SelectorMatchers {
+public final class SelectorBaselineMatchers {
 
-  private SelectorMatchers() {
+  private SelectorBaselineMatchers() {
     // do not instantiate
   }
 
@@ -43,7 +43,7 @@ public final class SelectorMatchers {
    *
    * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
    */
-  public static Matcher<Selector> visibility() {
+  public static Matcher<Selector> hasBaselineVisibility() {
     return new SelectorSamplerBaselineMatcher<Boolean>(
         Persistence::forBoolean,
         VisibilitySampler.class);
@@ -54,7 +54,7 @@ public final class SelectorMatchers {
    *
    * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
    */
-  public static Matcher<Selector> text() {
+  public static Matcher<Selector> hasBaselineText() {
     return new SelectorSamplerBaselineMatcher<String>(
         Persistence::forString,
         TextSampler.class);

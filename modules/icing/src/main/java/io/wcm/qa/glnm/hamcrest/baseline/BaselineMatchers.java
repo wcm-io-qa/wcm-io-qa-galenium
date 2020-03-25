@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 import java.util.List;
 import java.util.Map;
@@ -101,7 +101,7 @@ public final class BaselineMatchers {
    * @param <T> type matcher can handle
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
-   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
    */
   public static <T> DifferentiatingMatcher<T> on(String difference, Matcher<T> matcher) {
     return on(new StringDifference(difference), matcher);
@@ -115,10 +115,10 @@ public final class BaselineMatchers {
    * @param <T> type matcher can handle
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
-   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
    */
   public static <T> DifferentiatingMatcher<T> on(Difference difference, Matcher<T> matcher) {
-    DifferentiatingMatcher<T> differentiatedMatcher = MatcherUtil.differentiate(matcher);
+    DifferentiatingMatcher<T> differentiatedMatcher = BaselineUtil.differentiate(matcher);
     differentiatedMatcher.prepend(difference);
     return differentiatedMatcher;
   }
@@ -131,10 +131,10 @@ public final class BaselineMatchers {
    * @param <T> type matcher can handle
    * @param differences will be used to differentiate the matcher
    * @param matcher a {@link org.hamcrest.Matcher} to be differentiated.
-   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
    */
   public static <T> DifferentiatingMatcher<T> on(Differences differences, Matcher<T> matcher) {
-    return MatcherUtil.differentiate(matcher, differences);
+    return BaselineUtil.differentiate(matcher, differences);
   }
 
 }

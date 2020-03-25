@@ -17,15 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.TypeSafeMatcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
+import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 abstract class DifferentiatingMatcherBase<T> extends TypeSafeMatcher<T>
@@ -60,6 +62,29 @@ abstract class DifferentiatingMatcherBase<T> extends TypeSafeMatcher<T>
     setDifferences(newDifferences);
   }
 
+  private String strippedClassName() {
+    String simpleName = getClass().getSimpleName();
+    if (StringUtils.isEmpty(simpleName)) {
+      simpleName = getClass().getSuperclass().getSimpleName();
+    }
+    String strippedName = StringUtils.removeEnd(simpleName, "Matcher");
+    strippedName = StringUtils.removeStart(strippedName, "Baseline");
+    return strippedName;
+  }
+
+  /**
+   * @param item to generate optional differences from
+   */
+  protected Collection<? extends Difference> differencesFor(T item) {
+    return new ArrayList<Difference>();
+  }
+
+  protected void differentiate(T item) {
+    String strippedName = strippedClassName();
+    getDifferences().add(new StringDifference(strippedName.toLowerCase()));
+    getDifferences().addAll(differencesFor(item));
+  }
+
   protected MutableDifferences getDifferences() {
     return differences;
   }
@@ -70,17 +95,6 @@ abstract class DifferentiatingMatcherBase<T> extends TypeSafeMatcher<T>
   protected boolean matchesSafely(T item) {
     differentiate(item);
     return matchesDifferentiated(item);
-  }
-
-  protected void differentiate(T item) {
-    getDifferences().addAll(differencesFor(item));
-  }
-
-  /**
-   * @param item to generate optional differences from
-   */
-  protected Collection<? extends Difference> differencesFor(T item) {
-    return Collections.emptyList();
   }
 
   protected void setDifferences(MutableDifferences differences) {
