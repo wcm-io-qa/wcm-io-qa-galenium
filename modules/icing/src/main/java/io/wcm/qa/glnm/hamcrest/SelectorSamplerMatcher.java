@@ -23,6 +23,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import com.google.common.collect.ObjectArrays;
+
 import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.sampling.util.SamplerFactory;
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -36,21 +38,26 @@ import io.wcm.qa.glnm.selectors.base.Selector;
 public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
 
   private Matcher<T> internalMatcher;
-  private Selector selector;
-  private Class<? extends SelectorBasedSampler<T>> samplerClass;
   private SelectorBasedSampler<T> sampler;
+  private Class<? extends SelectorBasedSampler<T>> samplerClass;
+  private Object[] samplerParams;
+  private Selector selector;
 
   /**
    * <p>Constructor for SelectorSamplerMatcher.</p>
    *
    * @param matcher used to match sample
    * @param samplerClass a {@link java.lang.Class} object.
+   * @param samplerParams a {@link java.lang.Object} object.
+   * @since 5.0.0
    */
   public SelectorSamplerMatcher(
       Matcher<T> matcher,
-      Class<? extends SelectorBasedSampler<T>> samplerClass) {
+      Class<? extends SelectorBasedSampler<T>> samplerClass,
+      Object... samplerParams) {
     setInternalMatcher(matcher);
-    this.setSamplerClass(samplerClass);
+    setSamplerClass(samplerClass);
+    setSamplerParams(samplerParams);
   }
 
   /** {@inheritDoc} */
@@ -59,8 +66,36 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
     getInternalMatcher().describeTo(description);
   }
 
+  @Override
+  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
+    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
+  }
+
+  @SuppressWarnings("unchecked")
+  private SelectorBasedSampler<T> getSampler(Selector item) {
+    if (sampler == null || !item.equals(selector)) {
+      sampler = (SelectorBasedSampler<T>)SamplerFactory.instance(
+          samplerClass,
+          ObjectArrays.concat(item, getSamplerParams()));
+      selector = item;
+    }
+    return sampler;
+  }
+
+  private T sample(Selector item) {
+    return getSampler(item).sampleValue();
+  }
+
   protected Matcher<T> getInternalMatcher() {
     return internalMatcher;
+  }
+
+  protected Class<? extends SelectorBasedSampler<T>> getSamplerClass() {
+    return samplerClass;
+  }
+
+  protected Object[] getSamplerParams() {
+    return samplerParams;
   }
 
   protected Selector getSelector() {
@@ -73,34 +108,20 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
     return getInternalMatcher().matches(sample(item));
   }
 
-
-  @SuppressWarnings("unchecked")
-  private SelectorBasedSampler<T> getSampler(Selector item) {
-    if (sampler == null || !item.equals(selector)) {
-      sampler = (SelectorBasedSampler<T>)SamplerFactory.instance(samplerClass, item);
-      selector = item;
-    }
-    return sampler;
-  }
-
-  private T sample(Selector item) {
-    return getSampler(item).sampleValue();
-  }
-
   protected void setInternalMatcher(Matcher<T> internalMatcher) {
     this.internalMatcher = internalMatcher;
   }
 
-  protected void setSelector(Selector selector) {
-    this.selector = selector;
-  }
-
-  protected Class<? extends SelectorBasedSampler<T>> getSamplerClass() {
-    return samplerClass;
-  }
-
   protected void setSamplerClass(Class<? extends SelectorBasedSampler<T>> samplerClass) {
     this.samplerClass = samplerClass;
+  }
+
+  protected void setSamplerParams(Object[] samplerParams) {
+    this.samplerParams = samplerParams;
+  }
+
+  protected void setSelector(Selector selector) {
+    this.selector = selector;
   }
 
 }
