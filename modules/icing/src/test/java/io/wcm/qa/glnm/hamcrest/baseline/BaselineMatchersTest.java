@@ -17,14 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineBoolean;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineInteger;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineString;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineStringList;
-import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.on;
+import static io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers.baselineBoolean;
+import static io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers.baselineInteger;
+import static io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers.baselineString;
+import static io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers.baselineStringList;
+import static io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers.on;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
