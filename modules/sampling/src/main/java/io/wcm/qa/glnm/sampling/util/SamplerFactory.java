@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.util;
 
+import static org.apache.commons.lang3.reflect.ConstructorUtils.getMatchingAccessibleConstructor;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -50,15 +52,28 @@ public final class SamplerFactory {
       Class<? extends Sampler> samplerClass,
       Object... constructorParams) {
     try {
-      Class[] parameterTypes = Arrays.stream(constructorParams)
-          .map(param -> param.getClass()).collect(Collectors.toList()).toArray(new Class[0]);
-      Constructor constructor = samplerClass.getConstructor(parameterTypes);
+      Constructor constructor = getConstructor(samplerClass, constructorParams);
       return (Sampler)constructor.newInstance(constructorParams);
     }
-    catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+    catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
         | SecurityException ex) {
       throw new GaleniumException("When constructing sampler instance.", ex);
     }
 
+  }
+
+  private static Constructor getConstructor(Class<? extends Sampler> samplerClass, Object... constructorParams) {
+    Class[] parameterTypes = Arrays.stream(constructorParams)
+        .map(param -> param.getClass()).collect(Collectors.toList()).toArray(new Class[0]);
+    Constructor constructor = getMatchingAccessibleConstructor(samplerClass, parameterTypes);
+    if (constructor == null) {
+      StringBuilder msg = new StringBuilder()
+          .append("No constructor found for ")
+          .append(samplerClass)
+          .append(" with ")
+          .append(Arrays.toString(parameterTypes));
+      throw new GaleniumException(msg.toString());
+    }
+    return constructor;
   }
 }
