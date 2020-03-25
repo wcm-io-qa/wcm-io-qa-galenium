@@ -49,7 +49,9 @@ public class LocationSampler extends SingleElementSampler<Point> {
   @Override
   protected Point freshSample(WebElement element) {
     Point location = element.getLocation();
-    LOG.trace("Sampled location for '" + getInput().getSelector().elementName() + "': " + location);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("Sampled location for '" + getSelector().elementName() + "': " + location);
+    }
     return location;
   }
 

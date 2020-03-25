@@ -81,14 +81,18 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
   }
 
   protected T handleNullSampling() {
-    LOG.info("when sampling (" + getClass() + "): value was null");
+    if (LOG.isInfoEnabled()) {
+      LOG.info("when sampling (" + getClass() + "): value was null");
+    }
     T nullValue = getNullValue();
     setCachedValue(nullValue);
     return nullValue;
   }
 
   protected T handleSamplingException(GaleniumException ex) {
-    LOG.info("when sampling (" + getClass() + ")", ex);
+    if (LOG.isInfoEnabled()) {
+      LOG.info("when sampling (" + getClass() + ")", ex);
+    }
     return getNullValue();
   }
 
