@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.sampling.element.base;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.WebElement;
 
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -31,21 +29,20 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @param <T> type of sample to extract from each element
  * @since 4.0.0
  */
-public abstract class MultiElementSampler<T> extends WebElementBasedSampler<Iterable<T>> {
+public abstract class MultiElementSampler<T> extends SelectorBasedSampler<T> {
+
+  private final WebElementSampler elementSampler;
 
   protected MultiElementSampler(Selector selector) {
     super(selector);
+    elementSampler = new WebElementSampler(getSelector());
   }
 
   @Override
-  protected Iterable<T> transform(Iterable<WebElement> inputSample) {
-    ArrayList<T> freshSamples = new ArrayList<T>();
-    for (WebElement webElement : inputSample) {
-      freshSamples.add(freshSample(webElement));
-    }
-    return freshSamples;
+  protected T freshSample() {
+    return freshSample(elementSampler.sampleValue());
   }
 
-  protected abstract T freshSample(WebElement webElement);
+  protected abstract T freshSample(Iterable<WebElement> webElements);
 
 }

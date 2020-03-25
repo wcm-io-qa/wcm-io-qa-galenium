@@ -30,20 +30,16 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @param <T> type of sample to extract from element
  * @since 4.0.0
  */
-public abstract class SingleElementSampler<T> extends WebElementBasedSampler<T> {
+public abstract class SingleElementSampler<T> extends MultiElementSampler<T> {
 
   protected SingleElementSampler(Selector selector) {
     super(selector);
   }
 
   @Override
-  protected T transform(Iterable<WebElement> inputSample) {
-    if (IterableUtils.isEmpty(inputSample)) {
-      return null;
-    }
-    return freshSample(IterableUtils.first(inputSample));
+  protected T freshSample(Iterable<WebElement> webElements) {
+    return freshSample(IterableUtils.first(webElements));
   }
 
-  protected abstract T freshSample(WebElement first);
-
+  protected abstract T freshSample(WebElement firstElement);
 }
