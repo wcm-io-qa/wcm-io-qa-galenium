@@ -20,11 +20,14 @@
 package io.wcm.qa.glnm.hamcrest;
 
 import static io.wcm.qa.glnm.hamcrest.BaselineMatchers.baselineString;
+import static org.hamcrest.Matchers.is;
 
 import org.hamcrest.Matcher;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.lift.Matchers;
 
+import io.wcm.qa.glnm.persistence.Persistence;
+import io.wcm.qa.glnm.sampling.element.TextSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -69,26 +72,32 @@ public final class SelectorMatchers {
   }
 
   /**
-   * Match Selenium WebElement text with Hamcrest matcher.
-   *
-   * @param matcher to check against baseline
-   * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
-   */
-  public static Matcher<Selector> text(Matcher<String> matcher) {
-    return element(Matchers.text(matcher));
-  }
-
-  /**
    * Match Selenium WebElement text against baseline.
    *
    * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
    */
   public static Matcher<Selector> text() {
-    return text(baselineString());
+    return new SelectorSamplerBaselineMatcher<String>(
+        Persistence::forString,
+        TextSampler.class);
+  }
+
+  /**
+   * Match Selenium WebElement text with Hamcrest matcher.
+   *
+   * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
+   * @param text a {@link java.lang.String} object.
+   */
+  public static Matcher<Selector> text(String text) {
+    return elementText(text);
   }
 
   private static Matcher<Selector> element(Matcher<WebElement> matcher) {
     return new SelectorWebElementMatcher(matcher);
+  }
+
+  private static Matcher<Selector> elementText(String text) {
+    return element(Matchers.text(is(text)));
   }
 
 }

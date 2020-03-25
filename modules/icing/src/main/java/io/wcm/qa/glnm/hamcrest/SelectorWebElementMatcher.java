@@ -53,8 +53,17 @@ class SelectorWebElementMatcher extends DifferentiatingMatcherBase<Selector> {
   }
 
   @Override
+  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
+    matcher.describeMismatch(find(item), mismatchDescription);
+  }
+
+  @Override
   protected boolean matchesDifferentiated(Selector item) {
-    return matcher.matches(Element.find(item));
+    return matcher.matches(find(item));
+  }
+
+  private WebElement find(Selector item) {
+    return Element.find(item);
   }
 
 }
