@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -32,20 +32,20 @@ import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.difference.sut.SelectorDifference;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.persistence.SamplePersistence;
-import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 class SelectorSamplerBaselineMatcher<S>
     extends BaselineMatcher<Selector, S> {
 
-  private WebElementBasedSampler<S> sampler;
-  private final Class<? extends WebElementBasedSampler<S>> samplerClass;
-  private Selector selectorForSampler;
+  private SelectorBasedSampler<S> sampler;
+  private final Class<? extends SelectorBasedSampler<S>> samplerClass;
+  private Selector selector;
 
   @SuppressWarnings("unchecked")
   SelectorSamplerBaselineMatcher(
       Supplier<SamplePersistence<S>> persistenceSupplier,
-      Class<? extends WebElementBasedSampler<S>> baselineSamplerClass) {
+      Class<? extends SelectorBasedSampler<S>> baselineSamplerClass) {
     super(
         persistenceSupplier,
         item -> ((S)constructSampler(baselineSamplerClass, item).sampleValue()));
@@ -53,10 +53,10 @@ class SelectorSamplerBaselineMatcher<S>
   }
 
   @SuppressWarnings("unchecked")
-  private WebElementBasedSampler<S> getSampler(Selector item) {
-    if (sampler == null || !item.equals(selectorForSampler)) {
+  private SelectorBasedSampler<S> getSampler(Selector item) {
+    if (sampler == null || !item.equals(selector)) {
       sampler = constructSampler(samplerClass, item);
-      selectorForSampler = item;
+      selector = item;
     }
     return sampler;
   }
@@ -86,8 +86,8 @@ class SelectorSamplerBaselineMatcher<S>
     return internalMatcher().matches(sampleFrom(item));
   }
 
-  private static WebElementBasedSampler constructSampler(
-      Class<? extends WebElementBasedSampler> baselineSamplerClass,
+  private static SelectorBasedSampler constructSampler(
+      Class<? extends SelectorBasedSampler> baselineSamplerClass,
       Selector item) {
     try {
       return baselineSamplerClass

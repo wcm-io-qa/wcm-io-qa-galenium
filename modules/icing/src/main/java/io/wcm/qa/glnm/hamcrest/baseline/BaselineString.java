@@ -17,24 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
-
-import org.hamcrest.Matcher;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaselineBoolean extends BaselineDirectMatcher<Boolean> {
+final class BaselineString extends BaselineDirectMatcher<String> {
 
-  BaselineBoolean() {
-    super(Persistence::forBoolean);
+  BaselineString() {
+    super(Persistence::forString);
   }
 
   /**
-   * <p>baselineBoolean.</p>
+   * <p>baselineString.</p>
    *
-   * @return a {@link org.hamcrest.Matcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
    */
-  public static Matcher<Boolean> baselineBoolean() {
-    return new BaselineBoolean();
+  public static DifferentiatingMatcher<String> baselineString() {
+    return new BaselineString();
   }
+
 }

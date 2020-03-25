@@ -17,23 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
+
+import java.util.Map;
+
+import org.hamcrest.Matchers;
 
 import io.wcm.qa.glnm.persistence.Persistence;
 
-final class BaselineString extends BaselineDirectMatcher<String> {
+final class AMapWithSize extends BaseliningMatcher<Map<? extends Object, ? extends Object>, Integer> {
 
-  BaselineString() {
-    super(Persistence::forString);
+  AMapWithSize() {
+    super(
+        Matchers::aMapWithSize,
+        Persistence::forIntegerWithDefault,
+        item -> item.size());
   }
 
-  /**
-   * <p>baselineString.</p>
-   *
-   * @return a {@link io.wcm.qa.glnm.hamcrest.DifferentiatingMatcher} object.
-   */
-  public static DifferentiatingMatcher<String> baselineString() {
-    return new BaselineString();
+  static AMapWithSize aMapWithSize() {
+    return new AMapWithSize();
   }
-
 }

@@ -17,28 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
-import org.hamcrest.Matcher;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import org.hamcrest.Matchers;
 
-import io.wcm.qa.glnm.persistence.Persistence;
+import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-final class ArrayWithSize extends BaseliningMatcher<Object[], Integer> {
+class BaselineDirectMatcher<T> extends BaseliningMatcher<T, T> {
 
-  ArrayWithSize() {
-    super(
-        Matchers::arrayWithSize,
-        Persistence::forIntegerWithDefault,
-        item -> item.length);
+  BaselineDirectMatcher(Supplier<SamplePersistence<T>> persistenceSupplier) {
+    super(Matchers::is, persistenceSupplier, Function.identity());
   }
 
-  /**
-   * <p>arrayWithSize.</p>
-   *
-   * @return a {@link org.hamcrest.Matcher} object.
-   */
-  public static Matcher<Object[]> arrayWithSize() {
-    return new ArrayWithSize();
-  }
 }
