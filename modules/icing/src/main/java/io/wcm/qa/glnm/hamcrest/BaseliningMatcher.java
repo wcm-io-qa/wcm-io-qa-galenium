@@ -27,7 +27,7 @@ import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.persistence.SamplePersistence;
 
-abstract class BaseliningMatcher<M, S> extends BaselineMatcher<M, S> {
+class BaseliningMatcher<M, S> extends BaselineMatcher<M, S> {
 
   private Matcher<M> internalMatcher;
   private Function<S, Matcher<M>> matcherProducer;
