@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.baseline;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +26,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers;
 import io.wcm.qa.glnm.persistence.BaselinePersistenceExtension;
 
 @ExtendWith(BaselinePersistenceExtension.class)
