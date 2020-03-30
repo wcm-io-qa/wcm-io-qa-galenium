@@ -31,6 +31,8 @@ import java.util.Arrays;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import io.wcm.qa.glnm.differences.difference.IntegerDifference;
@@ -39,6 +41,7 @@ import io.wcm.qa.glnm.junit.CsvSourceAbxCdx;
 import io.wcm.qa.glnm.junit.CsvSourceXY;
 import io.wcm.qa.glnm.persistence.BaselinePersistenceExtension;
 
+@Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(BaselinePersistenceExtension.class)
 class BaselineMatchersTest {
 

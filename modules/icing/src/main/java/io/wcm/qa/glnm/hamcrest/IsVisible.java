@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
@@ -37,6 +38,13 @@ public class IsVisible extends SelectorSamplerMatcher<Boolean> {
    */
   public IsVisible() {
     super(Matchers.is(true), VisibilitySampler.class);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void describeTo(Description description) {
+    super.describeTo(description);
+    description.appendText("'s visibility ");
   }
 
   /**

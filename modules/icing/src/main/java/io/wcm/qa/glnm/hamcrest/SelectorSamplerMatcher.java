@@ -63,12 +63,9 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
+    description.appendText(getSelectorName());
+    description.appendText(" ");
     getInternalMatcher().describeTo(description);
-  }
-
-  @Override
-  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
-    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
   }
 
   @SuppressWarnings("unchecked")
@@ -82,8 +79,22 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
     return sampler;
   }
 
+
+  private String getSelectorName() {
+    Selector s = getSelector();
+    if (s != null) {
+      return s.elementName();
+    }
+    return "NULL";
+  }
+
   private T sample(Selector item) {
     return getSampler(item).sampleValue();
+  }
+
+  @Override
+  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
+    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
   }
 
   protected Matcher<T> getInternalMatcher() {

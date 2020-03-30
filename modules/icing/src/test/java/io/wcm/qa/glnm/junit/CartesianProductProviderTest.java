@@ -25,6 +25,8 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -32,6 +34,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.google.common.collect.Lists;
 
+@Execution(ExecutionMode.CONCURRENT)
 public class CartesianProductProviderTest {
 
   @CartesianProduct
