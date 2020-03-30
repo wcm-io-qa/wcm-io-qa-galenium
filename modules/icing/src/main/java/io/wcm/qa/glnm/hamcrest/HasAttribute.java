@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.sampling.element.AttributeSampler;
@@ -31,6 +32,8 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public class HasAttribute extends SelectorSamplerMatcher<String> {
 
+  private String attributeName;
+
   /**
    * Constructor.
    *
@@ -39,6 +42,24 @@ public class HasAttribute extends SelectorSamplerMatcher<String> {
    */
   public HasAttribute(String attributeName, Matcher<String> matcher) {
     super(matcher, AttributeSampler.class, attributeName);
+    setAttributeName(attributeName);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void describeTo(Description description) {
+    description.appendText("attribute '");
+    description.appendText(getAttributeName());
+    description.appendText("' of ");
+    super.describeTo(description);
+  }
+
+  protected String getAttributeName() {
+    return attributeName;
+  }
+
+  protected void setAttributeName(String attributeName) {
+    this.attributeName = attributeName;
   }
 
   /**

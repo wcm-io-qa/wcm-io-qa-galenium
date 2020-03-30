@@ -63,7 +63,17 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
+    description.appendText(getSelectorName());
+    description.appendText(" ");
     getInternalMatcher().describeTo(description);
+  }
+
+  private String getSelectorName() {
+    Selector s = getSelector();
+    if (s != null) {
+      return s.elementName();
+    }
+    return "NULL";
   }
 
   @Override

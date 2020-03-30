@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.sampling.element.TextSampler;
@@ -39,6 +40,13 @@ public class HasText extends SelectorSamplerMatcher<String> {
    */
   public HasText(Matcher<String> matcher) {
     super(matcher, TextSampler.class);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void describeTo(Description description) {
+    description.appendText("text of ");
+    super.describeTo(description);
   }
 
   /**
