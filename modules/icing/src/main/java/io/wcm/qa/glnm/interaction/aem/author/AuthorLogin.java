@@ -89,7 +89,9 @@ public final class AuthorLogin {
    * @since 5.0.0
    */
   public static boolean loginToAuthor() {
-    LOG.debug("using credentials from configuration.");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("using credentials from configuration.");
+    }
     return loginToAuthorViaBrowser(getAuthorUser(), getAuthorPass());
   }
 
@@ -101,7 +103,9 @@ public final class AuthorLogin {
    * @since 5.0.0
    */
   public static boolean loginToAuthor(String targetUrl) {
-    LOG.debug("using credentials from configuration.");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("using credentials from configuration.");
+    }
     return loginToAuthor(targetUrl, getAuthorUser(), getAuthorPass());
   }
 
@@ -128,6 +132,7 @@ public final class AuthorLogin {
    * @return whether login was necessary and successful
    * @since 5.0.0
    */
+  @SuppressWarnings("PMD.UseObjectForClearerAPI")
   public static boolean loginToAuthor(String initialUrl, String finalUrl, String authorUser, String authorPass) {
     Browser.load(initialUrl);
     if (isAuthorLogin()) {
@@ -145,7 +150,9 @@ public final class AuthorLogin {
         else {
           actualResult = driver.getCurrentUrl();
         }
-        LOG.warn("author login not successful, when waiting for '" + finalUrl + "' got '" + actualResult + "'");
+        if (LOG.isWarnEnabled()) {
+          LOG.warn("author login not successful, when waiting for '" + finalUrl + "' got '" + actualResult + "'");
+        }
       }
     }
     else {
@@ -170,7 +177,7 @@ public final class AuthorLogin {
       url = new URL(authorBaseUrl + RELATIVE_PATH_LOGIN_FORM_POST);
     }
     catch (MalformedURLException ex) {
-      throw new GaleniumException("could not parse author base URL");
+      throw new GaleniumException("could not parse author base URL", ex);
     }
 
     Map<String, String> paramMap = getCredentialParamsForPost(authorUser, authorPass);
@@ -194,11 +201,15 @@ public final class AuthorLogin {
 
   private static boolean loginToAuthorViaBrowser(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
-      LOG.debug("Attempting login in to author instance");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Attempting login in to author instance");
+      }
       FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_USERNAME, authorUser);
       FormElement.clearAndEnterText(SELECTOR_AUTHOR_INPUT_PASSWORD, authorPass);
       Element.click(SELECTOR_AUTHOR_LOGIN_BUTTON);
-      LOG.info("Logging in to author instance.");
+      if (LOG.isInfoEnabled()) {
+        LOG.info("Logging in to author instance.");
+      }
       return true;
     }
     LOG.debug("Not logging in to author instance.");
@@ -207,9 +218,13 @@ public final class AuthorLogin {
 
   private static void logResponse(HttpResponse response) {
     Header[] allHeaders = response.getAllHeaders();
-    LOG.debug("status: " + response.getStatusLine().getStatusCode() + "(" + response.getStatusLine().getReasonPhrase() + ")");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("status: " + response.getStatusLine().getStatusCode() + "(" + response.getStatusLine().getReasonPhrase() + ")");
+    }
     for (Header header : allHeaders) {
-      LOG.debug("'" + header.getName() + "': '" + header.getValue() + "'");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("'" + header.getName() + "': '" + header.getValue() + "'");
+      }
     }
   }
 

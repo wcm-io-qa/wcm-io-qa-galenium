@@ -83,10 +83,14 @@ public final class Wait {
    * @since 1.0.0
    */
   public static void forUrl(String url, int timeOutInSeconds) {
-    LOG.trace("waiting for URL: '" + url + "'");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("waiting for URL: '" + url + "'");
+    }
     WebDriverWait wait = getWait(timeOutInSeconds);
     wait.until((Function<? super WebDriver, Boolean>)ExpectedConditions.urlToBe(url));
-    LOG.trace("found URL: '" + url + "'");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("found URL: '" + url + "'");
+    }
   }
 
 }
