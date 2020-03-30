@@ -44,7 +44,7 @@ public class ElementCount extends SelectorSamplerMatcher<Integer> {
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
-    description.appendText("number of elements ");
+    description.appendText("number of elements for ");
     super.describeTo(description);
   }
 
