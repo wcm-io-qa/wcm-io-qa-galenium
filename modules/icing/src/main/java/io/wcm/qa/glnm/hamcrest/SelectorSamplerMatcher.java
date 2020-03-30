@@ -68,19 +68,6 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
     getInternalMatcher().describeTo(description);
   }
 
-  private String getSelectorName() {
-    Selector s = getSelector();
-    if (s != null) {
-      return s.elementName();
-    }
-    return "NULL";
-  }
-
-  @Override
-  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
-    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
-  }
-
   @SuppressWarnings("unchecked")
   private SelectorBasedSampler<T> getSampler(Selector item) {
     if (sampler == null || !item.equals(selector)) {
@@ -92,8 +79,22 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
     return sampler;
   }
 
+
+  private String getSelectorName() {
+    Selector s = getSelector();
+    if (s != null) {
+      return s.elementName();
+    }
+    return "NULL";
+  }
+
   private T sample(Selector item) {
     return getSampler(item).sampleValue();
+  }
+
+  @Override
+  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
+    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
   }
 
   protected Matcher<T> getInternalMatcher() {
