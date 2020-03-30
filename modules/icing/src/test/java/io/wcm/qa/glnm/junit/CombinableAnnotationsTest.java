@@ -32,12 +32,14 @@ import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
-
+@Execution(ExecutionMode.CONCURRENT)
 class CombinableAnnotationsTest {
 
   @Test

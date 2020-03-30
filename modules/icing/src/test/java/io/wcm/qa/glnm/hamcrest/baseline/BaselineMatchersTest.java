@@ -31,7 +31,11 @@ import java.util.Arrays;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.difference.IntegerDifference;
 import io.wcm.qa.glnm.junit.CartesianProduct;
@@ -39,8 +43,11 @@ import io.wcm.qa.glnm.junit.CsvSourceAbxCdx;
 import io.wcm.qa.glnm.junit.CsvSourceXY;
 import io.wcm.qa.glnm.persistence.BaselinePersistenceExtension;
 
+@Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(BaselinePersistenceExtension.class)
 class BaselineMatchersTest {
+
+  private static final Logger LOG = LoggerFactory.getLogger(BaselineMatchersTest.class);
 
   @CartesianProduct
   @CsvSourceAbxCdx
