@@ -39,6 +39,7 @@ public class HasAttribute extends SelectorSamplerMatcher<String> {
    *
    * @param attributeName a {@link java.lang.String} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public HasAttribute(String attributeName, Matcher<String> matcher) {
     super(matcher, AttributeSampler.class, attributeName);
@@ -68,6 +69,7 @@ public class HasAttribute extends SelectorSamplerMatcher<String> {
    * @return matcher
    * @param name a {@link java.lang.String} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<Selector> hasAttribute(String name, Matcher<String> matcher) {
     return new HasAttribute(name, matcher);

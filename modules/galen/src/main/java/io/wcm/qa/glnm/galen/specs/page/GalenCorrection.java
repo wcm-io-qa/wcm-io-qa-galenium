@@ -32,8 +32,8 @@ import com.galenframework.specs.page.CorrectionsRect.Type;
  */
 public class GalenCorrection {
 
-  private Type type;
-  private int value;
+  private final Type type;
+  private final int value;
 
   protected GalenCorrection(Type type, int value) {
     this.type = type;

@@ -36,6 +36,7 @@ public interface DifferentiatingMatcher<T> extends Matcher<T>, Differences {
    * <p>add.</p>
    *
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   * @since 5.0.0
    */
   void add(Difference difference);
 
@@ -43,6 +44,7 @@ public interface DifferentiatingMatcher<T> extends Matcher<T>, Differences {
    * <p>prepend.</p>
    *
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   * @since 5.0.0
    */
   void prepend(Difference difference);
 }

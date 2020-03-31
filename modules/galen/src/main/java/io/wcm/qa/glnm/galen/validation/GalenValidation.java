@@ -19,8 +19,6 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import com.galenframework.validation.ValidationListener;
-
 import io.wcm.qa.glnm.galen.specs.AbstractGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;

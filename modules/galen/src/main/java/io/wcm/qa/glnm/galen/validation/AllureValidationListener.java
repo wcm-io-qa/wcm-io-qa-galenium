@@ -19,20 +19,17 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import java.util.Stack;
-
 import com.galenframework.specs.Spec;
 import com.galenframework.specs.page.PageSection;
 import com.galenframework.suite.GalenPageAction;
 import com.galenframework.validation.PageValidation;
+import com.galenframework.validation.ValidationListener;
 import com.galenframework.validation.ValidationResult;
 
+import io.wcm.qa.glnm.reporting.AllureNestedStepping;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
-class AllureValidationListener extends NoOpValidationListener {
-
-  private final Stack<String> stepStack = new Stack<String>();
-  private final String parentStep;
+class AllureValidationListener extends AllureNestedStepping implements ValidationListener {
 
   /**
    * <p>Constructor for AllureValidationListener.</p>
@@ -40,7 +37,7 @@ class AllureValidationListener extends NoOpValidationListener {
    * @param uuid a {@link java.lang.String} object.
    */
   AllureValidationListener(String uuid) {
-    parentStep = uuid;
+    super(uuid);
   }
 
   /** {@inheritDoc} */
@@ -113,7 +110,7 @@ class AllureValidationListener extends NoOpValidationListener {
     for (String step : stepStack) {
       GaleniumReportUtil.failStep(step);
     }
-    GaleniumReportUtil.failStep(parentStep);
+    GaleniumReportUtil.failStep(getParentStep());
     stopStep();
   }
 
@@ -129,7 +126,7 @@ class AllureValidationListener extends NoOpValidationListener {
     for (String step : stepStack) {
       GaleniumReportUtil.passStep(step);
     }
-    GaleniumReportUtil.passStep(parentStep);
+    GaleniumReportUtil.passStep(getParentStep());
     stopStep();
   }
 
@@ -145,35 +142,8 @@ class AllureValidationListener extends NoOpValidationListener {
     return "Allure Validation Listener";
   }
 
-  private String currentStep() {
-    return stepStack.peek();
-  }
-
   private String generateStepName(String objectName, Spec spec) {
     return objectName + " " + spec.toText();
-  }
-
-  private void nestedStep(String stepName) {
-    String uuid = GaleniumReportUtil.startStep(currentStep(), stepName);
-    pushStep(uuid);
-  }
-
-  private String popStep() {
-    return stepStack.pop();
-  }
-
-  private void pushStep(String uuid) {
-    stepStack.push(uuid);
-  }
-
-  private void rootStep(String stepName) {
-    String uuid = GaleniumReportUtil.startStep(parentStep, stepName);
-    pushStep(uuid);
-  }
-
-  private void stopStep() {
-    GaleniumReportUtil.stopStep();
-    popStep();
   }
 
 }

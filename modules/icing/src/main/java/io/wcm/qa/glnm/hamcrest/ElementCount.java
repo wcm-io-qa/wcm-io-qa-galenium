@@ -36,6 +36,7 @@ public class ElementCount extends SelectorSamplerMatcher<Integer> {
    * Constructor.
    *
    * @param matcher integer matcher
+   * @since 5.0.0
    */
   public ElementCount(Matcher<Integer> matcher) {
     super(matcher, ElementCountSampler.class);
@@ -53,6 +54,7 @@ public class ElementCount extends SelectorSamplerMatcher<Integer> {
    *
    * @return matcher
    * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<Selector> elementCount(Matcher<Integer> matcher) {
     return new ElementCount(matcher);

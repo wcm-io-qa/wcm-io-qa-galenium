@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.hamcrest;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 import com.google.common.collect.ObjectArrays;
 
@@ -35,7 +34,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @param <T> sample type
  * @since 5.0.0
  */
-public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
+public class SelectorSamplerMatcher<T> extends AllureAwareMatcher<Selector> {
 
   private Matcher<T> internalMatcher;
   private SelectorBasedSampler<T> sampler;
@@ -114,7 +113,7 @@ public class SelectorSamplerMatcher<T> extends TypeSafeMatcher<Selector> {
   }
 
   @Override
-  protected boolean matchesSafely(Selector item) {
+  protected boolean matchesWithReporting(Selector item) {
     setSelector(item);
     return getInternalMatcher().matches(sample(item));
   }

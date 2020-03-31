@@ -31,6 +31,7 @@ final class BaselineString extends BaselineDirectMatcher<String> {
    * <p>baselineString.</p>
    *
    * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
+   * @since 5.0.0
    */
   public static DifferentiatingMatcher<String> baselineString() {
     return new BaselineString();
