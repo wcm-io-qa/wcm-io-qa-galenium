@@ -24,13 +24,13 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hamcrest.TypeSafeMatcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.difference.StringDifference;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
+import io.wcm.qa.glnm.hamcrest.AllureAwareMatcher;
 
-abstract class DifferentiatingMatcherBase<T> extends TypeSafeMatcher<T>
+abstract class DifferentiatingMatcherBase<T> extends AllureAwareMatcher<T>
     implements DifferentiatingMatcher<T> {
 
   private MutableDifferences differences = new MutableDifferences();
@@ -92,7 +92,7 @@ abstract class DifferentiatingMatcherBase<T> extends TypeSafeMatcher<T>
   protected abstract boolean matchesDifferentiated(T item);
 
   @Override
-  protected boolean matchesSafely(T item) {
+  protected boolean matchesWithReporting(T item) {
     differentiate(item);
     return matchesDifferentiated(item);
   }
