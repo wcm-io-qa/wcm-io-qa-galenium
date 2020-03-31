@@ -86,6 +86,7 @@ public final class GaleniumReportUtil {
    * @param testInfos list to persist test information
    * @since 3.0.0
    */
+  @SuppressWarnings("PMD.AvoidCatchingNPE")
   public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) {
     try {
       new HtmlReportBuilder().build(testInfos, PATH_GALEN_REPORT);
@@ -120,6 +121,7 @@ public final class GaleniumReportUtil {
    * <p>failStep.</p>
    *
    * @param step a {@link java.lang.String} object.
+   * @since 5.0.0
    */
   public static void failStep(String step) {
     Allure.getLifecycle().updateStep(step, new FailStep());
@@ -129,6 +131,7 @@ public final class GaleniumReportUtil {
    * <p>passStep.</p>
    *
    * @param step a {@link java.lang.String} object.
+   * @since 5.0.0
    */
   public static void passStep(String step) {
     Allure.getLifecycle().updateStep(step, new PassStep());
@@ -139,6 +142,7 @@ public final class GaleniumReportUtil {
    *
    * @param name a {@link java.lang.String} object.
    * @return a {@link java.lang.String} object.
+   * @since 5.0.0
    */
   public static String startStep(String name) {
     String uuid = UUID.randomUUID().toString();
@@ -153,6 +157,7 @@ public final class GaleniumReportUtil {
    * @param parentStep a {@link java.lang.String} object.
    * @param stepName a {@link java.lang.String} object.
    * @return a {@link java.lang.String} object.
+   * @since 5.0.0
    */
   public static String startStep(String parentStep, String stepName) {
     String uuid = UUID.randomUUID().toString();
@@ -163,6 +168,8 @@ public final class GaleniumReportUtil {
 
   /**
    * <p>stopStep.</p>
+   *
+   * @since 5.0.0
    */
   public static void stopStep() {
     Allure.getLifecycle().stopStep();
@@ -172,9 +179,12 @@ public final class GaleniumReportUtil {
    * Adds a step for current test case to the report.
    *
    * @param stepName to use in report
+   * @since 5.0.0
    */
   public static void step(String stepName) {
-    LOG.info("STEP(" + stepName + ")");
+    if (LOG.isInfoEnabled()) {
+      LOG.info("STEP(" + stepName + ")");
+    }
     Allure.step(stepName);
   }
 
@@ -182,15 +192,20 @@ public final class GaleniumReportUtil {
    * Adds a failed step for current test case to the report.
    *
    * @param stepName to use in report
+   * @since 5.0.0
    */
   public static void stepFailed(String stepName) {
-    LOG.info("FAILED_STEP(" + stepName + ")");
+    if (LOG.isInfoEnabled()) {
+      LOG.info("FAILED_STEP(" + stepName + ")");
+    }
     Allure.step(stepName, Status.FAILED);
   }
 
   /**
    * uses Galen functionality to get a full page screenshot by scrolling and
    * stitching.
+   *
+   * @since 5.0.0
    */
   public static void takeFullScreenshot() {
     String step = startStep("taking full page screenshot");
@@ -258,13 +273,32 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * <p>updateStep.</p>
+   * <p>
+   * updateStep.
+   * </p>
    *
-   * @param step a {@link java.lang.String} object.
-   * @param update a {@link java.util.function.Consumer} object.
+   * @param step step UUID
+   * @param update step result consumer to do the update
+   * @since 5.0.0
    */
   public static void updateStep(String step, Consumer<StepResult> update) {
     Allure.getLifecycle().updateStep(step, update);
+  }
+
+  /**
+   * Sets a new name for a step.
+   *
+   * @param step step UUID
+   * @param updatedStepName name to set on step
+   */
+  public static void updateStepName(String step, String updatedStepName) {
+    updateStep(step, new Consumer<StepResult>() {
+
+      @Override
+      public void accept(StepResult result) {
+        result.setName(updatedStepName);
+      }
+    });
   }
 
   private static TakesScreenshot getTakesScreenshot() {
@@ -290,17 +324,23 @@ public final class GaleniumReportUtil {
 
   private static void handleScreenshotFile(String resultName, File screenshotFile) {
     if (screenshotFile != null) {
-      LOG.trace("screenshot taken: " + screenshotFile.getPath());
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("screenshot taken: " + screenshotFile.getPath());
+      }
       try {
         String destFilename = System.currentTimeMillis() + "_" + resultName + ".png";
         File destFile = new File(PATH_SCREENSHOTS_ROOT, destFilename);
         FileUtils.copyFile(screenshotFile, destFile);
-        LOG.trace("copied screenshot: " + destFile.getPath());
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("copied screenshot: " + destFile.getPath());
+        }
         Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(destFile), ".png");
         if (FileUtils.deleteQuietly(screenshotFile)) {
-          LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
+          if (LOG.isTraceEnabled()) {
+            LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
+          }
         }
-        else {
+        else if (LOG.isTraceEnabled()) {
           LOG.trace("could not delete screenshot file: " + screenshotFile.getPath());
         }
       }
@@ -308,7 +348,7 @@ public final class GaleniumReportUtil {
         LOG.error("Cannot copy screenshot.", ex);
       }
     }
-    else {
+    else if (LOG.isDebugEnabled()) {
       LOG.debug("screenshot file is null.");
     }
   }

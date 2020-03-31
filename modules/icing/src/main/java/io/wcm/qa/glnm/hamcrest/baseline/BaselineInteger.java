@@ -33,6 +33,7 @@ final class BaselineInteger extends BaselineDirectMatcher<Integer> {
    * <p>baselineInteger.</p>
    *
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<Integer> baselineInteger() {
     return new BaselineInteger();

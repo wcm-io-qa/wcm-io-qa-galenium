@@ -59,7 +59,7 @@ public final class GalenHelperUtil {
   public static void adjustViewport(boolean adjustBrowserViewportSize) {
     GalenConfig.getConfig().setProperty(
         GalenProperty.GALEN_BROWSER_VIEWPORT_ADJUSTSIZE,
-        new Boolean(adjustBrowserViewportSize).toString());
+        Boolean.toString(adjustBrowserViewportSize));
   }
 
   /**

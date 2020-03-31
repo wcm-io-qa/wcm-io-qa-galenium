@@ -35,6 +35,8 @@ public class IsVisible extends SelectorSamplerMatcher<Boolean> {
 
   /**
    * Constructor.
+   *
+   * @since 5.0.0
    */
   public IsVisible() {
     super(Matchers.is(true), VisibilitySampler.class);
@@ -51,6 +53,7 @@ public class IsVisible extends SelectorSamplerMatcher<Boolean> {
    * Is element defined by selector visible
    *
    * @return matcher
+   * @since 5.0.0
    */
   public static Matcher<Selector> isVisible() {
     return new IsVisible();

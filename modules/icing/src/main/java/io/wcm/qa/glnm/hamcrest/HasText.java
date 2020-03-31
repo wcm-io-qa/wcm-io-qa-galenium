@@ -38,6 +38,7 @@ public class HasText extends SelectorSamplerMatcher<String> {
    * <p>Constructor for HasText.</p>
    *
    * @param matcher to match elements text
+   * @since 5.0.0
    */
   public HasText(Matcher<String> matcher) {
     super(matcher, TextSampler.class);
@@ -56,6 +57,7 @@ public class HasText extends SelectorSamplerMatcher<String> {
    *
    * @param matcher to match element's text
    * @return matcher retrieving text
+   * @since 5.0.0
    */
   public static Matcher<Selector> hasText(Matcher<String> matcher) {
     return new HasText(matcher);

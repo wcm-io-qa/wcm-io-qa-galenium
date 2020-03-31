@@ -42,6 +42,7 @@ public final class SelectorBaselineMatchers {
    * Match Selenium WebElement if it is displayed.
    *
    * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
+   * @since 5.0.0
    */
   public static Matcher<Selector> hasBaselineVisibility() {
     return new SelectorSamplerBaselineMatcher<Boolean>(
@@ -53,6 +54,7 @@ public final class SelectorBaselineMatchers {
    * Match Selenium WebElement text against baseline.
    *
    * @return {@link io.wcm.qa.glnm.selectors.base.Selector} based matcher
+   * @since 5.0.0
    */
   public static Matcher<Selector> hasBaselineText() {
     return new SelectorSamplerBaselineMatcher<String>(

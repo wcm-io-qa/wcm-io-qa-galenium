@@ -43,6 +43,7 @@ public final class BaselineMatchers {
    * Matches map size against baseline.
    *
    * @return baseline based version of {@link org.hamcrest.Matchers#aMapWithSize(int)}
+   * @since 5.0.0
    */
   public static Matcher<Map<? extends Object, ? extends Object>> aMapWithSize() {
     return AMapWithSize.aMapWithSize();
@@ -52,6 +53,7 @@ public final class BaselineMatchers {
    * Matches array with size.
    *
    * @return baseline based version of {@link org.hamcrest.Matchers#arrayWithSize(int)}
+   * @since 5.0.0
    */
   public static Matcher<Object[]> arrayWithSize() {
     return ArrayWithSize.arrayWithSize();
@@ -61,6 +63,7 @@ public final class BaselineMatchers {
    * Matcher using persistence.
    *
    * @return boolean matcher working with baseline
+   * @since 5.0.0
    */
   public static Matcher<Boolean> baselineBoolean() {
     return BaselineBoolean.baselineBoolean();
@@ -70,6 +73,7 @@ public final class BaselineMatchers {
    * Matcher using persistence.
    *
    * @return integer matcher working with baseline
+   * @since 5.0.0
    */
   public static Matcher<Integer> baselineInteger() {
     return BaselineInteger.baselineInteger();
@@ -79,6 +83,7 @@ public final class BaselineMatchers {
    * Matcher using persistence.
    *
    * @return string matcher working with baseline
+   * @since 5.0.0
    */
   public static DifferentiatingMatcher<String> baselineString() {
     return BaselineString.baselineString();
@@ -88,6 +93,7 @@ public final class BaselineMatchers {
    * Matcher using persistence.
    *
    * @return string list matcher working with baseline
+   * @since 5.0.0
    */
   public static Matcher<List<String>> baselineStringList() {
     return new BaselineStringList();
@@ -102,6 +108,7 @@ public final class BaselineMatchers {
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
    * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
+   * @since 5.0.0
    */
   public static <T> DifferentiatingMatcher<T> on(String difference, Matcher<T> matcher) {
     return on(new StringDifference(difference), matcher);
@@ -116,6 +123,7 @@ public final class BaselineMatchers {
    * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
    * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
+   * @since 5.0.0
    */
   public static <T> DifferentiatingMatcher<T> on(Difference difference, Matcher<T> matcher) {
     DifferentiatingMatcher<T> differentiatedMatcher = BaselineUtil.differentiate(matcher);
@@ -132,6 +140,7 @@ public final class BaselineMatchers {
    * @param differences will be used to differentiate the matcher
    * @param matcher a {@link org.hamcrest.Matcher} to be differentiated.
    * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
+   * @since 5.0.0
    */
   public static <T> DifferentiatingMatcher<T> on(Differences differences, Matcher<T> matcher) {
     return BaselineUtil.differentiate(matcher, differences);

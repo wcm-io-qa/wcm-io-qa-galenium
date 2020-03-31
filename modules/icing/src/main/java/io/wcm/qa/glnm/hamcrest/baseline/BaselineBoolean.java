@@ -33,6 +33,7 @@ final class BaselineBoolean extends BaselineDirectMatcher<Boolean> {
    * <p>baselineBoolean.</p>
    *
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<Boolean> baselineBoolean() {
     return new BaselineBoolean();

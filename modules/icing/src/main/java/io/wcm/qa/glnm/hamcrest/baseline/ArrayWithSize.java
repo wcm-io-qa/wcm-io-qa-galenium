@@ -37,6 +37,7 @@ final class ArrayWithSize extends BaseliningMatcher<Object[], Integer> {
    * <p>arrayWithSize.</p>
    *
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<Object[]> arrayWithSize() {
     return new ArrayWithSize();
