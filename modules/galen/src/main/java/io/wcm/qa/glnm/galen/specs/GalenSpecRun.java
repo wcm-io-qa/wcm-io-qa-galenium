@@ -103,8 +103,11 @@ public class GalenSpecRun {
       List<String> errorMessages = error.getMessages();
       CollectionUtils.addAll(messages, errorMessages);
     }
-    for (ValidationResult childResult : validationResult.getChildValidationResults()) {
-      messages.addAll(getMessages(childResult));
+    List<ValidationResult> childValidationResults = validationResult.getChildValidationResults();
+    if (childValidationResults != null) {
+      for (ValidationResult childResult : childValidationResults) {
+        messages.addAll(getMessages(childResult));
+      }
     }
     return messages;
   }
