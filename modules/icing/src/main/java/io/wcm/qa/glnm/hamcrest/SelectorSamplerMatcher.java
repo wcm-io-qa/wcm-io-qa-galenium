@@ -34,14 +34,12 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @param <T> sample type
  * @since 5.0.0
  */
-public class SelectorSamplerMatcher<T> extends AllureAwareMatcher<Selector> {
+public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
 
   private Matcher<T> internalMatcher;
   private SelectorBasedSampler<T> sampler;
   private Class<? extends SelectorBasedSampler<T>> samplerClass;
   private Object[] samplerParams;
-  private Selector selector;
-
   /**
    * <p>Constructor for SelectorSamplerMatcher.</p>
    *
@@ -79,15 +77,7 @@ public class SelectorSamplerMatcher<T> extends AllureAwareMatcher<Selector> {
   }
 
 
-  private String getSelectorName() {
-    Selector s = getSelector();
-    if (s != null) {
-      return s.elementName();
-    }
-    return "NULL";
-  }
-
-  private T sample(Selector item) {
+  protected T sample(Selector item) {
     return getSampler(item).sampleValue();
   }
 
@@ -96,6 +86,7 @@ public class SelectorSamplerMatcher<T> extends AllureAwareMatcher<Selector> {
     getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
   }
 
+  @Override
   protected Matcher<T> getInternalMatcher() {
     return internalMatcher;
   }
@@ -108,13 +99,8 @@ public class SelectorSamplerMatcher<T> extends AllureAwareMatcher<Selector> {
     return samplerParams;
   }
 
-  protected Selector getSelector() {
-    return selector;
-  }
-
   @Override
-  protected boolean matchesWithReporting(Selector item) {
-    setSelector(item);
+  protected boolean matchesSelector(Selector item) {
     return getInternalMatcher().matches(sample(item));
   }
 
@@ -128,10 +114,6 @@ public class SelectorSamplerMatcher<T> extends AllureAwareMatcher<Selector> {
 
   protected void setSamplerParams(Object[] samplerParams) {
     this.samplerParams = samplerParams;
-  }
-
-  protected void setSelector(Selector selector) {
-    this.selector = selector;
   }
 
 }
