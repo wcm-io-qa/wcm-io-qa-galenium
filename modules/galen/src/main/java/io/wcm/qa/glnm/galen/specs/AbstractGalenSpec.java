@@ -66,7 +66,9 @@ public abstract class AbstractGalenSpec implements GalenSpec {
   @Override
   public GalenSpecRun check(String... tags) {
     String runName = getRunName(tags);
-    LOG.info("checking '" + runName + "'");
+    if (LOG.isInfoEnabled()) {
+      LOG.info("checking '" + runName + "'");
+    }
     setUuid(GaleniumReportUtil.startStep(runName));
     LayoutReport report = GalenLayout.check(
         runName,

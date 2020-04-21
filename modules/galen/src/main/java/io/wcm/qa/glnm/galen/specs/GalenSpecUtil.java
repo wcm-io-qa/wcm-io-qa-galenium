@@ -84,7 +84,9 @@ final class GalenSpecUtil {
   }
 
   private static String cleanName(String name) {
-    LOG.debug("mapping '" + name + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("mapping '" + name + "'");
+    }
     String[] nameParts = name.split("\\.");
     List<String> namePartList = new ArrayList<>();
     for (String namePart : nameParts) {
@@ -96,7 +98,9 @@ final class GalenSpecUtil {
       }
     }
     String cleanName = StringUtils.join(namePartList, ".");
-    LOG.debug("clean name for muliple object locator '" + cleanName + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("clean name for muliple object locator '" + cleanName + "'");
+    }
     return cleanName;
   }
 
@@ -112,13 +116,21 @@ final class GalenSpecUtil {
     Collection<NestedSelector> objects = new ArrayList<>();
     Collection<SelectorFromLocator> values = objectMapping.values();
     for (SelectorFromLocator selector : values) {
-      LOG.debug("checking " + selector);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("checking " + selector);
+      }
       if (selector.hasParent()) {
-        LOG.debug("has parent " + selector);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("has parent " + selector);
+        }
         NestedSelector parent = selector.getParent();
-        LOG.debug("parentName: '" + parent.elementName() + "'");
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("parentName: '" + parent.elementName() + "'");
+        }
         String parentCss = parent.asString();
-        LOG.debug("parentCss: '" + parentCss + "'");
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("parentCss: '" + parentCss + "'");
+        }
         SelectorFromLocator trueParent = objectMapping.get(parentCss);
         if (trueParent == null) {
           throw new GaleniumException("parent for '" + selector.elementName() + "' not found in spec ('" + parentCss + "')");
@@ -126,11 +138,13 @@ final class GalenSpecUtil {
         selector.setParent(trueParent);
         trueParent.addChild(selector);
       }
-      else {
+      else if (LOG.isDebugEnabled()) {
         LOG.debug("no parent found.");
       }
       objects.add(selector);
-      LOG.debug("added: " + selector);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("added: " + selector);
+      }
     }
     return objects;
   }
@@ -138,21 +152,29 @@ final class GalenSpecUtil {
   private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
     Map<String, SelectorFromLocator> objectMapping = new HashMap<String, SelectorFromLocator>();
     Map<String, Locator> objects = spec.getObjects();
-    LOG.debug("mapping " + objects.size() + " selector candidates.");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("mapping " + objects.size() + " selector candidates.");
+    }
     for (Entry<String, Locator> entry : objects.entrySet()) {
       String name = cleanName(entry.getKey());
       Locator locator = entry.getValue();
       SelectorFromLocator selector = fromLocator(name, locator);
       String asString = selector.asString();
       if (objectMapping.containsKey(asString)) {
-        LOG.info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+        if (LOG.isInfoEnabled()) {
+          LOG.info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+        }
       }
       else {
         objectMapping.put(asString, selector);
-        LOG.debug("mapped: " + selector);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("mapped: " + selector);
+        }
       }
     }
-    LOG.info("mapped " + objectMapping.size() + " selectors.");
+    if (LOG.isInfoEnabled()) {
+      LOG.info("mapped " + objectMapping.size() + " selectors.");
+    }
     return objectMapping;
   }
 

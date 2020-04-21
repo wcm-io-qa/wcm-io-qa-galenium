@@ -52,7 +52,7 @@ final class GalenParsing {
    * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
    * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
    * @param specPath path to spec file
-   * @param tags
+   * @param tags include tags to use with spec
    * @return Galen page spec object
    * @since 4.0.0
    */
