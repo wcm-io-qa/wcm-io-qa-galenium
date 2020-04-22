@@ -92,13 +92,13 @@ public final class Mouse {
    * @since 1.0.0
    */
   public static Long getVerticalScrollPosition() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("if (window.pageYOffset) ");
-    builder.append("return window.pageYOffset;");
-    builder.append("else if(window.document.documentElement.scrollTop)");
-    builder.append("return window.document.documentElement.scrollTop;");
-    builder.append("else ");
-    builder.append("return window.document.body.scrollTop;");
+    StringBuilder builder = new StringBuilder()
+        .append("if (window.pageYOffset) ")
+        .append("return window.pageYOffset;")
+        .append("else if(window.document.documentElement.scrollTop)")
+        .append("return window.document.documentElement.scrollTop;")
+        .append("else ")
+        .append("return window.document.body.scrollTop;");
     Long scrollYPosition = (Long)Browser.executeJs(builder.toString());
     return scrollYPosition;
   }
@@ -122,10 +122,14 @@ public final class Mouse {
    */
   public static void moveHorizontally(int horizontalOffset) {
     if (horizontalOffset > 0) {
-      LOG.debug("move mouse right by " + horizontalOffset);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("move mouse right by " + horizontalOffset);
+      }
     }
     else if (horizontalOffset < 0) {
-      LOG.debug("move mouse left by " + -horizontalOffset);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("move mouse left by " + -horizontalOffset);
+      }
     }
     int verticalOffset = 0;
     moveByOffset(horizontalOffset, verticalOffset);
@@ -160,7 +164,9 @@ public final class Mouse {
    * @since 1.0.0
    */
   public static void moveTo(WebElement element) {
-    LOG.debug("Moving to element: " + element);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Moving to element: " + element);
+    }
     getActions().moveToElement(element).perform();
   }
 

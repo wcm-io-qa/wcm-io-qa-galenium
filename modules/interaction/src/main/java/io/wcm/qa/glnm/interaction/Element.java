@@ -70,13 +70,17 @@ public final class Element {
    * @since 1.0.0
    */
   public static boolean clickByPartialText(Selector selector, String searchStr) {
-    LOG.debug("looking for pattern: '" + searchStr + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("looking for pattern: '" + searchStr + "'");
+    }
     WebElement element = findByPartialText(selector, searchStr);
     if (element != null) {
       clickNth(selector, 0, element, "(found by string '" + searchStr + "')");
       return true;
     }
-    LOG.debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("did not find element for text and selector combination: '" + searchStr + "' AND '" + selector.elementName() + "'");
+    }
     return false;
   }
 
