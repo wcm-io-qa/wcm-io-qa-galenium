@@ -64,15 +64,21 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
       if (connection == null) {
         throw new GaleniumException("cannot get document from null connection.");
       }
-      LOG.info("fetching document from '" + connection.request().url() + "'");
+      if (LOG.isInfoEnabled()) {
+        LOG.info("fetching document from '" + connection.request().url() + "'");
+      }
       Document document = connection.get();
       return document;
     }
     catch (IOException ex) {
       if (ex instanceof HttpStatusException) {
-        LOG.warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
+        if (LOG.isWarnEnabled()) {
+          LOG.warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
+        }
       }
-      LOG.debug("Could not fetch Document: " + getUrl(), ex);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Could not fetch Document: " + getUrl(), ex);
+      }
       throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'", ex);
     }
   }

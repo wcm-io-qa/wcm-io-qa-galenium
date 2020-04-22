@@ -81,7 +81,9 @@ public class JsoupCookieSampler extends JsoupBasedSampler<Map<String, String>> {
 
       Request request = connection.request();
       URL url = request.url();
-      LOG.info("sending " + getMethod() + " request to '" + url + "'");
+      if (LOG.isInfoEnabled()) {
+        LOG.info("sending " + getMethod() + " request to '" + url + "'");
+      }
       logRequest(request);
 
       connection.execute();
