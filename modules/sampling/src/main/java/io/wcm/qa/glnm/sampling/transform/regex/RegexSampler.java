@@ -76,10 +76,14 @@ public class RegexSampler<S extends Sampler<String>> extends RegexBasedSampler<S
   @Override
   protected String extractValue(Matcher matcher) {
     if (matcher.find()) {
-      LOG.trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace(getClass().getSimpleName() + ": found match for '" + getPattern() + "'");
+      }
       return matcher.group();
     }
-    LOG.trace(getClass().getSimpleName() + ": no match found for '" + getPattern() + "'");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace(getClass().getSimpleName() + ": no match found for '" + getPattern() + "'");
+    }
     return handleNoMatch();
   }
 
