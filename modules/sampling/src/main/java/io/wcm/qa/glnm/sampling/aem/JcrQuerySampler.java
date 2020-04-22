@@ -69,8 +69,8 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   private String password = "admin";
   private String path;
   private int port = 4502;
-  private Map<String, String> propertiesLike = new HashMap<String, String>();
-  private Map<String, String> propertiesStrict = new HashMap<String, String>();
+  private final Map<String, String> propertiesLike = new HashMap<String, String>();
+  private final Map<String, String> propertiesStrict = new HashMap<String, String>();
   private String protocol = "http";
   private String userName = "admin";
 
