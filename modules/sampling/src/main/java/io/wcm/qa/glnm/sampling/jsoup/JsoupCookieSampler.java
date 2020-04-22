@@ -74,6 +74,7 @@ public class JsoupCookieSampler extends JsoupBasedSampler<Map<String, String>> {
   }
 
   protected Map<String, String> fetchCookies() {
+    @SuppressWarnings("PMD.CloseResource")
     Connection connection = getJsoupConnection();
 
     try {
