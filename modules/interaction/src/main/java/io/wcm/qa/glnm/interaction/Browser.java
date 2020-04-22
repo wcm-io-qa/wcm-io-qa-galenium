@@ -52,6 +52,16 @@ public final class Browser {
   }
 
   /**
+   * Add cookie to browser.
+   *
+   * @param cookie to add
+   * @since 5.0
+   */
+  public static void addCookie(Cookie cookie) {
+    getDriver().manage().addCookie(cookie);
+  }
+
+  /**
    * Navigate back.
    */
   public static void back() {
