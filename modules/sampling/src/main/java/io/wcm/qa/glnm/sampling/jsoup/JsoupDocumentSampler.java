@@ -58,8 +58,10 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
   /**
    * @return document from URL or rethrows {@link IOException} as {@link GaleniumException}
    */
+  @SuppressWarnings("PMD.AvoidInstanceofChecksInCatchClause")
   protected Document getDocument() {
     try {
+      @SuppressWarnings("PMD.CloseResource")
       Connection connection = getJsoupConnection();
       if (connection == null) {
         throw new GaleniumException("cannot get document from null connection.");
@@ -71,10 +73,8 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
       return document;
     }
     catch (IOException ex) {
-      if (ex instanceof HttpStatusException) {
-        if (LOG.isWarnEnabled()) {
-          LOG.warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
-        }
+      if (LOG.isWarnEnabled() && ex instanceof HttpStatusException) {
+        LOG.warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
       }
       if (LOG.isDebugEnabled()) {
         LOG.debug("Could not fetch Document: " + getUrl(), ex);
