@@ -52,7 +52,9 @@ public final class FormElement {
       input.clear();
     }
     catch (InvalidElementStateException ex) {
-      LOG.debug("could not clear element: '" + selector + "'");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("could not clear element: '" + selector + "'");
+      }
     }
     input.sendKeys(text);
   }
