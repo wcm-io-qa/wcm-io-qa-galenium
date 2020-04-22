@@ -23,8 +23,10 @@ import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -59,6 +61,21 @@ public final class Browser {
   }
 
   /**
+   * Deletes all cookies for current domain from browser.
+   */
+  public static void deleteAllCookies() {
+    getDriver().manage().deleteAllCookies();
+  }
+
+  /**
+   * Deletes cookie from browser.
+   * @param cookieName name of cookie to delete
+   */
+  public static void deleteCookieNamed(String cookieName) {
+    getDriver().manage().deleteCookieNamed(cookieName);
+  }
+
+  /**
    * Executes Javascript in current browser.
    *
    * @param jsCode code to execute
@@ -89,6 +106,20 @@ public final class Browser {
     stopStep();
   }
 
+  /**
+   * @param cookieName name of cookie to retrieve
+   * @return cookie for current domain or null
+   */
+  public static Cookie getCookieNamed(String cookieName) {
+    return getDriver().manage().getCookieNamed(cookieName);
+  }
+
+  /**
+   * @return set of cookies for current domain
+   */
+  public static Set<Cookie> getCookies() {
+    return getDriver().manage().getCookies();
+  }
   /**
    * <p>getCurrentUrl.</p>
    *
