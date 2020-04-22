@@ -46,7 +46,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
   private boolean sortCssClasses = true;
 
-  private List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
+  private final List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
 
   /**
    * <p>Constructor for HtmlCleanerSampler.</p>
