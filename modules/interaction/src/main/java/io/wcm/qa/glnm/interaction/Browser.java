@@ -62,6 +62,8 @@ public final class Browser {
 
   /**
    * Deletes all cookies for current domain from browser.
+   *
+   * @since 5.0
    */
   public static void deleteAllCookies() {
     getDriver().manage().deleteAllCookies();
@@ -69,7 +71,9 @@ public final class Browser {
 
   /**
    * Deletes cookie from browser.
+   *
    * @param cookieName name of cookie to delete
+   * @since 5.0
    */
   public static void deleteCookieNamed(String cookieName) {
     getDriver().manage().deleteCookieNamed(cookieName);
@@ -107,6 +111,11 @@ public final class Browser {
   }
 
   /**
+   * <p>
+   * Get cookie for domain by name.
+   * </p>
+   *
+   * @since 5.0
    * @param cookieName name of cookie to retrieve
    * @return cookie for current domain or null
    */
@@ -115,7 +124,12 @@ public final class Browser {
   }
 
   /**
-   * @return set of cookies for current domain
+   * <p>
+   * Get all cookies for domain.
+   * </p>
+   *
+   * @since 5.0
+   * @return a set of cookies for current domain
    */
   public static Set<Cookie> getCookies() {
     return getDriver().manage().getCookies();
