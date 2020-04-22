@@ -75,13 +75,6 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   private String userName = "admin";
 
   /**
-   * Constructor.
-   */
-  public JcrQuerySampler() {
-    super();
-  }
-
-  /**
    * <p>addLikeProperty.</p>
    *
    * @param name of property to filter by
