@@ -38,6 +38,9 @@ public abstract class SingleElementSampler<T> extends MultiElementSampler<T> {
 
   @Override
   protected T freshSample(Iterable<WebElement> webElements) {
+    if (IterableUtils.isEmpty(webElements)) {
+      return handleNullSampling();
+    }
     return freshSample(IterableUtils.first(webElements));
   }
 
