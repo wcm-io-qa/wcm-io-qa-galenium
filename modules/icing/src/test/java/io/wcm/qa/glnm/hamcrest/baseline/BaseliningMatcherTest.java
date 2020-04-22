@@ -26,7 +26,6 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.wcm.qa.glnm.hamcrest.baseline.BaselineMatchers;
 import io.wcm.qa.glnm.persistence.BaselinePersistenceExtension;
 
 @ExtendWith(BaselinePersistenceExtension.class)
