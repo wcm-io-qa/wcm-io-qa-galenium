@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.hamcrest;
 
 
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 import io.wcm.qa.glnm.selectors.base.Selector;
 
@@ -30,7 +31,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @param <T> type to match
  * @since 5.0.0
  */
-public abstract class SelectorMatcher<T> extends AllureAwareMatcher<Selector> {
+public abstract class SelectorMatcher<T> extends TypeSafeMatcher<Selector> {
 
   protected Selector selector;
 
@@ -55,7 +56,7 @@ public abstract class SelectorMatcher<T> extends AllureAwareMatcher<Selector> {
   protected abstract boolean matchesSelector(Selector item);
 
   @Override
-  protected boolean matchesWithReporting(Selector item) {
+  protected boolean matchesSafely(Selector item) {
     setSelector(item);
     return matchesSelector(item);
   }
