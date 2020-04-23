@@ -94,6 +94,25 @@
     </dependency>
 
     <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjtools</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>compile</scope>
@@ -131,5 +150,17 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+
+      <!-- Compile aspects -->
+      <plugin>
+        <groupId>com.nickwongdev</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
 
 </project>
