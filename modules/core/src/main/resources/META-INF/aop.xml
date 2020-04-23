@@ -1,8 +1,5 @@
 <aspectj>
-    <aspects>
-        <aspect name="io.wcm.qa.glnm.aspectj.MatcherAspect"/>
-        <weaver options="-verbose -showWeaveInfo">
-          <include within="org.hamcrest.*" />
-        </weaver>
-    </aspects>
+  <aspects>
+    <aspect name="io.wcm.qa.glnm.aspectj.MatcherAspect" />
+  </aspects>
 </aspectj>
