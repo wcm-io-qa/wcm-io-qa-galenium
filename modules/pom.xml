@@ -44,6 +44,13 @@
   <build>
     <plugins>
 
+      <!-- Generate Allure report -->
+      <plugin>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-maven</artifactId>
+      </plugin>
+
+      <!-- Autofix javadoc -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
