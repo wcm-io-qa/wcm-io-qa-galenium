@@ -22,16 +22,16 @@ package io.wcm.qa.glnm.hamcrest.galen;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.hamcrest.AllureAwareMatcher;
 
 /**
  * Wraps {@link io.wcm.qa.glnm.galen.specs.GalenSpecRun} into Allure aware matcher.
  *
  * @since 5.0.0
  */
-public class GalenSpecRunMatcher extends AllureAwareMatcher<GalenSpecRun> {
+public class GalenSpecRunMatcher extends TypeSafeMatcher<GalenSpecRun> {
 
   /** {@inheritDoc} */
   @Override
@@ -47,7 +47,7 @@ public class GalenSpecRunMatcher extends AllureAwareMatcher<GalenSpecRun> {
   }
 
   @Override
-  protected boolean matchesWithReporting(GalenSpecRun item) {
+  protected boolean matchesSafely(GalenSpecRun item) {
     if (item.isClean()) {
       return true;
     }
