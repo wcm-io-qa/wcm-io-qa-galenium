@@ -36,7 +36,7 @@
     <galenium.systemPropertiesFile>${project.build.directory}/test-classes/galenium.properties</galenium.systemPropertiesFile>
     <integrationtests.skip>false</integrationtests.skip>
     <site.url.module.prefix>galenium</site.url.module.prefix>
-    <aspectj.version>1.8.10</aspectj.version>
+    <aspectj.version>1.9.5</aspectj.version>
   </properties>
 
   <dependencies>
