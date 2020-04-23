@@ -58,6 +58,7 @@ public class GalenSpecRunMatcher extends AllureAwareMatcher<GalenSpecRun> {
    * <p>specRun.</p>
    *
    * @return matcher for {@link io.wcm.qa.glnm.galen.specs.GalenSpecRun}
+   * @since 5.0.0
    */
   public static Matcher<GalenSpecRun> specRun() {
     return new GalenSpecRunMatcher();

@@ -86,6 +86,7 @@ public class VisuallyCompare extends SelectorMatcher<GalenSpecRun> {
    * <p>visuallyCompare.</p>
    *
    * @return visual comparison matcher
+   * @since 5.0.0
    */
   public static VisuallyCompare visuallyCompare() {
     return new VisuallyCompare();
