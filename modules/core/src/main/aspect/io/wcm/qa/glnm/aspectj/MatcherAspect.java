@@ -19,7 +19,7 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  *
  * @since 5.0.0
  */
-@Aspect("perthis(execution(* *..*.matches*(..)))")
+@Aspect("perthis(execution(* *..*.matches(..)))")
 public class MatcherAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(MatcherAspect.class);
@@ -30,8 +30,7 @@ public class MatcherAspect {
    * hamcrestMatcherMatch.
    * </p>
    */
-  @Pointcut("execution(boolean org.hamcrest.Matcher.matches(Object)) "
-      + "|| execution(boolean org.hamcrest.TypeSafeMatcher.matchesSafely(..))")
+  @Pointcut("execution(boolean org.hamcrest.Matcher.matches(..))")
   public void hamcrestMatcherMatch() {
     // pointcut body, should be empty
   }
@@ -43,8 +42,7 @@ public class MatcherAspect {
    *
    * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
    */
-  @Before("execution(boolean org.hamcrest.Matcher.matches(Object)) "
-      + "|| execution(boolean org.hamcrest.TypeSafeMatcher.matchesSafely(..))")
+  @Before("execution(boolean org.hamcrest.Matcher.matches(..))")
   public void startMatching(final JoinPoint joinPoint) {
     if (LOG.isTraceEnabled()) {
       LOG.trace("before: " + joinPoint.getSignature().toLongString());
@@ -58,10 +56,7 @@ public class MatcherAspect {
    * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
    * @param e a {@link java.lang.Throwable} object.
    */
-  @AfterThrowing(
-      pointcut = "execution(boolean org.hamcrest.Matcher.matches(Object)) "
-          + "|| execution(boolean org.hamcrest.TypeSafeMatcher.matchesSafely(..))",
-      throwing = "e")
+  @AfterThrowing(pointcut = "execution(boolean org.hamcrest.Matcher.matches(..))", throwing = "e")
   public void failedMatching(final JoinPoint joinPoint, final Throwable e) {
     if (LOG.isTraceEnabled()) {
       LOG.trace("failed: " + joinPoint.getSignature().toLongString());
@@ -79,10 +74,7 @@ public class MatcherAspect {
    * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
    * @param result a boolean.
    */
-  @AfterReturning(
-      pointcut = "execution(boolean org.hamcrest.Matcher.matches(Object)) "
-          + "|| execution(boolean org.hamcrest.TypeSafeMatcher.matchesSafely(..))",
-      returning = "result")
+  @AfterReturning(pointcut = "execution(boolean org.hamcrest.Matcher.matches(..))", returning = "result")
   public void doneMatching(final JoinPoint joinPoint, boolean result) {
     if (LOG.isTraceEnabled()) {
       LOG.trace("done: " + joinPoint.getSignature().toLongString());
