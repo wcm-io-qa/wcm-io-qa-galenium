@@ -19,11 +19,6 @@
  */
 package io.wcm.qa.glnm.hamcrest.baseline;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
@@ -51,77 +46,4 @@ final class BaselineUtil {
     return new DifferentiatingMatcherWrapper<T>(matcher, differences);
   }
 
-  private static class DifferentiatingMatcherWrapper<T> implements DifferentiatingMatcher<T> {
-
-    private MutableDifferences differences = new MutableDifferences();
-
-    private final Matcher<T> matcher;
-
-    DifferentiatingMatcherWrapper(Matcher<T> matcher, Differences differences) {
-      this.matcher = matcher;
-      this.getDifferences().addAll(differences);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void _dont_implement_Matcher___instead_extend_BaseMatcher_() {
-      matcher._dont_implement_Matcher___instead_extend_BaseMatcher_();
-    }
-
-    @Override
-    public void add(Difference difference) {
-      getDifferences().add(difference);
-    }
-
-    @Override
-    public void describeMismatch(Object actual, Description mismatchDescription) {
-      matcher.describeMismatch(actual, mismatchDescription);
-    }
-
-    @Override
-    public void describeTo(Description description) {
-      matcher.describeTo(description);
-    }
-
-    @Override
-    public void forEach(Consumer<? super Difference> action) {
-      getDifferences().forEach(action);
-    }
-
-    public MutableDifferences getDifferences() {
-      return differences;
-    }
-
-    @Override
-    public String getKey() {
-      return getDifferences().getKey();
-    }
-
-    @Override
-    public Iterator<Difference> iterator() {
-      return getDifferences().iterator();
-    }
-
-    @Override
-    public boolean matches(Object actual) {
-      return matcher.matches(actual);
-    }
-
-    @Override
-    public void prepend(Difference difference) {
-      MutableDifferences newDifferences = new MutableDifferences();
-      newDifferences.add(difference);
-      newDifferences.addAll(getDifferences());
-      setDifferences(newDifferences);
-    }
-
-    @Override
-    public Spliterator<Difference> spliterator() {
-      return getDifferences().spliterator();
-    }
-
-    private void setDifferences(MutableDifferences differences) {
-      this.differences = differences;
-    }
-  }
 }
