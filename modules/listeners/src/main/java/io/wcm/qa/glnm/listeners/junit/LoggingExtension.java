@@ -52,7 +52,9 @@ public class LoggingExtension
   /** {@inheritDoc} */
   @Override
   public void afterAll(ExtensionContext context) {
-    LOG.trace("Generating Galen reports.");
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("Generating Galen reports.");
+    }
     GaleniumReportUtil.createGalenReports();
   }
 
@@ -65,7 +67,9 @@ public class LoggingExtension
   /** {@inheritDoc} */
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
-    LOG.debug("Starting tests");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Starting tests");
+    }
     if (LOG.isTraceEnabled()) {
       LOG.trace("included tags: " + StringUtils.join(context.getTags(), ", "));
     }
@@ -76,7 +80,9 @@ public class LoggingExtension
   public void beforeTestExecution(ExtensionContext context) {
     String displayName = context.getDisplayName();
     String sanitized = NameUtil.getSanitized(displayName, 120);
-    LOG.debug(sanitized + ": Start in thread " + Thread.currentThread().getName());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(sanitized + ": Start in thread " + Thread.currentThread().getName());
+    }
   }
 
   private static void screenshot() {
@@ -84,7 +90,9 @@ public class LoggingExtension
       GaleniumReportUtil.takeScreenshot();
     }
     catch (GaleniumException ex) {
-      LOG.info("Cannot take Screenshot: " + ex.getMessage());
+      if (LOG.isInfoEnabled()) {
+        LOG.info("Cannot take Screenshot: " + ex.getMessage());
+      }
     }
   }
 
