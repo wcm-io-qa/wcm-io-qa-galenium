@@ -140,7 +140,9 @@ public final class GaleniumLoggingUtil {
    */
   public static void startTestLogging() {
     String currentTestCaseId = Allure.getLifecycle().getCurrentTestCase().orElse("NO_TEST_ID");
-    LOG.info("Starting test specific logging for: " + currentTestCaseId);
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Starting test specific logging for: " + currentTestCaseId);
+    }
     MDC.put(MDC_PARAM_GLNM_TESTNAME, currentTestCaseId);
   }
 
@@ -149,7 +151,9 @@ public final class GaleniumLoggingUtil {
    */
   public static void stopTestLogging() {
     String testIdOfFinishedTest = MDC.get(MDC_PARAM_GLNM_TESTNAME);
-    LOG.info("Stopping test specific logging for: " + testIdOfFinishedTest);
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Stopping test specific logging for: " + testIdOfFinishedTest);
+    }
     addLogsToAllure(testIdOfFinishedTest);
     MDC.remove(MDC_PARAM_GLNM_TESTNAME);
   }
@@ -158,7 +162,9 @@ public final class GaleniumLoggingUtil {
     if (StringUtils.isNotBlank(testIdOfFinishedTest)) {
       Collection<File> logFiles = getLogFiles(testIdOfFinishedTest);
       for (File logFile : logFiles) {
-        LOG.trace("Attaching " + logFile + " to Allure report.");
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("Attaching " + logFile + " to Allure report.");
+        }
         Allure.addAttachment(logFile.getName(), asString(logFile));
       }
     }
@@ -170,7 +176,9 @@ public final class GaleniumLoggingUtil {
       logFileContentAsString = FileUtils.readFileToString(logFile, StandardCharsets.UTF_8);
     }
     catch (IOException ex) {
-      LOG.info("could not read log file.", ex);
+      if (LOG.isInfoEnabled()) {
+        LOG.info("could not read log file.", ex);
+      }
       logFileContentAsString = "Could not read log file: '" + logFile.getPath() + "' (" + ex.getMessage() + ")";
     }
     return logFileContentAsString;
@@ -184,7 +192,9 @@ public final class GaleniumLoggingUtil {
         FileFilterUtils.suffixFileFilter("log"));
 
     Collection<File> logFiles = FileUtils.listFiles(TEST_LOG_ROOT, logFileFilter, TRUE_FILE_FILTER);
-    LOG.debug("Found " + logFiles.size() + " log files for test id: '" + testIdOfFinishedTest + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Found " + logFiles.size() + " log files for test id: '" + testIdOfFinishedTest + "'");
+    }
     return logFiles;
   }
 
