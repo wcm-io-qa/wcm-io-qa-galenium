@@ -41,7 +41,21 @@
     <module>selectors</module>
   </modules>
 
+  <properties>
+    <galenium.logging.testlogs>${project.build.directory}/testlogs</galenium.logging.testlogs>
+    <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
+    <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
+  </properties>
+
   <build>
+
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+
     <plugins>
 
       <!-- Generate Allure report -->
