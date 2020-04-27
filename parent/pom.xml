@@ -331,6 +331,7 @@
             <verbose>true</verbose>
             <Xlint>ignore</Xlint>
             <encoding>UTF-8 </encoding>
+            <aspectDirectory>src/main/aspect</aspectDirectory>
           </configuration>
           <executions>
             <execution>
