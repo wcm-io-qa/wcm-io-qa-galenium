@@ -49,7 +49,7 @@
     <galenium.generated.specs>${project.build.outputDirectory}</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
 
-    <galenium.logging.testlogs>${project.build.outputDirectory}/testlogs</galenium.logging.testlogs>
+    <galenium.logging.testlogs>${project.build.directory}/testlogs</galenium.logging.testlogs>
     <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
     <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
