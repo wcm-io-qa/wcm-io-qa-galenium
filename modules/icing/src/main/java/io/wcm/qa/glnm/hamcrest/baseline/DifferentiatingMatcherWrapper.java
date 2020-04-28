@@ -80,6 +80,7 @@ public class DifferentiatingMatcherWrapper<T> extends TypeSafeMatcher<T> impleme
    * <p>Getter for the field <code>differences</code>.</p>
    *
    * @return a {@link io.wcm.qa.glnm.differences.generic.MutableDifferences} object.
+   * @since 5.0.0
    */
   public MutableDifferences getDifferences() {
     return differences;
