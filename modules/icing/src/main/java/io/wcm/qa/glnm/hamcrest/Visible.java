@@ -31,31 +31,51 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 5.0.0
  */
-public class IsVisible extends SelectorSamplerMatcher<Boolean> {
+public class Visible extends SelectorSamplerMatcher<Boolean> {
 
   /**
    * Constructor.
    *
    * @since 5.0.0
    */
-  public IsVisible() {
-    super(Matchers.is(true), VisibilitySampler.class);
+  public Visible() {
+    this(Matchers.is(true));
+  }
+
+  /**
+   * <p>Constructor for Visible.</p>
+   *
+   * @param matcher boolean matcher (i.e. baselining matcher)
+   */
+  public Visible(Matcher<Boolean> matcher) {
+    super(matcher, VisibilitySampler.class);
   }
 
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
     super.describeTo(description);
-    description.appendText("'s visibility ");
+    description.appendText(" visible");
   }
 
   /**
    * Is element defined by selector visible
    *
-   * @return matcher
+   * @return matcher visibility matcher
    * @since 5.0.0
    */
-  public static Matcher<Selector> isVisible() {
-    return new IsVisible();
+  public static Matcher<Selector> visible() {
+    return new Visible();
+  }
+
+  /**
+   * Is element defined by selector visibitily matched.
+   *
+   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @return matcher visibility matcher
+   * @since 5.0.0
+   */
+  public static Matcher<Selector> visible(Matcher<Boolean> matcher) {
+    return new Visible(matcher);
   }
 }
