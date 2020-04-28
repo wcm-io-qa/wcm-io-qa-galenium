@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.selector;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

@@ -17,46 +17,66 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.selector;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 
-import io.wcm.qa.glnm.sampling.element.ElementCountSampler;
+import io.wcm.qa.glnm.sampling.element.VisibilitySampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Matches how many visible elements are defined by selector.
+ * Matches if selector defines a visible element.
  *
  * @since 5.0.0
  */
-public class ElementCount extends SelectorSamplerMatcher<Integer> {
+public class Visible extends SelectorSamplerMatcher<Boolean> {
 
   /**
    * Constructor.
    *
-   * @param matcher integer matcher
    * @since 5.0.0
    */
-  public ElementCount(Matcher<Integer> matcher) {
-    super(matcher, ElementCountSampler.class);
+  public Visible() {
+    this(Matchers.is(true));
+  }
+
+  /**
+   * <p>Constructor for Visible.</p>
+   *
+   * @param matcher boolean matcher (i.e. baselining matcher)
+   * @since 5.0.0
+   */
+  public Visible(Matcher<Boolean> matcher) {
+    super(matcher, VisibilitySampler.class);
   }
 
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
-    description.appendText("number of elements for ");
     super.describeTo(description);
+    description.appendText(" visible");
   }
 
   /**
-   * How many elements defined by selector are visible
+   * Is element defined by selector visible
    *
-   * @return matcher
-   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @return matcher visibility matcher
    * @since 5.0.0
    */
-  public static Matcher<Selector> elementCount(Matcher<Integer> matcher) {
-    return new ElementCount(matcher);
+  public static Matcher<Selector> visible() {
+    return new Visible();
+  }
+
+  /**
+   * Is element defined by selector visibitily matched.
+   *
+   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @return matcher visibility matcher
+   * @since 5.0.0
+   */
+  public static Matcher<Selector> visible(Matcher<Boolean> matcher) {
+    return new Visible(matcher);
   }
 }

@@ -19,7 +19,7 @@
  */
 package io.wcm.qa.glnm.junit;
 
-import static io.wcm.qa.glnm.hamcrest.LogEntryMatchers.hasStatus;
+import static io.wcm.qa.glnm.hamcrest.browser.LogEntryMatchers.hasStatus;
 import static org.hamcrest.Matchers.everyItem;
 
 import org.hamcrest.MatcherAssert;
