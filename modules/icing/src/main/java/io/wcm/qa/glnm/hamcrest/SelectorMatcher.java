@@ -61,8 +61,6 @@ public abstract class SelectorMatcher<T> extends TypeSafeMatcher<Selector> {
     return matchesSelector(item);
   }
 
-  protected abstract T sample(Selector item);
-
   protected void setSelector(Selector selector) {
     this.selector = selector;
   }
