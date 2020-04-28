@@ -17,13 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
+package io.wcm.qa.glnm.hamcrest.selector;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 
-import io.wcm.qa.glnm.sampling.element.VisibilitySampler;
+import io.wcm.qa.glnm.sampling.element.AttributeSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -31,51 +30,48 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 5.0.0
  */
-public class Visible extends SelectorSamplerMatcher<Boolean> {
+public class HasAttribute extends SelectorSamplerMatcher<String> {
+
+  private String attributeName;
 
   /**
    * Constructor.
    *
+   * @param attributeName a {@link java.lang.String} object.
+   * @param matcher a {@link org.hamcrest.Matcher} object.
    * @since 5.0.0
    */
-  public Visible() {
-    this(Matchers.is(true));
-  }
-
-  /**
-   * <p>Constructor for Visible.</p>
-   *
-   * @param matcher boolean matcher (i.e. baselining matcher)
-   */
-  public Visible(Matcher<Boolean> matcher) {
-    super(matcher, VisibilitySampler.class);
+  public HasAttribute(String attributeName, Matcher<String> matcher) {
+    super(matcher, AttributeSampler.class, attributeName);
+    setAttributeName(attributeName);
   }
 
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
+    description.appendText("attribute '");
+    description.appendText(getAttributeName());
+    description.appendText("' of ");
     super.describeTo(description);
-    description.appendText(" visible");
+  }
+
+  protected String getAttributeName() {
+    return attributeName;
+  }
+
+  protected void setAttributeName(String attributeName) {
+    this.attributeName = attributeName;
   }
 
   /**
    * Is element defined by selector visible
    *
-   * @return matcher visibility matcher
-   * @since 5.0.0
-   */
-  public static Matcher<Selector> visible() {
-    return new Visible();
-  }
-
-  /**
-   * Is element defined by selector visibitily matched.
-   *
+   * @return matcher
+   * @param name a {@link java.lang.String} object.
    * @param matcher a {@link org.hamcrest.Matcher} object.
-   * @return matcher visibility matcher
    * @since 5.0.0
    */
-  public static Matcher<Selector> visible(Matcher<Boolean> matcher) {
-    return new Visible(matcher);
+  public static Matcher<Selector> hasAttribute(String name, Matcher<String> matcher) {
+    return new HasAttribute(name, matcher);
   }
 }

@@ -32,7 +32,7 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpecDefinition;
 import io.wcm.qa.glnm.galen.validation.GalenValidation;
-import io.wcm.qa.glnm.hamcrest.SelectorMatcher;
+import io.wcm.qa.glnm.hamcrest.selector.SelectorMatcher;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**

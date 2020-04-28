@@ -17,50 +17,46 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest;
-
+package io.wcm.qa.glnm.hamcrest.selector;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import io.wcm.qa.glnm.sampling.element.TextSampler;
+import io.wcm.qa.glnm.sampling.element.ElementCountSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
- * Matches if element defined by selector has a text matched by
- * underlying matcher.
+ * Matches how many visible elements are defined by selector.
  *
  * @since 5.0.0
  */
-public class HasText extends SelectorSamplerMatcher<String> {
+public class ElementCount extends SelectorSamplerMatcher<Integer> {
 
   /**
-   * <p>Constructor for HasText.</p>
+   * Constructor.
    *
-   * @param matcher to match elements text
+   * @param matcher integer matcher
    * @since 5.0.0
    */
-  public HasText(Matcher<String> matcher) {
-    super(matcher, TextSampler.class);
+  public ElementCount(Matcher<Integer> matcher) {
+    super(matcher, ElementCountSampler.class);
   }
 
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
-    description.appendText("text of ");
+    description.appendText("number of elements for ");
     super.describeTo(description);
   }
 
   /**
-   * Matches if element defined by selector has a text matched by
-   * underlying matcher.
+   * How many elements defined by selector are visible
    *
-   * @param matcher to match element's text
-   * @return matcher retrieving text
+   * @return matcher
+   * @param matcher a {@link org.hamcrest.Matcher} object.
    * @since 5.0.0
    */
-  public static Matcher<Selector> hasText(Matcher<String> matcher) {
-    return new HasText(matcher);
+  public static Matcher<Selector> elementCount(Matcher<Integer> matcher) {
+    return new ElementCount(matcher);
   }
-
 }
