@@ -72,7 +72,6 @@ public class VisuallyCompare extends SelectorMatcher<GalenSpecRun> {
     return getInternalMatcher().matches(sample(item));
   }
 
-  @Override
   protected GalenSpecRun sample(Selector item) {
     try {
       return comparisons.get(item);
