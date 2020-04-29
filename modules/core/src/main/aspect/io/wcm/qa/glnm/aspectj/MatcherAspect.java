@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.hamcrest.BaseDescription;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.slf4j.Logger;
@@ -79,21 +80,40 @@ public class MatcherAspect {
     if (LOG.isTraceEnabled()) {
       LOG.trace("done: " + joinPoint.getSignature().toLongString());
     }
-    Matcher target = (Matcher)joinPoint.getTarget();
-    StringDescription stringDescription = new StringDescription();
-    target.describeTo(stringDescription);
+    Matcher matcher = (Matcher)joinPoint.getTarget();
     if (result) {
-      GaleniumReportUtil.updateStepName(startStepUuid, stringDescription.toString());
-      GaleniumReportUtil.passStep(startStepUuid);
-      GaleniumReportUtil.stopStep();
+      passStep(matcher);
     }
     else {
-      stringDescription.appendText("\n");
-      target.describeMismatch(joinPoint.getArgs()[0], stringDescription);
-      GaleniumReportUtil.updateStepName(startStepUuid, stringDescription.toString());
-      GaleniumReportUtil.failStep(startStepUuid);
-      GaleniumReportUtil.stopStep();
+      failStep(joinPoint, matcher);
     }
   }
+
+  private void failStep(final JoinPoint joinPoint, Matcher matcher) {
+    BaseDescription description = descriptionFor(matcher);
+    description
+        .appendText(System.lineSeparator())
+        .appendText("     but: ");
+    Object matchedItem = joinPoint.getArgs()[0];
+    matcher.describeMismatch(matchedItem, description);
+    GaleniumReportUtil.updateStepName(startStepUuid, description.toString());
+    GaleniumReportUtil.failStep(startStepUuid);
+    GaleniumReportUtil.stopStep();
+  }
+
+  private void passStep(Matcher matcher) {
+    GaleniumReportUtil.updateStepName(startStepUuid, descriptionFor(matcher).toString());
+    GaleniumReportUtil.passStep(startStepUuid);
+    GaleniumReportUtil.stopStep();
+  }
+
+  private StringDescription descriptionFor(Matcher matcher) {
+    StringDescription description = new StringDescription();
+    description
+        .appendText("Expected: ")
+        .appendDescriptionOf(matcher);
+    return description;
+  }
+
 
 }
