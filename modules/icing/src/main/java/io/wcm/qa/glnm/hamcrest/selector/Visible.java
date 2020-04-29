@@ -55,7 +55,7 @@ public class Visible extends SelectorSamplerMatcher<Boolean> {
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
-    super.describeTo(description);
+    describeSelector(description);
     description.appendText(" visible");
   }
 

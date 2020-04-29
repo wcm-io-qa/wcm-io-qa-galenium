@@ -60,8 +60,7 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
-    description.appendText(getSelectorName());
-    description.appendText(" ");
+    describeSelector(description);
     getInternalMatcher().describeTo(description);
   }
 
@@ -76,14 +75,15 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
     return sampler;
   }
 
-
-  protected T sample(Selector item) {
-    return getSampler(item).sampleValue();
-  }
-
   @Override
   protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
     getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
+  }
+
+
+  protected void describeSelector(Description description) {
+    description.appendText(getSelectorName());
+    description.appendText(" ");
   }
 
   @Override
@@ -102,6 +102,10 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
   @Override
   protected boolean matchesSelector(Selector item) {
     return getInternalMatcher().matches(sample(item));
+  }
+
+  protected T sample(Selector item) {
+    return getSampler(item).sampleValue();
   }
 
   protected void setInternalMatcher(Matcher<T> internalMatcher) {
