@@ -42,10 +42,10 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
   private static final int DEFAULT_WAIT_SECONDS = 5;
 
   private static final Logger LOG = LoggerFactory.getLogger(AfterWait.class);
-  private Matcher<T> internalMatcher;
-  private String timeoutMessage;
-  private final int waitSeconds;
 
+  private Matcher<T> internalMatcher;
+  private final int timeoutInSeconds;
+  private String timeoutMessage;
   /**
    * Wait on Matcher for seconds.
    *
@@ -53,7 +53,7 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
    * @param matcher to wait for
    */
   public AfterWait(int seconds, Matcher<T> matcher) {
-    waitSeconds = seconds;
+    timeoutInSeconds = seconds;
     internalMatcher = matcher;
   }
 
@@ -70,26 +70,37 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
   @Override
   public void describeTo(Description description) {
     description.appendText("after waiting ");
-    description.appendValue(waitSeconds);
+    description.appendValue(timeoutInSeconds);
     description.appendText(" seconds ");
     internalMatcher.describeTo(description);
+  }
+
+  private FluentWait<T> getFluentWait(T item) {
+    FluentWait<T> fluentWait = new FluentWait<T>(item)
+        .withTimeout(Duration.ofSeconds(timeoutInSeconds))
+        .pollingEvery(Duration.ofMillis(timeoutInSeconds * 100));
+    return fluentWait;
+  }
+
+  private Function<T, Boolean> getInternalMatcherAsFunction() {
+    return new MatcherFunction<T>(internalMatcher);
   }
 
   @Override
   protected void describeMismatchSafely(T item, Description mismatchDescription) {
     super.describeMismatchSafely(item, mismatchDescription);
     if (StringUtils.isNotEmpty(timeoutMessage)) {
+      mismatchDescription.appendText(System.lineSeparator());
       mismatchDescription.appendText(timeoutMessage);
     }
   }
 
   @Override
   protected boolean matchesSafely(T item) {
-    FluentWait<T> fluentWait = new FluentWait<T>(item);
-    fluentWait.pollingEvery(Duration.ofSeconds(waitSeconds));
     try {
       timeoutMessage = "";
-      return fluentWait.until((Function<T, Boolean>)t -> internalMatcher.matches(t));
+      FluentWait<T> wait = getFluentWait(item);
+      return wait.until(getInternalMatcherAsFunction());
     }
     catch (TimeoutException ex) {
       timeoutMessage = ex.getMessage();
@@ -98,6 +109,18 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
       }
       return false;
     }
+  }
+
+  /**
+   * Wait on Matcher for seconds.
+   *
+   * @param seconds to wait
+   * @param matcher to wait for
+   * @param <T> a T object.
+   * @return a {@link org.hamcrest.Matcher} object.
+   */
+  public static <T> Matcher<T> afterWait(int seconds, Matcher<T> matcher) {
+    return new AfterWait<T>(seconds, matcher);
   }
 
 
@@ -112,15 +135,27 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
     return new AfterWait<T>(matcher);
   }
 
-  /**
-   * Wait on Matcher for seconds.
-   *
-   * @param seconds to wait
-   * @param matcher to wait for
-   * @param <T> a T object.
-   * @return a {@link org.hamcrest.Matcher} object.
-   */
-  public static <T> Matcher<T> afterWait(int seconds, Matcher<T> matcher) {
-    return new AfterWait<T>(seconds, matcher);
+  private static final class MatcherFunction<T> implements Function<T, Boolean> {
+
+    private final Matcher<T> matcher;
+
+    MatcherFunction(Matcher<T> matcher) {
+      this.matcher = matcher;
+    }
+
+    @Override
+    public Boolean apply(T item) {
+      return matcher.matches(item);
+    }
+
+    @Override
+    public String toString() {
+      return new StringBuilder()
+          .append(matcher.toString())
+          .append(" (")
+          .append(matcher.getClass().getName())
+          .append(")")
+          .toString();
+    }
   }
 }
