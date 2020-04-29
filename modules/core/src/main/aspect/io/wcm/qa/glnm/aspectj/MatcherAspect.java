@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.hamcrest.BaseDescription;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.slf4j.Logger;
@@ -90,7 +89,7 @@ public class MatcherAspect {
   }
 
   private void failStep(final JoinPoint joinPoint, Matcher matcher) {
-    BaseDescription description = descriptionFor(matcher);
+    StringDescription description = descriptionFor(matcher);
     description
         .appendText(System.lineSeparator())
         .appendText("     but: ");
