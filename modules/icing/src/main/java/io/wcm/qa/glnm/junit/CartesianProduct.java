@@ -43,7 +43,7 @@ public @interface CartesianProduct {
   /**
    * @see ParameterizedTest#DEFAULT_DISPLAY_NAME
    */
-  String DEFAULT_DISPLAY_NAME = "[{index}] {arguments}";
+  String DEFAULT_DISPLAY_NAME = "{displayName}[{index}] {arguments}";
 
   /**
    * @see ParameterizedTest#name()
