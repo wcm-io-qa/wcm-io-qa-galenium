@@ -23,7 +23,6 @@ import static java.util.Locale.ENGLISH;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +31,7 @@ import com.galenframework.validation.ValidationListener;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.differences.base.Difference;
-import io.wcm.qa.glnm.differences.generic.SortedDifferences;
+import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 import io.wcm.qa.glnm.galen.specs.page.GalenCorrection;
 import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
 import io.wcm.qa.glnm.interaction.Mouse;
@@ -52,7 +51,7 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   private int allowedOffset;
   private GalenCorrectionRect corrections;
   private boolean cropIfOutside;
-  private SortedDifferences differences = new SortedDifferences();
+  private MutableDifferences differences = new MutableDifferences();
   private String elementName;
   private String filename;
   private String foldername;
@@ -156,16 +155,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   }
 
   /**
-   * <p>getComparator.</p>
-   *
-   * @return a {@link java.util.Comparator} object.
-   * @since 2.0.0
-   */
-  public Comparator<Difference> getComparator() {
-    return this.differences.getComparator();
-  }
-
-  /**
    * {@inheritDoc}
    *
    * <p>
@@ -180,10 +169,10 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   /**
    * <p>Getter for the field <code>differences</code>.</p>
    *
-   * @return a  {@link io.wcm.qa.glnm.differences.generic.SortedDifferences} object.
+   * @return a  {@link io.wcm.qa.glnm.differences.generic.MutableDifferences} object.
    * @since 4.0.0
    */
-  public SortedDifferences getDifferences() {
+  public MutableDifferences getDifferences() {
     return differences;
   }
   /**
@@ -216,10 +205,10 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
     if (foldername != null) {
       return foldername;
     }
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(GaleniumConfiguration.getExpectedImagesDirectory());
-    stringBuilder.append("/");
-    stringBuilder.append(getDifferences().asFilePath());
+    StringBuilder stringBuilder = new StringBuilder()
+        .append(GaleniumConfiguration.getExpectedImagesDirectory())
+        .append("/")
+        .append(getDifferences().getKey().replace('.', '/'));
     return stringBuilder.toString();
   }
 
@@ -316,16 +305,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   }
 
   /**
-   * <p>setComparator.</p>
-   *
-   * @param comparator used to order differences in a consistent manner
-   * @since 2.0.0
-   */
-  public void setComparator(Comparator<Difference> comparator) {
-    this.differences.setComparator(comparator);
-  }
-
-  /**
    * <p>Setter for the field <code>corrections</code>.</p>
    *
    * @param corrections a {@link com.galenframework.specs.page.CorrectionsRect} object.
@@ -348,10 +327,10 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   /**
    * <p>Setter for the field <code>differences</code>.</p>
    *
-   * @param differences a  {@link io.wcm.qa.glnm.differences.generic.SortedDifferences} object.
+   * @param differences a  {@link io.wcm.qa.glnm.differences.generic.MutableDifferences} object.
    * @since 2.0.0
    */
-  public void setDifferences(SortedDifferences differences) {
+  public void setDifferences(MutableDifferences differences) {
     this.differences = differences;
   }
 

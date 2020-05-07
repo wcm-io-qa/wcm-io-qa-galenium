@@ -20,16 +20,21 @@
 package io.wcm.qa.glnm.galen.specs;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
+import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 import com.galenframework.validation.ValidationListener;
 
-import io.wcm.qa.glnm.galen.validation.GalenValidation;
+import io.wcm.qa.glnm.interaction.Browser;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
 /**
@@ -37,12 +42,14 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  *
  * @since 4.0.0
  */
-abstract class AbstractGalenSpec implements GalenSpec {
+public abstract class AbstractGalenSpec implements GalenSpec {
 
-  private static final String[] WITHOUT_TAGS = new String[] {};
   private static final Logger LOG = LoggerFactory.getLogger(AbstractGalenSpec.class);
+  private static final String[] WITHOUT_TAGS = new String[] {};
   private GalenPageSpecProvider galenSpecProvider;
+  private String name;
   private PageSpec pageSpec;
+  private String uuid;
 
 
   protected AbstractGalenSpec(GalenPageSpecProvider provider) {
@@ -58,14 +65,28 @@ abstract class AbstractGalenSpec implements GalenSpec {
   /** {@inheritDoc} */
   @Override
   public GalenSpecRun check(String... tags) {
-    LayoutReport report = runWithGalen(GalenSpecUtil.asSectionFilter(tags));
-    return createRunFromReport(report);
+    String runName = getRunName(tags);
+    if (LOG.isInfoEnabled()) {
+      LOG.info("checking '" + runName + "'");
+    }
+    setUuid(GaleniumReportUtil.startStep(runName));
+    LayoutReport report = GalenLayout.check(
+        runName,
+        getPageSpec(),
+        GalenSpecUtil.getSectionFilter(tags),
+        getValidationListener());
+    GalenSpecRun specRun = createRunFromReport(report);
+    GaleniumReportUtil.stopStep();
+    return specRun;
   }
 
   /** {@inheritDoc} */
   @Override
   public String getName() {
-    return getPageSpec().getSections().get(0).getName();
+    if (name == null) {
+      name = initSpecName();
+    }
+    return name;
   }
 
   /** {@inheritDoc} */
@@ -86,12 +107,54 @@ abstract class AbstractGalenSpec implements GalenSpec {
     return pageSpec;
   }
 
-  private GalenSpecRun createRunFromReport(LayoutReport report) {
-    return new GalenSpecRun(this, report);
+  /**
+   * <p>Setter for the field <code>name</code>.</p>
+   *
+   * @param name a {@link java.lang.String} object.
+   */
+  public void setName(String name) {
+    this.name = name;
   }
 
-  private LayoutReport runWithGalen(SectionFilter includeTags) {
-    return GalenLayout.check(getName(), getPageSpec(), includeTags, getValidationListener());
+  private GalenSpecRun createRunFromReport(LayoutReport report) {
+    GalenSpec spec = this;
+    return GalenSpecUtil.createRun(spec, report);
+  }
+
+  protected String getRunName(String... tags) {
+    SectionFilter sectionFilter = GalenSpecUtil.getSectionFilter(tags);
+    StringBuilder runName = new StringBuilder();
+    runName.append(getName());
+    String currentUrl = Browser.getCurrentUrl();
+    if (StringUtils.isNotBlank(currentUrl)) {
+      runName.append(" (");
+      runName.append(currentUrl);
+      runName.append(")");
+    }
+    if (CollectionUtils.isNotEmpty(sectionFilter.getIncludedTags())) {
+      runName.append(" with [");
+      runName.append(StringUtils.join(sectionFilter.getIncludedTags(), ", "));
+      runName.append("]");
+    }
+    if (CollectionUtils.isNotEmpty(sectionFilter.getExcludedTags())) {
+      runName.append(" without [");
+      runName.append(StringUtils.join(sectionFilter.getExcludedTags(), ", "));
+      runName.append("]");
+    }
+    String string = runName.toString();
+    return string;
+  }
+
+  private String initSpecName() {
+    StringBuilder specName = new StringBuilder();
+    List<PageSection> sections = getPageSpec().getSections();
+    if (CollectionUtils.isNotEmpty(sections)) {
+      specName.append(sections.get(0).getName());
+    }
+    else {
+      specName.append(getGalenSpecProvider().toString());
+    }
+    return specName.toString();
   }
 
   /**
@@ -106,12 +169,7 @@ abstract class AbstractGalenSpec implements GalenSpec {
     return galenSpecProvider;
   }
 
-  protected ValidationListener getValidationListener() {
-    if (LOG.isTraceEnabled()) {
-      return GalenValidation.getTracingValidationListener();
-    }
-    return GalenValidation.getNoOpValidationListener();
-  }
+  protected abstract ValidationListener getValidationListener();
 
   protected PageSpec initPageSpec() {
     return getGalenSpecProvider().getPageSpec();
@@ -128,4 +186,18 @@ abstract class AbstractGalenSpec implements GalenSpec {
   protected void setGalenSpecProvider(GalenPageSpecProvider galenSpecProvider) {
     this.galenSpecProvider = galenSpecProvider;
   }
+
+  /**
+   * <p>Setter for the field <code>uuid</code>.</p>
+   *
+   * @param uuid a {@link java.lang.String} object.
+   */
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
+
+  protected String getUuid() {
+    return uuid;
+  }
+
 }

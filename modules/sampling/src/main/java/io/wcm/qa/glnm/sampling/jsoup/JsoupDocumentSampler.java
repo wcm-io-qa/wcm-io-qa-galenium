@@ -43,6 +43,7 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
    * <p>Constructor for JsoupDocumentSampler.</p>
    *
    * @param url to fetch HTML from
+   * @since 3.0.0
    */
   public JsoupDocumentSampler(String url) {
     super(url);
@@ -54,26 +55,40 @@ public class JsoupDocumentSampler extends JsoupBasedSampler<Document> {
     return getDocument();
   }
 
+  private void rethrowException(IOException ex) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Could not fetch Document: " + getUrl(), ex);
+    }
+    throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'", ex);
+  }
+
   /**
    * @return document from URL or rethrows {@link IOException} as {@link GaleniumException}
    */
   protected Document getDocument() {
     try {
+      @SuppressWarnings("PMD.CloseResource")
       Connection connection = getJsoupConnection();
       if (connection == null) {
         throw new GaleniumException("cannot get document from null connection.");
       }
-      LOG.info("fetching document from '" + connection.request().url() + "'");
+      if (LOG.isInfoEnabled()) {
+        LOG.info("fetching document from '" + connection.request().url() + "'");
+      }
       Document document = connection.get();
       return document;
     }
-    catch (IOException ex) {
-      if (ex instanceof HttpStatusException) {
-        LOG.warn("STATUS: " + ((HttpStatusException)ex).getStatusCode());
+    catch (HttpStatusException ex) {
+      if (LOG.isWarnEnabled()) {
+        LOG.warn("STATUS: " + ex.getStatusCode());
       }
-      LOG.debug("Could not fetch Document: " + getUrl(), ex);
-      throw new GaleniumException("When trying to fetch URL: '" + getUrl() + "'", ex);
+      rethrowException(ex);
     }
+    catch (IOException ex) {
+      rethrowException(ex);
+    }
+    // will never be reached, but static code analysis doesn't know
+    return null;
   }
 
 }

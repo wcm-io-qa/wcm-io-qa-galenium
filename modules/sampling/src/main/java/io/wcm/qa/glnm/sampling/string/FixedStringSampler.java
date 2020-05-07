@@ -28,7 +28,7 @@ import io.wcm.qa.glnm.sampling.Sampler;
  */
 public class FixedStringSampler implements Sampler<String> {
 
-  private String fixedString;
+  private final String fixedString;
 
   /**
    * <p>Constructor for FixedStringSampler.</p>

@@ -30,3 +30,5 @@ example-project/chromedriver.log
 *.log
 .allure
 bin/
+.eclipse-pmd
+allure-results

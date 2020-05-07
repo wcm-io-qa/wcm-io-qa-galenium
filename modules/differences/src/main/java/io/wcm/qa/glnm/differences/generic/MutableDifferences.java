@@ -34,7 +34,7 @@ import io.wcm.qa.glnm.differences.util.DifferenceUtil;
  */
 public class MutableDifferences implements Differences {
 
-  private Collection<Difference> differences = new ArrayList<Difference>();
+  private final Collection<Difference> differences = new ArrayList<Difference>();
 
   /**
    * See {@link java.util.ArrayList#add(Object)}
@@ -86,13 +86,7 @@ public class MutableDifferences implements Differences {
 
   /** {@inheritDoc} */
   @Override
-  public String asFilePath() {
-    return joinTagsWith("/");
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String asPropertyKey() {
+  public String getKey() {
     return joinTagsWith(".");
   }
 
@@ -135,14 +129,12 @@ public class MutableDifferences implements Differences {
   /** {@inheritDoc} */
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("differences: [");
-    stringBuilder.append(joinNamesWith("]|["));
-    stringBuilder.append("], asPropertyKey: '");
-    stringBuilder.append(asPropertyKey());
-    stringBuilder.append("', asFilePath: '");
-    stringBuilder.append(asFilePath());
-    stringBuilder.append("'");
+    StringBuilder stringBuilder = new StringBuilder()
+        .append("differences: [")
+        .append(joinNamesWith("]|["))
+        .append("], key: '")
+        .append(getKey())
+        .append("'");
     return stringBuilder.toString();
   }
 

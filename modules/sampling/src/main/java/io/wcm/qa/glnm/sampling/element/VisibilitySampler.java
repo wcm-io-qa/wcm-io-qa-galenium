@@ -21,7 +21,7 @@ package io.wcm.qa.glnm.sampling.element;
 
 import org.openqa.selenium.WebElement;
 
-import io.wcm.qa.glnm.sampling.element.base.WebElementBasedSampler;
+import io.wcm.qa.glnm.sampling.element.base.SingleElementSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -29,7 +29,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 1.0.0
  */
-public class VisibilitySampler extends WebElementBasedSampler<Boolean> {
+public class VisibilitySampler extends SingleElementSampler<Boolean> {
 
   /**
    * <p>Constructor for VisibilitySampler.</p>
@@ -41,7 +41,7 @@ public class VisibilitySampler extends WebElementBasedSampler<Boolean> {
     super(selector);
   }
 
-  private Boolean isDisplayed(WebElement element) {
+  protected Boolean isDisplayed(WebElement element) {
     return element != null && element.isDisplayed();
   }
 

@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,8 +48,8 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_EXPECTED_TEXTS_FILE = "text/expectedTexts.properties";
   private static final int DEFAULT_GRID_PORT = 4444;
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
-  private static final String DEFAULT_REPORT_DIR = "./target/galenium-reports";
-  private static final String DEFAULT_SPEC_PATH = "./target/test-classes/galen/specs";
+  private static final String DEFAULT_REPORT_DIR = "./target/glnm-reports";
+  private static final String DEFAULT_SPEC_PATH = "./target/classes/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
 
   private static final Logger LOG = LoggerFactory.getLogger(GaleniumConfiguration.class);
@@ -59,7 +58,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
   private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
-  private static final String SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY = "galenium.browser.proxy";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
@@ -70,16 +68,12 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_HEADLESS = "galenium.headless";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_PASS = "io.wcm.qa.http.pass";
   private static final String SYSTEM_PROPERTY_NAME_HTTP_USER = "io.wcm.qa.http.user";
-  private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST = "galenium.webdriver.https.proxyHost";
-  private static final String SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT = "galenium.webdriver.https.proxyPort";
   private static final String SYSTEM_PROPERTY_NAME_LAZY_DRIVER = "galenium.webdriver.lazy";
   private static final String SYSTEM_PROPERTY_NAME_LOG_DIR = "galenium.logging.testlogs";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_HEIGHT = "galenium.mediaquery.height";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_PROPERTIES = "galenium.mediaquery.properties";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MAX = "galenium.mediaquery.width.max";
   private static final String SYSTEM_PROPERTY_NAME_MEDIA_QUERY_WIDTH_MIN = "galenium.mediaquery.width.min";
-  private static final String SYSTEM_PROPERTY_NAME_NO_TESTNG = "galenium.noTestNG";
-  private static final String SYSTEM_PROPERTY_NAME_REPORT_CONFIG = "io.wcm.qa.extent.reportConfig";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_DIRECTORY = "galenium.report.rootPath";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_ERRORS_ONLY = "galenium.report.galen.errorsOnly";
   private static final String SYSTEM_PROPERTY_NAME_REPORT_SKIP_EXTENT = "galenium.report.extent.skip";
@@ -548,60 +542,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Https Proxy Host Configuration for Webdriver or BrowserMobProxy
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.https.proxyHost
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return null or https proxy host
-   * @since 3.0.0
-   */
-  public static String getHttpsProxyHost() {
-    return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_HOST, null);
-  }
-
-  /**
-   * Https Proxy Port Configuration for Webdriver or BrowserMobProxy
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.https.proxyPort
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * null
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return null or https proxy port
-   * @since 3.0.0
-   */
-  public static String getHttpsProxyPort() {
-    return asString(SYSTEM_PROPERTY_NAME_HTTPS_PROXY_PORT, null);
-  }
-
-  /**
    * HTTP username to use in HTTP basic auth.
    * <ul>
    * <li>Key:
@@ -791,16 +731,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * <p>getReportConfig.</p>
-   *
-   * @return config file for ExtentReports
-   * @since 3.0.0
-   */
-  public static File getReportConfig() {
-    return asFile(SYSTEM_PROPERTY_NAME_REPORT_CONFIG);
-  }
-
-  /**
    * Report root folder.
    * <ul>
    * <li>Key:
@@ -867,17 +797,21 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * throw {@link java.lang.NullPointerException}
+   * {@link io.wcm.qa.glnm.selenium.RunMode#LOCAL}
    * </pre>
    *
    * </li>
    * </ul>
    *
-   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @return {@link io.wcm.qa.glnm.selenium.RunMode} used
    * @since 3.0.0
    */
   public static RunMode getRunMode() {
-    return RunMode.valueOf(asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE).toUpperCase());
+    String runModeAsString = asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE);
+    if (StringUtils.isBlank(runModeAsString)) {
+      return RunMode.LOCAL;
+    }
+    return RunMode.valueOf(runModeAsString.toUpperCase());
   }
 
   /**
@@ -958,7 +892,7 @@ public final class GaleniumConfiguration {
    * @since 3.0.0
    */
   public static String getTextComparisonOutputDirectory() {
-    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, DEFAULT_REPORT_DIR);
+    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, "./target/sampled");
   }
 
   /**
@@ -1073,33 +1007,6 @@ public final class GaleniumConfiguration {
    */
   public static boolean isLazyWebDriverInitialization() {
     return asBoolean(SYSTEM_PROPERTY_NAME_LAZY_DRIVER);
-  }
-
-  /**
-   * Usually Galenium is used for testing with TestNG. If not this property should reflect that.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.noTestNG
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether TestNG is used
-   * @since 3.0.0
-   */
-  public static boolean isNoTestNg() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_NO_TESTNG);
   }
 
   /**
@@ -1296,33 +1203,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * BrowserMob Proxy flag.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.browser.proxy
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether to use BrowserMob Proxy for drivers
-   * @since 3.0.0
-   */
-  public static boolean isUseBrowserProxy() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_BROWSERMOB_PROXY);
-  }
-
-  /**
    * Control whether to only accept secure SSL certificates
    * <ul>
    * <li>Key:
@@ -1405,17 +1285,6 @@ public final class GaleniumConfiguration {
 
   private static boolean asBoolean(String systemPropertyName) {
     return Boolean.getBoolean(systemPropertyName);
-  }
-
-  private static File asFile(String systemPropertyName) {
-    String filePath = asString(systemPropertyName);
-    if (StringUtils.isNotBlank(filePath)) {
-      File file = new File(filePath);
-      if (file.isFile()) {
-        return file;
-      }
-    }
-    return null;
   }
 
   private static Integer asInteger(String systemPropertyName, int defaultValue) {

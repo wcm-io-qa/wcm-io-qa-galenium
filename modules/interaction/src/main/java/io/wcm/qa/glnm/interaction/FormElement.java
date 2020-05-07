@@ -44,6 +44,7 @@ public final class FormElement {
    *
    * @param selector identifies the element
    * @param text value to enter
+   * @since 1.0.0
    */
   public static void clearAndEnterText(Selector selector, String text) {
     WebElement input = Element.findOrFail(selector);
@@ -51,7 +52,9 @@ public final class FormElement {
       input.clear();
     }
     catch (InvalidElementStateException ex) {
-      LOG.debug("could not clear element: '" + selector + "'");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("could not clear element: '" + selector + "'");
+      }
     }
     input.sendKeys(text);
   }

@@ -101,7 +101,7 @@ public final class HttpUtil {
       return client.execute(httpPost);
     }
     catch (URISyntaxException | IOException ex) {
-      throw new GaleniumException("could not encode form post data.");
+      throw new GaleniumException("could not encode form post data.", ex);
     }
     finally {
       HttpClientUtils.closeQuietly(client);

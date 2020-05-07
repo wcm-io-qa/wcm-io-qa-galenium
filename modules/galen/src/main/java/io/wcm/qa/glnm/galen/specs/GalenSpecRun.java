@@ -19,9 +19,14 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.galenframework.reports.model.LayoutReport;
+import com.galenframework.validation.ValidationError;
 import com.galenframework.validation.ValidationResult;
 
 /**
@@ -42,30 +47,24 @@ public class GalenSpecRun {
    * @since 4.0.0
    */
   public GalenSpecRun(GalenSpec spec, LayoutReport report) {
-    this.setSpec(spec);
-    this.setReport(report);
+    setSpec(spec);
+    setReport(report);
   }
 
   /**
-   * When there are errors that are not marked as warning level only.
+   * Get all messages from all errors of this run.
    *
-   * @return whether spec has failed
+   * @return all messages of run
    * @since 4.0.0
    */
-  public boolean hasFailed() {
-    return getReport().errors() > 0;
+  public Collection<String> getMessages() {
+    Collection<String> messages = new ArrayList<String>();
+    List<ValidationResult> validationErrors = getValidationErrors();
+    for (ValidationResult validationResult : validationErrors) {
+      messages.addAll(getMessages(validationResult));
+    }
+    return messages;
   }
-
-  /**
-   * When there are errors that are not marked as warning level only.
-   *
-   * @return whether spec has failed
-   * @since 4.0.0
-   */
-  public boolean hasWarnings() {
-    return getReport().warnings() > 0;
-  }
-
 
   /**
    * When there are no errors or warnings the spec is considered clean.
@@ -78,13 +77,39 @@ public class GalenSpecRun {
   }
 
   /**
-   * <p>getValidationErrors.</p>
+   * When there are errors that are not marked as warning level only.
    *
-   * @return a {@link java.util.List} object.
+   * @return whether spec has failed
    * @since 4.0.0
    */
-  public List<ValidationResult> getValidationErrors() {
-    return getReport().getValidationErrorResults();
+  public boolean isFailed() {
+    return getReport().errors() > 0;
+  }
+
+  /**
+   * When there are errors that are not marked as warning level only.
+   *
+   * @return whether spec has failed
+   * @since 4.0.0
+   */
+  public boolean isWarning() {
+    return getReport().warnings() > 0;
+  }
+
+  private Collection<String> getMessages(ValidationResult validationResult) {
+    Collection<String> messages = new ArrayList<String>();
+    ValidationError error = validationResult.getError();
+    if (error != null) {
+      List<String> errorMessages = error.getMessages();
+      CollectionUtils.addAll(messages, errorMessages);
+    }
+    List<ValidationResult> childValidationResults = validationResult.getChildValidationResults();
+    if (childValidationResults != null) {
+      for (ValidationResult childResult : childValidationResults) {
+        messages.addAll(getMessages(childResult));
+      }
+    }
+    return messages;
   }
 
   protected LayoutReport getReport() {
@@ -93,6 +118,16 @@ public class GalenSpecRun {
 
   protected GalenSpec getSpec() {
     return spec;
+  }
+
+  /**
+   * <p>getValidationErrors.</p>
+   *
+   * @return a {@link java.util.List} object.
+   * @since 4.0.0
+   */
+  protected List<ValidationResult> getValidationErrors() {
+    return getReport().getValidationErrorResults();
   }
 
   protected void setReport(LayoutReport report) {

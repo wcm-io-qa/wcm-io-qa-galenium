@@ -19,11 +19,11 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import static io.wcm.qa.glnm.context.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
-import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,21 +32,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.galenframework.page.Page;
-import com.galenframework.speclang2.pagespec.PageSpecReader;
+import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.device.TestDevice;
-import io.wcm.qa.glnm.exceptions.GalenLayoutException;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.galen.mock.MockPage;
-import io.wcm.qa.glnm.galen.util.GalenHelperUtil;
 import io.wcm.qa.glnm.selectors.SelectorFromLocator;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 
@@ -57,20 +56,37 @@ import io.wcm.qa.glnm.selectors.base.NestedSelector;
  */
 final class GalenSpecUtil {
 
-  private static final Map<String, Object> EMPTY_JS_VARS = null;
-
-  private static final Properties EMPTY_PROPERTIES = new Properties();
-  private static final List<String> EMPTY_TAG_LIST = Collections.emptyList();
   private static final Logger LOG = LoggerFactory.getLogger(GalenSpecUtil.class);
 
-  private static final PageSpecReader PAGE_SPEC_READER = new PageSpecReader();
+  static final Map<String, Object> EMPTY_JS_VARS = null;
+  static final Properties EMPTY_PROPERTIES = new Properties();
 
   private GalenSpecUtil() {
     // do not instantiate
   }
 
+  static SectionFilter getSectionFilter(String... tags) {
+    if (ArrayUtils.isEmpty(tags)) {
+      return getDefaultIncludeTags();
+    }
+    SectionFilter sectionFilter = getDefaultIncludeTags();
+    List<String> includedTags = sectionFilter.getIncludedTags();
+    if (CollectionUtils.isEmpty(includedTags)) {
+      sectionFilter.setIncludedTags(Arrays.asList(tags));
+    } else {
+      CollectionUtils.addAll(includedTags, tags);
+    }
+    return sectionFilter;
+  }
+
+  static GalenSpecRun createRun(GalenSpec spec, LayoutReport report) {
+    return new GalenSpecRun(spec, report);
+  }
+
   private static String cleanName(String name) {
-    LOG.debug("mapping '" + name + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("mapping '" + name + "'");
+    }
     String[] nameParts = name.split("\\.");
     List<String> namePartList = new ArrayList<>();
     for (String namePart : nameParts) {
@@ -82,21 +98,39 @@ final class GalenSpecUtil {
       }
     }
     String cleanName = StringUtils.join(namePartList, ".");
-    LOG.debug("clean name for muliple object locator '" + cleanName + "'");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("clean name for muliple object locator '" + cleanName + "'");
+    }
     return cleanName;
+  }
+
+  private static List<String> emptyList() {
+    return Collections.emptyList();
+  }
+
+  private static SectionFilter emptySectionFilter() {
+    return new SectionFilter(emptyList(), emptyList());
   }
 
   private static Collection<NestedSelector> extractCollectionFromMapping(Map<String, SelectorFromLocator> objectMapping) {
     Collection<NestedSelector> objects = new ArrayList<>();
     Collection<SelectorFromLocator> values = objectMapping.values();
     for (SelectorFromLocator selector : values) {
-      LOG.debug("checking " + selector);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("checking " + selector);
+      }
       if (selector.hasParent()) {
-        LOG.debug("has parent " + selector);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("has parent " + selector);
+        }
         NestedSelector parent = selector.getParent();
-        LOG.debug("parentName: '" + parent.elementName() + "'");
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("parentName: '" + parent.elementName() + "'");
+        }
         String parentCss = parent.asString();
-        LOG.debug("parentCss: '" + parentCss + "'");
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("parentCss: '" + parentCss + "'");
+        }
         SelectorFromLocator trueParent = objectMapping.get(parentCss);
         if (trueParent == null) {
           throw new GaleniumException("parent for '" + selector.elementName() + "' not found in spec ('" + parentCss + "')");
@@ -104,11 +138,13 @@ final class GalenSpecUtil {
         selector.setParent(trueParent);
         trueParent.addChild(selector);
       }
-      else {
+      else if (LOG.isDebugEnabled()) {
         LOG.debug("no parent found.");
       }
       objects.add(selector);
-      LOG.debug("added: " + selector);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("added: " + selector);
+      }
     }
     return objects;
   }
@@ -116,38 +152,45 @@ final class GalenSpecUtil {
   private static Map<String, SelectorFromLocator> getObjectMapping(PageSpec spec) {
     Map<String, SelectorFromLocator> objectMapping = new HashMap<String, SelectorFromLocator>();
     Map<String, Locator> objects = spec.getObjects();
-    LOG.debug("mapping " + objects.size() + " selector candidates.");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("mapping " + objects.size() + " selector candidates.");
+    }
     for (Entry<String, Locator> entry : objects.entrySet()) {
       String name = cleanName(entry.getKey());
       Locator locator = entry.getValue();
       SelectorFromLocator selector = fromLocator(name, locator);
       String asString = selector.asString();
       if (objectMapping.containsKey(asString)) {
-        LOG.info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+        if (LOG.isInfoEnabled()) {
+          LOG.info("duplicate object:" + selector + " == " + objectMapping.get(asString));
+        }
       }
       else {
         objectMapping.put(asString, selector);
-        LOG.debug("mapped: " + selector);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("mapped: " + selector);
+        }
       }
     }
-    LOG.info("mapped " + objectMapping.size() + " selectors.");
+    if (LOG.isInfoEnabled()) {
+      LOG.info("mapped " + objectMapping.size() + " selectors.");
+    }
     return objectMapping;
   }
 
   /**
    * Get tags device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
-   *
-   * @param includeTags tags to use in filter
+   * @param tagsForThisRun tags to use in filter
    * @return filter ready for use with Galen
    * @since 4.0.0
    */
-  static SectionFilter asSectionFilter(String... includeTags) {
+  static SectionFilter asSectionFilter(List<String> tagsForThisRun) {
     List<String> tagList = new ArrayList<String>();
-    if (includeTags == null || includeTags.length == 0) {
-      return new SectionFilter();
+    if (ListUtils.emptyIfNull(tagList).isEmpty()) {
+      return emptySectionFilter();
     }
-    Collections.addAll(tagList, includeTags);
-    return new SectionFilter(tagList, EMPTY_TAG_LIST);
+    tagList.addAll(tagsForThisRun);
+    return new SectionFilter(tagList, emptyList());
   }
 
   /**
@@ -158,7 +201,7 @@ final class GalenSpecUtil {
    * @since 4.0.0
    */
   static SectionFilter asSectionFilter(TestDevice device) {
-    return new SectionFilter(device.getTags(), EMPTY_TAG_LIST);
+    return asSectionFilter(device.getTags());
   }
 
   /**
@@ -172,7 +215,7 @@ final class GalenSpecUtil {
     if (getTestDevice() != null) {
       return asSectionFilter(getTestDevice());
     }
-    return asSectionFilter();
+    return emptySectionFilter();
   }
 
   /**
@@ -187,68 +230,5 @@ final class GalenSpecUtil {
     Map<String, SelectorFromLocator> objectMapping = getObjectMapping(spec);
 
     return extractCollectionFromMapping(objectMapping);
-  }
-
-  /**
-   * Read a spec from path. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param mockPage to get current page from
-   * @param specPath path to spec file
-   * @param tags tag based filter
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  static PageSpec readSpec(Page mockPage, String specPath, SectionFilter tags) {
-    return readSpec(specPath, tags, mockPage, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
-  }
-
-  /**
-   * Convenience method to read a Galen spec using current threads context. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param specPath path to spec file
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  static PageSpec readSpec(String specPath) {
-    return readSpec(new MockPage(), specPath, getDefaultIncludeTags());
-  }
-
-  /**
-   * Read a spec from path. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param specPath path to spec file
-   * @param tags tag based filter
-   * @param page page to retrieve objects from
-   * @param properties properties for spec parsing
-   * @param jsVars JS variables to use for spec parsing
-   * @param objects predefined objects
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  static PageSpec readSpec(String specPath, SectionFilter tags, Page page, Properties properties, Map<String, Object> jsVars,
-      Map<String, Locator> objects) {
-    try {
-      return PAGE_SPEC_READER.read(specPath, page, tags, properties, jsVars, objects);
-    }
-    catch (IOException ex) {
-      throw new GalenLayoutException("IOException when reading spec: '" + specPath + "'", ex);
-    }
-  }
-
-  /**
-   * Read a spec from path. Basically a convenience mapping to
-   * {@link com.galenframework.speclang2.pagespec.PageSpecReader#read(String, com.galenframework.page.Page, SectionFilter, Properties, Map, Map)}.
-   *
-   * @param device to use to get page
-   * @param specPath path to spec file
-   * @param tags tag based filter
-   * @return Galen page spec object
-   * @since 4.0.0
-   */
-  static PageSpec readSpec(TestDevice device, String specPath, SectionFilter tags) {
-    return readSpec(GalenHelperUtil.getBrowser(device).getPage(), specPath, tags);
   }
 }

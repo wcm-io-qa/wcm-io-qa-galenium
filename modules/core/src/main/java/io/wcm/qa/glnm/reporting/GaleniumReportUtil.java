@@ -20,13 +20,13 @@
 /* Copyright (c) wcm.io. All rights reserved. */
 package io.wcm.qa.glnm.reporting;
 
-import static io.wcm.qa.glnm.util.TestInfoUtil.getAlphanumericTestName;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -36,19 +36,20 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.ITestResult;
-import org.testng.Reporter;
 
+import com.galenframework.config.GalenConfig;
+import com.galenframework.config.GalenProperty;
 import com.galenframework.reports.GalenTestInfo;
 import com.galenframework.reports.HtmlReportBuilder;
-import com.galenframework.reports.TestNgReportBuilder;
+import com.galenframework.utils.GalenUtils;
 import com.google.common.html.HtmlEscapers;
 
-import freemarker.template.TemplateException;
 import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
+import io.qameta.allure.model.StepResult;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
-import io.wcm.qa.glnm.util.GaleniumContext;
 
 /**
  * Utility class containing methods handling reporting.
@@ -57,13 +58,11 @@ import io.wcm.qa.glnm.util.GaleniumContext;
  */
 public final class GaleniumReportUtil {
 
-  private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
-
   private static final List<GalenTestInfo> GLOBAL_GALEN_RESULTS = new ArrayList<GalenTestInfo>();
+
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumReportUtil.class);
   private static final String PATH_GALEN_REPORT = GaleniumConfiguration.getReportDirectory() + "/galen";
-  private static final String PATH_SCREENSHOTS_RELATIVE_ROOT = "../screenshots";
   private static final String PATH_SCREENSHOTS_ROOT = GaleniumConfiguration.getReportDirectory() + "/screenshots";
-  private static final String PATH_TESTNG_REPORT_XML = GaleniumConfiguration.getReportDirectory() + "/testng.xml";
 
   private GaleniumReportUtil() {
     // do not instantiate
@@ -87,6 +86,7 @@ public final class GaleniumReportUtil {
    * @param testInfos list to persist test information
    * @since 3.0.0
    */
+  @SuppressWarnings("PMD.AvoidCatchingNPE")
   public static void createGalenHtmlReport(List<GalenTestInfo> testInfos) {
     try {
       new HtmlReportBuilder().build(testInfos, PATH_GALEN_REPORT);
@@ -103,22 +103,6 @@ public final class GaleniumReportUtil {
    */
   public static void createGalenReports() {
     createGalenHtmlReport(GLOBAL_GALEN_RESULTS);
-    createGalenTestNgReport(GLOBAL_GALEN_RESULTS);
-  }
-
-  /**
-   * Write all test results to TestNG report.
-   *
-   * @param testInfos list to persist test information
-   * @since 3.0.0
-   */
-  public static void createGalenTestNgReport(List<GalenTestInfo> testInfos) {
-    try {
-      new TestNgReportBuilder().build(testInfos, PATH_TESTNG_REPORT_XML);
-    }
-    catch (IOException | TemplateException ex) {
-      LOG.error("could not generate TestNG report.", ex);
-    }
   }
 
   /**
@@ -134,39 +118,132 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * <p>failStep.</p>
+   *
+   * @param step a {@link java.lang.String} object.
+   * @since 5.0.0
+   */
+  public static void failStep(String step) {
+    Allure.getLifecycle().updateStep(step, new FailStep());
+  }
+
+  /**
+   * <p>passStep.</p>
+   *
+   * @param step a {@link java.lang.String} object.
+   * @since 5.0.0
+   */
+  public static void passStep(String step) {
+    Allure.getLifecycle().updateStep(step, new PassStep());
+  }
+
+  /**
+   * <p>startStep.</p>
+   *
+   * @param name a {@link java.lang.String} object.
+   * @return a {@link java.lang.String} object.
+   * @since 5.0.0
+   */
+  public static String startStep(String name) {
+    String uuid = UUID.randomUUID().toString();
+    StepResult result = new StepResult().setName(name);
+    Allure.getLifecycle().startStep(uuid, result);
+    return uuid;
+  }
+
+  /**
+   * <p>startStep.</p>
+   *
+   * @param parentStep a {@link java.lang.String} object.
+   * @param stepName a {@link java.lang.String} object.
+   * @return a {@link java.lang.String} object.
+   * @since 5.0.0
+   */
+  public static String startStep(String parentStep, String stepName) {
+    String uuid = UUID.randomUUID().toString();
+    StepResult result = new StepResult().setName(stepName);
+    Allure.getLifecycle().startStep(parentStep, uuid, result);
+    return uuid;
+  }
+
+  /**
+   * <p>stopStep.</p>
+   *
+   * @since 5.0.0
+   */
+  public static void stopStep() {
+    Allure.getLifecycle().stopStep();
+  }
+
+  /**
+   * Adds a step for current test case to the report.
+   *
+   * @param stepName to use in report
+   * @since 5.0.0
+   */
+  public static void step(String stepName) {
+    if (LOG.isInfoEnabled()) {
+      LOG.info("STEP(" + stepName + ")");
+    }
+    Allure.step(stepName);
+  }
+
+  /**
+   * Adds a failed step for current test case to the report.
+   *
+   * @param stepName to use in report
+   * @since 5.0.0
+   */
+  public static void stepFailed(String stepName) {
+    if (LOG.isInfoEnabled()) {
+      LOG.info("FAILED_STEP(" + stepName + ")");
+    }
+    Allure.step(stepName, Status.FAILED);
+  }
+
+  /**
+   * uses Galen functionality to get a full page screenshot by scrolling and
+   * stitching.
+   *
+   * @since 5.0.0
+   */
+  public static void takeFullScreenshot() {
+    String step = startStep("taking full page screenshot");
+    GalenConfig galenConfig = GalenConfig.getConfig();
+    boolean fullPageScreenshotActivatedInGalen = galenConfig.getBooleanProperty(GalenProperty.SCREENSHOT_FULLPAGE);
+    if (!fullPageScreenshotActivatedInGalen) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("activate full page screenshot in Galen before screenshot");
+      }
+      galenConfig.setProperty(GalenProperty.SCREENSHOT_FULLPAGE, "true");
+    }
+    try {
+      File screenshotFile = GalenUtils.makeFullScreenshot(GaleniumContext.getDriver());
+      handleScreenshotFile(screenshotFile);
+      passStep(step);
+    }
+    catch (IOException | InterruptedException ex) {
+      LOG.error("Could not take full screenshot.", ex);
+    }
+    finally {
+      if (!fullPageScreenshotActivatedInGalen) {
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("deactivate full page screenshot in Galen after screenshot");
+        }
+        galenConfig.setProperty(GalenProperty.SCREENSHOT_FULLPAGE, "false");
+      }
+      stopStep();
+    }
+  }
+
+  /**
    * Take screenshot of current browser window and add to reports. Uses random filename.
    *
-   * @return log message including screenshot if everything was successful
-   * @since 3.0.0
+   * @since 4.0.0
    */
-  public static String takeScreenshot() {
+  public static void takeScreenshot() {
     String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    return takeScreenshot(randomAlphanumeric, getTakesScreenshot());
-  }
-
-  /**
-   * Captures image of single element in page.
-   *
-   * @param takesScreenshot to capture
-   * @return message to log screenshot to report
-   * @since 3.0.0
-   */
-  public static String takeScreenshot(TakesScreenshot takesScreenshot) {
-    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
-    return takeScreenshot(randomAlphanumeric, takesScreenshot);
-  }
-
-  /**
-   * Take screenshot of current browser window and add to reports.
-   *
-   * @param result to generate filename from
-   * @param driver to take screenshot from
-   * @return log message including screenshot if everything was successful
-   * @since 3.0.0
-   */
-  public static String takeScreenshot(ITestResult result, WebDriver driver) {
-    String resultName = getAlphanumericTestName(result);
-    return takeScreenshot(resultName, getTakesScreenshot(driver));
+    takeScreenshot(randomAlphanumeric, getTakesScreenshot());
   }
 
   /**
@@ -174,62 +251,54 @@ public final class GaleniumReportUtil {
    *
    * @param resultName to use in filename
    * @param takesScreenshot to take screenshot from
-   * @return log message including screenshot if everything was successful
-   * @since 3.0.0
+   * @since 4.0.0
    */
-  public static String takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
-    String destScreenshotFilePath = null;
-    String filenameOnly = null;
-    boolean screenshotSuccessful;
-    LOG.debug("taking screenshot: " + takesScreenshot);
-    filenameOnly = System.currentTimeMillis() + "_" + resultName + ".png";
+  public static void takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
+    String step = startStep("taking screenshot: " + takesScreenshot);
     File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
-    if (screenshotFile != null) {
-      LOG.trace("screenshot taken: " + screenshotFile.getPath());
-      try {
-        File destFile = new File(PATH_SCREENSHOTS_ROOT, filenameOnly);
-        FileUtils.copyFile(screenshotFile, destFile);
-        LOG.trace("copied screenshot: " + destFile.getPath());
-        destScreenshotFilePath = PATH_SCREENSHOTS_RELATIVE_ROOT + File.separator + filenameOnly;
-        Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(screenshotFile), ".png");
-        screenshotSuccessful = true;
-        if (FileUtils.deleteQuietly(screenshotFile)) {
-          LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
-        }
-        else {
-          LOG.trace("could not delete screenshot file: " + screenshotFile.getPath());
-        }
-      }
-      catch (IOException ex) {
-        LOG.error("Cannot copy screenshot.", ex);
-        screenshotSuccessful = false;
-      }
-    }
-    else {
-      LOG.debug("screenshot file is null.");
-      screenshotSuccessful = false;
-    }
+    handleScreenshotFile(resultName, screenshotFile);
+    passStep(step);
+    stopStep();
+  }
 
-    StringBuilder logMsg = new StringBuilder();
-    if (screenshotSuccessful) {
-      logMsg.append("Screenshot: ").append(PATH_SCREENSHOTS_ROOT).append(File.separator).append(filenameOnly).append(System.lineSeparator());
-      if (destScreenshotFilePath != null) {
-        WebDriver driver;
-        if (takesScreenshot instanceof WebDriver) {
-          driver = (WebDriver)takesScreenshot;
-        }
-        else {
-          driver = GaleniumContext.getDriver();
-        }
-        if (driver != null) {
-          String url = driver.getCurrentUrl();
-          String title = driver.getTitle();
-          Reporter.log("<a href=\"" + url + "\"><img src=\"" + destScreenshotFilePath + "\" alt=\"" + title + "\"/></a>", true);
-        }
-      }
-    }
+  /**
+   * Captures image from screenshot capable instance which can be the driver or a single element in page.
+   *
+   * @param takesScreenshot to capture
+   * @since 4.0.0
+   */
+  public static void takeScreenshot(TakesScreenshot takesScreenshot) {
+    String randomAlphanumeric = RandomStringUtils.randomAlphanumeric(12);
+    takeScreenshot(randomAlphanumeric, takesScreenshot);
+  }
 
-    return logMsg.toString();
+  /**
+   * <p>
+   * updateStep.
+   * </p>
+   *
+   * @param step step UUID
+   * @param update step result consumer to do the update
+   * @since 5.0.0
+   */
+  public static void updateStep(String step, Consumer<StepResult> update) {
+    Allure.getLifecycle().updateStep(step, update);
+  }
+
+  /**
+   * Sets a new name for a step.
+   *
+   * @param step step UUID
+   * @param updatedStepName name to set on step
+   */
+  public static void updateStepName(String step, String updatedStepName) {
+    updateStep(step, new Consumer<StepResult>() {
+
+      @Override
+      public void accept(StepResult result) {
+        result.setName(updatedStepName);
+      }
+    });
   }
 
   private static TakesScreenshot getTakesScreenshot() {
@@ -249,6 +318,41 @@ public final class GaleniumReportUtil {
     return takesScreenshot;
   }
 
+  private static void handleScreenshotFile(File screenshotFile) {
+    handleScreenshotFile(screenshotFile.getName(), screenshotFile);
+  }
+
+  private static void handleScreenshotFile(String resultName, File screenshotFile) {
+    if (screenshotFile != null) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("screenshot taken: " + screenshotFile.getPath());
+      }
+      try {
+        String destFilename = System.currentTimeMillis() + "_" + resultName + ".png";
+        File destFile = new File(PATH_SCREENSHOTS_ROOT, destFilename);
+        FileUtils.copyFile(screenshotFile, destFile);
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("copied screenshot: " + destFile.getPath());
+        }
+        Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(destFile), ".png");
+        if (FileUtils.deleteQuietly(screenshotFile)) {
+          if (LOG.isTraceEnabled()) {
+            LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
+          }
+        }
+        else if (LOG.isTraceEnabled()) {
+          LOG.trace("could not delete screenshot file: " + screenshotFile.getPath());
+        }
+      }
+      catch (IOException ex) {
+        LOG.error("Cannot copy screenshot.", ex);
+      }
+    }
+    else if (LOG.isDebugEnabled()) {
+      LOG.debug("screenshot file is null.");
+    }
+  }
+
   private static boolean isAddResult(GalenTestInfo galenTestInfo) {
     if (galenTestInfo == null) {
       return false;
@@ -259,5 +363,24 @@ public final class GaleniumReportUtil {
       }
     }
     return true;
+  }
+
+  private static final class FailStep implements Consumer<StepResult> {
+
+    @Override
+    public void accept(StepResult t) {
+      t.setStatus(Status.FAILED);
+    }
+  }
+
+  private static final class PassStep implements Consumer<StepResult> {
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void accept(StepResult t) {
+      if (t.getStatus() == null) {
+        t.setStatus(Status.PASSED);
+      }
+    }
   }
 }

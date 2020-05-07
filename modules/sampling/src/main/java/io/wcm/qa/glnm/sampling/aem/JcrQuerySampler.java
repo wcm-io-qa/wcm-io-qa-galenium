@@ -38,7 +38,6 @@ import com.google.common.collect.Maps;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.sampling.Sampler;
-import io.wcm.qa.glnm.sampling.UselessSampler;
 import io.wcm.qa.glnm.sampling.jsoup.JsoupRawStringSampler;
 import io.wcm.qa.glnm.sampling.transform.JsonSampler;
 
@@ -70,17 +69,10 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   private String password = "admin";
   private String path;
   private int port = 4502;
-  private Map<String, String> propertiesLike = new HashMap<String, String>();
-  private Map<String, String> propertiesStrict = new HashMap<String, String>();
+  private final Map<String, String> propertiesLike = new HashMap<String, String>();
+  private final Map<String, String> propertiesStrict = new HashMap<String, String>();
   private String protocol = "http";
   private String userName = "admin";
-  /**
-   * Constructor.
-   */
-  @SuppressWarnings("unchecked")
-  public JcrQuerySampler() {
-    super(new UselessSampler());
-  }
 
   /**
    * <p>addLikeProperty.</p>
@@ -317,7 +309,6 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
     }
   }
 
-  @SuppressWarnings("unchecked")
   protected Sampler<Map<String, String>> getCookieSampler() {
     String url = getProtocol() + "://" + getHostName();
     AemAuthorLoginSampler loginSampler = new AemAuthorLoginSampler(url, getPort());

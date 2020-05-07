@@ -21,24 +21,20 @@ package io.wcm.qa.glnm.differences.base;
 
 
 /**
- * Provides Difference based keys for persisting samples and naming tests.
+ * Provides Difference based keys for persisting samples
+ * .
  *
  * @since 1.0.0
  */
 public interface Differences extends Iterable<Difference> {
 
   /**
-   * <p>asFilePath.</p>
-   *
-   * @return differences' tags concatenated with '/' and/or '-'
-   */
-  String asFilePath();
-
-  /**
-   * <p>asPropertyKey.</p>
+   * <p>
+   * Key as defined by these differences.
+   * </p>
    *
    * @return differences' tags concatenated with '.'
    */
-  String asPropertyKey();
+  String getKey();
 
 }

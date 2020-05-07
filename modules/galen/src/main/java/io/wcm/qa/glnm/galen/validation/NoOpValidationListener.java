@@ -26,7 +26,7 @@ import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationListener;
 import com.galenframework.validation.ValidationResult;
 
-final class NoOpValidationListener implements ValidationListener {
+class NoOpValidationListener implements ValidationListener {
 
   /** {@inheritDoc} */
   @Override

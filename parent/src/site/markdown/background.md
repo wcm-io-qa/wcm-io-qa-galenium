@@ -7,11 +7,11 @@
 
  [Read more about Maven](https://maven.apache.org/)
 
-## TestNG
+## JUnit
 
- Galenium uses TestNG’s parallelization features which allow multiple threads to handle test cases concurrently. TestNG allows defining test suites and running the tests of certain test suites with any number of threads at the same time.
+ Galenium uses JUnit’s parallelization features which allow multiple threads to handle test cases concurrently.
 
- [Read more about TestNG](https://testng.org/doc/index.html)
+ [Read more about JUnit](https://junit.org/)
 
 ## Selenium
 
@@ -21,7 +21,7 @@
  * Tests contact the hub to obtain access to browser instances.
  * Different browser versions and browser configurations can be managed centrally and are used by individual tests.
 
- [Read more about Selenium](https://www.seleniumhq.org/docs/)
+ [Read more about Selenium](https://www.selenium.dev/documentation/en/)
 
 ## Galen
 
@@ -32,11 +32,11 @@ Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Inter
 
  [Read more about Galen](http://galenframework.com/docs/all/)
 
-## ExtentReports
+## Allure
 
- Galenium uses ExtentReports which is a HTML reporting library for Java. Galenium uses the following ExtentReports features:
+ Galenium uses Allure which is a HTML reporting framework for Java.
 
-* Logs in HTML format.
+* Logs in test case report.
 * Interactive reports
   * For example, clicking on a failed test case will show the status of the test and the reason of the failure (exception details).
 * Pie charts (or circle charts) based on test case status.
@@ -44,13 +44,5 @@ Galen uses Selenium Grid to drive different browsers like Firefox, Chrome, Inter
 * Report filtering depending on status.
 * Fetching system details such as OS, Java version, memory etc.
 * Attaching screenshots within reports.
-* Logback/SLF4J appender
-  * Galenium includes an appender for Simple Logging Facade for Java (SLF4J) which can be used in combination with ExtentReports. Appenders are responsible for writing event data and delivering log events to their target destination.
 
- [Read more about ExtentReports](http://extentreports.com/docs/versions/2/java/)
-
-## BrowserMob Proxy
-
- BrowserMob Proxy (BMP) is a Java HTTP proxy which allows manipulation and recording of HTTP communication. Galenium uses BMP to add basic auth which is commonly used to protect SUTs. The recording capabilities are used to wait for network traffic and to check response codes within tests.
-
- [Read more about BrowserMob Proxy](https://github.com/lightbody/browsermob-proxy)
+ [Read more about Allure](https://docs.qameta.io/allure/)

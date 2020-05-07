@@ -19,19 +19,10 @@
  */
 package io.wcm.qa.glnm.galen.reports;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.galenframework.reports.model.LayoutReport;
-import com.galenframework.validation.ValidationError;
-import com.galenframework.validation.ValidationErrorException;
-import com.galenframework.validation.ValidationObject;
-import com.galenframework.validation.ValidationResult;
-
-import io.wcm.qa.glnm.exceptions.GalenLayoutException;
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 
 /**
@@ -59,47 +50,8 @@ public final class GalenReports {
       LOG.debug(successMessage);
       return;
     }
-    List<ValidationResult> validationErrorResults = specRun.getValidationErrors();
-    for (ValidationResult validationResult : validationErrorResults) {
-      ValidationError error = validationResult.getError();
-      String errorMessages = StringUtils.join(error.getMessages(), "|");
-      LOG.warn(errorMessages);
-    }
-    if (specRun.hasFailed()) {
-      ValidationResult validationResult = specRun.getValidationErrors().get(0);
-      List<String> messages = validationResult.getError().getMessages();
-      List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-      ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-      throw new GalenLayoutException(errorMessage, ex);
-    }
-  }
-
-  /**
-   * <p>handleLayoutReport.</p>
-   *
-   * @param layoutReport Galen layout report
-   * @param errorMessage message to use for errors and failures
-   * @param successMessage message to use in case of success
-   * @since 4.0.0
-   */
-  public static void handleLayoutReport(LayoutReport layoutReport, String errorMessage, String successMessage) {
-    if (!(layoutReport.errors() > 0 || layoutReport.warnings() > 0)) {
-      LOG.debug(successMessage);
-    }
-    else {
-      List<ValidationResult> validationErrorResults = layoutReport.getValidationErrorResults();
-      for (ValidationResult validationResult : validationErrorResults) {
-        ValidationError error = validationResult.getError();
-        String errorMessages = StringUtils.join(error.getMessages(), "|");
-        LOG.warn(errorMessages);
-      }
-      if (layoutReport.errors() > 0) {
-        ValidationResult validationResult = layoutReport.getValidationErrorResults().get(0);
-        List<String> messages = validationResult.getError().getMessages();
-        List<ValidationObject> validationObjects = validationResult.getValidationObjects();
-        ValidationErrorException ex = new ValidationErrorException(validationObjects, messages);
-        throw new GalenLayoutException(errorMessage, ex);
-      }
+    if (specRun.isFailed()) {
+      throw new GaleniumException(errorMessage);
     }
   }
 

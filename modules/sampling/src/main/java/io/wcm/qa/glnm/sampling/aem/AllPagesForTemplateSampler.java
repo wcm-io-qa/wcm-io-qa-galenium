@@ -34,7 +34,11 @@ import io.wcm.qa.glnm.sampling.transform.base.TransformationBasedSampler;
  *
  * @since 3.0.0
  */
-public class AllPagesForTemplateSampler extends TransformationBasedSampler<Sampler<Map<String, String>>, Map<String, String>, Iterable> {
+public class AllPagesForTemplateSampler
+    extends TransformationBasedSampler<
+        Sampler<Map<String, String>>,
+        Map<String, String>,
+        Iterable<String>> {
 
   private static final String PATH_FRAGMENT_JCR_CONTENT = "/jcr:content";
   private static final String PROPERTY_NAME_CQ_TEMPLATE = "cq:template";

@@ -2,7 +2,7 @@
 package ${specRootPackageName};
 
 import static io.wcm.qa.glnm.galen.reports.GalenReports.handleGalenSpecRun;
-import static io.wcm.qa.glnm.util.GaleniumContext.getTestDevice;
+import static io.wcm.qa.glnm.context.GaleniumContext.getTestDevice;
 
 import java.io.File;
 import java.util.Collection;
@@ -23,15 +23,12 @@ public class ${classNameForSpec} {
 
   private static final String RELATIVE_PATH = "${spec.relativeFilePath}";
 
-<#if spec.tags??>
-  private Collection<String> tags = new ArrayList<>();</#if>
-
   private void checkSpec() {
     checkSpec((String[])null);
   }
 
   private void checkSpec(String... includeTags) {
-    GalenSpecRun specRun = GalenValidation.check(RELATIVE_PATH, GaleniumConfiguration.getGalenSpecPath() + RELATIVE_PATH, includeTags);
+    GalenSpecRun specRun = GalenValidation.check(GaleniumConfiguration.getGalenSpecPath() + RELATIVE_PATH, includeTags);
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
     handleGalenSpecRun(specRun, errorMessage, successMessage);

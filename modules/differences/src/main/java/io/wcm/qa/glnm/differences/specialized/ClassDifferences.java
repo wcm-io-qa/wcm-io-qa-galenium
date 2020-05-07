@@ -23,7 +23,6 @@ import java.util.Iterator;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
-import io.wcm.qa.glnm.differences.difference.testcase.ClassNameDifference;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 /**
@@ -48,14 +47,8 @@ public class ClassDifferences implements Differences {
 
   /** {@inheritDoc} */
   @Override
-  public String asFilePath() {
-    return getDifferences().asFilePath();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String asPropertyKey() {
-    return getDifferences().asPropertyKey();
+  public String getKey() {
+    return getDifferences().getKey();
   }
 
   /**

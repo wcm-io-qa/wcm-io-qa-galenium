@@ -46,12 +46,13 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
 
   private boolean sortCssClasses = true;
 
-  private List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
+  private final List<TagNodeVisitor> visitors = new ArrayList<TagNodeVisitor>();
 
   /**
    * <p>Constructor for HtmlCleanerSampler.</p>
    *
    * @param url to sample from
+   * @since 3.0.0
    */
   public HtmlCleanerSampler(String url) {
     this(url, new CleanerProperties());
@@ -62,6 +63,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    *
    * @param url to sample from
    * @param cleanerProperties properties to configure {@link org.htmlcleaner.HtmlCleaner}
+   * @since 3.0.0
    */
   public HtmlCleanerSampler(String url, CleanerProperties cleanerProperties) {
     super(url);
@@ -73,6 +75,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>addVisitor.</p>
    *
    * @param visitor to clean HTML
+   * @since 3.0.0
    */
   public void addVisitor(TagNodeVisitor visitor) {
     getVisitors().add(visitor);
@@ -82,6 +85,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>Getter for the field <code>htmlCleanerProperties</code>.</p>
    *
    * @return a {@link org.htmlcleaner.CleanerProperties} object.
+   * @since 3.0.0
    */
   public CleanerProperties getHtmlCleanerProperties() {
     return htmlCleanerProperties;
@@ -91,6 +95,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>Getter for the field <code>htmlSerializer</code>.</p>
    *
    * @return serializer to use for HTML string serialization
+   * @since 3.0.0
    */
   public HtmlSerializer getHtmlSerializer() {
     if (htmlSerializer == null) {
@@ -103,6 +108,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>isSortCssClasses.</p>
    *
    * @return a boolean.
+   * @since 3.0.0
    */
   public boolean isSortCssClasses() {
     return sortCssClasses;
@@ -112,6 +118,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>Setter for the field <code>htmlCleanerProperties</code>.</p>
    *
    * @param htmlCleanerProperties a {@link org.htmlcleaner.CleanerProperties} object.
+   * @since 3.0.0
    */
   public void setHtmlCleanerProperties(CleanerProperties htmlCleanerProperties) {
     this.htmlCleanerProperties = htmlCleanerProperties;
@@ -121,6 +128,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>Setter for the field <code>htmlSerializer</code>.</p>
    *
    * @param htmlSerializer a {@link org.htmlcleaner.HtmlSerializer} object.
+   * @since 3.0.0
    */
   public void setHtmlSerializer(HtmlSerializer htmlSerializer) {
     this.htmlSerializer = htmlSerializer;
@@ -130,6 +138,7 @@ public class HtmlCleanerSampler extends JsoupRawStringSampler {
    * <p>Setter for the field <code>sortCssClasses</code>.</p>
    *
    * @param sortCssClasses a boolean.
+   * @since 3.0.0
    */
   public void setSortCssClasses(boolean sortCssClasses) {
     this.sortCssClasses = sortCssClasses;

@@ -19,18 +19,23 @@
  */
 package io.wcm.qa.glnm.interaction;
 
-import static io.wcm.qa.glnm.util.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import io.qameta.allure.Allure;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Alert related convenience methods.
@@ -47,11 +52,41 @@ public final class Browser {
   }
 
   /**
+   * Add cookie to browser.
+   *
+   * @param cookie to add
+   * @since 5.0
+   */
+  public static void addCookie(Cookie cookie) {
+    getDriver().manage().addCookie(cookie);
+  }
+
+  /**
    * Navigate back.
    */
   public static void back() {
-    Allure.step("navigating back");
+    GaleniumReportUtil.startStep("navigating back");
     getDriver().navigate().back();
+    stopStep();
+  }
+
+  /**
+   * Deletes all cookies for current domain from browser.
+   *
+   * @since 5.0
+   */
+  public static void deleteAllCookies() {
+    getDriver().manage().deleteAllCookies();
+  }
+
+  /**
+   * Deletes cookie from browser.
+   *
+   * @param cookieName name of cookie to delete
+   * @since 5.0
+   */
+  public static void deleteCookieNamed(String cookieName) {
+    getDriver().manage().deleteCookieNamed(cookieName);
   }
 
   /**
@@ -62,10 +97,16 @@ public final class Browser {
    * @return return value of Javascript execution
    */
   public static Object executeJs(String jsCode, Object... parameters) {
+    String step = GaleniumReportUtil.startStep("executing JavaScript");
     if (getDriver() instanceof JavascriptExecutor) {
       JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-      return executor.executeScript(jsCode, parameters);
+      Object executedScriptResult = executor.executeScript(jsCode, parameters);
+      GaleniumReportUtil.passStep(step);
+      stopStep();
+      return executedScriptResult;
     }
+    GaleniumReportUtil.failStep(step);
+    stopStep();
     throw new GaleniumException("driver cannot execute Javascript.");
   }
 
@@ -73,9 +114,83 @@ public final class Browser {
    * Navigate forward.
    */
   public static void forward() {
-    Allure.step("navigating forward");
+    String step = GaleniumReportUtil.startStep("navigating forward");
     getDriver().navigate().forward();
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
+
+  /**
+   * <p>
+   * Get cookie for domain by name.
+   * </p>
+   *
+   * @since 5.0
+   * @param cookieName name of cookie to retrieve
+   * @return cookie for current domain or null
+   */
+  public static Cookie getCookieNamed(String cookieName) {
+    return getDriver().manage().getCookieNamed(cookieName);
+  }
+
+  /**
+   * <p>
+   * Get all cookies for domain.
+   * </p>
+   *
+   * @since 5.0
+   * @return a set of cookies for current domain
+   */
+  public static Set<Cookie> getCookies() {
+    return getDriver().manage().getCookies();
+  }
+  /**
+   * <p>getCurrentUrl.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public static String getCurrentUrl() {
+    return getDriver().getCurrentUrl();
+  }
+
+  /**
+   * <p>getLog.</p>
+   *
+   * @return browser log
+   */
+  public static List<LogEntry> getLog() {
+    String type = LogType.BROWSER;
+    return getLog(type);
+  }
+
+  /**
+   * <p>getPageSource.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public static String getPageSource() {
+    return getDriver().getPageSource();
+  }
+
+
+  /**
+   * <p>getPageTitle.</p>
+   *
+   * @return a {@link java.lang.String} object.
+   */
+  public static String getPageTitle() {
+    return getDriver().getTitle();
+  }
+
+  /**
+   * <p>getPerformanceLog.</p>
+   *
+   * @return a {@link java.util.List} object.
+   */
+  public static List<LogEntry> getPerformanceLog() {
+    return getLog(LogType.PERFORMANCE);
+  }
+
 
   /**
    * <p>isCurrentUrl.</p>
@@ -92,23 +207,16 @@ public final class Browser {
   }
 
   /**
-   * <p>getCurrentUrl.</p>
-   *
-   * @return a {@link java.lang.String} object.
-   */
-  public static String getCurrentUrl() {
-    return getDriver().getCurrentUrl();
-  }
-
-  /**
    * Load URL in browser.
    *
    * @param url to load
    */
   public static void load(String url) {
-    Allure.step("loading URL: '" + url + "'");
+    String step = GaleniumReportUtil.startStep("loading URL: '" + url + "'");
     Allure.link(url, url);
     getDriver().get(url);
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
@@ -119,23 +227,15 @@ public final class Browser {
   }
 
   /**
-   * Load URL in browser and fail test if URL does not match.
-   *
-   * @param url to load
-   */
-  public static void loadExactly(String url) {
-    load(url);
-    Assert.assertEquals(url, getCurrentUrl(), "Current URL should match.");
-  }
-
-  /**
    * Navigate to URL.
    *
    * @param url URL to navigate to
    */
   public static void navigateTo(String url) {
-    LOG.info("navigating to URL: '" + url + "'");
+    String step = GaleniumReportUtil.startStep("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
@@ -144,15 +244,27 @@ public final class Browser {
    * @param url to navigate to
    */
   public static void navigateTo(URL url) {
-    LOG.info("navigating to URL: '" + url + "'");
+    String step = GaleniumReportUtil.startStep("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
+    GaleniumReportUtil.passStep(step);
+    stopStep();
   }
 
   /**
    * Refresh browser.
    */
   public static void refresh() {
-    LOG.info("refreshing browser");
+    String step = GaleniumReportUtil.startStep("refreshing browser");
     getDriver().navigate().refresh();
+    GaleniumReportUtil.passStep(step);
+    stopStep();
+  }
+
+  private static List<LogEntry> getLog(String type) {
+    return getDriver().manage().logs().get(type).getAll();
+  }
+
+  private static void stopStep() {
+    GaleniumReportUtil.stopStep();
   }
 }

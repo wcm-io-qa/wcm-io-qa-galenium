@@ -19,17 +19,15 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import com.galenframework.validation.ValidationListener;
-
-import io.wcm.qa.glnm.galen.specs.FileBasedGalenSpec;
+import io.wcm.qa.glnm.galen.specs.AbstractGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.galen.specs.ImageComparisonSpec;
 import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
+import io.wcm.qa.glnm.galen.specs.imagecomparison.ImageComparisonSpec;
 
 /**
  * Utility methods to run Galen layout checks from Selenium tests. Integration via
- * {@link io.wcm.qa.glnm.util.GaleniumContext}.
+ * {@link io.wcm.qa.glnm.context.GaleniumContext}.
  *
  * @since 4.0.0
  */
@@ -42,47 +40,26 @@ public final class GalenValidation {
   /**
    * Checks Galen spec against current state of driver.
    *
-   * @param testName test name used in reports
    * @param specPath path to spec file
-   * @return report on spec test
-   * @since 4.0.0
-   */
-  public static GalenSpecRun check(String testName, String specPath) {
-    GalenSpec spec = new FileBasedGalenSpec(specPath);
-    String[] tags = {};
-    return spec.check(tags);
-  }
-
-  /**
-   * Checks Galen spec against current state of driver.
-   *
-   * @param testName test name used in reports
-   * @param specPath path to spec file
-   * @return report on spec test
-   * @since 4.0.0
    * @param tags a {@link java.lang.String} object.
+   * @return report on spec test
+   * @since 4.0.0
    */
-  public static GalenSpecRun check(String testName, String specPath, String... tags) {
-    GalenSpec spec = new FileBasedGalenSpec(specPath);
-    return spec.check(tags);
+  public static GalenSpecRun check(String specPath, String... tags) {
+    GalenSpec spec = readSpec(specPath, tags);
+    GalenSpecRun check = spec.check(tags);
+    return check;
   }
 
   /**
-   * <p>getNoOpValidationListener.</p>
+   * <p>readSpec.</p>
    *
-   * @return a {@link com.galenframework.validation.ValidationListener} object.
+   * @param specPath a {@link java.lang.String} object.
+   * @param tags a {@link java.lang.String} object.
+   * @return a {@link io.wcm.qa.glnm.galen.validation.FileBasedGalenSpec} object.
    */
-  public static ValidationListener getNoOpValidationListener() {
-    return new NoOpValidationListener();
-  }
-
-  /**
-   * <p>getTracingValidationListener.</p>
-   *
-   * @return a {@link com.galenframework.validation.ValidationListener} object.
-   */
-  public static ValidationListener getTracingValidationListener() {
-    return new TracingValidationListener();
+  public static AbstractGalenSpec readSpec(String specPath, String... tags) {
+    return new FileBasedGalenSpec(specPath, tags);
   }
 
   /**

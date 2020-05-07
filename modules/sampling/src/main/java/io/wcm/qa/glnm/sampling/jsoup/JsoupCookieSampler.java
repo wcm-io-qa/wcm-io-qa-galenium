@@ -39,10 +39,9 @@ import io.wcm.qa.glnm.sampling.jsoup.base.JsoupBasedSampler;
 /**
  * Samples cookies from a Jsoup network response.
  *
- * @param <T> type of sample returned by sampler
  * @since 3.0.0
  */
-public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBasedSampler<T> {
+public class JsoupCookieSampler extends JsoupBasedSampler<Map<String, String>> {
 
   private static final Logger LOG = LoggerFactory.getLogger(JsoupCookieSampler.class);
 
@@ -50,6 +49,7 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
    * <p>Constructor for JsoupCookieSampler.</p>
    *
    * @param url to fetch cookies from
+   * @since 3.0.0
    */
   public JsoupCookieSampler(String url) {
     super(url);
@@ -58,22 +58,23 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
   private Method method = Method.POST;
 
   /** {@inheritDoc} */
-  @SuppressWarnings("unchecked")
   @Override
-  public T freshSample() {
-    return (T)fetchCookies();
+  public Map<String, String> freshSample() {
+    return fetchCookies();
   }
 
   /**
    * <p>Setter for the field <code>method</code>.</p>
    *
    * @param requestMethod HTTP method to use for retrieval
+   * @since 3.0.0
    */
   public void setMethod(Method requestMethod) {
     this.method = requestMethod;
   }
 
   protected Map<String, String> fetchCookies() {
+    @SuppressWarnings("PMD.CloseResource")
     Connection connection = getJsoupConnection();
 
     try {
@@ -81,14 +82,16 @@ public class JsoupCookieSampler<T extends Map<String, String>> extends JsoupBase
 
       Request request = connection.request();
       URL url = request.url();
-      LOG.info("sending " + getMethod() + " request to '" + url + "'");
+      if (LOG.isInfoEnabled()) {
+        LOG.info("sending " + getMethod() + " request to '" + url + "'");
+      }
       logRequest(request);
 
       connection.execute();
 
       Response response = connection.response();
       if (LOG.isDebugEnabled()) {
-        LOG.debug("response: " + response.statusCode() + " - " + response.statusMessage());
+        LOG.debug("response(" + response.url() + "): " + response.statusCode() + " - " + response.statusMessage());
       }
       logResponse(response);
 

@@ -67,7 +67,7 @@ public class AemComponentUrlBuilder {
           .append("file: '")
           .append(getFile())
           .append("']");
-      throw new GaleniumException(stringBuilder.toString());
+      throw new GaleniumException(stringBuilder.toString(), ex);
     }
   }
 

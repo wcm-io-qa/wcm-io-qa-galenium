@@ -23,7 +23,13 @@
   xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="4.0.0" date="not-released-yet">
+    <release version="4.0.0" date="2019-12-30">
+      <action type="add" dev="apegam">
+        Move parsing to dedicated new parsing utility class.
+      </action>
+      <action type="add" dev="apegam">
+        Tests for parts of Galenium's Galen API.
+      </action>
       <action type="add" dev="apegam">
         Add spec provider concept and image comparison implementation
         of it.

@@ -29,22 +29,26 @@ import com.galenframework.specs.page.PageSpec;
 public class GalenSpecParsingProvider implements GalenPageSpecProvider {
 
   private String specPath;
-
+  private String[] tags;
 
   /**
-   * <p>Constructor for GalenSpecParsingProvider.</p>
+   * <p>
+   * Constructor for GalenSpecParsingProvider.
+   * </p>
    *
    * @param specPath a {@link java.lang.String} object.
+   * @param tags an array of {@link java.lang.String} objects.
    * @since 4.0.0
    */
-  public GalenSpecParsingProvider(String specPath) {
+  public GalenSpecParsingProvider(String specPath, String... tags) {
     setSpecPath(specPath);
+    this.setTags(tags);
   }
 
   /** {@inheritDoc} */
   @Override
   public PageSpec getPageSpec() {
-    return GalenSpecUtil.readSpec(getSpecPath());
+    return GalenParsing.fromPath(getSpecPath(), getTags());
   }
 
   /**
@@ -65,6 +69,14 @@ public class GalenSpecParsingProvider implements GalenPageSpecProvider {
    */
   public void setSpecPath(String specPath) {
     this.specPath = specPath;
+  }
+
+  private String[] getTags() {
+    return tags;
+  }
+
+  private void setTags(String[] tags) {
+    this.tags = tags;
   }
 
 }

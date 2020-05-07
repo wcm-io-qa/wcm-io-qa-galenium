@@ -19,8 +19,10 @@
  */
 package io.wcm.qa.glnm.sampling.element;
 
-import io.wcm.qa.glnm.interaction.Element;
-import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
+import org.apache.commons.collections4.IterableUtils;
+import org.openqa.selenium.WebElement;
+
+import io.wcm.qa.glnm.sampling.element.base.MultiElementSampler;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -28,7 +30,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  *
  * @since 1.0.0
  */
-public class ElementCountSampler extends SelectorBasedSampler<Integer> {
+public class ElementCountSampler extends MultiElementSampler<Integer> {
 
   /**
    * <p>Constructor for ElementCountSampler.</p>
@@ -40,10 +42,9 @@ public class ElementCountSampler extends SelectorBasedSampler<Integer> {
     super(selector);
   }
 
-  /** {@inheritDoc} */
   @Override
-  public Integer freshSample() {
-    return Element.findAll(getSelector()).size();
+  protected Integer freshSample(Iterable<WebElement> webElements) {
+    return IterableUtils.size(webElements);
   }
 
 }

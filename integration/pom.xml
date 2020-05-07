@@ -16,22 +16,20 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.parent_toplevel</artifactId>
-    <version>6</version>
+    <version>7-SNAPSHOT</version>
     <relativePath />
   </parent>
 
   <name>Galenium Integration Parent</name>
   <artifactId>io.wcm.qa.galenium.integration</artifactId>
   <packaging>pom</packaging>
-  <version>4.0.0-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <description>Test automation integration parent.</description>
 
   <modules>
@@ -42,14 +40,6 @@
 
   <properties>
 
-    <!-- activated with command line switch in local and CI scripts -->
-    <integrationtests.skip>true</integrationtests.skip>
-
-    <!-- wcm.io QA -->
-    <io.wcm.qa.baseUrl>http://localhost:4502/content/wcm-io-samples</io.wcm.qa.baseUrl>
-
-    <!-- Galenium -->
-    <galenium.browser>chrome</galenium.browser>
     <galenium.generated.artifactIds>GALENIUM_GENERATED_ARTIFACT_IDS_HAVE_TO_BE_SET_BY_PROPERTY</galenium.generated.artifactIds>
     <galenium.generated.class>${project.build.outputDirectory}</galenium.generated.class>
     <galenium.generated.java>${project.build.directory}/generated-sources/java</galenium.generated.java>
@@ -58,33 +48,15 @@
     <galenium.generated.java.package.specs>${galenium.generated.java.package}.specs</galenium.generated.java.package.specs>
     <galenium.generated.specs>${project.build.outputDirectory}</galenium.generated.specs>
     <galenium.generated.templates>${project.build.directory}/generated-resources</galenium.generated.templates>
-    <galenium.headless>true</galenium.headless>
+
     <galenium.logging.testlogs>${project.build.directory}/testlogs</galenium.logging.testlogs>
-    <galenium.mediaquery.height>800</galenium.mediaquery.height>
-    <galenium.mediaquery.properties>${project.build.directory}/test-classes/mediaqueries.properties</galenium.mediaquery.properties>
-    <galenium.mediaquery.width.max>2000</galenium.mediaquery.width.max>
-    <galenium.mediaquery.width.min>360</galenium.mediaquery.width.min>
-    <galenium.report.rootPath>${project.build.directory}/glnm-reports</galenium.report.rootPath>
+    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
     <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
     <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
-    <galenium.retryMax>0</galenium.retryMax>
-    <galenium.sampling.image.directory.actual>${project.build.directory}/sampled/images</galenium.sampling.image.directory.actual>
-    <galenium.sampling.image.directory.expected>${project.build.directory}/test-classes/images</galenium.sampling.image.directory.expected>
-    <galenium.sampling.text.directory.actual>${project.build.directory}/sampled/text</galenium.sampling.text.directory.actual>
-    <galenium.sampling.text.directory.expected>${project.build.directory}/test-classes/text</galenium.sampling.text.directory.expected>
-    <galenium.sampling.text.file>expected.properties</galenium.sampling.text.file>
-    <galenium.sampling.verification.ignoreErrors>false</galenium.sampling.verification.ignoreErrors>
-    <galenium.screenshotOnSkipped>true</galenium.screenshotOnSkipped>
-    <galenium.screenshotOnSuccess>true</galenium.screenshotOnSuccess>
-    <galenium.specPath>${project.build.outputDirectory}/galen/specs</galenium.specPath>
-    <galenium.webdriver.browser.loglevel>INFO</galenium.webdriver.browser.loglevel>
-    <galenium.webdriver.timeout>5</galenium.webdriver.timeout>
 
-    <!-- Selenium -->
-    <selenium.runmode>local</selenium.runmode>
-
-    <!-- Galen -->
-    <galen.browser.screenshots.fullPage>false</galen.browser.screenshots.fullPage>
+    <!-- Maven plugins -->
+    <maven-failsafe-plugin.version>3.0.0-M4</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
 
   </properties>
 
@@ -184,7 +156,7 @@
         <plugin>
           <groupId>io.wcm.qa</groupId>
           <artifactId>io.wcm.qa.galenium.specs-maven-plugin</artifactId>
-          <version>4.0.0-SNAPSHOT</version>
+          <version>5.0.0-SNAPSHOT</version>
           <configuration>
             <packagePrefixSelectors>${galenium.generated.java.package.selectors}</packagePrefixSelectors>
             <packagePrefixSpecs>${galenium.generated.java.package.specs}</packagePrefixSpecs>
@@ -218,5 +190,18 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <reporting>
+    <plugins>
+      <!-- Skip Javadoc, assuming testing projects with no reuse -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
