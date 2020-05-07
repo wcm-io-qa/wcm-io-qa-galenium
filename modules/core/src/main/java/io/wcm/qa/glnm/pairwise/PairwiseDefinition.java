@@ -30,8 +30,7 @@ import org.slf4j.LoggerFactory;
  * Helper to reduce test cases by applying pairwise approach.
  * Scientific background in this paper:
  * https://www.microsoft.com/en-us/research/wp-content/uploads/2017/01/160.pdf
- *
- * @since 4.0.0
+ * @since 5.0.0
  */
 public final class PairwiseDefinition {
 
@@ -67,22 +66,6 @@ public final class PairwiseDefinition {
     return domains.toArray(new DomainDefinition[0]);
   }
 
-  /**
-   * <p>getTupelsFor.</p>
-   *
-   * @param def a {@link io.wcm.qa.glnm.pairwise.TupelDefinition} object.
-   * @return a {@link java.util.Collection} object.
-   * @since 5.0.0
-   */
-  public static Collection<Tupel> getTupelsFor(TupelDefinition def) {
-
-    Collection<Requirement> requirements = generateRequirements(def);
-
-    Collection<Tupel> tupels = generateTupels(def, requirements);
-
-    return tupels;
-  }
-
   private static boolean ensureWithExistingTupels(Collection<Tupel> tupels, Requirement requirement) {
     for (Tupel tupel : tupels) {
       if (tupel.satisfy(requirement)) {
@@ -91,7 +74,6 @@ public final class PairwiseDefinition {
     }
     return false;
   }
-
 
   private static void finish(Collection<Tupel> tupels) {
     for (Tupel tupel : tupels) {
@@ -149,6 +131,22 @@ public final class PairwiseDefinition {
       }
     }
     return requirements;
+  }
+
+  /**
+   * <p>getTupelsFor.</p>
+   *
+   * @param def a {@link io.wcm.qa.glnm.pairwise.TupelDefinition} object.
+   * @return a {@link java.util.Collection} object.
+   * @since 5.0.0
+   */
+  static Collection<Tupel> getTupelsFor(TupelDefinition def) {
+
+    Collection<Requirement> requirements = generateRequirements(def);
+
+    Collection<Tupel> tupels = generateTupels(def, requirements);
+
+    return tupels;
   }
 
 }
