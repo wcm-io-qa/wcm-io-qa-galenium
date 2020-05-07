@@ -36,6 +36,7 @@ public abstract class AllureNestedStepping {
    * Constructor.
    *
    * @param uuid used as root parent step
+   * @since 5.0.0
    */
   public AllureNestedStepping(String uuid) {
     super();

@@ -84,6 +84,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>selenium-jupiter</artifactId>
       <scope>compile</scope>

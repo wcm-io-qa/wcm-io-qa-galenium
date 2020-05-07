@@ -109,6 +109,10 @@
         <version>3.3.4</version>
         <exclusions>
           <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
           </exclusion>
@@ -241,15 +245,15 @@
       </dependency>
 
       <dependency>
-        <groupId>org.opentest4j</groupId>
-        <artifactId>opentest4j</artifactId>
-        <version>1.2.0</version>
-      </dependency>
-
-      <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
         <version>3.3.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.opentest4j</groupId>
+        <artifactId>opentest4j</artifactId>
+        <version>1.2.0</version>
       </dependency>
 
       <dependency>
@@ -257,6 +261,10 @@
         <artifactId>selenium-api</artifactId>
         <version>3.141.59</version>
         <exclusions>
+          <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
@@ -294,6 +302,10 @@
         <version>3.141.59</version>
         <exclusions>
           <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
           </exclusion>
@@ -304,6 +316,12 @@
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-support</artifactId>
         <version>3.141.59</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
     </dependencies>
