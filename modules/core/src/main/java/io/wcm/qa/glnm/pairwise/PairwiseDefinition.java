@@ -64,8 +64,7 @@ public final class PairwiseDefinition {
     for (int dimension : domainSizes) {
       domains.add(new DomainDefinition(Integer.toString(dimension), dimension));
     }
-    DomainDefinition[] array = domains.toArray(new DomainDefinition[domains.size()]);
-    return array;
+    return domains.toArray(new DomainDefinition[0]);
   }
 
   /**
