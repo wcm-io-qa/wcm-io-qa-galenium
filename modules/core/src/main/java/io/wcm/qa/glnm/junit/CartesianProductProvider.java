@@ -19,21 +19,29 @@
  */
 package io.wcm.qa.glnm.junit;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.CombinatorialParameterizedTestExtension;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.platform.commons.support.AnnotationSupport;
+import org.junit.platform.commons.util.Preconditions;
 
 import com.google.common.collect.Lists;
 
 
-class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
+/**
+ * <p>CartesianProductProvider class.</p>
+ *
+ * @since 5.0.0
+ */
+public class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
 
   /** {@inheritDoc} */
   @Override
@@ -44,28 +52,27 @@ class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
     return combineProductTuplesToArguments(cartesianProduct);
   }
 
-  private List<List<? extends Arguments>> collectArguments(Collection<ArgumentsProvider> providers, ExtensionContext context) {
-    List<List<? extends Arguments>> result = new ArrayList<List<? extends Arguments>>();
-    for (ArgumentsProvider provider : providers) {
-      result.add(arguments(provider, context));
-    }
-    return result;
+  @Override
+  protected Class<? extends Annotation> getAnnotationClass() {
+    return CartesianProduct.class;
+  }
+
+  @Override
+  protected String getNamePattern(Method templateMethod) {
+    CartesianProduct parameterizedTest = AnnotationSupport.findAnnotation(templateMethod, CartesianProduct.class).get();
+    String pattern = Preconditions.notBlank(parameterizedTest.name().trim(),
+        () -> String.format(
+            "Configuration error: @CartesianProduct on method [%s] must be declared with a non-empty name.",
+            templateMethod));
+    return pattern;
   }
 
   private static Stream<? extends Arguments> combineProductTuplesToArguments(List<List<Arguments>> cartesianProduct) {
     Collection<Arguments> result = new ArrayList<Arguments>();
     for (List<Arguments> args : cartesianProduct) {
-      result.add(Arguments.of(listToArray(args)));
+      result.add(flattenArgumentsList(args));
     }
     return result.stream();
-  }
-
-  private static Object[] listToArray(List<Arguments> list) {
-    Object[] listAsSingleArray = new Object[] {};
-    for (Arguments args : list) {
-      listAsSingleArray = ArrayUtils.addAll(listAsSingleArray, args.get());
-    }
-    return listAsSingleArray;
   }
 
 }

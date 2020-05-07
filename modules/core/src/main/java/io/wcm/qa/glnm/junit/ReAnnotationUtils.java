@@ -39,7 +39,7 @@ import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ReflectionUtils;
 
-import jersey.repackaged.com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
 
 
 final class ReAnnotationUtils {

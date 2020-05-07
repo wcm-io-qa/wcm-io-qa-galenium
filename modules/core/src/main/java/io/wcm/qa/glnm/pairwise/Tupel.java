@@ -56,6 +56,10 @@ class Tupel {
     return hasValueForDomain(value.getDomain());
   }
 
+  int[] toArray() {
+    return Arrays.copyOf(indices, indices.length);
+  }
+
   boolean isFinished() {
     return !ArrayUtils.contains(indices, NOT_SET);
   }
@@ -73,6 +77,7 @@ class Tupel {
    *
    * @param requirement a {@link io.wcm.qa.glnm.pairwise.Requirement} object.
    * @return a boolean.
+   * @since 5.0.0
    */
   public boolean satisfy(Requirement requirement) {
     if (satisfies(requirement)) {

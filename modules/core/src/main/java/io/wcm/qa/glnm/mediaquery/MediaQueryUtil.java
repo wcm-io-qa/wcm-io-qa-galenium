@@ -223,6 +223,7 @@ public final class MediaQueryUtil {
    *
    * @param mq to compare current media query to
    * @return whether the current media query has the same name
+   * @since 5.0.0
    */
   public static boolean isCurrentMediaQuery(MediaQuery mq) {
     return StringUtils.equals(getCurrentMediaQuery().getName(), mq.getName());

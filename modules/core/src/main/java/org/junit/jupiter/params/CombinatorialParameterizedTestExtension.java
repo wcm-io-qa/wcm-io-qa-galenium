@@ -19,13 +19,17 @@
  */
 package org.junit.jupiter.params;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
@@ -35,8 +39,6 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.platform.commons.util.Preconditions;
-
-import io.wcm.qa.glnm.junit.CartesianProduct;
 
 /**
  * <p>CombinatorialParameterizedTestExtension class.</p>
@@ -77,7 +79,7 @@ public abstract class CombinatorialParameterizedTestExtension implements TestTem
     }
 
     Method testMethod = context.getTestMethod().get();
-    if (!AnnotationSupport.isAnnotated(testMethod, CartesianProduct.class)) {
+    if (!supportsTestMethod(testMethod)) {
       return false;
     }
 
@@ -106,20 +108,32 @@ public abstract class CombinatorialParameterizedTestExtension implements TestTem
     return new ParameterizedTestInvocationContext(formatter, methodContext, arguments);
   }
 
-  private ParameterizedTestNameFormatter createNameFormatter(Method templateMethod, String displayName) {
-    CartesianProduct parameterizedTest = AnnotationSupport.findAnnotation(templateMethod, CartesianProduct.class).get();
-    String pattern = Preconditions.notBlank(parameterizedTest.name().trim(),
-        () -> String.format(
-            "Configuration error: @CartesianProduct on method [%s] must be declared with a non-empty name.",
-            templateMethod));
-    return new ParameterizedTestNameFormatter(pattern, displayName);
-  }
-
   private ExtensionContext.Store getStore(ExtensionContext context) {
     return context.getStore(Namespace.create(this.getClass(), context.getRequiredTestMethod()));
   }
 
+  protected List<List<? extends Arguments>> collectArguments(Collection<ArgumentsProvider> providers, ExtensionContext context) {
+    List<List<? extends Arguments>> result = new ArrayList<List<? extends Arguments>>();
+    for (ArgumentsProvider provider : providers) {
+      result.add(arguments(provider, context));
+    }
+    return result;
+  }
+
   protected abstract Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext);
+
+  protected boolean supportsTestMethod(Method testMethod) {
+    return AnnotationSupport.isAnnotated(testMethod, getAnnotationClass());
+  }
+
+  protected abstract Class<? extends Annotation> getAnnotationClass();
+
+  private ParameterizedTestNameFormatter createNameFormatter(Method templateMethod, String displayName) {
+    String pattern = getNamePattern(templateMethod);
+    return new ParameterizedTestNameFormatter(pattern, displayName);
+  }
+
+  protected abstract String getNamePattern(Method templateMethod);
 
   protected static List<? extends Arguments> arguments(ArgumentsProvider provider, ExtensionContext context) {
     try {
@@ -130,6 +144,18 @@ public abstract class CombinatorialParameterizedTestExtension implements TestTem
     catch (Exception e) {
       throw ExceptionUtils.throwAsUncheckedException(e);
     }
+  }
+
+  protected static Arguments flattenArgumentsList(List<Arguments> args) {
+    return Arguments.of(listToArray(args));
+  }
+
+  protected static Object[] listToArray(List<Arguments> list) {
+    Object[] listAsSingleArray = new Object[] {};
+    for (Arguments args : list) {
+      listAsSingleArray = ArrayUtils.addAll(listAsSingleArray, args.get());
+    }
+    return listAsSingleArray;
   }
 
 }

@@ -30,33 +30,33 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class PairwiseDefinitionTest {
+class PairwiseDefinitionTest {
 
   @Test
-  public void testMinimalRequirements() {
+  void testMinimalRequirements() {
     TupelDefinition simpleDef = tupelDef(1, 1);
     Collection<Requirement> reqs = PairwiseDefinition.generateRequirements(simpleDef);
     assertThat(reqs, hasSize(1));
   }
 
   @Test
-  public void testMinimalTupel() {
+  void testMinimalTupel() {
     TupelDefinition simpleDef = tupelDef(1, 1);
     Collection<Tupel> tupelsFor = PairwiseDefinition.getTupelsFor(simpleDef);
     assertThat(tupelsFor, hasSize(1));
   }
 
   @ParameterizedTest
-  @MethodSource(value = "provideRequirementCounts")
-  public void testRequirementsCount(int size, DomainDefinition... domainDefinitions) {
+  @MethodSource("provideRequirementCounts")
+  void testRequirementsCount(int size, DomainDefinition... domainDefinitions) {
     TupelDefinition def = tupelDef(domainDefinitions);
     Collection<Requirement> generatedRequirements = PairwiseDefinition.generateRequirements(def);
     assertThat(generatedRequirements, hasSize(size));
   }
 
   @ParameterizedTest
-  @MethodSource(value = "provideTupelCounts")
-  public void testTupelCount(int size, TupelDefinition def) {
+  @MethodSource("provideTupelCounts")
+  void testTupelCount(int size, TupelDefinition def) {
     Collection<Tupel> tupelsFor = PairwiseDefinition.getTupelsFor(def);
     assertThat(tupelsFor, hasSize(size));
   }
@@ -70,7 +70,6 @@ public class PairwiseDefinitionTest {
     return domains;
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> provideRequirementCounts() {
     return Stream.of(
         requirementsCount(1, domains(1, 1)),
@@ -90,7 +89,6 @@ public class PairwiseDefinitionTest {
         requirementsCount(108, domains(10, 3, 6)));
   }
 
-  @SuppressWarnings("unused")
   private static Stream<Arguments> provideTupelCounts() {
     return Stream.of(
         Arguments.of(1, tupelDef(1, 1)),
@@ -99,6 +97,8 @@ public class PairwiseDefinitionTest {
         Arguments.of(25, tupelDef(5, 5)),
         Arguments.of(27, tupelDef(5, 5, 2)),
         Arguments.of(31, tupelDef(5, 5, 3)),
+        Arguments.of(35, tupelDef(3, 5, 5)),
+        Arguments.of(31, tupelDef(5, 3, 5)),
         Arguments.of(37, tupelDef(5, 5, 4)),
         Arguments.of(45, tupelDef(5, 5, 5)),
         Arguments.of(50, tupelDef(5, 5, 6)),

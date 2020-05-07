@@ -71,6 +71,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-junit5</artifactId>
       <optional>true</optional>

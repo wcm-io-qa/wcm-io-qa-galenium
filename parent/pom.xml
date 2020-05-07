@@ -109,6 +109,10 @@
         <version>3.3.4</version>
         <exclusions>
           <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
           </exclusion>
@@ -258,6 +262,10 @@
         <version>3.141.59</version>
         <exclusions>
           <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
           </exclusion>
@@ -294,6 +302,10 @@
         <version>3.141.59</version>
         <exclusions>
           <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
           </exclusion>
@@ -304,6 +316,12 @@
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-support</artifactId>
         <version>3.141.59</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
     </dependencies>

@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.pairwise;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +42,38 @@ public final class PairwiseDefinition {
   }
 
   /**
+   * Returns pairwise selected tupels for the domain sizes
+   *
+   * @param domainSizes sizes of the individual domains
+   * @return all tupels in array form
+   * @since 5.0.0
+   */
+  public static int[][] getTupelsFor(Integer... domainSizes) {
+    TupelDefinition tupelDefinition = new TupelDefinition(domainDefinitions(domainSizes));
+    Collection<Tupel> tupelCollection = getTupelsFor(tupelDefinition);
+    int[][] tupelArray = new int[tupelCollection.size()][];
+    Iterator<Tupel> tupels = tupelCollection.iterator();
+    for (int i = 0; i < tupelArray.length; i++) {
+      tupelArray[i] = tupels.next().toArray();
+    }
+    return tupelArray;
+  }
+
+  private static DomainDefinition[] domainDefinitions(Integer... domainSizes) {
+    ArrayList<DomainDefinition> domains = new ArrayList<DomainDefinition>();
+    for (int dimension : domainSizes) {
+      domains.add(new DomainDefinition(Integer.toString(dimension), dimension));
+    }
+    DomainDefinition[] array = domains.toArray(new DomainDefinition[domains.size()]);
+    return array;
+  }
+
+  /**
    * <p>getTupelsFor.</p>
    *
    * @param def a {@link io.wcm.qa.glnm.pairwise.TupelDefinition} object.
    * @return a {@link java.util.Collection} object.
+   * @since 5.0.0
    */
   public static Collection<Tupel> getTupelsFor(TupelDefinition def) {
 

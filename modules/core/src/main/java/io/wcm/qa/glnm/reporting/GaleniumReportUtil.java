@@ -290,6 +290,7 @@ public final class GaleniumReportUtil {
    *
    * @param step step UUID
    * @param updatedStepName name to set on step
+   * @since 5.0.0
    */
   public static void updateStepName(String step, String updatedStepName) {
     updateStep(step, new Consumer<StepResult>() {
