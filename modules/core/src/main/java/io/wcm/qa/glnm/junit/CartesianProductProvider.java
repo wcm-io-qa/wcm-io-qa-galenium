@@ -35,13 +35,7 @@ import org.junit.platform.commons.util.Preconditions;
 
 import com.google.common.collect.Lists;
 
-
-/**
- * <p>CartesianProductProvider class.</p>
- *
- * @since 5.0.0
- */
-public class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
+class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
 
   /** {@inheritDoc} */
   @Override
