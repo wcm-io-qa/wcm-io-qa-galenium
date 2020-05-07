@@ -41,25 +41,6 @@
     <module>selectors</module>
   </modules>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-    </dependency>
-
-  </dependencies>
-
   <properties>
     <galenium.logging.testlogs>${project.build.directory}/testlogs</galenium.logging.testlogs>
     <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
