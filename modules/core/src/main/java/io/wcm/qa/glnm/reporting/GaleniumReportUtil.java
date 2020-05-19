@@ -124,6 +124,9 @@ public final class GaleniumReportUtil {
    * @since 5.0.0
    */
   public static void failStep(String step) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("fail step: " + step);
+    }
     Allure.getLifecycle().updateStep(step, new FailStep());
   }
 
@@ -134,6 +137,9 @@ public final class GaleniumReportUtil {
    * @since 5.0.0
    */
   public static void passStep(String step) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("pass step: " + step);
+    }
     Allure.getLifecycle().updateStep(step, new PassStep());
   }
 
@@ -145,6 +151,9 @@ public final class GaleniumReportUtil {
    * @since 5.0.0
    */
   public static String startStep(String name) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("start step: " + name);
+    }
     String uuid = UUID.randomUUID().toString();
     StepResult result = new StepResult().setName(name);
     Allure.getLifecycle().startStep(uuid, result);
@@ -160,6 +169,9 @@ public final class GaleniumReportUtil {
    * @since 5.0.0
    */
   public static String startStep(String parentStep, String stepName) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("start step: " + stepName);
+    }
     String uuid = UUID.randomUUID().toString();
     StepResult result = new StepResult().setName(stepName);
     Allure.getLifecycle().startStep(parentStep, uuid, result);
@@ -172,6 +184,9 @@ public final class GaleniumReportUtil {
    * @since 5.0.0
    */
   public static void stopStep() {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("stop step");
+    }
     Allure.getLifecycle().stopStep();
   }
 
@@ -293,6 +308,9 @@ public final class GaleniumReportUtil {
    * @since 5.0.0
    */
   public static void updateStepName(String step, String updatedStepName) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("update step name: " + step + " -> " + updatedStepName);
+    }
     updateStep(step, new Consumer<StepResult>() {
 
       @Override
