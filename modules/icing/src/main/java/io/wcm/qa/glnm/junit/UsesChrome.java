@@ -27,6 +27,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.seljup.Arguments;
 import io.github.bonigarcia.seljup.SeleniumExtension;
 import io.wcm.qa.glnm.context.GaleniumContext;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * <p>UsesChrome interface.</p>
@@ -54,7 +55,15 @@ public interface UsesChrome {
    */
   @AfterEach
   default void dropBrowser() {
+    finalScreenshot();
     GaleniumContext.getContext().setDriver(null);
+  }
+
+  /**
+   * Override to change screenshot after test.
+   */
+  default void finalScreenshot() {
+    GaleniumReportUtil.takeScreenshot();
   }
 
 }
