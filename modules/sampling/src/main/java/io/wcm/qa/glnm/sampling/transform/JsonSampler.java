@@ -58,6 +58,8 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
    * <p>
    * Constructor for JsonSampler which requires using setter to provide input sampler.
    * </p>
+   *
+   * @since 5.0.0
    */
   public JsonSampler() {
     super();
@@ -92,6 +94,7 @@ public class JsonSampler<S extends Sampler<String>> extends TransformationBasedS
    *
    * @param json JSON as string
    * @return JSON as a flat String to String map
+   * @since 5.0.0
    */
   public static Map<String, String> flatten(String json) {
     FixedStringSampler inputSampler = new FixedStringSampler(json);
