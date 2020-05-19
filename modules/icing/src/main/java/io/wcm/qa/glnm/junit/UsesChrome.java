@@ -61,6 +61,8 @@ public interface UsesChrome {
 
   /**
    * Override to change screenshot after test.
+   *
+   * @since 5.0.0
    */
   default void finalScreenshot() {
     GaleniumReportUtil.takeScreenshot();
