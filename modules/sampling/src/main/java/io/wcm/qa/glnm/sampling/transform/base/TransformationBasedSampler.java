@@ -39,6 +39,8 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
   /**
    * Transformation based samplers need an input sampler to operate. Using this
    * constructor requires input to be configured via setter before sampling.
+   *
+   * @since 5.0.0
    */
   public TransformationBasedSampler() {
     super();
@@ -91,6 +93,7 @@ public abstract class TransformationBasedSampler<S extends Sampler<I>, I, O> ext
    * <p>Setter for the input sampler.</p>
    *
    * @param input a sampler implementation to provide the input sample.
+   * @since 5.0.0
    */
   public void setInput(S input) {
     this.input = input;

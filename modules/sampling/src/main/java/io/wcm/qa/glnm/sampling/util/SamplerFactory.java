@@ -47,6 +47,7 @@ public final class SamplerFactory {
    * @param samplerClass class of sampler
    * @param constructorParams parameters for constructor
    * @return an instance of a sampler
+   * @since 5.0.0
    */
   public static Sampler instance(
       Class<? extends Sampler> samplerClass,
