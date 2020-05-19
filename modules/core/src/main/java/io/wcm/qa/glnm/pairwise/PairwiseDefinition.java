@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
  * Helper to reduce test cases by applying pairwise approach.
  * Scientific background in this paper:
  * https://www.microsoft.com/en-us/research/wp-content/uploads/2017/01/160.pdf
+ *
  * @since 5.0.0
  */
 public final class PairwiseDefinition {
