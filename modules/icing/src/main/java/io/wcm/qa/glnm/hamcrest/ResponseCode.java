@@ -45,9 +45,9 @@ public class ResponseCode extends TypeSafeWrappingMatcher<String, Integer> {
 
   @Override
   protected void describeMismatchSafely(String item, Description mismatchDescription) {
-    mismatchDescription.appendText("response code for '");
+    mismatchDescription.appendText("response code for ");
     mismatchDescription.appendValue(item);
-    mismatchDescription.appendText("' ");
+    mismatchDescription.appendText(" ");
     super.describeMismatchSafely(item, mismatchDescription);
   }
 
