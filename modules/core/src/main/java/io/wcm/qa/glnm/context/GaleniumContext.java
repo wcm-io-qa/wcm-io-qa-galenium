@@ -22,9 +22,9 @@ package io.wcm.qa.glnm.context;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.device.TestDevice;
 
@@ -36,6 +36,7 @@ import io.wcm.qa.glnm.device.TestDevice;
  */
 public class GaleniumContext {
 
+  private static final Logger LOG = LoggerFactory.getLogger(GaleniumContext.class);
   private static final ThreadLocal<GaleniumContext> THREAD_LOCAL_CONTEXT = new ThreadLocal<GaleniumContext>() {
     @Override
     protected GaleniumContext initialValue() {
@@ -43,11 +44,9 @@ public class GaleniumContext {
     }
   };
 
-  private Map<String, Object> additionalMappings = new HashMap<String, Object>();
+  private final Map<String, Object> additionalMappings = new HashMap<String, Object>();
   private WebDriver driver;
   private TestDevice testDevice;
-
-  private ExtensionContext junitContext;
 
   /**
    * WebDriver to use for all things Galenium. This includes interaction with Galen and Selenium. Usually the WebDriver
@@ -58,6 +57,9 @@ public class GaleniumContext {
    * @since 3.0.0
    */
   public void setDriver(WebDriver driver) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("setting driver: " + driver);
+    }
     this.driver = driver;
   }
 
@@ -68,6 +70,9 @@ public class GaleniumContext {
    * @since 3.0.0
    */
   public void setTestDevice(TestDevice testDevice) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("setting test device: " + driver);
+    }
     this.testDevice = testDevice;
   }
 
@@ -93,10 +98,6 @@ public class GaleniumContext {
    */
   public static GaleniumContext getContext() {
     return THREAD_LOCAL_CONTEXT.get();
-  }
-
-  private ExtensionContext getJunitContext() {
-    return junitContext;
   }
 
   /**
@@ -128,20 +129,10 @@ public class GaleniumContext {
    * @since 3.0.0
    */
   public static Object put(String key, Object customObject) {
-    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(key, customObject);
-  }
-
-  private void setJunitContext(ExtensionContext junitContext) {
-    this.junitContext = junitContext;
-  }
-
-  public static class ExtensionListener implements BeforeEachCallback {
-
-    @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
-      THREAD_LOCAL_CONTEXT.get().setJunitContext(context);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("setting additional context for '" + key + "'");
     }
-
+    return THREAD_LOCAL_CONTEXT.get().additionalMappings.put(key, customObject);
   }
 
 }
