@@ -25,7 +25,6 @@ import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +42,7 @@ import com.galenframework.reports.model.LayoutReport;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
+import com.google.common.collect.Lists;
 
 import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
@@ -105,7 +105,7 @@ final class GalenSpecUtil {
   }
 
   private static List<String> emptyList() {
-    return Collections.emptyList();
+    return Lists.newArrayList();
   }
 
   private static SectionFilter emptySectionFilter() {
