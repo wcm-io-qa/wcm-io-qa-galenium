@@ -60,7 +60,7 @@ public class GalenSpecRunMatcher extends TypeSafeMatcher<GalenSpecRun> {
    * @return matcher for {@link io.wcm.qa.glnm.galen.specs.GalenSpecRun}
    * @since 5.0.0
    */
-  public static Matcher<GalenSpecRun> specRun() {
+  public static Matcher<GalenSpecRun> successfulRun() {
     return new GalenSpecRunMatcher();
   }
 

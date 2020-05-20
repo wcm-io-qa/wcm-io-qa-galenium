@@ -64,7 +64,7 @@ public class VisuallyCompare extends SelectorMatcher<GalenSpecRun> {
 
   @Override
   protected Matcher<GalenSpecRun> getInternalMatcher() {
-    return GalenSpecRunMatcher.specRun();
+    return GalenSpecRunMatcher.successfulRun();
   }
 
   @Override
