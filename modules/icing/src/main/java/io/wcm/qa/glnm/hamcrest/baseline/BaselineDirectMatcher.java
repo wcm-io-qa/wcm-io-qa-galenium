@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.hamcrest.baseline;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matchers;
 
 import io.wcm.qa.glnm.persistence.SamplePersistence;
@@ -30,6 +31,12 @@ class BaselineDirectMatcher<T> extends BaseliningMatcher<T, T> {
 
   BaselineDirectMatcher(Supplier<SamplePersistence<T>> persistenceSupplier) {
     super(Matchers::is, persistenceSupplier, Function.identity());
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void describeTo(Description description) {
+    describeBaseline(description);
   }
 
 }
