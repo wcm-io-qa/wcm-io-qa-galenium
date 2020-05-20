@@ -26,6 +26,7 @@ import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.base.Differences;
+import io.wcm.qa.glnm.differences.difference.EnumDifference;
 import io.wcm.qa.glnm.differences.difference.StringDifference;
 
 /**
@@ -120,13 +121,13 @@ public final class BaselineMatchers {
    * </p>
    *
    * @param <T> type matcher can handle
-   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
-   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @param difference enum value to use as difference
+   * @param matcher to differentiate with this difference
    * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
    * @since 5.0.0
    */
   public static <T> DifferentiatingMatcher<T> on(Enum difference, Matcher<T> matcher) {
-    return on(new StringDifference(difference.name()), matcher);
+    return on(new EnumDifference(difference), matcher);
   }
 
   /**
