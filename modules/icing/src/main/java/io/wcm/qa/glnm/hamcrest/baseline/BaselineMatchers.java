@@ -125,6 +125,21 @@ public final class BaselineMatchers {
    * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
    * @since 5.0.0
    */
+  public static <T> DifferentiatingMatcher<T> on(Enum difference, Matcher<T> matcher) {
+    return on(new StringDifference(difference.name()), matcher);
+  }
+
+  /**
+   * <p>
+   * Adds a difference to following matchers.
+   * </p>
+   *
+   * @param <T> type matcher can handle
+   * @param difference a {@link io.wcm.qa.glnm.differences.base.Difference} object.
+   * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @return a {@link io.wcm.qa.glnm.hamcrest.baseline.DifferentiatingMatcher} object.
+   * @since 5.0.0
+   */
   public static <T> DifferentiatingMatcher<T> on(Difference difference, Matcher<T> matcher) {
     DifferentiatingMatcher<T> differentiatedMatcher = BaselineUtil.differentiate(matcher);
     differentiatedMatcher.prepend(difference);
