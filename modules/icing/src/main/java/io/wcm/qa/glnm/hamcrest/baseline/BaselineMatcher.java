@@ -58,7 +58,7 @@ abstract class BaselineMatcher<M, S> extends DifferentiatingMatcherBase<M> {
   }
 
   protected void describeBaseline(Description description) {
-    description.appendText("matches baseline with key '");
+    description.appendText("baseline with key '");
     description.appendText(getDifferences().getKey());
     description.appendText("': ");
     description.appendValue(baseline());
