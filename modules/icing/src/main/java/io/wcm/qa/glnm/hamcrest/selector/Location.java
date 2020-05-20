@@ -37,6 +37,7 @@ public class Location extends SelectorSamplerMatcher<Point> {
    * <p>Constructor for Location.</p>
    *
    * @param matcher a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public Location(Matcher<Point> matcher) {
     super(matcher, LocationSampler.class);
@@ -54,6 +55,7 @@ public class Location extends SelectorSamplerMatcher<Point> {
    *
    * @param matcher a {@link org.hamcrest.Matcher} object.
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<Selector> location(Matcher<Point> matcher) {
     return new Location(matcher);

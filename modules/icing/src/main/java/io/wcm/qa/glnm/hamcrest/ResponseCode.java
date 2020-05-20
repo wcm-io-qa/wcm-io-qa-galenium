@@ -61,6 +61,7 @@ public class ResponseCode extends TypeSafeWrappingMatcher<String, Integer> {
    *
    * @param matcher a {@link org.hamcrest.Matcher} object.
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<String> responseCode(Matcher<Integer> matcher) {
     return new ResponseCode(matcher);
