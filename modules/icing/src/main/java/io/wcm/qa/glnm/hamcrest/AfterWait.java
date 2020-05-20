@@ -43,7 +43,7 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
 
   private static final Logger LOG = LoggerFactory.getLogger(AfterWait.class);
 
-  private Matcher<T> internalMatcher;
+  private final Matcher<T> internalMatcher;
   private final int timeoutInSeconds;
   private String timeoutMessage;
   /**
@@ -88,7 +88,7 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
 
   @Override
   protected void describeMismatchSafely(T item, Description mismatchDescription) {
-    super.describeMismatchSafely(item, mismatchDescription);
+    internalMatcher.describeMismatch(item, mismatchDescription);
     if (StringUtils.isNotEmpty(timeoutMessage)) {
       mismatchDescription.appendText(System.lineSeparator());
       mismatchDescription.appendText(timeoutMessage);
@@ -105,7 +105,10 @@ public class AfterWait<T> extends TypeSafeMatcher<T> {
     catch (TimeoutException ex) {
       timeoutMessage = ex.getMessage();
       if (LOG.isDebugEnabled()) {
-        LOG.debug("when waiting for " + internalMatcher, ex);
+        LOG.debug("when waiting for " + internalMatcher);
+      }
+      else if (LOG.isTraceEnabled()) {
+        LOG.trace("when waiting for " + internalMatcher, ex);
       }
       return false;
     }
