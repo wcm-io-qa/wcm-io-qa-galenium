@@ -39,7 +39,7 @@ public abstract class AllureNestedStepping {
    * @since 5.0.0
    */
   public AllureNestedStepping(String uuid) {
-    super();
+    setParentStep(uuid);
   }
 
   private String currentStep() {
