@@ -24,6 +24,7 @@ import org.hamcrest.Matcher;
 
 import com.google.common.collect.ObjectArrays;
 
+import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.sampling.element.base.SelectorBasedSampler;
 import io.wcm.qa.glnm.sampling.util.SamplerFactory;
 import io.wcm.qa.glnm.selectors.base.Selector;
@@ -77,6 +78,11 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
 
   @Override
   protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
+    if (Element.findNow(item) == null) {
+      mismatchDescription.appendText("no element found for ");
+      mismatchDescription.appendValue(item.elementName());
+      return;
+    }
     getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
   }
 
