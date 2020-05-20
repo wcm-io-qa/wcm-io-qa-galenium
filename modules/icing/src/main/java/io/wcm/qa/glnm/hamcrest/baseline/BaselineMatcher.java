@@ -54,6 +54,10 @@ abstract class BaselineMatcher<M, S> extends DifferentiatingMatcherBase<M> {
   /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
+    describeBaseline(description);
+  }
+
+  protected void describeBaseline(Description description) {
     description.appendText("matches baseline with key '");
     description.appendText(getDifferences().getKey());
     description.appendText("': ");
