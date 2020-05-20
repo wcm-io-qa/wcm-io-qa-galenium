@@ -42,7 +42,7 @@ public class CssValueSampler extends SingleElementSampler<String> {
    */
   public CssValueSampler(Selector selector, String cssValueName) {
     super(selector);
-    setAttributeName(cssValueName);
+    setCssValueName(cssValueName);
   }
 
   /**
@@ -60,8 +60,8 @@ public class CssValueSampler extends SingleElementSampler<String> {
     return element.getCssValue(getCssValueName());
   }
 
-  protected void setAttributeName(String attributeName) {
-    this.cssValueName = attributeName;
+  protected void setCssValueName(String name) {
+    cssValueName = name;
   }
 
 }
