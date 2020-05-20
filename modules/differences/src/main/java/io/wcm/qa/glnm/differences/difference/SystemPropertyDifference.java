@@ -36,6 +36,7 @@ public class SystemPropertyDifference extends DifferenceBase {
    * <p>Constructor for SystemPropertyDifference.</p>
    *
    * @param propertyName a {@link java.lang.String} object.
+   * @since 5.0.0
    */
   public SystemPropertyDifference(String propertyName) {
     this.setKey(propertyName);
