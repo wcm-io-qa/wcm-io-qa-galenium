@@ -33,7 +33,7 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public abstract class SelectorMatcher<T> extends TypeSafeMatcher<Selector> {
 
-  protected Selector selector;
+  private Selector selector;
 
   protected SelectorMatcher() {
     super();
