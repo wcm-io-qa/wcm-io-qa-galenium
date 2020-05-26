@@ -67,11 +67,11 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
 
   @SuppressWarnings("unchecked")
   private SelectorBasedSampler<T> getSampler(Selector item) {
-    if (sampler == null || !item.equals(selector)) {
+    if (sampler == null || !item.equals(getSelector())) {
       sampler = (SelectorBasedSampler<T>)SamplerFactory.instance(
           samplerClass,
           ObjectArrays.concat(item, getSamplerParams()));
-      selector = item;
+      setSelector(item);
     }
     return sampler;
   }
