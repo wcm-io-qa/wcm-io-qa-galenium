@@ -23,7 +23,9 @@ import org.hamcrest.Matcher;
 import org.openqa.selenium.WebElement;
 
 /**
- * Matches {@link WebElement#getCssValue(String)}.
+ * Matches {@link org.openqa.selenium.WebElement#getCssValue(String)}.
+ *
+ * @since 5.0.0
  */
 public class ElementCssProperty extends WebElementMatcher<String> {
 
@@ -35,9 +37,11 @@ public class ElementCssProperty extends WebElementMatcher<String> {
   }
 
   /**
+   * <p>elementCssProperty.</p>
+   *
    * @param name name of CSS property
    * @param matcher to match CSS value
-   * @return {@link ElementCssProperty} matcher
+   * @return {@link io.wcm.qa.glnm.hamcrest.element.ElementCssProperty} matcher
    */
   public static Matcher<WebElement> elementCssProperty(
       String name,
