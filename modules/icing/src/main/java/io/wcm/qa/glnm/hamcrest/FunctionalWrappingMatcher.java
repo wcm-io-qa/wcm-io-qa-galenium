@@ -54,6 +54,7 @@ public class FunctionalWrappingMatcher<T, M> extends TypeSafeWrappingMatcher<T, 
    * <p>Getter for the field <code>mappingFunction</code>.</p>
    *
    * @return a {@link java.util.function.Function} object.
+   * @since 5.0.0
    */
   public Function<T, M> getMappingFunction() {
     return mappingFunction;
@@ -63,6 +64,7 @@ public class FunctionalWrappingMatcher<T, M> extends TypeSafeWrappingMatcher<T, 
    * <p>Setter for the field <code>mappingFunction</code>.</p>
    *
    * @param mappingFunction a {@link java.util.function.Function} object.
+   * @since 5.0.0
    */
   public void setMappingFunction(Function<T, M> mappingFunction) {
     this.mappingFunction = mappingFunction;
@@ -76,6 +78,7 @@ public class FunctionalWrappingMatcher<T, M> extends TypeSafeWrappingMatcher<T, 
    * @param mapping used to map input to matcher type
    * @param matcher used to do actual matching
    * @return matcher that maps and matches
+   * @since 5.0.0
    */
   public static <T, M> Matcher<T> whenMapping(Function<T, M> mapping, Matcher<M> matcher) {
     return new FunctionalWrappingMatcher<T, M>(mapping, matcher);

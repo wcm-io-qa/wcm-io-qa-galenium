@@ -23,7 +23,9 @@ import org.hamcrest.Matcher;
 import org.openqa.selenium.WebElement;
 
 /**
- * Matches {@link WebElement#getAttribute(String)}
+ * Matches {@link org.openqa.selenium.WebElement#getAttribute(String)}
+ *
+ * @since 5.0.0
  */
 public class ElementAttribute extends WebElementMatcher<String> {
 
@@ -35,6 +37,8 @@ public class ElementAttribute extends WebElementMatcher<String> {
   }
 
   /**
+   * <p>elementAttribute.</p>
+   *
    * @param attributeName name of attribute
    * @param matcher used to match attribute value
    * @return matcher matching element's attribute value

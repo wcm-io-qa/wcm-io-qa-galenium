@@ -41,6 +41,7 @@ class WebElementMatcher<T> extends FunctionalWrappingMatcher<WebElement, T> {
     setMappingDescription(description);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void describeTo(Description description) {
     if (StringUtils.isNotEmpty(getMappingDescription())) {
@@ -59,10 +60,13 @@ class WebElementMatcher<T> extends FunctionalWrappingMatcher<WebElement, T> {
   }
 
   /**
+   * <p>elementMapped.</p>
+   *
    * @param <T> type of mapped value
    * @param mapping extracting value from element
    * @param matcher matches mapped value
    * @return matcher doing mapping and matching
+   * @since 5.0.0
    */
   public static <T> Matcher<WebElement> elementMapped(Function<WebElement, T> mapping, Matcher<T> matcher) {
     return new WebElementMatcher<T>("", mapping, matcher);
