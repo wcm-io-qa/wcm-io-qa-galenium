@@ -37,10 +37,10 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  */
 public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
 
-  private Matcher<T> internalMatcher;
   private SelectorBasedSampler<T> sampler;
   private Class<? extends SelectorBasedSampler<T>> samplerClass;
   private Object[] samplerParams;
+
   /**
    * <p>Constructor for SelectorSamplerMatcher.</p>
    *
@@ -53,7 +53,7 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
       Matcher<T> matcher,
       Class<? extends SelectorBasedSampler<T>> samplerClass,
       Object... samplerParams) {
-    setInternalMatcher(matcher);
+    super(matcher);
     setSamplerClass(samplerClass);
     setSamplerParams(samplerParams);
   }
@@ -83,18 +83,13 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
       mismatchDescription.appendValue(item.elementName());
       return;
     }
-    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
+    getInternalMatcher().describeMismatch(map(item), mismatchDescription);
   }
 
 
   protected void describeSelector(Description description) {
     description.appendText(getSelectorName());
     description.appendText(" ");
-  }
-
-  @Override
-  protected Matcher<T> getInternalMatcher() {
-    return internalMatcher;
   }
 
   protected Class<? extends SelectorBasedSampler<T>> getSamplerClass() {
@@ -106,16 +101,8 @@ public class SelectorSamplerMatcher<T> extends SelectorMatcher<T> {
   }
 
   @Override
-  protected boolean matchesSelector(Selector item) {
-    return getInternalMatcher().matches(sample(item));
-  }
-
-  protected T sample(Selector item) {
+  protected T map(Selector item) {
     return getSampler(item).sampleValue();
-  }
-
-  protected void setInternalMatcher(Matcher<T> internalMatcher) {
-    this.internalMatcher = internalMatcher;
   }
 
   protected void setSamplerClass(Class<? extends SelectorBasedSampler<T>> samplerClass) {
