@@ -29,11 +29,11 @@ import org.hamcrest.TypeSafeMatcher;
  *
  * @since 5.0.0
  */
-public abstract class TypeSafeWrappingMatcher<T, I> extends TypeSafeMatcher<T> {
+public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
 
-  private Matcher<I> internalMatcher;
+  private Matcher<M> internalMatcher;
 
-  protected TypeSafeWrappingMatcher(Matcher<I> matcher) {
+  protected TypeSafeWrappingMatcher(Matcher<M> matcher) {
     setInternalMatcher(matcher);
   }
 
@@ -48,18 +48,18 @@ public abstract class TypeSafeWrappingMatcher<T, I> extends TypeSafeMatcher<T> {
     getInternalMatcher().describeMismatch(map(item), mismatchDescription);
   }
 
-  protected Matcher<I> getInternalMatcher() {
+  protected Matcher<M> getInternalMatcher() {
     return internalMatcher;
   }
 
-  protected abstract I map(T item);
+  protected abstract M map(T item);
 
   @Override
   protected boolean matchesSafely(T item) {
     return getInternalMatcher().matches(map(item));
   }
 
-  protected void setInternalMatcher(Matcher<I> internalMatcher) {
+  protected void setInternalMatcher(Matcher<M> internalMatcher) {
     this.internalMatcher = internalMatcher;
   }
 
