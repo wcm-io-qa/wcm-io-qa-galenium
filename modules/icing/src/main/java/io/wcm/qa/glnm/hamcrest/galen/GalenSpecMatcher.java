@@ -75,6 +75,7 @@ public class GalenSpecMatcher extends TypeSafeWrappingMatcher<GalenSpec, GalenSp
    * @param matcher a {@link org.hamcrest.Matcher} object.
    * @param includeTags a {@link java.lang.String} object.
    * @return a {@link org.hamcrest.Matcher} object.
+   * @since 5.0.0
    */
   public static Matcher<GalenSpec> galenSpec(
       Matcher<GalenSpecRun> matcher,
