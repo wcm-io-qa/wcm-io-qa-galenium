@@ -21,8 +21,8 @@ package io.wcm.qa.glnm.hamcrest.selector;
 
 
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
+import io.wcm.qa.glnm.hamcrest.TypeSafeWrappingMatcher;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -31,15 +31,13 @@ import io.wcm.qa.glnm.selectors.base.Selector;
  * @param <T> type to match
  * @since 5.0.0
  */
-public abstract class SelectorMatcher<T> extends TypeSafeMatcher<Selector> {
+public abstract class SelectorMatcher<T> extends TypeSafeWrappingMatcher<Selector, T> {
 
   private Selector selector;
 
-  protected SelectorMatcher() {
-    super();
+  protected SelectorMatcher(Matcher<T> matcher) {
+    super(matcher);
   }
-
-  protected abstract Matcher<T> getInternalMatcher();
 
   protected Selector getSelector() {
     return selector;
@@ -53,12 +51,10 @@ public abstract class SelectorMatcher<T> extends TypeSafeMatcher<Selector> {
     return "NULL";
   }
 
-  protected abstract boolean matchesSelector(Selector item);
-
   @Override
   protected boolean matchesSafely(Selector item) {
     setSelector(item);
-    return matchesSelector(item);
+    return super.matchesSafely(item);
   }
 
   protected void setSelector(Selector selector) {

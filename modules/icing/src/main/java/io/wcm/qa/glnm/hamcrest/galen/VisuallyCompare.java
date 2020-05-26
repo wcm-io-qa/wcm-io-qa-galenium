@@ -21,9 +21,6 @@ package io.wcm.qa.glnm.hamcrest.galen;
 
 import java.util.concurrent.ExecutionException;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -49,30 +46,15 @@ public class VisuallyCompare extends SelectorMatcher<GalenSpecRun> {
       return GalenValidation.imageComparison(new ImageComparisonSpecDefinition(key));
     }
   };
+
   private final LoadingCache<Selector, GalenSpecRun> comparisons = CacheBuilder.newBuilder().build(CACHE_LOADER);
 
-  /** {@inheritDoc} */
-  @Override
-  public void describeTo(Description description) {
-    getInternalMatcher().describeTo(description);
+  protected VisuallyCompare() {
+    super(GalenSpecRunMatcher.successfulRun());
   }
 
   @Override
-  protected void describeMismatchSafely(Selector item, Description mismatchDescription) {
-    getInternalMatcher().describeMismatch(sample(item), mismatchDescription);
-  }
-
-  @Override
-  protected Matcher<GalenSpecRun> getInternalMatcher() {
-    return GalenSpecRunMatcher.successfulRun();
-  }
-
-  @Override
-  protected boolean matchesSelector(Selector item) {
-    return getInternalMatcher().matches(sample(item));
-  }
-
-  protected GalenSpecRun sample(Selector item) {
+  protected GalenSpecRun map(Selector item) {
     try {
       return comparisons.get(item);
     }
