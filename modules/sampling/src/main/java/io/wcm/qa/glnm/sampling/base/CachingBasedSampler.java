@@ -81,8 +81,8 @@ public abstract class CachingBasedSampler<T> implements CachingSampler<T> {
   }
 
   protected T handleNullSampling() {
-    if (LOG.isInfoEnabled()) {
-      LOG.info("when sampling (" + getClass() + "): value was null");
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("when sampling (" + getClass() + "): value was null");
     }
     T nullValue = getNullValue();
     setCachedValue(nullValue);
