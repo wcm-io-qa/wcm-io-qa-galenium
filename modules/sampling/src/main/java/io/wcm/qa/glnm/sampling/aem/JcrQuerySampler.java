@@ -19,6 +19,7 @@
  */
 package io.wcm.qa.glnm.sampling.aem;
 
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,7 +30,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -329,7 +329,7 @@ public class JcrQuerySampler extends JsonSampler<Sampler<String>> {
   private static final class HitKeyFilter implements Predicate<String> {
 
     @Override
-    public boolean apply(@Nullable String input) {
+    public boolean apply(String input) {
       return StringUtils.startsWith(input, "hits[");
     }
   }
