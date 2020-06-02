@@ -20,6 +20,9 @@
 package io.wcm.qa.glnm.interaction;
 
 import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
+import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.passStep;
+import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.startStep;
+import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.stopStep;
 
 import java.net.URL;
 import java.util.List;
@@ -58,15 +61,19 @@ public final class Browser {
    * @since 5.0
    */
   public static void addCookie(Cookie cookie) {
+    String step = startStep("add cookie: " + cookie);
     getDriver().manage().addCookie(cookie);
+    passStep(step);
+    stopStep();
   }
 
   /**
    * Navigate back.
    */
   public static void back() {
-    GaleniumReportUtil.startStep("navigating back");
+    String step = startStep("navigating back");
     getDriver().navigate().back();
+    passStep(step);
     stopStep();
   }
 
@@ -76,7 +83,10 @@ public final class Browser {
    * @since 5.0
    */
   public static void deleteAllCookies() {
+    String step = startStep("delete all cookies");
     getDriver().manage().deleteAllCookies();
+    passStep(step);
+    stopStep();
   }
 
   /**
@@ -86,7 +96,10 @@ public final class Browser {
    * @since 5.0
    */
   public static void deleteCookieNamed(String cookieName) {
+    String step = startStep("delete cookie: " + cookieName);
     getDriver().manage().deleteCookieNamed(cookieName);
+    passStep(step);
+    stopStep();
   }
 
   /**
@@ -264,7 +277,4 @@ public final class Browser {
     return getDriver().manage().logs().get(type).getAll();
   }
 
-  private static void stopStep() {
-    GaleniumReportUtil.stopStep();
-  }
 }
