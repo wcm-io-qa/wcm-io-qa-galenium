@@ -19,12 +19,15 @@
  */
 package io.wcm.qa.glnm.hamcrest.galen;
 
+import static org.apache.commons.lang3.StringUtils.isAllBlank;
+import static org.apache.commons.lang3.StringUtils.join;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
-import io.wcm.qa.glnm.hamcrest.TypeSafeWrappingMatcher;
+import io.wcm.qa.glnm.hamcrest.FunctionalWrappingMatcher;
 
 
 /**
@@ -32,12 +35,12 @@ import io.wcm.qa.glnm.hamcrest.TypeSafeWrappingMatcher;
  *
  * @since 5.0.0
  */
-public class GalenSpecMatcher extends TypeSafeWrappingMatcher<GalenSpec, GalenSpecRun> {
+public class GalenSpecMatcher extends FunctionalWrappingMatcher<GalenSpec, GalenSpecRun> {
 
   private String[] tags;
 
   protected GalenSpecMatcher(Matcher<GalenSpecRun> matcher, String... includeTags) {
-    super(matcher);
+    super(item -> item.check(includeTags), matcher);
     this.setTags(includeTags);
   }
 
@@ -45,6 +48,11 @@ public class GalenSpecMatcher extends TypeSafeWrappingMatcher<GalenSpec, GalenSp
   @Override
   public void describeTo(Description description) {
     description.appendText("Galen spec ");
+    if (!isAllBlank(getTags())) {
+      description.appendText("[");
+      description.appendText(join(getTags(), ", "));
+      description.appendText("] ");
+    }
     super.describeTo(description);
   }
 
@@ -62,11 +70,6 @@ public class GalenSpecMatcher extends TypeSafeWrappingMatcher<GalenSpec, GalenSp
 
   private void setTags(String[] tags) {
     this.tags = tags;
-  }
-
-  @Override
-  protected GalenSpecRun map(GalenSpec item) {
-    return item.check(getTags());
   }
 
   /**
