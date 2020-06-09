@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -59,44 +60,48 @@ public final class ProvidersUtil {
    * @since 5.0.0
    */
   public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext extensionContext) {
-    Method testMethod = extensionContext.getRequiredTestMethod();
-    Annotation[] declaredAnnotations = getDeclaredAnnotations(testMethod);
-    Collection<ArgumentsProvider> result = new ArrayList<ArgumentsProvider>();
+    return extractAnnotations(extensionContext, ArgumentsSource.class, providerMappingProducer());
+  }
+
+  private static <T, A extends Annotation> Collection<T> collectFromAnnotations(
+      Class<A> annotationType,
+      Annotation[] declaredAnnotations,
+      Function<Annotation, Function<A, T>> mappingProducer) {
+
+    Collection<T> result = new ArrayList<T>();
+
     for (Annotation annotation : declaredAnnotations) {
-      List<ArgumentsProvider> collected = ReAnnotationUtils.findRepeatableAnnotations(annotation, ArgumentsSource.class)
+      Function<A, T> annotationMapping = mappingProducer.apply(annotation);
+      List<T> collectedFromAnnotation = ReAnnotationUtils.findRepeatableAnnotations(annotation, annotationType)
           .stream()
-          .map(source -> ProvidersUtil.providerFromSource(annotation, source))
+          .map(annotationMapping)
           .collect(Collectors.toList());
-      result.addAll(collected);
+      result.addAll(collectedFromAnnotation);
     }
+
     return result;
   }
 
-  private static Annotation[] getDeclaredAnnotations(Method testMethod) {
+  private static <T, A extends Annotation> Collection<T> extractAnnotations(
+      ExtensionContext extensionContext,
+      Class<A> annotationType,
+      Function<Annotation, Function<A, T>> mappingProducer) {
+    Method testMethod = extensionContext.getRequiredTestMethod();
     Annotation[] declaredAnnotations = testMethod.getDeclaredAnnotations();
-    return declaredAnnotations;
-  }
-
-  static ArgumentsProvider providerFromSource(Annotation original, ArgumentsSource source) {
-    Class<? extends ArgumentsProvider> providerType = source.value();
-    ArgumentsProvider providerInstance = instantiateProvider(providerType);
-    if (providerInstance instanceof AnnotationConsumer<?>) {
-      feedAnnotationConsumer(original, providerInstance);
-    }
-    return providerInstance;
+    return collectFromAnnotations(annotationType, declaredAnnotations, mappingProducer);
   }
 
   @SuppressWarnings("unchecked")
-  private static void feedAnnotationConsumer(Annotation original, ArgumentsProvider providerInstance) {
-    AnnotationConsumer annotationConsumer = (AnnotationConsumer)providerInstance;
+  private static void feedAnnotationConsumer(Annotation annotation, AnnotationConsumer consumer) {
+    AnnotationConsumer annotationConsumer = consumer;
     Class<? extends Annotation> consumedAnnotationType = getConsumedAnnotationType(annotationConsumer);
-    Class<? extends Annotation> originalType = original.annotationType();
+    Class<? extends Annotation> originalType = annotation.annotationType();
     if (consumedAnnotationType.isAssignableFrom(originalType)) {
-      annotationConsumer.accept(original);
+      annotationConsumer.accept(annotation);
     }
     else {
-      Optional<? extends Annotation> annotation = AnnotationSupport.findAnnotation(originalType, consumedAnnotationType);
-      annotationConsumer.accept(annotation.orElseThrow(new Supplier<GaleniumException>() {
+      Optional<? extends Annotation> optionalAnnotation = AnnotationSupport.findAnnotation(originalType, consumedAnnotationType);
+      annotationConsumer.accept(optionalAnnotation.orElseThrow(new Supplier<GaleniumException>() {
         @Override
         public GaleniumException get() {
           return new GaleniumException("No annotation found to consume for : " + annotationConsumer);
@@ -119,13 +124,27 @@ public final class ProvidersUtil {
     throw new GaleniumException("Did not find type of consumed annotation: " + annotationConsumer);
   }
 
+  private static Function<Annotation, Function<ArgumentsSource, ArgumentsProvider>> providerMappingProducer() {
+    return new Function<Annotation, Function<ArgumentsSource, ArgumentsProvider>>() {
+      @Override
+      public java.util.function.Function<ArgumentsSource, ArgumentsProvider> apply(Annotation t) {
+        return source -> providerFromSource(t, source);
+      }
+        };
+  }
+
   @SuppressWarnings("unchecked")
   private static Class<? extends Annotation> rawType(Type argumentType) {
     return (Class<? extends Annotation>)TypeUtils.getRawType(argumentType, Annotation.class);
   }
 
-  private static ArgumentsProvider instantiateProvider(Class<? extends ArgumentsProvider> providerType) {
-    return ReflectionUtils.newInstance(providerType);
+  static ArgumentsProvider providerFromSource(Annotation original, ArgumentsSource source) {
+    Class<? extends ArgumentsProvider> providerType = source.value();
+    ArgumentsProvider providerInstance = ReflectionUtils.newInstance(providerType);
+    if (providerInstance instanceof AnnotationConsumer<?>) {
+      feedAnnotationConsumer(original, (AnnotationConsumer)providerInstance);
+    }
+    return providerInstance;
   }
 
 
