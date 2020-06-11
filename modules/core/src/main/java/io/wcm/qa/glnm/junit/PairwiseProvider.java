@@ -41,7 +41,6 @@ class PairwiseProvider
     extends CombinatorialParameterizedTestExtension
     implements TestTemplateInvocationContextProvider {
 
-
   /** {@inheritDoc} */
   @Override
   public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
@@ -85,10 +84,11 @@ class PairwiseProvider
     int[][] tupelsArray = PairwiseDefinition.getTupelsFor(domainSizes);
     return tupelsArray;
   }
-@Override
+
+  @Override
   protected Class<? extends Annotation> getAnnotationClass() {
-  return Pairwise.class;
-}
+    return Pairwise.class;
+  }
 
   /** {@inheritDoc} */
   @Override
