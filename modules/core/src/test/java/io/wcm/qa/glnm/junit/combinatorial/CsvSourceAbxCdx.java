@@ -17,11 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit;
+package io.wcm.qa.glnm.junit.combinatorial;
 
-import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+import org.junit.jupiter.params.provider.CsvSource;
 
-class InvocationContextWrapper implements TestTemplateInvocationContext {
-
+@Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+@CsvSource({ "A, B, X", "C, D, X" })
+public @interface CsvSourceAbxCdx {
+  // integration via meta annotation
 }

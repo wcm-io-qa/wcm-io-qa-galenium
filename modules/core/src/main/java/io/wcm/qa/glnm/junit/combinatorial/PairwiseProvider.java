@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit;
+package io.wcm.qa.glnm.junit.combinatorial;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

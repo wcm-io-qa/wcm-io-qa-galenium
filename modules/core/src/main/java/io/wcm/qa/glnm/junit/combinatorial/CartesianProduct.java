@@ -17,25 +17,37 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit;
+package io.wcm.qa.glnm.junit.combinatorial;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.junit.jupiter.api.TestTemplate;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+
 /**
- * Multipliers that do not introduce arguments for methods or constructors, but
- * parameters for other extensions.
+ * Multiplies all sources with each other.
  *
  * @since 5.0.0
  */
 @Retention(RUNTIME)
-@Target({ ANNOTATION_TYPE, METHOD })
-@Repeatable(ParameterSources.class)
-public @interface ParameterSource {
-  // meta only
+@Target(METHOD)
+@TestTemplate
+@ExtendWith(CartesianProductProvider.class)
+public @interface CartesianProduct {
+
+  /**
+   * @see ParameterizedTest#DEFAULT_DISPLAY_NAME
+   */
+  String DEFAULT_DISPLAY_NAME = "{displayName}[{index}] {arguments}";
+
+  /**
+   * @see ParameterizedTest#name()
+   * @return name to use in reporting
+   */
+  String name() default DEFAULT_DISPLAY_NAME;
 }

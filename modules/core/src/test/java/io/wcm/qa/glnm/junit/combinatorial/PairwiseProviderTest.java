@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit;
+package io.wcm.qa.glnm.junit.combinatorial;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
@@ -35,9 +35,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.google.common.collect.Lists;
 
 @Execution(ExecutionMode.CONCURRENT)
-public class CartesianProductProviderTest {
+public class PairwiseProviderTest {
 
-  @CartesianProduct
+  @Pairwise
   @CsvSource({ "A, B", "C, D", "A, D" })
   @ValueSource(strings = { "X", "1" })
   @MethodSource
@@ -48,7 +48,7 @@ public class CartesianProductProviderTest {
     assertThat(y, anyOf(is("X"), is("Y")));
   }
 
-  @CartesianProduct
+  @Pairwise
   @CsvSourceAbxCdx
   @MethodSource("checkParameters")
   void checkParametersWithCustomAnnotation(String a, String b, String x, String y) {
@@ -59,7 +59,7 @@ public class CartesianProductProviderTest {
   }
 
 
-  @CartesianProduct
+  @Pairwise
   @CsvSourceAbxCdx
   @CsvSourceXY
   void checkParametersWithCustomAnnotations(String a, String b, String x, String y) {

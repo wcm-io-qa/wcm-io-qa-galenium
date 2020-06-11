@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit;
+package io.wcm.qa.glnm.junit.combinatorial;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -30,15 +30,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 
 /**
- * Multiplies all sources with each other.
+ * Combines all sources by pairwise combination.
  *
  * @since 5.0.0
  */
 @Retention(RUNTIME)
 @Target(METHOD)
 @TestTemplate
-@ExtendWith(CartesianProductProvider.class)
-public @interface CartesianProduct {
+@ExtendWith(PairwiseProvider.class)
+public @interface Pairwise {
 
   /**
    * @see ParameterizedTest#DEFAULT_DISPLAY_NAME
