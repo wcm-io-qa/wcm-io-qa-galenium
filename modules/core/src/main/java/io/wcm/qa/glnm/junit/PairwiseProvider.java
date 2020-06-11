@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
-import org.junit.jupiter.params.CombinatorialParameterizedTestExtension;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.platform.commons.support.AnnotationSupport;
@@ -59,7 +58,7 @@ class PairwiseProvider
       Arguments arguments = list.get(index);
       argumentList.add(arguments);
     }
-    Arguments flattenedArgumentsList = flattenArgumentsList(argumentList);
+    Arguments flattenedArgumentsList = ArgumentsUtil.flattenArgumentsList(argumentList);
     return flattenedArgumentsList;
   }
 
@@ -101,4 +100,5 @@ class PairwiseProvider
             templateMethod));
     return pattern;
   }
+
 }

@@ -55,12 +55,26 @@ public final class ProvidersUtil {
   /**
    * <p>extractArgumentProviders.</p>
    *
-   * @param extensionContext a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
+   * @param context a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
    * @return a {@link java.util.Collection} object.
    * @since 5.0.0
    */
-  public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext extensionContext) {
-    return extractAnnotations(extensionContext, ArgumentsSource.class, providerMappingProducer());
+  public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext context) {
+    return extractAnnotations(context, ArgumentsSource.class, t -> s -> providerFromSource(t, s));
+  }
+
+  /**
+   * <p>exractNonArgumentMultipliers.</p>
+   *
+   * @param context a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
+   * @return a {@link java.util.Collection} object.
+   */
+  public static Collection<InvocationContextWrapper> exractNonArgumentMultipliers(ExtensionContext context) {
+    return extractAnnotations(context, ParameterSource.class, multiplierMappingProducer());
+  }
+
+  private static Function<Annotation, Function<ParameterSource, InvocationContextWrapper>> multiplierMappingProducer() {
+    return null;
   }
 
   private static <T, A extends Annotation> Collection<T> collectFromAnnotations(
@@ -122,15 +136,6 @@ public final class ProvidersUtil {
       }
     }
     throw new GaleniumException("Did not find type of consumed annotation: " + annotationConsumer);
-  }
-
-  private static Function<Annotation, Function<ArgumentsSource, ArgumentsProvider>> providerMappingProducer() {
-    return new Function<Annotation, Function<ArgumentsSource, ArgumentsProvider>>() {
-      @Override
-      public java.util.function.Function<ArgumentsSource, ArgumentsProvider> apply(Annotation t) {
-        return source -> providerFromSource(t, source);
-      }
-        };
   }
 
   @SuppressWarnings("unchecked")
