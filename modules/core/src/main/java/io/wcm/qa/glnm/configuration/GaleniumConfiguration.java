@@ -19,9 +19,6 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Central place to integrate test run and environment configuration from Maven et al.
  *
@@ -30,7 +27,6 @@ import org.slf4j.LoggerFactory;
 public final class GaleniumConfiguration {
 
   private static final String DEFAULT_AUTHOR_PASS = "admin";
-
   private static final String DEFAULT_AUTHOR_USER = "admin";
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
   private static final int DEFAULT_GRID_PORT = 4444;
@@ -38,8 +34,6 @@ public final class GaleniumConfiguration {
   private static final String DEFAULT_REPORT_DIR = "./target/glnm-reports";
   private static final String DEFAULT_SPEC_PATH = "./target/classes/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
-
-  private static final Logger LOG = LoggerFactory.getLogger(GaleniumConfiguration.class);
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
@@ -345,7 +339,6 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   *
    * @return Selenium Grid host
    * @since 3.0.0
    */
@@ -372,7 +365,6 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   *
    * @return Selenium Grid port number
    * @since 3.0.0
    */
@@ -399,7 +391,6 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
-   *
    * @return HTTP password
    * @since 3.0.0
    */
