@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.CombinatorialParameterizedTestExtension;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.platform.commons.support.AnnotationSupport;
@@ -64,7 +63,7 @@ class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
   private static Stream<? extends Arguments> combineProductTuplesToArguments(List<List<Arguments>> cartesianProduct) {
     Collection<Arguments> result = new ArrayList<Arguments>();
     for (List<Arguments> args : cartesianProduct) {
-      result.add(flattenArgumentsList(args));
+      result.add(ArgumentsUtil.flattenArgumentsList(args));
     }
     return result.stream();
   }
