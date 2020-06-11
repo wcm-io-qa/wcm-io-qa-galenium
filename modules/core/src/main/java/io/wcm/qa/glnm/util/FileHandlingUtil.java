@@ -118,7 +118,9 @@ public final class FileHandlingUtil {
     File parentFile = file.getParentFile();
     if (!parentFile.isDirectory()) {
       try {
-        LOG.debug("ensuring directory exists: " + parentFile.getPath());
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("ensuring directory exists: " + parentFile.getPath());
+        }
         GalenUtils.makeSureFolderExists(parentFile);
       }
       catch (IOException ex) {
