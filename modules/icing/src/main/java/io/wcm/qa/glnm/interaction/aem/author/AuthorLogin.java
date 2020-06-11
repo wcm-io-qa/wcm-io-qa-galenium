@@ -23,26 +23,17 @@ import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorPass;
 import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getAuthorUser;
 import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.interaction.Browser;
 import io.wcm.qa.glnm.interaction.Element;
 import io.wcm.qa.glnm.interaction.FormElement;
 import io.wcm.qa.glnm.interaction.Wait;
 import io.wcm.qa.glnm.selectors.base.Selector;
 import io.wcm.qa.glnm.selectors.base.SelectorFactory;
-import io.wcm.qa.glnm.util.HttpUtil;
 
 /**
  * AEM specific utility methods.
@@ -54,15 +45,6 @@ public final class AuthorLogin {
   private static final Selector DIV_LOGIN_BOX = SelectorFactory.fromCss("div#login-box");
 
   private static final Logger LOG = LoggerFactory.getLogger(AuthorLogin.class);
-
-  private static final String PARAM_NAME_CHARSET = "_charset_";
-  private static final String PARAM_NAME_PASSWORD = "j_password";
-  private static final String PARAM_NAME_USERNAME = "j_username";
-  private static final String PARAM_NAME_VALIDATE = "j_validate";
-  private static final String PARAM_VALUE_CHARSET = "utf-8";
-  private static final String PARAM_VALUE_VALIDATE = "true";
-
-  private static final String RELATIVE_PATH_LOGIN_FORM_POST = "/libs/granite/core/content/login.html/j_security_check";
 
   private static final Selector SELECTOR_AUTHOR_INPUT_PASSWORD = SelectorFactory.fromCss("#password");
   private static final Selector SELECTOR_AUTHOR_INPUT_USERNAME = SelectorFactory.fromCss("#username");
@@ -162,43 +144,6 @@ public final class AuthorLogin {
     return false;
   }
 
-  /**
-   * Posting to login URL and check for HTTP status 200.
-   *
-   * @param authorBaseUrl a {@link java.lang.String} object.
-   * @param authorUser a {@link java.lang.String} object.
-   * @param authorPass a {@link java.lang.String} object.
-   * @return whether POST response had status code 200
-   * @since 5.0.0
-   */
-  public static boolean loginToAuthorViaHttp(String authorBaseUrl, String authorUser, String authorPass) {
-    URL url;
-    try {
-      url = new URL(authorBaseUrl + RELATIVE_PATH_LOGIN_FORM_POST);
-    }
-    catch (MalformedURLException ex) {
-      throw new GaleniumException("could not parse author base URL", ex);
-    }
-
-    Map<String, String> paramMap = getCredentialParamsForPost(authorUser, authorPass);
-    HttpResponse response = HttpUtil.postForm(url, paramMap);
-    logResponse(response);
-    if (response.getStatusLine().getStatusCode() == 200) {
-      return true;
-    }
-
-    return false;
-  }
-
-  private static Map<String, String> getCredentialParamsForPost(String authorUser, String authorPass) {
-    Map<String, String> paramMap = new HashMap<>();
-    paramMap.put(PARAM_NAME_USERNAME, authorUser);
-    paramMap.put(PARAM_NAME_PASSWORD, authorPass);
-    paramMap.put(PARAM_NAME_VALIDATE, PARAM_VALUE_VALIDATE);
-    paramMap.put(PARAM_NAME_CHARSET, PARAM_VALUE_CHARSET);
-    return paramMap;
-  }
-
   private static boolean loginToAuthorViaBrowser(String authorUser, String authorPass) {
     if (isAuthorLogin()) {
       if (LOG.isDebugEnabled()) {
@@ -214,18 +159,6 @@ public final class AuthorLogin {
     }
     LOG.debug("Not logging in to author instance.");
     return false;
-  }
-
-  private static void logResponse(HttpResponse response) {
-    Header[] allHeaders = response.getAllHeaders();
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("status: " + response.getStatusLine().getStatusCode() + "(" + response.getStatusLine().getReasonPhrase() + ")");
-    }
-    for (Header header : allHeaders) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("'" + header.getName() + "': '" + header.getValue() + "'");
-      }
-    }
   }
 
 }

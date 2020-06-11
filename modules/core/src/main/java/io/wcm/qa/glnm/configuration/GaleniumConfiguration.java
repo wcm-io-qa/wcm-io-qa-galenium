@@ -19,18 +19,8 @@
  */
 package io.wcm.qa.glnm.configuration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.selenium.RunMode;
 
 /**
  * Central place to integrate test run and environment configuration from Maven et al.
@@ -43,9 +33,6 @@ public final class GaleniumConfiguration {
 
   private static final String DEFAULT_AUTHOR_USER = "admin";
   private static final String DEFAULT_BASE_URL = "http://localhost:4502";
-  private static final String DEFAULT_BROWSER_LOG_LEVEL = "INFO";
-  private static final String DEFAULT_DEVICE_CSV = "./target/test-classes/devices.csv";
-  private static final String DEFAULT_EXPECTED_TEXTS_FILE = "text/expectedTexts.properties";
   private static final int DEFAULT_GRID_PORT = 4444;
   private static final String DEFAULT_MEDIA_QUERY_PATH = "./target/test-classes/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/glnm-reports";
@@ -57,11 +44,7 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_USER = "io.wcm.qa.aem.author.user";
   private static final String SYSTEM_PROPERTY_NAME_BASE_URL = "io.wcm.qa.baseUrl";
-  private static final String SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL = "galenium.webdriver.browser.loglevel";
   private static final String SYSTEM_PROPERTY_NAME_CHROME_BINARY_PATH = "galenium.webdriver.chrome.binary";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH = "galenium.webdriver.chrome.headless.additionalWidth";
-  private static final String SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND = "galenium.webdriver.chrome.headless.windowsWorkaround";
-  private static final String SYSTEM_PROPERTY_NAME_DEVICE_CSV = "galenium.devices.csv";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_JS_TEST_PATH = "galenium.jsTestPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SPEC_PATH = "galenium.specPath";
   private static final String SYSTEM_PROPERTY_NAME_GALEN_SUPPRESS_AUTO_ADJUST_BROWSERSIZE = "galenium.suppressAutoAdjustBrowserSize";
@@ -82,8 +65,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_CHROMEFIX = "galenium.sampling.image.chromefix";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL = "galenium.sampling.image.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_EXPECTED = "galenium.sampling.image.directory.expected";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE = "galenium.sampling.text.file";
-  private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY = "galenium.sampling.text.directory.expected";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY = "galenium.sampling.text.directory.actual";
   private static final String SYSTEM_PROPERTY_NAME_SAMPLING_VERIFICATION_IGNORE_ERRORS = "galenium.sampling.verification.ignoreErrors";
   private static final String SYSTEM_PROPERTY_NAME_SCREENSHOT_ON_SKIPPED = "galenium.screenshotOnSkipped";
@@ -91,7 +72,6 @@ public final class GaleniumConfiguration {
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_BROWSER = "selenium.browser";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_HOST = "selenium.host";
   private static final String SYSTEM_PROPERTY_NAME_SELENIUM_PORT = "selenium.port";
-  private static final String SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE = "selenium.runmode";
   private static final String SYSTEM_PROPERTY_NAME_SPARSE_REPORTING = "galenium.report.sparse";
   private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_ALWAYS_NEW = "galenium.webdriver.alwaysNew";
   private static final String SYSTEM_PROPERTY_NAME_WEB_DRIVER_SSL_REFUSE = "galenium.webdriver.ssl.refuse";
@@ -127,34 +107,6 @@ public final class GaleniumConfiguration {
    */
   public static String getActualImagesDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_IMAGE_DIRECTORY_ACTUAL, DEFAULT_REPORT_DIR);
-  }
-
-  /**
-   * Additional width when starting Chrome headless. Galen cannot resize headless browsers, so the size is not the
-   * viewport, but the whole window including potential scroll bars.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.chrome.headless.additionalWidth
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * 0
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return amount of pixel to add to width
-   * @since 3.0.0
-   */
-  public static int getAdditionalChromeHeadlessWidth() {
-    return asInteger(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_ADDITIONAL_WIDTH, 0);
   }
 
   /**
@@ -240,65 +192,6 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Log level for browser log output. Default INFO.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.browser.loglevel
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * {@link java.util.logging.Level#INFO}
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return level to use for logs from browser
-   * @since 3.0.0
-   */
-  public static Level getBrowserLogLevel() {
-    try {
-      return Level.parse(asString(SYSTEM_PROPERTY_NAME_BROWSER_LOG_LEVEL, DEFAULT_BROWSER_LOG_LEVEL));
-    }
-    catch (IllegalArgumentException ex) {
-      LOG.info("could not parse browser log level, using INFO level.", ex);
-      return Level.INFO;
-    }
-  }
-
-  /**
-   * <p>getBrowserTypes.</p>
-   *
-   * @return browsers configured via 'selenium.browser' system property.
-   * @since 3.0.0
-   */
-  public static List<BrowserType> getBrowserTypes() {
-    ArrayList<BrowserType> list = new ArrayList<BrowserType>();
-
-    String browsers = asString(SYSTEM_PROPERTY_NAME_SELENIUM_BROWSER);
-    if (StringUtils.isNotBlank(browsers)) {
-      for (String browserTypeString : browsers.split(",")) {
-        try {
-          list.add(BrowserType.valueOf(browserTypeString.toUpperCase()));
-        }
-        catch (IllegalArgumentException iaex) {
-          throw new RuntimeException("Illegal BrowserType: " + browsers, iaex);
-        }
-      }
-      return Collections.unmodifiableList(list);
-    }
-
-    LOG.warn("No browser configured: using Chrome");
-    return Arrays.asList(BrowserType.CHROME);
-  }
-
-  /**
    * Path to Chrome binary which is passed to driver.
    * <ul>
    * <li>Key:
@@ -350,33 +243,6 @@ public final class GaleniumConfiguration {
    */
   public static int getDefaultWebdriverTimeout() {
     return asInteger(SYSTEM_PROPERTY_NAME_WEB_DRIVER_TIMEOUT, DEFAULT_WEBDRIVER_TIMEOUT);
-  }
-
-  /**
-   * Path to device profile definitions.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.devices.csv
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * ./target/test-classes/device.csv
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return path to {@link java.util.Properties} file containing media query definitions
-   * @since 3.0.0
-   */
-  public static String getDeviceCsvFilePath() {
-    return asString(SYSTEM_PROPERTY_NAME_DEVICE_CSV, DEFAULT_DEVICE_CSV);
   }
 
   /**
@@ -784,70 +650,12 @@ public final class GaleniumConfiguration {
   }
 
   /**
-   * Selenium run mode.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * selenium.runmode
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * {@link io.wcm.qa.glnm.selenium.RunMode#LOCAL}
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return {@link io.wcm.qa.glnm.selenium.RunMode} used
-   * @since 3.0.0
-   */
-  public static RunMode getRunMode() {
-    String runModeAsString = asString(SYSTEM_PROPERTY_NAME_SELENIUM_RUNMODE);
-    if (StringUtils.isBlank(runModeAsString)) {
-      return RunMode.LOCAL;
-    }
-    return RunMode.valueOf(runModeAsString.toUpperCase());
-  }
-
-  /**
-   * Properties file to retrieve expected text samples from.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.text.file
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * "./src/test/resources/galen/specs/expectedTexts.properties"
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return path to expected texts file
-   * @since 3.0.0
-   */
-  public static String getTextComparisonFile() {
-    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_FILE, DEFAULT_EXPECTED_TEXTS_FILE);
-  }
-
-  /**
    * Directory to retrieve the text samples from.
    * <ul>
    * <li>Key:
    *
    * <pre>
-   * galenium.sampling.text.directory.input
+   * galenium.sampling.text.directory.actual
    * </pre>
    *
    * </li>
@@ -855,73 +663,18 @@ public final class GaleniumConfiguration {
    * Default:
    *
    * <pre>
-   * "./target/galenium-reports"
+   * "./target/sampled"
    * </pre>
    *
    * </li>
    * </ul>
    *
-   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
-   * @since 3.0.0
-   */
-  public static String getTextComparisonInputDirectory() {
-    return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_INPUT_DIRECTORY, DEFAULT_SPEC_PATH);
-  }
-
-  /**
-   * Directory to retrieve the text samples from.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.sampling.text.directory.input
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * "./target/galenium-reports"
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return  {@link io.wcm.qa.glnm.selenium.RunMode} used
+   * @return output directory for new baseline samples
    * @since 3.0.0
    */
   public static String getTextComparisonOutputDirectory() {
     return asString(SYSTEM_PROPERTY_NAME_SAMPLING_TEXT_OUTPUT_DIRECTORY, "./target/sampled");
   }
-
-  /**
-   * Headless Chrome Windows workaround flag.
-   * <ul>
-   * <li>Key:
-   *
-   * <pre>
-   * galenium.webdriver.chrome.headless.windowsWorkaround
-   * </pre>
-   *
-   * </li>
-   * <li>
-   * Default:
-   *
-   * <pre>
-   * false
-   * </pre>
-   *
-   * </li>
-   * </ul>
-   *
-   * @return whether headless Chrome should be position off screen on Windows machines
-   * @since 3.0.0
-   */
-  public static boolean isChromeHeadlessWindowsWorkaround() {
-    return asBoolean(SYSTEM_PROPERTY_NAME_CHROME_HEADLESS_WINDOWS_WORKAROUND);
-  }
-
 
   /**
    * Headless Chrome Windows workaround flag.
