@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit;
+package io.wcm.qa.glnm.junit.combinatorial;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -61,20 +61,6 @@ public final class ProvidersUtil {
    */
   public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext context) {
     return extractAnnotations(context, ArgumentsSource.class, t -> s -> providerFromSource(t, s));
-  }
-
-  /**
-   * <p>exractNonArgumentMultipliers.</p>
-   *
-   * @param context a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
-   * @return a {@link java.util.Collection} object.
-   */
-  public static Collection<InvocationContextWrapper> exractNonArgumentMultipliers(ExtensionContext context) {
-    return extractAnnotations(context, ParameterSource.class, multiplierMappingProducer());
-  }
-
-  private static Function<Annotation, Function<ParameterSource, InvocationContextWrapper>> multiplierMappingProducer() {
-    return null;
   }
 
   private static <T, A extends Annotation> Collection<T> collectFromAnnotations(
