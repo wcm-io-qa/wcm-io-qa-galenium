@@ -62,6 +62,7 @@ public class CombinatorialTestInvocationContext
    * @param arguments to use for this invocation
    * @return new context
    * @param extensions a {@link java.util.List} object.
+   * @since 5.0.0
    */
   public static TestTemplateInvocationContext invocationContext(
       CombinatorialTestNameFormatter formatter,

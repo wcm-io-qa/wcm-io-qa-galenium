@@ -56,6 +56,7 @@ public class CombinatorialTestMethodContext extends ParameterizedTestMethodConte
    *
    * @param testMethod to create context for
    * @return new context
+   * @since 5.0.0
    */
   public static CombinatorialTestMethodContext forMethod(Method testMethod) {
     return new CombinatorialTestMethodContext(testMethod);
