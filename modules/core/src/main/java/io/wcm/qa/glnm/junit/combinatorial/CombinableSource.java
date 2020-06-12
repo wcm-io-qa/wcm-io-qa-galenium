@@ -40,6 +40,6 @@ public @interface CombinableSource {
   /**
    * @return type of combinable provider
    */
-  Class<CombinableProvider> value();
+  Class<? extends CombinableProvider> value();
 
 }
