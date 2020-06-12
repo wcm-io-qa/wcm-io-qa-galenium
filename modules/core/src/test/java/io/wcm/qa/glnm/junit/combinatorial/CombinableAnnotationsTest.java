@@ -40,6 +40,8 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.junit.sources.CsvSourceAbxCdx;
+import io.wcm.qa.glnm.junit.sources.CsvSourceXY;
 
 @Execution(ExecutionMode.CONCURRENT)
 class CombinableAnnotationsTest {

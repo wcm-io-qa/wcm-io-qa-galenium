@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit.combinatorial;
+package io.wcm.qa.glnm.junit.sources;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 @Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@CsvSource({ "X", "Y" })
-public @interface CsvSourceXY {
+@CsvSource({ "A, B, X", "C, D, X" })
+public @interface CsvSourceAbxCdx {
   // integration via meta annotation
 }

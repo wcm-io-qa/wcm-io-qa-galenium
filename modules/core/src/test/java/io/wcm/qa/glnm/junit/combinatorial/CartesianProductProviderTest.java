@@ -34,6 +34,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.google.common.collect.Lists;
 
+import io.wcm.qa.glnm.junit.sources.CsvSourceAbxCdx;
+import io.wcm.qa.glnm.junit.sources.CsvSourceXY;
+
 @Execution(ExecutionMode.CONCURRENT)
 public class CartesianProductProviderTest {
 
