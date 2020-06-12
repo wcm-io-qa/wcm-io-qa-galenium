@@ -29,19 +29,19 @@ import org.junit.jupiter.params.provider.Arguments;
 
 class Combination {
 
-  private final List<Combinable<?>> values;
+  private final List<Combinable> values;
 
-  Combination(List<Combinable<?>> values) {
+  Combination(List<Combinable> values) {
     this.values = values;
   }
 
-  private List<Combinable<?>> values() {
+  private List<Combinable> values() {
     return values;
   }
 
   Arguments arguments() {
     return flattenArgumentsList(
-        filter(Arguments.class, values));
+        filter(Arguments.class, values()));
   }
 
   List<Extension> extensions() {

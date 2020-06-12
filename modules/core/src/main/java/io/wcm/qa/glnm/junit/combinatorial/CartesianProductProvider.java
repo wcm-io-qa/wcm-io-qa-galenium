@@ -32,7 +32,7 @@ import org.junit.platform.commons.util.Preconditions;
 class CartesianProductProvider extends CombinatorialTestExtension {
 
   @Override
-  protected Stream<Combination> combine(List<List<Combinable<?>>> collectedInputs) {
+  protected Stream<Combination> combine(List<List<Combinable>> collectedInputs) {
     return cartesianProduct(collectedInputs)
         .stream()
         .map(Combination::new);
