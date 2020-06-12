@@ -20,18 +20,17 @@
 package io.wcm.qa.glnm.junit.combinatorial;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static io.wcm.qa.glnm.pairwise.PairwiseDefinition.getTupelsFor;
+import static java.util.stream.Collectors.toList;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.util.Preconditions;
-
-import io.wcm.qa.glnm.pairwise.PairwiseDefinition;
 
 
 class PairwiseProvider
@@ -59,17 +58,15 @@ class PairwiseProvider
   }
 
   private Integer[] getDomainSizes(List<List<Combinable<?>>> collectedInputArguments) {
-    Integer[] domainSizes = collectedInputArguments.stream()
+    return collectedInputArguments.stream()
         .map(args -> args.size())
-        .collect(Collectors.toList())
+        .collect(toList())
         .toArray(new Integer[0]);
-    return domainSizes;
   }
 
   private int[][] getIndexTupelsFor(List<List<Combinable<?>>> collectedInputArguments) {
     Integer[] domainSizes = getDomainSizes(collectedInputArguments);
-    int[][] tupelsArray = PairwiseDefinition.getTupelsFor(domainSizes);
-    return tupelsArray;
+    return getTupelsFor(domainSizes);
   }
 
   @Override
