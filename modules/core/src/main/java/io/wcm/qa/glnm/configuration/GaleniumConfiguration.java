@@ -338,6 +338,7 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return Selenium Grid host
    * @since 3.0.0
    */
@@ -364,6 +365,7 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return Selenium Grid port number
    * @since 3.0.0
    */
@@ -390,6 +392,7 @@ public final class GaleniumConfiguration {
    *
    * </li>
    * </ul>
+   *
    * @return HTTP password
    * @since 3.0.0
    */

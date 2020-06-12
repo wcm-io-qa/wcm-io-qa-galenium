@@ -19,30 +19,23 @@
  */
 package io.wcm.qa.glnm.junit.combinatorial;
 
+import static com.google.common.collect.Lists.cartesianProduct;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.util.Preconditions;
 
-import com.google.common.collect.Lists;
+class CartesianProductProvider extends CombinatorialTestExtension {
 
-class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
-
-  /** {@inheritDoc} */
   @Override
-  public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-    Collection<ArgumentsProvider> providers = ProvidersUtil.extractArgumentProviders(context);
-    List<List<? extends Arguments>> collectedInputArguments = collectArguments(providers, context);
-    List<List<Arguments>> cartesianProduct = Lists.cartesianProduct(collectedInputArguments);
-    return combineProductTuplesToArguments(cartesianProduct);
+  protected Stream<Combination> combine(List<List<Combinable<?>>> collectedInputs) {
+    return cartesianProduct(collectedInputs)
+        .stream()
+        .map(Combination::new);
   }
 
   @Override
@@ -58,14 +51,6 @@ class CartesianProductProvider extends CombinatorialParameterizedTestExtension {
             "Configuration error: @CartesianProduct on method [%s] must be declared with a non-empty name.",
             templateMethod));
     return pattern;
-  }
-
-  private static Stream<? extends Arguments> combineProductTuplesToArguments(List<List<Arguments>> cartesianProduct) {
-    Collection<Arguments> result = new ArrayList<Arguments>();
-    for (List<Arguments> args : cartesianProduct) {
-      result.add(ArgumentsUtil.flattenArgumentsList(args));
-    }
-    return result.stream();
   }
 
 }

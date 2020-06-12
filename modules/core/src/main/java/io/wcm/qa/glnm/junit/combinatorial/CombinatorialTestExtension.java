@@ -20,32 +20,34 @@
 package io.wcm.qa.glnm.junit.combinatorial;
 
 
+import static io.wcm.qa.glnm.junit.combinatorial.CombinatorialUtil.extractArguments;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.params.CombinatorialTestInvocationContext.invocationContext;
+import static org.junit.jupiter.params.CombinatorialTestNameFormatter.formatter;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
-import org.junit.jupiter.params.CombinatorialTestInvocationContext;
 import org.junit.jupiter.params.CombinatorialTestMethodContext;
 import org.junit.jupiter.params.CombinatorialTestNameFormatter;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.util.Preconditions;
 
-abstract class CombinatorialParameterizedTestExtension implements TestTemplateInvocationContextProvider {
+abstract class CombinatorialTestExtension implements TestTemplateInvocationContextProvider {
 
   private static final String METHOD_CONTEXT_KEY = "context";
 
-  protected CombinatorialParameterizedTestExtension() {
+  protected CombinatorialTestExtension() {
     super();
   }
 
@@ -59,18 +61,11 @@ abstract class CombinatorialParameterizedTestExtension implements TestTemplateIn
     CombinatorialTestNameFormatter formatter = createNameFormatter(templateMethod, displayName);
     AtomicLong invocationCount = new AtomicLong(0);
 
-    return provideArguments(extensionContext)
-        .map(Arguments::get)
-        .map(arguments -> consumedArguments(arguments, methodContext))
-        .map(arguments -> createInvocationContext(formatter, methodContext, arguments))
+    return provideCombinations(extensionContext)
+        .map(combination -> createInvocationContext(formatter, methodContext, combination))
         .peek(invocationContext -> invocationCount.incrementAndGet())
         .onClose(() -> Preconditions.condition(invocationCount.get() > 0,
-            "Configuration error: You must configure at least one set of arguments for this @ParameterizedTest"));
-  }
-
-  private CombinatorialTestMethodContext getMethodContext(ExtensionContext extensionContext) {
-    return getStore(extensionContext)//
-        .get(METHOD_CONTEXT_KEY, CombinatorialTestMethodContext.class);
+            "Configuration error: You must configure at least one multiplier for this combinatorial test"));
   }
 
   /** {@inheritDoc} */
@@ -99,46 +94,52 @@ abstract class CombinatorialParameterizedTestExtension implements TestTemplateIn
     return true;
   }
 
-  private Object[] consumedArguments(
-      Object[] arguments,
-      CombinatorialTestMethodContext methodContext) {
-    int parameterCount = methodContext.getParameterCount();
-    return methodContext.hasAggregator() ? arguments
-        : (arguments.length > parameterCount ? Arrays.copyOf(arguments, parameterCount) : arguments);
+  private List<List<Combinable<?>>> collectExtensions(ExtensionContext context) {
+    // TODO: Auto-generated method stub
+    return Collections.emptyList();
   }
 
   private TestTemplateInvocationContext createInvocationContext(
       CombinatorialTestNameFormatter formatter,
       CombinatorialTestMethodContext methodContext,
-      Object[] arguments) {
-    return CombinatorialTestInvocationContext.invocationContext(formatter, methodContext, arguments);
+      Combination combination) {
+    Object[] arguments = combination.arguments().get();
+    Object[] consumedArguments = CombinatorialUtil.consumedArguments(arguments, methodContext);
+    List<Extension> extensions = combination.extensions();
+    return invocationContext(formatter, methodContext, consumedArguments, extensions);
   }
 
   private CombinatorialTestNameFormatter createNameFormatter(Method templateMethod, String displayName) {
     String pattern = getNamePattern(templateMethod);
-    return CombinatorialTestNameFormatter.formatter(pattern, displayName);
+    return formatter(pattern, displayName);
+  }
+
+  private CombinatorialTestMethodContext getMethodContext(ExtensionContext extensionContext) {
+    return getStore(extensionContext)//
+        .get(METHOD_CONTEXT_KEY, CombinatorialTestMethodContext.class);
   }
 
   private boolean supportsTestMethod(Method testMethod) {
     return AnnotationSupport.isAnnotated(testMethod, getAnnotationClass());
   }
 
+  protected abstract Stream<Combination> combine(List<List<Combinable<?>>> collectedInputs);
+
   protected abstract Class<? extends Annotation> getAnnotationClass();
 
   protected abstract String getNamePattern(Method templateMethod);
 
-  protected abstract Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext);
+  protected Stream<Combination> provideCombinations(ExtensionContext extensionContext) {
+    List<List<Combinable<?>>> arguments = extractArguments(extensionContext);
+    List<List<Combinable<?>>> extensions = collectExtensions(extensionContext);
+    return combine(
+        Stream.of(arguments, extensions)
+            .flatMap(Collection::stream)
+            .collect(toList()));
+  }
 
   ExtensionContext.Store getStore(ExtensionContext context) {
     return context.getStore(Namespace.create(this.getClass(), context.getRequiredTestMethod()));
-  }
-
-  protected List<List<? extends Arguments>> collectArguments(Collection<ArgumentsProvider> providers, ExtensionContext context) {
-    List<List<? extends Arguments>> result = new ArrayList<List<? extends Arguments>>();
-    for (ArgumentsProvider provider : providers) {
-      result.add(ArgumentsUtil.arguments(provider, context));
-    }
-    return result;
   }
 
 }
