@@ -19,6 +19,14 @@
  */
 package org.junit.jupiter.params;
 
+import static com.google.common.collect.Lists.newArrayList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.extension.Extension;
+import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
+
 /**
  * Bridge to free JUnit's package visible ParameterizedTestInvocationContext.
  *
@@ -27,11 +35,23 @@ package org.junit.jupiter.params;
 public class CombinatorialTestInvocationContext
     extends ParameterizedTestInvocationContext {
 
+  private final List<Extension> extensions;
+
   protected CombinatorialTestInvocationContext(
       CombinatorialTestNameFormatter formatter,
       CombinatorialTestMethodContext methodContext,
-      Object[] arguments) {
+      Object[] arguments, List<Extension> extensions) {
     super(formatter, methodContext, arguments);
+    this.extensions = extensions;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public List<Extension> getAdditionalExtensions() {
+    List<Extension> superExtensions = super.getAdditionalExtensions();
+    ArrayList<Extension> combined = newArrayList(superExtensions);
+    combined.addAll(extensions);
+    return combined;
   }
 
   /**
@@ -41,11 +61,13 @@ public class CombinatorialTestInvocationContext
    * @param methodContext context of method
    * @param arguments to use for this invocation
    * @return new context
+   * @param extensions a {@link java.util.List} object.
    */
-  public static CombinatorialTestInvocationContext invocationContext(
+  public static TestTemplateInvocationContext invocationContext(
       CombinatorialTestNameFormatter formatter,
       CombinatorialTestMethodContext methodContext,
-      Object[] arguments) {
-    return new CombinatorialTestInvocationContext(formatter, methodContext, arguments);
+      Object[] arguments,
+      List<Extension> extensions) {
+    return new CombinatorialTestInvocationContext(formatter, methodContext, arguments, extensions);
   }
 }

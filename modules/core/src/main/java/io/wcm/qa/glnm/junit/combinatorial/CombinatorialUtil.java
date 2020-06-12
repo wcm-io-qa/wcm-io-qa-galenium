@@ -19,70 +19,73 @@
  */
 package io.wcm.qa.glnm.junit.combinatorial;
 
+import static com.google.common.collect.Lists.transform;
+import static io.wcm.qa.glnm.junit.combinatorial.ReAnnotationUtils.findRepeatableAnnotations;
+import static java.util.stream.Collectors.toList;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.CombinatorialTestMethodContext;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.support.AnnotationConsumer;
 import org.junit.platform.commons.support.AnnotationSupport;
+import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
-/**
- * <p>ProvidersUtil class.</p>
- *
- * @since 5.0.0
- */
-public final class ProvidersUtil {
+final class CombinatorialUtil {
 
-  private ProvidersUtil() {
+  private CombinatorialUtil() {
     // do not instantiate
   }
 
   /**
-   * <p>extractArgumentProviders.</p>
+   * <p>
+   * extractArgumentProviders.
+   * </p>
    *
    * @param context a {@link org.junit.jupiter.api.extension.ExtensionContext} object.
-   * @return a {@link java.util.Collection} object.
+   * @return a list of {@link ArgumentsProvider ArgumentsProviders}
    * @since 5.0.0
    */
-  public static Collection<ArgumentsProvider> extractArgumentProviders(ExtensionContext context) {
+  public static List<ArgumentsProvider> extractArgumentProviders(ExtensionContext context) {
     return extractAnnotations(context, ArgumentsSource.class, t -> s -> providerFromSource(t, s));
   }
 
-  private static <T, A extends Annotation> Collection<T> collectFromAnnotations(
+  private static <T, A extends Annotation> List<T> collectFromAnnotations(
       Class<A> annotationType,
       Annotation[] declaredAnnotations,
       Function<Annotation, Function<A, T>> mappingProducer) {
 
-    Collection<T> result = new ArrayList<T>();
+    List<T> result = new ArrayList<T>();
 
     for (Annotation annotation : declaredAnnotations) {
-      Function<A, T> annotationMapping = mappingProducer.apply(annotation);
-      List<T> collectedFromAnnotation = ReAnnotationUtils.findRepeatableAnnotations(annotation, annotationType)
+      List<T> collectedFromAnnotation = findRepeatableAnnotations(annotation, annotationType)
           .stream()
-          .map(annotationMapping)
-          .collect(Collectors.toList());
+          .map(mappingProducer.apply(annotation))
+          .collect(toList());
       result.addAll(collectedFromAnnotation);
     }
 
     return result;
   }
 
-  private static <T, A extends Annotation> Collection<T> extractAnnotations(
+  private static <T, A extends Annotation> List<T> extractAnnotations(
       ExtensionContext extensionContext,
       Class<A> annotationType,
       Function<Annotation, Function<A, T>> mappingProducer) {
@@ -102,6 +105,7 @@ public final class ProvidersUtil {
     else {
       Optional<? extends Annotation> optionalAnnotation = AnnotationSupport.findAnnotation(originalType, consumedAnnotationType);
       annotationConsumer.accept(optionalAnnotation.orElseThrow(new Supplier<GaleniumException>() {
+
         @Override
         public GaleniumException get() {
           return new GaleniumException("No annotation found to consume for : " + annotationConsumer);
@@ -124,9 +128,62 @@ public final class ProvidersUtil {
     throw new GaleniumException("Did not find type of consumed annotation: " + annotationConsumer);
   }
 
+  private static List<List<Combinable<?>>> providersToArguments(
+      List<ArgumentsProvider> providers,
+      ExtensionContext context) {
+    return transform(
+        providers,
+        p -> arguments(p, context));
+  }
+
   @SuppressWarnings("unchecked")
   private static Class<? extends Annotation> rawType(Type argumentType) {
     return (Class<? extends Annotation>)TypeUtils.getRawType(argumentType, Annotation.class);
+  }
+
+  static List<Combinable<?>> arguments(
+      ArgumentsProvider provider,
+      ExtensionContext context) {
+    try {
+      return provider.provideArguments(context)
+          .map(Combinable::new)
+          .collect(toList());
+    }
+    catch (Exception e) {
+      throw ExceptionUtils.throwAsUncheckedException(e);
+    }
+  }
+
+  static Object[] consumedArguments(
+      Object[] arguments,
+      CombinatorialTestMethodContext methodContext) {
+    int parameterCount = methodContext.getParameterCount();
+    return methodContext.hasAggregator() ? arguments
+        : (arguments.length > parameterCount ? Arrays.copyOf(arguments, parameterCount) : arguments);
+  }
+
+  static List<List<Combinable<?>>> extractArguments(ExtensionContext context) {
+    return CombinatorialUtil.providersToArguments(extractArgumentProviders(context), context);
+  }
+
+  static <T> List<T> filter(Class<T> type, List<Combinable<?>> values) {
+    return values.stream()
+        .map(Combinable::getValue)
+        .filter(v -> type.isInstance(v))
+        .map(v -> type.cast(v))
+        .collect(toList());
+  }
+
+  static Arguments flattenArgumentsList(List<Arguments> args) {
+    return Arguments.of(CombinatorialUtil.listToArray(args));
+  }
+
+  static Object[] listToArray(List<Arguments> list) {
+    Object[] listAsSingleArray = new Object[] {};
+    for (Arguments args : list) {
+      listAsSingleArray = ArrayUtils.addAll(listAsSingleArray, args.get());
+    }
+    return listAsSingleArray;
   }
 
   static ArgumentsProvider providerFromSource(Annotation original, ArgumentsSource source) {

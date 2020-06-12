@@ -19,6 +19,8 @@
  */
 package io.wcm.qa.glnm.junit.combinatorial;
 
+import static io.wcm.qa.glnm.junit.combinatorial.CombinatorialUtil.providerFromSource;
+import static io.wcm.qa.glnm.junit.combinatorial.ReAnnotationUtils.findRepeatableAnnotations;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.everyItem;
@@ -71,10 +73,12 @@ class CombinableAnnotationsTest {
         // only checking providers
         continue;
       }
-      List<ArgumentsSource> sources = ReAnnotationUtils.findRepeatableAnnotations(annotation, ArgumentsSource.class);
+      List<ArgumentsSource> sources = findRepeatableAnnotations(
+          annotation,
+          ArgumentsSource.class);
       assertThat(sources, hasSize(1));
       assertThat(sources, everyItem(Matchers.instanceOf(ArgumentsSource.class)));
-      ArgumentsProvider provider = ProvidersUtil.providerFromSource(annotation, sources.get(0));
+      ArgumentsProvider provider = providerFromSource(annotation, sources.get(0));
       assertThat(provider, notNullValue());
     }
   }
