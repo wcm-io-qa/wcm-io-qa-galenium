@@ -48,8 +48,8 @@ class PairwiseProvider
     return pattern;
   }
 
-  private Combination combinationFromTupel(int[] t, List<List<Combinable<?>>> collectedInputs) {
-    List<Combinable<?>> combinables = newArrayList();
+  private Combination combinationFromTupel(int[] t, List<List<Combinable>> collectedInputs) {
+    List<Combinable> combinables = newArrayList();
     for (int tupelIndex = 0; tupelIndex < t.length; tupelIndex++) {
       int inputIndex = t[tupelIndex];
       combinables.add(collectedInputs.get(tupelIndex).get(inputIndex));
@@ -57,20 +57,20 @@ class PairwiseProvider
     return new Combination(combinables);
   }
 
-  private Integer[] getDomainSizes(List<List<Combinable<?>>> collectedInputArguments) {
+  private Integer[] getDomainSizes(List<List<Combinable>> collectedInputArguments) {
     return collectedInputArguments.stream()
         .map(args -> args.size())
         .collect(toList())
         .toArray(new Integer[0]);
   }
 
-  private int[][] getIndexTupelsFor(List<List<Combinable<?>>> collectedInputArguments) {
+  private int[][] getIndexTupelsFor(List<List<Combinable>> collectedInputArguments) {
     Integer[] domainSizes = getDomainSizes(collectedInputArguments);
     return getTupelsFor(domainSizes);
   }
 
   @Override
-  protected Stream<Combination> combine(List<List<Combinable<?>>> collectedInputs) {
+  protected Stream<Combination> combine(List<List<Combinable>> collectedInputs) {
     int[][] tupelsArray = getIndexTupelsFor(collectedInputs);
     return Stream.of(tupelsArray)
         .map(t -> combinationFromTupel(t, collectedInputs));

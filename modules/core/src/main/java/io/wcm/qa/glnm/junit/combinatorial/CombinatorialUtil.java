@@ -22,6 +22,7 @@ package io.wcm.qa.glnm.junit.combinatorial;
 import static com.google.common.collect.Lists.transform;
 import static io.wcm.qa.glnm.junit.combinatorial.ReAnnotationUtils.findRepeatableAnnotations;
 import static java.util.stream.Collectors.toList;
+import static org.junit.platform.commons.support.AnnotationSupport.findAnnotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -35,14 +36,15 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.CombinatorialTestMethodContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.support.AnnotationConsumer;
-import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.platform.commons.util.ReflectionUtils;
 
@@ -64,7 +66,7 @@ final class CombinatorialUtil {
    * @since 5.0.0
    */
   public static List<ArgumentsProvider> extractArgumentProviders(ExtensionContext context) {
-    return extractAnnotations(context, ArgumentsSource.class, t -> s -> providerFromSource(t, s));
+    return extractFromAnnotations(context, ArgumentsSource.class, t -> s -> providerFromSource(t, s));
   }
 
   private static <T, A extends Annotation> List<T> collectFromAnnotations(
@@ -78,6 +80,7 @@ final class CombinatorialUtil {
       List<T> collectedFromAnnotation = findRepeatableAnnotations(annotation, annotationType)
           .stream()
           .map(mappingProducer.apply(annotation))
+          .filter(ObjectUtils::allNotNull)
           .collect(toList());
       result.addAll(collectedFromAnnotation);
     }
@@ -85,7 +88,19 @@ final class CombinatorialUtil {
     return result;
   }
 
-  private static <T, A extends Annotation> List<T> extractAnnotations(
+  @SuppressWarnings("unchecked")
+  private static CombinableProvider extensionFromSource(Annotation original, CombinableSource source) {
+    CombinableProvider providerInstance = ReflectionUtils.newInstance(source.value());
+    if (providerInstance instanceof AnnotationConsumer<?>) {
+      feedAnnotationConsumer(original, (AnnotationConsumer)providerInstance);
+    }
+    if (providerInstance.providedType().isAssignableFrom(Extension.class)) {
+      return providerInstance;
+    }
+    return null;
+  }
+
+  private static <T, A extends Annotation> List<T> extractFromAnnotations(
       ExtensionContext extensionContext,
       Class<A> annotationType,
       Function<Annotation, Function<A, T>> mappingProducer) {
@@ -96,19 +111,18 @@ final class CombinatorialUtil {
 
   @SuppressWarnings("unchecked")
   private static void feedAnnotationConsumer(Annotation annotation, AnnotationConsumer consumer) {
-    AnnotationConsumer annotationConsumer = consumer;
-    Class<? extends Annotation> consumedAnnotationType = getConsumedAnnotationType(annotationConsumer);
+    Class<? extends Annotation> consumedType = getConsumedAnnotationType(consumer);
     Class<? extends Annotation> originalType = annotation.annotationType();
-    if (consumedAnnotationType.isAssignableFrom(originalType)) {
-      annotationConsumer.accept(annotation);
+    if (consumedType.isAssignableFrom(originalType)) {
+      consumer.accept(annotation);
     }
     else {
-      Optional<? extends Annotation> optionalAnnotation = AnnotationSupport.findAnnotation(originalType, consumedAnnotationType);
-      annotationConsumer.accept(optionalAnnotation.orElseThrow(new Supplier<GaleniumException>() {
+      Optional<? extends Annotation> optionalAnnotation = findAnnotation(originalType, consumedType);
+      consumer.accept(optionalAnnotation.orElseThrow(new Supplier<GaleniumException>() {
 
         @Override
         public GaleniumException get() {
-          return new GaleniumException("No annotation found to consume for : " + annotationConsumer);
+          return new GaleniumException("No annotation found to consume for : " + consumer);
         }
       }));
     }
@@ -128,7 +142,7 @@ final class CombinatorialUtil {
     throw new GaleniumException("Did not find type of consumed annotation: " + annotationConsumer);
   }
 
-  private static List<List<Combinable<?>>> providersToArguments(
+  private static List<List<Combinable>> providersToArguments(
       List<ArgumentsProvider> providers,
       ExtensionContext context) {
     return transform(
@@ -141,7 +155,7 @@ final class CombinatorialUtil {
     return (Class<? extends Annotation>)TypeUtils.getRawType(argumentType, Annotation.class);
   }
 
-  static List<Combinable<?>> arguments(
+  static List<Combinable> arguments(
       ArgumentsProvider provider,
       ExtensionContext context) {
     try {
@@ -162,11 +176,15 @@ final class CombinatorialUtil {
         : (arguments.length > parameterCount ? Arrays.copyOf(arguments, parameterCount) : arguments);
   }
 
-  static List<List<Combinable<?>>> extractArguments(ExtensionContext context) {
-    return CombinatorialUtil.providersToArguments(extractArgumentProviders(context), context);
+  static List<List<Combinable>> extractArguments(ExtensionContext context) {
+    return providersToArguments(extractArgumentProviders(context), context);
   }
 
-  static <T> List<T> filter(Class<T> type, List<Combinable<?>> values) {
+  static List<CombinableProvider> extractExtensionSources(ExtensionContext context) {
+    return extractFromAnnotations(context, CombinableSource.class, t -> s -> extensionFromSource(t, s));
+  }
+
+  static <T> List<T> filter(Class<T> type, List<Combinable> values) {
     return values.stream()
         .map(Combinable::getValue)
         .filter(v -> type.isInstance(v))
@@ -175,7 +193,7 @@ final class CombinatorialUtil {
   }
 
   static Arguments flattenArgumentsList(List<Arguments> args) {
-    return Arguments.of(CombinatorialUtil.listToArray(args));
+    return Arguments.of(listToArray(args));
   }
 
   static Object[] listToArray(List<Arguments> list) {

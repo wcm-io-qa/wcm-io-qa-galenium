@@ -21,6 +21,7 @@ package io.wcm.qa.glnm.junit.combinatorial;
 
 
 import static io.wcm.qa.glnm.junit.combinatorial.CombinatorialUtil.extractArguments;
+import static io.wcm.qa.glnm.junit.combinatorial.CombinatorialUtil.extractExtensionSources;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.params.CombinatorialTestInvocationContext.invocationContext;
 import static org.junit.jupiter.params.CombinatorialTestNameFormatter.formatter;
@@ -28,7 +29,6 @@ import static org.junit.jupiter.params.CombinatorialTestNameFormatter.formatter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
@@ -94,9 +94,11 @@ abstract class CombinatorialTestExtension implements TestTemplateInvocationConte
     return true;
   }
 
-  private List<List<Combinable<?>>> collectExtensions(ExtensionContext context) {
-    // TODO: Auto-generated method stub
-    return Collections.emptyList();
+  private List<List<Combinable>> collectExtensions(ExtensionContext context) {
+    List<CombinableProvider> extensionSources = extractExtensionSources(context);
+    return extensionSources.stream()
+        .map(CombinableProvider::combinables)
+        .collect(toList());
   }
 
   private TestTemplateInvocationContext createInvocationContext(
@@ -123,15 +125,15 @@ abstract class CombinatorialTestExtension implements TestTemplateInvocationConte
     return AnnotationSupport.isAnnotated(testMethod, getAnnotationClass());
   }
 
-  protected abstract Stream<Combination> combine(List<List<Combinable<?>>> collectedInputs);
+  protected abstract Stream<Combination> combine(List<List<Combinable>> list);
 
   protected abstract Class<? extends Annotation> getAnnotationClass();
 
   protected abstract String getNamePattern(Method templateMethod);
 
   protected Stream<Combination> provideCombinations(ExtensionContext extensionContext) {
-    List<List<Combinable<?>>> arguments = extractArguments(extensionContext);
-    List<List<Combinable<?>>> extensions = collectExtensions(extensionContext);
+    List<List<Combinable>> arguments = extractArguments(extensionContext);
+    List<List<Combinable>> extensions = collectExtensions(extensionContext);
     return combine(
         Stream.of(arguments, extensions)
             .flatMap(Collection::stream)
