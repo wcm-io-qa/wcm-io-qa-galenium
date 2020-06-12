@@ -36,6 +36,7 @@ public class CombinatorialTestNameFormatter extends ParameterizedTestNameFormatt
    * @param pattern formatting pattern
    * @param displayName display name
    * @return new formatter
+   * @since 5.0.0
    */
   public static CombinatorialTestNameFormatter formatter(
       String pattern,
