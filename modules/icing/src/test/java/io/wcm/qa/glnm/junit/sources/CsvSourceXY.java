@@ -17,29 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.junit.combinatorial;
+package io.wcm.qa.glnm.junit.sources;
 
-/**
- * Wraps a value for combinatorial test generation.
- *
- * @param <T> type of wrapped value
- * @since 5.0.0
- */
-public class Combinable<T> {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-  private final T value;
+import org.junit.jupiter.params.provider.CsvSource;
 
-  /**
-   * <p>Constructor for Combinable.</p>
-   *
-   * @param rawValue value to wrap
-   */
-  public Combinable(T rawValue) {
-    value = rawValue;
-  }
-
-  T getValue() {
-    return value;
-  }
-
+@Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+@CsvSource({ "X", "Y" })
+public @interface CsvSourceXY {
+  // integration via meta annotation
 }

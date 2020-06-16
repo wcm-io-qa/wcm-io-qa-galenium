@@ -17,18 +17,31 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.qa.glnm.hamcrest.baseline;
+package io.wcm.qa.glnm.junit.seljup;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.jupiter.params.provider.CsvSource;
+import io.github.bonigarcia.seljup.BrowserType;
+import io.wcm.qa.glnm.junit.combinatorial.CombinableSource;
 
-@Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-@CsvSource({ "A, B, X", "C, D, X" })
-public @interface CsvSourceAbxCdx {
-  // integration via meta annotation
+/**
+ * Browser types for combinatorial test.
+ *
+ * @since 5.0.0
+ */
+@Retention(RUNTIME)
+@Target({ METHOD, ANNOTATION_TYPE })
+@CombinableSource(BrowserTypesProvider.class)
+public @interface BrowserTypes {
+
+  /**
+   * @return configured browser types
+   */
+  BrowserType[] value();
+
 }
