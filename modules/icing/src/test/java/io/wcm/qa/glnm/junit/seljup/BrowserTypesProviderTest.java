@@ -24,20 +24,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.WebDriver;
-
-import io.github.bonigarcia.seljup.Arguments;
 import io.github.bonigarcia.seljup.BrowserType;
-import io.wcm.qa.glnm.context.GaleniumContext;
 import io.wcm.qa.glnm.junit.combinatorial.CartesianProduct;
 
 class BrowserTypesProviderTest {
-
-  @BeforeEach
-  void initDriver(@Arguments({ "--headless" }) WebDriver driver) {
-    GaleniumContext.getContext().setDriver(driver);
-  }
 
   @CartesianProduct
   @BrowserTypes(BrowserType.CHROME)
