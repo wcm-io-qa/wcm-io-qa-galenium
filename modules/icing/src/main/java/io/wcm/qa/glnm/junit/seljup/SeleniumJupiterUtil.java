@@ -23,6 +23,8 @@ import static java.util.Collections.singletonList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,16 @@ final class SeleniumJupiterUtil {
 
   private SeleniumJupiterUtil() {
     // do not instantiate
+  }
+
+  static Object getDriverFromSelJup(ParameterContext driverParamContext, ExtensionContext context) {
+    if (getSeleniumExtension().supportsParameter(driverParamContext, context)) {
+      return getSeleniumExtension().resolveParameter(driverParamContext, context);
+    }
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Selenium Jupiter Extension does not support driver parameter.");
+    }
+    return null;
   }
 
   static List<Browser> asBrowserList(BrowserType type) {

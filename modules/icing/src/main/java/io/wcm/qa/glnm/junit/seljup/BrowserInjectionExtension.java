@@ -21,48 +21,30 @@ package io.wcm.qa.glnm.junit.seljup;
 
 import static io.wcm.qa.glnm.junit.seljup.SeleniumJupiterUtil.asBrowserList;
 import static io.wcm.qa.glnm.junit.seljup.SeleniumJupiterUtil.getSeleniumExtension;
+import static org.junit.jupiter.engine.execution.GaleniumDriverParameterContext.driverParamContext;
 
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
+import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import io.github.bonigarcia.seljup.Arguments;
 import io.github.bonigarcia.seljup.BrowserType;
-import io.github.bonigarcia.seljup.SeleniumExtension;
+import io.wcm.qa.glnm.context.GaleniumContext;
 
-class BrowserInjectionExtension
-    implements
+class BrowserInjectionExtension implements
     BeforeEachCallback,
-    ParameterResolver,
     AfterEachCallback,
     AfterAllCallback {
 
+  private static final Logger LOG = LoggerFactory.getLogger(BrowserInjectionExtension.class);
   private final BrowserType browserType;
 
   BrowserInjectionExtension(BrowserType browser) {
     browserType = browser;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
-    SeleniumExtension selJup = getSeleniumExtension();
-    selJup.putBrowserList(context.getUniqueId(), asBrowserList(browserType));
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return getSeleniumExtension().supportsParameter(parameterContext, extensionContext);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    return getSeleniumExtension().resolveParameter(parameterContext, extensionContext);
   }
 
   /** {@inheritDoc} */
@@ -75,6 +57,61 @@ class BrowserInjectionExtension
   @Override
   public void afterEach(ExtensionContext context) throws Exception {
     getSeleniumExtension().afterEach(context);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void beforeEach(ExtensionContext context) throws Exception {
+    String contextId = context.getUniqueId();
+    updateBrowserList(contextId);
+    Object webDriver = getDriverFromSelJup(context);
+    if (isDriver(contextId, webDriver)) {
+      setDriver(webDriver);
+    }
+  }
+
+  private Object getDriverFromSelJup(ExtensionContext context) {
+    return SeleniumJupiterUtil.getDriverFromSelJup(driverParamContext(this, "setHeadlessDriver"), context);
+  }
+
+  private boolean isDriver(String uniqueId, Object webDriver) {
+    if (webDriver == null) {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("No webdriver resolved. ({0})", uniqueId);
+      }
+      // no webdriver
+      return false;
+    }
+
+    if (!(webDriver instanceof WebDriver)) {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("Not resolved to webdriver: {1} ({0})", uniqueId, webDriver);
+      }
+      // not a webdriver
+      return false;
+    }
+
+    return true;
+  }
+
+  private void setDriver(Object webDriver) {
+    setDriver((WebDriver)webDriver);
+  }
+
+  private void updateBrowserList(String contextId) {
+    getSeleniumExtension().putBrowserList(contextId, asBrowserList(browserType));
+  }
+
+  void setHeadlessDriver(@Arguments("--headless") WebDriver driver) {
+    setDriver(driver);
+  }
+
+  void setVisibleDriver(WebDriver driver) {
+    setDriver(driver);
+  }
+
+  private static void setDriver(WebDriver driver) {
+    GaleniumContext.getContext().setDriver(driver);
   }
 
 }
