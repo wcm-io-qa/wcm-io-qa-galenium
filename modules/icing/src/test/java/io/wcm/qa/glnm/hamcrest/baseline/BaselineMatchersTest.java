@@ -37,6 +37,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import io.wcm.qa.glnm.differences.difference.IntegerDifference;
 import io.wcm.qa.glnm.junit.combinatorial.CartesianProduct;
+import io.wcm.qa.glnm.junit.sources.CsvSourceAbxCdx;
+import io.wcm.qa.glnm.junit.sources.CsvSourceXY;
 import io.wcm.qa.glnm.persistence.BaselinePersistenceExtension;
 
 @Execution(ExecutionMode.CONCURRENT)

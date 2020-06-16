@@ -45,9 +45,11 @@ public class DeviceProfile {
   }
 
   /**
-   * <p>getBrowserType.</p>
+   * <p>
+   * getBrowserType.
+   * </p>
    *
-   * @return a  {@link io.wcm.qa.glnm.device.BrowserType} object.
+   * @return a {@link io.wcm.qa.glnm.device.BrowserType} object.
    * @since 3.0.0
    */
   public BrowserType getBrowserType() {

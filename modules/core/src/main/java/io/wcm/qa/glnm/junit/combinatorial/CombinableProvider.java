@@ -32,6 +32,7 @@ public interface CombinableProvider {
    * <p>combinables.</p>
    *
    * @return combinable inputs for combinatorial tests
+   * @since 5.0.0
    */
   List<Combinable> combinables();
 
@@ -39,6 +40,7 @@ public interface CombinableProvider {
    * Used for filtering.
    *
    * @return type of provided combinable value
+   * @since 5.0.0
    */
   Class providedType();
 }
