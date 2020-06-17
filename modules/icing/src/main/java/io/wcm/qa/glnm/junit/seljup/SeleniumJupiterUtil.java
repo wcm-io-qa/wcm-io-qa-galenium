@@ -35,21 +35,11 @@ import io.github.bonigarcia.seljup.SeleniumExtension;
 
 final class SeleniumJupiterUtil {
 
-  private static final SeleniumExtension SELENIUM_EXTENSION = new SeleniumExtension();
   private static final Logger LOG = LoggerFactory.getLogger(SeleniumJupiterUtil.class);
+  private static final SeleniumExtension SELENIUM_EXTENSION = new SeleniumExtension();
 
   private SeleniumJupiterUtil() {
     // do not instantiate
-  }
-
-  static Object getDriverFromSelJup(ParameterContext driverParamContext, ExtensionContext context) {
-    if (getSeleniumExtension().supportsParameter(driverParamContext, context)) {
-      return getSeleniumExtension().resolveParameter(driverParamContext, context);
-    }
-    if (LOG.isInfoEnabled()) {
-      LOG.info("Selenium Jupiter Extension does not support driver parameter.");
-    }
-    return null;
   }
 
   static List<Browser> asBrowserList(BrowserType type) {
@@ -83,6 +73,16 @@ final class SeleniumJupiterUtil {
     Browser browser = builder.browserName(type.name()).version("LATEST").build();
 
     return singletonList(browser);
+  }
+
+  static Object getDriverFromSelJup(ParameterContext driverParamContext, ExtensionContext context) {
+    if (getSeleniumExtension().supportsParameter(driverParamContext, context)) {
+      return getSeleniumExtension().resolveParameter(driverParamContext, context);
+    }
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Selenium Jupiter Extension does not support driver parameter.");
+    }
+    return null;
   }
 
   static SeleniumExtension getSeleniumExtension() {
