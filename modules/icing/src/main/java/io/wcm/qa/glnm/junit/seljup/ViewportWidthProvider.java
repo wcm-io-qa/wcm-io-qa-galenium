@@ -20,41 +20,27 @@
 package io.wcm.qa.glnm.junit.seljup;
 
 import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 
-import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.extension.Extension;
-import org.junit.jupiter.params.support.AnnotationConsumer;
+class ViewportWidthProvider
+    extends AbstractConsumingCombinableProvider<
+        Integer,
+        ViewportWidths,
+        ViewportWidthExtension> {
 
-import io.wcm.qa.glnm.junit.combinatorial.Combinable;
-import io.wcm.qa.glnm.junit.combinatorial.CombinableProvider;
-
-class ViewportWidthProvider implements
-    CombinableProvider,
-    AnnotationConsumer<ViewportWidths> {
-
-  private int[] widths;
-
-  /** {@inheritDoc} */
   @Override
-  public List<Combinable> combinables() {
-    return stream(widths).boxed()
-        .map(ViewportWidthExtension::new)
-        .map(Combinable::new)
-        .collect(toList());
+  protected Integer[] valuesFromAnnotation(ViewportWidths t) {
+    return stream(t.value())
+        .boxed()
+        .collect(Collectors.toList())
+        .toArray(new Integer[0]);
   }
 
-  /** {@inheritDoc} */
   @Override
-  public Class providedType() {
-    return Extension.class;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void accept(ViewportWidths t) {
-    widths = t.value();
+  protected Function<Integer, ViewportWidthExtension> extensionProducer() {
+    return ViewportWidthExtension::new;
   }
 
 }
