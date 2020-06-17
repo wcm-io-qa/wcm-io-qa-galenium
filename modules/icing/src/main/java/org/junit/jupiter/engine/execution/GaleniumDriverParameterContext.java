@@ -31,7 +31,9 @@ import org.openqa.selenium.WebDriver;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
- * Bridge to use JUnit's {@link ParameterContext} base class.
+ * Bridge to use JUnit's {@link org.junit.jupiter.api.extension.ParameterContext} base class.
+ *
+ * @since 5.0.0
  */
 public final class GaleniumDriverParameterContext extends DefaultParameterContext {
 
@@ -49,6 +51,13 @@ public final class GaleniumDriverParameterContext extends DefaultParameterContex
     throw new GaleniumException("No setter for driver found.");
   }
 
+  /**
+   * <p>driverParamContext.</p>
+   *
+   * @param target target object
+   * @param methodName name of method to inject driver to
+   * @return parameter context for use with SeleniumExtension
+   */
   public static ParameterContext driverParamContext(Object target, String methodName) {
     return new GaleniumDriverParameterContext(target, methodName);
   }
