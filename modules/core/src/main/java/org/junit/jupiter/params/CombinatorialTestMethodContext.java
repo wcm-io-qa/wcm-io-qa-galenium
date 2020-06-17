@@ -47,7 +47,6 @@ public class CombinatorialTestMethodContext extends ParameterizedTestMethodConte
   /** {@inheritDoc} */
   @Override
   public boolean hasAggregator() {
-    // TODO: Auto-generated method stub
     return super.hasAggregator();
   }
 
