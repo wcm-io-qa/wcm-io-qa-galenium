@@ -31,16 +31,16 @@ class ViewportWidthProvider
         ViewportWidthExtension> {
 
   @Override
+  protected Function<Integer, ViewportWidthExtension> extensionProducer() {
+    return ViewportWidthExtension::new;
+  }
+
+  @Override
   protected Integer[] valuesFromAnnotation(ViewportWidths t) {
     return stream(t.value())
         .boxed()
         .collect(Collectors.toList())
         .toArray(new Integer[0]);
-  }
-
-  @Override
-  protected Function<Integer, ViewportWidthExtension> extensionProducer() {
-    return ViewportWidthExtension::new;
   }
 
 }

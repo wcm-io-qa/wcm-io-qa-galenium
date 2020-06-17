@@ -35,13 +35,13 @@ public class BrowserTypesProvider
         BrowserInjectionExtension> {
 
   @Override
-  protected BrowserType[] valuesFromAnnotation(BrowserTypes t) {
-    return t.value();
+  protected Function<BrowserType, BrowserInjectionExtension> extensionProducer() {
+    return BrowserInjectionExtension::new;
   }
 
   @Override
-  protected Function<BrowserType, BrowserInjectionExtension> extensionProducer() {
-    return BrowserInjectionExtension::new;
+  protected BrowserType[] valuesFromAnnotation(BrowserTypes t) {
+    return t.value();
   }
 
 

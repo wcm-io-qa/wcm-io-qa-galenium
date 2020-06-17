@@ -45,24 +45,8 @@ abstract class AbstractConsumingCombinableProvider<
 
   /** {@inheritDoc} */
   @Override
-  public Class providedType() {
-    return Extension.class;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public void accept(A t) {
     setValues(valuesFromAnnotation(t));
-  }
-
-  protected abstract T[] valuesFromAnnotation(A t);
-
-  protected T[] getValues() {
-    return values;
-  }
-
-  protected void setValues(T[] values) {
-    this.values = values;
   }
 
   /** {@inheritDoc} */
@@ -74,6 +58,22 @@ abstract class AbstractConsumingCombinableProvider<
         .collect(toList());
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public Class providedType() {
+    return Extension.class;
+  }
+
   protected abstract Function<T, E> extensionProducer();
+
+  protected T[] getValues() {
+    return values;
+  }
+
+  protected void setValues(T[] values) {
+    this.values = values;
+  }
+
+  protected abstract T[] valuesFromAnnotation(A t);
 
 }
