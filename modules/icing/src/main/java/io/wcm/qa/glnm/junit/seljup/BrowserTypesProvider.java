@@ -19,17 +19,9 @@
  */
 package io.wcm.qa.glnm.junit.seljup;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.junit.jupiter.api.extension.Extension;
-import org.junit.jupiter.params.support.AnnotationConsumer;
+import java.util.function.Function;
 
 import io.github.bonigarcia.seljup.BrowserType;
-import io.wcm.qa.glnm.junit.combinatorial.Combinable;
-import io.wcm.qa.glnm.junit.combinatorial.CombinableProvider;
 
 /**
  * Provides browser types for combinatorial tests.
@@ -37,31 +29,20 @@ import io.wcm.qa.glnm.junit.combinatorial.CombinableProvider;
  * @since 5.0.0
  */
 public class BrowserTypesProvider
-    implements CombinableProvider, AnnotationConsumer<BrowserTypes> {
+    extends AbstractConsumingCombinableProvider<
+        BrowserType,
+        BrowserTypes,
+        BrowserInjectionExtension> {
 
-  private List<Combinable> combinables;
-
-  /** {@inheritDoc} */
   @Override
-  public void accept(BrowserTypes t) {
-    BrowserType[] browsers = t.value();
-    combinables = Stream.of(browsers)
-        .map(BrowserInjectionExtension::new)
-        .map(Combinable<Extension>::new)
-        .collect(toList());
-
+  protected BrowserType[] valuesFromAnnotation(BrowserTypes t) {
+    return t.value();
   }
 
-  /** {@inheritDoc} */
   @Override
-  public List<Combinable> combinables() {
-    return combinables;
+  protected Function<BrowserType, BrowserInjectionExtension> extensionProducer() {
+    return BrowserInjectionExtension::new;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public Class providedType() {
-    return Extension.class;
-  }
 
 }
