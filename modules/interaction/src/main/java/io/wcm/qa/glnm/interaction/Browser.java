@@ -25,11 +25,13 @@ import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.startStep;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.stopStep;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -110,11 +112,11 @@ public final class Browser {
    * @return return value of Javascript execution
    */
   public static Object executeJs(String jsCode, Object... parameters) {
-    String step = GaleniumReportUtil.startStep("executing JavaScript");
+    String step = startStep("executing JavaScript");
     if (getDriver() instanceof JavascriptExecutor) {
       JavascriptExecutor executor = (JavascriptExecutor)getDriver();
       Object executedScriptResult = executor.executeScript(jsCode, parameters);
-      GaleniumReportUtil.passStep(step);
+      passStep(step);
       stopStep();
       return executedScriptResult;
     }
@@ -127,9 +129,9 @@ public final class Browser {
    * Navigate forward.
    */
   public static void forward() {
-    String step = GaleniumReportUtil.startStep("navigating forward");
+    String step = startStep("navigating forward");
     getDriver().navigate().forward();
-    GaleniumReportUtil.passStep(step);
+    passStep(step);
     stopStep();
   }
 
@@ -157,6 +159,7 @@ public final class Browser {
   public static Set<Cookie> getCookies() {
     return getDriver().manage().getCookies();
   }
+
   /**
    * <p>getCurrentUrl.</p>
    *
@@ -165,7 +168,6 @@ public final class Browser {
   public static String getCurrentUrl() {
     return getDriver().getCurrentUrl();
   }
-
   /**
    * <p>getLog.</p>
    *
@@ -185,7 +187,6 @@ public final class Browser {
     return getDriver().getPageSource();
   }
 
-
   /**
    * <p>getPageTitle.</p>
    *
@@ -195,6 +196,7 @@ public final class Browser {
     return getDriver().getTitle();
   }
 
+
   /**
    * <p>getPerformanceLog.</p>
    *
@@ -203,7 +205,6 @@ public final class Browser {
   public static List<LogEntry> getPerformanceLog() {
     return getLog(LogType.PERFORMANCE);
   }
-
 
   /**
    * <p>isCurrentUrl.</p>
@@ -219,16 +220,17 @@ public final class Browser {
     return StringUtils.equals(url, currentUrl);
   }
 
+
   /**
    * Load URL in browser.
    *
    * @param url to load
    */
   public static void load(String url) {
-    String step = GaleniumReportUtil.startStep("loading URL: '" + url + "'");
+    String step = startStep("loading URL: '" + url + "'");
     Allure.link(url, url);
     getDriver().get(url);
-    GaleniumReportUtil.passStep(step);
+    passStep(step);
     stopStep();
   }
 
@@ -245,9 +247,9 @@ public final class Browser {
    * @param url URL to navigate to
    */
   public static void navigateTo(String url) {
-    String step = GaleniumReportUtil.startStep("navigating to URL: '" + url + "'");
+    String step = startStep("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
-    GaleniumReportUtil.passStep(step);
+    passStep(step);
     stopStep();
   }
 
@@ -257,9 +259,9 @@ public final class Browser {
    * @param url to navigate to
    */
   public static void navigateTo(URL url) {
-    String step = GaleniumReportUtil.startStep("navigating to URL: '" + url + "'");
+    String step = startStep("navigating to URL: '" + url + "'");
     getDriver().navigate().to(url);
-    GaleniumReportUtil.passStep(step);
+    passStep(step);
     stopStep();
   }
 
@@ -267,10 +269,37 @@ public final class Browser {
    * Refresh browser.
    */
   public static void refresh() {
-    String step = GaleniumReportUtil.startStep("refreshing browser");
+    String step = startStep("refreshing browser");
     getDriver().navigate().refresh();
-    GaleniumReportUtil.passStep(step);
+    passStep(step);
     stopStep();
+  }
+
+  /**
+   * Uses JavaScript to determine current viewport size.
+   *
+   * @return dimension of viewport
+   */
+  public static Dimension viewportSize() {
+    Object rawJsResult = executeJs("return [window.innerWidth, window.innerHeight];");
+    if (rawJsResult instanceof ArrayList) {
+      ArrayList jsResult = (ArrayList)rawJsResult;
+      if (jsResult.size() == 2) {
+        int width = getIntFromJsResult(jsResult, 0);
+        int height = getIntFromJsResult(jsResult, 1);
+        return new Dimension(width, height);
+      }
+      throw new GaleniumException("Viewport script did not return two element list.");
+    }
+    throw new GaleniumException("Viewport script did not return list.");
+  }
+
+  private static int getIntFromJsResult(ArrayList jsResult, int index) {
+    Object rawValue = jsResult.get(index);
+    if (rawValue instanceof Long) {
+      return ((Long)rawValue).intValue();
+    }
+    throw new GaleniumException("Could not get integer from result list.");
   }
 
   private static List<LogEntry> getLog(String type) {

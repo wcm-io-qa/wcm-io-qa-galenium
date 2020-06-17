@@ -57,6 +57,7 @@ public final class GaleniumDriverParameterContext extends DefaultParameterContex
    * @param target target object
    * @param methodName name of method to inject driver to
    * @return parameter context for use with SeleniumExtension
+   * @since 5.0.0
    */
   public static ParameterContext driverParamContext(Object target, String methodName) {
     return new GaleniumDriverParameterContext(target, methodName);

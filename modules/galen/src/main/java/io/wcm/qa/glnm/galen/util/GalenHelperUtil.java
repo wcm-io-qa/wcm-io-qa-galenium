@@ -19,6 +19,9 @@
  */
 package io.wcm.qa.glnm.galen.util;
 
+import static io.wcm.qa.glnm.configuration.GaleniumConfiguration.getMediaQueryHeight;
+import static io.wcm.qa.glnm.webdriver.WebDriverManagement.getCurrentDriver;
+
 import org.openqa.selenium.Dimension;
 
 import com.galenframework.browser.Browser;
@@ -41,16 +44,6 @@ public final class GalenHelperUtil {
   }
 
   /**
-   * <p>getBrowser.</p>
-   *
-   * @return a {@link com.galenframework.browser.Browser} object.
-   * @since 4.0.0
-   */
-  public static Browser getBrowser() {
-    return new SeleniumBrowser(GaleniumContext.getDriver());
-  }
-
-  /**
    * <p>adjustViewport.</p>
    *
    * @param adjustBrowserViewportSize a boolean.
@@ -63,6 +56,16 @@ public final class GalenHelperUtil {
   }
 
   /**
+   * <p>getBrowser.</p>
+   *
+   * @return a {@link com.galenframework.browser.Browser} object.
+   * @since 4.0.0
+   */
+  public static Browser getBrowser() {
+    return new SeleniumBrowser(GaleniumContext.getDriver());
+  }
+
+  /**
    * Turn Galen syntax size string into Selenium {@link org.openqa.selenium.Dimension}.
    *
    * @param size to parse
@@ -72,6 +75,27 @@ public final class GalenHelperUtil {
   public static Dimension getDimension(String size) {
     java.awt.Dimension parsedSize = GalenUtils.readSize(size);
     return new Dimension(parsedSize.width, parsedSize.height);
+  }
+
+  /**
+   * Resize the viewport.
+   *
+   * @param size to set viewport to
+   * @since 5.0.0
+   */
+  public static void resizeViewport(Dimension size) {
+    GalenUtils.resizeDriver(getCurrentDriver(), size.getWidth(), size.getHeight());
+  }
+
+  /**
+   * Resize the viewport.
+   *
+   * @param width to set viewport to
+   * @since 5.0.0
+   */
+  public static void resizeViewport(int width) {
+    resizeViewport(new Dimension(width, getMediaQueryHeight()));
+    ;
   }
 
 }
