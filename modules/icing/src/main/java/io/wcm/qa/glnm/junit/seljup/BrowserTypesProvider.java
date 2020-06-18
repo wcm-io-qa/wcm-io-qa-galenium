@@ -21,7 +21,10 @@ package io.wcm.qa.glnm.junit.seljup;
 
 import java.util.function.Function;
 
+import org.junit.jupiter.params.support.AnnotationConsumer;
+
 import io.github.bonigarcia.seljup.BrowserType;
+import io.wcm.qa.glnm.junit.combinatorial.CombinableProvider;
 
 /**
  * Provides browser types for combinatorial tests.
@@ -32,7 +35,10 @@ public class BrowserTypesProvider
     extends AbstractConsumingCombinableProvider<
         BrowserType,
         BrowserTypes,
-        BrowserInjectionExtension> {
+        BrowserInjectionExtension>
+    implements
+    CombinableProvider,
+    AnnotationConsumer<BrowserTypes> {
 
   @Override
   protected Function<BrowserType, BrowserInjectionExtension> extensionProducer() {
