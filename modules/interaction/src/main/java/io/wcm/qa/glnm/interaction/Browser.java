@@ -26,6 +26,7 @@ import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.stopStep;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -70,6 +71,15 @@ public final class Browser {
   }
 
   /**
+   * Handles to all open windows/tabs of browser.
+   *
+   * @return all window handles
+   */
+  public static Set<String> allWindowHandles() {
+    return getDriver().getWindowHandles();
+  }
+
+  /**
    * Navigate back.
    */
   public static void back() {
@@ -77,6 +87,15 @@ public final class Browser {
     getDriver().navigate().back();
     passStep(step);
     stopStep();
+  }
+
+  /**
+   * Handle of current window/tab.
+   *
+   * @return current window handle
+   */
+  public static String currentWindowHandle() {
+    return getDriver().getWindowHandle();
   }
 
   /**
@@ -168,6 +187,7 @@ public final class Browser {
   public static String getCurrentUrl() {
     return getDriver().getCurrentUrl();
   }
+
   /**
    * <p>getLog.</p>
    *
@@ -195,8 +215,6 @@ public final class Browser {
   public static String getPageTitle() {
     return getDriver().getTitle();
   }
-
-
   /**
    * <p>getPerformanceLog.</p>
    *
@@ -220,7 +238,6 @@ public final class Browser {
     return StringUtils.equals(url, currentUrl);
   }
 
-
   /**
    * Load URL in browser.
    *
@@ -233,6 +250,7 @@ public final class Browser {
     passStep(step);
     stopStep();
   }
+
 
   /**
    * Loads 'about:blank'.
@@ -252,6 +270,7 @@ public final class Browser {
     passStep(step);
     stopStep();
   }
+
 
   /**
    * Navigate to URL.
@@ -276,6 +295,33 @@ public final class Browser {
   }
 
   /**
+   * Switch to window or tab.
+   *
+   * @param nameOrHandle a {@link java.lang.String} object.
+   */
+  public static void switchTo(String nameOrHandle) {
+    getDriver().switchTo().window(nameOrHandle);
+  }
+
+  /**
+   * Switch to next window or tab.
+   */
+  public static void switchToNext() {
+    String currentHandle = currentWindowHandle();
+    for (Iterator handles = allWindowHandles().iterator(); handles.hasNext();) {
+      String handle = (String)handles.next();
+      if (StringUtils.equals(handle, currentHandle)) {
+        if (handles.hasNext()) {
+          switchTo((String)handles.next());
+        }
+        else {
+          switchTo(firstWindowHandle());
+        }
+      }
+    }
+  }
+
+  /**
    * Uses JavaScript to determine current viewport size.
    *
    * @return dimension of viewport
@@ -292,6 +338,10 @@ public final class Browser {
       throw new GaleniumException("Viewport script did not return two element list.");
     }
     throw new GaleniumException("Viewport script did not return list.");
+  }
+
+  private static String firstWindowHandle() {
+    return allWindowHandles().iterator().next();
   }
 
   private static int getIntFromJsResult(ArrayList jsResult, int index) {
