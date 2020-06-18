@@ -24,11 +24,18 @@ import static java.util.Arrays.stream;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.params.support.AnnotationConsumer;
+
+import io.wcm.qa.glnm.junit.combinatorial.CombinableProvider;
+
 class ViewportWidthProvider
     extends AbstractConsumingCombinableProvider<
         Integer,
         ViewportWidths,
-        ViewportWidthExtension> {
+        ViewportWidthExtension>
+    implements
+    CombinableProvider,
+    AnnotationConsumer<ViewportWidths> {
 
   @Override
   protected Function<Integer, ViewportWidthExtension> extensionProducer() {
