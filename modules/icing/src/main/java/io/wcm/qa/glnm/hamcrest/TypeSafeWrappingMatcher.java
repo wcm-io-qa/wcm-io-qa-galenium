@@ -19,17 +19,15 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import java.util.concurrent.ExecutionException;
-
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import com.google.common.base.Optional;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-
-import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 
 /**
@@ -40,13 +38,13 @@ import io.wcm.qa.glnm.exceptions.GaleniumException;
 public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
 
   private Matcher<M> internalMatcher;
-  private CacheLoader<T, M> loader = new CacheLoader<T, M>() {
+  private CacheLoader<T, Optional<M>> loader = new CacheLoader<T, Optional<M>>() {
     @Override
-    public M load(T key) throws Exception {
-      return map(key);
+    public Optional<M> load(T key) throws Exception {
+      return Optional.fromNullable(map(key));
     };
   };
-  private LoadingCache<T, M> mappedItems = CacheBuilder.newBuilder().build(loader);
+  private LoadingCache<T, Optional<M>> mappedItems = CacheBuilder.newBuilder().build(loader);
 
   protected TypeSafeWrappingMatcher(Matcher<M> matcher) {
     setInternalMatcher(matcher);
@@ -59,12 +57,12 @@ public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
   }
 
   private M mapped(T item) {
-    try {
-      return mappedItems.get(item);
+    @Nullable
+    Optional<M> optional = mappedItems.getIfPresent(item);
+    if (optional != null && optional.isPresent()) {
+      return optional.get();
     }
-    catch (ExecutionException ex) {
-      throw new GaleniumException("when getting mapped value", ex);
-    }
+    return null;
   }
 
   @Override
