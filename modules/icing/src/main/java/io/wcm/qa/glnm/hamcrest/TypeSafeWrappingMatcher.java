@@ -19,9 +19,17 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
+import java.util.concurrent.ExecutionException;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 
 /**
@@ -32,6 +40,13 @@ import org.hamcrest.TypeSafeMatcher;
 public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
 
   private Matcher<M> internalMatcher;
+  private CacheLoader<T, M> loader = new CacheLoader<T, M>() {
+    @Override
+    public M load(T key) throws Exception {
+      return map(key);
+    };
+  };
+  private LoadingCache<T, M> mappedItems = CacheBuilder.newBuilder().build(loader);
 
   protected TypeSafeWrappingMatcher(Matcher<M> matcher) {
     setInternalMatcher(matcher);
@@ -43,9 +58,18 @@ public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
     getInternalMatcher().describeTo(description);
   }
 
+  private M mapped(T item) {
+    try {
+      return mappedItems.get(item);
+    }
+    catch (ExecutionException ex) {
+      throw new GaleniumException("when getting mapped value", ex);
+    }
+  }
+
   @Override
   protected void describeMismatchSafely(T item, Description mismatchDescription) {
-    getInternalMatcher().describeMismatch(map(item), mismatchDescription);
+    getInternalMatcher().describeMismatch(mapped(item), mismatchDescription);
   }
 
   protected Matcher<M> getInternalMatcher() {
@@ -56,7 +80,7 @@ public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
 
   @Override
   protected boolean matchesSafely(T item) {
-    return getInternalMatcher().matches(map(item));
+    return getInternalMatcher().matches(mapped(item));
   }
 
   protected void setInternalMatcher(Matcher<M> internalMatcher) {
