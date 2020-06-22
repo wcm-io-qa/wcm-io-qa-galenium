@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.hamcrest;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -38,13 +37,13 @@ import com.google.common.cache.LoadingCache;
 public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
 
   private Matcher<M> internalMatcher;
-  private CacheLoader<T, Optional<M>> loader = new CacheLoader<T, Optional<M>>() {
+  private final CacheLoader<T, Optional<M>> loader = new CacheLoader<T, Optional<M>>() {
     @Override
     public Optional<M> load(T key) throws Exception {
       return Optional.fromNullable(map(key));
     };
   };
-  private LoadingCache<T, Optional<M>> mappedItems = CacheBuilder.newBuilder().build(loader);
+  private final LoadingCache<T, Optional<M>> mappedItems = CacheBuilder.newBuilder().build(loader);
 
   protected TypeSafeWrappingMatcher(Matcher<M> matcher) {
     setInternalMatcher(matcher);
@@ -57,7 +56,6 @@ public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
   }
 
   private M mapped(T item) {
-    @Nullable
     Optional<M> optional = mappedItems.getIfPresent(item);
     if (optional != null && optional.isPresent()) {
       return optional.get();
