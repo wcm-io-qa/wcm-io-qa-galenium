@@ -80,6 +80,7 @@ public abstract class TypeSafeWrappingMatcher<T, M> extends TypeSafeMatcher<T> {
 
   @Override
   protected boolean matchesSafely(T item) {
+    mappedItems.refresh(item);
     return getInternalMatcher().matches(mapped(item));
   }
 
