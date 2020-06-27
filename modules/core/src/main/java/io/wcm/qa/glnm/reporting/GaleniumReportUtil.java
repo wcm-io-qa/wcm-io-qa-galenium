@@ -179,18 +179,6 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * <p>stopStep.</p>
-   *
-   * @since 5.0.0
-   */
-  public static void stopStep() {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("stop step");
-    }
-    Allure.getLifecycle().stopStep();
-  }
-
-  /**
    * Adds a step for current test case to the report.
    *
    * @param stepName to use in report
@@ -217,6 +205,18 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * <p>stopStep.</p>
+   *
+   * @since 5.0.0
+   */
+  public static void stopStep() {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("stop step");
+    }
+    Allure.getLifecycle().stopStep();
+  }
+
+  /**
    * uses Galen functionality to get a full page screenshot by scrolling and
    * stitching.
    *
@@ -234,7 +234,7 @@ public final class GaleniumReportUtil {
     }
     try {
       File screenshotFile = GalenUtils.makeFullScreenshot(GaleniumContext.getDriver());
-      handleScreenshotFile(screenshotFile);
+      attachScreenshotFile(screenshotFile);
       passStep(step);
     }
     catch (IOException | InterruptedException ex) {
@@ -262,18 +262,35 @@ public final class GaleniumReportUtil {
   }
 
   /**
-   * Take screenshot of current browser window and add to reports.
+   * Take screenshot of current browser window and add to report in a dedicated step.
    *
    * @param resultName to use in filename
    * @param takesScreenshot to take screenshot from
    * @since 4.0.0
    */
   public static void takeScreenshot(String resultName, TakesScreenshot takesScreenshot) {
-    String step = startStep("taking screenshot: " + takesScreenshot);
+    takeScreenshot(resultName, takesScreenshot, true);
+  }
+
+  /**
+   * Take screenshot of current browser window and add to report in a dedicated step.
+   *
+   * @param resultName to use in filename
+   * @param takesScreenshot to take screenshot from
+   * @param dedicatedStep whether to create dedicated step for attaching screenshot
+   * @since 5.0.0
+   */
+  public static void takeScreenshot(String resultName, TakesScreenshot takesScreenshot, boolean dedicatedStep) {
+    String step = null;
+    if (dedicatedStep) {
+      step = startStep("taking screenshot: " + takesScreenshot);
+    }
     File screenshotFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
-    handleScreenshotFile(resultName, screenshotFile);
-    passStep(step);
-    stopStep();
+    attachScreenshotFile(resultName, screenshotFile);
+    if (dedicatedStep) {
+      passStep(step);
+      stopStep();
+    }
   }
 
   /**
@@ -320,28 +337,11 @@ public final class GaleniumReportUtil {
     });
   }
 
-  private static TakesScreenshot getTakesScreenshot() {
-    WebDriver driver = GaleniumContext.getDriver();
-    TakesScreenshot takesScreenshot = getTakesScreenshot(driver);
-    return takesScreenshot;
+  private static void attachScreenshotFile(File screenshotFile) {
+    attachScreenshotFile(screenshotFile.getName(), screenshotFile);
   }
 
-  private static TakesScreenshot getTakesScreenshot(WebDriver driver) {
-    TakesScreenshot takesScreenshot;
-    if (driver instanceof TakesScreenshot) {
-      takesScreenshot = (TakesScreenshot)driver;
-    }
-    else {
-      throw new GaleniumException("driver cannot take screenshot");
-    }
-    return takesScreenshot;
-  }
-
-  private static void handleScreenshotFile(File screenshotFile) {
-    handleScreenshotFile(screenshotFile.getName(), screenshotFile);
-  }
-
-  private static void handleScreenshotFile(String resultName, File screenshotFile) {
+  private static void attachScreenshotFile(String resultName, File screenshotFile) {
     if (screenshotFile != null) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("screenshot taken: " + screenshotFile.getPath());
@@ -370,6 +370,23 @@ public final class GaleniumReportUtil {
     else if (LOG.isDebugEnabled()) {
       LOG.debug("screenshot file is null.");
     }
+  }
+
+  private static TakesScreenshot getTakesScreenshot() {
+    WebDriver driver = GaleniumContext.getDriver();
+    TakesScreenshot takesScreenshot = getTakesScreenshot(driver);
+    return takesScreenshot;
+  }
+
+  private static TakesScreenshot getTakesScreenshot(WebDriver driver) {
+    TakesScreenshot takesScreenshot;
+    if (driver instanceof TakesScreenshot) {
+      takesScreenshot = (TakesScreenshot)driver;
+    }
+    else {
+      throw new GaleniumException("driver cannot take screenshot");
+    }
+    return takesScreenshot;
   }
 
   private static boolean isAddResult(GalenTestInfo galenTestInfo) {
