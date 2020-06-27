@@ -23,17 +23,24 @@ import static io.wcm.qa.glnm.junit.seljup.SeleniumJupiterUtil.asBrowserList;
 import static io.wcm.qa.glnm.junit.seljup.SeleniumJupiterUtil.getSeleniumExtension;
 import static org.junit.jupiter.engine.execution.GaleniumDriverParameterContext.driverParamContext;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.bonigarcia.seljup.Arguments;
 import io.github.bonigarcia.seljup.BrowserType;
+import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.context.GaleniumContext;
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+import io.wcm.qa.glnm.webdriver.WebDriverManagement;
 
 class BrowserInjectionExtension implements
     BeforeEachCallback,
@@ -50,18 +57,28 @@ class BrowserInjectionExtension implements
   /** {@inheritDoc} */
   @Override
   public void afterAll(ExtensionContext context) throws Exception {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("after all: " + context.getUniqueId());
+    }
     getSeleniumExtension().afterAll(context);
   }
 
   /** {@inheritDoc} */
   @Override
   public void afterEach(ExtensionContext context) throws Exception {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("after each: " + context.getUniqueId());
+    }
+    screenshot(context);
     getSeleniumExtension().afterEach(context);
   }
 
   /** {@inheritDoc} */
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("before each: " + context.getUniqueId());
+    }
     String contextId = context.getUniqueId();
     updateBrowserList(contextId);
     Object webDriver = getDriverFromSelJup(context);
@@ -94,6 +111,27 @@ class BrowserInjectionExtension implements
     return true;
   }
 
+  private void screenshot(ExtensionContext context) {
+    Optional<Throwable> executionException = context.getExecutionException();
+    if (executionException.isPresent()) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("screenshot after " + executionException.get());
+      }
+      screenshot();
+      return;
+    }
+    if (GaleniumConfiguration.isTakeScreenshotOnSuccessfulTest()) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("screenshot after success");
+      }
+      screenshot();
+      return;
+    }
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("no screenshot");
+    }
+  }
+
   private void setDriver(Object webDriver) {
     setDriver((WebDriver)webDriver);
   }
@@ -108,6 +146,29 @@ class BrowserInjectionExtension implements
 
   void setVisibleDriver(WebDriver driver) {
     setDriver(driver);
+  }
+
+  private static void screenshot() {
+    WebDriver currentDriver = WebDriverManagement.getCurrentDriver();
+    if (currentDriver == null) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("no screenshot as driver is null");
+      }
+      return;
+    }
+    if (currentDriver instanceof RemoteWebDriver && ((RemoteWebDriver)currentDriver).getSessionId() == null) {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("no screenshot as session ID is null");
+      }
+      return;
+    }
+    if (!(currentDriver instanceof TakesScreenshot)) {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("no screenshot as driver not able to take screenshot");
+      }
+      return;
+    }
+    GaleniumReportUtil.takeScreenshot((TakesScreenshot)currentDriver);
   }
 
   private static void setDriver(WebDriver driver) {
