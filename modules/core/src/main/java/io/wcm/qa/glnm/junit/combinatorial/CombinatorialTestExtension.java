@@ -58,7 +58,7 @@ abstract class CombinatorialTestExtension implements TestTemplateInvocationConte
     Method templateMethod = extensionContext.getRequiredTestMethod();
     String displayName = extensionContext.getDisplayName();
     CombinatorialTestMethodContext methodContext = getMethodContext(extensionContext);
-    CombinatorialTestNameFormatter formatter = createNameFormatter(templateMethod, displayName);
+    CombinatorialTestNameFormatter formatter = createNameFormatter(templateMethod, displayName, methodContext);
     AtomicLong invocationCount = new AtomicLong(0);
 
     return provideCombinations(extensionContext)
@@ -111,9 +111,12 @@ abstract class CombinatorialTestExtension implements TestTemplateInvocationConte
     return invocationContext(formatter, methodContext, consumedArguments, extensions);
   }
 
-  private CombinatorialTestNameFormatter createNameFormatter(Method templateMethod, String displayName) {
+  private CombinatorialTestNameFormatter createNameFormatter(
+      Method templateMethod,
+      String displayName,
+      CombinatorialTestMethodContext methodContext) {
     String pattern = getNamePattern(templateMethod);
-    return formatter(pattern, displayName);
+    return formatter(pattern, displayName, methodContext);
   }
 
   private CombinatorialTestMethodContext getMethodContext(ExtensionContext extensionContext) {

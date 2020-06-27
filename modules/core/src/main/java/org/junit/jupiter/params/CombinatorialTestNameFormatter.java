@@ -26,8 +26,11 @@ package org.junit.jupiter.params;
  */
 public class CombinatorialTestNameFormatter extends ParameterizedTestNameFormatter {
 
-  protected CombinatorialTestNameFormatter(String pattern, String displayName) {
-    super(pattern, displayName);
+  protected CombinatorialTestNameFormatter(
+      String pattern,
+      String displayName,
+      ParameterizedTestMethodContext methodContext) {
+    super(pattern, displayName, methodContext);
   }
 
   /**
@@ -37,11 +40,13 @@ public class CombinatorialTestNameFormatter extends ParameterizedTestNameFormatt
    * @param displayName display name
    * @return new formatter
    * @since 5.0.0
+   * @param methodContext a {@link org.junit.jupiter.params.CombinatorialTestMethodContext} object.
    */
   public static CombinatorialTestNameFormatter formatter(
       String pattern,
-      String displayName) {
-    return new CombinatorialTestNameFormatter(pattern, displayName);
+      String displayName,
+      CombinatorialTestMethodContext methodContext) {
+    return new CombinatorialTestNameFormatter(pattern, displayName, methodContext);
   }
 
 }
