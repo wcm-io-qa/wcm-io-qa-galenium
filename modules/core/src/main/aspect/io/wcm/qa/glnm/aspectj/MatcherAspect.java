@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,44 @@ public class MatcherAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(MatcherAspect.class);
   private String startStepUuid;
+
+  /**
+   * <p>doneMatching.</p>
+   *
+   * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
+   * @param result a boolean.
+   */
+  @AfterReturning(pointcut = "execution(boolean org.hamcrest.Matcher.matches(..))", returning = "result")
+  public void doneMatching(final JoinPoint joinPoint, boolean result) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("done: " + joinPoint.getSignature().toLongString());
+    }
+    Matcher matcher = (Matcher)joinPoint.getTarget();
+    if (result) {
+      passStep(matcher);
+    }
+    else {
+      failStep(joinPoint, matcher);
+    }
+  }
+
+  /**
+   * <p>failedMatching.</p>
+   *
+   * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
+   * @param e a {@link java.lang.Throwable} object.
+   */
+  @AfterThrowing(pointcut = "execution(boolean org.hamcrest.Matcher.matches(..))", throwing = "e")
+  public void failedMatching(final JoinPoint joinPoint, final Throwable e) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("failed: " + joinPoint.getSignature().toLongString());
+    }
+    StringDescription stringDescription = new StringDescription();
+    Matcher target = (Matcher)joinPoint.getTarget();
+    target.describeTo(stringDescription);
+    stringDescription.appendText(e.getMessage());
+
+  }
 
   /**
    * <p>
@@ -50,42 +89,12 @@ public class MatcherAspect {
     startStepUuid = GaleniumReportUtil.startStep("matching");
   }
 
-  /**
-   * <p>failedMatching.</p>
-   *
-   * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
-   * @param e a {@link java.lang.Throwable} object.
-   */
-  @AfterThrowing(pointcut = "execution(boolean org.hamcrest.Matcher.matches(..))", throwing = "e")
-  public void failedMatching(final JoinPoint joinPoint, final Throwable e) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("failed: " + joinPoint.getSignature().toLongString());
-    }
-    StringDescription stringDescription = new StringDescription();
-    Matcher target = (Matcher)joinPoint.getTarget();
-    target.describeTo(stringDescription);
-    stringDescription.appendText(e.getMessage());
-
-  }
-
-  /**
-   * <p>doneMatching.</p>
-   *
-   * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object.
-   * @param result a boolean.
-   */
-  @AfterReturning(pointcut = "execution(boolean org.hamcrest.Matcher.matches(..))", returning = "result")
-  public void doneMatching(final JoinPoint joinPoint, boolean result) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("done: " + joinPoint.getSignature().toLongString());
-    }
-    Matcher matcher = (Matcher)joinPoint.getTarget();
-    if (result) {
-      passStep(matcher);
-    }
-    else {
-      failStep(joinPoint, matcher);
-    }
+  private StringDescription descriptionFor(Matcher matcher) {
+    StringDescription description = new StringDescription();
+    description
+        .appendText("Expected: ")
+        .appendDescriptionOf(matcher);
+    return description;
   }
 
   private void failStep(final JoinPoint joinPoint, Matcher matcher) {
@@ -97,6 +106,7 @@ public class MatcherAspect {
     matcher.describeMismatch(matchedItem, description);
     GaleniumReportUtil.updateStepName(startStepUuid, description.toString());
     GaleniumReportUtil.failStep(startStepUuid);
+    screenshot(matchedItem);
     GaleniumReportUtil.stopStep();
   }
 
@@ -106,12 +116,17 @@ public class MatcherAspect {
     GaleniumReportUtil.stopStep();
   }
 
-  private StringDescription descriptionFor(Matcher matcher) {
-    StringDescription description = new StringDescription();
-    description
-        .appendText("Expected: ")
-        .appendDescriptionOf(matcher);
-    return description;
+  private void screenshot(Object matchedItem) {
+    if (matchedItem == null) {
+      return;
+    }
+    if (matchedItem instanceof TakesScreenshot) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("taking screenshot of " + matchedItem);
+      }
+      GaleniumReportUtil.takeScreenshot("matcher-screenshot", (TakesScreenshot)matchedItem, false);
+      return;
+    }
   }
 
 
