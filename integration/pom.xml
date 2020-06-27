@@ -55,8 +55,8 @@
     <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
 
     <!-- Maven plugins -->
-    <maven-failsafe-plugin.version>3.0.0-M4</maven-failsafe-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 
   </properties>
 
@@ -87,7 +87,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
           <executions>
             <execution>
               <id>unpack-specs</id>
