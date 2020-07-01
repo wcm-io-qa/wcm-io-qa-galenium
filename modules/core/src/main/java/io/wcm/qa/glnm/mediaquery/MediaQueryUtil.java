@@ -31,7 +31,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,6 @@ import org.slf4j.LoggerFactory;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.configuration.PropertiesUtil;
 import io.wcm.qa.glnm.context.GaleniumContext;
-import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 
 /**
@@ -63,30 +61,33 @@ public final class MediaQueryUtil {
   }
 
   /**
-   * <p>getCurrentMediaQuery.</p>
+   * <p>
+   * MQ for viewport width.
+   * </p>
    *
+   * @param width viewport
    * @return the media query used in current test device
-   * @since 3.0.0
+   * @since 5.0.0
    */
-  public static MediaQuery getCurrentMediaQuery() {
+  public static MediaQuery getMediaQueryForViewportWidth(int width) {
     WebDriver driver = GaleniumContext.getDriver();
     if (driver == null) {
       return DEFAULT_MEDIA_QUERY;
     }
-    return getMatchingMediaQuery(GaleniumContext.getTestDevice());
+    return getMatchingMediaQuery(width);
   }
 
   /**
    * Returns matching media query from configuration.
    *
-   * @param testDevice to match
+   * @param width to match
    * @return media query
    * @since 3.0.0
    */
-  public static MediaQuery getMatchingMediaQuery(TestDevice testDevice) {
+  public static MediaQuery getMatchingMediaQuery(int width) {
     Collection<MediaQuery> mediaQueries = getMediaQueries();
     for (MediaQuery mediaQuery : mediaQueries) {
-      if (matchesTestDevice(mediaQuery, testDevice)) {
+      if (matchesViewportWidth(mediaQuery, width)) {
         return mediaQuery;
       }
     }
@@ -216,19 +217,6 @@ public final class MediaQueryUtil {
     return new MediaQueryInstance(mediaQueryName, lowerBound, upperBound);
   }
 
-  /**
-   * <p>
-   * Whether current media query equals by name.
-   * </p>
-   *
-   * @param mq to compare current media query to
-   * @return whether the current media query has the same name
-   * @since 5.0.0
-   */
-  public static boolean isCurrentMediaQuery(MediaQuery mq) {
-    return StringUtils.equals(getCurrentMediaQuery().getName(), mq.getName());
-  }
-
   private static Integer getIntegerValue(Entry<Object, Object> entry) {
     Object value = entry.getValue();
     if (value == null) {
@@ -253,15 +241,11 @@ public final class MediaQueryUtil {
     return mediaQueryMap;
   }
 
-  private static boolean matchesTestDevice(MediaQuery mediaQuery, TestDevice testDevice) {
-    if (testDevice == null) {
+  private static boolean matchesViewportWidth(MediaQuery mediaQuery, int width) {
+    if (width < mediaQuery.getLowerBound()) {
       return false;
     }
-    Dimension screenSize = testDevice.getScreenSize();
-    if (screenSize.getWidth() < mediaQuery.getLowerBound()) {
-      return false;
-    }
-    if (screenSize.getWidth() > mediaQuery.getUpperBound()) {
+    if (width > mediaQuery.getUpperBound()) {
       return false;
     }
     return true;

@@ -26,8 +26,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.context.GaleniumContext;
-import io.wcm.qa.glnm.device.BrowserType;
-import io.wcm.qa.glnm.device.TestDevice;
 
 /**
  * Utility class to manage thread safe WebDriver instances.
@@ -82,17 +80,6 @@ public final class WebDriverManagement {
 //    Duration timeout = Duration.ofSeconds(timeOutInSeconds);
     WebDriver driver = GaleniumContext.getDriver();
     return new WebDriverWait(driver, timeOutInSeconds, pollingInterval);
-  }
-
-  /**
-   * <p>Does the current browser match the test device.</p>
-   *
-   * @param testDevice to check
-   * @return whether this test device is a browser that needs a webdriver
-   * @since 3.0.0
-   */
-  public static boolean isBrowser(TestDevice testDevice) {
-    return testDevice != null && testDevice.getBrowserType() != BrowserType.NO_BROWSER;
   }
 
   /**
