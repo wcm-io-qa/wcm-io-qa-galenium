@@ -21,6 +21,8 @@ package io.wcm.qa.glnm.galen.specs.imagecomparison;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.galenframework.specs.Spec;
 import com.galenframework.specs.page.CorrectionsRect;
 import com.galenframework.specs.page.Locator;
@@ -29,6 +31,7 @@ import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.selectors.base.Selector;
 
 /**
@@ -49,6 +52,8 @@ final class IcsFactory {
    * @return a parsed Galen page spec
    */
   static PageSpec getPageSpec(IcsDefinition def) {
+    checkSanity(def);
+
     // specs
     Spec spec = IcUtil.getSpecForText(IcUtil.getImageComparisonSpecText(def));
     ObjectSpecs objectSpecs = new ObjectSpecs(def.getElementName());
@@ -88,6 +93,18 @@ final class IcsFactory {
     pageSpec.addSection(pageSection);
 
     return pageSpec;
+  }
+
+  private static void checkSanity(IcsDefinition def) {
+    if (def == null) {
+      throw new GaleniumException("Definition is null.");
+    }
+    if (def.getSelector() == null) {
+      throw new GaleniumException("Definition has null Selector.");
+    }
+    if (StringUtils.isBlank(def.getFilename())) {
+      throw new GaleniumException("Definition has empty filename.");
+    }
   }
 
 }

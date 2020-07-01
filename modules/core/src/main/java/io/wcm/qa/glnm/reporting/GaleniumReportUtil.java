@@ -45,6 +45,8 @@ import com.galenframework.utils.GalenUtils;
 import com.google.common.html.HtmlEscapers;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.AllureLifecycle;
+import io.qameta.allure.model.Attachment;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
@@ -77,6 +79,71 @@ public final class GaleniumReportUtil {
   public static void addGalenResult(GalenTestInfo galenTestInfo) {
     if (isAddResult(galenTestInfo)) {
       GLOBAL_GALEN_RESULTS.add(galenTestInfo);
+    }
+  }
+
+  /**
+   * <p>
+   * Adds image comparison result for use with Allure's screen-diff-plugin.
+   * </p>
+   *
+   * @param actual a {@link java.io.File} object.
+   * @param expected a {@link java.io.File} object.
+   * @param diff a {@link java.io.File} object.
+   */
+  public static void addImageComparisonResult(File actual, File expected, File diff) {
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("attaching screendiff results.");
+    }
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("actual: " + actual);
+      LOG.trace("expected: " + actual);
+      LOG.trace("diff: " + actual);
+    }
+
+    // Add label [key='testType', value='screenshotDiff'] to testcase
+    addLabel("testType", "screenshotDiff");
+
+    // Attach to testcase three screenshots:
+    //  * diff.png
+    addPngAttachment("diff", diff, true);
+    //  * actual.png
+    addPngAttachment("actual", actual, true);
+    //  * expected.png
+    addPngAttachment("expected", expected, true);
+
+  }
+
+  /**
+   * Add attachment with "image/png" and ".png".
+   *
+   * @param name base name
+   * @param file file to create input stream from
+   */
+  public static void addPngAttachment(String name, File file) {
+    addPngAttachment(name, file, false);
+  }
+
+  /**
+   * Add attachment with "image/png" and ".png".
+   *
+   * @param name base name
+   * @param file file to create input stream from
+   * @param attachToTestCase whether to attach at test case level instead of inside step
+   */
+  public static void addPngAttachment(String name, File file, boolean attachToTestCase) {
+    FileInputStream inputStream;
+    try {
+      inputStream = new FileInputStream(file);
+      addAttachment(
+          name,
+          "image/png",
+          inputStream,
+          ".png", attachToTestCase);
+      inputStream.close();
+    }
+    catch (IOException ex) {
+      throw new GaleniumException("When adding PNG attachment from: " + file, ex);
     }
   }
 
@@ -337,8 +404,31 @@ public final class GaleniumReportUtil {
     });
   }
 
+  private static void addAttachment(String name, String type, FileInputStream inputStream, String extension, boolean attachToTestCase) {
+    if (attachToTestCase) {
+      AllureLifecycle lifecycle = Allure.getLifecycle();
+      String source = lifecycle.prepareAttachment(name, type, extension);
+      lifecycle.writeAttachment(source, inputStream);
+      Attachment attachment = new Attachment();
+      attachment.setName(name);
+      attachment.setSource(source);
+      lifecycle.updateTestCase(result -> result.getAttachments().add(attachment));
+    }
+    Allure.addAttachment(name, type, inputStream, extension);
+  }
+
   private static void attachScreenshotFile(File screenshotFile) {
     attachScreenshotFile(screenshotFile.getName(), screenshotFile);
+  }
+
+  /**
+   * Add label to test case.
+   *
+   * @param key label key
+   * @param value label value
+   */
+  public static void addLabel(String key, String value) {
+    Allure.label(key, value);
   }
 
   private static void attachScreenshotFile(String resultName, File screenshotFile) {
@@ -353,7 +443,7 @@ public final class GaleniumReportUtil {
         if (LOG.isTraceEnabled()) {
           LOG.trace("copied screenshot: " + destFile.getPath());
         }
-        Allure.addAttachment("Screenshot: " + resultName, "image/png", new FileInputStream(destFile), ".png");
+        addPngAttachment("Screenshot: " + resultName, destFile);
         if (FileUtils.deleteQuietly(screenshotFile)) {
           if (LOG.isTraceEnabled()) {
             LOG.trace("deleted screenshot file: " + screenshotFile.getPath());
