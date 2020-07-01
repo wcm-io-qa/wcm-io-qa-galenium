@@ -404,6 +404,7 @@ public final class GaleniumReportUtil {
     });
   }
 
+  @SuppressWarnings("deprecation")
   private static void addAttachment(String name, String type, FileInputStream inputStream, String extension, boolean attachToTestCase) {
     if (attachToTestCase) {
       AllureLifecycle lifecycle = Allure.getLifecycle();
