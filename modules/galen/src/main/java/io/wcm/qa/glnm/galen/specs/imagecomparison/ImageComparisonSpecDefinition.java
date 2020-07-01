@@ -35,9 +35,7 @@ import io.wcm.qa.glnm.differences.base.Difference;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 import io.wcm.qa.glnm.galen.specs.page.GalenCorrection;
 import io.wcm.qa.glnm.galen.specs.page.GalenCorrectionRect;
-import io.wcm.qa.glnm.interaction.Mouse;
 import io.wcm.qa.glnm.selectors.base.Selector;
-import io.wcm.qa.glnm.util.BrowserUtil;
 
 /**
  * Mutable definition for image comparison specs.
@@ -103,9 +101,6 @@ public class ImageComparisonSpecDefinition implements IcsDefinition {
   public ImageComparisonSpecDefinition(Selector selector) {
     this();
     setSelector(selector);
-    if (BrowserUtil.isChrome()) {
-      correctForSrollPosition(Mouse.getVerticalScrollPosition().intValue());
-    }
   }
 
   /**

@@ -26,8 +26,6 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.wcm.qa.glnm.device.TestDevice;
-
 /**
  * Keeps important data for each thread. Simplifies integration without need for rigid inheritance hierarchies. Takes a
  * lot of hassle out of multi-threaded runs.
@@ -46,12 +44,10 @@ public class GaleniumContext {
 
   private final Map<String, Object> additionalMappings = new HashMap<String, Object>();
   private WebDriver driver;
-  private TestDevice testDevice;
 
   /**
    * WebDriver to use for all things Galenium. This includes interaction with Galen and Selenium. Usually the WebDriver
-   * handling can be left to Galenium. Listeners should initialize the driver based on the configured
-   *  {@link io.wcm.qa.glnm.device.TestDevice}.
+   * handling can be left to Galenium. Listeners should initialize the driver.
    *
    * @param driver WebDriver to use for everything
    * @since 3.0.0
@@ -61,19 +57,6 @@ public class GaleniumContext {
       LOG.debug("setting driver: " + driver);
     }
     this.driver = driver;
-  }
-
-  /**
-   * The test device is central to Galenium's WebDriver handling.
-   *
-   * @param testDevice device to use
-   * @since 3.0.0
-   */
-  public void setTestDevice(TestDevice testDevice) {
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("setting test device: " + driver);
-    }
-    this.testDevice = testDevice;
   }
 
   /**
@@ -108,16 +91,6 @@ public class GaleniumContext {
    */
   public static WebDriver getDriver() {
     return THREAD_LOCAL_CONTEXT.get().driver;
-  }
-
-  /**
-   * <p>Getter for the field <code>testDevice</code>.</p>
-   *
-   * @return current test device for this thread
-   * @since 3.0.0
-   */
-  public static TestDevice getTestDevice() {
-    return THREAD_LOCAL_CONTEXT.get().testDevice;
   }
 
   /**

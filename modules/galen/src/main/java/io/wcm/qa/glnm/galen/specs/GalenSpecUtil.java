@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
-import static io.wcm.qa.glnm.context.GaleniumContext.getTestDevice;
 import static io.wcm.qa.glnm.selectors.base.SelectorFactory.fromLocator;
 
 import java.util.ArrayList;
@@ -44,7 +43,6 @@ import com.galenframework.specs.page.Locator;
 import com.galenframework.specs.page.PageSpec;
 import com.google.common.collect.Lists;
 
-import io.wcm.qa.glnm.device.TestDevice;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.selectors.SelectorFromLocator;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
@@ -194,17 +192,6 @@ final class GalenSpecUtil {
   }
 
   /**
-   * Get tags from device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}.
-   *
-   * @param device to get tags from
-   * @return filter ready for use with Galen
-   * @since 4.0.0
-   */
-  static SectionFilter asSectionFilter(TestDevice device) {
-    return asSectionFilter(device.getTags());
-  }
-
-  /**
    * Get tags from current device as Galen {@link com.galenframework.speclang2.pagespec.SectionFilter}. Empty filter
    * when no device set.
    *
@@ -212,9 +199,6 @@ final class GalenSpecUtil {
    * @since 4.0.0
    */
   static SectionFilter getDefaultIncludeTags() {
-    if (getTestDevice() != null) {
-      return asSectionFilter(getTestDevice());
-    }
     return emptySectionFilter();
   }
 
