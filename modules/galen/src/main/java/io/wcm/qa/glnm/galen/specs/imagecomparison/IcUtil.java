@@ -56,9 +56,9 @@ import io.wcm.qa.glnm.util.FileHandlingUtil;
  */
 final class IcUtil {
 
-  private static final String DUMMY_IMAGE_FORMAT = "png";
-
   private static final BufferedImage DUMMY_IMAGE = new BufferedImage(20, 20, BufferedImage.TYPE_3BYTE_BGR);
+
+  private static final String DUMMY_IMAGE_FORMAT = "png";
 
   private static final Logger LOG = LoggerFactory.getLogger(IcUtil.class);
 
@@ -67,19 +67,6 @@ final class IcUtil {
 
   private IcUtil() {
     // do not instantiate
-  }
-
-  static void createDummyIfSampleDoesNotExist(String fullFilePath) {
-    if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
-      if (LOG.isInfoEnabled()) {
-        LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
-      }
-
-      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
-      File targetFile = new File(fullFilePath);
-
-      writeDummySample(targetFile);
-    }
   }
 
   private static String getImageComparisonSpecText(String folder, String fileName, String error, int offset, List<Selector> toIgnore) {
@@ -137,54 +124,17 @@ final class IcUtil {
     return fullFilePath;
   }
 
-  static String getImagePathFrom(Spec spec) {
-    Matcher matcher = REGEX_PATTERN_IMAGE_FILENAME.matcher(spec.toText());
-    if (matcher.matches() && matcher.groupCount() >= 1) {
-      return matcher.group(1);
-    }
-    return "";
-  }
-
   private static File getOriginalFilteredImage(ValidationResult result) {
-    ValidationError error = result.getError();
-    if (error == null) {
-      LOG.debug("could not find error in validation result.");
-      return null;
-    }
-
-    ImageComparison imageComparison = error.getImageComparison();
+    ImageComparison imageComparison = getImageComparison(result);
     if (imageComparison == null) {
-      LOG.debug("could not find image comparison in validation error.");
       return null;
     }
-
     File actualImage = imageComparison.getOriginalFilteredImage();
     if (actualImage == null) {
       LOG.debug("could not find sampled image in image comparison.");
     }
 
     return actualImage;
-  }
-
-  private static File getSampleSourceFile(Spec spec, ValidationResult result) {
-    String imagePath = getImagePathFrom(spec);
-    if (StringUtils.isBlank(imagePath)) {
-      if (LOG.isWarnEnabled()) {
-        LOG.warn("could not extract image name from: " + spec.toText());
-      }
-      return null;
-    }
-    File imageFile = getOriginalFilteredImage(result);
-    if (imageFile != null) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("sample source file: " + imageFile.getPath());
-      }
-      return imageFile;
-    }
-    if (LOG.isDebugEnabled()) {
-      LOG.debug("sample source path: " + imagePath);
-    }
-    return new File(imagePath);
   }
 
   private static File getSampleTargetFile(Spec spec) {
@@ -226,6 +176,35 @@ final class IcUtil {
     }
   }
 
+  static void createDummyIfSampleDoesNotExist(String fullFilePath) {
+    if (IcUtil.isExpectedImageSampleMissing(fullFilePath)) {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("Cannot find sample. Substituting dummy for '" + fullFilePath + "'");
+      }
+
+      // if image is missing, we'll substitute a dummy to force Galen to at least sample the page
+      File targetFile = new File(fullFilePath);
+
+      writeDummySample(targetFile);
+    }
+  }
+
+  static ImageComparison getImageComparison(ValidationResult result) {
+    ValidationError error = result.getError();
+    if (error == null) {
+      LOG.debug("could not find error in validation result.");
+      return null;
+    }
+
+    ImageComparison imageComparison = error.getImageComparison();
+    if (imageComparison == null) {
+      LOG.debug("could not find image comparison in validation error.");
+      return null;
+    }
+
+    return imageComparison;
+  }
+
   static String getImageComparisonSpecText(IcsDefinition def) {
     return IcUtil.getImageComparisonSpecText(
         def.getFoldername(),
@@ -233,6 +212,35 @@ final class IcUtil {
         def.getAllowedError(),
         def.getAllowedOffset(),
         def.getObjectsToIgnore());
+  }
+
+  static String getImagePathFrom(Spec spec) {
+    Matcher matcher = REGEX_PATTERN_IMAGE_FILENAME.matcher(spec.toText());
+    if (matcher.matches() && matcher.groupCount() >= 1) {
+      return matcher.group(1);
+    }
+    return "";
+  }
+
+  static File getSampleSourceFile(Spec spec, ValidationResult result) {
+    File imageFile = getOriginalFilteredImage(result);
+    if (imageFile != null) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("sample source file: " + imageFile.getPath());
+      }
+      return imageFile;
+    }
+    String imagePath = getImagePathFrom(spec);
+    if (StringUtils.isBlank(imagePath)) {
+      if (LOG.isWarnEnabled()) {
+        LOG.warn("could not extract image name from: " + spec.toText());
+      }
+      return null;
+    }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("sample source path: " + imagePath);
+    }
+    return new File(imagePath);
   }
 
   static Spec getSpecForText(String specText) {

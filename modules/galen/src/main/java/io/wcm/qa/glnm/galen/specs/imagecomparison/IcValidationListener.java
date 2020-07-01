@@ -24,8 +24,11 @@ import org.slf4j.LoggerFactory;
 
 import com.galenframework.specs.Spec;
 import com.galenframework.validation.CombinedValidationListener;
+import com.galenframework.validation.ImageComparison;
 import com.galenframework.validation.PageValidation;
 import com.galenframework.validation.ValidationResult;
+
+import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * {@link com.galenframework.validation.CombinedValidationListener} to handle storing of sampled image files in ZIP file.
@@ -45,10 +48,22 @@ public class IcValidationListener extends CombinedValidationListener {
     }
     if (IcUtil.isImageComparisonSpec(spec)) {
       IcUtil.saveSample(objectName, spec, result);
+      attachResultsToStep(result);
     }
     else {
       LOG.trace("not an image comparison spec");
     }
+  }
+
+  private void attachResultsToStep(ValidationResult result) {
+    ImageComparison ic = IcUtil.getImageComparison(result);
+    if (ic == null) {
+      return;
+    }
+    GaleniumReportUtil.addImageComparisonResult(
+        ic.getOriginalFilteredImage(),
+        ic.getSampleFilteredImage(),
+        ic.getComparisonMap());
   }
 
 }
