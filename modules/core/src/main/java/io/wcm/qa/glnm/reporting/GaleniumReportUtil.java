@@ -115,6 +115,16 @@ public final class GaleniumReportUtil {
   }
 
   /**
+   * Add label to test case.
+   *
+   * @param key label key
+   * @param value label value
+   */
+  public static void addLabel(String key, String value) {
+    Allure.label(key, value);
+  }
+
+  /**
    * Add attachment with "image/png" and ".png".
    *
    * @param name base name
@@ -407,29 +417,14 @@ public final class GaleniumReportUtil {
   @SuppressWarnings("deprecation")
   private static void addAttachment(String name, String type, FileInputStream inputStream, String extension, boolean attachToTestCase) {
     if (attachToTestCase) {
-      AllureLifecycle lifecycle = Allure.getLifecycle();
-      String source = lifecycle.prepareAttachment(name, type, extension);
-      lifecycle.writeAttachment(source, inputStream);
-      Attachment attachment = new Attachment();
-      attachment.setName(name);
-      attachment.setSource(source);
-      lifecycle.updateTestCase(result -> result.getAttachments().add(attachment));
+      attachToTestCase(name, type, inputStream, extension);
+      return;
     }
-    Allure.addAttachment(name, type, inputStream, extension);
+    attachToCurrentStep(name, type, inputStream, extension);
   }
 
   private static void attachScreenshotFile(File screenshotFile) {
     attachScreenshotFile(screenshotFile.getName(), screenshotFile);
-  }
-
-  /**
-   * Add label to test case.
-   *
-   * @param key label key
-   * @param value label value
-   */
-  public static void addLabel(String key, String value) {
-    Allure.label(key, value);
   }
 
   private static void attachScreenshotFile(String resultName, File screenshotFile) {
@@ -461,6 +456,20 @@ public final class GaleniumReportUtil {
     else if (LOG.isDebugEnabled()) {
       LOG.debug("screenshot file is null.");
     }
+  }
+
+  private static void attachToCurrentStep(String name, String type, FileInputStream inputStream, String extension) {
+    Allure.addAttachment(name, type, inputStream, extension);
+  }
+
+  private static void attachToTestCase(String name, String type, FileInputStream inputStream, String extension) {
+    AllureLifecycle lifecycle = Allure.getLifecycle();
+    String source = lifecycle.prepareAttachment(name, type, extension);
+    lifecycle.writeAttachment(source, inputStream);
+    Attachment attachment = new Attachment();
+    attachment.setName(name);
+    attachment.setSource(source);
+    lifecycle.updateTestCase(result -> result.getAttachments().add(attachment));
   }
 
   private static TakesScreenshot getTakesScreenshot() {
