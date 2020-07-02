@@ -9,7 +9,7 @@
         API change.
         Needs code change.
         Needs checking functionality with 3rd party.-->
-        <ignoreVersion type="exact">4.0.0-alpha-6</ignoreVersion>
+        <ignoreVersion type="regex">4.0.0-alpha-.*</ignoreVersion>
       </ignoreVersions>
     </rule>
     <rule comparisonMethod="maven" groupId="ch.qos.logback">
@@ -18,7 +18,7 @@
         Logging not working.
         Reason unclear.
         Needs more analysis. -->
-        <ignoreVersion type="exact">1.3.0-alpha5</ignoreVersion>
+        <ignoreVersion type="regex">1.3.0-alpha.*</ignoreVersion>
       </ignoreVersions>
     </rule>
   </rules>
