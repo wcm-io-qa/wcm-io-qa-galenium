@@ -2,7 +2,6 @@
 package ${specRootPackageName};
 
 import static io.wcm.qa.glnm.galen.reports.GalenReports.handleGalenSpecRun;
-import static io.wcm.qa.glnm.context.GaleniumContext.getTestDevice;
 
 import java.io.File;
 import java.util.Collection;
