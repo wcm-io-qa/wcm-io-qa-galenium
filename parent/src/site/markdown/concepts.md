@@ -27,9 +27,6 @@ There are a few concepts in Galenium that are important to know. Some should be 
 ### Drivers
  The Selenium WebDriver is needed for interaction with the browser. Every test case needs its own dedicated browser instance. The driver represents and enables the connection to the browser.
 
-### Test Devices
- The test device is a Galenium specific concept. It encapsulates the browser type (e.g. Chrome) and the viewport size (e.g. 1024x800). With this information Galenium can instantiate browsers using Selenium.
-
 ### Test Names
  In Galenium the test name is central. The test name is used in reporting.
 
@@ -53,10 +50,6 @@ The _java.lang.ThreadLocal_ is used to store the context separate for each threa
 ##### Driver
 
 The Selenium WebDriver is needed for interaction with the browser. Every test case needs its own dedicated browser instance. The driver represents and enables the connection to the browser.
-
-##### TestDevice
-
-The test device is a Galenium concept. It encapsulates the browser type (e.g. Chrome) and the viewport size (e.g. 1024x800). This is all the information Galenium needs to instantiate browsers using Selenium.
 
 ### Configuration
 
