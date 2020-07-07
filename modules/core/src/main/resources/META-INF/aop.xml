@@ -1,5 +1,6 @@
 <aspectj>
   <aspects>
     <aspect name="io.wcm.qa.glnm.aspectj.MatcherAspect" />
+    <aspect name="io.wcm.qa.glnm.aspectj.AssertAspect" />
   </aspects>
 </aspectj>
