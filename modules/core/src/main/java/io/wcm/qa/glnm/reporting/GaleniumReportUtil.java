@@ -414,7 +414,6 @@ public final class GaleniumReportUtil {
     });
   }
 
-  @SuppressWarnings("deprecation")
   private static void addAttachment(String name, String type, FileInputStream inputStream, String extension, boolean attachToTestCase) {
     if (attachToTestCase) {
       attachToTestCase(name, type, inputStream, extension);
@@ -462,6 +461,7 @@ public final class GaleniumReportUtil {
     Allure.addAttachment(name, type, inputStream, extension);
   }
 
+  @SuppressWarnings("deprecation")
   private static void attachToTestCase(String name, String type, FileInputStream inputStream, String extension) {
     AllureLifecycle lifecycle = Allure.getLifecycle();
     String source = lifecycle.prepareAttachment(name, type, extension);
