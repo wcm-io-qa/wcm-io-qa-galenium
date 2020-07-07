@@ -13,11 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
+
 /**
  * <p>
- * MatcherAspect class.
+ * Adds matches to Allure Report with correct pass/fail status.
  * </p>
- *
  * @since 5.0.0
  */
 @Aspect("perthis(execution(* *..*.matches(..)))")
