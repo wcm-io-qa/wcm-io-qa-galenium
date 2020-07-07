@@ -22,11 +22,15 @@ package io.wcm.qa.glnm.persistence;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.qa.glnm.differences.base.Differences;
 import io.wcm.qa.glnm.differences.generic.MutableDifferences;
 
 abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(SamplePersistenceBase.class);
 
   private Class resourceClass;
 
@@ -34,6 +38,9 @@ abstract class SamplePersistenceBase<T> implements SamplePersistence<T> {
   @Override
   public T loadFromBaseline(Differences key) {
     try {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("loading for " + resourceClass + " with key " + key.getKey());
+      }
       return fetchBaseline(keyWithContextDifferences(key));
     }
     catch (NoSuchElementException ex) {
