@@ -20,10 +20,9 @@
 package io.wcm.qa.glnm.aspectj;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -36,47 +35,35 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 /**
  * Facilitates soft asserts for Hamcrest. Adds assertion step to Allure Report.
  */
-@Aspect("percflow(call(* *..*.assertThat(..)))")
+@Aspect("percflow(call(* org.hamcrest.MatcherAssert.assertThat(..)))")
 public class AssertAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(AssertAspect.class);
   private String startStepUuid;
 
-  @AfterReturning(pointcut = "call(public static void org.hamcrest.MatcherAssert.assertThat(String, Object, org.hamcrest.Matcher))")
-  public void doneAsserting(final JoinPoint joinPoint) {
+  @Around(value = "hamcrestMatcherAssert()")
+  public Object aroundAssert(final ProceedingJoinPoint jp) {
     if (LOG.isTraceEnabled()) {
-      LOG.trace("asserted: " + joinPoint.getSignature().toLongString());
+      LOG.trace("around <" + jp + ">");
     }
-    String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
-    GaleniumReportUtil.updateStepName(startStepUuid, assertDescription);
-    GaleniumReportUtil.passStep(startStepUuid);
-    GaleniumReportUtil.stopStep();
-  }
-
-  @AfterThrowing(
-      pointcut = "call(public static void org.hamcrest.MatcherAssert.assertThat(String, Object, org.hamcrest.Matcher))",
-      throwing = "e")
-  public void failedAssert(final JoinPoint joinPoint, final Throwable e) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("failed asserting: " + joinPoint.getSignature().toLongString(), e);
+    try {
+      beginAssert(jp);
+      Object proceed = jp.proceed();
+      doneAsserting(jp);
+      return proceed;
     }
-    String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
-    GaleniumReportUtil.updateStepName(startStepUuid, assertDescription);
-    GaleniumReportUtil.failStep(startStepUuid);
-    GaleniumReportUtil.stopStep();
+    catch (Throwable ex) {
+      failedAssert(jp, ex);
+      if (LOG.isInfoEnabled()) {
+        LOG.info("when asserting.", ex);
+      }
+      return null;
+    }
   }
 
   @Pointcut("call(public static void org.hamcrest.MatcherAssert.assertThat(String, Object, org.hamcrest.Matcher))")
   public void hamcrestMatcherAssert() {
     // pointcut body, should be empty
-  }
-
-  @Before(value = "call(public static void org.hamcrest.MatcherAssert.assertThat(String, *, org.hamcrest.Matcher))")
-  public void beginAssert(final JoinPoint joinPoint) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("asserting: " + joinPoint.getSignature().toLongString());
-    }
-    startStepUuid = GaleniumReportUtil.startStep("assert");
   }
 
   private String assertDescriptionFromJoinPoint(final JoinPoint joinPoint) {
@@ -93,6 +80,33 @@ public class AssertAspect {
         .append(" ")
         .append(matcherDescription.toString());
     return stringBuilder.toString();
+  }
+
+  private void beginAssert(final JoinPoint joinPoint) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("asserting: " + joinPoint.getSignature().toLongString());
+    }
+    startStepUuid = GaleniumReportUtil.startStep("assert");
+  }
+
+  private void doneAsserting(final JoinPoint joinPoint) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("asserted: " + joinPoint.getSignature().toLongString());
+    }
+    String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
+    GaleniumReportUtil.updateStepName(startStepUuid, assertDescription);
+    GaleniumReportUtil.passStep(startStepUuid);
+    GaleniumReportUtil.stopStep();
+  }
+
+  private void failedAssert(final JoinPoint joinPoint, final Throwable e) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("failed asserting: " + joinPoint.getSignature().toLongString(), e);
+    }
+    String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
+    GaleniumReportUtil.updateStepName(startStepUuid, assertDescription);
+    GaleniumReportUtil.failStep(startStepUuid);
+    GaleniumReportUtil.stopStep();
   }
 
 }
