@@ -30,6 +30,8 @@ import org.hamcrest.StringDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
@@ -57,7 +59,10 @@ public class AssertAspect {
       if (LOG.isInfoEnabled()) {
         LOG.info("when asserting.", ex);
       }
-      return null;
+      if (GaleniumConfiguration.isSamplingVerificationIgnore()) {
+        return null;
+      }
+      throw new GaleniumException("rethrow after assert interception.", ex);
     }
   }
 
