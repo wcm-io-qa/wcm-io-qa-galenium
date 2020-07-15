@@ -36,6 +36,8 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 
 /**
  * Facilitates soft asserts for Hamcrest. Adds assertion step to Allure Report.
+ *
+ * @since 5.0.0
  */
 @Aspect("percflow(call(* org.hamcrest.MatcherAssert.assertThat(..)))")
 public class AssertAspect {
@@ -43,6 +45,12 @@ public class AssertAspect {
   private static final Logger LOG = LoggerFactory.getLogger(AssertAspect.class);
   private String assertStepUuid;
 
+  /**
+   * Ignores exceptions, when {@link GaleniumConfiguration#isSamplingVerificationIgnore()} is
+   * true.
+   * @param jp join point to be handled
+   * @return null or proceed value (advised method returns void)
+   */
   @Around(value = "hamcrestMatcherAssert()")
   public Object aroundAssert(final ProceedingJoinPoint jp) {
     if (LOG.isTraceEnabled()) {
@@ -66,6 +74,9 @@ public class AssertAspect {
     }
   }
 
+  /**
+   * Pointcut definition. No functionality.
+   */
   @Pointcut("call(public static void org.hamcrest.MatcherAssert.assertThat(String, Object, org.hamcrest.Matcher))")
   public void hamcrestMatcherAssert() {
     // pointcut body, should be empty
