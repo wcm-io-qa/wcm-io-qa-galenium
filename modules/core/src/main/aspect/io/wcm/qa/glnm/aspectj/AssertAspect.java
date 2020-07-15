@@ -46,7 +46,7 @@ public class AssertAspect {
   @Around(value = "hamcrestMatcherAssert()")
   public Object aroundAssert(final ProceedingJoinPoint jp) {
     if (LOG.isTraceEnabled()) {
-      LOG.trace("around <" + jp + ">");
+      LOG.trace("assert aspect <" + jp + ">");
     }
     try {
       beginAssert(jp);
@@ -56,8 +56,8 @@ public class AssertAspect {
     }
     catch (Throwable ex) {
       failedAssert(jp, ex);
-      if (LOG.isInfoEnabled()) {
-        LOG.info("when asserting.", ex);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("when asserting.", ex);
       }
       if (GaleniumConfiguration.isSamplingVerificationIgnore()) {
         return null;
