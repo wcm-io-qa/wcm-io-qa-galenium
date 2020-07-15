@@ -43,7 +43,6 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 public class AssertAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(AssertAspect.class);
-  private String assertStepUuid;
 
   /**
    * Ignores exceptions, when {@link GaleniumConfiguration#isSamplingVerificationIgnore()} is
@@ -56,14 +55,14 @@ public class AssertAspect {
     if (LOG.isTraceEnabled()) {
       LOG.trace("assert aspect <" + jp + ">");
     }
+    String stepUuid = beginAssert(jp);
     try {
-      beginAssert(jp);
       Object proceed = jp.proceed();
-      doneAsserting(jp);
+      doneAsserting(stepUuid, jp);
       return proceed;
     }
     catch (Throwable ex) {
-      failedAssert(jp, ex);
+      failedAssert(stepUuid, jp, ex);
       if (LOG.isDebugEnabled()) {
         LOG.debug("when asserting.", ex);
       }
@@ -82,47 +81,78 @@ public class AssertAspect {
     // pointcut body, should be empty
   }
 
-  private String assertDescriptionFromJoinPoint(final JoinPoint joinPoint) {
+  /**
+   * Adds step to report.
+   * @param joinPoint only used for logging
+   * @return UUID for new report step
+   */
+  private static String beginAssert(final JoinPoint joinPoint) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("asserting: " + joinPoint.getSignature().toLongString());
+    }
+    return GaleniumReportUtil.startStep("assert");
+  }
+
+  /**
+   * Passes step and updates description.
+   * @param stepUuid to pass and stop
+   * @param joinPoint to supply description
+   */
+  private static void doneAsserting(String stepUuid, final JoinPoint joinPoint) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("asserted: " + joinPoint.getSignature().toLongString());
+    }
+    String description = generateAssertDescription(joinPoint);
+    GaleniumReportUtil.updateStepName(stepUuid, description);
+    GaleniumReportUtil.passStep(stepUuid);
+    GaleniumReportUtil.stopStep();
+  }
+
+  /**
+   * Fails step and updates description.
+   * @param stepUuid to pass and stop
+   * @param joinPoint to supply description
+   * @param e exception caught from MatcherAssert
+   */
+  private static void failedAssert(String stepUuid, final JoinPoint joinPoint, final Throwable e) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("failed asserting: " + joinPoint.getSignature().toLongString(), e);
+    }
+    String assertDescription = generateAssertDescription(joinPoint);
+    GaleniumReportUtil.updateStepName(stepUuid, assertDescription);
+    GaleniumReportUtil.failStep(stepUuid);
+    GaleniumReportUtil.stopStep();
+  }
+
+  /**
+   * Generates description from assert method call in join point.
+   * @param joinPoint to extract matcher from
+   * @return description from matcher and assert
+   */
+  private static String generateAssertDescription(final JoinPoint joinPoint) {
     Object reason = joinPoint.getArgs()[0];
     Object actual = joinPoint.getArgs()[1];
-    Description matcherDescription = new StringDescription();
-    Matcher matcher = (Matcher)joinPoint.getArgs()[2];
-    matcher.describeTo(matcherDescription);
-    StringBuilder stringBuilder = new StringBuilder()
+    String matcherDescription = generateMatcherDescription(joinPoint);
+    StringBuilder assertDescription = new StringBuilder()
         .append("assert: ")
         .append(reason)
         .append(" ")
         .append(actual)
         .append(" ")
-        .append(matcherDescription.toString());
-    return stringBuilder.toString();
+        .append(matcherDescription);
+    return assertDescription.toString();
   }
 
-  private void beginAssert(final JoinPoint joinPoint) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("asserting: " + joinPoint.getSignature().toLongString());
-    }
-    assertStepUuid = GaleniumReportUtil.startStep("assert");
-  }
-
-  private void doneAsserting(final JoinPoint joinPoint) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("asserted: " + joinPoint.getSignature().toLongString());
-    }
-    String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
-    GaleniumReportUtil.updateStepName(assertStepUuid, assertDescription);
-    GaleniumReportUtil.passStep(assertStepUuid);
-    GaleniumReportUtil.stopStep();
-  }
-
-  private void failedAssert(final JoinPoint joinPoint, final Throwable e) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("failed asserting: " + joinPoint.getSignature().toLongString(), e);
-    }
-    String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
-    GaleniumReportUtil.updateStepName(assertStepUuid, assertDescription);
-    GaleniumReportUtil.failStep(assertStepUuid);
-    GaleniumReportUtil.stopStep();
+  /**
+   * Generates description from matcher in join point.
+   * @param joinPoint to extract matcher from
+   * @return description from matcher
+   */
+  private static String generateMatcherDescription(final JoinPoint joinPoint) {
+    Matcher matcher = (Matcher)joinPoint.getArgs()[2];
+    Description matcherDescription = new StringDescription();
+    matcher.describeTo(matcherDescription);
+    return matcherDescription.toString();
   }
 
 }
