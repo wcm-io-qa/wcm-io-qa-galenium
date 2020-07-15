@@ -41,7 +41,7 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
 public class AssertAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(AssertAspect.class);
-  private String startStepUuid;
+  private String assertStepUuid;
 
   @Around(value = "hamcrestMatcherAssert()")
   public Object aroundAssert(final ProceedingJoinPoint jp) {
@@ -91,7 +91,7 @@ public class AssertAspect {
     if (LOG.isTraceEnabled()) {
       LOG.trace("asserting: " + joinPoint.getSignature().toLongString());
     }
-    startStepUuid = GaleniumReportUtil.startStep("assert");
+    assertStepUuid = GaleniumReportUtil.startStep("assert");
   }
 
   private void doneAsserting(final JoinPoint joinPoint) {
@@ -99,8 +99,8 @@ public class AssertAspect {
       LOG.trace("asserted: " + joinPoint.getSignature().toLongString());
     }
     String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
-    GaleniumReportUtil.updateStepName(startStepUuid, assertDescription);
-    GaleniumReportUtil.passStep(startStepUuid);
+    GaleniumReportUtil.updateStepName(assertStepUuid, assertDescription);
+    GaleniumReportUtil.passStep(assertStepUuid);
     GaleniumReportUtil.stopStep();
   }
 
@@ -109,8 +109,8 @@ public class AssertAspect {
       LOG.trace("failed asserting: " + joinPoint.getSignature().toLongString(), e);
     }
     String assertDescription = assertDescriptionFromJoinPoint(joinPoint);
-    GaleniumReportUtil.updateStepName(startStepUuid, assertDescription);
-    GaleniumReportUtil.failStep(startStepUuid);
+    GaleniumReportUtil.updateStepName(assertStepUuid, assertDescription);
+    GaleniumReportUtil.failStep(assertStepUuid);
     GaleniumReportUtil.stopStep();
   }
 
