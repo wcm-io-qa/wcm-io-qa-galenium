@@ -162,6 +162,20 @@
     </dependency>
 
     <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>4.8.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.squareup.okio</groupId>
+      <artifactId>okio</artifactId>
+      <version>2.7.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>selenium-jupiter</artifactId>
       <version>3.3.4</version>
@@ -278,6 +292,12 @@
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
       <version>3.141.59</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.squareup.okhttp3</groupId>
+          <artifactId>okhttp</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
