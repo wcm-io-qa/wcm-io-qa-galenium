@@ -39,7 +39,7 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  *
  * @since 5.0.0
  */
-@Aspect("percflow(call(public static void org.hamcrest.MatcherAssert.assertThat(String, Object, org.hamcrest.Matcher)))")
+@Aspect
 public class AssertAspect {
 
   private static final Logger LOG = LoggerFactory.getLogger(AssertAspect.class);
