@@ -20,17 +20,14 @@
 package io.wcm.qa.glnm.maven.freemarker.pojo;
 
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.io.FilenameUtils;
 
-import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.galen.specs.ParsingUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
-import io.wcm.qa.glnm.util.FileHandlingUtil;
 
 /**
  * Holds data from Galen spec to use in generation.
@@ -41,7 +38,6 @@ public class SpecPojo {
 
   private Collection<SelectorPojo> selectors;
   private String specPath;
-  private Collection<String> tags;
 
   /**
    * <p>Constructor for SpecPojo.</p>
@@ -67,8 +63,7 @@ public class SpecPojo {
    * @return class name extracted from spec file
    */
   public String getClassName() {
-    String path = getSpecPath();
-    return FormatUtil.getClassName(path);
+    return FormatUtil.getClassName(getFilename());
   }
 
   /**
@@ -77,7 +72,7 @@ public class SpecPojo {
    * @return spec file name
    */
   public String getFilename() {
-    return FilenameUtils.getName(getSpecPath());
+    return FilenameUtils.getBaseName(getSpecPath());
   }
 
   /**
@@ -96,8 +91,7 @@ public class SpecPojo {
    * @return relative path to Galen spec file
    */
   public String getRelativeFilePath() {
-    String relativePath = FileHandlingUtil.constructRelativePath(getSpecRoot(), new File(getSpecPath()));
-    return getUnixStyleFilePath(relativePath);
+    return getUnixStyleFilePath(getSpecPath());
   }
 
   /**
@@ -145,17 +139,7 @@ public class SpecPojo {
    * @return tags used in Galen spec
    */
   public Collection<String> getTags() {
-    if (tags == null) {
-      tags = ParsingUtil.getTags(getSpecPath());
-    }
-    if (tags.isEmpty()) {
-      return null;
-    }
-    return tags;
-  }
-
-  private File getSpecRoot() {
-    return new File(GaleniumConfiguration.getGalenSpecPath());
+    return ParsingUtil.getTags(getSpecPath());
   }
 
   private void setSpecPath(String specPath) {

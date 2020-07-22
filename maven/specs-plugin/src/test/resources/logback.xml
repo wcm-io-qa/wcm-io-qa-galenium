@@ -1,0 +1,49 @@
+<configuration>
+
+  <appender name="STDOUT"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+      by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <appender name="TestLogAppender" class="ch.qos.logback.classic.sift.SiftingAppender">
+      <discriminator>
+         <Key>glnm.testname</Key>
+         <DefaultValue>testrun</DefaultValue>
+      </discriminator>
+      <sift>
+         <appender name="FILE-${testname}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>${galenium.logging.testlogs}/${glnm.testname}.log</File>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+               <FileNamePattern>${galenium.logging.testlogs}/${glnm.testname}.%i.log</FileNamePattern>
+               <MinIndex>1</MinIndex>
+               <MaxIndex>100</MaxIndex>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+               <MaxFileSize>5MB</MaxFileSize>
+            </triggeringPolicy>
+            <encoder>
+              <pattern>%d %-5level [%thread] %logger{0}: %msg%n</pattern>
+              <outputPatternAsHeader>true</outputPatternAsHeader>
+            </encoder>
+         </appender>
+      </sift>
+   </appender>
+
+  <logger name="io.qameta" level="INFO" />
+  <logger name="io.netty" level="INFO" />
+  <logger name="io.github.bonigarcia.wdm" level="WARN" />
+  <logger name="org.apache.commons" level="WARN" />
+  <logger name="org.apache.http" level="WARN" />
+  <logger name="org.asynchttpclient" level="WARN" />
+
+  <root level="TRACE">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="TestLogAppender" />
+  </root>
+
+</configuration>

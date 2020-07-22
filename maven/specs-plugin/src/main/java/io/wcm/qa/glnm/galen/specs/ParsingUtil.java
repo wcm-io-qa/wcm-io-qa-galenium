@@ -20,6 +20,7 @@
 package io.wcm.qa.glnm.galen.specs;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.bag.HashBag;
@@ -60,7 +61,7 @@ public final class ParsingUtil {
    */
   public static Collection<String> getTags(String specPath) {
     Bag<String> tags = new HashBag<>();
-    for (String line : getSourceLines(specPath)) {
+    for (String line : GalenParsing.getSourceLines(specPath)) {
       String trimmedLine = line.trim();
       if (StringUtils.startsWith(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC)) {
         String tagsAsString = StringUtils.removeStart(trimmedLine, PATTERN_LINE_WITH_TAGS_IN_SPEC);
@@ -78,12 +79,9 @@ public final class ParsingUtil {
     return tags.uniqueSet();
   }
 
-  private static String[] getSourceLines(String specPath) {
-    String source = GalenParsing.getSource(specPath);
-    if (StringUtils.isBlank(source)) {
-      return new String[0];
-    }
-    return source.split("\n");
+  static List<String> getSourceLines(String specPath) {
+    return GalenParsing.getSourceLines(specPath);
+
   }
 
 }

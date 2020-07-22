@@ -32,7 +32,7 @@ public final class GaleniumConfiguration {
   private static final int DEFAULT_GRID_PORT = 4444;
   private static final String DEFAULT_MEDIA_QUERY_PATH = "/mediaqueries.properties";
   private static final String DEFAULT_REPORT_DIR = "./target/glnm-reports";
-  private static final String DEFAULT_SPEC_PATH = "./target/classes/galen/specs";
+  private static final String DEFAULT_SPEC_PATH = "/galen/specs";
   private static final int DEFAULT_WEBDRIVER_TIMEOUT = 10;
 
   private static final String SYSTEM_PROPERTY_NAME_AUTHOR_PASS = "io.wcm.qa.aem.author.pass";
