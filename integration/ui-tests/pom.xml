@@ -384,21 +384,6 @@
           <artifactId>maven-dependency-plugin</artifactId>
           <executions>
             <execution>
-              <id>unpack-specs</id>
-              <goals>
-                <goal>unpack-dependencies</goal>
-              </goals>
-              <phase>generate-resources</phase>
-              <configuration>
-                <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
-                <outputDirectory>${galenium.generated.specs}</outputDirectory>
-                <includes>**/*.gspec,**/*.js</includes>
-                <excludeTransitive>true</excludeTransitive>
-                <overWriteReleases>true</overWriteReleases>
-                <overWriteSnapshots>true</overWriteSnapshots>
-              </configuration>
-            </execution>
-            <execution>
               <id>unpack-ui-test-resources</id>
               <goals>
                 <goal>unpack-dependencies</goal>
