@@ -145,11 +145,16 @@ public final class PropertiesUtil {
     File propertiesFile = new File(filePath);
     InputStream stream;
     if (propertiesFile.exists() && propertiesFile.isFile()) {
-      LOG.debug("initializing properties from " + filePath);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("initializing properties from file '" + filePath + "'");
+      }
       Reader reader = new FileReader(propertiesFile);
       stream = new ReaderInputStream(reader, CHARSET_UTF8);
     }
     else {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("initializing properties from resource '" + filePath + "'");
+      }
       stream = PropertiesUtil.class.getResourceAsStream(filePath);
     }
     return stream;
