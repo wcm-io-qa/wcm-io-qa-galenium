@@ -26,7 +26,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.galenframework.parser.SyntaxException;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
@@ -36,6 +39,7 @@ import com.galenframework.utils.GalenUtils;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 
+import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.mock.MockPage;
 
@@ -48,9 +52,18 @@ final class GalenParsing {
 
   private static final Map<String, Object> EMPTY_JS_VARS = null;
   private static final Properties EMPTY_PROPERTIES = new Properties();
+  private static final Logger LOG = LoggerFactory.getLogger(GalenParsing.class);
 
   private GalenParsing() {
     // do not instantiate
+  }
+
+  private static PageSpec fromStream(String specPath, InputStream stream, String... tags) throws IOException {
+    SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
+    if (ArrayUtils.isNotEmpty(tags)) {
+      filter.getIncludedTags().addAll(Lists.newArrayList(tags));
+    }
+    return new PageSpecReader().read(stream, getSource(specPath), null, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
   }
 
   /**
@@ -63,7 +76,7 @@ final class GalenParsing {
    */
   static PageSpec fromPath(String specPath, String... tags) {
     try {
-      InputStream stream = GalenUtils.findFileOrResourceAsStream(specPath);
+      InputStream stream = getStream(specPath);
       if (stream == null) {
         throw new GaleniumException("Could not find spec at '" + specPath + "'");
       }
@@ -74,24 +87,45 @@ final class GalenParsing {
     }
   }
 
-  private static PageSpec fromStream(String specPath, InputStream stream, String... tags) throws IOException {
-    SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
-    if (ArrayUtils.isNotEmpty(tags)) {
-      filter.getIncludedTags().addAll(Lists.newArrayList(tags));
+  private static InputStream getStream(String specPath) {
+    InputStream stream = GalenUtils.findFileOrResourceAsStream(specPath);
+    if (stream != null) {
+      return stream;
     }
-    return new PageSpecReader().read(stream, getSource(specPath), null, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+    return GalenUtils.findFileOrResourceAsStream(prependSpecFolder(specPath));
   }
 
-  private static String getSource(String specPath) {
-    URL resource = Resources.getResource(specPath);
-    String source;
-    try {
-      source = Resources.toString(resource, StandardCharsets.UTF_8);
+  private static String prependSpecFolder(String specPath) {
+    return FilenameUtils.concat(GaleniumConfiguration.getGalenSpecPath(), specPath);
+  }
+
+  static String getSource(String specPath) {
+    String source = getSourceFromResource(specPath);
+    if (source != null) {
       return source;
     }
-    catch (IOException | IllegalArgumentException ex) {
-      throw new GaleniumException("When parsing: '" + specPath + "'", ex);
+    String withSpecFolder = prependSpecFolder(specPath);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("trying with prepended path: '" + withSpecFolder + "'");
     }
+    return getSourceFromResource(withSpecFolder);
+  }
+
+  private static String getSourceFromResource(String specPath) {
+    try {
+      URL resource = Resources.getResource(specPath);
+      return getSourceFromUrl(resource);
+    }
+    catch (IOException | IllegalArgumentException ex) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("when fetching: " + specPath, ex);
+      }
+      return null;
+    }
+  }
+
+  private static String getSourceFromUrl(URL resource) throws IOException {
+    return Resources.toString(resource, StandardCharsets.UTF_8);
   }
 
 }

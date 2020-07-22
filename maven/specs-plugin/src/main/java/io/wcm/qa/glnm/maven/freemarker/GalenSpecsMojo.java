@@ -220,7 +220,7 @@ public class GalenSpecsMojo extends AbstractMojo {
 
     for (SpecPojo specPojo : specsForSelectors) {
 
-      getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
+      getLog().info("generating data models for '" + specPojo.getSpecPath() + "'");
       for (SelectorPojo selector : specPojo.getRootSelectors()) {
 
         getLog().info("generating data model for '" + selector.elementName() + "'");
@@ -244,7 +244,7 @@ public class GalenSpecsMojo extends AbstractMojo {
 
     for (SpecPojo specPojo : specsForSpecs) {
 
-      getLog().info("generating data model for '" + specPojo.getSpecFile().getPath() + "'");
+      getLog().info("generating data model for '" + specPojo.getSpecPath() + "'");
       Map<String, Object> dataModelForSpec = FreemarkerUtil.getDataModelForSpec(specPojo, packagePrefixSpecs);
 
       getLog().debug("processing template");
@@ -260,7 +260,7 @@ public class GalenSpecsMojo extends AbstractMojo {
 
     for (SpecPojo specPojo : specsForSelectors) {
 
-      getLog().info("generating data models for '" + specPojo.getSpecFile().getPath() + "'");
+      getLog().info("generating data models for '" + specPojo.getSpecPath() + "'");
       for (SelectorPojo selector : specPojo.getRootSelectors()) {
 
         getLog().info("generating data model for '" + selector.elementName() + "'");
@@ -320,23 +320,6 @@ public class GalenSpecsMojo extends AbstractMojo {
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private Collection<File> getSpecFiles(String... includedFiles) {
-    Collection<File> specFiles = new ArrayList<>();
-    for (String relativeFilePath : includedFiles) {
-      specFiles.add(new File(inputDirectory, relativeFilePath));
-    }
-    getLog().debug("found " + specFiles.size() + " spec files.");
-    return specFiles;
-  }
-
-  private Collection<File> getSpecFilesForSelectors() {
-    return getSpecFiles(getIncludedFilesForSelectors());
-  }
-
-  private Collection<File> getSpecFilesForSpecs() {
-    return getSpecFiles(getIncludedFilesForSpecs());
-  }
-
   private File getSpecOutputFile(SpecPojo spec) {
     String outputPackage = packagePrefixSpecs;
     String className = FormatUtil.getClassName(spec);
@@ -368,12 +351,12 @@ public class GalenSpecsMojo extends AbstractMojo {
 
   protected void parseSpecs() {
     getLog().info("processing spec files for selectors");
-    for (File specFile : getSpecFilesForSelectors()) {
-      storeSpecForSelector(new SpecPojo(specFile));
+    for (String specPath : getIncludedFilesForSelectors()) {
+      storeSpecForSelector(new SpecPojo(specPath));
     }
     getLog().info("processing spec files for specs");
-    for (File specFile : getSpecFilesForSpecs()) {
-      storeSpecForSpec(new SpecPojo(specFile));
+    for (String specPath : getIncludedFilesForSpecs()) {
+      storeSpecForSpec(new SpecPojo(specPath));
     }
   }
 

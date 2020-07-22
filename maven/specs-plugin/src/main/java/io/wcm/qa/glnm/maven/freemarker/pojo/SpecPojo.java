@@ -27,8 +27,8 @@ import java.util.Collection;
 import org.apache.commons.io.FilenameUtils;
 
 import io.wcm.qa.glnm.configuration.GaleniumConfiguration;
+import io.wcm.qa.glnm.galen.specs.ParsingUtil;
 import io.wcm.qa.glnm.maven.freemarker.util.FormatUtil;
-import io.wcm.qa.glnm.maven.freemarker.util.ParsingUtil;
 import io.wcm.qa.glnm.selectors.base.NestedSelector;
 import io.wcm.qa.glnm.util.FileHandlingUtil;
 
@@ -40,16 +40,16 @@ import io.wcm.qa.glnm.util.FileHandlingUtil;
 public class SpecPojo {
 
   private Collection<SelectorPojo> selectors;
-  private File specFile;
+  private String specPath;
   private Collection<String> tags;
 
   /**
    * <p>Constructor for SpecPojo.</p>
    *
-   * @param specFile to retrieve data from
+   * @param specPath to retrieve data from
    */
-  public SpecPojo(File specFile) {
-    setSpecFile(specFile);
+  public SpecPojo(String specPath) {
+    setSpecPath(specPath);
   }
 
   /**
@@ -67,8 +67,8 @@ public class SpecPojo {
    * @return class name extracted from spec file
    */
   public String getClassName() {
-    File file = getSpecFile();
-    return FormatUtil.getClassName(file);
+    String path = getSpecPath();
+    return FormatUtil.getClassName(path);
   }
 
   /**
@@ -77,7 +77,7 @@ public class SpecPojo {
    * @return spec file name
    */
   public String getFilename() {
-    return getSpecFile().getName();
+    return FilenameUtils.getName(getSpecPath());
   }
 
   /**
@@ -96,7 +96,7 @@ public class SpecPojo {
    * @return relative path to Galen spec file
    */
   public String getRelativeFilePath() {
-    String relativePath = FileHandlingUtil.constructRelativePath(getSpecRoot(), getSpecFile());
+    String relativePath = FileHandlingUtil.constructRelativePath(getSpecRoot(), new File(getSpecPath()));
     return getUnixStyleFilePath(relativePath);
   }
 
@@ -123,7 +123,7 @@ public class SpecPojo {
   public Collection<SelectorPojo> getSelectors() {
     if (selectors == null) {
       selectors = new ArrayList<SelectorPojo>();
-      for (NestedSelector selector : ParsingUtil.getSelectorsFromSpec(getSpecFile())) {
+      for (NestedSelector selector : ParsingUtil.getSelectorsFromSpec(getSpecPath())) {
         selectors.add(new SelectorPojo(this, selector));
       }
     }
@@ -135,8 +135,8 @@ public class SpecPojo {
    *
    * @return a {@link java.io.File} object.
    */
-  public File getSpecFile() {
-    return specFile;
+  public String getSpecPath() {
+    return specPath;
   }
 
   /**
@@ -146,7 +146,7 @@ public class SpecPojo {
    */
   public Collection<String> getTags() {
     if (tags == null) {
-      tags = ParsingUtil.getTags(getSpecFile());
+      tags = ParsingUtil.getTags(getSpecPath());
     }
     if (tags.isEmpty()) {
       return null;
@@ -158,8 +158,8 @@ public class SpecPojo {
     return new File(GaleniumConfiguration.getGalenSpecPath());
   }
 
-  private void setSpecFile(File specFile) {
-    this.specFile = specFile;
+  private void setSpecPath(String specPath) {
+    this.specPath = specPath;
   }
 
   private static String getUnixStyleFilePath(String path) {
