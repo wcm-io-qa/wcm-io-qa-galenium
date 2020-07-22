@@ -116,7 +116,9 @@ public final class PropertiesUtil {
           Enumeration<?> propertyNames = properties.propertyNames();
           while (propertyNames.hasMoreElements()) {
             Object key = propertyNames.nextElement();
-            LOG.trace("from properties file: " + key);
+            if (LOG.isTraceEnabled()) {
+              LOG.trace("from properties file: " + key);
+            }
           }
         }
       }
