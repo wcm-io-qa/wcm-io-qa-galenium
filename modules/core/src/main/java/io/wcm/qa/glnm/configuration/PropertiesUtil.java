@@ -157,6 +157,16 @@ public final class PropertiesUtil {
       }
       stream = PropertiesUtil.class.getResourceAsStream(filePath);
     }
+    if (stream != null) {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("got input stream for " + filePath);
+      }
+    }
+    else {
+      if (LOG.isInfoEnabled()) {
+        LOG.info("no input stream for " + filePath);
+      }
+    }
     return stream;
   }
 
