@@ -20,8 +20,10 @@
 package io.wcm.qa.glnm.configuration;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
@@ -107,12 +109,10 @@ public final class PropertiesUtil {
    */
   public static Properties loadProperties(Properties properties, String filePath) {
     try {
-      File propertiesFile = new File(filePath);
-      if (propertiesFile.exists() && propertiesFile.isFile()) {
-        LOG.debug("initializing properties from " + filePath);
-        Reader reader = new FileReader(propertiesFile);
-        properties.load(new ReaderInputStream(reader, CHARSET_UTF8));
-        if (LOG.isDebugEnabled()) {
+      InputStream stream = getInputStream(filePath);
+      if (stream != null) {
+        properties.load(stream);
+        if (LOG.isTraceEnabled()) {
           Enumeration<?> propertyNames = properties.propertyNames();
           while (propertyNames.hasMoreElements()) {
             Object key = propertyNames.nextElement();
@@ -120,7 +120,7 @@ public final class PropertiesUtil {
           }
         }
       }
-      else {
+      else if (LOG.isDebugEnabled()) {
         LOG.debug("did not find properties at '" + filePath + "'");
       }
     }
@@ -139,6 +139,20 @@ public final class PropertiesUtil {
    */
   public static Properties loadProperties(String filePath) {
     return loadProperties(new Properties(), filePath);
+  }
+
+  private static InputStream getInputStream(String filePath) throws FileNotFoundException {
+    File propertiesFile = new File(filePath);
+    InputStream stream;
+    if (propertiesFile.exists() && propertiesFile.isFile()) {
+      LOG.debug("initializing properties from " + filePath);
+      Reader reader = new FileReader(propertiesFile);
+      stream = new ReaderInputStream(reader, CHARSET_UTF8);
+    }
+    else {
+      stream = PropertiesUtil.class.getResourceAsStream(filePath);
+    }
+    return stream;
   }
 
 }
