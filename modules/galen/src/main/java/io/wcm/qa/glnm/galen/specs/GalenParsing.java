@@ -20,6 +20,9 @@
 package io.wcm.qa.glnm.galen.specs;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 
@@ -29,7 +32,9 @@ import com.galenframework.parser.SyntaxException;
 import com.galenframework.speclang2.pagespec.PageSpecReader;
 import com.galenframework.speclang2.pagespec.SectionFilter;
 import com.galenframework.specs.page.PageSpec;
+import com.galenframework.utils.GalenUtils;
 import com.google.common.collect.Lists;
+import com.google.common.io.Resources;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
 import io.wcm.qa.glnm.galen.mock.MockPage;
@@ -58,14 +63,34 @@ final class GalenParsing {
    */
   static PageSpec fromPath(String specPath, String... tags) {
     try {
-      SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
-      if (ArrayUtils.isNotEmpty(tags)) {
-        filter.getIncludedTags().addAll(Lists.newArrayList(tags));
+      InputStream stream = GalenUtils.findFileOrResourceAsStream(specPath);
+      if (stream == null) {
+        throw new GaleniumException("Could not find spec at '" + specPath + "'");
       }
-      return new PageSpecReader().read(specPath, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+      return fromStream(specPath, stream, tags);
     }
     catch (IOException | SyntaxException ex) {
       throw new GaleniumException("Exception when parsing spec: '" + specPath + "'", ex);
+    }
+  }
+
+  private static PageSpec fromStream(String specPath, InputStream stream, String... tags) throws IOException {
+    SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
+    if (ArrayUtils.isNotEmpty(tags)) {
+      filter.getIncludedTags().addAll(Lists.newArrayList(tags));
+    }
+    return new PageSpecReader().read(stream, getSource(specPath), null, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
+  }
+
+  private static String getSource(String specPath) {
+    URL resource = Resources.getResource(specPath);
+    String source;
+    try {
+      source = Resources.toString(resource, StandardCharsets.UTF_8);
+      return source;
+    }
+    catch (IOException | IllegalArgumentException ex) {
+      throw new GaleniumException("When parsing: '" + specPath + "'", ex);
     }
   }
 

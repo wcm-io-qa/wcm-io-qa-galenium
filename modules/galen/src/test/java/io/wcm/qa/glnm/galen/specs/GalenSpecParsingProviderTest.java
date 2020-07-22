@@ -25,10 +25,8 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.net.URL;
 import java.util.List;
 
 import org.hamcrest.Matcher;
@@ -54,7 +52,7 @@ public class GalenSpecParsingProviderTest {
 
       @Override
       public void execute() throws Throwable {
-        GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(getPathToSpec(TEST_BROKEN_GSPEC));
+        GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(TEST_BROKEN_GSPEC);
         // getting the page spec will throw the exception
         specProvider.getPageSpec();
       }
@@ -74,8 +72,7 @@ public class GalenSpecParsingProviderTest {
 
   @Test
   public void testSuccessfulParsing() {
-    String pathToSpec = getPathToSpec(TEST_GSPEC);
-    GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(pathToSpec);
+    GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(TEST_GSPEC);
 
     PageSpec pageSpec = specProvider.getPageSpec();
     assertThat(pageSpec, hasProperty("sections", hasSize(2)));
@@ -91,13 +88,6 @@ public class GalenSpecParsingProviderTest {
             isNamed("Navigation section"))
                 .and(
                     hasProperty("sections", is(empty()))));
-  }
-
-  private static String getPathToSpec(String specName) {
-    ClassLoader classLoader = GalenSpecParsingProviderTest.class.getClassLoader();
-    URL resource = classLoader.getResource(specName);
-    assertThat(resource, is(notNullValue()));
-    return resource.getPath();
   }
 
   private static Matcher<PageSection> isNamed(String name) {
