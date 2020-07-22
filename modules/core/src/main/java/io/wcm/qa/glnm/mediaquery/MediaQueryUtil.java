@@ -161,17 +161,17 @@ public final class MediaQueryUtil {
   /**
    * <p>getMediaQueries.</p>
    *
-   * @param propertiesFilePath to get properties file with media query definitions from
+   * @param propertiesPath to get properties file or resource with media query definitions from
    * @return all media queries configured in properties file
    * @since 3.0.0
    */
-  public static Collection<MediaQuery> getMediaQueries(String propertiesFilePath) {
-    if (MAP_MEDIA_QUERIES_FILENAMES.containsKey(propertiesFilePath)) {
-      return MAP_MEDIA_QUERIES_FILENAMES.get(propertiesFilePath);
+  public static Collection<MediaQuery> getMediaQueries(String propertiesPath) {
+    if (MAP_MEDIA_QUERIES_FILENAMES.containsKey(propertiesPath)) {
+      return MAP_MEDIA_QUERIES_FILENAMES.get(propertiesPath);
     }
-    Properties mediaQueryProperties = PropertiesUtil.loadProperties(propertiesFilePath);
+    Properties mediaQueryProperties = PropertiesUtil.loadProperties(propertiesPath);
     Collection<MediaQuery> mediaQueries = getMediaQueries(mediaQueryProperties);
-    MAP_MEDIA_QUERIES_FILENAMES.put(propertiesFilePath, mediaQueries);
+    MAP_MEDIA_QUERIES_FILENAMES.put(propertiesPath, mediaQueries);
     return mediaQueries;
   }
 
