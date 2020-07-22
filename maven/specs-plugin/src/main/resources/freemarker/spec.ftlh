@@ -27,7 +27,7 @@ public class ${classNameForSpec} {
   }
 
   private void checkSpec(String... includeTags) {
-    GalenSpecRun specRun = GalenValidation.check(GaleniumConfiguration.getGalenSpecPath() + RELATIVE_PATH, includeTags);
+    GalenSpecRun specRun = GalenValidation.check(RELATIVE_PATH, includeTags);
     String errorMessage = "errors when checking: " + RELATIVE_PATH;
     String successMessage = "successfully checked: " + RELATIVE_PATH;
     handleGalenSpecRun(specRun, errorMessage, successMessage);

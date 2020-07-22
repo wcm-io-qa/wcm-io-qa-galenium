@@ -20,11 +20,13 @@
 package io.wcm.qa.glnm.galen.specs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -71,7 +73,7 @@ public class GalenSpecParsingProviderTest {
   }
 
   @Test
-  public void testSuccessfulParsing() {
+  public void testSuccessfulSpecParsing() {
     GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(TEST_GSPEC);
 
     PageSpec pageSpec = specProvider.getPageSpec();
@@ -88,6 +90,14 @@ public class GalenSpecParsingProviderTest {
             isNamed("Navigation section"))
                 .and(
                     hasProperty("sections", is(empty()))));
+  }
+
+  @Test
+  public void testSourceRetrieval() {
+    String source = GalenParsing.getSource(TEST_GSPEC);
+    assertThat(source, is(not(blankOrNullString())));
+    assertThat(source, Matchers.containsString("@on entry"));
+    assertThat(source, Matchers.containsString("@on exit"));
   }
 
   private static Matcher<PageSection> isNamed(String name) {
