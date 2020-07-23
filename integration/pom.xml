@@ -83,55 +83,12 @@
           </executions>
         </plugin>
 
-        <!-- Unpack Galen specs from JAR -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.2</version>
-          <executions>
-            <execution>
-              <id>unpack-specs</id>
-              <goals>
-                <goal>unpack-dependencies</goal>
-              </goals>
-              <phase>generate-resources</phase>
-              <configuration>
-                <includeArtifactIds>${galenium.generated.artifactIds}</includeArtifactIds>
-                <outputDirectory>${galenium.generated.specs}</outputDirectory>
-                <includes>**/*.gspec</includes>
-                <excludeTransitive>true</excludeTransitive>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-
         <!-- Copy specs from source directories -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.1.0</version>
           <executions>
-            <execution>
-              <id>copy-specs</id>
-              <!-- here the phase you need -->
-              <phase>validate</phase>
-              <goals>
-                <goal>copy-resources</goal>
-              </goals>
-              <configuration>
-                <outputDirectory>${galenium.specPath}</outputDirectory>
-                <resources>
-                  <resource>
-                    <directory>src/main/resources/galen/specs</directory>
-                    <filtering>true</filtering>
-                  </resource>
-                  <resource>
-                    <directory>src/test/resources/galen/specs</directory>
-                    <filtering>true</filtering>
-                  </resource>
-                </resources>
-              </configuration>
-            </execution>
             <execution>
               <id>filter-galenium-resources</id>
               <!-- here the phase you need -->
