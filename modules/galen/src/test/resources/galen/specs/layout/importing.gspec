@@ -1,0 +1,25 @@
+@import ../objects/imported.gspec
+
+= Header section =
+  = Icons and text =
+    header.icon:
+      inside header 10px top left
+
+    @on entry
+      header.caption:
+        text is "Greetings!"
+
+    @on exit
+      header.caption:
+        text is "Good bye!"
+
+  = User section =
+    header.username:
+      inside header 10px top right
+
+= Navigation section =
+   navigation.link-1:
+     inside parent 0px top left
+
+   navigation.link-#:
+     aligned vertically left navigation

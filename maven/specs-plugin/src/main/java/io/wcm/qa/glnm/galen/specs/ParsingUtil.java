@@ -79,9 +79,4 @@ public final class ParsingUtil {
     return tags.uniqueSet();
   }
 
-  static List<String> getSourceLines(String specPath) {
-    return GalenParsing.getSourceLines(specPath);
-
-  }
-
 }

@@ -23,50 +23,67 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 
-import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import io.wcm.qa.glnm.junit.combinatorial.CartesianProduct;
 
 
 class ParsingUtilTest {
 
-  @ParameterizedTest
+  @CartesianProduct
   @ValueSource(
       strings = {
-          "layout/test.gspec",
-          "/layout/test.gspec",
-          "galen/specs/layout/test.gspec",
-          "/galen/specs/layout/test.gspec",
-          "./target/test-classes/galen/specs/layout/test.gspec"
+          "layout/",
+          "/layout/",
+          "galen/specs/layout/",
+          "/galen/specs/layout/",
+          "./target/test-classes/galen/specs/layout/"
       })
-  void testSourceLines(String specPath) {
+  @CsvSource({
+      "test.gspec,36",
+      "importing.gspec,25",
+  })
+  void testSourceLines(String folderName, String specName, int lineCount) {
+    String specPath = folderName + specName;
     assertThat(
-        ParsingUtil.getSourceLines(specPath), hasSize(36));
+        GalenParsing.getSourceLines(specPath), hasSize(lineCount));
   }
 
-  @ParameterizedTest
+  @CartesianProduct
   @ValueSource(
       strings = {
-          "layout/test.gspec",
-          "/layout/test.gspec",
-          "galen/specs/layout/test.gspec",
-          "/galen/specs/layout/test.gspec",
-          "./target/test-classes/galen/specs/layout/test.gspec"
+          "layout/",
+          "/layout/",
+          "galen/specs/layout/",
+          "/galen/specs/layout/",
+          "./target/test-classes/galen/specs/layout/"
       })
-  void testSelectors(String specPath) {
+  @CsvSource({
+      "test.gspec",
+      "importing.gspec",
+  })
+  void testSelectors(String folderName, String specName) {
+    String specPath = folderName + specName;
     assertThat(
         ParsingUtil.getSelectorsFromSpec(specPath), hasSize(11));
   }
 
-  @ParameterizedTest
+  @CartesianProduct
   @ValueSource(
       strings = {
-          "layout/test.gspec",
-          "/layout/test.gspec",
-          "galen/specs/layout/test.gspec",
-          "/galen/specs/layout/test.gspec",
-          "./target/test-classes/galen/specs/layout/test.gspec"
+          "layout/",
+          "/layout/",
+          "galen/specs/layout/",
+          "/galen/specs/layout/",
+          "./target/test-classes/galen/specs/layout/"
       })
-  void testTags(String specPath) {
+  @CsvSource({
+      "test.gspec",
+      "importing.gspec",
+  })
+  void testTags(String folderName, String specName) {
+    String specPath = folderName + specName;
     assertThat(
         ParsingUtil.getTags(specPath), hasItems("entry", "exit"));
   }

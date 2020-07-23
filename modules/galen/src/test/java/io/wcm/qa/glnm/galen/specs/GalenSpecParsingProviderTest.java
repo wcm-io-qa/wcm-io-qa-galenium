@@ -35,17 +35,19 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.galenframework.specs.page.PageSection;
 import com.galenframework.specs.page.PageSpec;
 
 import io.wcm.qa.glnm.exceptions.GaleniumException;
+import io.wcm.qa.glnm.junit.combinatorial.CartesianProduct;
 
 
 public class GalenSpecParsingProviderTest {
 
-  private static final String TEST_BROKEN_GSPEC = "test-broken.gspec";
-  private static final String TEST_GSPEC = "test.gspec";
+  private static final String TEST_BROKEN_GSPEC = "/layout/test-broken.gspec";
   private static final String TEST_NON_EXISTENT_GSPEC = "test-non-existent.gspec";
 
   @Test
@@ -72,9 +74,23 @@ public class GalenSpecParsingProviderTest {
     });
   }
 
-  @Test
-  public void testSuccessfulSpecParsing() {
-    GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(TEST_GSPEC);
+
+  @CartesianProduct
+  @ValueSource(
+      strings = {
+          "layout/",
+          "/layout/",
+          "galen/specs/layout/",
+          "/galen/specs/layout/",
+          "./target/test-classes/galen/specs/layout/"
+      })
+  @CsvSource({
+      "test.gspec",
+      "importing.gspec",
+  })
+  public void testSuccessfulSpecParsing(String folder, String file) {
+    String specPath = folder + file;
+    GalenSpecParsingProvider specProvider = new GalenSpecParsingProvider(specPath);
 
     PageSpec pageSpec = specProvider.getPageSpec();
     assertThat(pageSpec, hasProperty("sections", hasSize(2)));
@@ -92,9 +108,21 @@ public class GalenSpecParsingProviderTest {
                     hasProperty("sections", is(empty()))));
   }
 
-  @Test
-  public void testSourceRetrieval() {
-    String source = GalenParsing.getSource(TEST_GSPEC);
+  @ValueSource(
+      strings = {
+          "layout/",
+          "/layout/",
+          "galen/specs/layout/",
+          "/galen/specs/layout/",
+          "./target/test-classes/galen/specs/layout/"
+      })
+  @CsvSource({
+      "test.gspec",
+      "importing.gspec",
+  })
+  public void testSourceRetrieval(String folder, String file) {
+    String specPath = folder + file;
+    String source = GalenParsing.getSource(specPath);
     assertThat(source, is(not(blankOrNullString())));
     assertThat(source, Matchers.containsString("@on entry"));
     assertThat(source, Matchers.containsString("@on exit"));

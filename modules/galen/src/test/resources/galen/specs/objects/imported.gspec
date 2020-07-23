@@ -1,0 +1,12 @@
+@objects
+  page                      #page
+    header                  header
+      icon                  .icon
+      caption               .header-caption
+      username              #username
+    navigation              nav
+      link-*                ul.navlist > li > a
+    footer                  footer.footer-site
+      footer-navigation     nav#nav-footer
+        footer-section      section
+    logo                    #logo

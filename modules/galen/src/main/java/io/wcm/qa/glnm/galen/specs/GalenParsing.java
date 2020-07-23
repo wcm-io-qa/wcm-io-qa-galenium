@@ -19,11 +19,20 @@
  */
 package io.wcm.qa.glnm.galen.specs;
 
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.apache.commons.io.FilenameUtils.concat;
+import static org.apache.commons.io.FilenameUtils.getPath;
+import static org.apache.commons.io.FilenameUtils.separatorsToUnix;
+import static org.apache.commons.io.IOUtils.toInputStream;
+import static org.apache.commons.lang3.RegExUtils.replacePattern;
 import static org.apache.commons.lang3.StringUtils.join;
+import static org.apache.commons.lang3.StringUtils.startsWith;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -53,6 +62,8 @@ import io.wcm.qa.glnm.galen.mock.MockPage;
  */
 final class GalenParsing {
 
+  // Galen uses deprecated method to read with JVM default charset. Using same behavior here.
+  private static final Charset GALEN_PARSING_CHARSET = Charset.defaultCharset();
   private static final Map<String, Object> EMPTY_JS_VARS = null;
   private static final Properties EMPTY_PROPERTIES = new Properties();
   private static final Logger LOG = LoggerFactory.getLogger(GalenParsing.class);
@@ -61,19 +72,17 @@ final class GalenParsing {
     // do not instantiate
   }
 
-  private static PageSpec fromStream(String specPath, InputStream stream, String... tags) throws IOException {
-    SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
-    if (ArrayUtils.isNotEmpty(tags)) {
-      filter.getIncludedTags().addAll(Lists.newArrayList(tags));
-    }
-    String source = join(getSource(specPath), "\n");
-    return new PageSpecReader().read(stream, source, null, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
-  }
-
   private static List<String> getSourceFromResource(String specPath) {
     try {
       InputStream resource = getStream(specPath);
-      return IOUtils.readLines(resource, StandardCharsets.UTF_8);
+      if (resource == null) {
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("no stream found when fetching: " + specPath);
+        }
+        return null;
+      }
+      List<String> lines = IOUtils.readLines(resource, GALEN_PARSING_CHARSET);
+      return rewriteImports(lines, specPath);
     }
     catch (IOException | IllegalArgumentException ex) {
       if (LOG.isTraceEnabled()) {
@@ -81,6 +90,39 @@ final class GalenParsing {
       }
       return null;
     }
+  }
+
+  private static List<String> rewriteImports(List<String> lines, String specPath) {
+    return emptyIfNull(lines)
+        .stream()
+        .map(s -> rewriteImport(s, specPath))
+        .collect(toList());
+  }
+
+  private static String rewriteImport(String inputLine, String importingSpecPath) {
+    String trimmedInputLine = trim(inputLine);
+    if (startsWith(trimmedInputLine, "@import ")) {
+      String importedPath = StringUtils.removeStart(trimmedInputLine, "@import ");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("rewriting import: " + inputLine);
+        LOG.debug("imported spec path: " + importedPath);
+        LOG.debug("importing spec path: " + importingSpecPath);
+      }
+      String importingFolder = getPath(importingSpecPath);
+      String rewrittenImportedPath = separatorsToUnix(concat(importingFolder, importedPath));
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("rewritten imported spec path: " + rewrittenImportedPath);
+      }
+      String rewrittenLine = replacePattern(
+          inputLine,
+          "@import .*$",
+          "@import " + rewrittenImportedPath);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("rewritten import: " + rewrittenLine);
+      }
+      return rewrittenLine;
+    }
+    return inputLine;
   }
 
   private static String prependSpecFolder(String specPath) {
@@ -99,25 +141,42 @@ final class GalenParsing {
    */
   static PageSpec fromPath(String specPath, String... tags) {
     try {
-      InputStream stream = getStream(specPath);
-      if (stream == null) {
+      String source = getSource(specPath);
+      if (source == null) {
         throw new GaleniumException("Could not find spec at '" + specPath + "'");
       }
-      return fromStream(specPath, stream, tags);
+      if (StringUtils.isBlank(source)) {
+        throw new GaleniumException("Found empty spec at '" + specPath + "'");
+      }
+      InputStream stream = toInputStream(source, GALEN_PARSING_CHARSET);
+      //      String contextPath = FilenameUtils.getPath(specPath);
+      SectionFilter filter = getFilter(tags);
+      return new PageSpecReader().read(stream, source, null, new MockPage(), filter, EMPTY_PROPERTIES, EMPTY_JS_VARS, null);
     }
     catch (IOException | SyntaxException ex) {
       throw new GaleniumException("Exception when parsing spec: '" + specPath + "'", ex);
     }
   }
 
+  private static SectionFilter getFilter(String... tags) {
+    SectionFilter filter = GalenSpecUtil.getDefaultIncludeTags();
+    if (ArrayUtils.isNotEmpty(tags)) {
+      filter.getIncludedTags().addAll(Lists.newArrayList(tags));
+    }
+    return filter;
+  }
+
   static String getSource(String specPath) {
-    return join(getSourceLines(specPath));
+    return join(getSourceLines(specPath), "\n");
   }
 
   static List<String> getSourceLines(String specPath) {
     List<String> source = getSourceFromResource(specPath);
-    if (source != null) {
+    if (source != null && !source.isEmpty()) {
       return source;
+    }
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("did not find at path: '" + specPath + "'");
     }
     String withSpecFolder = prependSpecFolder(specPath);
     if (LOG.isDebugEnabled()) {
@@ -127,11 +186,7 @@ final class GalenParsing {
   }
 
   static InputStream getStream(String specPath) {
-    InputStream stream = GalenUtils.findFileOrResourceAsStream(specPath);
-    if (stream != null) {
-      return stream;
-    }
-    return GalenUtils.findFileOrResourceAsStream(prependSpecFolder(specPath));
+    return GalenUtils.findFileOrResourceAsStream(specPath);
   }
 
 }

@@ -19,7 +19,6 @@
  */
 package io.wcm.qa.glnm.galen.validation;
 
-import io.wcm.qa.glnm.galen.specs.AbstractGalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpec;
 import io.wcm.qa.glnm.galen.specs.GalenSpecRun;
 import io.wcm.qa.glnm.galen.specs.imagecomparison.IcsDefinition;
@@ -58,7 +57,7 @@ public final class GalenValidation {
    * @param tags a {@link java.lang.String} object.
    * @return a {@link io.wcm.qa.glnm.galen.validation.FileBasedGalenSpec} object.
    */
-  public static AbstractGalenSpec readSpec(String specPath, String... tags) {
+  public static GalenSpec readSpec(String specPath, String... tags) {
     return new FileBasedGalenSpec(specPath, tags);
   }
 
