@@ -21,12 +21,12 @@ package io.wcm.qa.glnm.galen.specs;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.apache.commons.io.FilenameUtils.concat;
 import static org.apache.commons.io.FilenameUtils.getPath;
 import static org.apache.commons.io.FilenameUtils.separatorsToUnix;
 import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.apache.commons.lang3.RegExUtils.replacePattern;
 import static org.apache.commons.lang3.StringUtils.join;
+import static org.apache.commons.lang3.StringUtils.removeEnd;
 import static org.apache.commons.lang3.StringUtils.startsWith;
 import static org.apache.commons.lang3.StringUtils.trim;
 
@@ -108,8 +108,12 @@ final class GalenParsing {
         LOG.debug("imported spec path: " + importedPath);
         LOG.debug("importing spec path: " + importingSpecPath);
       }
-      String importingFolder = getPath(importingSpecPath);
-      String rewrittenImportedPath = separatorsToUnix(concat(importingFolder, importedPath));
+      String prefix = "";
+      if (StringUtils.startsWith(importingSpecPath, "/")) {
+        prefix = "/";
+      }
+      String importingFolder = prefix + getPath(importingSpecPath);
+      String rewrittenImportedPath = separatorsToUnix(combine(importingFolder, importedPath));
       if (LOG.isDebugEnabled()) {
         LOG.debug("rewritten imported spec path: " + rewrittenImportedPath);
       }
@@ -128,7 +132,16 @@ final class GalenParsing {
   private static String prependSpecFolder(String specPath) {
     String specFolder = GaleniumConfiguration.getGalenSpecPath();
     String relativePath = StringUtils.removeStart(specPath, "/");
-    return FilenameUtils.concat(specFolder, relativePath);
+    return combine(specFolder, relativePath);
+  }
+
+  private static String combine(String specFolder, String relativePath) {
+    String combined = removeEnd(specFolder, "/") + "/" + relativePath;
+    String normalized = FilenameUtils.normalize(combined, true);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("combining: '" + specFolder + "' + '" + relativePath + "' -> '" + normalized + "'");
+    }
+    return normalized;
   }
 
   /**

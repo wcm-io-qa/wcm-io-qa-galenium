@@ -68,7 +68,7 @@ public class GalenSpecsMojo extends AbstractMojo {
    * Root directory for generated output.
    */
   @Parameter(defaultValue = "${project.build.directory}/target/specs", property = "inputDir", required = true)
-  private File inputDirectory;
+  private String inputDirectory;
 
   /**
    * Name of Freemarker template to use for abstract interactive selector base class.
@@ -182,7 +182,7 @@ public class GalenSpecsMojo extends AbstractMojo {
   }
 
   private boolean checkInputParams() {
-    return checkDirectory(inputDirectory) && checkDirectory(templateDirectory);
+    return checkDirectory(templateDirectory);
   }
 
   private void generateCode() {
@@ -284,11 +284,11 @@ public class GalenSpecsMojo extends AbstractMojo {
     return FreemarkerUtil.getOutputFile(outputDirectory, outputPackage, className);
   }
 
-  private String[] getIncludedFiles(File inputFolder, String[] includes, String[] excludes) {
+  private String[] getIncludedFiles(String baseDir, String[] includes, String[] excludes) {
     DirectoryScanner directoryScanner = new DirectoryScanner();
     directoryScanner.setIncludes(includes);
     directoryScanner.setExcludes(excludes);
-    directoryScanner.setBasedir(inputFolder);
+    directoryScanner.setBasedir(baseDir);
     directoryScanner.scan();
     String[] includedFiles = directoryScanner.getIncludedFiles();
     return includedFiles;
@@ -339,7 +339,7 @@ public class GalenSpecsMojo extends AbstractMojo {
     // transfer system properties
     ConfigurationUtil.addToSystemProperties(systemPropertyVariables);
     System.setProperty("packageRootName", packagePrefixSelectors);
-    System.setProperty("galenium.specPath", inputDirectory.getPath());
+    System.setProperty("galenium.specPath", inputDirectory);
 
     // check input parameters
     if (!checkInputParams()) {
