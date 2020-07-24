@@ -21,16 +21,9 @@ package io.wcm.qa.glnm.maven.freemarker;
 import static org.apache.commons.lang3.ArrayUtils.EMPTY_STRING_ARRAY;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -54,8 +47,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
-
-import com.google.common.io.Resources;
 
 import freemarker.template.Template;
 import io.wcm.qa.glnm.configuration.ConfigurationUtil;
@@ -306,19 +297,6 @@ public class GalenSpecsMojo extends AbstractMojo {
       return includedFiles;
     }
 
-    try {
-      URL resource = Resources.getResource(baseDir);
-      InputStream input = resource.openStream();
-      if (input != null) {
-        List<String> readLines = IOUtils.readLines(input, StandardCharsets.UTF_8);
-        if (readLines != null) {
-          return readLines.toArray(EMPTY_STRING_ARRAY);
-        }
-      }
-    }
-    catch (IOException ex) {
-      throw new GaleniumException("no specs found.");
-    }
     return EMPTY_STRING_ARRAY;
   }
 
