@@ -21,7 +21,6 @@ package io.wcm.qa.glnm.galen.specs;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.apache.commons.io.FilenameUtils.getPath;
 import static org.apache.commons.io.FilenameUtils.separatorsToUnix;
 import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.apache.commons.lang3.RegExUtils.replacePattern;
@@ -108,11 +107,7 @@ final class GalenParsing {
         LOG.debug("imported spec path: " + importedPath);
         LOG.debug("importing spec path: " + importingSpecPath);
       }
-      String prefix = "";
-      if (StringUtils.startsWith(importingSpecPath, "/")) {
-        prefix = "/";
-      }
-      String importingFolder = prefix + getPath(importingSpecPath);
+      String importingFolder = FilenameUtils.getFullPath(importingSpecPath);
       String rewrittenImportedPath = separatorsToUnix(combine(importingFolder, importedPath));
       if (LOG.isDebugEnabled()) {
         LOG.debug("rewritten imported spec path: " + rewrittenImportedPath);
