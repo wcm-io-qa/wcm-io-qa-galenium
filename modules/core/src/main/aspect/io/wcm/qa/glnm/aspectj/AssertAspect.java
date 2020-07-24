@@ -69,7 +69,7 @@ public class AssertAspect {
       if (GaleniumConfiguration.isSamplingVerificationIgnore()) {
         return null;
       }
-      throw new GaleniumException("rethrow after assert interception.", ex);
+      throw new GaleniumException("assert: " + ex.getMessage(), ex);
     }
   }
 
