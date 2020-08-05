@@ -315,6 +315,14 @@
         <directory>src/test/resources</directory>
         <filtering>true</filtering>
       </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>environment.properties</include>
+        </includes>
+        <targetPath>../allure-results</targetPath>
+      </testResource>
     </testResources>
 
     <plugins>
