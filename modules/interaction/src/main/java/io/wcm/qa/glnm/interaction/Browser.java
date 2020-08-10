@@ -23,12 +23,14 @@ import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.passStep;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.startStep;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.stopStep;
+import static java.util.stream.Collectors.toList;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
@@ -189,13 +191,28 @@ public final class Browser {
   }
 
   /**
-   * <p>getLog.</p>
-   *
+   * <p>
+   * Get browser log entries.
+   * </p>
    * @return browser log
    */
   public static List<LogEntry> getLog() {
     String type = LogType.BROWSER;
     return getLog(type);
+  }
+
+  /**
+   * <p>
+   * Get browser log entries at level or higher.
+   * </p>
+   * @param level to filter
+   * @return browser log
+   */
+  public static List<LogEntry> getLog(Level level) {
+    String type = LogType.BROWSER;
+    return getLog().stream()
+        .filter(e -> e.getLevel().intValue() >= level.intValue())
+        .collect(toList());
   }
 
   /**
