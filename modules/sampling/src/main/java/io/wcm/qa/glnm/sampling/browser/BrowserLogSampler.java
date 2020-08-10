@@ -56,9 +56,8 @@ public class BrowserLogSampler extends CachingBasedSampler<Iterable<String>> {
 
   @Override
   protected Collection<String> freshSample() {
-    return Browser.getLog()
+    return Browser.getLog(getLevel())
         .stream()
-        .filter(entry -> entry.getLevel().intValue() > getLevel().intValue())
         .map(entry -> entry.getMessage())
         .collect(toList());
   }
