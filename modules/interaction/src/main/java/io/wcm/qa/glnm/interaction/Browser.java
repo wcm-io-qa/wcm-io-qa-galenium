@@ -194,6 +194,7 @@ public final class Browser {
    * <p>
    * Get browser log entries.
    * </p>
+   *
    * @return browser log
    */
   public static List<LogEntry> getLog() {
@@ -205,6 +206,7 @@ public final class Browser {
    * <p>
    * Get browser log entries at level or higher.
    * </p>
+   *
    * @param level to filter
    * @return browser log
    */
