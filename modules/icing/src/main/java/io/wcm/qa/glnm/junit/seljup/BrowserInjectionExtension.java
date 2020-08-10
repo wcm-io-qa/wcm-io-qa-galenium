@@ -140,11 +140,18 @@ class BrowserInjectionExtension implements
     getSeleniumExtension().putBrowserList(contextId, asBrowserList(browserType));
   }
 
-  void setHeadlessDriver(@Arguments("--headless") WebDriver driver) {
+  void setHeadlessDriver(
+      @Arguments({
+          "--headless",
+          "--enable-logging"
+      }) WebDriver driver) {
     setDriver(driver);
   }
 
-  void setVisibleDriver(WebDriver driver) {
+  void setVisibleDriver(
+      @Arguments({
+          "--enable-logging"
+      }) WebDriver driver) {
     setDriver(driver);
   }
 
