@@ -19,10 +19,8 @@
  */
 package io.wcm.qa.glnm.sampling.aem;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,15 +55,12 @@ public class AllPagesForTemplateSampler
 
   @Override
   protected Iterable transform(Map<String, String> inputSample) {
-    List<String> result = new ArrayList<String>();
-    Collection<String> contentPaths = inputSample.values();
-    for (String path : contentPaths) {
-      result.add(cleanPath(path));
-    }
-    return result;
+    return inputSample.values().stream()
+        .map(AllPagesForTemplateSampler::cleanPath)
+        .collect(Collectors.toList());
   }
 
-  protected String cleanPath(String path) {
+  private static String cleanPath(String path) {
     return StringUtils.removeEnd(path, PATH_FRAGMENT_JCR_CONTENT);
   }
 
