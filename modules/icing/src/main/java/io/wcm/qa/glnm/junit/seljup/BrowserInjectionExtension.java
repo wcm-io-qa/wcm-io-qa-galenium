@@ -88,7 +88,10 @@ class BrowserInjectionExtension implements
   }
 
   private Object getDriverFromSelJup(ExtensionContext context) {
-    return SeleniumJupiterUtil.getDriverFromSelJup(driverParamContext(this, "setHeadlessDriver"), context);
+    if (GaleniumConfiguration.isHeadless()) {
+      return SeleniumJupiterUtil.getDriverFromSelJup(driverParamContext(this, "setHeadlessDriver"), context);
+    }
+    return SeleniumJupiterUtil.getDriverFromSelJup(driverParamContext(this, "setVisibleDriver"), context);
   }
 
   private boolean isDriver(String uniqueId, Object webDriver) {
