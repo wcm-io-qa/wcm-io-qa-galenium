@@ -19,11 +19,13 @@
  */
 package io.wcm.qa.glnm.interaction;
 
+import static io.qameta.allure.Allure.addAttachment;
 import static io.wcm.qa.glnm.context.GaleniumContext.getDriver;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.passStep;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.startStep;
 import static io.wcm.qa.glnm.reporting.GaleniumReportUtil.stopStep;
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.join;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
@@ -133,10 +136,17 @@ public final class Browser {
    * @return return value of Javascript execution
    */
   public static Object executeJs(String jsCode, Object... parameters) {
-    String step = startStep("executing JavaScript");
+    String step = startStep("executing JavaScript: " + StringUtils.abbreviateMiddle(jsCode, " ... ", 160));
     if (getDriver() instanceof JavascriptExecutor) {
+      addAttachment("executed script", jsCode);
+      if (ArrayUtils.isNotEmpty(parameters)) {
+        addAttachment("script parameters", "[" + join(parameters, ", ") + "]");
+      }
       JavascriptExecutor executor = (JavascriptExecutor)getDriver();
       Object executedScriptResult = executor.executeScript(jsCode, parameters);
+      if (executedScriptResult != null) {
+        addAttachment("script result", executedScriptResult.toString());
+      }
       passStep(step);
       stopStep();
       return executedScriptResult;
