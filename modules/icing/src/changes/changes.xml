@@ -23,6 +23,15 @@
   xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="5.0.0" date="not released yet">
+      <action type="add" dev="apegam">
+        Added JavaScript script, parameters and return value to report.
+      </action>
+      <action type="add" dev="apegam">
+        Add Selenium-Jupiter extension to feed browser types via source annotations.
+      </action>
+    </release>
+
     <release version="4.0.0" date="2019-12-30">
       <action type="update" dev="apegam">
         Move existing AEM interaction to new package and rename to reflect author login nature.
