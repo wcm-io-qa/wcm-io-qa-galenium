@@ -1,5 +1,7 @@
 package io.wcm.qa.glnm.aspectj;
 
+import static org.apache.commons.lang3.StringUtils.abbreviateMiddle;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -103,7 +105,7 @@ public class MatcherAspect {
         .appendText(System.lineSeparator())
         .appendText("     but: ");
     Object matchedItem = joinPoint.getArgs()[0];
-    matcher.describeMismatch(matchedItem, description);
+    describeMismatch(matcher, description, matchedItem);
     GaleniumReportUtil.updateStepName(startStepUuid, description.toString());
     GaleniumReportUtil.failStep(startStepUuid);
     screenshot(matchedItem);
@@ -116,7 +118,16 @@ public class MatcherAspect {
     GaleniumReportUtil.stopStep();
   }
 
-  private void screenshot(Object matchedItem) {
+  private static void describeMismatch(Matcher matcher, StringDescription description, Object matchedItem) {
+    if (matchedItem instanceof String) {
+      matcher.describeMismatch(abbreviateMiddle((String)matchedItem, "[...]", 200), description);
+    }
+    else {
+      matcher.describeMismatch(matchedItem, description);
+    }
+  }
+
+  private static void screenshot(Object matchedItem) {
     if (matchedItem == null) {
       return;
     }
@@ -128,6 +139,5 @@ public class MatcherAspect {
       return;
     }
   }
-
 
 }
