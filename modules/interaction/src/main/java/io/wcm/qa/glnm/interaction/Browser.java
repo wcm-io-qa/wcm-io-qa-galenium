@@ -269,7 +269,6 @@ public final class Browser {
 
   /**
    * Load URL in browser.
-   *
    * @param url to load
    */
   public static void load(String url) {
@@ -278,6 +277,15 @@ public final class Browser {
     getDriver().get(url);
     passStep(step);
     stopStep();
+  }
+
+  /**
+   * Load URL in browser.
+   *
+   * @param url to load
+   */
+  public static void load(URL url) {
+    load(url.toString());
   }
 
 
