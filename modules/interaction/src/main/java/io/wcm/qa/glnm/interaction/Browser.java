@@ -221,7 +221,6 @@ public final class Browser {
    * @return browser log
    */
   public static List<LogEntry> getLog(Level level) {
-    String type = LogType.BROWSER;
     return getLog().stream()
         .filter(e -> e.getLevel().intValue() >= level.intValue())
         .collect(toList());
@@ -269,6 +268,7 @@ public final class Browser {
 
   /**
    * Load URL in browser.
+   *
    * @param url to load
    */
   public static void load(String url) {
