@@ -42,6 +42,7 @@ public class GalenSpecMatcher extends FunctionalWrappingMatcher<GalenSpec, Galen
   protected GalenSpecMatcher(Matcher<GalenSpecRun> matcher, String... includeTags) {
     super(item -> item.check(includeTags), matcher);
     this.setTags(includeTags);
+
   }
 
   /** {@inheritDoc} */
