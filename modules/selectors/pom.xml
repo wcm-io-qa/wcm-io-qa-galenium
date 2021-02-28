@@ -31,6 +31,10 @@
   <artifactId>io.wcm.qa.galenium.selectors</artifactId>
   <packaging>jar</packaging>
 
+  <properties>
+    <site.url.module.prefix>galenium/modules/selectors</site.url.module.prefix>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -59,5 +63,12 @@
     </dependency>
 
   </dependencies>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>

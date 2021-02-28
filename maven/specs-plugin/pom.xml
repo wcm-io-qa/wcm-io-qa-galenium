@@ -34,6 +34,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <site.url.module.prefix>galenium/maven/specs-plugin</site.url.module.prefix>
   </properties>
 
   <dependencies>
@@ -174,5 +175,12 @@
       </plugin>
     </plugins>
   </build>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>

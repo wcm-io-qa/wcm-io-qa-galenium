@@ -19,6 +19,7 @@ import io.wcm.qa.glnm.reporting.GaleniumReportUtil;
  * <p>
  * Adds matches to Allure Report with correct pass/fail status.
  * </p>
+ *
  * @since 5.0.0
  */
 @Aspect("perthis(execution(* *..*.matches(..)))")

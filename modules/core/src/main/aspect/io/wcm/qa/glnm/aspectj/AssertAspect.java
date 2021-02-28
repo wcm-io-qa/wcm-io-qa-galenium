@@ -45,8 +45,9 @@ public class AssertAspect {
   private static final Logger LOG = LoggerFactory.getLogger(AssertAspect.class);
 
   /**
-   * Ignores exceptions, when {@link GaleniumConfiguration#isSamplingVerificationIgnore()} is
+   * Ignores exceptions, when {@link io.wcm.qa.glnm.configuration.GaleniumConfiguration#isSamplingVerificationIgnore()} is
    * true.
+   *
    * @param jp join point to be handled
    * @return null or proceed value (advised method returns void)
    */

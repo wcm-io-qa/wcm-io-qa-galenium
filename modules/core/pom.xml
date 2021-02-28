@@ -30,6 +30,10 @@
   <description>Basic core functionality of Galenium.</description>
   <artifactId>io.wcm.qa.galenium.core</artifactId>
   <packaging>jar</packaging>
+  
+  <properties>
+    <site.url.module.prefix>galenium/modules/core</site.url.module.prefix>
+  </properties>
 
   <dependencies>
 
@@ -157,5 +161,12 @@
 
     </plugins>
   </build>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>

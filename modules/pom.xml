@@ -42,6 +42,8 @@
   </modules>
 
   <properties>
+    <site.url.module.prefix>galenium/modules</site.url.module.prefix>
+
     <galenium.logging.testlogs>${project.build.directory}/testlogs</galenium.logging.testlogs>
     <galenium.resources.directory>${project.build.directory}/test-classes</galenium.resources.directory>
     <galenium.resources.unfiltered.directory>${project.build.directory}/unfiltered-resources</galenium.resources.unfiltered.directory>
@@ -117,5 +119,12 @@
 
     </plugins>
   </build>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>

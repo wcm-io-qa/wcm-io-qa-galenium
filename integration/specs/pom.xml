@@ -23,13 +23,17 @@
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
     <version>5.0.0-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <name>Galenium Integration Galen-Spec Parent</name>
   <artifactId>io.wcm.qa.galenium.integration.specs</artifactId>
   <packaging>pom</packaging>
   <description>Test automation integration parent for projects containing the Galen specs.</description>
+
+  <properties>
+    <site.url.module.prefix>galenium/integration/specs</site.url.module.prefix>
+  </properties>
 
   <dependencies>
 
@@ -196,5 +200,12 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>

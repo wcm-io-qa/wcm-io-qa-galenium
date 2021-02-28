@@ -6,11 +6,11 @@ Selenium Galen Integration
 
 ## Galenium Documentation
 
-To start to use Galenium refer to the [quickstart guide](quickstart.html).
-
-To learn about the background of the technologies integrated by Galenium there is a [background section](background.html).
-
-To understand Galenium and its parts better, the [concept pages](concepts.html) are the best starting point.
+* [Quickstart](quickstart.html): start to use Galenium
+* [Background](background.html): learn about the background of the technologies integrated by Galenium
+* [Concepts](concepts.html): understand Galenium and its parts better
+* [Developing](developing.html): Developing with Galenium
+* [Galenium API](apidocs.html): API reference
 
 ## Galenium Goals
 

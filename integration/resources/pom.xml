@@ -23,12 +23,23 @@
     <groupId>io.wcm.qa</groupId>
     <artifactId>io.wcm.qa.galenium.integration</artifactId>
     <version>5.0.0-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
+  
+  <properties>
+    <site.url.module.prefix>galenium/integration/resources</site.url.module.prefix>
+  </properties>
 
   <name>Galenium Integration Resources</name>
   <artifactId>io.wcm.qa.galenium.integration.resources</artifactId>
   <packaging>jar</packaging>
   <description>Test automation integration resources.</description>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>
