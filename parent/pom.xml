@@ -34,6 +34,11 @@
 
   <description>Galenium test automation library parent.</description>
 
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/wcm-io-qa/wcm-io-qa-galenium/actions</url>
+  </ciManagement>
+
   <properties>
     <integrationtests.skip>false</integrationtests.skip>
     <site.url.module.prefix>galenium</site.url.module.prefix>
