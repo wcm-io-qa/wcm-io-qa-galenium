@@ -42,7 +42,7 @@
   <properties>
     <integrationtests.skip>false</integrationtests.skip>
     <site.url.module.prefix>galenium</site.url.module.prefix>
-    <aspectj.version>1.9.7</aspectj.version>
+    <aspectj.version>1.9.8.RC3</aspectj.version>
     <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 

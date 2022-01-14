@@ -36,7 +36,7 @@
     <galenium.systemPropertiesFile>${project.build.directory}/test-classes/galenium.properties</galenium.systemPropertiesFile>
     <integrationtests.skip>false</integrationtests.skip>
     <site.url.module.prefix>galenium</site.url.module.prefix>
-    <aspectj.version>1.9.7</aspectj.version>
+    <aspectj.version>1.9.8.RC3</aspectj.version>
   </properties>
 
   <dependencies>
@@ -254,7 +254,7 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
-      <version>1.9.7</version>
+      <version>${aspectj.version}</version>
     </dependency>
 
     <dependency>
