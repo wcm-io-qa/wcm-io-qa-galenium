@@ -43,8 +43,6 @@
     <integrationtests.skip>false</integrationtests.skip>
     <site.url.module.prefix>galenium</site.url.module.prefix>
     <aspectj.version>1.9.8.RC3</aspectj.version>
-    <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 
     <galenium.systemPropertiesFile>${project.build.directory}/test-classes/galenium.properties</galenium.systemPropertiesFile>
   </properties>
@@ -514,7 +512,7 @@
           <configuration>
             <systemPropertiesFile>${galenium.systemPropertiesFile}</systemPropertiesFile>
             <argLine>
-              -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+              -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar" @{argLine}
             </argLine>
             <useSystemClassLoader>true</useSystemClassLoader>
           </configuration>
