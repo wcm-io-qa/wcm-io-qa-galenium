@@ -1,6 +1,8 @@
-# Galenium
+# Galenium (deprecated)
 
 Selenium Galen Integration
+
+*Galenium is archived and no longer maintained.*
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.wcm.qa/io.wcm.qa.galenium.integration.ui-tests)](https://repo1.maven.org/maven2/io/wcm/qa/io.wcm.qa.galenium.integration.ui-tests/)
 
